@@ -1,0 +1,92 @@
+generated: '2026-07-25'
+method: generated
+source: openapi/*.yml operations plus developer.kpn.com documentation captured in conventions/, errors/, rate-limits/
+  and asyncapi/
+note: KPN publishes no AGENTS.md or provider skill files; these are packaged from the real published operations.
+  Every operationId referenced was verified in the linked definition; where KPN publishes no operationId the step
+  binds by method and path and says so.
+skills:
+- file: kpn-address-service-check.md
+  name: Check broadband service and disturbances at a Dutch address
+  description: Look up real-time internet disturbance status and available speed/technology for a postcode and house
+    number using the KPN Disturbance Check and Internet Speed Check APIs.
+  api: openapi/kpn-disturbance-check-openapi.yml
+  operations:
+  - GET /address
+  - POST /offer (openapi/kpn-internet-speed-check-openapi.yml)
+  also_uses: openapi/kpn-internet-speed-check-openapi.yml
+- file: kpn-configure-webhook-privacy.md
+  name: Configure webhook delivery URL and payload privacy per application
+  description: Set the webhook URL and control which fields KPN includes in outbound payloads at organization, team
+    or application scope with the KPN Webhook Privacy Config Manager API.
+  api: openapi/kpn-webhook-privacy-config-manager-openapi.yml
+  operations:
+  - getOrganizationWebhookConfig
+  - updateOrganizationWebhookConfig
+  - createTeamWebhookConfig
+  - getTeamWebhookConfig
+  - updateTeamWebhookConfig
+  - deleteTeamWebhookConfig
+  - createApplicationWebhookConfig
+  - getApplicationWebhookConfig
+  - updateApplicationWebhookConfig
+  - deleteApplicationWebhookConfig
+- file: kpn-lora-device-onboarding.md
+  name: Onboard and monitor a LoRaWAN device on the KPN LoRa network
+  description: Activate the API, create a device against a device profile and connectivity plan, then read frame,
+    health and alarm telemetry with the KPN LoRa Device Management API.
+  api: openapi/kpn-lora-device-management-openapi.yml
+  operations:
+  - Activation
+  - Deviceprofilesretrieval
+  - Connectivityplansretrieval
+  - Devicecreation
+  - Devicesretrieval
+  - Deviceretrieval
+  - Deviceupdate
+  - Devicedeletion
+  - Routingprofilescreation
+  - Framestatisticsretrieval
+  - Healthstatisticsretrieval
+  - Devicealarmsretrieval
+  - Devicealarmretrieval
+  - Devicealarmacknowledgement
+- file: kpn-rotate-webhook-signing-key.md
+  name: Rotate a KPN webhook signing key without missing a delivery
+  description: Stage, reveal, activate, retire and delete an HMAC-SHA256 webhook signing key at organization, team
+    or application level using the KPN Webhook Signing Keys API.
+  api: openapi/kpn-webhook-signing-keys-openapi.yml
+  operations:
+  - createOrgSigningKey
+  - listOrgSigningKeys
+  - revealOrgSigningKeySecret
+  - activateOrgSigningKey
+  - retireOrgSigningKey
+  - deleteOrgSigningKey
+- file: kpn-send-sms.md
+  name: Send an SMS over the KPN network and handle the delivery report
+  description: Authenticate against the KPN API Store, send a single or bulk SMS through the KPN SMS API, and correctly
+    verify and interpret the signed delivery-report webhook.
+  api: openapi/kpn-sms-openapi.yml
+  operations:
+  - Sends single or bulk SMS
+- file: kpn-servicenow-ticket.md
+  name: Raise and track a KPN service ticket from your own ITSM
+  description: Create, update and follow KPN ServiceNow "Green" tickets and their tasks and attachments through
+    the KPN ServiceNow Connect API.
+  api: openapi/kpn-servicenow-connect-openapi.yml
+  operations:
+  - ticket-post
+  - ticket-get
+  - ticket-patch
+  - ticket-list
+  - ticketupdates-get
+  - task-patch
+  - get-attachment
+- file: kpn-sim-swap-check.md
+  name: Check for a recent SIM swap before a high-risk action (CAMARA)
+  description: Use the KPN Account Takeover Protection API to retrieve the last SIM swap date for a Dutch mobile
+    line, or check whether a swap happened inside a lookback window, before allowing a password reset or payment.
+  api: openapi/kpn-sim-swap-openapi.yml
+  operations:
+  - retrieveSimSwapDate

@@ -1,0 +1,161 @@
+generated: '2026-07-25'
+method: derived
+source: openapi/apidaze-voice-openapi.yml, openapi/kpn-disturbance-check-openapi.yml, openapi/kpn-high-level-design-ftth-openapi.yml,
+  openapi/kpn-internet-speed-check-openapi.yml, openapi/kpn-ise-openapi.yml, openapi/kpn-lora-device-management-openapi.yml,
+  openapi/kpn-mobile-services-management-openapi.yml, openapi/kpn-sd-lan-sd-wan-network-view-openapi.yml, openapi/kpn-servicenow-connect-openapi.yml,
+  openapi/kpn-sim-swap-openapi.yml, openapi/kpn-sms-openapi.yml, openapi/kpn-tv-guide-openapi.yml, openapi/kpn-webhook-privacy-config-manager-openapi.yml,
+  openapi/kpn-webhook-signing-keys-openapi.yml, openapi/kpn-wholesale-broadband-access-fpi-cip-openapi.yml, openapi/parley-secure-messenger-openapi.yml,
+  openapi/pollyhelp-knowledge-management-openapi.yml, openapi/registered-email-openapi.yml, openapi/tracebuzz-social-media-webcare-openapi.yml,
+  openapi/vonage-messages-openapi.yml, openapi/vonage-number-insight-openapi.yml, openapi/vonage-phone-numbers-openapi.yml,
+  openapi/vonage-sms-openapi.yml, openapi/vonage-verify-openapi.yml, openapi/vonage-voice-openapi.yml, openapi/weseedo-direct-openapi.yml,
+  openapi/weseedo-personal-openapi.yml, openapi/xdroid-speech-to-text-openapi.yml
+schemes:
+- name: OAuth2
+  source: openapi/apidaze-voice-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/kpn-disturbance-check-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/kpn-high-level-design-ftth-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/kpn-internet-speed-check-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/kpn-ise-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/kpn-lora-device-management-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: OAuth2
+  source: openapi/kpn-mobile-services-management-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/grip/msm/accesstoken?grant_type=client_credentials
+- name: OAuth2ClientCredentials
+  source: openapi/kpn-sd-lan-sd-wan-network-view-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/kpn-servicenow-connect-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/kpn-sim-swap-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: OAuth2
+  source: openapi/kpn-sms-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/kpn-tv-guide-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: OAuth2
+  source: openapi/kpn-webhook-privacy-config-manager-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: OAuth2
+  source: openapi/kpn-webhook-signing-keys-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/kpn-wholesale-broadband-access-fpi-cip-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/parley-secure-messenger-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/pollyhelp-knowledge-management-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/registered-email-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/tracebuzz-social-media-webcare-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/vonage-messages-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: OAuth2
+  source: openapi/vonage-number-insight-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/vonage-phone-numbers-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: OAuth2
+  source: openapi/vonage-sms-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: OAuth2
+  source: openapi/vonage-verify-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/vonage-voice-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/weseedo-direct-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/weseedo-personal-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+- name: oauth2
+  source: openapi/xdroid-speech-to-text-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+scopes: []
+docs: https://developer.kpn.com/page/getting-started
+notes:
+- 'KPN runs OAuth 2.0 client-credentials with NO scopes: no scope appears in any flow map or operation security
+  requirement across the 34 published definitions, and the developer documentation defines no scope or permission
+  reference.'
+- Authorisation is entitlement-based - a project is granted access by adding the relevant API product to it in the
+  developer portal dashboard.
+- The schemes below are retained because they carry the real token endpoints for each product.

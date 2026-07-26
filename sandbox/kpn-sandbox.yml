@@ -1,0 +1,45 @@
+generated: '2026-07-25'
+method: searched
+source: https://developer.kpn.com/page/getting-started
+docs:
+- https://developer.kpn.com/page/getting-started
+- https://developer.kpn.com/faq
+- https://developer.kpn.com/page/github
+model:
+  separation: account-tier, not key-prefix
+  description: Every registered developer account starts in test mode. The same client_id/client_secret pair is
+    used, and a project stays free until the account is upgraded to production; there is no separate test key prefix
+    and no separate sandbox hostname - the KPN specifications describe the sandbox as "Full-fledged capabilities".
+  promotion: Upgrade to production requires a KPN Registration Number (KRN) or an iDIN bank identity check. Billing
+    starts at promotion; testing products remain free.
+free_tier:
+  cost: free
+  limits: per-API request limits, described as enough for thorough testing; additional free test requests can be
+    requested through support
+mock_servers:
+- api: SIM Swap
+  url: https://virtserver.swaggerhub.com/kpn/SimSwap-KPN/1.0.2
+- api: Number Verify
+  url: https://virtserver.swaggerhub.com/kpn/NumberVerify-KPN/1.2.1
+- api: Match
+  url: https://virtserver.swaggerhub.com/kpn/Match-KPN/1.1.1
+- api: Inbound SMS
+  url: https://virtserver.swaggerhub.com/kpn/SMS-Inbound/1.0.0
+- api: Webhook Signing Keys
+  url: https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0
+- api: Webhook Privacy Configuration
+  url: https://virtserver.swaggerhub.com/kpn/webhook-config-management-kpn/2.0.0
+- api: Registered E-mail
+  url: https://virtserver.swaggerhub.com/kpn/registeredemail-registeredemail/v.1.1.1
+mock_server_note: SwaggerHub auto-mocking servers are declared as the first servers[] entry in seven definitions,
+  giving a schema-accurate response without credentials.
+test_values:
+  published: false
+  note: KPN publishes no magic test MSISDNs, test cards or fixture identifiers. Example values that appear in the
+    specifications (for example sender 31600000000 / recipient 3197000000000 on the inbound SMS payload) are documentation
+    examples, not reserved test numbers.
+tooling:
+  postman: Product repositories with an OpenAPI definition and a Postman test collection are described at https://developer.kpn.com/page/github
+    (github.com/kpn-developer); both GitHub organisations kpn-developer and kpnapistore were public but held zero
+    public repositories when probed on 2026-07-25.
+  swagger: Every product is browsable and testable through the public SwaggerHub organisation https://app.swaggerhub.com/search?owner=kpn

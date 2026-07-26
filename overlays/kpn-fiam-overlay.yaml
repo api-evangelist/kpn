@@ -1,0 +1,43 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for FIAM-KPN
+  version: 1.0.0
+extends: openapi/kpn-fiam-openapi.yml
+x-apievangelist:
+  generated: '2026-07-25'
+  method: generated
+  source: derived from openapi/kpn-fiam-openapi.yml plus KPN developer-portal documentation
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: kpn
+    x-apievangelist-artifacts:
+      authentication: authentication/kpn-authentication.yml
+      conventions: conventions/kpn-conventions.yml
+      errors: errors/kpn-problem-types.yml
+      lifecycle: lifecycle/kpn-lifecycle.yml
+      rate_limits: rate-limits/kpn-rate-limits.yml
+      security: security/kpn-domain-security.yml
+    x-apievangelist-response-headers: https://developer.kpn.com/documentation-response-headers
+- target: $.info
+  update:
+    x-apievangelist-gap-summaries:
+      note: Operations published without a summary.
+      count: 16
+      operations:
+      - GET /api/v1/authorization/enforce
+      - POST /api/v1/authorization/enforce
+      - POST /api/v1/contracts/validate
+      - GET /api/v1/dataspaces
+      - POST /api/v1/oauth/token
+      - GET /api/v1/parties
+      - POST /api/v1/parties
+      - GET /api/v1/parties/{party_id}
+      - GET /api/v1/service-consumers/contracts
+      - GET /api/v1/service-consumers/contracts/{contract_id}
+      - GET /api/v1/service-providers/contracts
+      - POST /api/v1/service-providers/contracts
+      - GET /api/v1/service-providers/contracts/{contract_id}
+      - PUT /api/v1/service-providers/contracts/{contract_id}
+      - DELETE /api/v1/service-providers/contracts/{contract_id}
+      - GET /api/v1/service-providers/parties

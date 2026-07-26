@@ -1,0 +1,69 @@
+generated: '2026-07-25'
+method: searched
+source: npm registry search, PyPI, github.com/kpn, github.com/kpn-developer, github.com/kpnapistore, developer.kpn.com
+api_client_libraries:
+  count: 0
+  note: KPN publishes NO first-party client SDK for any product on developer.kpn.com. The documented integration
+    path is the raw OpenAPI definition on SwaggerHub plus a Postman collection; developer.kpn.com/page/github points
+    at github.com/kpn-developer for per-API repositories, but both KPN API GitHub organisations (kpn-developer,
+    kpnapistore) were public with zero public repositories when probed on 2026-07-25.
+packages:
+- language: javascript
+  registry: npm
+  name: '@kpn-style/bundle'
+  version: 1.17.1
+  url: https://www.npmjs.com/package/@kpn-style/bundle
+  install: npm install @kpn-style/bundle
+  official: true
+  api_client: false
+  kind: design-system
+  source_code: https://github.com/kpn/kpn-style
+  description: Bundle of all KPN Style packages - KPN front-end design system, not an API client.
+- language: javascript
+  registry: npm
+  name: '@kpn-style/react'
+  version: 1.2.2
+  url: https://www.npmjs.com/package/@kpn-style/react
+  install: npm install @kpn-style/react
+  official: true
+  api_client: false
+  kind: design-system
+  source_code: https://github.com/kpn/kpn-style-react
+- language: javascript
+  registry: npm
+  name: '@kpn-style/cra-template-kpn-style-react'
+  version: 1.0.2
+  url: https://www.npmjs.com/package/@kpn-style/cra-template-kpn-style-react
+  official: true
+  api_client: false
+  kind: design-system
+- language: python
+  registry: pypi
+  name: kstreams
+  url: https://pypi.org/project/kstreams/
+  install: pip install kstreams
+  official: true
+  api_client: false
+  kind: platform-oss
+  source_code: https://github.com/kpn/kstreams
+  description: 'KPN engineering open source: Kafka streaming micro-framework. Unrelated to the KPN Developer API
+    products.'
+- language: python
+  registry: pypi
+  name: combadge
+  url: https://pypi.org/project/combadge/
+  install: pip install combadge
+  official: true
+  api_client: false
+  kind: platform-oss
+  source_code: https://github.com/kpn/combadge
+  description: 'KPN engineering open source: generic API clients from Pydantic protocols - a client-building library,
+    not a KPN API SDK.'
+third_party:
+- language: javascript
+  registry: npm
+  name: '@proxsys/n8n-nodes-sse-trigger-kpn-streaming-api'
+  url: https://www.npmjs.com/package/@proxsys/n8n-nodes-sse-trigger-kpn-streaming-api
+  official: false
+  api_client: true
+  description: Community n8n trigger node for the KPN WBA streaming API.

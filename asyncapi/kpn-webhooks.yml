@@ -1,0 +1,92 @@
+generated: '2026-07-25'
+method: searched
+source: https://developer.kpn.com/documentation/kpn-sms-api-documentation
+also_derived_from:
+- openapi/kpn-sms-inbound-openapi.yml
+- openapi/kpn-webhook-signing-keys-openapi.yml
+- openapi/kpn-webhook-privacy-config-manager-openapi.yml
+spec_type: Webhooks
+asyncapi_published: false
+asyncapi_note: KPN publishes no AsyncAPI document. The event surface below is captured from the webhook documentation
+  and the three webhook-related OpenAPI definitions; nothing here is synthesised.
+transport: HTTPS POST to a subscriber-configured URL
+configuration:
+  api: openapi/kpn-webhook-privacy-config-manager-openapi.yml
+  scopes:
+  - organization
+  - team
+  - application
+  resolution: Application config overrides Team config, which overrides Organization config.
+  privacy_control: privacy_config.excluded_fields maps a service name to fields omitted from that service outbound
+    payload, e.g. {"privacy_config":{"excluded_fields":{"sms_dlr":["RecipientPhonenumber","Message"]}}}
+security:
+  signing: HMAC-SHA256 hex digest over the raw request body, compared in constant time
+  headers:
+  - name: X-KPN-Webhook-Signature
+    description: HMAC-SHA256 signature of the payload
+  - name: X-KPN-Webhook-Timestamp
+    description: Unix epoch seconds, for replay protection
+  - name: X-KPN-Webhook-Key-Id
+    description: Identifies which signing key was used
+  - name: X-KPN-Webhook-Attempt
+    description: Delivery attempt number, 1-based
+  key_management:
+    api: openapi/kpn-webhook-signing-keys-openapi.yml
+    levels:
+    - organization
+    - team
+    - application
+    lifecycle:
+    - staged
+    - active
+    - retiring
+    - retired
+    rotation: Create a staged key, reveal its secret, accept both keys on the receiver, activate the new key (the
+      old one moves to retiring), then retire and delete it.
+    bootstrap: KPN auto-provisions an organization-level key on the first webhook delivery.
+delivery:
+  attempts: 4
+  retry_schedule_seconds:
+  - 0
+  - 60
+  - 120
+  - 240
+  guarantee: at-least-once - receivers must de-duplicate on message_id
+events:
+- name: sms_dlr
+  title: SMS delivery report
+  description: Outbound delivery status notification for a message sent through the KPN SMS API.
+  status_codes:
+  - code: 1
+    meaning: Delivered
+  - code: 2
+    meaning: Queued
+  - code: 3
+    meaning: Accepted
+  - code: 4
+    meaning: Failed
+  - code: 5
+    meaning: Rejected
+  - code: 6
+    meaning: Expired
+  failure_codes: errors/kpn-sms-error-codes.yml
+  source: https://developer.kpn.com/documentation/kpn-sms-api-documentation
+- name: inbound_sms
+  title: Inbound SMS
+  description: An SMS sent by an end user to your KPN virtual number, delivered to your configured webhook endpoint.
+  payload_schema: openapi/kpn-sms-inbound-openapi.yml#components/schemas/InboundSms
+  fields:
+  - sender
+  - recipient
+  - message_id
+  - content
+  - timestamp_utc
+  - type
+  source: openapi/kpn-sms-inbound-openapi.yml
+callbacks_in_specs:
+- api: Vonage Voice (via KPN)
+  source: openapi/vonage-voice-openapi.yml
+  note: answer_url / event_url callbacks are configured per application.
+- api: Vonage Messages (via KPN)
+  source: openapi/vonage-messages-openapi.yml
+  note: Inbound and status callbacks declared in the definition.

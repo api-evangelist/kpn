@@ -1,0 +1,428 @@
+generated: '2026-07-25'
+method: derived
+source: openapi/*.yml (34 KPN SwaggerHub definitions)
+format: json
+notes:
+- KPN does not use application/problem+json; every documented error body is application/json.
+- 'Three error envelopes coexist across the estate: the KPN gateway envelope (transactionId, status, name, message,
+  info), an RFC 7807-shaped ProblemDetail/ProblemDetails object (type, title, status, detail, instance) used by
+  the FIAM APIs, and CAMARA-style error objects (code/status/message) on the SIM Swap and Number Verify network
+  APIs.'
+- HTTP 429 Too Many Requests is documented on 212 operations; quota state is returned in the quota-* response headers
+  (see rate-limits/kpn-rate-limits.yml).
+- Product-level SMS failure codes (001-030) are catalogued separately in errors/kpn-sms-error-codes.yml.
+envelopes:
+- name: KPN gateway error
+  fields:
+  - transactionId
+  - status
+  - name
+  - message
+  - info
+  source: openapi/kpn-disturbance-check-openapi.yml#components/schemas/error
+- name: ProblemDetail (RFC 7807 shape)
+  fields:
+  - type
+  - title
+  - status
+  - detail
+  - instance
+  source: openapi/kpn-fiam-openapi.yml#components/schemas/ProblemDetail
+- name: CAMARA error
+  fields:
+  - error_code
+  - message
+  - correlation_id
+  source: openapi/kpn-match-openapi.yml#components/schemas/Error
+problems:
+- status: 400
+  title: Bad Request
+  schema: null
+  occurrences: 163
+  source_operations:
+  - openapi/apidaze-voice-openapi.yml#GET /externalscripts
+  - openapi/apidaze-voice-openapi.yml#POST /externalscripts
+  - openapi/apidaze-voice-openapi.yml#GET /externalscripts/{id}
+- status: 400
+  title: null
+  schema: null
+  occurrences: 58
+  source_operations:
+  - openapi/kpn-disturbance-check-openapi.yml#GET /address
+  - openapi/kpn-high-level-design-ftth-openapi.yml#POST /startJobS3
+  - openapi/kpn-high-level-design-ftth-openapi.yml#GET /jobStatus/{jobId}
+- status: 400
+  title: Bad Request. The body will contain details for the error.
+  schema: error
+  occurrences: 7
+  source_operations:
+  - openapi/kpn-servicenow-connect-openapi.yml#ticket-post
+  - openapi/kpn-servicenow-connect-openapi.yml#ticket-patch
+  - openapi/kpn-servicenow-connect-openapi.yml#ticket-get
+- status: 400
+  title: Error
+  schema: '1'
+  occurrences: 7
+  source_operations:
+  - openapi/parley-secure-messenger-openapi.yml#GetMessagesById
+  - openapi/parley-secure-messenger-openapi.yml#GetMessages
+  - openapi/parley-secure-messenger-openapi.yml#PostMessages
+- status: 400
+  title: Key is not in staged state.
+  schema: ApiErrorResponse
+  occurrences: 3
+  source_operations:
+  - openapi/kpn-webhook-signing-keys-openapi.yml#activateOrgSigningKey
+  - openapi/kpn-webhook-signing-keys-openapi.yml#activateTeamSigningKey
+  - openapi/kpn-webhook-signing-keys-openapi.yml#activateApplicationSigningKey
+- status: 400
+  title: Key is not in retiring state.
+  schema: ApiErrorResponse
+  occurrences: 3
+  source_operations:
+  - openapi/kpn-webhook-signing-keys-openapi.yml#retireOrgSigningKey
+  - openapi/kpn-webhook-signing-keys-openapi.yml#retireTeamSigningKey
+  - openapi/kpn-webhook-signing-keys-openapi.yml#retireApplicationSigningKey
+- status: 400
+  title: Key is not in retired state.
+  schema: ApiErrorResponse
+  occurrences: 3
+  source_operations:
+  - openapi/kpn-webhook-signing-keys-openapi.yml#deleteOrgSigningKey
+  - openapi/kpn-webhook-signing-keys-openapi.yml#deleteTeamSigningKey
+  - openapi/kpn-webhook-signing-keys-openapi.yml#deleteApplicationSigningKey
+- status: 400
+  title: Invalid request parameters
+  schema: ProblemDetail
+  occurrences: 2
+  source_operations:
+  - openapi/kpn-fiam-openapi.yml#enforce_authorization
+  - openapi/kpn-fiam-openapi.yml#enforce_authorization_post
+- status: 400
+  title: Invalid query parameters
+  schema: ProblemDetail
+  occurrences: 2
+  source_operations:
+  - openapi/kpn-fiam-openapi.yml#search_parties
+  - openapi/kpn-fiam-openapi.yml#get_service_provider_parties
+- status: 400
+  title: Invalid contract data
+  schema: ProblemDetail
+  occurrences: 2
+  source_operations:
+  - openapi/kpn-fiam-openapi.yml#create_contract_sp
+  - openapi/kpn-fiam-openapi.yml#update_contract_sp
+- status: 400
+  title: Bad request
+  schema: null
+  occurrences: 2
+  source_operations:
+  - openapi/kpn-wholesale-broadband-access-fpi-cip-openapi.yml#GET /fpi/addresses
+  - openapi/kpn-wholesale-broadband-access-fpi-cip-openapi.yml#GET /cip/addresses
+- status: 400
+  title: Invalid validation request
+  schema: ProblemDetail
+  occurrences: 1
+  source_operations:
+  - openapi/kpn-fiam-openapi.yml#validate_contract_access
+- status: 400
+  title: Invalid token request parameters
+  schema: ProblemDetail
+  occurrences: 1
+  source_operations:
+  - openapi/kpn-fiam-openapi.yml#access_token
+- status: 400
+  title: Invalid party data
+  schema: ProblemDetail
+  occurrences: 1
+  source_operations:
+  - openapi/kpn-fiam-openapi.yml#create_ep
+- status: 401
+  title: Unauthorized
+  schema: null
+  occurrences: 170
+  source_operations:
+  - openapi/apidaze-voice-openapi.yml#GET /externalscripts
+  - openapi/apidaze-voice-openapi.yml#POST /externalscripts
+  - openapi/apidaze-voice-openapi.yml#GET /externalscripts/{id}
+- status: 401
+  title: null
+  schema: null
+  occurrences: 92
+  source_operations:
+  - openapi/kpn-disturbance-check-openapi.yml#GET /address
+  - openapi/kpn-high-level-design-ftth-openapi.yml#POST /startJobS3
+  - openapi/kpn-high-level-design-ftth-openapi.yml#GET /jobStatus/{jobId}
+- status: 401
+  title: Unauthorized client
+  schema: ProblemDetail
+  occurrences: 16
+  source_operations:
+  - openapi/kpn-fiam-openapi.yml#enforce_authorization
+  - openapi/kpn-fiam-openapi.yml#enforce_authorization_post
+  - openapi/kpn-fiam-openapi.yml#validate_contract_access
+- status: 401
+  title: Error
+  schema: '1'
+  occurrences: 8
+  source_operations:
+  - openapi/parley-secure-messenger-openapi.yml#GetMessagesById
+  - openapi/parley-secure-messenger-openapi.yml#GetMessages
+  - openapi/parley-secure-messenger-openapi.yml#PostMessages
+- status: 403
+  title: Forbidden
+  schema: null
+  occurrences: 162
+  source_operations:
+  - openapi/apidaze-voice-openapi.yml#GET /externalscripts
+  - openapi/apidaze-voice-openapi.yml#POST /externalscripts
+  - openapi/apidaze-voice-openapi.yml#GET /externalscripts/{id}
+- status: 403
+  title: null
+  schema: null
+  occurrences: 76
+  source_operations:
+  - openapi/kpn-disturbance-check-openapi.yml#GET /address
+  - openapi/kpn-high-level-design-ftth-openapi.yml#POST /startJobS3
+  - openapi/kpn-high-level-design-ftth-openapi.yml#GET /jobStatus/{jobId}
+- status: 403
+  title: Access denied
+  schema: ProblemDetail
+  occurrences: 8
+  source_operations:
+  - openapi/kpn-fiam-openapi.yml#get_contracts_sc
+  - openapi/kpn-fiam-openapi.yml#get_contract_sc
+  - openapi/kpn-fiam-openapi.yml#list_contracts_sp
+- status: 403
+  title: Forbidden access
+  schema: ProblemDetail
+  occurrences: 2
+  source_operations:
+  - openapi/kpn-fiam-openapi.yml#enforce_authorization
+  - openapi/kpn-fiam-openapi.yml#enforce_authorization_post
+- status: 404
+  title: Not Found
+  schema: null
+  occurrences: 163
+  source_operations:
+  - openapi/apidaze-voice-openapi.yml#GET /externalscripts
+  - openapi/apidaze-voice-openapi.yml#POST /externalscripts
+  - openapi/apidaze-voice-openapi.yml#GET /externalscripts/{id}
+- status: 404
+  title: null
+  schema: null
+  occurrences: 65
+  source_operations:
+  - openapi/kpn-disturbance-check-openapi.yml#GET /address
+  - openapi/kpn-high-level-design-ftth-openapi.yml#POST /startJobS3
+  - openapi/kpn-high-level-design-ftth-openapi.yml#GET /jobStatus/{jobId}
+- status: 404
+  title: Contract not found
+  schema: ProblemDetail
+  occurrences: 4
+  source_operations:
+  - openapi/kpn-fiam-openapi.yml#get_contract_sc
+  - openapi/kpn-fiam-openapi.yml#get_contract_sp
+  - openapi/kpn-fiam-openapi.yml#update_contract_sp
+- status: 404
+  title: Not found
+  schema: null
+  occurrences: 2
+  source_operations:
+  - openapi/kpn-wholesale-broadband-access-fpi-cip-openapi.yml#GET /fpi/addresses
+  - openapi/kpn-wholesale-broadband-access-fpi-cip-openapi.yml#GET /cip/addresses
+- status: 404
+  title: Dataspaces not found
+  schema: ProblemDetail
+  occurrences: 1
+  source_operations:
+  - openapi/kpn-fiam-openapi.yml#get_dataspaces
+- status: 404
+  title: Party not found
+  schema: ProblemDetail
+  occurrences: 1
+  source_operations:
+  - openapi/kpn-fiam-openapi.yml#get_party
+- status: 404
+  title: Organization config not found — provision an org-level signing key first.
+  schema: ApiErrorResponse
+  occurrences: 1
+  source_operations:
+  - openapi/kpn-webhook-privacy-config-manager-openapi.yml#updateOrganizationWebhookConfig
+- status: 404
+  title: No active signing key found for your organization.
+  schema: ApiErrorResponse
+  occurrences: 1
+  source_operations:
+  - openapi/kpn-webhook-signing-keys-openapi.yml#revealOrgSigningKeySecret
+- status: 404
+  title: No active signing key found for your team.
+  schema: ApiErrorResponse
+  occurrences: 1
+  source_operations:
+  - openapi/kpn-webhook-signing-keys-openapi.yml#revealTeamSigningKeySecret
+- status: 404
+  title: No active signing key found for your application.
+  schema: ApiErrorResponse
+  occurrences: 1
+  source_operations:
+  - openapi/kpn-webhook-signing-keys-openapi.yml#revealApplicationSigningKeySecret
+- status: 405
+  title: null
+  schema: null
+  occurrences: 16
+  source_operations:
+  - openapi/tracebuzz-social-media-webcare-openapi.yml#Configuration
+  - openapi/tracebuzz-social-media-webcare-openapi.yml#Result
+  - openapi/tracebuzz-social-media-webcare-openapi.yml#ResultWithoutContext
+- status: 409
+  title: Party already exists
+  schema: ProblemDetail
+  occurrences: 1
+  source_operations:
+  - openapi/kpn-fiam-openapi.yml#create_ep
+- status: 412
+  title: null
+  schema: null
+  occurrences: 18
+  source_operations:
+  - openapi/kpn-tv-guide-openapi.yml#GET /{channel}/kpn/TRAY/SEARCH/VOD
+  - openapi/kpn-tv-guide-openapi.yml#GET /{channel}/kpn/TRAY/SEARCH/PROGRAM
+  - openapi/tracebuzz-social-media-webcare-openapi.yml#Configuration
+- status: 413
+  title: null
+  schema: null
+  occurrences: 2
+  source_operations:
+  - openapi/xdroid-speech-to-text-openapi.yml#POST /job
+  - openapi/xdroid-speech-to-text-openapi.yml#GET /job/{job_id}
+- status: 415
+  title: Unsupported Media Type
+  schema: ErrorResponse
+  occurrences: 1
+  source_operations:
+  - openapi/kpn-fiam-eneco-data-products-openapi.yml#SetDemoConsent
+- status: 429
+  title: Too Many Requests
+  schema: null
+  occurrences: 123
+  source_operations:
+  - openapi/apidaze-voice-openapi.yml#GET /externalscripts
+  - openapi/apidaze-voice-openapi.yml#POST /externalscripts
+  - openapi/apidaze-voice-openapi.yml#GET /externalscripts/{id}
+- status: 429
+  title: null
+  schema: null
+  occurrences: 47
+  source_operations:
+  - openapi/kpn-disturbance-check-openapi.yml#GET /address
+  - openapi/kpn-high-level-design-ftth-openapi.yml#POST /startJobS3
+  - openapi/kpn-high-level-design-ftth-openapi.yml#GET /jobStatus/{jobId}
+- status: 429
+  title: Too many requests
+  schema: error
+  occurrences: 40
+  source_operations:
+  - openapi/kpn-ise-openapi.yml#GET /endpointgroup/
+  - openapi/kpn-ise-openapi.yml#GET /endpoint/
+  - openapi/kpn-ise-openapi.yml#GET /endpoint/name/{name}
+- status: 429
+  title: too many requests
+  schema: error
+  occurrences: 2
+  source_operations:
+  - openapi/kpn-wholesale-wba-openapi.yml#GET /functional-products
+  - openapi/kpn-wholesale-wba-openapi.yml#GET /carriers
+- status: 500
+  title: Server Error
+  schema: null
+  occurrences: 120
+  source_operations:
+  - openapi/apidaze-voice-openapi.yml#GET /externalscripts
+  - openapi/apidaze-voice-openapi.yml#POST /externalscripts
+  - openapi/apidaze-voice-openapi.yml#GET /externalscripts/{id}
+- status: 500
+  title: null
+  schema: null
+  occurrences: 78
+  source_operations:
+  - openapi/kpn-disturbance-check-openapi.yml#GET /address
+  - openapi/kpn-high-level-design-ftth-openapi.yml#POST /startJobS3
+  - openapi/kpn-high-level-design-ftth-openapi.yml#GET /jobStatus/{jobId}
+- status: 500
+  title: Server error
+  schema: error
+  occurrences: 33
+  source_operations:
+  - openapi/kpn-ise-openapi.yml#GET /endpointgroup/
+  - openapi/kpn-ise-openapi.yml#GET /endpoint/
+  - openapi/kpn-ise-openapi.yml#GET /endpoint/name/{name}
+- status: 500
+  title: Internal server error
+  schema: ProblemDetail
+  occurrences: 16
+  source_operations:
+  - openapi/kpn-fiam-openapi.yml#enforce_authorization
+  - openapi/kpn-fiam-openapi.yml#enforce_authorization_post
+  - openapi/kpn-fiam-openapi.yml#validate_contract_access
+- status: 500
+  title: Internal Server Error
+  schema: ProblemDetails
+  occurrences: 8
+  source_operations:
+  - openapi/kpn-fiam-eneco-data-products-openapi.yml#Get usages for data consumers
+  - openapi/kpn-fiam-eneco-data-products-openapi.yml#Get metadata of data owner for data consumers
+  - openapi/kpn-fiam-eneco-data-products-openapi.yml#GetDemoDataConsumers
+- status: 500
+  title: Server error, please try again.
+  schema: error
+  occurrences: 7
+  source_operations:
+  - openapi/kpn-servicenow-connect-openapi.yml#ticket-post
+  - openapi/kpn-servicenow-connect-openapi.yml#ticket-patch
+  - openapi/kpn-servicenow-connect-openapi.yml#ticket-get
+- status: 500
+  title: server error
+  schema: error
+  occurrences: 2
+  source_operations:
+  - openapi/kpn-wholesale-wba-openapi.yml#GET /functional-products
+  - openapi/kpn-wholesale-wba-openapi.yml#GET /carriers
+- status: 502
+  title: null
+  schema: null
+  occurrences: 19
+  source_operations:
+  - openapi/kpn-high-level-design-ftth-openapi.yml#POST /startJobS3
+  - openapi/kpn-high-level-design-ftth-openapi.yml#GET /jobStatus/{jobId}
+  - openapi/kpn-high-level-design-ftth-openapi.yml#GET /jobResultS3/{jobId}
+- status: 502
+  title: Bad gateway
+  schema: null
+  occurrences: 2
+  source_operations:
+  - openapi/kpn-wholesale-broadband-access-fpi-cip-openapi.yml#GET /fpi/addresses
+  - openapi/kpn-wholesale-broadband-access-fpi-cip-openapi.yml#GET /cip/addresses
+- status: 503
+  title: Service Unavailable
+  schema: null
+  occurrences: 119
+  source_operations:
+  - openapi/apidaze-voice-openapi.yml#GET /externalscripts
+  - openapi/apidaze-voice-openapi.yml#POST /externalscripts
+  - openapi/apidaze-voice-openapi.yml#GET /externalscripts/{id}
+- status: 503
+  title: null
+  schema: null
+  occurrences: 48
+  source_operations:
+  - openapi/kpn-disturbance-check-openapi.yml#GET /address
+  - openapi/kpn-high-level-design-ftth-openapi.yml#POST /startJobS3
+  - openapi/kpn-high-level-design-ftth-openapi.yml#GET /jobStatus/{jobId}
+- status: 503
+  title: Server unavailable
+  schema: null
+  occurrences: 2
+  source_operations:
+  - openapi/kpn-wholesale-broadband-access-fpi-cip-openapi.yml#GET /fpi/addresses
+  - openapi/kpn-wholesale-broadband-access-fpi-cip-openapi.yml#GET /cip/addresses

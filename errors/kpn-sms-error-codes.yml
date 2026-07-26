@@ -1,0 +1,116 @@
+generated: '2026-07-25'
+method: searched
+source: https://developer.kpn.com/documentation/kpn-sms-api-documentation
+api: openapi/kpn-sms-openapi.yml
+scope: Product-level SMS failure codes returned on the delivery-report webhook (sms_dlr). These are distinct from
+  the HTTP-level errors catalogued in errors/kpn-problem-types.yml.
+envelope: Delivery-report webhook payload; carried alongside the delivery status code (1 Delivered, 2 Queued, 3
+  Accepted, 4 Failed, 5 Rejected, 6 Expired).
+delivery_statuses:
+- code: 1
+  meaning: Delivered
+- code: 2
+  meaning: Queued
+- code: 3
+  meaning: Accepted
+- code: 4
+  meaning: Failed
+- code: 5
+  meaning: Rejected
+- code: 6
+  meaning: Expired
+error_codes:
+- code: '001'
+  meaning: Unknown or unspecified error
+  class: delivery
+- code: '002'
+  meaning: Recipient number/subscriber is unknown or invalid
+  class: delivery
+- code: '003'
+  meaning: Recipient is barred, blocked, illegal, suspended
+  class: delivery
+- code: '004'
+  meaning: Recipient has opted out or requested not to receive
+  class: delivery
+- code: '005'
+  meaning: Recipient/network/device cannot receive SMS
+  class: delivery
+- code: '006'
+  meaning: Recipient handset is temporarily unavailable or busy
+  class: delivery
+- code: '007'
+  meaning: Recipient is temporarily unreachable or out of coverage
+  class: delivery
+- code: 008
+  meaning: Recipient deregistered or permanently unavailable
+  class: delivery
+- code: 009
+  meaning: Temporary handset/SIM/storage issue
+  class: delivery
+- code: '010'
+  meaning: Permanent handset/SIM/device issue
+  class: delivery
+- code: '011'
+  meaning: Network/system/operator failure
+  class: delivery
+- code: '012'
+  meaning: Delivery failed due to number portability issue
+  class: delivery
+- code: '013'
+  meaning: Provider could not find suitable internal route
+  class: delivery
+- code: '014'
+  meaning: No delivery route could be found
+  class: delivery
+- code: '015'
+  meaning: Delivery failed due to unspecified routing error
+  class: delivery
+- code: '016'
+  meaning: Malformed request or invalid submission
+  class: content
+- code: '017'
+  meaning: Invalid message parameter or encoding issue
+  class: content
+- code: 018
+  meaning: Blocked by anti-spam or safeguard controls
+  class: content
+- code: 019
+  meaning: Content not permitted
+  class: content
+- code: '020'
+  meaning: Insufficient credit/quota
+  class: policy-or-quota
+- code: '021'
+  meaning: Blocked due to age or parental restrictions
+  class: policy-or-quota
+- code: '022'
+  meaning: Recipient opted out or in Do-Not-Disturb list
+  class: policy-or-quota
+- code: '023'
+  meaning: Spend/quota/rate/conversation limit reached
+  class: policy-or-quota
+- code: '024'
+  meaning: Message validity expired before delivery
+  class: policy-or-quota
+- code: '025'
+  meaning: Failure at third party provider
+  class: policy-or-quota
+- code: '026'
+  meaning: DLT entity-id is missing or invalid
+  class: regulatory
+- code: '027'
+  meaning: DLT header ID is missing or invalid
+  class: regulatory
+- code: 028
+  meaning: DLT content-id is missing or invalid
+  class: regulatory
+- code: 029
+  meaning: Required recipient consent is not authorized
+  class: regulatory
+- code: '030'
+  meaning: Unexpected regulatory/compliance error
+  class: regulatory
+notes:
+- Codes 026-030 are regulatory/DLT (Distributed Ledger Technology registration) compliance failures that apply to
+  markets with sender-registration regimes.
+- 'Retry behaviour: KPN attempts webhook delivery 4 times at 0/60/120/240 seconds.'

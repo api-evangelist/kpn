@@ -1,0 +1,68 @@
+# KPN
+
+> Koninklijke KPN N.V. is the incumbent telecommunications and IT provider of the Netherlands, running the national fixed (copper and fibre) and mobile networks. Unlike most carriers, KPN reaches developers directly: developer.kpn.com is a genuine self-serve portal where anyone can register a free account, receive a Client ID and Secret, test in a free sandbox, and upgrade to production with a KPN Registration Number (KRN) or an iDIN identity check. Thirty-four OpenAPI/Swagger definitions are published anonymously downloadable under the public SwaggerHub organisation `kpn`, all fronted by an Apigee-style gateway at api-prd.kpn.com using OAuth 2.0 client credentials.
+
+## How to call a KPN API
+
+- Auth: OAuth 2.0 client credentials ("KPN Store API Authentication Standard"). POST to `https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials` with your Client ID and Secret, then send `Authorization: Bearer <access_token>`.
+- No scopes exist. Access is entitlement-based: add the API product to your project in the portal dashboard.
+- Versioning is header-based: send `api-version`; omit it and the gateway serves the latest version.
+- Quota state comes back on every response in `quota-limit`, `quota-interval`, `quota-time-unit`, `quota-used`, `quota-reset-UTC`. Over quota returns 429.
+- Deprecation is signalled with the RFC 8594 `sunset` response header.
+- Errors are `application/json` (never `application/problem+json`) in one of three envelopes: KPN gateway (`transactionId`/`status`/`name`/`message`/`info`), FIAM RFC 7807-shaped `ProblemDetail`, or CAMARA (`error_code`/`message`/`correlation_id`).
+- There is no idempotency key. Webhook delivery is at-least-once (4 attempts at 0/60/120/240s) — de-duplicate on `message_id`.
+
+## Developer portal
+
+- [KPN Developer](https://developer.kpn.com/): portal home
+- [Getting started](https://developer.kpn.com/page/getting-started): register, sandbox, upgrade to production
+- [Products](https://developer.kpn.com/products): full API catalogue with per-product pricing
+- [Documentation](https://developer.kpn.com/documentation): per-product documentation
+- [HTTP response headers](https://developer.kpn.com/documentation-response-headers): the house header contract (quota, sunset, api-version)
+- [Status](https://developer.kpn.com/status): live status of the SMS API and the KPN API endpoints
+- [Support](https://developer.kpn.com/support): contact form, one business day response, api_developer@kpn.com
+- [SwaggerHub organisation](https://app.swaggerhub.com/search?owner=kpn): all 34 machine-readable definitions
+- [Responsible disclosure](https://developer.kpn.com/page/responsible-disclosure): KPN-CERT, cert@kpn-cert.nl
+
+## KPN network and identity APIs
+
+- [SMS](https://developer.kpn.com/products/kpn-sms-api): send single or bulk SMS over the KPN network, €0,08 per domestic SMS; max 200 message-recipient combinations per call
+- [Inbound SMS](https://developer.kpn.com/products/kpn-sms-api): webhook payload for messages sent to your virtual number
+- [Account Takeover Protection / SIM Swap](https://developer.kpn.com/products/kpn-account-takeover-protection): CAMARA SIM Swap — last SIM swap date or swap-in-period check
+- [Number Verify](https://developer.kpn.com/products/kpn-number-verify): confirm the mobile number a user gives you matches their SIM
+- [Match](https://developer.kpn.com/products/kpn-match): identity check and verification
+- [FIAM](https://developer.kpn.com/products/federated-identity-and-access-management): federated identity, data-space contracts and authorization enforcement
+- [Mobile Services Management](https://developer.kpn.com/products/kpn-mobile-services-management-api): manage the mobile fleet (99 operations)
+- [Disturbance Check](https://developer.kpn.com/products/kpn-disturbance-check-api) and [Internet Speed Check](https://developer.kpn.com/products/kpn-internet-speed-check-api): per-address service assurance
+- [High-Level Design FTTx](https://developer.kpn.com/products/kpn-high-level-design-fttx-api): fibre rollout engineering jobs
+- [LoRa Device Management](https://developer.kpn.com/products/kpn-lora-device-management-api): LoRaWAN IoT device, profile and alarm management
+- [SD-LAN / SD-WAN Network View](https://developer.kpn.com/products/kpn-sd-lan-sd-wan-network-view-api): enterprise network inventory (344 operations)
+- [ServiceNow Connect](https://developer.kpn.com/products/kpn-servicenow-connect-api): create and update KPN service tickets
+- [Wholesale Broadband Access](https://app.swaggerhub.com/apis-docs/kpn/wholesale-wba-kpn): FPI and CIP access information for wholesale customers
+- [TV Guide](https://app.swaggerhub.com/apis-docs/kpn/tv-guide-kpn): EPG, live channels and VOD metadata
+- [Webhook Signing Keys](https://app.swaggerhub.com/apis-docs/kpn/webhook-signing-key-management-kpn) and [Webhook Privacy Configuration](https://app.swaggerhub.com/apis-docs/kpn/webhook-privacy-config-manager): manage HMAC signing keys and payload field exclusion at organization, team or application level
+
+## Resold and partner APIs
+
+- Vonage via KPN: [Messages](https://developer.kpn.com/products/vonage-messages-api), [Voice](https://developer.kpn.com/products/vonage-voice-api), [SMS](https://app.swaggerhub.com/apis-docs/kpn/sms-nexmo), [Verify](https://app.swaggerhub.com/apis-docs/kpn/verify-nexmo), [Number Insight](https://developer.kpn.com/products/vonage-number-insight-api), [Phone Numbers](https://developer.kpn.com/products/vonage-phone-numbers-api)
+- [Apidaze Voice CPaaS](https://app.swaggerhub.com/apis-docs/kpn/apidaze-voice-voip-innovations)
+- [Parley Secure Messenger](https://developer.kpn.com/products/parley-secure-messenger-api) and [Tracebuzz Social Media Webcare](https://developer.kpn.com/products/social-media-chat-and-messaging)
+- [WeSeeDo Direct](https://developer.kpn.com/products/weseedo-weseedo-direct-api) and [WeSeeDo Personal](https://developer.kpn.com/products/weseedo-weseedo-personal-api) video calling
+- [Polly.help Knowledge Management](https://developer.kpn.com/products/pollyhelp-knowledge-management-api), [Xdroid Speech to Text](https://developer.kpn.com/products/xdroid-speech-text-api), [Registered E-mail](https://app.swaggerhub.com/apis-docs/kpn/registeredemail-registeredemail)
+
+## Machine-readable artifacts in this repository
+
+- openapi/: 34 OpenAPI 3.x and Swagger 2.0 definitions harvested verbatim from the public SwaggerHub organisation
+- authentication/kpn-authentication.yml, scopes/kpn-scopes.yml: the auth model and the (empty) scope surface
+- conventions/kpn-conventions.yml: house semantics — auth, versioning, quota, tracing, errors, webhooks, and the absent idempotency contract
+- rate-limits/kpn-rate-limits.yml: the quota-* response header contract and the published SMS payload limits
+- errors/kpn-problem-types.yml and errors/kpn-sms-error-codes.yml: HTTP error catalogue and the 30 SMS delivery failure codes
+- asyncapi/kpn-webhooks.yml: the webhook catalogue — HMAC-SHA256 signing headers, key rotation, delivery report and inbound SMS events
+- lifecycle/kpn-lifecycle.yml and changelog/kpn-changelog.yml: versioning, sunset header, status page, and the dated SwaggerHub version history
+- security/: domain security probe and KPN-CERT vulnerability disclosure
+- well-known/: the /.well-known probe matrix and the PGP-signed security.txt
+- conformance/kpn-conformance.yml: CAMARA, GSMA Open Gateway, OAuth 2.0, RFC 8594, RFC 9116 posture
+- sandbox/kpn-sandbox.yml: free test tier, promotion path, SwaggerHub mock servers
+- mcp/kpn-mcp.yml: candidate MCP tool surface derived from the KPN-owned operations (KPN publishes no MCP server)
+- skills/: packaged agent skills for the marquee flows
+- data-model/kpn-data-model.yml: entity graph derived from the definitions

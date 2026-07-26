@@ -1,0 +1,35 @@
+generated: '2026-07-25'
+method: searched
+source: https://developer.kpn.com/documentation-response-headers
+versioning:
+  scheme: header (api-version), version-less by default
+  request_header: api-version
+  response_header: api-version
+  behaviour: If no version is supplied in the header the gateway serves the latest version of the API.
+  definition_versions: published per product on SwaggerHub (see changelog/kpn-changelog.yml)
+  docs: https://developer.kpn.com/documentation-response-headers
+deprecation:
+  sunset_header: true
+  spec: RFC 8594
+  evidence: 'KPN documents a sunset response header: "This field will be populated with the deprecation details".'
+  policy_url: https://developer.kpn.com/documentation-response-headers
+  deprecated_operations: []
+status_page: https://developer.kpn.com/status
+status_page_scope: KPN SMS API and KPN API Endpoints, with incident and maintenance history
+sla:
+  url: https://developer.kpn.com/page/legal
+  uptime_target: null
+  note: 'The developer terms commit to commercially reasonable efforts only: "the Supplier does not guarantee any
+    of these levels, unless such guarantee is explicitly provided in the Agreement." Contractual SLAs are negotiated
+    per agreement, not published.'
+support:
+  url: https://developer.kpn.com/support
+  response_target: 1 business day
+  email: api_developer@kpn.com
+production_promotion:
+  sandbox_to_production: Account upgrade with a KPN Registration Number (KRN) or an iDIN bank identity check; billing
+    starts at promotion, testing stays free.
+  docs: https://developer.kpn.com/page/getting-started
+notes:
+- No public roadmap and no narrative release-notes page were found on developer.kpn.com as of 2026-07-25.
+- The dated record of API change is the SwaggerHub version history captured in changelog/kpn-changelog.yml.

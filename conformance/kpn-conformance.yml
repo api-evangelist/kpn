@@ -1,0 +1,80 @@
+generated: '2026-07-25'
+method: searched
+source: openapi/*.yml + https://developer.kpn.com/ documentation
+standards:
+- id: openapi-3
+  conforms: true
+  evidence: 29 of 34 published definitions are OpenAPI 3.0.x/3.1.0; the remaining 5 are Swagger 2.0.
+- id: oauth2-client-credentials
+  conforms: true
+  evidence: Every gateway-fronted definition declares an oauth2 securityScheme with the clientCredentials flow against
+    https://api-prd.kpn.com/oauth/client_credential/accesstoken.
+- id: oauth2-scopes
+  conforms: false
+  evidence: No scopes are declared in any flow or operation security requirement; authorisation is product/app entitlement
+    based, not scope based.
+- id: oidc-discovery
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on every host. KPN GRIP does implement OpenID Connect
+    (and SAML 2.0) as a product, but its discovery is tenant-scoped at https://auth.grip-on-it.com/v2/{tenant.id}/oidc/idp/
+    rather than anonymous.
+- id: rfc8414-oauth-metadata
+  conforms: false
+  evidence: /.well-known/oauth-authorization-server returns 404 on every host.
+- id: camara
+  conforms: true
+  evidence: The SIM Swap definition points at https://github.com/camaraproject/ as its product documentation and
+    implements the CAMARA SIM Swap shape (POST /retrieve-date, phoneNumber payload, INVALID_ARGUMENT/UNAUTHENTICATED/PERMISSION_DENIED/SIM_SWAP.UNKNOWN_PHONE_NUMBER
+    error codes); Number Verify follows the CAMARA Number Verification pattern.
+- id: gsma-open-gateway
+  conforms: true
+  evidence: KPN launched CAMARA-standard fraud-prevention APIs for the Dutch market with Odido and Vodafone under
+    the COIN association and GSMA Open Gateway (October 2025); KPN is listed in the CAMARA operator landscape.
+- id: rfc9457-problem-details
+  conforms: false
+  partial: true
+  evidence: FIAM publishes an RFC 7807-shaped ProblemDetail/ProblemDetails schema (type, title, status, detail,
+    instance) but every error response is served as application/json - no application/problem+json media type appears
+    in any definition.
+- id: rfc8594-sunset-header
+  conforms: true
+  evidence: KPN documents a sunset response header carrying deprecation details on https://developer.kpn.com/documentation-response-headers.
+- id: rfc9116-security-txt
+  conforms: true
+  evidence: PGP-signed security.txt published at https://www.kpn.com/.well-known/security.txt with Contact, Encryption,
+    Acknowledgments, Canonical, Preferred-Languages, Hiring and Expires fields.
+- id: rfc9727-api-catalog
+  conforms: false
+  evidence: /.well-known/api-catalog returns 404 on every host.
+- id: hsts
+  conforms: true
+  evidence: 'strict-transport-security: max-age=31536000; includeSubDomains; preload is documented as a standard
+    response header and observed on www.kpn.com and developer.kpn.com.'
+- id: dnssec
+  conforms: true
+  evidence: kpn.com is DNSSEC signed (see security/kpn-domain-security.yml).
+- id: dmarc
+  conforms: true
+  evidence: kpn.com publishes DMARC with p=reject.
+- id: json-api
+  conforms: false
+  evidence: No JSON:API media type or document structure in any definition.
+- id: tmforum-open-api
+  conforms: false
+  evidence: No TM Forum Open API resource shapes (TMF6xx) are published; the wholesale and mobile-services APIs
+    use KPN-proprietary models.
+- id: fhir-r4
+  conforms: false
+- id: scim2
+  conforms: false
+- id: odata
+  conforms: false
+- id: saml2
+  conforms: true
+  evidence: KPN GRIP offers SAML 2.0 alongside OpenID Connect and OAuth 2 for relying-party integration (https://developer.kpn.com/documentation/kpn-grip-api-documentation).
+certifications:
+  published_for_the_api_platform: false
+  note: No trust centre, SOC 2, ISO 27001 or PCI attestation is published for the KPN Developer platform. KPN certifications
+    that are published sit with other business units - for example the KPN Registration Authority (PKIoverheid /
+    eIDAS trust services) states ISO 9001:2015 and ISO 27001:2013 certification in its Practices Statement at https://certificaat.kpn.com/files/CPS/
+    - and are out of scope for developer.kpn.com. No Compliance pointer is therefore claimed for this provider.

@@ -1,0 +1,90 @@
+generated: '2026-07-25'
+method: searched
+source: https://developer.kpn.com/documentation-response-headers
+also_derived_from: openapi/*.yml (34 definitions)
+docs:
+- https://developer.kpn.com/documentation-response-headers
+- https://developer.kpn.com/page/getting-started
+- https://developer.kpn.com/documentation/kpn-sms-api-documentation
+authentication:
+  style: OAuth 2.0 client credentials ("KPN Store API Authentication Standard")
+  token_url: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+  request_header: 'Authorization: Bearer <access_token>'
+  credentials: Client ID + Client Secret issued per project in the KPN Developer portal
+  exceptions:
+  - openapi/kpn-fiam-eneco-data-products-openapi.yml uses an apikey header instead (Apigee API key).
+  - 'The Mobile Services Management API uses a product-specific token endpoint: https://api-prd.kpn.com/oauth/grip/msm/accesstoken?grant_type=client_credentials'
+  - Number Verify and Match expose their own POST /token operation on top of the gateway token.
+  artifact: authentication/kpn-authentication.yml
+idempotency:
+  supported: false
+  evidence: No Idempotency-Key (or equivalent) parameter appears in any of the 34 published definitions, and the
+    developer documentation defines no retry-safety contract for write operations.
+  note: Webhook delivery retries are at-least-once (4 attempts at 0/60/120/240s), so receivers must de-duplicate
+    on message_id themselves.
+versioning:
+  style: header
+  request_header: api-version
+  response_header: api-version
+  behaviour: 'Version-less API: when no api-version header is supplied the gateway serves the latest version. Definition
+    versions are published per product on SwaggerHub.'
+  artifact: lifecycle/kpn-lifecycle.yml
+rate_limiting:
+  response_headers:
+  - quota-limit
+  - quota-interval
+  - quota-time-unit
+  - quota-used
+  - quota-reset-UTC
+  error_status: 429
+  artifact: rate-limits/kpn-rate-limits.yml
+deprecation:
+  response_header: sunset
+  spec: RFC 8594
+  artifact: lifecycle/kpn-lifecycle.yml
+request_tracing:
+  request_header: x-request-id
+  response_field: transactionId (KPN gateway error envelope), correlation_id (CAMARA error envelope)
+  note: x-request-id is declared on the Vonage-derived and webhook-configuration operations; it is not universal
+    across the estate.
+pagination:
+  style: page/size query parameters where paging exists
+  parameters:
+  - page
+  - page_size
+  - per_page
+  - limit
+  note: Paging is not a house convention - most KPN products are single-shot lookups. Only the LoRa Device Management,
+    SD-LAN/SD-WAN Network View and Polly.help definitions expose paging parameters.
+errors:
+  media_type: application/json (KPN does not use application/problem+json)
+  envelopes:
+  - 'KPN gateway: transactionId / status / name / message / info'
+  - 'FIAM: RFC 7807-shaped ProblemDetail (type / title / status / detail / instance)'
+  - 'CAMARA network APIs: error_code / message / correlation_id'
+  artifacts:
+  - errors/kpn-problem-types.yml
+  - errors/kpn-sms-error-codes.yml
+transport_security:
+  https_only: true
+  response_header: 'strict-transport-security: max-age=31536000; includeSubDomains; preload'
+  artifact: security/kpn-domain-security.yml
+cors:
+  headers:
+  - access-control-allow-origin
+  - access-control-allow-credentials
+  - access-control-allow-headers
+  - access-control-allow-methods
+  - access-control-max-age
+webhooks:
+  signing: HMAC-SHA256 over the raw request body
+  headers:
+  - X-KPN-Webhook-Signature
+  - X-KPN-Webhook-Timestamp
+  - X-KPN-Webhook-Key-Id
+  - X-KPN-Webhook-Attempt
+  artifact: asyncapi/kpn-webhooks.yml
+gaps:
+- No idempotency contract for write operations.
+- operationId is missing on a large share of published operations, which blocks stable SDK/tool generation.
+- No published narrative changelog or roadmap on the developer portal.

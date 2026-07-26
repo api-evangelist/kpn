@@ -1,0 +1,102 @@
+generated: '2026-07-25'
+method: searched
+source: live probes of every apis.yml host and every OpenAPI servers[] host, 2026-07-25
+hosts_probed:
+- https://www.kpn.com
+- https://developer.kpn.com
+- https://api-prd.kpn.com
+- https://auth.grip-on-it.com
+- https://api.grip-on-it.com
+notes:
+- RFC 9116 security.txt is published at the corporate root (www.kpn.com) and is PGP-signed by KPN-CERT; it is not
+  served from the developer portal or the API gateway.
+- The API gateway host api-prd.kpn.com answers every unmatched path with an Apigee fault envelope ("Unable to identify
+  proxy for host"), so no discovery documents are exposed there.
+- 'KPN runs OAuth 2.0 client-credentials without RFC 8414 / OIDC discovery metadata: the token endpoint is published
+  in each OpenAPI securityScheme instead.'
+- No /.well-known/api-catalog (RFC 9727) and no llms.txt were found on any host.
+documents:
+- host: https://www.kpn.com
+  path: /.well-known/security.txt
+  status: 200
+  file: kpn-security.txt
+- host: https://www.kpn.com
+  path: /.well-known/openid-configuration
+  status: 404
+- host: https://www.kpn.com
+  path: /.well-known/oauth-authorization-server
+  status: 404
+- host: https://www.kpn.com
+  path: /.well-known/oauth-protected-resource
+  status: 404
+- host: https://www.kpn.com
+  path: /.well-known/api-catalog
+  status: 404
+- host: https://www.kpn.com
+  path: /.well-known/ai-plugin.json
+  status: 404
+- host: https://www.kpn.com
+  path: /.well-known/mcp.json
+  status: 404
+- host: https://www.kpn.com
+  path: /llms.txt
+  status: 404
+- host: https://developer.kpn.com
+  path: /.well-known/security.txt
+  status: 404
+- host: https://developer.kpn.com
+  path: /.well-known/openid-configuration
+  status: 404
+- host: https://developer.kpn.com
+  path: /.well-known/oauth-authorization-server
+  status: 404
+- host: https://developer.kpn.com
+  path: /.well-known/oauth-protected-resource
+  status: 404
+- host: https://developer.kpn.com
+  path: /.well-known/api-catalog
+  status: 404
+- host: https://developer.kpn.com
+  path: /.well-known/ai-plugin.json
+  status: 404
+- host: https://developer.kpn.com
+  path: /.well-known/mcp.json
+  status: 404
+- host: https://developer.kpn.com
+  path: /llms.txt
+  status: 404
+- host: https://api-prd.kpn.com
+  path: /.well-known/security.txt
+  status: 404
+- host: https://api-prd.kpn.com
+  path: /.well-known/openid-configuration
+  status: 404
+- host: https://api-prd.kpn.com
+  path: /.well-known/oauth-authorization-server
+  status: 404
+- host: https://api-prd.kpn.com
+  path: /.well-known/oauth-protected-resource
+  status: 404
+- host: https://api-prd.kpn.com
+  path: /.well-known/api-catalog
+  status: 404
+- host: https://api-prd.kpn.com
+  path: /.well-known/ai-plugin.json
+  status: 404
+- host: https://api-prd.kpn.com
+  path: /.well-known/mcp.json
+  status: 404
+- host: https://api-prd.kpn.com
+  path: /llms.txt
+  status: 404
+- host: https://auth.grip-on-it.com
+  path: /.well-known/openid-configuration
+  status: 200
+  valid: false
+  note: 'Returns the Grip login single-page application HTML, not OIDC metadata. Grip discovery is tenant-scoped:
+    the token endpoint is https://auth.grip-on-it.com/v2/{tenant.id}/oidc/idp/token, so anonymous discovery is not
+    available.'
+- host: https://api.grip-on-it.com
+  path: /.well-known/openid-configuration
+  status: null
+  note: Connection did not complete cleanly; the host serves the same Grip login application.

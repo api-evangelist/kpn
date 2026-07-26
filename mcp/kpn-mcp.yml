@@ -1,0 +1,559 @@
+generated: '2026-07-25'
+method: derived
+status: candidate
+source: openapi/kpn-*.yml (KPN-owned products on the KPN Developer portal)
+searched:
+  checked:
+  - developer.kpn.com docs + product pages
+  - github.com/kpn
+  - github.com/kpn-developer
+  - github.com/kpnapistore
+  - npm registry search "kpn"
+  - MCP registry / web search
+  result: No official or community KPN MCP server was found as of 2026-07-25.
+server:
+  name: kpn
+  transport: http
+  url: null
+  note: Candidate only - KPN publishes no hosted MCP endpoint. Tools below are derived one-per-operation from the
+    KPN-owned OpenAPI definitions; each tool inherits its real input contract from the referenced operation parameters/requestBody.
+authentication:
+  type: oauth2
+  flow: clientCredentials
+  token_url: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+  note: Client ID and Client Secret are issued per project in the KPN Developer portal.
+coverage:
+  tools: 106
+  apis: 17
+  operations_without_operationid: 34
+tools:
+- name: kpn_sends_single_or_bulk_sms
+  description: Sends one or more SMS to one or more recipients.
+  product: SMS - KPN
+  source_operation: openapi/kpn-sms-openapi.yml#Sends single or bulk SMS
+  operation_id_published: true
+- name: kpn_post_your_active_webhook
+  description: Receive an Inbound SMS on your active HTTP Webhook Endpoint
+  product: Inbound SMS - KPN
+  source_operation: openapi/kpn-sms-inbound-openapi.yml#POST /your-active-webhook
+  operation_id_published: false
+- name: kpn_retrieve_sim_swap_date
+  description: Get timestamp of last MSISDN <-> IMSI pairing change for a mobile user account provided with MSIDN.
+  product: SIM Swap
+  source_operation: openapi/kpn-sim-swap-openapi.yml#retrieveSimSwapDate
+  operation_id_published: true
+- name: kpn_post_token
+  description: Token Request
+  product: Number Verify - KPN
+  source_operation: openapi/kpn-number-verify-openapi.yml#POST /token
+  operation_id_published: false
+- name: kpn_post_insights_msisdn
+  description: Insights Request
+  product: Number Verify - KPN
+  source_operation: openapi/kpn-number-verify-openapi.yml#POST /insights/{msisdn}
+  operation_id_published: false
+- name: kpn_get_session_session_id
+  description: Session Request
+  product: Number Verify - KPN
+  source_operation: openapi/kpn-number-verify-openapi.yml#GET /session/{session_id}
+  operation_id_published: false
+- name: kpn_get_polling_polling_id
+  description: Polling Request
+  product: Number Verify - KPN
+  source_operation: openapi/kpn-number-verify-openapi.yml#GET /polling/{polling_id}
+  operation_id_published: false
+- name: kpn_post_token_2
+  description: Token Request
+  product: Match - KPN
+  source_operation: openapi/kpn-match-openapi.yml#POST /token
+  operation_id_published: false
+- name: kpn_post_insights_msisdn_2
+  description: Insights Request
+  product: Match - KPN
+  source_operation: openapi/kpn-match-openapi.yml#POST /insights/{msisdn}
+  operation_id_published: false
+- name: kpn_get_address
+  description: get info
+  product: Disturbance Check - KPN
+  source_operation: openapi/kpn-disturbance-check-openapi.yml#GET /address
+  operation_id_published: false
+- name: kpn_post_offer
+  description: get info
+  product: Internet Speed Check - KPN
+  source_operation: openapi/kpn-internet-speed-check-openapi.yml#POST /offer
+  operation_id_published: false
+- name: kpn_activation
+  description: Activates API
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#Activation
+  operation_id_published: true
+- name: kpn_devicesretrieval
+  description: Retrieves devices
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#Devicesretrieval
+  operation_id_published: true
+- name: kpn_devicecreation
+  description: Creates devices
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#Devicecreation
+  operation_id_published: true
+- name: kpn_deviceretrieval
+  description: Retrieves specific device
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#Deviceretrieval
+  operation_id_published: true
+- name: kpn_deviceupdate
+  description: Updates specific device
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#Deviceupdate
+  operation_id_published: true
+- name: kpn_devicedeletion
+  description: Deletes specific device
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#Devicedeletion
+  operation_id_published: true
+- name: kpn_deviceprofilesretrieval
+  description: Retrieves device profiles
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#Deviceprofilesretrieval
+  operation_id_published: true
+- name: kpn_connectivityplansretrieval
+  description: Retrieves connectivity plans
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#Connectivityplansretrieval
+  operation_id_published: true
+- name: kpn_routingprofilesretrieval
+  description: Retrieves routing profiles
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#Routingprofilesretrieval
+  operation_id_published: true
+- name: kpn_routingprofilescreation
+  description: Creates routing profiles
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#Routingprofilescreation
+  operation_id_published: true
+- name: kpn_routingprofileretrieval
+  description: Retrieves specific routing profiles
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#Routingprofileretrieval
+  operation_id_published: true
+- name: kpn_routingprofileupdate
+  description: Updates specific routing profiles
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#Routingprofileupdate
+  operation_id_published: true
+- name: kpn_routingprofiledeletion
+  description: Deletes routing profiles
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#Routingprofiledeletion
+  operation_id_published: true
+- name: kpn_framestatisticsretrieval
+  description: Retrieves frame statistics
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#Framestatisticsretrieval
+  operation_id_published: true
+- name: kpn_healthstatisticsretrieval
+  description: Retrieves health statistics
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#Healthstatisticsretrieval
+  operation_id_published: true
+- name: kpn_hs_mgroupsretrieval
+  description: Retrieves HSM groups
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#HSMgroupsretrieval
+  operation_id_published: true
+- name: kpn_devicealarmsretrieval
+  description: Retrieves device alarms
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#Devicealarmsretrieval
+  operation_id_published: true
+- name: kpn_devicealarmretrieval
+  description: Retrieves specific device alarm
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#Devicealarmretrieval
+  operation_id_published: true
+- name: kpn_devicealarmacknowledgement
+  description: Acknowledges device alarm
+  product: LoRa Device Management - KPN
+  source_operation: openapi/kpn-lora-device-management-openapi.yml#Devicealarmacknowledgement
+  operation_id_published: true
+- name: kpn_get_channel_kpn_tray_livechannels
+  description: Get live channels
+  product: TV Guide - KPN
+  source_operation: openapi/kpn-tv-guide-openapi.yml#GET /{channel}/kpn/TRAY/LIVECHANNELS
+  operation_id_published: false
+- name: kpn_get_channel_kpn_tray_search_vod
+  description: Search Video On Demand (VOD)
+  product: TV Guide - KPN
+  source_operation: openapi/kpn-tv-guide-openapi.yml#GET /{channel}/kpn/TRAY/SEARCH/VOD
+  operation_id_published: false
+- name: kpn_get_channel_kpn_tray_search_program
+  description: Search programs
+  product: TV Guide - KPN
+  source_operation: openapi/kpn-tv-guide-openapi.yml#GET /{channel}/kpn/TRAY/SEARCH/PROGRAM
+  operation_id_published: false
+- name: kpn_get_channel_kpn_tray_epg
+  description: Get a list of transcripts uploaded by the client
+  product: TV Guide - KPN
+  source_operation: openapi/kpn-tv-guide-openapi.yml#GET /{channel}/kpn/TRAY/EPG
+  operation_id_published: false
+- name: kpn_get_channel_kpn_content_detail_content_type_content_id
+  description: content details
+  product: TV Guide - KPN
+  source_operation: openapi/kpn-tv-guide-openapi.yml#GET /{channel}/kpn/CONTENT/DETAIL/{contentType}/{contentId}
+  operation_id_published: false
+- name: kpn_ticket_post
+  description: Create a new Ticket
+  product: ServiceNow Customer Connect
+  source_operation: openapi/kpn-servicenow-connect-openapi.yml#ticket-post
+  operation_id_published: true
+- name: kpn_ticket_patch
+  description: Update an existing Ticket
+  product: ServiceNow Customer Connect
+  source_operation: openapi/kpn-servicenow-connect-openapi.yml#ticket-patch
+  operation_id_published: true
+- name: kpn_ticket_get
+  description: Get Ticket delatils
+  product: ServiceNow Customer Connect
+  source_operation: openapi/kpn-servicenow-connect-openapi.yml#ticket-get
+  operation_id_published: true
+- name: kpn_task_patch
+  description: Update an existing Task
+  product: ServiceNow Customer Connect
+  source_operation: openapi/kpn-servicenow-connect-openapi.yml#task-patch
+  operation_id_published: true
+- name: kpn_ticket_list
+  description: List Tickets
+  product: ServiceNow Customer Connect
+  source_operation: openapi/kpn-servicenow-connect-openapi.yml#ticket-list
+  operation_id_published: true
+- name: kpn_ticketupdates_get
+  description: Ticket Updates
+  product: ServiceNow Customer Connect
+  source_operation: openapi/kpn-servicenow-connect-openapi.yml#ticketupdates-get
+  operation_id_published: true
+- name: kpn_get_attachment
+  description: Get Attachment
+  product: ServiceNow Customer Connect
+  source_operation: openapi/kpn-servicenow-connect-openapi.yml#get-attachment
+  operation_id_published: true
+- name: kpn_post_start_jobs3
+  description: Request a signed URL to start an FTTx engineering job.
+  product: High-Level Design FTTx
+  source_operation: openapi/kpn-high-level-design-ftth-openapi.yml#POST /startJobS3
+  operation_id_published: false
+- name: kpn_put_s3url_uploads_json_file_name_and_extension
+  description: Submit the input for the engineering job.
+  product: High-Level Design FTTx
+  source_operation: openapi/kpn-high-level-design-ftth-openapi.yml#PUT /s3url_uploads/{jsonFileNameAndExtension}
+  operation_id_published: false
+- name: kpn_get_job_status_job_id
+  description: Returns the current status of the calculation job identified by jobId
+  product: High-Level Design FTTx
+  source_operation: openapi/kpn-high-level-design-ftth-openapi.yml#GET /jobStatus/{jobId}
+  operation_id_published: false
+- name: kpn_get_job_results3_job_id
+  description: Returns a signed URL where the results of an engineering job can be retrieved.
+  product: High-Level Design FTTx
+  source_operation: openapi/kpn-high-level-design-ftth-openapi.yml#GET /jobResultS3/{jobId}
+  operation_id_published: false
+- name: kpn_get_output_json_file_name_and_extension
+  description: Retrieve the results of an engineering job.
+  product: High-Level Design FTTx
+  source_operation: openapi/kpn-high-level-design-ftth-openapi.yml#GET /Output/{jsonFileNameAndExtension}
+  operation_id_published: false
+- name: kpn_create_org_signing_key
+  description: Create organization signing key
+  product: Webhook Signing Keys - KPN
+  source_operation: openapi/kpn-webhook-signing-keys-openapi.yml#createOrgSigningKey
+  operation_id_published: true
+- name: kpn_list_org_signing_keys
+  description: List organization signing keys
+  product: Webhook Signing Keys - KPN
+  source_operation: openapi/kpn-webhook-signing-keys-openapi.yml#listOrgSigningKeys
+  operation_id_published: true
+- name: kpn_reveal_org_signing_key_secret
+  description: Reveal active org signing key secret
+  product: Webhook Signing Keys - KPN
+  source_operation: openapi/kpn-webhook-signing-keys-openapi.yml#revealOrgSigningKeySecret
+  operation_id_published: true
+- name: kpn_activate_org_signing_key
+  description: Activate a staged org signing key
+  product: Webhook Signing Keys - KPN
+  source_operation: openapi/kpn-webhook-signing-keys-openapi.yml#activateOrgSigningKey
+  operation_id_published: true
+- name: kpn_retire_org_signing_key
+  description: Retire a retiring org signing key
+  product: Webhook Signing Keys - KPN
+  source_operation: openapi/kpn-webhook-signing-keys-openapi.yml#retireOrgSigningKey
+  operation_id_published: true
+- name: kpn_delete_org_signing_key
+  description: Delete a retired org signing key
+  product: Webhook Signing Keys - KPN
+  source_operation: openapi/kpn-webhook-signing-keys-openapi.yml#deleteOrgSigningKey
+  operation_id_published: true
+- name: kpn_create_team_signing_key
+  description: Create team signing key
+  product: Webhook Signing Keys - KPN
+  source_operation: openapi/kpn-webhook-signing-keys-openapi.yml#createTeamSigningKey
+  operation_id_published: true
+- name: kpn_list_team_signing_keys
+  description: List team signing keys
+  product: Webhook Signing Keys - KPN
+  source_operation: openapi/kpn-webhook-signing-keys-openapi.yml#listTeamSigningKeys
+  operation_id_published: true
+- name: kpn_reveal_team_signing_key_secret
+  description: Reveal active team signing key secret
+  product: Webhook Signing Keys - KPN
+  source_operation: openapi/kpn-webhook-signing-keys-openapi.yml#revealTeamSigningKeySecret
+  operation_id_published: true
+- name: kpn_activate_team_signing_key
+  description: Activate a staged team signing key
+  product: Webhook Signing Keys - KPN
+  source_operation: openapi/kpn-webhook-signing-keys-openapi.yml#activateTeamSigningKey
+  operation_id_published: true
+- name: kpn_retire_team_signing_key
+  description: Retire a retiring team signing key
+  product: Webhook Signing Keys - KPN
+  source_operation: openapi/kpn-webhook-signing-keys-openapi.yml#retireTeamSigningKey
+  operation_id_published: true
+- name: kpn_delete_team_signing_key
+  description: Delete a retired team signing key
+  product: Webhook Signing Keys - KPN
+  source_operation: openapi/kpn-webhook-signing-keys-openapi.yml#deleteTeamSigningKey
+  operation_id_published: true
+- name: kpn_create_application_signing_key
+  description: Create application signing key
+  product: Webhook Signing Keys - KPN
+  source_operation: openapi/kpn-webhook-signing-keys-openapi.yml#createApplicationSigningKey
+  operation_id_published: true
+- name: kpn_list_application_signing_keys
+  description: List application signing keys
+  product: Webhook Signing Keys - KPN
+  source_operation: openapi/kpn-webhook-signing-keys-openapi.yml#listApplicationSigningKeys
+  operation_id_published: true
+- name: kpn_reveal_application_signing_key_secret
+  description: Reveal active application signing key secret
+  product: Webhook Signing Keys - KPN
+  source_operation: openapi/kpn-webhook-signing-keys-openapi.yml#revealApplicationSigningKeySecret
+  operation_id_published: true
+- name: kpn_activate_application_signing_key
+  description: Activate a staged application signing key
+  product: Webhook Signing Keys - KPN
+  source_operation: openapi/kpn-webhook-signing-keys-openapi.yml#activateApplicationSigningKey
+  operation_id_published: true
+- name: kpn_retire_application_signing_key
+  description: Retire a retiring application signing key
+  product: Webhook Signing Keys - KPN
+  source_operation: openapi/kpn-webhook-signing-keys-openapi.yml#retireApplicationSigningKey
+  operation_id_published: true
+- name: kpn_delete_application_signing_key
+  description: Delete a retired application signing key
+  product: Webhook Signing Keys - KPN
+  source_operation: openapi/kpn-webhook-signing-keys-openapi.yml#deleteApplicationSigningKey
+  operation_id_published: true
+- name: kpn_get_organization_webhook_config
+  description: Get organization webhook config
+  product: Webhook Privacy Configuration - KPN
+  source_operation: openapi/kpn-webhook-privacy-config-manager-openapi.yml#getOrganizationWebhookConfig
+  operation_id_published: true
+- name: kpn_update_organization_webhook_config
+  description: Update organization privacy config
+  product: Webhook Privacy Configuration - KPN
+  source_operation: openapi/kpn-webhook-privacy-config-manager-openapi.yml#updateOrganizationWebhookConfig
+  operation_id_published: true
+- name: kpn_create_team_webhook_config
+  description: Create team webhook config
+  product: Webhook Privacy Configuration - KPN
+  source_operation: openapi/kpn-webhook-privacy-config-manager-openapi.yml#createTeamWebhookConfig
+  operation_id_published: true
+- name: kpn_get_team_webhook_config
+  description: Get team webhook config
+  product: Webhook Privacy Configuration - KPN
+  source_operation: openapi/kpn-webhook-privacy-config-manager-openapi.yml#getTeamWebhookConfig
+  operation_id_published: true
+- name: kpn_update_team_webhook_config
+  description: Update team webhook config
+  product: Webhook Privacy Configuration - KPN
+  source_operation: openapi/kpn-webhook-privacy-config-manager-openapi.yml#updateTeamWebhookConfig
+  operation_id_published: true
+- name: kpn_delete_team_webhook_config
+  description: Delete team webhook config
+  product: Webhook Privacy Configuration - KPN
+  source_operation: openapi/kpn-webhook-privacy-config-manager-openapi.yml#deleteTeamWebhookConfig
+  operation_id_published: true
+- name: kpn_create_application_webhook_config
+  description: Create application webhook config
+  product: Webhook Privacy Configuration - KPN
+  source_operation: openapi/kpn-webhook-privacy-config-manager-openapi.yml#createApplicationWebhookConfig
+  operation_id_published: true
+- name: kpn_get_application_webhook_config
+  description: Get application webhook config
+  product: Webhook Privacy Configuration - KPN
+  source_operation: openapi/kpn-webhook-privacy-config-manager-openapi.yml#getApplicationWebhookConfig
+  operation_id_published: true
+- name: kpn_update_application_webhook_config
+  description: Update application webhook config
+  product: Webhook Privacy Configuration - KPN
+  source_operation: openapi/kpn-webhook-privacy-config-manager-openapi.yml#updateApplicationWebhookConfig
+  operation_id_published: true
+- name: kpn_delete_application_webhook_config
+  description: Delete application webhook config
+  product: Webhook Privacy Configuration - KPN
+  source_operation: openapi/kpn-webhook-privacy-config-manager-openapi.yml#deleteApplicationWebhookConfig
+  operation_id_published: true
+- name: kpn_enforce_authorization
+  description: GET /api/v1/authorization/enforce
+  product: FIAM-KPN
+  source_operation: openapi/kpn-fiam-openapi.yml#enforce_authorization
+  operation_id_published: true
+- name: kpn_enforce_authorization_post
+  description: POST /api/v1/authorization/enforce
+  product: FIAM-KPN
+  source_operation: openapi/kpn-fiam-openapi.yml#enforce_authorization_post
+  operation_id_published: true
+- name: kpn_validate_contract_access
+  description: POST /api/v1/contracts/validate
+  product: FIAM-KPN
+  source_operation: openapi/kpn-fiam-openapi.yml#validate_contract_access
+  operation_id_published: true
+- name: kpn_get_dataspaces
+  description: GET /api/v1/dataspaces
+  product: FIAM-KPN
+  source_operation: openapi/kpn-fiam-openapi.yml#get_dataspaces
+  operation_id_published: true
+- name: kpn_access_token
+  description: POST /api/v1/oauth/token
+  product: FIAM-KPN
+  source_operation: openapi/kpn-fiam-openapi.yml#access_token
+  operation_id_published: true
+- name: kpn_search_parties
+  description: GET /api/v1/parties
+  product: FIAM-KPN
+  source_operation: openapi/kpn-fiam-openapi.yml#search_parties
+  operation_id_published: true
+- name: kpn_create_ep
+  description: POST /api/v1/parties
+  product: FIAM-KPN
+  source_operation: openapi/kpn-fiam-openapi.yml#create_ep
+  operation_id_published: true
+- name: kpn_get_party
+  description: GET /api/v1/parties/{party_id}
+  product: FIAM-KPN
+  source_operation: openapi/kpn-fiam-openapi.yml#get_party
+  operation_id_published: true
+- name: kpn_get_contracts_sc
+  description: GET /api/v1/service-consumers/contracts
+  product: FIAM-KPN
+  source_operation: openapi/kpn-fiam-openapi.yml#get_contracts_sc
+  operation_id_published: true
+- name: kpn_get_contract_sc
+  description: GET /api/v1/service-consumers/contracts/{contract_id}
+  product: FIAM-KPN
+  source_operation: openapi/kpn-fiam-openapi.yml#get_contract_sc
+  operation_id_published: true
+- name: kpn_list_contracts_sp
+  description: GET /api/v1/service-providers/contracts
+  product: FIAM-KPN
+  source_operation: openapi/kpn-fiam-openapi.yml#list_contracts_sp
+  operation_id_published: true
+- name: kpn_create_contract_sp
+  description: POST /api/v1/service-providers/contracts
+  product: FIAM-KPN
+  source_operation: openapi/kpn-fiam-openapi.yml#create_contract_sp
+  operation_id_published: true
+- name: kpn_get_contract_sp
+  description: GET /api/v1/service-providers/contracts/{contract_id}
+  product: FIAM-KPN
+  source_operation: openapi/kpn-fiam-openapi.yml#get_contract_sp
+  operation_id_published: true
+- name: kpn_update_contract_sp
+  description: PUT /api/v1/service-providers/contracts/{contract_id}
+  product: FIAM-KPN
+  source_operation: openapi/kpn-fiam-openapi.yml#update_contract_sp
+  operation_id_published: true
+- name: kpn_delete_contract_sp
+  description: DELETE /api/v1/service-providers/contracts/{contract_id}
+  product: FIAM-KPN
+  source_operation: openapi/kpn-fiam-openapi.yml#delete_contract_sp
+  operation_id_published: true
+- name: kpn_get_service_provider_parties
+  description: GET /api/v1/service-providers/parties
+  product: FIAM-KPN
+  source_operation: openapi/kpn-fiam-openapi.yml#get_service_provider_parties
+  operation_id_published: true
+- name: kpn_get_functional_products
+  description: Functional Product Information
+  product: WBA APIs
+  source_operation: openapi/kpn-wholesale-wba-openapi.yml#GET /functional-products
+  operation_id_published: false
+- name: kpn_get_carriers
+  description: Carrier Information Product
+  product: WBA APIs
+  source_operation: openapi/kpn-wholesale-wba-openapi.yml#GET /carriers
+  operation_id_published: false
+- name: kpn_get_fpi_addresses
+  description: Retrieves Functional Product Information
+  product: Wholesale Broadband Access
+  source_operation: openapi/kpn-wholesale-broadband-access-fpi-cip-openapi.yml#GET /fpi/addresses
+  operation_id_published: false
+- name: kpn_get_cip_addresses
+  description: Retrieves Carrier Information Product
+  product: Wholesale Broadband Access
+  source_operation: openapi/kpn-wholesale-broadband-access-fpi-cip-openapi.yml#GET /cip/addresses
+  operation_id_published: false
+- name: kpn_get_endpointgroup
+  description: GET /endpointgroup/
+  product: ISE - KPN
+  source_operation: openapi/kpn-ise-openapi.yml#GET /endpointgroup/
+  operation_id_published: false
+- name: kpn_get_endpoint
+  description: Get endpoints within group using the endpointgroup id.
+  product: ISE - KPN
+  source_operation: openapi/kpn-ise-openapi.yml#GET /endpoint/
+  operation_id_published: false
+- name: kpn_get_endpoint_name_name
+  description: Get endpoints within group using the endpointgroup id.
+  product: ISE - KPN
+  source_operation: openapi/kpn-ise-openapi.yml#GET /endpoint/name/{name}
+  operation_id_published: false
+- name: kpn_post_endpoint
+  description: Get endpoints within group using the endpointgroup id.
+  product: ISE - KPN
+  source_operation: openapi/kpn-ise-openapi.yml#POST /endpoint
+  operation_id_published: false
+- name: kpn_put_endpoint_id
+  description: Get endpoints within group using the endpointgroup id.
+  product: ISE - KPN
+  source_operation: openapi/kpn-ise-openapi.yml#PUT /endpoint/{id}
+  operation_id_published: false
+- name: kpn_delete_endpoint_id
+  description: Get endpoints within group using the endpointgroup id.
+  product: ISE - KPN
+  source_operation: openapi/kpn-ise-openapi.yml#DELETE /endpoint/{id}
+  operation_id_published: false
+- name: kpn_get_identitygroup
+  description: With this endpoint a user can sent registered emails.
+  product: ISE - KPN
+  source_operation: openapi/kpn-ise-openapi.yml#GET /identitygroup/
+  operation_id_published: false
+- name: kpn_get_internaluser
+  description: GET /internaluser/
+  product: ISE - KPN
+  source_operation: openapi/kpn-ise-openapi.yml#GET /internaluser/
+  operation_id_published: false
+- name: kpn_post_internaluser
+  description: Get endpoints within group using the endpointgroup id.
+  product: ISE - KPN
+  source_operation: openapi/kpn-ise-openapi.yml#POST /internaluser/
+  operation_id_published: false
+- name: kpn_put_internaluser
+  description: Get endpoints within group using the endpointgroup id.
+  product: ISE - KPN
+  source_operation: openapi/kpn-ise-openapi.yml#PUT /internaluser/
+  operation_id_published: false
+- name: kpn_delete_internaluser
+  description: Get endpoints within group using the endpointgroup id.
+  product: ISE - KPN
+  source_operation: openapi/kpn-ise-openapi.yml#DELETE /internaluser/
+  operation_id_published: false

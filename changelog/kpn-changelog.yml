@@ -1,0 +1,392 @@
+generated: '2026-07-25'
+method: searched
+source: https://api.swaggerhub.com/apis/kpn (KPN public SwaggerHub organisation registry)
+docs: https://app.swaggerhub.com/search?owner=kpn
+scheme: per-API semantic versioning published on SwaggerHub; the API itself is version-less at runtime and honours
+  an api-version request header, defaulting to the latest version when the header is absent
+notes:
+- KPN publishes no narrative changelog or release-notes page on developer.kpn.com; the authoritative dated record
+  of API change is the version history of each definition in the public SwaggerHub organisation, captured below.
+- created / modified are the SwaggerHub registry timestamps for the current published version of each definition.
+- Deprecation of a version is signalled at runtime with the sunset response header (see lifecycle/kpn-lifecycle.yml).
+summary:
+  apis: 34
+  most_recently_modified: '2026-06-24T09:25:05Z'
+  multi_version_apis: 24
+entries:
+- api: Webhook Signing Keys - KPN
+  swaggerhub: webhook-signing-key-management-kpn
+  current_version: 4.0.0
+  versions_published:
+  - 1.0.0
+  - 1.0.1
+  - 2.0.0
+  - 3.0.0
+  - 4.0.0
+  version_count: 5
+  oas_version: 3.0.3
+  created: '2026-06-23T14:29:54Z'
+  modified: '2026-06-24T09:25:05Z'
+  definition: https://api.swaggerhub.com/apis/kpn/webhook-signing-key-management-kpn/4.0.0
+- api: Webhook Privacy Configuration - KPN
+  swaggerhub: webhook-privacy-config-manager
+  current_version: 3.0.0
+  versions_published:
+  - 2.0.0
+  - 3.0.0
+  version_count: 2
+  oas_version: 3.0.3
+  created: '2026-06-19T13:55:15Z'
+  modified: '2026-06-19T13:56:20Z'
+  definition: https://api.swaggerhub.com/apis/kpn/webhook-privacy-config-manager/3.0.0
+- api: FIAM – Eneco Data Products
+  swaggerhub: FIAM-Eneco-Data-Products
+  current_version: 1.0.1
+  versions_published:
+  - 1.0.1
+  version_count: 1
+  oas_version: 3.0.3
+  created: '2026-06-09T13:56:45Z'
+  modified: '2026-06-09T13:56:45Z'
+  definition: https://api.swaggerhub.com/apis/kpn/FIAM-Eneco-Data-Products/1.0.1
+- api: SIM Swap
+  swaggerhub: SimSwap-KPN
+  current_version: 1.0.2
+  versions_published:
+  - 1.0.2
+  - v1
+  version_count: 2
+  oas_version: 3.0.3
+  created: '2026-04-09T15:44:18Z'
+  modified: '2026-04-09T15:52:15Z'
+  definition: https://api.swaggerhub.com/apis/kpn/SimSwap-KPN/1.0.2
+- api: WeSeeDo Personal - WeSeeDo
+  swaggerhub: weseedo-personal-weseedo
+  current_version: v2.0.2
+  versions_published:
+  - v2.0.1
+  - v2.0.2
+  version_count: 2
+  oas_version: 3.0.0
+  created: '2020-11-25T11:01:43Z'
+  modified: '2026-03-26T10:37:03Z'
+  definition: https://api.swaggerhub.com/apis/kpn/weseedo-personal-weseedo/v2.0.2
+- api: FIAM-KPN
+  swaggerhub: FIAM-KPN
+  current_version: 0.1.1
+  versions_published:
+  - 0.1.1
+  version_count: 1
+  oas_version: 3.1.0
+  created: '2026-03-04T11:29:38Z'
+  modified: '2026-03-04T11:30:46Z'
+  definition: https://api.swaggerhub.com/apis/kpn/FIAM-KPN/0.1.1
+- api: Number Verify - KPN
+  swaggerhub: NumberVerify-KPN
+  current_version: 1.2.1
+  versions_published:
+  - 1.1.1
+  - 1.2.0
+  - 1.2.1
+  version_count: 3
+  oas_version: 3.0.0
+  created: '2025-05-08T06:35:40Z'
+  modified: '2025-05-12T11:10:01Z'
+  definition: https://api.swaggerhub.com/apis/kpn/NumberVerify-KPN/1.2.1
+- api: SMS - KPN
+  swaggerhub: sms-kpn
+  current_version: 1.0.6
+  versions_published:
+  - 1.0.1
+  - 1.0.2
+  - 1.0.3
+  - 1.0.4
+  - 1.0.5
+  - 1.0.6
+  - v1.1.1
+  version_count: 7
+  oas_version: '2.0'
+  created: '2025-05-06T07:37:31Z'
+  modified: '2025-05-06T07:44:11Z'
+  definition: https://api.swaggerhub.com/apis/kpn/sms-kpn/1.0.6
+- api: KPN SD-LAN SD-WAN Network View API
+  swaggerhub: kpn-sd_lan_sd_wan_network_view_api
+  current_version: 1.54.0
+  versions_published:
+  - 1.0.0
+  - 1.54.0
+  version_count: 2
+  oas_version: 3.0.0
+  created: '2025-01-30T20:00:23Z'
+  modified: '2025-01-30T20:04:22Z'
+  definition: https://api.swaggerhub.com/apis/kpn/kpn-sd_lan_sd_wan_network_view_api/1.54.0
+- api: ServiceNow Customer Connect
+  swaggerhub: servicenow-kpn
+  current_version: v1
+  versions_published:
+  - v1
+  version_count: 1
+  oas_version: 3.0.0
+  created: '2020-08-19T15:26:28Z'
+  modified: '2024-12-13T10:46:00Z'
+  definition: https://api.swaggerhub.com/apis/kpn/servicenow-kpn/v1
+- api: MobileServicesManagement-KPN
+  swaggerhub: MobileServicesManagement-KPN
+  current_version: v11
+  versions_published:
+  - v11
+  version_count: 1
+  oas_version: '2.0'
+  created: '2022-02-03T14:05:02Z'
+  modified: '2024-09-11T10:54:25Z'
+  definition: https://api.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/v11
+- api: Match - KPN
+  swaggerhub: Match-KPN
+  current_version: 1.1.1
+  versions_published:
+  - 1.1.0
+  - 1.1.1
+  version_count: 2
+  oas_version: 3.0.0
+  created: '2024-09-05T14:44:25Z'
+  modified: '2024-09-05T14:46:50Z'
+  definition: https://api.swaggerhub.com/apis/kpn/Match-KPN/1.1.1
+- api: Inbound SMS - KPN
+  swaggerhub: SMS-Inbound
+  current_version: 1.0.0
+  versions_published:
+  - 1.0.0
+  version_count: 1
+  oas_version: 3.0.0
+  created: '2024-04-30T14:19:46Z'
+  modified: '2024-05-02T10:06:31Z'
+  definition: https://api.swaggerhub.com/apis/kpn/SMS-Inbound/1.0.0
+- api: Messages - Vonage
+  swaggerhub: messages-nexmo
+  current_version: v1.1.1
+  versions_published:
+  - 0.3.0
+  - v1.1.1
+  version_count: 2
+  oas_version: 3.0.0
+  created: '2020-05-13T15:03:01Z'
+  modified: '2024-03-10T15:12:52Z'
+  definition: https://api.swaggerhub.com/apis/kpn/messages-nexmo/v1.1.1
+- api: Phone Numbers - Vonage
+  swaggerhub: phone-numbers-nexmo
+  current_version: v1.1.1
+  versions_published:
+  - v1
+  - v1.1.1
+  version_count: 2
+  oas_version: 3.0.0
+  created: '2020-05-13T15:06:44Z'
+  modified: '2024-03-05T15:19:55Z'
+  definition: https://api.swaggerhub.com/apis/kpn/phone-numbers-nexmo/v1.1.1
+- api: SMS-Vonage
+  swaggerhub: sms-nexmo
+  current_version: v1.1.1
+  versions_published:
+  - v1
+  - v1.1.1
+  version_count: 2
+  oas_version: '2.0'
+  created: '2020-05-13T15:08:56Z'
+  modified: '2023-09-07T09:03:02Z'
+  definition: https://api.swaggerhub.com/apis/kpn/sms-nexmo/v1.1.1
+- api: Voice-Vonage
+  swaggerhub: voice-nexmo
+  current_version: v1.1.1
+  versions_published:
+  - v1
+  - v1.1.1
+  version_count: 2
+  oas_version: 3.0.0
+  created: '2020-05-13T15:12:48Z'
+  modified: '2023-08-28T14:41:18Z'
+  definition: https://api.swaggerhub.com/apis/kpn/voice-nexmo/v1.1.1
+- api: Apidaze Voice - VoIP Innovations
+  swaggerhub: apidaze-voice-voip-innovations
+  current_version: v1.1.1
+  versions_published:
+  - v1
+  - v1.1.1
+  version_count: 2
+  oas_version: '2.0'
+  created: '2020-05-14T10:08:28Z'
+  modified: '2023-08-15T10:29:37Z'
+  definition: https://api.swaggerhub.com/apis/kpn/apidaze-voice-voip-innovations/v1.1.1
+- api: Speech To Text - Xdroid
+  swaggerhub: speech-to-text-Xdroid
+  current_version: 1.0.0
+  versions_published:
+  - 1.0.0
+  version_count: 1
+  oas_version: 3.0.0
+  created: '2020-12-11T15:19:11Z'
+  modified: '2023-08-15T10:15:49Z'
+  definition: https://api.swaggerhub.com/apis/kpn/speech-to-text-Xdroid/1.0.0
+- api: SocialMediaWebcare - Tracebuzz
+  swaggerhub: SocialMediaWebcare-Tracebuzz
+  current_version: 1.0.0
+  versions_published:
+  - 1.0.0
+  version_count: 1
+  oas_version: 3.0.0
+  created: '2019-06-17T13:43:13Z'
+  modified: '2023-08-15T10:15:22Z'
+  definition: https://api.swaggerhub.com/apis/kpn/SocialMediaWebcare-Tracebuzz/1.0.0
+- api: Chat and Messaging - Parley
+  swaggerhub: secure-messenger-parley
+  current_version: v1
+  versions_published:
+  - v1
+  - v1.1.1
+  version_count: 2
+  oas_version: 3.0.0
+  created: '2018-10-11T07:49:13Z'
+  modified: '2023-08-15T10:12:48Z'
+  definition: https://api.swaggerhub.com/apis/kpn/secure-messenger-parley/v1
+- api: Knowledge Management – Polly.help
+  swaggerhub: knowledge-management-polly.help
+  current_version: '1.0'
+  versions_published:
+  - '1.0'
+  - 1.2_table
+  version_count: 2
+  oas_version: 3.0.0
+  created: '2019-03-22T15:35:22Z'
+  modified: '2023-08-15T10:11:49Z'
+  definition: https://api.swaggerhub.com/apis/kpn/knowledge-management-polly.help/1.0
+- api: LoRa Device Management - KPN
+  swaggerhub: lora-device-management-kpn
+  current_version: v1.2
+  versions_published:
+  - v1.1.1
+  - v1.2
+  version_count: 2
+  oas_version: 3.0.0
+  created: '2020-07-16T14:10:06Z'
+  modified: '2023-08-15T10:06:08Z'
+  definition: https://api.swaggerhub.com/apis/kpn/lora-device-management-kpn/v1.2
+- api: Internet Speed Check - KPN
+  swaggerhub: internet-speed-check-kpn
+  current_version: '1.0'
+  versions_published:
+  - '1.0'
+  - v1.1.1
+  version_count: 2
+  oas_version: 3.0.0
+  created: '2019-01-14T14:35:35Z'
+  modified: '2023-08-15T09:43:28Z'
+  definition: https://api.swaggerhub.com/apis/kpn/internet-speed-check-kpn/1.0
+- api: High-Level Design FTTx
+  swaggerhub: high-level_design_ftth
+  current_version: 1.0.0
+  versions_published:
+  - 1.0.0
+  version_count: 1
+  oas_version: 3.0.0
+  created: '2021-01-26T10:14:45Z'
+  modified: '2023-08-15T09:42:50Z'
+  definition: https://api.swaggerhub.com/apis/kpn/high-level_design_ftth/1.0.0
+- api: Disturbance Check - KPN
+  swaggerhub: disturbance-check-kpn
+  current_version: v1.1.1
+  versions_published:
+  - '1.0'
+  - v1.1.1
+  version_count: 2
+  oas_version: 3.0.0
+  created: '2020-05-13T14:36:57Z'
+  modified: '2023-08-15T09:40:41Z'
+  definition: https://api.swaggerhub.com/apis/kpn/disturbance-check-kpn/v1.1.1
+- api: Verify-Vonage
+  swaggerhub: verify-nexmo
+  current_version: v1.1.1
+  versions_published:
+  - v1
+  - v1.1.1
+  version_count: 2
+  oas_version: '2.0'
+  created: '2020-05-13T15:10:51Z'
+  modified: '2023-08-15T09:35:43Z'
+  definition: https://api.swaggerhub.com/apis/kpn/verify-nexmo/v1.1.1
+- api: Number Insight - Vonage
+  swaggerhub: number-insight-nexmo
+  current_version: v1.1.1
+  versions_published:
+  - v1
+  - v1.1.1
+  version_count: 2
+  oas_version: '2.0'
+  created: '2020-05-13T15:04:45Z'
+  modified: '2023-08-15T09:33:58Z'
+  definition: https://api.swaggerhub.com/apis/kpn/number-insight-nexmo/v1.1.1
+- api: Wholesale Broadband Access
+  swaggerhub: wholesale-broadband_access_fpi_cip
+  current_version: v1.0.1
+  versions_published:
+  - 0.9.0
+  - v1.0.0
+  - v1.0.1
+  version_count: 3
+  oas_version: 3.0.0
+  created: '2020-10-01T15:07:26Z'
+  modified: '2021-01-26T13:37:29Z'
+  definition: https://api.swaggerhub.com/apis/kpn/wholesale-broadband_access_fpi_cip/v1.0.1
+- api: Registered E-mail - Registered E-mail
+  swaggerhub: registeredemail-registeredemail
+  current_version: v.1.1.1
+  versions_published:
+  - v.1.1.1
+  - v1.1.2
+  version_count: 2
+  oas_version: 3.0.0
+  created: '2020-05-19T08:46:12Z'
+  modified: '2021-01-15T11:10:45Z'
+  definition: https://api.swaggerhub.com/apis/kpn/registeredemail-registeredemail/v.1.1.1
+- api: WeSeeDo Direct - WeSeeDo
+  swaggerhub: weseedo-direct-weseedo
+  current_version: 1.0.0
+  versions_published:
+  - 1.0.0
+  - Mock_WeSeeDo_v2
+  - WeSeeDo-Direct-v2
+  version_count: 3
+  oas_version: 3.0.0
+  created: '2019-10-28T08:53:07Z'
+  modified: '2020-12-15T17:26:39Z'
+  definition: https://api.swaggerhub.com/apis/kpn/weseedo-direct-weseedo/1.0.0
+- api: WBA APIs
+  swaggerhub: wholesale-wba-kpn
+  current_version: v1
+  versions_published:
+  - 0.5.0
+  - '10'
+  - v1
+  version_count: 3
+  oas_version: 3.0.0
+  created: '2019-11-19T10:33:17Z'
+  modified: '2020-09-10T09:27:58Z'
+  definition: https://api.swaggerhub.com/apis/kpn/wholesale-wba-kpn/v1
+- api: ISE - KPN
+  swaggerhub: ise-kpn
+  current_version: v1
+  versions_published:
+  - v1
+  version_count: 1
+  oas_version: 3.0.0
+  created: '2020-04-23T12:53:22Z'
+  modified: '2020-08-17T11:42:03Z'
+  definition: https://api.swaggerhub.com/apis/kpn/ise-kpn/v1
+- api: TV Guide - KPN
+  swaggerhub: tv-guide-kpn
+  current_version: '1.0'
+  versions_published:
+  - '1.0'
+  version_count: 1
+  oas_version: 3.0.0
+  created: '2019-01-07T15:52:28Z'
+  modified: '2019-10-01T07:46:22Z'
+  definition: https://api.swaggerhub.com/apis/kpn/tv-guide-kpn/1.0

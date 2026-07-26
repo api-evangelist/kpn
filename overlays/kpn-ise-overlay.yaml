@@ -1,0 +1,56 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for ISE - KPN
+  version: 1.0.0
+extends: openapi/kpn-ise-openapi.yml
+x-apievangelist:
+  generated: '2026-07-25'
+  method: generated
+  source: derived from openapi/kpn-ise-openapi.yml plus KPN developer-portal documentation
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: kpn
+    x-apievangelist-artifacts:
+      authentication: authentication/kpn-authentication.yml
+      conventions: conventions/kpn-conventions.yml
+      errors: errors/kpn-problem-types.yml
+      lifecycle: lifecycle/kpn-lifecycle.yml
+      rate_limits: rate-limits/kpn-rate-limits.yml
+      security: security/kpn-domain-security.yml
+    x-apievangelist-response-headers: https://developer.kpn.com/documentation-response-headers
+- target: $.info
+  update:
+    x-apievangelist-gap-operationids:
+      note: Operations in this specification are published without an operationId, which blocks stable tooling,
+        SDK and MCP-tool generation.
+      count: 11
+      operations:
+      - GET /endpointgroup/
+      - GET /endpoint/
+      - GET /endpoint/name/{name}
+      - POST /endpoint
+      - PUT /endpoint/{id}
+      - DELETE /endpoint/{id}
+      - GET /identitygroup/
+      - GET /internaluser/
+      - POST /internaluser/
+      - PUT /internaluser/
+      - DELETE /internaluser/
+- target: $.info
+  update:
+    x-apievangelist-gap-summaries:
+      note: Operations published without a summary.
+      count: 11
+      operations:
+      - GET /endpointgroup/
+      - GET /endpoint/
+      - GET /endpoint/name/{name}
+      - POST /endpoint
+      - PUT /endpoint/{id}
+      - DELETE /endpoint/{id}
+      - GET /identitygroup/
+      - GET /internaluser/
+      - POST /internaluser/
+      - PUT /internaluser/
+      - DELETE /internaluser/

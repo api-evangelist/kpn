@@ -1,0 +1,41 @@
+generated: '2026-07-25'
+method: searched
+source: https://developer.kpn.com/documentation-response-headers
+docs:
+- https://developer.kpn.com/documentation-response-headers
+- https://developer.kpn.com/page/getting-started
+model: Apigee quota policy enforced per product/app, surfaced on every response through quota-* headers.
+headers:
+- name: quota-limit
+  description: Number of API calls a user can make within the given time period
+- name: quota-interval
+  description: Integer paired with quota-time-unit that defines the quota window
+- name: quota-time-unit
+  description: Unit of time applicable to the quota
+- name: quota-used
+  description: Number of API calls made within the current quota window
+- name: quota-reset-UTC
+  description: When the quota window resets, expressed in Coordinated Universal Time
+error:
+  status: 429
+  title: Too Many Requests
+  documented_on_operations: 212
+  source: errors/kpn-problem-types.yml
+limits:
+- scope: sandbox / testing
+  limit_count: null
+  description: Testing is free with a per-API request limit; extra free test requests can be requested through support.
+  source: https://developer.kpn.com/page/getting-started
+- scope: KPN SMS API request payload
+  limit_count: 200
+  limit_unit: messages x recipients per call
+  description: A single POST /send call may not exceed 200 message-recipient combinations.
+  source: https://developer.kpn.com/documentation/kpn-sms-api-documentation
+- scope: KPN SMS API message length
+  limit_count: 1000
+  limit_unit: characters
+  description: Maximum message length 1000 characters; messages over 160 characters are split into multiple SMS.
+  source: https://developer.kpn.com/documentation/kpn-sms-api-documentation
+notes:
+- KPN does not publish the numeric per-product quota values; they are provisioned per project and readable at runtime
+  from the quota-limit / quota-used headers.
