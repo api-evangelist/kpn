@@ -1,0 +1,344 @@
+aid: kpn
+name: KPN
+review:
+  question: Does KPN publish a real, self-serve public API surface, and what is its CAMARA posture?
+  answer: true
+  date: '2026-07-25'
+  reviewer: API Evangelist
+  homeMarket: Netherlands
+  tier: mno-carrier
+  gated: false
+findings:
+  summary: |
+    KPN is a mobile network operator that behaves like an API-native provider, which
+    makes it an outlier in this sector. developer.kpn.com returns HTTP 200 and is a
+    genuine self-serve developer portal, not a login wall and not a marketing page:
+    anyone can register a free account, receive a client ID and secret, test every
+    product for free in a sandbox, and read per-transaction pricing in euros on the
+    product pages. Production access is the only gated step, requiring either a KPN
+    Registration Number (KRN) for a company or an iDIN bank-based identity check for
+    an individual. opengateway.kpn.com resolves (301) to the same developer portal,
+    so KPN's "Open Gateway" branding and its developer programme are the same surface
+    rather than two disconnected efforts.
+
+    Specs are published anonymously and in bulk. The portal's own /page/github guide
+    documents a public "KPN-Developer" GitHub repository holding OpenAPI and Postman
+    artifacts, but github.com/kpn-developer now reports zero public repositories — the
+    documented spec repo is empty, a dangling reference. The specs live instead on
+    SwaggerHub under owner `kpn`, where 34 definitions are listed and every one of them
+    downloads anonymously at HTTP 200 and parses as valid OpenAPI or Swagger. All 34
+    were harvested verbatim into openapi/.
+
+    KPN's channel posture inverts the sector norm. Rather than reaching developers only
+    through a CPaaS aggregator, KPN resells aggregator products inside its own catalogue:
+    seven of the 34 harvested specs are Vonage/Nexmo and Apidaze CPaaS APIs proxied
+    through KPN's own gateway at api-prd.kpn.com. KPN is also not an Aduna shareholder;
+    Aduna's operator set (AT&T, Bharti Airtel, Deutsche Telekom, e&, KDDI, Orange,
+    Reliance Jio, Singtel, Telefonica, Telstra, T-Mobile, Verizon, Vodafone) does not
+    include KPN, so KPN does not reach the market through that JV.
+  developerPortal:
+    url: https://developer.kpn.com/
+    httpStatus: 200
+    verdict: real self-serve portal
+    note: >-
+      Free registration, free sandbox testing with issued client_id/client_secret,
+      published per-transaction pricing, and 27 product pages plus 26 documentation
+      pages all returning 200. Production upgrade requires a KRN company number or an
+      iDIN identity check; testing remains free after upgrade.
+    selfServeSignup: https://developer.kpn.com/dashboard/register
+    sandbox: https://developer.kpn.com/dashboard/sandbox
+    gated: false
+  probes:
+    - url: https://developer.kpn.com
+      status: 200
+      note: Live self-serve developer portal.
+    - url: https://opengateway.kpn.com
+      status: 200
+      note: Redirects (301) to https://developer.kpn.com/ — Open Gateway branding points at the same portal.
+    - url: https://developers.kpn.com
+      status: 000
+      note: Does not resolve.
+    - url: https://docs.kpn.com
+      status: 000
+      note: Does not resolve.
+    - url: https://developers.opengateway.kpn.com
+      status: 000
+      note: Does not resolve. KPN does not use the Telefonica-style opengateway subdomain pattern.
+    - url: https://api.kpn.com
+      status: 404
+      note: Resolves but serves 404; not the API gateway host.
+    - url: https://api-prd.kpn.com
+      status: 404
+      note: The real gateway host (root path 404s; product paths are live). Apigee-style.
+    - url: https://api-prd.kpn.com/oauth/client_credential/accesstoken
+      status: 400
+      note: Live OAuth 2.0 token endpoint; 400 without grant parameters, confirming it exists.
+    - url: https://api-prd.kpn.com/.well-known/openid-configuration
+      status: 404
+      note: No OIDC discovery document served.
+    - url: https://api-prd.kpn.com/.well-known/oauth-authorization-server
+      status: 404
+      note: No OAuth authorization-server metadata served.
+    - url: https://developer.kpn.com/openapi.json
+      status: 404
+    - url: https://developer.kpn.com/api-docs
+      status: 404
+    - url: https://api-prd.kpn.com/graphql
+      status: 404
+    - url: https://developer.kpn.com/graphql
+      status: 404
+    - url: https://api.github.com/orgs/kpn-developer
+      status: 200
+      note: Org exists (public_repos = 0). The portal's /page/github guide documents a spec repo that is no longer public.
+    - url: https://api.github.com/orgs/kpn
+      status: 200
+      note: Official KPN engineering org, 38 public repos — Python/Kafka/Django tooling, no API definitions.
+    - url: https://www.postman.com/kpndeveloper
+      status: 200
+      note: Public Postman workspace referenced from the portal's /page/postman fork-the-collection guide.
+    - url: https://www.kpn-wholesale.com/
+      status: 200
+      note: Wholesale site; the CAMARA landscape entry points here as KPN's contact route.
+  openapi:
+    harvested: true
+    count: 34
+    source: https://app.swaggerhub.com/search?owner=kpn
+    api: https://api.swaggerhub.com/apis/kpn
+    fetchDate: '2026-07-25'
+    httpStatus: 200
+    anonymous: true
+    allParsed: true
+    totals:
+      paths: 456
+      operations: 645
+    specVersions:
+      openapi-3.0.0: 23
+      openapi-3.0.3: 4
+      openapi-3.1.0: 1
+      swagger-2.0: 6
+    note: >-
+      Every spec was downloaded verbatim from api.swaggerhub.com/apis/kpn/<name>/<version>
+      as YAML at HTTP 200 with no credentials, and each was validated as parsing OpenAPI
+      or Swagger with a non-empty paths object. Six are still Swagger 2.0. The largest is
+      the SD-LAN/SD-WAN Network View API at 217 paths.
+  camara:
+    posture: >-
+      Real, callable CAMARA implementation on a self-serve portal — SIM Swap is published
+      as a downloadable OpenAPI whose externalDocs points at github.com/camaraproject,
+      and KPN is listed in the official CAMARA landscape as an operator.
+    landscapeListed: true
+    landscapeEvidence: >-
+      camaraproject/camara-landscape landscape.yml lists "KPN" under
+      second_path "Operation / Operators" with homepage https://www.kpn.com/ and a
+      contact link to https://www.kpn-wholesale.com/en/contactformulier. Entry updated by
+      PR camaraproject/camara-landscape#267, merged 2026-04-07.
+    apisWithEvidence:
+      - name: SIM Swap
+        strength: strong
+        evidence: >-
+          openapi/kpn-sim-swap-openapi.yml (SwaggerHub kpn/SimSwap-KPN v1.0.2, OpenAPI 3.0.3)
+          carries externalDocs.description "Product documentation at Camara" pointing to
+          https://github.com/camaraproject/, and reproduces the CAMARA SIM Swap contract:
+          POST /retrieve-date, operationId retrieveSimSwapDate, CAMARA generic 400/401/403/404/409/500/503/504
+          error responses, CreateSimSwapDate and SimSwapInfo schemas. Production server
+          https://api-prd.kpn.com/kpn/sim-swap. Sold self-serve on the portal as
+          "KPN Account Takeover Protection" with a free sandbox.
+      - name: Number Verification
+        strength: moderate
+        evidence: >-
+          KPN's own newsroom (2025-10-30) and coin.nl/camara both state KPN offers CAMARA
+          Number Verification in the Netherlands. The published spec
+          openapi/kpn-number-verify-openapi.yml (kpn/NumberVerify-KPN v1.2.1) is live and
+          self-serve at https://api-prd.kpn.com/communication/kpn/numberverify with priced
+          transactions (EUR 0.0827 in NL), but it uses a KPN redirect/polling shape
+          (/token, /insights/{msisdn}, /session/{session_id}, /polling/{polling_id}) rather
+          than the CAMARA /number-verification/verify contract. The product is CAMARA-branded
+          commercially; the published definition is not yet the CAMARA one.
+      - name: KYC Match
+        strength: moderate
+        evidence: >-
+          KPN's newsroom and coin.nl/camara list KYC Match as one of the CAMARA services KPN
+          launched with Odido and Vodafone. The published spec openapi/kpn-match-openapi.yml
+          (kpn/Match-KPN v1.1.1, 2024) exposes /token and /insights/{msisdn}, and the portal
+          describes Match as "part of Mobile Connect, the GSMA's global standard" — GSMA
+          Mobile Connect lineage, predating and not matching the CAMARA KnowYourCustomer contract.
+    apisNotFound:
+      - Device Location / Location Verification
+      - Device Status / Reachability
+      - Quality on Demand (QoD)
+      - Carrier Billing
+      - Device Swap
+      - Population Density
+      - Anti-fraud / Scam Signal
+    honestNote: >-
+      Of the three CAMARA APIs KPN announces, exactly one ships as a genuinely
+      CAMARA-shaped, publicly downloadable, self-serve-purchasable definition: SIM Swap.
+      Number Verification and KYC Match are real, live, priced products, but the specs KPN
+      publishes for them are its own pre-CAMARA / GSMA Mobile Connect contracts. This is
+      better than a press release with nothing callable, and worse than a full CAMARA
+      conformant surface — the announcement is ahead of the published contracts.
+    openGateway:
+      member: true
+      evidence: >-
+        KPN, Odido and Vodafone jointly launched CAMARA-standard fraud-prevention APIs for
+        the Dutch market on 2025-10-30 under the GSMA Open Gateway programme, coordinated
+        by the COIN association. Announced on KPN's own newsroom
+        (https://www.overons.kpn/nieuws/en/securing-the-future-together) and by the GSMA
+        (https://www.gsma.com/solutions-and-impact/gsma-open-gateway/securing-the-future-together/).
+        opengateway.kpn.com also resolves to KPN's developer portal.
+      nationalAggregator: >-
+        COIN (coin.nl/camara) is the Dutch national coordination point, listing Number
+        Verification, SIM Swap and KYC Match across KPN, Odido and Vodafone. COIN itself
+        routes buyers to the operators rather than selling access, so KPN's self-serve
+        portal remains the only place a developer can actually onboard without a sales call.
+    aduna:
+      partner: false
+      note: >-
+        KPN is not among Aduna's operator shareholders and no Aduna channel for KPN was
+        found. KPN reaches developers directly through developer.kpn.com.
+    channelInversion: >-
+      The central sector finding runs backwards here. KPN does not depend on a CPaaS
+      aggregator to reach developers; it resells aggregators. Seven harvested specs are
+      Vonage/Nexmo (Messages, Voice, Phone Numbers, Number Insight, SMS, Verify) and
+      Apidaze CPaaS APIs, all proxied through api-prd.kpn.com and sold from KPN's own
+      catalogue alongside KPN's network APIs.
+  tmforum:
+    conformanceFound: false
+    note: >-
+      No TM Forum Open API conformance certification (TMF620, TMF622, TMF641 or any other)
+      was found for KPN, and none of the 34 harvested specs uses TMF resource models,
+      TMF naming, or TMF error structures. KPN's BSS/OSS-shaped surfaces —
+      Mobile Services Management (90 paths of ordering, contracts, subscribers, invoices,
+      SIM blocking) and the two Wholesale Broadband Access APIs — are proprietary contracts,
+      not TM Forum Open APIs.
+  threegpp:
+    nefOrScefFound: false
+    networkSlicingApi: false
+    edgeMecApi: false
+    note: >-
+      No Network Exposure Function (NEF) or SCEF surface, no 5G network-slicing API, and no
+      edge/MEC API is published. The closest network-layer exposure is the CAMARA SIM Swap
+      API and the Disturbance Check / Internet Speed Check broadband APIs.
+  auth:
+    primary: OAuth 2.0 client credentials
+    tokenEndpoint: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+    gatewayStyle: Apigee-style token path shared across products
+    variants:
+      - scheme: OAuth 2.0 client_credentials
+        note: Used by SIM Swap, SMS, LoRa Device Management, Disturbance Check, Internet Speed Check, ISE, TV Guide, and the webhook management APIs.
+      - scheme: HTTP bearer JWT
+        note: Number Verify and Match issue a JWT from a product-scoped /token endpoint, then present it as a bearer token.
+      - scheme: OAuth 2.0 client_credentials (product-scoped token path)
+        note: Mobile Services Management uses https://api-prd.kpn.com/oauth/grip/msm/accesstoken.
+    ciba:
+      present: false
+      note: >-
+        No CIBA (Client-Initiated Backchannel Authentication) appears anywhere — not in any
+        of the 34 specs, not in the portal documentation, and not in any discovery document.
+        CAMARA specifies OIDC and CIBA for network-based authorization; KPN's CAMARA-lineage
+        SIM Swap API is secured with plain OAuth 2.0 client credentials instead. Number
+        Verify uses a mobile-network redirect plus polling flow, which is Mobile Connect
+        lineage rather than CIBA.
+    oidcDiscovery:
+      served: false
+      note: Both /.well-known/openid-configuration and /.well-known/oauth-authorization-server return 404 on api-prd.kpn.com and developer.kpn.com.
+    scopes:
+      declared: false
+      note: Every OAuth security scheme in the harvested specs declares an empty scopes object.
+  webhooks:
+    present: true
+    asyncapiPublished: false
+    note: >-
+      KPN publishes two dedicated webhook-infrastructure OpenAPIs, which is unusual for a
+      carrier: Webhook Signing Keys (kpn/webhook-signing-key-management-kpn v4.0.0, 15 paths,
+      organization- and team-scoped HMAC-SHA256 signing key lifecycle) and Webhook Privacy
+      Config Manager (kpn/webhook-privacy-config-manager v3.0.0). Both run at
+      https://api-prd.kpn.com/webhookconfigs-kpn. The SMS Inbound API documents the inbound
+      callback payload schema. No AsyncAPI document is published.
+  sdks:
+    firstParty: false
+    note: >-
+      No first-party KPN SDK was found on npm (kpn-sdk, @kpn/sdk, kpn-developer all 404) or
+      PyPI (kpn 404). github.com/kpn holds 38 public repos of internal Python/Kafka/Django
+      engineering tooling (kstreams, django-streams, cachetory, combadge), none of which are
+      API client libraries for the developer-portal products.
+    postman: >-
+      A public Postman workspace at https://www.postman.com/kpndeveloper is the documented
+      client path; the portal's /page/postman guide walks through forking a collection and
+      injecting client_id/client_secret.
+  graphql:
+    present: false
+    note: /graphql returns 404 on both api-prd.kpn.com and developer.kpn.com. No SDL harvested.
+  grpc:
+    present: false
+    note: No .proto files published.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api-prd.kpn.com
+      documented: true
+      note: All 34 harvested definitions describe HTTPS REST over the api-prd.kpn.com gateway.
+    - protocol: Webhooks
+      scheme: https
+      documented: true
+      note: Outbound HMAC-SHA256-signed callbacks with a published signing-key management API. No AsyncAPI.
+    - protocol: GraphQL
+      documented: false
+    - protocol: gRPC
+      documented: false
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+sources:
+  - url: https://developer.kpn.com/
+    type: DeveloperPortal
+    note: HTTP 200. Self-serve portal, 27 products, register/sandbox/pricing all public.
+  - url: https://developer.kpn.com/page/getting-started
+    type: Documentation
+    note: Documents free account, free sandbox testing, client_id/client_secret issuance, and the KRN/iDIN production upgrade.
+  - url: https://developer.kpn.com/page/github
+    type: Documentation
+    note: Points at github.com/kpn-developer for OpenAPI and Postman artifacts; that org now has zero public repos.
+  - url: https://developer.kpn.com/page/postman
+    type: Documentation
+    note: Fork-the-collection walkthrough for https://www.postman.com/kpndeveloper.
+  - url: https://api.swaggerhub.com/apis/kpn
+    type: OpenAPIRepository
+    note: HTTP 200, totalCount 34, anonymous. Source of every spec in openapi/.
+  - url: https://app.swaggerhub.com/apis-docs/kpn/simswap-kpn
+    type: APIReference
+    note: KPN SIM Swap reference; the underlying spec cites github.com/camaraproject as product documentation.
+  - url: https://github.com/camaraproject/camara-landscape/blob/main/landscape.yml
+    type: Standard
+    note: Official CAMARA landscape; KPN listed under Operation / Operators.
+  - url: https://github.com/camaraproject/camara-landscape/pull/267
+    type: Standard
+    note: >-
+      Pull request titled "Update KPN", merged 2026-04-07, adding KPN's description and
+      wholesale contact link to the CAMARA landscape.
+  - url: https://www.overons.kpn/nieuws/en/securing-the-future-together
+    type: PressRelease
+    note: KPN, 2025-10-30. KPN + Odido + Vodafone launch CAMARA Number Verification and KYC Match via GSMA Open Gateway with COIN.
+  - url: https://www.gsma.com/solutions-and-impact/gsma-open-gateway/securing-the-future-together/
+    type: PressRelease
+    note: GSMA announcement of the same Dutch Open Gateway launch. Direct fetch returns 403 to anonymous clients.
+  - url: https://coin.nl/camara
+    type: Standard
+    note: COIN's Dutch CAMARA page listing Number Verification, SIM Swap and KYC Match across KPN, Odido and Vodafone.
+  - url: https://github.com/kpn
+    type: GitHubOrganization
+    note: 38 public repos of internal engineering tooling; no API definitions or SDKs.
+  - url: https://www.kpn-wholesale.com/
+    type: Wholesale
+    note: HTTP 200. The contact route CAMARA's landscape records for KPN.
+actions:
+  apisYmlCreated: true
+  apisListed: 38
+  openapiHarvested: 34
+  openapiDirectory: openapi/
+  note: >-
+    38 apis[] entries: 34 backed by a harvested OpenAPI/Swagger definition, plus 4 products
+    (GRIP, PIM ID, SMS Campaigns, Email-to-SMS) that are documented on the portal at HTTP 200
+    but have no public machine-readable definition. Nothing was invented; every humanURL and
+    APIReference was probed and returned 200 (SwaggerHub reference pages return 302 to their
+    versioned SPA route).

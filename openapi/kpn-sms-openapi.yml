@@ -1,0 +1,261 @@
+swagger: "2.0"
+info:
+  version: 1.0.6
+  title: SMS - KPN
+  description: >-
+    Send SMS through the KPN network.
+    
+    ---
+        
+    ## [Source view](https://app.swaggerhub.com/apis/kpn/sms-kpn/)<br/>
+    [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/sms-kpn/)
+    
+    ---
+    
+    ## [KPN API Store](https://developer.kpn.com/)<br/>
+    [Getting Started](https://developer.kpn.com/getting-started)
+    
+   
+    ---
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: 'https://developer.kpn.com/support'
+  termsOfService: 'https://developer.kpn.com/legal'
+host: "api-prd.kpn.com"
+basePath: "/communication/kpn/sms"
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers
+schemes:
+- "https"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /send:
+    post:
+      summary: "Sends one or more SMS to one or more recipients."
+      description: "Following features are supported-
+      \n * One SMS can be sent to one recipient.
+      \n * One SMS can be sent to multiple recipients, with comma separated list of phone numbers. `Bulk function`
+      \n * Multiple SMS can be sent to single or multiple recipients. Add json object(s) inside messages array to add content for different SMS and mobile_number for single or multiple recipients. Add comma separated list of phone numbers for multiple recipients `Bulk function`
+      \n \n * Delivery receipts (DLRs) for the SMS. DLRs can be received for one or more SMS on one or more webhook URLs. 
+      \n
+      \nFollowing number formats are supported-
+      \n * `06`, `+316`, `0031`, `097`
+      \n * messages can be sent globally to mobile phones"
+      
+      operationId: "Sends single or bulk SMS"
+      parameters:
+        - in: header
+          name: SubAccount
+          description: "Leave it blank if not applicable."
+          type: string
+        - in: "body"
+          name: "body"
+          description: "Enter a mobile number in the form of `+31612312312` or `0612312312`."
+          required: true
+          schema:
+            $ref: "#/definitions/SmsKpn"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/SmsKpnSendResponse"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+        404:
+          description: "Not Found"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+        500:
+          description: "Server Error"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+      security:
+      - OAuth2: []
+securityDefinitions:
+  OAuth2:
+    type: "oauth2"
+    tokenUrl: "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+    flow: "application"
+definitions:
+  SmsKpn:
+    type: "object"
+    properties:
+      messages:
+        type: "array"
+        description: "There can be one or more items in the messages array. Bulk messaging is supported."
+        items:
+          $ref: "#/definitions/SmsKpn_messages"
+        maxItems: 5000
+        minItems: 1
+      sender:
+        type: "string"
+        example: "KPN API"
+        description: "Default value will be KPN. Sender name or short code is allowed. This string can have a maximum length of 11 characters."
+        title: "Sender"
+        default: "KPN"
+      webhook_url:
+        type: "string"
+        example: "https://webhookhostname/webhookpath/1234"
+        description: >
+          Specify the URL where you want to receive delivery receipts (DLRs) for your messages.
+          
+          ### DLR Retry Policy:
+          We attempt to deliver the DLR up to four times:
+            • 1st attempt — Immediately after receiving the DLR.  
+            • 2nd attempt — 60 seconds after the first failure.  
+            • 3rd attempt — 120 seconds after the second failure.  
+            • 4th (final) attempt — 240 seconds after the third failure.
+
+          The delivery status in the DLR includes a `StatusDateTime` field, which is always represented in **epoch format**.
+        title: "webhook_url"
+
+      expirein:
+        type: "string"
+        example: "10"
+        description: "The expirein field sets a time limit, in seconds, for how long the message can be delivered before it expires and is no longer sent. This is an optional field. Remove it if you are not sure about it."
+        title: "expirein"
+    example:
+        sender: "KPN API"
+        webhook_url: "http URL where you want the DLR to be delivered"
+        expirein: "10"
+        messages:
+        - mobile_number: "one number or a comma separated list of numbers. example1: +316xxxxxxxx or 06xxxxxxxx example2: 06xxxxxxxx,06xxxxxxxx,06xxxxxxxx"
+          content: "Hi from KPN!"
+          
+
+  SmsKpnSendResponse:
+    type: "object"
+    properties:
+      document_id:
+        type: "string"
+        example: "b4e905d4-774c-4c83-8360-01427e17a33a"
+        description: "Unique tracking ID for this message."
+        title: "Document Id"
+      status:
+        type: "string"
+        example: "OK"
+        description: "If document id is present in the response, then the request\
+          \ succeeded else there was an issue."
+        title: "Status"
+    example:
+      document_id: "b4e905d4-774c-4c83-8360-01427e17a33a"
+      status: "OK"
+  ApiErrorResponse:
+    type: "object"
+    properties:
+      errorResponse:
+        $ref: "#/definitions/ApiErrorResponse_errorResponse"
+  SmsKpn_messages:
+    required:
+    - "content"
+    - "mobile_number"
+    properties:
+      content:
+        type: "string"
+        example: "Hi from KPN!"
+        description: "Content to be send to the recipient."
+        title: "Content"
+      mobile_number:
+        type: "string"
+        example: "06xxxxxxxx or +316xxxxxxxx"
+        description: "Only valid NL phone numbers are allowed and in any valid NL format. Also\
+          \ 097 range is allowed. Note: 060xxxxxxx, 067xxxxxxx and 069xxxxxxx are not valid mobile number\
+          \ ranges. Comma separated numbers for the bulk functionality."
+        title: "Mobile number"
+    example:
+      mobile_number: "06xxxxxxxx or +316xxxxxxxx"
+      content: "Hi from KPN!"
+  ApiErrorResponse_errorResponse:
+    properties:
+      code:
+        type: "string"
+        example: "Status codes possible 401, 403, 404, 500"
+        description: "Status Code"
+        title: "Code"
+      message:
+        type: "string"
+        example: "eq. internal server error"
+        description: "Message describing the error"
+        title: "Error Message"
+      info:
+        type: "string"
+        example: "eq. for additional information look at https://developer.kpn.com"
+        description: "Additional information about error"
+        title: "Info"
+  ResponseHeaders:
+      properties:
+        sunset:
+          description: This field will be populated with the deprecation details. By default the value is `n/a`.
+          title: sunset
+          type:  string
+        api-version:
+          description: Indicates the API version you have used.
+          title: api-version
+          type: string
+        quota-interval:
+          description: Used to specify an integer (for example, 1, 2, 5, 60, and so on) that will be paired with the `quota-time-unit` you specify (minute, hour, day, week, or month) to determine a time period during which the quota use is calculated. For example, an interval of 24 with a `quota-time-unit` of `hour` means that the quota will be calculated over the course of 24 hours.
+          title: quota-interval
+          type: integer
+        quota-limit:
+          description: Number of API calls an user can make within a given time period. When quota is exceeded, the number of requests will be throttled or fail completely.
+          title: quota-limit
+          type: string
+        quota-reset-UTC:
+          description: All quota times are set to the Coordinated Universal Time (UTC) time zone.
+          title: quota-reset-UTC
+          type: string
+        quota-time-unit:
+          description: Used to specify the unit of time applicable to the quota. For example, an interval of 24 with a quota-time-unit of hour means that the quota will be calculated over the course of 24 hours.
+          title: quota-time-unit
+          type: string
+        quota-used:
+          description: Number of API requests made within the quota.
+          title: quota-used
+          type: string
+        strict-transport-security:
+          description: The HTTP Strict-Transport-Security response header (often abbreviated as HSTS) lets a web site tell browsers that it should only be accessed using HTTPS, instead of using HTTP. All present and future subdomains will be HTTPS for a maximum of 1 year and access is blocked to pages or sub domains that can only be served over HTTP including HSTS preload lists of web browsers.
+          title: strict-transport-security
+          type: string
+        access-control-allow-credentials:
+          description: Tells browsers whether to expose the response to frontend JavaScript when the request's credentials mode (`Request.credentials`) is `include`. If that is the case, browsers will only expose the response to frontend JavaScript if the `access-control-allow-credentials` value is `true`.
+          title: access-control-allow-credentials
+          type: boolean
+        access-control-allow-origin:
+          description: Indicates whether the response can be shared with requesting code from the given origin.
+          title: access-control-allow-origin
+          type: string
+        access-control-allow-headers:
+          description: Used in response to a pre-flight request, which includes the `access-control-request-headers` to indicate which HTTP headers can be used during the actual request.
+          title: access-control-allow-headers
+          type: string
+        access-control-max-age:
+          description: Indicates how long the results of a pre-flight request (the information contained in the `access-control-allow-methods` and `access-control-allow-headers` headers) can be cached.
+          title: access-control-max-age
+          type: string
+        access-control-allow-methods:
+          description: Indicates which HTTP methods are allowed on a particular endpoint for cross-origin requests. For example, `GET`, `PUT`, `POST`, `DELETE`.
+          title: access-control-allow-methods
+          type: string
+        content-length:
+          description: Indicates the size of the entity-body, in bytes, sent to the recipient.
+          title: content-length
+          type: string
+        content-type:
+          description: Indicates the resource's media type. For example, `application/json`.
+          title: content-type
+          type: string

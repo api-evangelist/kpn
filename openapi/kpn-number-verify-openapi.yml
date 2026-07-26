@@ -1,0 +1,450 @@
+openapi: 3.0.0
+info:
+  title: Number Verify - KPN
+  description: >-
+    With KPN Number Verify, you can quickly check whether the mobile number someone provides is the same as their SIM card.
+  
+    **Important Notes:**
+  
+    - It is advised to use **Postman** for testing this API, as it involves a redirect call. SwaggerHub does not handle redirect flows well.
+    
+    - Please **download this Swagger file** and import it into your Postman client for best results.
+  
+    ---
+  
+    **Testing the `/session` endpoint:** 
+    
+    - Make sure that the call is made using your mobile client or via the hostspot.
+  
+    - In **Postman**, disable **automatic redirects** to ensure the `Location` header is visible in the response.
+    
+    
+    - In **cURL**, avoid using the `--location` flag. A correct example request:
+  
+      ```bash
+      curl -v GET https://api-prd.kpn.com/communication/kpn/numberverify/session/bc74adca8f761*******
+      ```
+    ---
+
+        
+    ## [Source view](https://app.swaggerhub.com/apis/kpn/match-kpn/)<br/>
+    [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/match-kpn/)
+    
+    ---
+    
+    ## [KPN API Store](https://developer.kpn.com/)<br/>
+    [Getting Started](https://developer.kpn.com/getting-started)
+    
+    ---
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: 'https://developer.kpn.com/support'
+  termsOfService: 'https://developer.kpn.com/legal'
+  version: 1.2.1
+servers:
+  - url: https://api-prd.kpn.com/communication/kpn/numberverify
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/kpn/NumberVerify-KPN/1.2.1
+paths:
+  /token:
+    post:
+      summary: Token Request
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - client_id
+                - client_secret
+                - scopes
+              properties:
+                client_id:
+                  type: string
+                  description: Your client ID
+                  example: your client id
+                client_secret:
+                  type: string
+                  description: Your client secret
+                  example: your client secret
+                scopes:
+                  type: string
+                  description: |
+                    - Scopes determine what the token can access. Valid scopes include `operator_lookup`, `device_match`, and `device_match_notify`.
+                    - device_match_notify scope should be used for *Notification* and device_match for *Polling*.
+                    - Choose either device_match or device_match_notify at a time
+                    - Enter the values in a comma-separated format.
+                  example: operator_lookup,device_match
+            examples:
+              credentials_scopes:
+                summary: credentials
+                value:
+                  client_id: your_client_id
+                  client_secret: your_client_secret
+                  scope: operator_lookup,device_match
+              credentials_scopes_notify:
+                summary: credentials + correlation_id
+                value:
+                  client_id: your_client_id
+                  client_secret: your_client_secret
+                  scope: operator_lookup,device_match_notify
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /insights/{msisdn}:
+    post:
+      summary: Insights Request
+      parameters:
+        - name: msisdn
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '31630000001'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            examples:
+              polling:
+                summary: Polling Example
+                description: Body can be empty for polling
+                value:
+                  {}
+              notification:
+                summary: Notification Example
+                description: |
+                  - You will need to pass the “notification_token” which is used as the “bearer” token when posting the results to “notification_uri.”
+                  - To see the notification in the provided webhook, the session_uri must be accessed.
+                value:
+                  device_match_notify:
+                    notification_token: "abcd1234"
+                    notification_uri: "https://your_webhook_url/"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/InsightsResponse'
+                  - $ref: '#/components/schemas/InsightsResponseNotify'
+              examples:
+                polling:
+                  summary: Polling Example
+                  value:
+                    device_match:
+                      session_id: "e46714d908600d8cf9f3abbf9f4056ff"
+                      polling_id: "e46714d908600d8cf9f3abbf9f4056ff"
+                    operator_lookup:
+                      regionCode: "NL"
+                      operatorName: "KPN"
+                      mcc: null
+                      mnc: null
+                notification:
+                  summary: Notification Example
+                  description: |
+                    - You will need to pass the “notification_token” which is used as the “bearer” token when posting the results to “notification_uri.”
+                    - To see the notification in the provided webhook, the session_uri must be accessed.
+                  value:
+                    device_match_notify:
+                      session_uri: "http://server/v1/dm/session/5f563a0bbb61c93748f773b744bf19c6"
+                    operator_lookup:
+                      regionCode: "NL"
+                      operatorName: "KPN"
+                      mcc: null
+                      mnc: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - BearerAuth: []
+  /session/{session_id}:
+    get:
+      summary: Session Request
+      description: >
+        Invoke the session using the session ID returned from the `/insights/{msisdn}` endpoint,
+        specifically under the `device_match.session_id`. This endpoint returns a `302 Found` response
+        with a `Location` header that the client must follow to continue the process.
+      parameters:
+        - name: session_id
+          in: path
+          required: true
+          description: |
+            The session ID extracted from the URI provided in the `/insights/{msisdn}` response.
+            Example: `de32343b3fe474515429d487f6989628`
+          schema:
+            type: string
+            example: 'de32343b3fe474515429d487f6989628'
+      responses:
+        '302':
+          description: Found — The session was successfully initiated.  
+            The client must follow the `Location` header to continue.
+          headers:
+            Location:
+              description: URL to follow to continue the session or retrieve further information.
+              schema:
+                type: string
+                format: uri
+                example: 'https://server/v1/dm/session/next-step'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /polling/{polling_id}:
+    get:
+      summary: Polling Request
+      description: Retrieve the polling information using the `polling_id` provided in the header.
+      parameters:
+        - name: polling_id
+          in: path
+          required: true
+          description: |
+            - Enter the Polling Id you received in the response of `/insights/{msisdn}`, specifically located under the `device_match/polling_id` field. 
+          schema:
+            type: string
+            example: 'e46714d908600d8cf9f3abbf9f4056ff'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PollingResponse'
+              examples:
+                polling:
+                  summary: Polling Example
+                  value:
+                    msisdn: "316xxxxxxxx"
+                    device_match: null
+                    remote_addr: "xx.xx.x.xx"
+                    user_agent: "Mozilla/5.0..."
+                    errors:
+                      - device_match: "AVAILABLE or UNAVAILABLE"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - BearerAuth: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    TokenRequest:
+      type: object
+      properties:
+        client_id:
+          type: string
+        client_secret:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+          description: Scopes determine what the token can access.
+    TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+          example: "ewuriwerewrew"
+        token_type:
+          type: string
+          example: "Bearer"
+        expires_in:
+          type: integer
+          example: 3600
+    Error:
+      type: object
+      properties:
+        error_code:
+          type: integer
+          description: HTTP status code representing the error
+          example: 400
+          enum:
+            - 400 # Bad Request
+            - 401 # Unauthorized
+            - 403 # Forbidden
+            - 404 # Not Found
+            - 405 # Method Not Allowed
+            - 412 # Precondition Failed
+            - 429 # Too Many Requests
+            - 500 # Internal Server Error
+            - 502 # Bad Gateway
+            - 503 # Service Unavailable
+        message:
+          type: string
+          description: A short description of the error
+          example: Bad Request
+          enum:
+            - Bad Request
+            - Unauthorized
+            - Forbidden
+            - Not Found
+            - Method Not Allowed
+            - Precondition Failed
+            - Too Many Requests
+            - Internal Server Error
+            - Bad Gateway
+            - Service Unavailable
+    InsightsRequest:
+      type: object
+      properties:
+        device_match_notify:
+          type: object
+          properties:
+            notification_token:
+              type: string
+              example: 'asf32423432'
+            notification_uri:
+              type: string
+              example: 'https://your-webhook-endpoint'
+    InsightsResponse:
+      type: object
+      properties:
+        device_match:
+          type: object
+          properties:
+            session_uri:
+              type: string
+              example: "http://server/v1/dm/session/e46714d908600d8cf9f3abbf9f4056ff"
+            polling_uri:
+              type: string
+              example: "https://server/v1/dm/polling/e46714d908600d8cf9f3abbf9f4056ff"
+          description: Polling would only work when the /token flow has device_match in scopes, and notification would work as expected only when the scopes have device_match_notify. operator_lookup works in both examples.
+        operator_lookup:
+          type: object
+          properties:
+            regionCode:
+              type: string
+              example: "NL"
+            operatorName:
+              type: string
+              example: "KPN"
+            mcc:
+              type: string
+              nullable: true
+              example: null
+            mnc:
+              type: string
+              nullable: true
+              example: null
+    InsightsResponseNotify:
+      type: object
+      properties:
+        device_match_notify:
+          type: object
+          properties:
+            session_uri:
+              type: string
+              example: "http://server/v1/dm/session/5f563a0bbb61c93748f773b744bf19c6"
+          description: To see the notification in the provided webhook, the session_uri must be accessed. Also, notification would work as expected only when the scopes have device_match_notify.
+        operator_lookup:
+          type: object
+          properties:
+            regionCode:
+              type: string
+              example: "NL"
+            operatorName:
+              type: string
+              example: "KPN"
+            mcc:
+              type: string
+              nullable: true
+              example: null
+    SessionResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "OK"
+    PollingResponse:
+      type: object
+      properties:
+        msisdn:
+          type: string
+          example: "31620028461"
+        device_match:
+          type: string
+          nullable: true
+          example: null
+        remote_addr:
+          type: string
+          example: "199.103.8.50"
+        user_agent:
+          type: string
+          example: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              device_match:
+                type: string
+                example: "AVAILABLE"

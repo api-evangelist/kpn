@@ -1,0 +1,3068 @@
+openapi: "3.0.0"
+info:
+  version: "v1.1.1"
+  title: Messages - Vonage
+  description: >-
+    Encapsulates multiple APIs to interact with our various channels such as WhatsApp Business, SMS, MMS, Viber, Facebook Messenger, etc. The API normalises information across all channels to abstracted to, from and content.
+    This API is for outbound messages.
+    
+    
+    ## [Source view](https://app.swaggerhub.com/apis/kpn/messages-nexmo/)<br/>
+    [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/messages-nexmo/)
+    
+    ---
+    
+    ## [KPN Developer](https://developer.kpn.com/)<br/>
+    [Getting Started](https://developer.kpn.com/getting-started)
+    
+    ---
+    
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: 'https://developer.kpn.com/support'
+  termsOfService: 'https://developer.kpn.com/legal'
+servers:
+  - 
+    url: 'https://api-prd.kpn.com/communication/nexmo'
+    description: API Store Application
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers
+tags:
+  - 
+    name: applications
+    description: Application related resource management
+  - 
+    name: messages
+    description: Message related resource management
+paths:
+  "/applications/v2":
+    parameters:
+      - $ref: '#/components/parameters/api_version_header'
+    post:  
+      security:
+        - oauth2: []
+
+      summary: Creates new application
+      description: >
+        Creates a new application.
+
+        The basic body needs to include:
+         - `name` with the name of the application.
+         - `type` should be `messages`.
+         - `status_url` Vonage sends Submitted, Delivered, Read and Rejected statuses for every message to this URL.
+         - `inbound_url`to receive Inbound Messages.
+         
+        Creates a call and returns a JSON object with the call identifier (uuid), status of the call, conversation_uuid the call is attached to and the direction of the call.
+      tags:
+        - applications
+      operationId: createApplication
+      requestBody:
+        description: Application Details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new_application'
+      responses:
+        '201':
+          $ref: '#/components/responses/app_created'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'
+    get:  
+      security:
+        - oauth2: []
+      summary: Retrieves details of your applications.
+      description: >-
+        Retrieves details of your applications.
+        
+         > **Note:** This endpoint is not available for sandbox environments. To use it please apply for production.
+      tags:
+        - applications
+      operationId: getApplications
+      parameters:
+        - name: page_size
+          in: query
+          description: Set the number of items returned on each call to this endpoint
+          schema:
+            type: integer
+            default: 10
+          required: false
+        - name: page_index
+          in: query
+          description: Set the offset from the first page
+          schema:
+            type: integer
+            default: 0
+          required: false
+      responses:
+        '200':
+          $ref: '#/components/responses/app_list'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'
+  "/applications/v2/{uuid}":
+    parameters:
+      - $ref: '#/components/parameters/api_version_header'
+      - $ref: '#/components/parameters/application_uuid'
+    get:
+      security:
+        - oauth2: []
+      summary: Retrieves details of a specific application.
+      description: >-
+        Retrieves detailed information of a specific application.
+      tags:
+        - applications
+      operationId: getApplication
+      responses:
+        '200':
+          $ref: '#/components/responses/app_detail_ok'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'
+    delete:
+      security:
+        - oauth2: []
+      summary: Deletes application.
+      description: >-
+        Deletes the existing application.
+      tags:
+        - applications
+      operationId: deleteApplication
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'        
+  /messages:
+    parameters:
+      - $ref: '#/components/parameters/message_application_id_header'
+    post:
+      security:
+        - JWTAuth: []
+      summary: Sends a message.
+      operationId: NewMessage
+      tags: [messages]
+      requestBody:
+        description: Send a Message.
+        required: true
+        x-show-example-request: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - title: SMS
+                  x-tab-id: SMS
+                  example:  
+                    message_type: text
+                    text: This is a test message from Message API
+                    to: '567546745'
+                    from: '56745674567'
+                    channel: sms
+                  oneOf:
+                    - allOf:
+                        - $ref: "#/components/schemas/Text"
+                        - properties:
+                            text:
+                              description: >
+                                The text of message to send; limited to 1000
+                                characters. Unless unless `text` or `unicode`
+                                has
+
+                                been explicitly set as the value for `sms.encoding_type`, the Messages API automatically
+
+                                detects whether unicode characters are present in `text` and sends the message as appropriate
+
+                                as either a text or unicode SMS. For more information on concatenation and encoding
+
+                                please visit: [developer.nexmo.com/messaging/sms/guides/concatenation-and-encoding](https://developer.vonage.com/messaging/sms/guides/concatenation-and-encoding).
+                        - $ref: "#/components/schemas/channelOptionsSms"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                - title: MMS
+                  x-tab-id: MMS
+                  example:
+                    message_type: image
+                    image:
+                      url: https://example.com/image.jpg
+                    to: '447700900000'
+                    from: '447700900001'
+                    channel: mms
+                  
+                  oneOf:
+                    - allOf:
+                        - $ref: "#/components/schemas/Image"
+                        - properties:
+                            image:
+                              required:
+                                - url
+                              properties:
+                                url:
+                                  type: string
+                                  description: |
+                                    The URL of the image attachment.
+
+                                    Supports `.jpg`, `.jpeg`, `.png` and `.gif`.
+                                  example: https://example.com/image.jpg
+                                caption:
+                                  type: string
+                                  description: Additional text to accompany the image.
+                                  minLength: 1
+                                  maxLength: 2000
+                                  example: Additional text to accompany the image.
+                        - $ref: "#/components/schemas/channelOptionsMms"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                    - allOf:
+                        - $ref: "#/components/schemas/vCard"
+                        - properties:
+                            vcard:
+                              required:
+                                - url
+                              properties:
+                                url:
+                                  type: string
+                                  description: |
+                                    The URL of the vCard attachment.
+
+                                    Supports `.vcf` only.
+                                  example: https://example.com/contact.vcf
+                                caption:
+                                  type: string
+                                  description: Additional text to accompany the vCard.
+                                  minLength: 1
+                                  maxLength: 2000
+                                  example: Additional text to accompany the vCard.
+                        - $ref: "#/components/schemas/channelOptionsMms"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                    - allOf:
+                        - $ref: "#/components/schemas/Audio"
+                        - properties:
+                            message_type:
+                              type: string
+                              enum:
+                                - audio
+                              example: audio
+                              description: >
+                                The type of message to send. You must provide
+                                `audio` in this field.
+
+
+                                For best device and network support .mp3 is recommended. Not supported for US short codes.
+                            audio:
+                              required:
+                                - url
+                              properties:
+                                url:
+                                  type: string
+                                  description: |
+                                    The URL of the audio attachment.
+                                  example: https://example.com/audio.mp3
+                                caption:
+                                  type: string
+                                  description: Additional text to accompany the audio file.
+                                  minLength: 1
+                                  maxLength: 2000
+                                  example: Additional text to accompany the audio file.
+                        - $ref: "#/components/schemas/channelOptionsMms"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                    - allOf:
+                        - $ref: "#/components/schemas/Video"
+                        - properties:
+                            message_type:
+                              type: string
+                              enum:
+                                - video
+                              example: video
+                              description: >
+                                The type of message to send. You must provide
+                                `video` in this field.
+
+
+                                For best device and network support .mp4 is recommended. Not supported for US short codes.
+                            video:
+                              required:
+                                - url
+                              properties:
+                                url:
+                                  type: string
+                                  description: |
+                                    The URL of the video attachment.
+                                  example: https://example.com/video.mp4
+                                caption:
+                                  type: string
+                                  description: Additional text to accompany the video file.
+                                  minLength: 1
+                                  maxLength: 2000
+                                  example: Additional text to accompany the video file.
+                        - $ref: "#/components/schemas/channelOptionsMms"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                - title: WhatsApp
+                  x-tab-id: WhatsApp
+                  example:
+                    message_type: text
+                    text: 'Nexmo Verification code: 12345.<br />Valid for 10 minutes.'
+                    to: '447700900000'
+                    from: '447700900001'
+                    channel: whatsapp
+                  oneOf:
+                    - allOf:
+                        - $ref: "#/components/schemas/Text"
+                        - properties:
+                            text:
+                              description: >
+                                The text of message to send; limited to 4096
+                                characters, including unicode.
+                        - $ref: "#/components/schemas/channelOptionsWhatsapp"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                    - allOf:
+                        - $ref: "#/components/schemas/Image"
+                        - properties:
+                            image:
+                              required:
+                                - url
+                              properties:
+                                url:
+                                  type: string
+                                  description: |
+                                    The URL of the image attachment.
+
+                                    Supports `.jpg`, `.jpeg`, and `.png`.
+                                  example: https://example.com/image.jpg
+                                caption:
+                                  type: string
+                                  description: Additional text to accompany the image.
+                                  minLength: 1
+                                  maxLength: 3000
+                                  example: Additional text to accompany the image.
+                        - $ref: "#/components/schemas/channelOptionsWhatsapp"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                    - allOf:
+                        - $ref: "#/components/schemas/Audio"
+                        - properties:
+                            audio:
+                              required:
+                                - url
+                              properties:
+                                url:
+                                  description: >
+                                    The URL of the audio attachment.
+
+
+                                    Supports `.aac`, `.m4a`, `.amr`, `.mp3` and `.opus`.
+                                  minLength: 10
+                                  maxLength: 2000
+                        - $ref: "#/components/schemas/channelOptionsWhatsapp"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                    - allOf:
+                        - $ref: "#/components/schemas/Video"
+                        - properties:
+                            video:
+                              required:
+                                - url
+                              properties:
+                                url:
+                                  description: >
+                                    The URL of the video attachment.
+
+
+                                    Supports `.mp4` and `.3gpp`. Note, only `H.264` video codec and `AAC` audio codec is supported.
+                                caption:
+                                  type: string
+                                  description: Additional text to accompany the file.
+                                  example: Additional text.
+                        - $ref: "#/components/schemas/channelOptionsWhatsapp"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                    - allOf:
+                        - $ref: "#/components/schemas/File"
+                        - properties:
+                            file:
+                              required:
+                                - url
+                              properties:
+                                url:
+                                  description: >
+                                    The URL of the file attachment.
+
+
+                                    Supports supports a wide range of attachments including `.zip`, `.csv` and `.pdf`.
+                                caption:
+                                  type: string
+                                  description: Additional text to accompany the file.
+                                  example: Additional text.
+                                name:
+                                  type: string
+                                  description: >
+                                    Optional parameter that specifies the name
+                                    of the file being sent. If not included, the
+                                    value for `caption`
+
+                                    will be used as the file name. If neither `name` or `caption` are included, the file name will be parsed
+
+                                    from the `url`.
+                                  example: file.pdf
+                        - $ref: "#/components/schemas/channelOptionsWhatsapp"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                    - allOf:
+                        - required:
+                            - message_type
+                            - whatsapp
+                        - $ref: "#/components/schemas/Template"
+                        - $ref: "#/components/schemas/channelOptionsWhatsapp"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                        - properties:
+                            whatsapp:
+                              type: object
+                              required:
+                                - locale
+                              properties:
+                                policy:
+                                  type: string
+                                  example: deterministic
+                                  enum:
+                                    - deterministic
+                                  description: Policy for resolving what language template to use. As of right now
+                                    the only valid choice is `deterministic`.
+                                locale:
+                                  type: string
+                                  example: en_US
+                                  description: The [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag)
+                                    language of the template. See [the WhatsApp
+                                    documentation](https://developers.facebook.com/docs/whatsapp/api/messages/message-templates#supported-languages-)
+                                    for supported languages.
+                    - allOf:
+                        - $ref: "#/components/schemas/Sticker"
+                        - $ref: "#/components/schemas/channelOptionsWhatsapp"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                    - allOf:
+                        - required:
+                            - message_type
+                        - $ref: "#/components/schemas/Custom"
+                        - $ref: "#/components/schemas/channelOptionsWhatsapp"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                - title: Messenger
+                  x-tab-id: Messenger
+                  example:
+                    message_type: text
+                    text: 'Nexmo Verification code: 12345.<br />Valid for 10 minutes.'
+                    to: '0123456789'
+                    from: '9876543210'
+                    channel: messenger
+                  oneOf:
+                    - allOf:
+                        - $ref: "#/components/schemas/Text"
+                        - properties:
+                            text:
+                              description: >
+                                The text of message to send; limited to 640
+                                characters, including unicode.
+                        - $ref: "#/components/schemas/channelOptionsMessenger"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                    - allOf:
+                        - $ref: "#/components/schemas/Image"
+                        - properties:
+                            image:
+                              properties:
+                                url:
+                                  type: string
+                                  description: |
+                                    The URL of the image attachment.
+
+                                    Supports `.jpg`, `.jpeg`, `.png` and `.gif`.
+                                  example: https://example.com/image.jpg
+                        - $ref: "#/components/schemas/channelOptionsMessenger"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                    - allOf:
+                        - $ref: "#/components/schemas/Audio"
+                        - properties:
+                            audio:
+                              properties:
+                                url:
+                                  description: |
+                                    The URL of the audio attachment.
+
+                                    Only supports `.mp3` files
+                                  minLength: 10
+                                  maxLength: 2000
+                        - $ref: "#/components/schemas/channelOptionsMessenger"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                    - allOf:
+                        - $ref: "#/components/schemas/Video"
+                        - properties:
+                            video:
+                              properties:
+                                url:
+                                  description: >
+                                    The URL of the video attachment.
+
+
+                                    Supports `.mp4` files. Note, only `H.264` video codec and `AAC` audio codec is supported.
+                        - $ref: "#/components/schemas/channelOptionsMessenger"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                    - allOf:
+                        - $ref: "#/components/schemas/File"
+                        - properties:
+                            file:
+                              properties:
+                                url:
+                                  description: >
+                                    The URL of the file attachment.
+
+
+                                    Supports a wide range of attachments including `.zip`, `.csv` and `.pdf`.
+                        - $ref: "#/components/schemas/channelOptionsMessenger"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                - title: Viber
+                  x-tab-id: Viber
+                  example:
+                    message_type: text
+                    text: 'Nexmo Verification code: 12345.<br />Valid for 10 minutes.'
+                    to: '447700900000'
+                    from: '9876543210'
+                    channel: viber_service
+                  oneOf:
+                    - allOf:
+                        - $ref: "#/components/schemas/Text"
+                        - properties:
+                            text:
+                              description: >
+                                The text of message to send; limited to 1000
+                                characters, including unicode.
+                        - $ref: "#/components/schemas/channelOptionsViberWithButton"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                    - allOf:
+                        - $ref: "#/components/schemas/Image"
+                        - properties:
+                            image:
+                              properties:
+                                url:
+                                  type: string
+                                  description: |
+                                    The URL of the image attachment.
+
+                                    Supports `.jpg`, `.jpeg`, and `.png`.
+                                  example: https://example.com/image.jpg
+                                caption:
+                                  type: string
+                                  description: A caption to accompany the image. Required if the message includes
+                                    an action button.
+                                  example: Check out this new promotion
+                        - $ref: "#/components/schemas/channelOptionsViberWithButton"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                    - allOf:
+                        - $ref: "#/components/schemas/Video"
+                        - properties:
+                            video:
+                              properties:
+                                url:
+                                  type: string
+                                  description: The URL of the video attachment.
+                                  example: https://example.com/image.jpg
+                                caption:
+                                  type: string
+                                  description: Text caption to accompany message.
+                                  example: Check out this new video
+                                thumb_url:
+                                  type: string
+                                  maxLength: 1000
+                                  description: URL to an image file for a thumbnail preview of the video.
+                                  example: https://example.com/file1.jpg
+                              required:
+                                - url
+                                - duration
+                                - file_size
+                                - thumb_url
+                        - $ref: "#/components/schemas/channelOptionsViberVideo"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+                    - allOf:
+                        - $ref: "#/components/schemas/File"
+                        - properties:
+                            file:
+                              description: "An object containing details of the file to be sent. Note: allowed
+                                file types are `.doc,` `.docx`, `.rtf`, `.dot`,
+                                `.dotx`, `.odt`, `.odf`, `.fodt`, `.txt`,
+                                `.info`, `.pdf`, `.xps`, `.pdax`, `.eps`,
+                                `.xls`, `.xlsx`, `.ods`, `.fods`, `.csv`,
+                                `.xlsm`, `.xltx`. Maximum file size is 200MB"
+                              properties:
+                                url:
+                                  type: string
+                                  description: The URL for the file attachment *or* the path for the location of
+                                    the file attachement. If `name` is included,
+                                    can just be the path. If  `name` is not
+                                    included, must include the filename and
+                                    extension.
+                                  example: https://example.com/files/
+                                name:
+                                  type: string
+                                  maxLength: 25
+                                  description: The name and extension of the file.
+                                  example: example.pdf
+                        - $ref: "#/components/schemas/channelOptionsViber"
+                        - $ref: "#/components/schemas/outboundMessageCommon"
+      responses:
+        '202':
+          description: Accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'
+      callbacks:
+        message-status:
+          '{$request.body#/callback}':
+            post:
+              summary: Message Status
+              operationId: message-status
+              x-example-path: /webhooks/message-status
+              description: Webhooks provide information about events happening to the message
+                such as whether it has been sent, delivered or rejected by the
+                provider.
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      oneOf:
+                        - $ref: "#/components/schemas/messageStatusSMS"
+                        - $ref: "#/components/schemas/messageStatusMMS"
+                        - $ref: "#/components/schemas/messageStatusWhatsApp"
+                        - $ref: "#/components/schemas/messageStatusMessenger"
+                        - $ref: "#/components/schemas/messageStatusViber"
+              responses:
+                  '200':
+                    description: Your server returns this code if it accepts the callback.
+x-webhooks:
+  inbound-message:
+    "{$request.body#/callback}":
+      post:
+        summary: Inbound Message
+        operationId: inbound-message
+        x-example-path: /webhooks/inbound-message
+        description: An inbound message from a customer to you.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/inboundMessageSMS"
+                  - title: MMS
+                    x-tab-id: MMS
+                    oneOf:
+                      - allOf:
+                          - $ref: "#/components/schemas/inboundMessageMMS"
+                          - $ref: "#/components/schemas/Text"
+                          - properties:
+                              text:
+                                type: string
+                                description: The text in the inbound message.
+                                maxLength: 640
+                                example: This is sample text.
+                      - allOf:
+                          - $ref: "#/components/schemas/inboundMessageMMS"
+                          - $ref: "#/components/schemas/Image"
+                          - properties:
+                              image:
+                                required:
+                                  - url
+                                properties:
+                                  url:
+                                    type: string
+                                    description: >
+                                      The URL of the image attachment.
+
+
+                                      Supports `.jpg`, `.jpeg`, `.png` and `.gif`.
+                                    example: https://example.com/image.jpg
+                                  caption:
+                                    type: string
+                                    description: Additional text to accompany the image.
+                                    minLength: 1
+                                    maxLength: 2000
+                                    example: Additional text to accompany the image.
+                      - allOf:
+                          - $ref: "#/components/schemas/inboundMessageMMS"
+                          - $ref: "#/components/schemas/vCard"
+                      - allOf:
+                          - $ref: "#/components/schemas/inboundMessageMMS"
+                          - $ref: "#/components/schemas/Audio"
+                          - properties:
+                              audio:
+                                required:
+                                  - url
+                                properties:
+                                  url:
+                                    type: string
+                                    description: Publicly accessible URL of the audio attachment.
+                                    minLength: 10
+                                    maxLength: 2000
+                      - allOf:
+                          - $ref: "#/components/schemas/inboundMessageMMS"
+                          - $ref: "#/components/schemas/Video"
+                          - properties:
+                              video:
+                                required:
+                                  - url
+                                properties:
+                                  url:
+                                    type: string
+                                    description: Publicly accessible URL of the video attachment.
+                  - title: WhatsApp
+                    x-tab-id: WhatsApp
+                    oneOf:
+                      - allOf:
+                          - $ref: "#/components/schemas/inboundWhatsAppMessageCommon"
+                          - $ref: "#/components/schemas/Text"
+                          - $ref: "#/components/schemas/WhatsAppNodeReferral"
+                      - allOf:
+                          - $ref: "#/components/schemas/inboundWhatsAppMessageCommon"
+                          - $ref: "#/components/schemas/Image"
+                          - $ref: "#/components/schemas/WhatsAppNodeReferral"
+                      - allOf:
+                          - $ref: "#/components/schemas/inboundWhatsAppMessageCommon"
+                          - $ref: "#/components/schemas/Video"
+                          - $ref: "#/components/schemas/WhatsAppNodeReferral"
+                      - allOf:
+                          - $ref: "#/components/schemas/inboundWhatsAppMessageCommon"
+                          - $ref: "#/components/schemas/File"
+                          - $ref: "#/components/schemas/WhatsAppNodeReferral"
+                      - allOf:
+                          - $ref: "#/components/schemas/inboundWhatsAppMessageCommon"
+                          - $ref: "#/components/schemas/Audio"
+                          - $ref: "#/components/schemas/WhatsAppNodeReferral"
+                          - properties:
+                              audio:
+                                required:
+                                  - url
+                                properties:
+                                  url:
+                                    minLength: 10
+                                    maxLength: 2000
+                      - allOf:
+                          - $ref: "#/components/schemas/inboundWhatsAppMessageCommon"
+                          - $ref: "#/components/schemas/Location"
+                          - $ref: "#/components/schemas/WhatsAppNodeReferral"
+                      - allOf:
+                          - $ref: "#/components/schemas/inboundWhatsAppMessageCommon"
+                          - $ref: "#/components/schemas/Reply"
+                      - allOf:
+                          - $ref: "#/components/schemas/inboundWhatsAppMessageCommon"
+                          - $ref: "#/components/schemas/Order"
+                          - $ref: "#/components/schemas/WhatsAppNodeOrder"
+                      - allOf:
+                          - $ref: "#/components/schemas/inboundWhatsAppMessageCommon"
+                          - $ref: "#/components/schemas/InboundSticker"
+                          - $ref: "#/components/schemas/WhatsAppNodeReferral"
+                      - allOf:
+                          - $ref: "#/components/schemas/inboundWhatsAppMessageCommon"
+                          - $ref: "#/components/schemas/Unsupported"
+                  - title: Messenger
+                    x-tab-id: Messenger
+                    oneOf:
+                      - allOf:
+                          - $ref: "#/components/schemas/InboundMessengerMessageCommon"
+                          - $ref: "#/components/schemas/Text"
+                      - allOf:
+                          - $ref: "#/components/schemas/InboundMessengerMessageCommon"
+                          - $ref: "#/components/schemas/Image"
+                      - allOf:
+                          - $ref: "#/components/schemas/InboundMessengerMessageCommon"
+                          - $ref: "#/components/schemas/Video"
+                      - allOf:
+                          - $ref: "#/components/schemas/InboundMessengerMessageCommon"
+                          - $ref: "#/components/schemas/File"
+                      - allOf:
+                          - $ref: "#/components/schemas/InboundMessengerMessageCommon"
+                          - $ref: "#/components/schemas/Audio"
+                          - properties:
+                              audio:
+                                required:
+                                  - url
+                                properties:
+                                  url:
+                                    minLength: 10
+                                    maxLength: 2000
+                      - allOf:
+                          - $ref: "#/components/schemas/InboundMessengerMessageCommon"
+                          - $ref: "#/components/schemas/Unsupported"
+                  - title: Viber
+                    x-tab-id: Viber
+                    oneOf:
+                      - allOf:
+                          - $ref: "#/components/schemas/InboundViberMessageCommon"
+                          - $ref: "#/components/schemas/Text"
+                      - allOf:
+                          - $ref: "#/components/schemas/InboundViberMessageCommon"
+                          - $ref: "#/components/schemas/Image"
+                      - allOf:
+                          - $ref: "#/components/schemas/InboundViberMessageCommon"
+                          - $ref: "#/components/schemas/Video"
+                      - allOf:
+                          - $ref: "#/components/schemas/InboundViberMessageCommon"
+                          - $ref: "#/components/schemas/File"
+        responses:
+          "200":
+            description: Your server returns this code if it accepts the callback.
+
+
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes : {}
+    JWTAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
+  
+  
+  schemas:
+
+    application:
+      title: Application Created
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        keys:
+          type: object
+          properties:
+            private_key:
+              type: string
+            public_key:
+              type: string
+          required:
+          - private_key
+          - public_key
+        privacy:
+          type: object
+          properties:
+            improve_ai:
+              type: boolean
+          required:
+          - improve_ai
+        capabilities:
+          type: object
+          properties:
+            messages:
+              type: object
+              properties:
+                webhooks:
+                  type: object
+                  properties:
+                    inbound_url:
+                      type: object
+                      properties:
+                        address:
+                          type: string
+                        http_method:
+                          type: string
+                      required:
+                      - address
+                      - http_method
+                    status_url:
+                      type: object
+                      properties:
+                        address:
+                          type: string
+                        http_method:
+                          type: string
+                      required:
+                      - address
+                      - http_method
+                  required:
+                  - inbound_url
+                  - status_url
+                version:
+                  type: string
+                authenticate_inbound_media:
+                  type: boolean
+              required:
+              - webhooks
+              - version
+              - authenticate_inbound_media
+          required:
+          - messages
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+              required:
+              - href
+          required:
+          - self
+      required:
+      - id
+      - name
+      - keys
+      - privacy
+      - capabilities
+      - _links
+    application_detail_ok:
+      title: Get Application 
+      type: object
+      properties:
+        count:
+          type: number
+        page_size:
+          type: number
+        page_index:
+          type: number
+        _embedded:
+          type: object
+          properties:
+            applications:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  messages:
+                    type: object
+                    properties:
+                      webhooks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            endpoint_type:
+                              type: string
+                            endpoint:
+                              type: string
+                            http_method:
+                              type: string
+                          required:
+                          - endpoint_type
+                          - endpoint
+                          - http_method
+                    required:
+                    - webhooks
+                  keys:
+                    type: object
+                    properties:
+                      public_key:
+                        type: string
+                    required:
+                    - public_key
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                        required:
+                        - href
+                    required:
+                    - self
+                  voice:
+                    type: object
+                    properties:
+                      webhooks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            endpoint_type:
+                              type: string
+                            endpoint:
+                              type: string
+                            http_method:
+                              type: string
+                          required:
+                          - endpoint_type
+                          - endpoint
+                          - http_method
+                    required:
+                    - webhooks
+                  rtc:
+                    type: object
+                    properties:
+                      webhooks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            endpoint_type:
+                              type: string
+                            endpoint:
+                              type: string
+                            http_method:
+                              type: string
+                          required:
+                          - endpoint_type
+                          - endpoint
+                          - http_method
+                    required:
+                    - webhooks
+                required:
+                - id
+                - name
+                - keys
+                - _links
+          required:
+          - applications
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+              required:
+              - href
+            first:
+              type: object
+              properties:
+                href:
+                  type: string
+              required:
+              - href
+            last:
+              type: object
+              properties:
+                href:
+                  type: string
+              required:
+              - href
+          required:
+          - self
+          - first
+          - last
+      required:
+      - count
+      - page_size
+      - page_index
+      - _embedded
+      - _links
+    application_list_ok:
+      title: Get Application 
+      type: object
+      properties:
+        count:
+          type: integer
+          title: The total number of records returned by your request.
+          example: 100
+        page_size:
+          type: integer
+          title: The amount of records returned in this response.
+          example: 10
+        record_index:
+          type: integer
+          title: The `record_index` used in your request.
+          example: 0
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  title: Link to the object
+                  example: "/applications?page_size=10&record_index=20&order=asc"
+        _embedded:
+          description: >-
+              A list of application objects. See the
+              [get details of a specific application](#getApplication)
+              response fields for a description of the nested objects
+          type: object
+          properties:
+            applications:
+              type: array
+              items:
+                $ref: '#/components/schemas/application'  
+    new_application:
+      title: Application creation request
+      type: object
+      properties:
+        name:
+          type: string
+        keys:
+          type: object
+          properties:
+            public_key:
+              type: string
+        capabilities:
+          type: object
+          properties:
+            messages:
+              type: object
+              properties:
+                version:
+                  type: string
+                webhooks:
+                  type: object
+                  properties:
+                    inbound_url:
+                      type: object
+                      properties:
+                        address:
+                          type: string
+                        http_method:
+                          type: string
+                    status_url:
+                      type: object
+                      properties:
+                        address:
+                          type: string
+                        http_method:
+                          type: string
+      required:
+      - name
+    TemplateParameters:
+      type: array
+      description: The parameters are an array of strings, with the first string being
+        used for `{{1}}` in the template, with the second being `{{2}}` etc.
+        Only required if the template specified by `name` contains parameters.
+      example:
+        - Verification
+        - "2526"
+        - "5"
+      items:
+        type: string
+    Image:
+      allOf:
+        - $ref: "#/components/schemas/baseMessageType"
+        - title: Image
+          x-tab-id: Image
+          type: object
+          required:
+            - image
+          properties:
+            message_type:
+              type: string
+              enum:
+                - image
+              example: image
+              description: The type of message to send. You must provide `image` in this field
+            image:
+              type: object
+              required:
+                - url
+              properties:
+                url:
+                  format: url
+                  description: The publicly accessible URL of the image attachment. The image file
+                    is available for 48 hours after it is created. Supported
+                    types are .jpg, .jpeg, and .png
+                  example: https://example.com/image.jpg
+                  type: string
+    Audio:
+      allOf:
+        - $ref: "#/components/schemas/baseMessageType"
+        - title: Audio
+          x-tab-id: Audio
+          type: object
+          required:
+            - audio
+          properties:
+            message_type:
+              type: string
+              enum:
+                - audio
+              example: audio
+              description: The type of message to send. You must provide `audio` in this field
+            audio:
+              type: object
+              required:
+                - url
+              properties:
+                url:
+                  type: string
+                  format: url
+                  example: https://example.com/audio.mp3
+    Video:
+      allOf:
+        - $ref: "#/components/schemas/baseMessageType"
+        - title: Video
+          x-tab-id: Video
+          type: object
+          required:
+            - video
+          properties:
+            message_type:
+              type: string
+              enum:
+                - video
+              example: video
+              description: The type of message to send. You must provide `video` in this field
+            video:
+              type: object
+              required:
+                - url
+              properties:
+                url:
+                  type: string
+                  description: >
+                    Publicly accessible URL of the video attachment. Supports
+                    file types .mp4 and .3gpp
+
+                    > Note: Only supports video codec H.264 and audio codec AAC
+                  format: url
+                  example: https://example.com/video.mp4
+    vCard:
+      allOf:
+        - $ref: "#/components/schemas/baseMessageType"
+        - title: vCard
+          x-tab-id: vCard
+          type: object
+          required:
+            - vcard
+          properties:
+            message_type:
+              type: string
+              enum:
+                - vcard
+              example: vcard
+              description: The type of message to send. You must provide `vcard` in this field
+            vcard:
+              type: object
+              required:
+                - url
+              properties:
+                url:
+                  format: url
+                  description: The publicly accessible URL of the vCard attachment. Supported
+                    types are .vcf only
+                  example: https://example.com/conatact.vcf
+                  type: string
+    Unsupported:
+      allOf:
+        - $ref: "#/components/schemas/baseMessageType"
+        - title: Unsupported
+          x-tab-id: Unsupported
+          type: object
+          required:
+            - message_type
+          properties:
+            message_type:
+              type: string
+              enum:
+                - unsupported
+              example: unsupported
+              description: The type of message to send. Will be `unsupported` if the type of
+                message received from user is not supported by the channel.
+    File:
+      allOf:
+        - $ref: "#/components/schemas/baseMessageType"
+        - title: File
+          x-tab-id: File
+          type: object
+          required:
+            - file
+          properties:
+            message_type:
+              type: string
+              enum:
+                - file
+              example: file
+              description: The type of message to send. You must provide `file` in this field
+            file:
+              type: object
+              required:
+                - url
+              properties:
+                url:
+                  type: string
+                  example: https://example.com/file.pdf
+    Template:
+      allOf:
+        - $ref: "#/components/schemas/baseMessageType"
+        - title: Template
+          x-tab-id: Template
+          type: object
+          required:
+            - template
+          properties:
+            message_type:
+              type: string
+              enum:
+                - template
+              example: template
+              description: The type of message to send. You must provide `template` in this
+                field
+            template:
+              required:
+                - name
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 9b6b4fcb_da19_4a26_8fe8_78074a91b584:verify
+                  description: "The name of the template. For WhatsApp use your WhatsApp namespace
+                    (available via Facebook Business Manager), followed by a
+                    colon : and the name of the template to use."
+                parameters:
+                  $ref: "#/components/schemas/TemplateParameters"
+    Custom:
+      allOf:
+        - $ref: "#/components/schemas/baseMessageType"
+        - title: Custom
+          x-tab-id: Custom
+          type: object
+          properties:
+            message_type:
+              type: string
+              enum:
+                - custom
+              example: custom
+              description: The type of message to send. You must provide `custom` in this
+                field
+            custom:
+              type: object
+              description: A custom payload, which is passed directly to WhatsApp for certain
+                features such as templates and interactive messages. The schema
+                of a custom object can vary widely. [Read more about Custom
+                Objects](https://developer.vonage.com/messages/concepts/custom-objects).
+              additionalProperties: true
+    Reply:
+      allOf:
+        - $ref: "#/components/schemas/baseMessageType"
+        - title: Reply
+          x-tab-id: Reply
+          type: object
+          required:
+            - reply
+          properties:
+            message_type:
+              type: string
+              enum:
+                - reply
+              example: reply
+              description: The type of message to send. You must provide `custom` in this
+                field.
+            reply:
+              required:
+                - id
+                - title
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: row1
+                  description: An identifier to help identify the exact interactive message
+                    response.
+                title:
+                  type: string
+                  example: 9am
+                  description: The title displayed on the interactive option chosen.
+                description:
+                  type: string
+                  example: Select 9am appointmaent time
+                  description: A description that may be added to the interactive options
+                    presented (available only on interactive lists).
+    Location:
+      allOf:
+        - $ref: "#/components/schemas/baseMessageType"
+        - title: Location
+          x-tab-id: Location
+          type: object
+          required:
+            - location
+          properties:
+            message_type:
+              type: string
+              enum:
+                - location
+              example: location
+              description: The type of message to send. You must provide `location` in this
+                field
+            location:
+              required:
+                - lat
+                - long
+              type: object
+              properties:
+                lat:
+                  type: number
+                  example: 40.34772
+                  description: Latitude of the location.
+                long:
+                  type: number
+                  example: -74.18847
+                  description: Longitude of the location.
+                name:
+                  type: string
+                  example: Vonage
+                  description: Name of the location.
+                address:
+                  type: string
+                  example: 23 Main St, Holmdel, NJ 07733, USA
+                  description: Address of the location. Only displayed if `name` is present.
+    Order:
+      allOf:
+        - $ref: "#/components/schemas/baseMessageType"
+        - title: Order
+          x-tab-id: Order
+          type: object
+          required:
+            - order
+          properties:
+            message_type:
+              type: string
+              enum:
+                - order
+              example: order
+              description: The type of message to send.
+            order:
+              required:
+                - catalog_id
+                - product_items
+              type: object
+              properties:
+                catalog_id:
+                  type: string
+                  example: "2806150799683508"
+                  description: The ID of the catalog containing the products in this order.
+                product_items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      product_retailer_id:
+                        type: string
+                        example: pk1v7rudbg
+                        description: The ID of the specific product being ordered.
+                      quantity:
+                        type: string
+                        example: "1"
+                        description: The quantity ordered for this specific item.
+                      item_price:
+                        type: string
+                        example: "9.99"
+                        description: The unit price for this specific item.
+                      currency:
+                        type: string
+                        example: USD
+                        description: The currency code representing the currency for this specific item.
+    Sticker:
+      allOf:
+        - $ref: "#/components/schemas/baseMessageType"
+        - title: Sticker
+          x-tab-id: Sticker
+          required:
+            - sticker
+          properties:
+            message_type:
+              type: string
+              enum:
+                - sticker
+              example: sticker
+              description: The type of message to send. You must provide `sticker` in this
+                field
+            sticker:
+              type: object
+              description: >
+                Object with details of the sticker to send. Must contain either
+                a URL or an ID, but not both.
+
+                See the [documentation](/messages/guides/whatsapp-stickers) for more
+
+                information on sending stickers.
+              oneOf:
+                - $ref: "#/components/schemas/StickerWithURL"
+                - $ref: "#/components/schemas/StickerWithID"
+    StickerWithURL:
+      description: Sticker with URL
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          format: url
+          description: >
+            The publicly accessible URL of the sticker image. Supported types
+            are: .webp. See the
+
+            [documentation](/messages/guides/whatsapp-stickers) for more
+
+            information on sending stickers.
+          example: https://example.com/image.webp
+          type: string
+    StickerWithID:
+      description: Sticker with ID
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          description: >
+            The id of the sticker in relation to a specific WhatsApp deployment.
+            See the
+
+            [documentation](/messages/guides/whatsapp-stickers) for more
+
+            information on sending stickers.
+          example: aabb7a31-1d1f-4755-a574-2971d831cd5b
+          type: string
+    InboundSticker:
+      allOf:
+        - $ref: "#/components/schemas/baseMessageType"
+        - title: Sticker
+          x-tab-id: Sticker
+          required:
+            - sticker
+          properties:
+            message_type:
+              type: string
+              enum:
+                - sticker
+              example: sticker
+              description: The type of message.
+            sticker:
+              type: object
+              description: Object with a URL to access the sticker that was sent.
+              required:
+                - url
+              properties:
+                url:
+                  format: url
+                  description: The URL of the sticker image on Vonage's media servers.
+                  example: https://api-us.nexmo.com/v3/media/1b456509-974c-458b-aafa-45fc48a4d976
+                  type: string
+    Text:
+      allOf:
+        - $ref: "#/components/schemas/baseMessageType"
+        - title: Text
+          x-tab-id: Text
+          description: The text of message to send.
+          required:
+            - text
+          properties:
+            message_type:
+              type: string
+              enum:
+                - text
+              example: text
+              description: The type of message to send. You must provide `text` in this field
+            text:
+              type: string
+              example: "Nexmo Verification code: 12345.<br />Valid for 10 minutes."
+
+    MessageUuid:
+      type: string
+      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+      description: The UUID of the message
+    ToNumber:
+      type: string
+      minLength: 7
+      maxLength: 15
+      example: "447700900000"
+      description: >
+        The phone number of the message **recipient** in the
+        [E.164](https://en.wikipedia.org/wiki/E.164) format. Don't use a leading
+        + or 00 when entering a phone number, start with the country code, for
+        example, 447700900000.
+    FromNumber:
+      type: string
+      example: "447700900001"
+      description: >
+        The phone number of the message **sender** in the
+        [E.164](https://en.wikipedia.org/wiki/E.164) format. Don't use a leading
+        + or 00 when entering a phone number, start with the country code, for
+        example, 447700900000. For SMS in certain localities alpha-numeric
+        sender id's will work as well, see [Global
+        Messaging](https://developer.nexmo.com/messaging/sms/guides/country-specific-features#country-specific-features)
+        for more details
+    ToId:
+      type: string
+      minLength: 1
+      maxLength: 50
+      example: "0123456789"
+      description: |
+        The ID of the message recipient
+    FromId:
+      type: string
+      minLength: 1
+      maxLength: 50
+      example: "9876543210"
+      description: |
+        The ID of the message sender
+    outboundMessageCommon:
+      type: object
+      properties:
+        client_ref:
+          type: string
+          description: Client reference of up to 100 characters. The reference will be
+            present in every message status.
+        webhook_url:
+          type: string
+          description: >
+            Specifies the URL to which Status Webhook messages will be sent *for
+            this particular message*.
+
+            Over-rides account-level and application-level Status Webhook url settings on a per-message basis.
+          example: https://example.com/status
+        webhook_version:
+          type: string
+          description: >
+            Specifies which version of the Messages API will be used to send
+            Status Webhook messages *for this particular message*.
+
+            For example, if `v0.1` is set, then the JSON body of Status Webhook messages for this message will be sent in Messages v0.1 format.
+
+            Over-rides account-level and application-level API version settings on a per-message basis.
+          example: v1
+          enum:
+            - v0.1
+            - v1
+    baseMessageType:
+      type: object
+      required:
+        - to
+        - from
+        - message_type
+        - channel
+    channelOptionsSms:
+      type: object
+      properties:
+        to:
+          $ref: "#/components/schemas/ToNumber"
+        from:
+          $ref: "#/components/schemas/FromNumber"
+        channel:
+          type: string
+          description: The channel to send to. You must provide `sms` in this field
+          example: sms
+          enum:
+            - sms
+        ttl:
+          type: integer
+          description: >
+            The duration in seconds the delivery of an SMS will be attempted. By
+            default Vonage attempts delivery
+
+            for 72 hours, however the maximum effective value depends on the operator and is typically 24 - 48 hours.
+
+            We recommend this value should be kept at its default or at least 30 minutes.
+          example: 90000
+        sms:
+          type: object
+          description: An object of optional settings for the SMS message.
+          properties:
+            encoding_type:
+              type: string
+              description: >
+                The encoding type to use for the message. If set to either
+                `text` or `unicode` the specified type will be used.
+
+                If set to `auto` (the default), the Messages API will automatically set the type based on the content of `text`;
+
+                i.e. if unicode characters are detected in `text`, then the message will be encoded as unicode, and otherwise as text.
+              example: text
+              enum:
+                - text
+                - unicode
+                - auto
+            content_id:
+              description: >
+                A string parameter that satisfies regulatory requirements when
+                sending an SMS to specific countries.
+
+                For more information please refer to the [Country-Specific Outbound SMS Features](https://api.support.vonage.com/hc/en-us/sections/200622473-Country-Specific-Features-and-Restrictions)"
+              type: string
+              example: "1107457532145798767"
+            entity_id:
+              description: >
+                A string parameter that satisfies regulatory requirements when
+                sending an SMS to specific countries.
+
+                For more information please refer to the [Country-Specific Outbound SMS Features](https://api.support.vonage.com/hc/en-us/sections/200622473-Country-Specific-Features-and-Restrictions)
+              type: string
+              example: "1101456324675322134"
+    channelOptionsMms:
+      type: object
+      properties:
+        to:
+          $ref: "#/components/schemas/ToNumber"
+        from:
+          $ref: "#/components/schemas/FromNumber"
+        channel:
+          type: string
+          description: The channel to send to. You must provide `mms` in this field
+          example: mms
+          enum:
+            - mms
+    channelOptionsMessenger:
+      type: object
+      properties:
+        to:
+          $ref: "#/components/schemas/ToId"
+        from:
+          $ref: "#/components/schemas/FromId"
+        channel:
+          description: The channel to send to. You must provide `messenger` in this field
+          type: string
+          example: messenger
+          enum:
+            - messenger
+        messenger:
+          type: object
+          properties:
+            category:
+              type: string
+              example: response
+              description: The use of different category tags enables the business to send
+                messages for different use cases. For Facebook Messenger they
+                need to comply with their [Messaging Types
+                policy](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
+                Vonage maps our `category` to their `messaging_type`. If
+                `message_tag` is used, then an additional `tag` for that type is
+                mandatory. By default Vonage sends the `response` category to
+                Facebook Messenger.
+              enum:
+                - response
+                - update
+                - message_tag
+            tag:
+              description: A tag describing the type and relevance of the 1:1 communication
+                between your app and the end user. A full list of available tags
+                is available
+                [here](https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags)
+              example: CONFIRMED_EVENT_UPDATE
+              type: string
+    channelOptionsViber:
+      type: object
+      properties:
+        to:
+          $ref: "#/components/schemas/ToNumber"
+        from:
+          $ref: "#/components/schemas/FromId"
+        channel:
+          description: The channel to send to. You must provide `viber_service` in this
+            field
+          type: string
+          example: viber_service
+          enum:
+            - viber_service
+        viber_service:
+          type: object
+          properties:
+            category:
+              type: string
+              description: The use of different category tags enables the business to send
+                messages for different use cases. For Viber Business Messages
+                the first message sent from a business to a user must be
+                personal, informative & a targeted message - not promotional. By
+                default Vonage sends the `transaction` category to Viber
+                Business Messages.
+              enum:
+                - transaction
+                - promotion
+            ttl:
+              minimum: 30
+              maximum: 259200
+              description: Set the time-to-live of message to be delivered in seconds. i.e. if
+                the message is not delivered in 600 seconds then delete the
+                message.
+              example: 600
+              type: integer
+            type:
+              description: Viber-specific type definition. To use "template", please contact
+                your Vonage Account Manager to setup your templates. To find out
+                more please visit the [product
+                page](https://www.vonage.com/communications-apis/messages/)
+              type: string
+    channelOptionsViberVideo:
+      type: object
+      required:
+        - viber_service
+      properties:
+        to:
+          $ref: "#/components/schemas/ToNumber"
+        from:
+          $ref: "#/components/schemas/FromId"
+        channel:
+          description: The channel to send to. You must provide `viber_service` in this
+            field
+          type: string
+          example: viber_service
+          enum:
+            - viber_service
+        viber_service:
+          type: object
+          required:
+            - duration
+            - file_size
+          properties:
+            category:
+              type: string
+              description: The use of different category tags enables the business to send
+                messages for different use cases. For Viber Business Messages
+                the first message sent from a business to a user must be
+                personal, informative & a targeted message - not promotional. By
+                default Vonage sends the `transaction` category to Viber
+                Business Messages.
+              enum:
+                - transaction
+                - promotion
+            duration:
+              type: string
+              minimum: 1
+              maximum: 600
+              description: The duration of the video in seconds.
+              example: "123"
+            file_size:
+              type: string
+              minimum: 1
+              maximum: 200
+              description: The file size of the video in MB.
+              example: "1"
+            ttl:
+              minimum: 30
+              maximum: 259200
+              description: Set the time-to-live of message to be delivered in seconds. i.e. if
+                the message is not delivered in 600 seconds then delete the
+                message.
+              example: 600
+              type: integer
+            type:
+              description: Viber-specific type definition. To use "template", please contact
+                your Vonage Account Manager to setup your templates. To find out
+                more please visit the [product
+                page](https://www.vonage.com/communications-apis/messages/)
+              type: string
+    channelOptionsViberWithButton:
+      type: object
+      properties:
+        to:
+          $ref: "#/components/schemas/ToNumber"
+        from:
+          $ref: "#/components/schemas/FromId"
+        channel:
+          description: The channel to send to. You must provide `viber_service` in this
+            field
+          type: string
+          example: viber_service
+          enum:
+            - viber_service
+        viber_service:
+          type: object
+          properties:
+            category:
+              type: string
+              description: The use of different category tags enables the business to send
+                messages for different use cases. For Viber Business Messages
+                the first message sent from a business to a user must be
+                personal, informative & a targeted message - not promotional. By
+                default Vonage sends the `transaction` category to Viber
+                Business Messages.
+              enum:
+                - transaction
+                - promotion
+            ttl:
+              minimum: 30
+              maximum: 259200
+              description: Set the time-to-live of message to be delivered in seconds. i.e. if
+                the message is not delivered in 600 seconds then delete the
+                message.
+              example: 600
+              type: integer
+            type:
+              description: Viber-specific type definition. To use "template", please contact
+                your Vonage Account Manager to setup your templates. To find out
+                more please visit the [product
+                page](https://www.vonage.com/communications-apis/messages/)
+              type: string
+            action:
+              description: Node for Viber action buttons.
+              type: object
+              required:
+                - url
+                - text
+              properties:
+                url:
+                  description: A URL which is requested when the action button is clicked.
+                  type: string
+                  example: https://example.com/page1.html
+                text:
+                  description: Text which is rendered on the action button.
+                  type: string
+                  maxLength: 30
+                  example: Find out more
+    channelOptionsWhatsapp:
+      type: object
+      properties:
+        to:
+          $ref: "#/components/schemas/ToNumber"
+        from:
+          $ref: "#/components/schemas/FromNumber"
+        channel:
+          description: The channel to send to. You must provide `whatsapp` in this field
+          type: string
+          example: whatsapp
+          enum:
+            - whatsapp
+        context:
+          description: >
+            An optional context used for quoting/replying to a specific meesage
+            in a conversation. When used, the WhatsApp UI will display the new
+            message 
+
+            along with a contextual bubble that displays the quoted/replied to message's content.
+          type: object
+          required:
+            - message_uuid
+          properties:
+            message_uuid:
+              description: The UUID of the message being replied to/quoted.
+              type: string
+              example: a1b2c3d4a1b2c3d4
+    messageStatusBase:
+      type: object
+      properties:
+        message_uuid:
+          $ref: "#/components/schemas/MessageUuid"
+        to:
+          $ref: "#/components/schemas/ToNumber"
+        from:
+          $ref: "#/components/schemas/FromNumber"
+        timestamp:
+          type: string
+          description: The datetime of when the event occurred, in `ISO 8601` format.
+          example: 2020-01-01T14:00:00.000Z
+        status:
+          type: string
+          description: The status of the message.
+          example: submitted
+          enum:
+            - submitted
+            - delivered
+            - rejected
+            - undeliverable
+        error:
+          type: object
+          description: If the message encountered a problem a descriptive error will be
+            supplied in this object.
+          properties:
+            type:
+              type: string
+              format: url
+              description: The type of error encountered, follow URL for more details
+              example: https://developer.vonage.com/api-errors/messages#1000
+            title:
+              type: string
+              example: 1000
+              description: The error code encountered when sending the message. See [our
+                errors list](/api-errors/messages) for a list of possible errors
+            detail:
+              type: string
+              example: Throttled - You have exceeded the submission capacity allowed on this
+                account. Please wait and retry
+              description: Text describing the error. See [our errors
+                list](/api-errors/messages) for a list of possible errors
+            instance:
+              type: string
+              example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+              description: The record id of this error's occurrence.
+        usage:
+          type: object
+          properties:
+            currency:
+              type: string
+              example: EUR
+              description: The charge currency in ISO 4217 format.
+              enum:
+                - EUR
+            price:
+              type: string
+              example: "0.0333"
+              description: The charge amount as a stringified number.
+        client_ref:
+          type: string
+          description: Client reference of up to 100 characters. The reference will be
+            present in every message status.
+      required:
+        - message_uuid
+        - channel
+        - to
+        - from
+        - timestamp
+        - status
+    messageStatusSMS:
+      allOf:
+        - $ref: "#/components/schemas/messageStatusBase"
+        - title: SMS
+          x-tab-id: SMS
+          description: SMS
+          properties:
+            channel:
+              type: string
+              description: The channel sending to.
+              example: sms
+              enum:
+                - sms
+            destination:
+              $ref: "#/components/schemas/Destination"
+            sms:
+              description: Channel specific metadata for SMS
+              type: object
+              properties:
+                count_total:
+                  type: string
+                  example: "2"
+                  description: The number of SMS messages concatenated together to comprise the
+                    submitted message. SMS messages are 160 characters, if a
+                    submitted message exceeds that size it is sent as multiple
+                    SMS messages. This number indicates how many SMS messages
+                    are required.
+    messageStatusMMS:
+      allOf:
+        - $ref: "#/components/schemas/messageStatusBase"
+        - title: MMS
+          x-tab-id: MMS
+          description: MMS
+          properties:
+            channel:
+              type: string
+              description: The channel sending to.
+              example: mms
+              enum:
+                - mms
+            destination:
+              $ref: "#/components/schemas/Destination"
+    messageStatusWhatsApp:
+      allOf:
+        - $ref: "#/components/schemas/messageStatusBase"
+        - title: WhatsApp
+          x-tab-id: WhatsApp
+          description: WhatsApp
+          properties:
+            channel:
+              type: string
+              description: The channel sending to.
+              example: whatsapp
+              enum:
+                - whatsapp
+            status:
+              example: read
+              enum:
+                - submitted
+                - delivered
+                - rejected
+                - undeliverable
+                - read
+            usage:
+              type: object
+              properties:
+                currency:
+                  type: string
+                  example: EUR
+                  description: The charge currency in ISO 4217 format.
+                  enum:
+                    - EUR
+                price:
+                  type: string
+                  example: "0.0333"
+                  description: The charge amount as a stringified number. For WhatsApp this is the
+                    default Vonage charge per conversation.
+            whatsapp:
+              type: object
+              description: An object contining meta-data related to the WhatsApp message that
+                triggered this callback. Only present for callbacks with a
+                `status` of `delivered`.
+              properties:
+                conversation:
+                  type: object
+                  description: An object contining data for the conversation to which the message
+                    relates.
+                  properties:
+                    id:
+                      type: string
+                      example: "1234567890"
+                      description: The id of the conversation.
+                    origin:
+                      type: object
+                      description: An object contining data related to the origin of the conversation.
+                      properties:
+                        type:
+                          type: string
+                          example: user_initiated
+                          description: The conversation type.
+                          enum:
+                            - marketing
+                            - utility
+                            - authentication
+                            - referral_conversion
+                            - service
+    messageStatusMessenger:
+      allOf:
+        - $ref: "#/components/schemas/messageStatusBase"
+        - title: Messenger
+          x-tab-id: Messenger
+          description: Messenger
+          properties:
+            channel:
+              type: string
+              description: The channel sending to.
+              example: messenger
+              enum:
+                - messenger
+            status:
+              example: read
+              enum:
+                - submitted
+                - delivered
+                - rejected
+                - undeliverable
+                - read
+            to:
+              $ref: "#/components/schemas/ToId"
+            from:
+              $ref: "#/components/schemas/FromId"
+    messageStatusViber:
+      allOf:
+        - $ref: "#/components/schemas/messageStatusBase"
+        - title: Viber
+          x-tab-id: Viber
+          description: Viber
+          properties:
+            channel:
+              type: string
+              description: The channel sending to.
+              example: viber_service
+              enum:
+                - viber_service
+            status:
+              example: read
+              enum:
+                - submitted
+                - delivered
+                - rejected
+                - undeliverable
+                - read
+    Timestamp:
+      type: string
+      description: The datetime of when the event occurred, in `ISO 8601` format.
+      example: 2020-01-01T14:00:00.000Z
+    Destination:
+      type: object
+      properties:
+        network_code:
+          type: string
+          description: Code indicating the terminating network for the number to which the
+            message was sent. May not always be included in the message status
+            data.
+          example: "12345"
+    InboundViberMessageCommon:
+      title: Viber
+      x-tab-id: Viber
+      required:
+        - channel
+        - message_uuid
+        - to
+        - from
+        - timestamp
+      properties:
+        channel:
+          type: string
+          description: The channel that the message came in on
+          enum:
+            - viber_service
+          example: viber_service
+        context:
+          type: object
+          description: Object containing contextual details for the inbound message when
+            it is a response to another message.
+          properties:
+            message_uuid:
+              type: string
+              description: The ID of the message being replied to.
+              example: 1234567890abcdef
+        message_uuid:
+          $ref: "#/components/schemas/MessageUuid"
+        to:
+          $ref: "#/components/schemas/ToId"
+        from:
+          $ref: "#/components/schemas/FromNumber"
+        timestamp:
+          $ref: "#/components/schemas/Timestamp"
+    InboundMessengerMessageCommon:
+      title: Messenger
+      x-tab-id: Messenger
+      required:
+        - channel
+        - message_uuid
+        - to
+        - from
+        - timestamp
+      properties:
+        channel:
+          type: string
+          description: The channel that the message came in on
+          enum:
+            - messenger
+          example: messenger
+        message_uuid:
+          $ref: "#/components/schemas/MessageUuid"
+        to:
+          $ref: "#/components/schemas/ToId"
+        from:
+          $ref: "#/components/schemas/FromId"
+        timestamp:
+          $ref: "#/components/schemas/Timestamp"
+    inboundWhatsAppMessageCommon:
+      title: WhatsApp
+      type: object
+      x-tab-id: WhatsApp
+      required:
+        - channel
+        - message_uuid
+        - to
+        - from
+        - timestamp
+        - context_status
+      properties:
+        channel:
+          type: string
+          description: The channel that the message came in on
+          enum:
+            - whatsapp
+          example: whatsapp
+        message_uuid:
+          $ref: "#/components/schemas/MessageUuid"
+        to:
+          $ref: "#/components/schemas/ToNumber"
+        from:
+          $ref: "#/components/schemas/FromNumber"
+        timestamp:
+          $ref: "#/components/schemas/Timestamp"
+        profile:
+          $ref: "#/components/schemas/Profile"
+        context_status:
+          type: string
+          description: >
+            Whether or not there is a context for this inbound message or not.
+            If there is a context, and it is `available`, the context
+
+            details will be contained in a `context` object. If there is a context, but it is `unavailable`, or if there is no context for
+
+            message (`none`), then there will be no `context` object inluded in the body.
+          enum:
+            - none
+            - available
+            - unavailable
+          example: available
+        context:
+          $ref: "#/components/schemas/Context"
+        provider_message:
+          type: string
+          description: A message from the channel provider, which may contain a
+            description, error codes or other information
+    Profile:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The WhatsApp number's displayed profile name
+          example: Jane Smith
+    Context:
+      type: object
+      description: >
+        This is only present for the Inbound Message where the user is quoting
+        another message. It provides information about the quoted message and/or
+        the product message being responded to.
+      required:
+        - message_uuid
+        - message_from
+      properties:
+        message_uuid:
+          type: string
+          example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+          description: The UUID of the message being quoted.
+        message_from:
+          type: string
+          example: "447700900000"
+          description: The phone number of the **original sender** of the message being
+            quoted in the [E.164](https://en.wikipedia.org/wiki/E.164) format.
+    WhatsAppNodeReferral:
+      properties:
+        whatsapp:
+          type: object
+          description: A node preset for some types of inbound messages which provides
+            additional information about how the inbound message originated.
+          properties:
+            referral:
+              type: object
+              description: >
+                This is only present for situsations where a user has clicked on
+                a 'WhatsApp' button embedded in an advertisement
+
+                or post on Facebook. Clicking on the button directs the user to the WhatsApp app from where they can send a message.
+
+                The inbound message will contain this object which includes details of the Facebook advertisement or post which contained the embedded button.
+              required:
+                - body
+                - headline
+                - source_id
+                - source_type
+                - source_url
+              properties:
+                body:
+                  type: string
+                  example: Check out our new product offering
+                  description: Body text of the referring advertisement or post.
+                headline:
+                  type: string
+                  example: New Products!
+                  description: Headline text of the referring advertisement or post.
+                source_id:
+                  type: string
+                  example: "212731241638144"
+                  description: Meta/WhatsApp ID of the referring advertisement or post.
+                source_type:
+                  type: string
+                  example: post
+                  description: The type of the referring advertisement or post.
+                source_url:
+                  type: string
+                  example: https://fb.me/2ZulEu42P
+                  description: A URL referencing the content of the media shown in the
+                    advertisement when the user clicked to send a message.
+    WhatsAppNodeOrder:
+      properties:
+        whatsapp:
+          type: object
+          description: A node preset for some types of inbound messages which provides
+            additional information about how the inbound message originated.
+          properties:
+            whatsapp_referred_product:
+              type: object
+              description: >
+                An object containing details of a product from a `product`
+                message being quoted or replied to using the 'Message Business'
+                option.
+              required:
+                - catalog_id
+                - product_retailer_id
+              properties:
+                catalog_id:
+                  type: string
+                  example: "1267260820787549"
+                  description: The ID of the catalog associated with the product from the
+                    `product` message being quoted or replied to using the
+                    'Message Business' option.
+                product_retailer_id:
+                  type: string
+                  example: r07qei73l7
+                  description: The ID of the product from the `product` message being quoted or
+                    replied to using the 'Message Business' option.
+    Usage:
+      type: object
+      properties:
+        currency:
+          type: string
+          example: EUR
+          description: The charge currency in ISO 4217 format.
+          enum:
+            - EUR
+        price:
+          type: string
+          example: "0.0333"
+          description: The charge amount as a stringified number.
+    inboundMessageMMS:
+      title: MMS
+      x-tab-id: MMS
+      type: object
+      required:
+        - channel
+        - message_uuid
+        - to
+        - from
+        - timestamp
+      properties:
+        channel:
+          type: string
+          enum:
+            - mms
+          description: The channel the message came in on
+          example: mms
+        message_uuid:
+          $ref: "#/components/schemas/MessageUuid"
+        to:
+          $ref: "#/components/schemas/ToNumber"
+        from:
+          $ref: "#/components/schemas/FromNumber"
+        timestamp:
+          $ref: "#/components/schemas/Timestamp"
+    inboundMessageSMS:
+      title: SMS
+      type: object
+      required:
+        - channel
+        - message_uuid
+        - to
+        - from
+        - timestamp
+        - text
+      properties:
+        channel:
+          type: string
+          enum:
+            - sms
+          description: The channel the message came in on
+          example: sms
+        message_uuid:
+          $ref: "#/components/schemas/MessageUuid"
+        to:
+          $ref: "#/components/schemas/ToNumber"
+        from:
+          $ref: "#/components/schemas/FromNumber"
+        timestamp:
+          $ref: "#/components/schemas/Timestamp"
+        text:
+          example: Hello From Vonage!
+          type: string
+          description: |
+            The UTF-8 encoded text of the inbound message.
+        sms:
+          description: Channel specific metadata for SMS
+          type: object
+          properties:
+            num_messages:
+              type: string
+              example: "2"
+              description: The number of inbound SMS messages concatenated together to
+                comprise this message. SMS messages are 160 characters, if an
+                inbound message exceeds that size they are concatenated together
+                to form a single message. This number indicates how many
+                messages formed this webhook.
+            keyword:
+              type: string
+              example: HELLO
+              description: The first word of the message sent to uppercase.
+        usage:
+          $ref: "#/components/schemas/Usage"      
+    error401:
+      type: object
+      properties:
+        type: 
+          type: string
+          title: the unauthorized response
+          example: "UNAUTHORIZED"
+          description: Unauthorized type description
+        error_title: 
+          type: string
+          title: the title of an unauthorized response
+          example: Unauthorized
+          description: Unauthorized title description
+      required:
+        - type
+        - error_title
+    NewMessage:
+      required:
+        - to
+        - from
+        - message
+      properties:
+        to:
+          $ref: '#/components/schemas/ToProperty'
+        from:
+          $ref: '#/components/schemas/FromProperty'
+        message:
+          $ref: '#/components/schemas/MessageProperty'
+        client_ref:
+          type: string
+          description: Client reference of up to 40 characters. The reference will be present in every message status.
+          example: 'my-personal-reference'
+    Response:
+      required:
+        - message_uuid
+      properties:
+        message_uuid:
+          type: string
+          description: The UUID of the message.
+          example: 'aaaaaaaa-bbbb-cccc-dddd-0123456789ab'
+    Error:
+      description: 'The error format is standardized to the 4xx/5xx range with a code and a human readable explanation.'
+      required:
+        - type
+        - detail
+        - instance
+      properties:
+        type:
+          type: string
+          example: 'https://www.nexmo.com/messages/Errors#InvalidParams'
+        detail:
+          type: string
+          example: 'Your request parameters did not validate.'
+        instance:
+          type: string
+          example:
+    MessageStatus:
+      type: object
+      required:
+        - message_uuid
+        - to
+        - from
+        - timestamp
+        - status
+      properties:
+        message_uuid:
+          type: string
+          description: The UUID of the message.
+          example: 'aaaaaaaa-bbbb-cccc-dddd-0123456789ab'
+        to:
+          $ref: '#/components/schemas/ToProperty'
+        from:
+          $ref: '#/components/schemas/FromProperty'
+        timestamp:
+          $ref: '#/components/schemas/TimestampProperty'
+        status:
+          type: string
+          example: delivered
+          description: The status of the message. The `read` message status is only available for `viber_service_msg` and `messenger`.
+          enum:
+            - submitted
+            - delivered
+            - read
+            - rejected
+            - undeliverable
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 1300
+              description: The error code. See [Errors](#errors) for a table of descriptions.
+            reason:
+              type: string
+              example: 'Not part of the provider network'
+              description: Text describing the error. See [Errors](#errors) for a more details.
+        usage:
+          type: object
+          properties:
+            currency:
+              type: string
+              example: EUR
+              description: The charge currency in ISO 4217 format.
+              enum:
+                - EUR
+            price:
+              type: string
+              example: '0.0333'
+              description: The charge amount as a stringified number.
+        client_ref:
+          type: string
+          description: The client's reference.
+          example: 'my-personal-reference'
+    InboundMessage:
+      type: object
+      required:
+        - message_uuid
+        - to
+        - from
+        - timestamp
+      properties:
+        message_uuid:
+          type: string
+          example: 'aaaaaaaa-bbbb-cccc-dddd-0123456789ab'
+          description: The UUID of the message.
+        to:
+          type: object
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              description: The type of message being received.
+              example: messenger
+              enum:
+                - messenger
+                - whatsapp
+            id:
+              type: string
+              description: The ID of the recipient.
+              example: '0123456678901234'
+        from:
+          type: object
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              description: The type of message being sent.
+              example: messenger
+              enum:
+                - messenger
+                - whatsapp
+            id:
+              type: string
+              description: The ID of the sender.
+              example: '0123456789012345'
+        timestamp:
+          type: string
+          format: ISO 8601
+          description: The datetime of when the event occurred.
+          example: '2020-01-01T14:00:00.000Z'
+        message:
+          type: object
+          properties:
+            content:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: The type of message being received.
+                  example: 'text'
+                  enum:
+                    - text
+                    - image
+                    - audio
+                    - video
+                    - file
+                    - location
+                text:
+                  type: string
+                  description: The body of the message.
+                  example: 'Hello World!'
+                image:
+                  $ref: '#/components/schemas/ImageProperty'
+                audio:
+                  $ref: '#/components/schemas/AudioProperty'
+                video:
+                  $ref: '#/components/schemas/VideoProperty'
+                file:
+                  $ref: '#/components/schemas/FileProperty'
+                location:
+                  $ref: '#/components/schemas/LocationProperty'
+    ToProperty:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          description: The type of message that you want to send.
+          example: 'sms'
+          enum:
+            - sms
+            - viber_service_msg
+            - messenger
+            - whatsapp
+        id:
+          description: |
+            The ID of the message recipient.
+
+            **Messenger**: This value should be the `from.id` value you received in the inbound messenger event.
+
+            **SMS**: or **Viber**: or **WhatsApp** This value is not required.
+          type: string
+          minLength: 1
+          maxLength: 50
+          example: '0123456789012345'
+        number:
+          type: string
+          minLength: 1
+          maxLength: 50
+          example: '447700900000'
+          description: |
+            **SMS**: or **Viber**: or **WhatsApp** The phone number of the message recipient in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don't use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.
+
+            **Messenger**: This value is not required.
+    FromProperty:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          description: The type of message that you want to send.
+          example: sms
+          enum:
+            - sms
+            - viber_service_msg
+            - messenger
+            - whatsapp
+        id:
+          description: |
+            Your ID for the platform that you are sending from.
+
+            **Messenger**: This value should be the `to.id` value you received in the inbound messenger event.
+
+            **Viber**: This is your Service Message ID given to you by Nexmo Account Manager. To find out more please visit [nexmo.com/products/messages](https://www.nexmo.com/products/messages).
+
+            **SMS**:  or **WhatsApp** This value is not required.
+          type: string
+          minLength: 1
+          maxLength: 50
+          example: '0123456789012345'
+        number:
+          type: string
+          minLength: 1
+          maxLength: 50
+          example: '447700900000'
+          description: |
+            **SMS**: The phone number of the message recipient in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don't use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.
+
+            **WhatsApp**: This is your WhatsApp Business Number  given to you by Nexmo Account Manager. To find out more please visit [nexmo.com/products/messages](https://www.nexmo.com/products/messages).
+
+            **Messenger**: or **Viber**: This value is not required.
+    MessageProperty:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: object
+          properties:
+            type:
+              description: |
+                The type of message that you are sending.
+
+                **Messenger**: supports all types.
+
+                **Viber Service Messages**: supports `image` and `text`.
+
+                **WhatsApp**: supports `template` and `text`.
+
+                **SMS**: supports `text`.
+              type: string
+              enum:
+                - text
+                - image
+                - audio
+                - video
+                - file
+                - template
+                - custom
+              example: 'text'
+            text:
+              description: |
+                The text of the message.
+
+                **Messenger**: Is limited to 640 characters
+
+                **SMS** or **Viber**: Is 1000 characters
+
+                **WhatsApp**: is 4096 characters
+              type: string
+              minLength: 1
+              maxLength: 4096
+              example: 'Nexmo Verification code: 64873. Valid for 10 minutes.'
+            image:
+              $ref: '#/components/schemas/ImageProperty'
+            audio:
+              $ref: '#/components/schemas/AudioProperty'
+            video:
+              $ref: '#/components/schemas/VideoProperty'
+            file:
+              $ref: '#/components/schemas/FileProperty'
+            template:
+              $ref: '#/components/schemas/TemplateProperty'
+            # @TODO: Clarify requirements
+            # custom:
+            #   type: object
+            #   description: This is a highly experimental feature. To enable the user to send any type of Messenger message we have included a custom object. To use this feature include the original Messenger API payload from the message object onwards.
+            #   properties:
+            #     custom:
+            #       type: object
+        viber_service_msg:
+          type: object
+          properties:
+            category:
+              description: 'The use of different category tags enables the business to send messages for different use cases. For Viber Service Messages the first message sent from a business to a user must be personal, informative & a targeted message - not promotional. By default Vonage sends the `transaction` category to Viber Service Messages.'
+              type: string
+              example: 'transaction'
+              enum:
+                - transaction
+                - promotion
+            ttl:
+              description: 'Only valid for Viber Service Messages. Set the time-to-live of message to be delivered in seconds. i.e. if the message is not delivered in 600 seconds then delete the message.'
+              type: integer
+              example: 600
+              minimum: 30
+              maximum: 86400
+        messenger:
+          type: object
+          properties:
+            category:
+              description: 'The use of different category tags enables the business to send messages for different use cases. For Facebook Messenger they need to comply with their [Messaging Types policy]( https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types). Nexmo maps our `category` to their `messaging_type`. If `message_tag` is used, then an additional `tag` for that type is mandatory. By default Vonage sends the `response` category to Facebook Messenger.'
+              type: string
+              example: 'message_tag'
+              enum:
+                - response
+                - update
+                - message_tag
+            tag:
+              description: ‘A full list of the possible tags is available on [developers.facebook.com](https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags)'
+              type: string
+              example: 'ticket_update'
+    TimestampProperty:
+      type: string
+      format: ISO 8601
+      description: The datetime of when the event occurred.
+      example: '2020-01-01T14:00:00.000Z'
+    ImageProperty:
+      type: object
+      properties:
+        url:
+          type: string
+          description: 'The URL of the image attachment. `messenger` supports .jpg, .png and .gif. `viber_service_msg` supports .jpg and .png.'
+          minLength: 1
+          maxLength: 2000
+          example: 'https://example.com/image.jpg'
+    AudioProperty:
+      type: object
+      properties:
+        url:
+          type: string
+          description: 'The URL of the audio attachment. `messenger` supports .mp3.'
+          minLength: 1
+          maxLength: 2000
+          example: 'https://example.com/audio.mp3'
+    VideoProperty:
+      type: object
+      properties:
+        url:
+          type: string
+          description: 'The URL of the video attachment. `messenger` supports .mp4'
+          minLength: 1
+          maxLength: 2000
+          example: 'https://example.com/video.mp4'
+    FileProperty:
+      type: object
+      properties:
+        url:
+          type: string
+          description: 'The URL of the file attachment. `messenger` supports a wide range of attachments including .zip, .csv and .pdf'
+          minLength: 1
+          maxLength: 2000
+          example: 'https://example.com/file.zip'
+    TemplateProperty:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'The name of the template.'
+          example: 'whatsapp:hsm:technology:nexmo:verify'
+        parameters:
+          type: array
+          items:
+            type: object
+            properties:
+              default:
+                type: string
+                description: 'The parameters are an array. The first value being {{1}} in the template.'
+                example: '1234'
+        fallback_locale:
+          type: string
+          description: 'Templates sent to a user will be localized according to the device locale settings. Optionally specify a fallback locale for displaying the message if a translation does not exist'
+          default: 'en'
+          example: 'en'
+    LocationProperty:
+      type: object
+      properties:
+        lat:
+          type: string
+          description: The latitude of the location attachment.
+          example: '51.5228349'
+        long:
+          type: string
+          description: The longitude of the location attachment.
+          example: '-0.0854414'
+        url:
+          type: string
+          description: Depending on the provider, this can either be the location on a map or the website of the business at this location.
+        address:
+          type: string
+          description: The address of the location attachment.
+          example: '15 Bonhill St London EC2A 4DN'
+        name:
+          type: string
+          description: The name of the location attachment.
+          example: 'Vonage London'
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info        
+          
+  parameters:
+    api_version_header:
+      in: header
+      name: api-version
+      schema:
+        type: string
+        default: v2
+      required: false
+      description: API-version to use. Not provided uses latest
+      example:
+    application_uuid:
+      in: path
+      name: uuid
+      schema:
+        type: string
+      required: true
+      description: UUID of the application
+      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+    message_application_id_header:
+      in: header
+      name: ApplicationId
+      schema:
+        type: string
+      required: true
+      description: UUID of the application
+      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+  responses:
+
+    app_created:
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/application'
+    new_application:
+      description: New Application
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/new_application'
+    app_list:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/application_list_ok'
+    app_detail_ok:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/application_detail_ok'
+    bad_request:
+      description: bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'

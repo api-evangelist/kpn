@@ -1,0 +1,220 @@
+openapi: 3.0.0
+info:
+  version: '1.0'
+  title: 'Internet Speed Check - KPN'
+  description: >-
+    This API allows you to check the speed of the internet and the technology at an address. The API takes the postcode, house number and house extension, sends the request to the backend to retrieve real time information about the internet service at the address.
+
+    ### Key highlights
+
+    - **Sandbox:** full-fledged capabilities.
+
+    - **Security:**  HTTPS, Oauth, Rate limit
+
+    - **Versioning:**  supports version-less API, version tight. If no version
+    is provided (in header) it defaults to latest version. 
+
+
+    ## [Source view](https://app.swaggerhub.com/apis/kpn/internet-speed-check-kpn/)<br/>
+    [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/internet-speed-check-kpn/)
+    
+    ---
+    
+    ## [KPN Developer](https://developer.kpn.com/)<br/>
+    [Getting Started](https://developer.kpn.com/getting-started)
+    
+    ---
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: 'https://developer.kpn.com/support'
+  termsOfService: 'https://developer.kpn.com/legal'
+servers:
+  - url: 'https://api-prd.kpn.com/network/kpn/internet-speed-check'
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers
+tags:
+  - name: default
+    description: ''
+paths:
+  /offer:
+    post:
+      tags: [default]
+      summary: get info
+      description: Retrieves the information about internet connection and technology for the given address identified by postcode, house number and house extension
+      security:
+      - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        - $ref: "#/components/parameters/api_version_query"
+      requestBody:
+        description: request body properties
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                service_address:
+                  type: object
+                  properties:
+                    house_number:
+                      type: integer
+                      description: House number you want to check
+                    zip_code:
+                      type: string
+                      description: The Postcode you want to check
+                    house_number_extension:
+                      type: string
+                      description: The extension of the house, if provided.
+                  required: [house_number, zip_code]
+      responses:
+        '200':
+          $ref: '#/components/responses/success'
+
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes : {}
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: >-
+          API Version. If no version is provided it defaults to latest version.
+      required: false
+    api_version_query:
+      in: query
+      name: api-version
+      schema:
+        type: string
+      description: >-
+          API Version. If no version is provided it defaults to latest version.
+      required: false
+
+  schemas:
+    FixedInfo:
+      type: object
+      properties:
+        copper_access:
+          title: Copper access
+          type: boolean
+        fiber_access:
+          title: Fiber access
+          type: boolean
+        hybrid_access:
+          title: Hybrid access
+          type: boolean
+        mobile_access:
+          title: Mobile access
+          type: boolean
+    FiberInfo:
+      type: object
+      properties:
+        thirdparty_delivery:
+          title: Thirdparty delivery
+          type: boolean
+        thirdparty_permission:
+          title: Thirdparty permission
+          type: boolean
+        thirdparty_name:
+          title: Thirdparty name
+          type: string
+          minLength: 1
+        construction_type:
+          title: Construction type
+          type: string
+          minLength: 1
+        planned_fiber_to_the_home_date:
+          title: Planned fiber to the home date
+          type: string
+          format: date
+        planned_fiber_to_the_home_description:
+          title: Planned fiber to the home description
+          type: string
+          minLength: 1
+        civil_date:
+          title: Civil date
+          type: string
+          format: date
+        wholesale_broadband_access_plan_date:
+          title: Wholesale broadband access plan date
+          type: string
+          format: date
+        wholesale_broadband_access_plan_date_description:
+          title: Wholesale broadband access plan date description
+          type: string
+          minLength: 1
+        nl_type:
+          title: Nl type
+          type: string
+          minLength: 1
+        phase:
+          title: Phase
+          type: string
+          minLength: 1
+    alert:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Alert identifier
+        description:
+          type: string
+          description: description of the alert.
+        code_message:
+          type: string
+          description: message related with the alert identifier.
+    offer_object:
+      type: object
+      properties:
+        available_on_address:
+          type: object
+          properties:
+            technologies:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: type of technology available_on_address
+                  download:
+                    type: integer
+                    description: maximum download speed for this technology in MB per second
+                  upload:
+                    type: integer
+                    description: maximum upload speed for this technology in MB per second
+            house_number_extensions:
+              type: array
+              items:
+                type: object
+        fixed_info:
+          $ref: '#/components/schemas/FixedInfo'
+        fiber_info:
+          $ref: '#/components/schemas/FiberInfo'
+        bandwidth:
+          type: object
+          properties:
+            up:
+              type: integer
+              description: up
+            down:
+              type: integer
+              description: down
+        alerts:
+          $ref: "#/components/schemas/alert"
+
+  responses:
+    'success':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/offer_object"

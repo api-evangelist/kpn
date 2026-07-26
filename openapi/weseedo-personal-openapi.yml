@@ -1,0 +1,3737 @@
+openapi: 3.0.0
+info:
+  title: WeSeeDo Personal - WeSeeDo
+  version: "v2.0.2"
+  description: >- 
+    The WeSeeDo Personal API allows video calling in the right way and distinguishes itself in human contact, ease of use and safety. 
+
+    ### Key highlights
+
+    - **Sandbox:** Full-fledged capabilities.
+
+    - **Security:**  HTTPS, OAuth, Rate limit.
+
+    - **Versioning:** Supports version-less API, version tight. If no version
+    is provided (in header) it defaults to latest version.
+
+     ---
+
+    [Source view](https://app.swaggerhub.com/apis/kpn/weseedo-personal-weseedo/)<br/>
+    [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/weseedo-personal-weseedo/)
+
+    ---
+
+    [KPN Developer](https://developer.kpn.com/)<br/>
+    [Getting Started](https://developer.kpn.com/getting-started)
+
+    ---
+    
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: "https://developer.kpn.com/support"
+  termsOfService: "https://developer.kpn.com/legal"
+servers:
+  - url: https://api-prd.kpn.com/communication/weseedo/weseedopersonal
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers
+tags:
+  - name: Personal
+  - name: Users
+  - name: Packages
+paths:
+  /personal/meetings:
+    post:
+      summary: Creates a new meeting
+      description: Creates a new meeting.
+      tags:
+        - Personal
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        - $ref: "#/components/parameters/user-email"       
+      requestBody:
+        $ref: "#/components/requestBodies/MeetingObjectPost"
+      responses:
+        "200":
+          $ref: "#/components/responses/MeetingObject"
+        400:
+          $ref: "#/components/responses/bad_request"
+        401:
+          $ref: "#/components/responses/unauthorized"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+        429:
+          $ref: "#/components/responses/too_many"
+        500:
+          $ref: "#/components/responses/server_error"
+        503:
+          $ref: "#/components/responses/service_unavailable"
+    get:
+      summary: Retrieves a list of meetings
+      description: Retrieves a list of meetings.
+      tags:
+        - Personal
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        - $ref: "#/components/parameters/MeetingQueryCompanyParameter"
+      responses:
+        "200":
+          $ref: "#/components/responses/MeetingObjectArray"
+        400:
+          $ref: "#/components/responses/bad_request"
+        401:
+          $ref: "#/components/responses/unauthorized"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+        429:
+          $ref: "#/components/responses/too_many"
+        500:
+          $ref: "#/components/responses/server_error"
+        503:
+          $ref: "#/components/responses/service_unavailable"
+  "/personal/meetings/{id}":
+    get:
+      summary: Retrieves a meeting
+      description: Retrieves information about a meeting.
+      tags:
+        - Personal
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        - $ref: "#/components/parameters/MeetingIDParameter"
+      responses:
+        "200":
+          $ref: "#/components/responses/MeetingObject"
+        400:
+          $ref: "#/components/responses/bad_request"
+        401:
+          $ref: "#/components/responses/unauthorized"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+        429:
+          $ref: "#/components/responses/too_many"
+        500:
+          $ref: "#/components/responses/server_error"
+        503:
+          $ref: "#/components/responses/service_unavailable"
+    delete:
+      summary: Deletes a meeting
+      description: Deletes a specific meeting.
+      tags:
+        - Personal
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        - $ref: "#/components/parameters/MeetingIDParameter"
+      responses:
+        "200":
+          $ref: "#/components/responses/MeetingDeletedObject"
+        400:
+          $ref: "#/components/responses/bad_request"
+        401:
+          $ref: "#/components/responses/unauthorized"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+        429:
+          $ref: "#/components/responses/too_many"
+        500:
+          $ref: "#/components/responses/server_error"
+        503:
+          $ref: "#/components/responses/service_unavailable"
+  /personal/sms:
+    post:
+      summary: Sends an SMS to a participant
+      description: Sends an SMS to a participant. SMS can only be sent once per participant.
+      tags:
+        - Personal
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+      requestBody:
+        $ref: "#/components/requestBodies/MeetingSmsObject"
+      responses:
+        "200":
+          $ref: "#/components/responses/MeetingSmsObject"
+        400:
+          $ref: "#/components/responses/bad_request"
+        401:
+          $ref: "#/components/responses/unauthorized"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+        429:
+          $ref: "#/components/responses/too_many"
+        500:
+          $ref: "#/components/responses/server_error"
+        503:
+          $ref: "#/components/responses/service_unavailable"
+  /management/packages:
+    get:
+      summary: Retrieves a list of available packages
+      description: "Retrieves a list of packages. Only packages that you have access to will be returned. You need at least **dealer** or **reseller** privileges to use this endpoint."
+      tags:
+        - Packages
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+      responses:
+        200:
+          $ref: "#/components/responses/PackageObjectArray"
+        400:
+          $ref: "#/components/responses/bad_request"
+        401:
+          $ref: "#/components/responses/unauthorized"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+        429:
+          $ref: "#/components/responses/too_many"
+        500:
+          $ref: "#/components/responses/server_error"
+        503:
+          $ref: "#/components/responses/service_unavailable"
+  "/management/packages/{id}":
+    get:
+      summary: Retrieves a package
+      description: "Retrieves information about a package. You need at least **dealer** or **reseller** privileges to use this endpoint."
+      tags:
+        - Packages
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        - $ref: "#/components/parameters/PackageIDParameter"
+      responses:
+        "200":
+          $ref: "#/components/responses/PackageObject"
+        400:
+          $ref: "#/components/responses/bad_request"
+        401:
+          $ref: "#/components/responses/unauthorized"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+        429:
+          $ref: "#/components/responses/too_many"
+        500:
+          $ref: "#/components/responses/server_error"
+        503:
+          $ref: "#/components/responses/service_unavailable"
+
+  /management/users:
+    post:
+      summary: Creates a new user
+      description: Creates a new user. You need to provide the company ID that you received in the onboarding e-mail.
+      tags:
+        - Users
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        - $ref: "#/components/parameters/UserQueryUserStatusParameter"
+      requestBody:
+        $ref: "#/components/requestBodies/UserObjectPost"
+      responses:
+        "200":
+          $ref: "#/components/responses/UserObject"
+        400:
+          $ref: "#/components/responses/bad_request"
+        401:
+          $ref: "#/components/responses/unauthorized"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+        429:
+          $ref: "#/components/responses/too_many"
+        500:
+          $ref: "#/components/responses/server_error"
+        503:
+          $ref: "#/components/responses/service_unavailable"
+    get:
+      summary: Retrieves a list of users
+      description: "Retrieves a list of users. Only users that you have access to will be returned." 
+      tags:
+        - Users
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        - $ref: "#/components/parameters/UserQueryUserStatusParameter"
+        - $ref: "#/components/parameters/UserQueryCompanyParameter"
+        - $ref: "#/components/parameters/UserQueryDealerParameter"
+        - $ref: "#/components/parameters/UserQueryResellerParameter"
+      responses:
+        "200":
+          $ref: "#/components/responses/UserObjectArray"
+        400:
+          $ref: "#/components/responses/bad_request"
+        401:
+          $ref: "#/components/responses/unauthorized"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+        429:
+          $ref: "#/components/responses/too_many"
+        500:
+          $ref: "#/components/responses/server_error"
+        503:
+          $ref: "#/components/responses/service_unavailable"
+  "/management/users/{id}":
+    get:
+      summary: Retrieves a user
+      description: "Retrieves a specific user."
+      tags:
+        - Users
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        - $ref: "#/components/parameters/UserIDParameter"
+        - $ref: "#/components/parameters/UserQueryUserStatusParameter"
+      responses:
+        "200":
+          $ref: "#/components/responses/UserObject"
+        400:
+          $ref: "#/components/responses/bad_request"
+        401:
+          $ref: "#/components/responses/unauthorized"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+        429:
+          $ref: "#/components/responses/too_many"
+        500:
+          $ref: "#/components/responses/server_error"
+        503:
+          $ref: "#/components/responses/service_unavailable"
+    put:
+      summary: Updates a user
+      description: "Updates a specific user. Replace **{id}** with the **id** attribute of a user."
+      tags:
+        - Users
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        - $ref: "#/components/parameters/UserIDParameter"
+        - $ref: "#/components/parameters/UserQueryUserStatusParameter"
+      requestBody:
+        $ref: "#/components/requestBodies/UserObjectPut"
+      responses:
+        "200":
+          $ref: "#/components/responses/UserObject"
+        400:
+          $ref: "#/components/responses/bad_request"
+        401:
+          $ref: "#/components/responses/unauthorized"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+        429:
+          $ref: "#/components/responses/too_many"
+        500:
+          $ref: "#/components/responses/server_error"
+        503:
+          $ref: "#/components/responses/service_unavailable"
+    patch:
+      summary: Updates a user
+      description: "Updates a specific user. Replace **{id}** with the **id** attribute of a user."
+      tags:
+        - Users
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        - $ref: "#/components/parameters/UserIDParameter"
+        - $ref: "#/components/parameters/UserQueryUserStatusParameter"
+      requestBody:
+        $ref: "#/components/requestBodies/UserObjectPatch"
+      responses:
+        "200":
+          $ref: "#/components/responses/UserObject"
+        400:
+          $ref: "#/components/responses/bad_request"
+        401:
+          $ref: "#/components/responses/unauthorized"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+        429:
+          $ref: "#/components/responses/too_many"
+        500:
+          $ref: "#/components/responses/server_error"
+        503:
+          $ref: "#/components/responses/service_unavailable"
+    delete:
+      summary: Deletes a user
+      description: "Deletes a specific user. Replace **{id}** with the **id** attribute of a user."
+      tags:
+        - Users
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        - $ref: "#/components/parameters/UserIDParameter"
+        - $ref: "#/components/parameters/UserQueryUserStatusParameter"
+      responses:
+        "200":
+          $ref: "#/components/responses/UserDeletedObject"
+        400:
+          $ref: "#/components/responses/bad_request"
+        401:
+          $ref: "#/components/responses/unauthorized"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+        429:
+          $ref: "#/components/responses/too_many"
+        500:
+          $ref: "#/components/responses/server_error"
+        503:
+          $ref: "#/components/responses/service_unavailable"
+
+  /management/sites:
+    post:
+      summary: Creates a new site
+      description: Creates a new site. You need at least **company admin** privileges to use this endpoint.
+      tags:
+        - Sites
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        - $ref: "#/components/parameters/AccountQueryUserStatusParameter"
+      requestBody:
+        $ref: "#/components/requestBodies/AccountObjectPost"
+      responses:
+        "200":
+          $ref: "#/components/responses/AccountObject"
+        400:
+          $ref: "#/components/responses/bad_request"
+        401:
+          $ref: "#/components/responses/unauthorized"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+        429:
+          $ref: "#/components/responses/too_many"
+        500:
+          $ref: "#/components/responses/server_error"
+        503:
+          $ref: "#/components/responses/service_unavailable"
+    get:
+      summary: Retrieves a list of sites
+      description: Retrieves a list of sites. Only sites that you have access to will be returned.
+      tags:
+        - Sites
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        - $ref: "#/components/parameters/AccountQueryUserStatusParameter"
+        - $ref: "#/components/parameters/AccountQueryCompanyParameter"
+      responses:
+        "200":
+          $ref: "#/components/responses/AccountObjectArray"
+        400:
+          $ref: "#/components/responses/bad_request"
+        401:
+          $ref: "#/components/responses/unauthorized"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+        429:
+          $ref: "#/components/responses/too_many"
+        500:
+          $ref: "#/components/responses/server_error"
+        503:
+          $ref: "#/components/responses/service_unavailable"
+
+
+
+
+
+
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+
+  schemas:
+    AccountRequestBodyPost:
+      required:
+        - name
+      allOf:
+        - $ref: "#/components/schemas/AccountRequestBody"
+        - type: object
+          properties:
+            company:
+              description: Company ID
+              type: string
+    AccountRequestBodyPut:
+      required:
+        - name
+      allOf:
+        - $ref: "#/components/schemas/AccountRequestBody"
+    AccountRequestBodyPatch:
+      allOf:
+        - $ref: "#/components/schemas/AccountRequestBody"
+    AccountRequestBody:
+      type: object
+      properties:
+        name:
+          description: Site name
+          type: string
+        logo:
+          description: "Base64 image excluded mimetype (e.g. data:image/png;base64,)"
+          type: string
+        users:
+          type: array
+          items:
+            type: string
+            description: List of User IDs
+        videochat_font_type:
+          description: "Chat font type."
+          enum:
+            - Roboto
+            - Helvetica
+            - Arial
+          type: string
+        videochat_font_color:
+          description: "Chat font color. Valid hex-formatted color code (#000000 to FFFFFF)."
+          type: string
+    AccountUsersRequestBody:
+      required:
+        - users
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            type: string
+            description: "List of User IDs"
+    AccountResponse:
+      type: object
+      properties:
+        id:
+          description: Site ID
+          type: string
+        name:
+          description: Site name
+          type: string
+        company:
+          $ref: "#/components/schemas/CompanyResponseShort"
+        logo:
+          description: Base64 image
+          type: string
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserResponse"
+        videochat_font_type:
+          description: Chat font type
+          type: string
+        videochat_font_color:
+          description: "Chat font color. Valid hex-formatted color code (#000000 to FFFFFF)."
+          type: string
+    AccountResponseShort:
+      type: object
+      properties:
+        id:
+          description: Site ID
+          type: string
+        name:
+          description: Site name
+          type: string
+    AccountResponseDeleted:
+      type: object
+      properties:
+        id:
+          description: Site ID
+          type: string
+    AuthRequestBodyAutoLoginUser:
+      required:
+        - product
+      type: object
+      properties:
+        agent:
+          description: "Agent ID. Not required for agents."
+          type: string
+        product:
+          description: Product name
+          enum:
+            - personal
+            - direct
+          type: string
+    AuthRequestBodyForgotPassword:
+      required:
+        - product
+        - email
+      type: object
+      properties:
+        product:
+          description: Product
+          enum:
+            - personal
+            - direct
+          type: string
+        email:
+          description: Email address
+          type: string
+    AuthResponseAutoLoginUser:
+      type: object
+      properties:
+        url:
+          description: Agent dashboard URL
+          type: string
+    AuthResponseForgotPassword:
+      type: object
+      properties:
+        status:
+          description: Status
+          type: string
+    AuthResponseMe:
+      oneOf:
+        - $ref: "#/components/schemas/UserResponse"
+        - $ref: "#/components/schemas/ClientResponse"
+    ClientRequestBodyPost:
+      required:
+        - name
+      allOf:
+        - $ref: "#/components/schemas/ClientRequestBody"
+        - type: object
+          properties:
+            entity:
+              oneOf:
+                - type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      description: Entity type dealer
+                      type: string
+                    id:
+                      description: Dealer ID
+                      type: string
+                - type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      description: Entity type reseller
+                      type: string
+                    id:
+                      description: Reseller ID
+                      type: string
+                - type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      description: Entity type company
+                      type: string
+                    id:
+                      description: Company ID
+                      type: string
+    ClientRequestBodyPut:
+      required:
+        - name
+      allOf:
+        - $ref: "#/components/schemas/ClientRequestBody"
+        - type: object
+          properties:
+            suspended:
+              description: Is suspended
+              type: boolean
+    ClientRequestBodyPatch:
+      allOf:
+        - $ref: "#/components/schemas/ClientRequestBody"
+        - type: object
+          properties:
+            suspended:
+              description: Is suspended
+              type: boolean
+    ClientRequestBody:
+      type: object
+      properties:
+        name:
+          description: Client name
+          type: string
+    ClientResponsePost:
+      allOf:
+        - $ref: "#/components/schemas/ClientResponse"
+        - type: object
+          properties:
+            client_secret:
+              description: OAuth Client secret
+              type: string
+    ClientResponse:
+      type: object
+      properties:
+        id:
+          description: Client ID
+          type: string
+        name:
+          description: Client name
+          type: string
+        client_id:
+          description: OAuth Client ID
+          type: string
+        created_at:
+          description: Created date and time
+          type: string
+          format: date-time
+        entity:
+          oneOf:
+            - type: object
+              properties:
+                type:
+                  description: Entity type dealer
+                  type: string
+                id:
+                  description: Dealer ID
+                  type: string
+                name:
+                  description: Dealer name
+                  type: string
+            - type: object
+              properties:
+                type:
+                  description: Entity type reseller
+                  type: string
+                id:
+                  description: Reseller ID
+                  type: string
+                name:
+                  description: Reseller name
+                  type: string
+            - type: object
+              properties:
+                type:
+                  description: Entity type company
+                  type: string
+                id:
+                  description: Company ID.
+                  type: string
+                name:
+                  description: Company name
+                  type: string
+                package:
+                  $ref: "#/components/schemas/PackageResponse"
+        suspended:
+          description: Is suspended
+          type: boolean
+    ClientResponseDeleted:
+      type: object
+      properties:
+        id:
+          description: Client ID
+          type: string
+    ClientResponseResetSecret:
+      type: object
+      properties:
+        id:
+          description: Client ID
+          type: string
+        client_id:
+          description: OAuth Client ID
+          type: string
+        client_secret:
+          description: OAuth Client secret
+          type: string
+    CompanyRequestBodyPost:
+      required:
+        - name
+        - contact
+        - package
+      allOf:
+        - $ref: "#/components/schemas/CompanyRequestBody"
+    CompanyRequestBodyPut:
+      required:
+        - name
+        - contact
+        - package
+      allOf:
+        - $ref: "#/components/schemas/CompanyRequestBody"
+        - type: object
+          properties:
+            suspended:
+              description: Is suspended
+              type: boolean
+    CompanyRequestBodyPatch:
+      allOf:
+        - $ref: "#/components/schemas/CompanyRequestBody"
+        - type: object
+          properties:
+            suspended:
+              description: Is suspended
+              type: boolean
+    CompanyRequestBody:
+      type: object
+      properties:
+        name:
+          description: Company name
+          type: string
+        contact:
+          $ref: "#/components/schemas/ContactRequestBody"
+        package:
+          description: Package ID
+          type: string
+        dealer:
+          description: Dealer ID
+          type: string
+    CompanyResponse:
+      type: object
+      properties:
+        id:
+          description: Company ID
+          type: string
+        name:
+          description: Company name
+          type: string
+        package:
+          $ref: "#/components/schemas/PackageResponse"
+        contact:
+          $ref: "#/components/schemas/ContactResponse"
+        dealer:
+          $ref: "#/components/schemas/DealerResponseShort"
+        suspended:
+          description: Is suspended
+          type: boolean
+    CompanyResponseShort:
+      type: object
+      properties:
+        id:
+          description: Company ID
+          type: string
+        name:
+          description: Company name
+          type: string
+        contact:
+          $ref: "#/components/schemas/ContactResponse"
+        suspended:
+          description: Is suspended
+          type: boolean
+    CompanyResponseDeleted:
+      type: object
+      properties:
+        id:
+          description: Company ID
+          type: string
+    ContactRequestBody:
+      type: object
+      required:
+        - first_name
+        - last_name
+        - email
+      properties:
+        first_name:
+          description: First name
+          type: string
+        last_name:
+          description: Last name
+          type: string
+        email:
+          description: E-mail address
+          type: string
+        phone:
+          description: Phone number
+          type: string
+        language:
+          description: "Language code (e.g. nl, en, etc.)"
+          type: string
+    ContactResponse:
+      type: object
+      properties:
+        id:
+          description: Contact ID
+          type: string
+        first_name:
+          description: First name
+          type: string
+        last_name:
+          description: Last name
+          type: string
+        email:
+          description: E-mail address
+          type: string
+        phone:
+          description: Phone number
+          type: string
+        language:
+          description: "Language code (e.g. nl, en, etc.)"
+          type: string
+    DealerRequestBodyPost:
+      required:
+        - name
+        - contact
+      allOf:
+        - $ref: "#/components/schemas/DealerRequestBody"
+    DealerRequestBodyPut:
+      required:
+        - name
+        - contact
+      allOf:
+        - $ref: "#/components/schemas/DealerRequestBody"
+        - type: object
+          properties:
+            suspended:
+              description: Is suspended
+              type: boolean
+    DealerRequestBodyPatch:
+      allOf:
+        - $ref: "#/components/schemas/DealerRequestBody"
+        - type: object
+          properties:
+            suspended:
+              description: Is suspended
+              type: boolean
+    DealerRequestBody:
+      type: object
+      properties:
+        name:
+          description: Dealer name
+          type: string
+        contact:
+          $ref: "#/components/schemas/ContactRequestBody"
+        notification_contact:
+          $ref: "#/components/schemas/NotificationContactRequestBody"
+        reseller:
+          description: Reseller ID
+          type: string
+    DealerResponse:
+      type: object
+      properties:
+        id:
+          description: Dealer ID
+          type: string
+        name:
+          description: Dealer name
+          type: string
+        contact:
+          $ref: "#/components/schemas/ContactResponse"
+        notification_contact:
+          $ref: "#/components/schemas/NotificationContactResponse"
+        reseller:
+          $ref: "#/components/schemas/ResellerResponse"
+        suspended:
+          description: Is suspended
+          type: boolean
+    DealerResponseShort:
+      type: object
+      properties:
+        id:
+          description: Dealer ID
+          type: string
+        name:
+          description: Dealer name
+          type: string
+        contact:
+          $ref: "#/components/schemas/ContactResponse"
+        notification_contact:
+          $ref: "#/components/schemas/NotificationContactResponse"
+        suspended:
+          description: Is suspended
+          type: boolean
+    DealerResponseDeleted:
+      type: object
+      properties:
+        id:
+          description: Dealer ID
+          type: string
+    MeetingRequestBodyPost:
+      required:
+        - site
+        - participants
+      type: object
+      properties:
+        site:
+          type: string
+          description: Site ID
+        agent:
+          type: string
+          description: "User ID. Not required for agents. It will create a meeting on behalf of the specified agent."
+        is_appointment:
+          type: boolean
+          description: "Define if meeting start directly or on specific start time. Set on true for specific time and false to start the meeting directly. Default true."
+        time_start:
+          type: string
+          format: date-time
+          description: "Date and time when meeting start (YYYY-MM-DD HH:mm:ss or ISO date). Only required when is_appointment is set on true."
+        time_end:
+          type: string
+          format: date-time
+          description: "Date and time when meeting is not valid anymore (YYYY-MM-DD HH:mm:ss or ISO date). Leave empty to set it one hour later as start time."
+        participants:
+          type: array
+          items:
+            required:
+              - name
+            type: object
+            properties:
+              name:
+                type: string
+                description: Participant name
+              email:
+                type: string
+                description: "Participant email for invite. Make sure that `send_email` is true. Leave empty to not send for specific participant."
+              phone:
+                type: string
+                description: "Participant phone for invite. Make sure that `send_sms` is true. Leave empty to not send for specific participant."
+        subject:
+          type: string
+          description: Meeting subject
+        invitation:
+          type: string
+          description: Invite message. Leave empty to get invite message from specified site.
+        invitation_sms:
+          type: string
+          description: Invite message SMS. Leave empty to get invite message from specified site.
+        send_email:
+          type: boolean
+          description: Send invite mail to participants. Default false
+        send_sms:
+          type: boolean
+          description: Send invite SMS to participants. Default false
+    MeetingResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The generated ID for this meeting.
+        company:
+          $ref: "#/components/schemas/CompanyResponseShort"
+        room_id:
+          type: string
+          description: "The room ID that is being used for this meeting. You generally do not need to use this information."
+        room_password:
+          type: string
+          description: "The room password that is being used for this meeting. You generally do not need to use this information."
+        duration:
+          type: integer
+          description: Duration of the meeting in seconds.
+        is_appointment:
+          type: boolean
+          description: "Define if meeting start directly or on specific start time. Value is true for specific time and false to start the meeting directly."
+        room_created:
+          type: string
+          format: date-time
+          description: "ISO date that described when the room is created."
+        room_available_from:
+          type: string
+          format: date-time
+          description: "ISO date that described from when the room will be available."
+        room_available_till:
+          type: string
+          format: date-time
+          description: "ISO date that describes until when the room will be available. If the conversation is still active at this time, it will NOT be automatically terminated!"
+        created_by:
+          type: object
+          properties:
+            id:
+              type: string
+              description: User ID
+            name:
+              type: string
+              description: User name
+        site:
+          $ref: "#/components/schemas/AccountResponseShort"
+        subject:
+          type: string
+          description: Meeting subject
+        invitation:
+          type: string
+          description: Invite message
+        participants:
+          type: array
+          items:
+            type: object
+            properties:
+              username:
+                type: string
+                description: "Automatically generated username for a participant, for an agent this username has a fixed value that is generated upon agent creation."
+              name:
+                type: string
+                description: "Contains the name of the agent when the participant is an agent, or the phone number of the participant when it is a participant."
+              id:
+                type: string
+                description: The generated ID of an agent or participant.
+              user:
+                type: string
+                description: Only returned for agents.
+              email:
+                type: string
+                description: Only returned for agents.
+              phone:
+                type: string
+                description: Only returned for agents.
+              hash:
+                type: string
+                description: "This value should be sent along in the secure link, it authenticates the agent and participant."
+              url:
+                type: string
+                description: "Contains the secure link to start the meeting for agent and visitors."
+    MeetingDeletedResponse:
+      type: object
+      properties:
+        id:
+          description: Meeting ID
+          type: string
+    MeetingSmsRequestBody:
+      type: object
+      required:
+        - participant
+        - message
+      properties:
+        participant:
+          description: Participant ID
+          type: string
+        message:
+          description: SMS message (max length = 40)
+          type: string
+    MeetingSmsResponse:
+      type: object
+      properties:
+        status:
+          description: OK
+          type: string
+    NotificationContactRequestBody:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          description: E-mail address
+          type: string
+    NotificationContactResponse:
+      type: object
+      properties:
+        id:
+          description: Contact ID
+          type: string
+        email:
+          description: E-mail address
+          type: string
+    PackageResponse:
+      type: object
+      properties:
+        id:
+          description: Package ID
+          type: string
+        name:
+          description: Package name
+          type: string
+        features:
+          anyOf:
+            - type: string
+              description: agent_create_appointment
+            - type: string
+              description: button
+            - type: string
+              description: forward
+            - type: string
+              description: multiple_participants
+            - type: string
+              description: chat
+            - type: string
+              description: appointment
+            - type: string
+              description: send_file
+            - type: string
+              description: screenshot
+            - type: string
+              description: presentation_pdf
+            - type: string
+              description: presentation_powerpoint
+            - type: string
+              description: screensharing
+            - type: string
+              description: cobrowsing_simple
+            - type: string
+              description: convert_file
+            - type: string
+              description: waitingroom
+            - type: string
+              description: weseedo_direct
+            - type: string
+              description: agent_recording
+            - type: string
+              description: cobrowsing
+            - type: string
+              description: screenshot
+    ProductMeetingRequestBodyPost:
+      type: object
+      required:
+        - phone
+      properties:
+        agent:
+          type: string
+          description: "User ID. Not required for agents. It will create a meeting on behalf of the specified agent."
+        phone:
+          type: string
+          description: "Phone number of the participant, either in the form of +31612312312, 0612312312, 12312312 (is converted to +31612312312), or any other valid international phone number."
+        invitation_sms:
+          type: string
+          description: "Invite message SMS. Leave empty to get invite message from specified site."
+        send_sms:
+          type: boolean
+          description: "Send invite SMS to participant. Default `false`"
+    ProductMeetingResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The generated ID for this meeting
+        company:
+          $ref: "#/components/schemas/CompanyResponseShort"
+        room_id:
+          type: string
+          description: "The room ID that is being used for this meeting, you generally do not need to use this information."
+        room_password:
+          type: string
+          description: "The room password that is being used for this meeting, you generally do not need to use this information."
+        duration:
+          type: integer
+          description: Duration of the meeting in seconds
+        room_created:
+          type: string
+          format: date-time
+          description: ISO date that described when the room is created.
+        room_available_from:
+          type: integer
+          format: date-time
+          description: ISO date that described from when the room will be available.
+        room_available_till:
+          type: integer
+          format: date-time
+          description: "ISO date that described until when the room will be available. If the conversation is still active at this time, it will NOT be automatically terminated!"
+        created_by:
+          type: object
+          properties:
+            id:
+              type: string
+              description: User ID
+            name:
+              type: string
+              description: User name
+        participants:
+          type: array
+          items:
+            type: object
+            properties:
+              username:
+                type: string
+                description: "Automatically generated username for a participant, for an agent this username has a fixed value that is generated upon agent creation."
+              name:
+                type: string
+                description: Contains the name of the agent
+              phone:
+                type: string
+                description: Contains the phone of the participant
+              id:
+                type: string
+                description: The generated ID of an agent or participant
+              user:
+                type: string
+                description: Only returned for agents
+              email:
+                type: string
+                description: Only returned for agents
+              hash:
+                type: string
+                description: "Only returned for participants, not for agents. This value should be sent along in the secure link that will be sent to the participant, it authenticates the participants."
+              url:
+                type: string
+                description: "Contains the secure link to start the meeting for agent and visitors."
+    ProductMeetingDeletedResponse:
+      type: object
+      properties:
+        id:
+          description: Meeting ID
+          type: string
+    ProductSmsRequestBody:
+      type: object
+      required:
+        - participant
+        - message
+      properties:
+        participant:
+          description: Participant ID
+          type: string
+        message:
+          description: SMS message (max length = 40)
+          type: string
+    ProductSmsResponse:
+      type: object
+      properties:
+        status:
+          description: OK
+          type: string
+    ResellerRequestBodyPost:
+      required:
+        - name
+        - contact
+      allOf:
+        - $ref: "#/components/schemas/ResellerRequestBody"
+    ResellerRequestBodyPut:
+      required:
+        - name
+        - contact
+      allOf:
+        - $ref: "#/components/schemas/ResellerRequestBody"
+        - type: object
+          properties:
+            suspended:
+              description: Is suspended
+              type: boolean
+    ResellerRequestBodyPatch:
+      allOf:
+        - $ref: "#/components/schemas/ResellerRequestBody"
+        - type: object
+          properties:
+            suspended:
+              description: Is suspended
+              type: boolean
+    ResellerRequestBody:
+      type: object
+      properties:
+        name:
+          description: Reseller name
+          type: string
+        contact:
+          $ref: "#/components/schemas/ContactRequestBody"
+        notification_contact:
+          $ref: "#/components/schemas/NotificationContactRequestBody"
+    ResellerResponse:
+      type: object
+      properties:
+        id:
+          description: Reseller ID
+          type: string
+        name:
+          description: Reseller name
+          type: string
+        contact:
+          $ref: "#/components/schemas/ContactResponse"
+        notification_contact:
+          $ref: "#/components/schemas/NotificationContactResponse"
+        suspended:
+          description: Is suspended
+          type: boolean
+    ResellerResponseDeleted:
+      type: object
+      properties:
+        id:
+          description: Reseller ID
+          type: string
+    UserRequestBodyPost:
+      required:
+        - first_name
+        - last_name
+        - name
+        - email
+        - locale
+        - role
+      allOf:
+        - $ref: "#/components/schemas/UserRequestBody"
+        - type: object
+          properties:
+            role:
+              oneOf:
+                - type: string
+                  description: Role "dealer"
+                - type: string
+                  description: Role "reseller"
+                - type: string
+                  description: Role "admin"
+                - type: string
+                  description: Role "agent"
+                - type: string
+                  description: Role "assistent"
+                - type: string
+                  description: Role "assistent_video"
+            entity:
+              oneOf:
+                - type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      description: Entity type dealer
+                      type: string
+                    id:
+                      description: Dealer ID
+                      type: string
+                - type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      description: Entity type reseller
+                      type: string
+                    id:
+                      description: Reseller ID
+                      type: string
+                - type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      description: Entity type company
+                      type: string
+                    id:
+                      description: Company ID
+                      type: string
+    UserRequestBodyPut:
+      required:
+        - first_name
+        - last_name
+        - name
+        - locale
+      allOf:
+        - $ref: "#/components/schemas/UserRequestBody"
+        - type: object
+          properties:
+            suspended:
+              description: Is suspended
+              type: boolean
+    UserRequestBodyPatch:
+      allOf:
+        - $ref: "#/components/schemas/UserRequestBody"
+        - type: object
+          properties:
+            suspended:
+              description: Is suspended
+              type: boolean
+    UserRequestBody:
+      type: object
+      properties:
+        first_name:
+          description: First name
+          type: string
+        last_name:
+          description: Last name
+          type: string
+        email:
+          description: E-mail address
+          type: string
+        photo:
+          description: "Base64 image excluded mimetype (e.g. data:image/png;base64,)"
+          type: string
+        password:
+          description: Password
+          type: string
+        locale:
+          oneOf:
+            - type: string
+              description: Locale "nl"
+            - type: string
+              description: Locale "en"
+    UserResponse:
+      type: object
+      properties:
+        id:
+          description: User ID
+          type: string
+        first_name:
+          description: First name
+          type: string
+        last_name:
+          description: Last name
+          type: string
+        name:
+          description: Full name
+          type: string
+        email:
+          description: E-mail address
+          type: string
+        photo:
+          description: Base64 image
+          type: string
+        locale:
+          oneOf:
+            - type: string
+              description: Locale "nl"
+            - type: string
+              description: Locale "en"
+        role:
+          oneOf:
+            - type: string
+              description: Role "dealer"
+            - type: string
+              description: Role "reseller"
+            - type: string
+              description: Role "admin"
+            - type: string
+              description: Role "agent"
+            - type: string
+              description: Role "assistent"
+            - type: string
+              description: Role "assistent_video"
+        created_at:
+          description: Created date and time
+          type: string
+          format: date-time
+        sites:
+          type: array
+          items:
+            $ref: "#/components/schemas/AccountResponseShort"
+        entity:
+          oneOf:
+            - type: object
+              properties:
+                type:
+                  description: Entity type dealer
+                  type: string
+                id:
+                  description: Dealer ID
+                  type: string
+                name:
+                  description: Dealer name
+                  type: string
+            - type: object
+              properties:
+                type:
+                  description: Entity type reseller
+                  type: string
+                id:
+                  description: Reseller ID
+                  type: string
+                name:
+                  description: Reseller name
+                  type: string
+            - type: object
+              properties:
+                type:
+                  description: Entity type company
+                  type: string
+                id:
+                  description: Company ID. You recived the Company ID in the onboarding e-mail. 
+                  type: string
+                name:
+                  description: Company name
+                  type: string
+                package:
+                  $ref: "#/components/schemas/PackageResponse"
+        status:
+          description: Status online or offline. Only added when status=true in query
+          type: string
+        suspended:
+          description: Is suspended
+          type: boolean
+    UserResponseDeleted:
+      type: object
+      properties:
+        id:
+          description: User ID
+          type: string
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction ID of the the request.
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error.
+          title: Info
+  responses:
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/error"
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/error"
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/error"
+    found:
+      description: found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/error"
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/error"
+    bad_request:
+      description: Bad Reqst
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/error"
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/error"
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/error"
+    AccountObjectArray:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AccountResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/AccountResponseObjectArraySchema"
+    AccountObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/AccountResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/AccountResponseObjectSchema"
+    AccountDeletedObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/AccountResponseDeleted"
+          examples:
+            Example:
+              $ref: "#/components/examples/AccountResponseDeletedObjectSchema"
+    AuthAutoLoginUserObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/AuthResponseAutoLoginUser"
+          examples:
+            Example:
+              $ref: "#/components/examples/AuthResponseAutoLoginUserObjectSchema"
+    AuthForgotPasswordObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/AuthResponseForgotPassword"
+          examples:
+            Example:
+              $ref: "#/components/examples/AuthResponseForgotPasswordObjectSchema"
+    AuthMeObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/AuthResponseMe"
+          examples:
+            Example1:
+              $ref: "#/components/examples/UserResponseObjectSchema"
+            Example2:
+              $ref: "#/components/examples/ClientResponseObjectSchema"
+    ClientObjectArray:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ClientResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/ClientResponseObjectArraySchema"
+    ClientObjectPost:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/ClientResponsePost"
+          examples:
+            Example:
+              $ref: "#/components/examples/ClientResponseObjectSchemaPost"
+    ClientObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/ClientResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/ClientResponseObjectSchema"
+    ClientDeletedObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/ClientResponseDeleted"
+          examples:
+            Example:
+              $ref: "#/components/examples/ClientResponseDeletedObjectSchema"
+    ClientSecretObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/ClientResponseResetSecret"
+          examples:
+            Example:
+              $ref: "#/components/examples/ClientResponseResetSecretObjectSchema"
+    CompanyObjectArray:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CompanyResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/CompanyResponseObjectArraySchema"
+    CompanyObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/CompanyResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/CompanyResponseObjectSchema"
+    CompanyDeletedObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/CompanyResponseDeleted"
+          examples:
+            Example:
+              $ref: "#/components/examples/CompanyResponseDeletedObjectSchema"
+    DealerObjectArray:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DealerResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/DealerResponseObjectArraySchema"
+    DealerObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/DealerResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/DealerResponseObjectSchema"
+    DealerDeletedObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/DealerResponseDeleted"
+          examples:
+            Example:
+              $ref: "#/components/examples/DealerResponseDeletedObjectSchema"
+    MeetingObjectArray:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MeetingResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/MeetingResponseObjectArraySchema"
+    MeetingObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/MeetingResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/MeetingResponseObjectSchema"
+    MeetingDeletedObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/MeetingDeletedResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/MeetingResponseDeletedObjectSchema"
+    MeetingSmsObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/MeetingSmsResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/MeetingSmsResponseObjectSchema"
+    PackageObjectArray:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PackageResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/PackageResponseObjectArraySchema"
+    PackageObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/PackageResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/PackageResponseObjectSchema"
+    ProductMeetingObjectArray:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProductMeetingResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/ProductMeetingResponseObjectArraySchema"
+    ProductMeetingObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/ProductMeetingResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/ProductMeetingResponseObjectSchema"
+    ProductMeetingDeletedObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/ProductMeetingDeletedResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/ProductMeetingResponseDeletedObjectSchema"
+    ProductSmsObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/ProductSmsResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/ProductSmsResponseObjectSchema"
+    ResellerObjectArray:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ResellerResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/ResellerResponseObjectArraySchema"
+    ResellerObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/ResellerResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/ResellerResponseObjectSchema"
+    ResellerDeletedObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/ResellerResponseDeleted"
+          examples:
+            Example:
+              $ref: "#/components/examples/ResellerResponseDeletedObjectSchema"
+    UserObjectArray:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/UserResponseObjectArraySchema"
+    UserObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/UserResponse"
+          examples:
+            Example:
+              $ref: "#/components/examples/UserResponseObjectSchema"
+    UserDeletedObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: "#/components/schemas/UserResponseDeleted"
+          examples:
+            Example:
+              $ref: "#/components/examples/UserResponseDeletedObjectSchema"
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: >-
+        API Version. If no version is provided it defaults to latest version.
+      required: false
+    user-email:
+      in: header
+      name: user_email
+      schema:
+        type: string
+      description: >-
+        email Address of the user agent.
+      required: true  
+    AccountIDParameter:
+      name: id
+      description: A valid site ID
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 35h64d8a0e14e4c24ac20f42
+    AccountQueryUserStatusParameter:
+      name: user_status
+      description: Add user status into users response
+      in: query
+      schema:
+        type: boolean
+    AccountQueryCompanyParameter:
+      name: company
+      description: Only select sites with given company ID
+      in: query
+      schema:
+        type: string
+        example: 784d061c0856dc4c97774da7
+    ClientIDParameter:
+      name: id
+      description: A valid client ID
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 46f6aa336a2308a5reteda1
+    ClientQueryCompanyParameter:
+      name: company
+      description: Only select clients with given company ID
+      in: query
+      schema:
+        type: string
+        example: 784d061c0856dc4c977
+    ClientQueryResellerParameter:
+      name: reseller
+      description: Only select clients with given reseller ID
+      in: query
+      schema:
+        type: string
+        example: 334d171d1854dd4c97874ba8
+    ClientQueryDealerParameter:
+      name: dealer
+      description: Only select clients with given dealer ID
+      in: query
+      schema:
+        type: string
+        example: 45h6ac8a1e14a3c24ab20740
+    CompanyIDParameter:
+      name: id
+      description: A valid company ID
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 74h7ey417b4558r37db39rad
+    DealerIDParameter:
+      name: id
+      description: A valid dealer ID
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 45h6ac8a1e14a3c24ab20740
+    MeetingIDParameter:
+      name: id
+      description: A valid meeting ID
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 6bbf64a9e13844d1d140d6e2
+    MeetingQueryCompanyParameter:
+      name: company
+      description: Only select meetings with given company ID
+      in: query
+      schema:
+        type: string
+        example: 784d061c0856dc4c97774da7
+    PackageIDParameter:
+      name: id
+      description: A valid package ID
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 674a5rb3ca9d4f7e4f1da67a
+    ProductMeetingIDParameter:
+      name: id
+      description: A valid meeting ID
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 6bbf64a9e13844d1d140d6e2
+    ProductQueryCompanyParameter:
+      name: company
+      description: Only select meetings with given company ID
+      in: query
+      schema:
+        type: string
+        example: 784d061c0856dc4c97774da7
+    ResellerIDParameter:
+      name: id
+      description: A valid reseller ID
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 334d171d1854dd4c97874ba8
+    UserIDParameter:
+      name: id
+      description: A valid user ID
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 84c7ey417a4558a38ca39ded
+    UserQueryUserStatusParameter:
+      name: user_status
+      description: Add user status into response
+      in: query
+      schema:
+        type: boolean
+    UserQueryCompanyParameter:
+      name: company
+      description: Only select users with given company ID
+      in: query
+      schema:
+        type: string
+        example: 784d061c0856dc4c97774da7
+    UserQueryResellerParameter:
+      name: reseller
+      description: Only select users with given reseller ID
+      in: query
+      schema:
+        type: string
+        example: 334d171d1854dd4c97874ba8
+    UserQueryDealerParameter:
+      name: dealer
+      description: Only select users with given dealer ID
+      in: query
+      schema:
+        type: string
+        example: 45h6ac8a1e14a3c24ab20740
+  requestBodies:
+    AccountObjectPost:
+      description: JSON site object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AccountRequestBodyPost"
+          examples:
+            Example:
+              $ref: "#/components/examples/AccountRequestBodyObjectSchemaPost"
+    AccountObjectPut:
+      description: JSON site object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AccountRequestBodyPut"
+          examples:
+            Example:
+              $ref: "#/components/examples/AccountRequestBodyObjectSchema"
+    AccountObjectPatch:
+      description: JSON site object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AccountRequestBodyPatch"
+          examples:
+            Example:
+              $ref: "#/components/examples/AccountRequestBodyObjectSchema"
+    AccountUsersObject:
+      description: JSON list with users
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AccountUsersRequestBody"
+          examples:
+            Example:
+              $ref: "#/components/examples/AccountUsersRequestBodyObjectSchema"
+    AuthAutoLoginUserObject:
+      description: JSON forgot password object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AuthRequestBodyAutoLoginUser"
+          examples:
+            Example:
+              $ref: "#/components/examples/AuthRequestBodyAutoLoginUserObjectSchema"
+    AuthForgotPasswordObject:
+      description: JSON forgot password object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AuthRequestBodyForgotPassword"
+          examples:
+            Example:
+              $ref: "#/components/examples/AuthRequestBodyForgotPasswordObjectSchema"
+    ClientObjectPost:
+      description: JSON client object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ClientRequestBodyPost"
+          examples:
+            Example:
+              $ref: "#/components/examples/ClientRequestBodyObjectSchemaPost"
+    ClientObjectPut:
+      description: JSON client object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ClientRequestBodyPut"
+          examples:
+            Example:
+              $ref: "#/components/examples/ClientRequestBodyObjectSchema"
+    ClientObjectPatch:
+      description: JSON client object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ClientRequestBodyPatch"
+          examples:
+            Example:
+              $ref: "#/components/examples/ClientRequestBodyObjectSchema"
+    CompanyObjectPost:
+      description: JSON company object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CompanyRequestBodyPost"
+          examples:
+            Example:
+              $ref: "#/components/examples/CompanyRequestBodyObjectSchemaPost"
+    CompanyObjectPut:
+      description: JSON company object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CompanyRequestBodyPut"
+          examples:
+            Example:
+              $ref: "#/components/examples/CompanyRequestBodyObjectSchema"
+    CompanyObjectPatch:
+      description: JSON company object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CompanyRequestBodyPatch"
+          examples:
+            Example:
+              $ref: "#/components/examples/CompanyRequestBodyObjectSchema"
+    DealerObjectPost:
+      description: JSON dealer object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/DealerRequestBodyPost"
+          examples:
+            Example:
+              $ref: "#/components/examples/DealerRequestBodyObjectSchemaPost"
+    DealerObjectPut:
+      description: JSON dealer object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/DealerRequestBodyPut"
+          examples:
+            Example:
+              $ref: "#/components/examples/DealerRequestBodyObjectSchema"
+    DealerObjectPatch:
+      description: JSON dealer object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/DealerRequestBodyPatch"
+          examples:
+            Example:
+              $ref: "#/components/examples/DealerRequestBodyObjectSchema"
+    MeetingObjectPost:
+      description: JSON meeting object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/MeetingRequestBodyPost"
+          examples:
+            Example:
+              $ref: "#/components/examples/MeetingRequestBodyObjectSchema"
+    MeetingSmsObject:
+      description: JSON sms object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/MeetingSmsRequestBody"
+          examples:
+            Example:
+              $ref: "#/components/examples/MeetingSmsRequestBodyObjectSchema"
+    ProductMeetingObjectPost:
+      description: JSON meeting object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ProductMeetingRequestBodyPost"
+          examples:
+            Example:
+              $ref: "#/components/examples/ProductMeetingRequestBodyObjectSchema"
+    ProductSmsObject:
+      description: JSON sms object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ProductSmsRequestBody"
+          examples:
+            Example:
+              $ref: "#/components/examples/ProductSmsRequestBodyObjectSchema"
+    ResellerObjectPost:
+      description: JSON reseller object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ResellerRequestBodyPost"
+          examples:
+            Example:
+              $ref: "#/components/examples/ResellerRequestBodyObjectSchemaPost"
+    ResellerObjectPut:
+      description: JSON reseller object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ResellerRequestBodyPut"
+          examples:
+            Example:
+              $ref: "#/components/examples/ResellerRequestBodyObjectSchema"
+    ResellerObjectPatch:
+      description: JSON reseller object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ResellerRequestBodyPatch"
+          examples:
+            Example:
+              $ref: "#/components/examples/ResellerRequestBodyObjectSchema"
+    UserObjectPost:
+      description: JSON user object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UserRequestBodyPost"
+          examples:
+            Example:
+              $ref: "#/components/examples/UserRequestBodyObjectSchemaPost"
+    UserObjectPut:
+      description: JSON user object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UserRequestBodyPut"
+          examples:
+            Example:
+              $ref: "#/components/examples/UserRequestBodyObjectSchema"
+    UserObjectPatch:
+      description: JSON user object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UserRequestBodyPatch"
+          examples:
+            Example:
+              $ref: "#/components/examples/UserRequestBodyObjectSchema"
+  examples:
+    AccountRequestBodyObjectSchemaPost:
+      summary: Site
+      value:
+        name: Site 1
+        logo: iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
+        users:
+          - 58f6ee406a2308a38ca39dec
+          - 54c6ae2c7a4504a38ca39dea
+        videochat_font_type: Roboto
+        videochat_text_color: "#000000"
+        company: 58h6aa8a0e14a4c24df20760
+    AccountRequestBodyObjectSchema:
+      summary: Site
+      value:
+        name: Site 1
+        logo: iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
+        users:
+          - 58f6ee406a2308a38ca39dec
+          - 54c6ae2c7a4504a38ca39dea
+        videochat_font_type: Roboto
+        videochat_text_color: "#000000"
+    AccountUsersRequestBodyObjectSchema:
+      summary: User list
+      value:
+        users:
+          - 58f6ee406a2308a38ca39dec
+          - 54c6ae2c7a4504a38ca39dea
+    AccountResponseObjectSchema:
+      summary: Site
+      value:
+        success: true
+        result:
+          id: 35h64d8a0e14e4c24ac20f42
+          name: Site 1
+          logo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA....."
+          company:
+            id: 58h6aa8a0e14a4c24df20760
+            name: Company 1
+            contact:
+              id: 784d061c0856dc4c97774da7
+              first_name: Firstname
+              last_name: Lastname
+              email: contact1@weseedo.nl
+              phone: "+31612345678"
+              language: nl
+            suspended: false
+          users:
+            - id: 58f6ee406a2308a38ca39dec
+              first_name: Firstname
+              last_name: Lastname
+              name: Firstname Lastname
+              email: agent1@weseedo.nl
+              locale: nl
+              role: agent
+              created_at: "2020-01-29T15:26:20.000Z"
+              entity:
+                type: company
+                id: 58h6aa8a0e14a4c24df20760
+                name: WeSeeDo B.V.
+              suspended: false
+            - id: 54c6ae2c7a4504a38ca39dea
+              first_name: Firstname
+              last_name: Lastname
+              name: Firstname Lastname
+              email: agent1@weseedo.nl
+              locale: nl
+              role: agent
+              created_at: "2020-01-29T15:26:20.000Z"
+              entity:
+                type: company
+                id: 58h6aa8a0e14a4c24df20760
+                name: WeSeeDo B.V.
+              suspended: false
+          videochat_font_type: Roboto
+          videochat_text_color: "#000000"
+          email_invite_text: Hereby I send you the confirmation for our online video call. On the specified date and time you can click the link in this email. The video call will appear on your screen and we can start the conversation. See you soon!
+          email_cancel_text: In case of a rescheduled appointment you will receive a new invitation by email. In this case you can discard the email regarding the old invitation.
+          email_hardwaretest_text: Using the link below you can test if your hardware is suitable for using WeSeeDo.
+          email_enable_hardwaretest: false
+    AccountResponseObjectArraySchema:
+      summary: List of sites
+      value:
+        success: true
+        result:
+          - id: 35h64d8a0e14e4c24ac20f42
+            name: Site 1
+            logo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA....."
+            company:
+              id: 58h6aa8a0e14a4c24df20760
+              name: Company 1
+              contact:
+                id: 784d061c0856dc4c97774da7
+                first_name: Firstname
+                last_name: Lastname
+                email: contact1@weseedo.nl
+                phone: "+31612345678"
+                language: nl
+              suspended: false
+            users:
+              - id: 58f6ee406a2308a38ca39dec
+                first_name: Firstname
+                last_name: Lastname
+                name: Firstname Lastname
+                email: agent1@weseedo.nl
+                locale: nl
+                role: agent
+                created_at: "2020-01-29T15:26:20.000Z"
+                entity:
+                  type: company
+                  id: 58h6aa8a0e14a4c24df20760
+                  name: WeSeeDo B.V.
+                suspended: false
+              - id: 54c6ae2c7a4504a38ca39dea
+                first_name: Firstname
+                last_name: Lastname
+                name: Firstname Lastname
+                email: agent1@weseedo.nl
+                locale: nl
+                role: agent
+                created_at: "2020-01-29T15:26:20.000Z"
+                entity:
+                  type: company
+                  id: 58h6aa8a0e14a4c24df20760
+                  name: WeSeeDo B.V.
+                suspended: false
+            videochat_font_type: Roboto
+            videochat_text_color: "#000000"
+            email_invite_text: Hereby I send you the confirmation for our online video call. On the specified date and time you can click the link in this email. The video call will appear on your screen and we can start the conversation. See you soon!
+            email_cancel_text: In case of a rescheduled appointment you will receive a new invitation by email. In this case you can discard the email regarding the old invitation.
+            email_hardwaretest_text: Using the link below you can test if your hardware is suitable for using WeSeeDo.
+            email_enable_hardwaretest: false
+          - id: 35h64d8a0e14e4c24ac20f43
+            name: Site 2
+            logo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA....."
+            company:
+              id: 58h6aa8a0e14a4c24df20760
+              name: Company 1
+              contact:
+                id: 784d061c0856dc4c97774da7
+                first_name: Firstname
+                last_name: Lastname
+                email: contact1@weseedo.nl
+                phone: "+31612345678"
+                language: nl
+              suspended: false
+            users:
+              - id: 58f6ee406a2308a38ca39dec
+                first_name: Firstname
+                last_name: Lastname
+                name: Firstname Lastname
+                email: agent1@weseedo.nl
+                locale: nl
+                role: agent
+                created_at: "2020-01-29T15:26:20.000Z"
+                entity:
+                  type: company
+                  id: 58h6aa8a0e14a4c24df20760
+                  name: WeSeeDo B.V.
+                suspended: false
+              - id: 54c6ae2c7a4504a38ca39dea
+                first_name: Firstname
+                last_name: Lastname
+                name: Firstname Lastname
+                email: agent1@weseedo.nl
+                locale: nl
+                role: agent
+                created_at: "2020-01-29T15:26:20.000Z"
+                entity:
+                  type: company
+                  id: 58h6aa8a0e14a4c24df20760
+                  name: WeSeeDo B.V.
+                suspended: false
+            videochat_font_type: Roboto
+            videochat_text_color: "#000000"
+            email_invite_text: Hereby I send you the confirmation for our online video call. On the specified date and time you can click the link in this email. The video call will appear on your screen and we can start the conversation. See you soon!
+            email_cancel_text: In case of a rescheduled appointment you will receive a new invitation by email. In this case you can discard the email regarding the old invitation.
+            email_hardwaretest_text: Using the link below you can test if your hardware is suitable for using WeSeeDo.
+            email_enable_hardwaretest: false
+    AccountResponseDeletedObjectSchema:
+      summary: Site ID
+      value:
+        success: true
+        result:
+          id: 35h64d8a0e14e4c24ac20f42
+    AuthRequestBodyAutoLoginUserObjectSchema:
+      summary: User agent and product
+      value:
+        agent: 58f6ee406a2308a38ca39dec
+        product: personal
+    AuthRequestBodyForgotPasswordObjectSchema:
+      summary: Email address
+      value:
+        product: personal
+        email: user1@weseedo.nl
+    AuthResponseAutoLoginUserObjectSchema:
+      summary: URL
+      value:
+        success: true
+        result:
+          url: "https://login.weseedo.nl/#/conversation/adminK1TRnQ2hAErCEpfbXwtYBCtVhLepFoHTldaFN7ewTrYgpO9t3A5VZpzMxGnvrhJoRMoUG6HzYM25X2zo7MveGNO0ndlTwUzrt5zIHRwKWZSkSWsR48mQoNGbBoNmrxoRxFOYLzWiaJATWH3y5sTOV0yeI2gT7OdjoKTXk1S0iKcsqilyqy3APPDimgYAaK9G8zvFIyAlPQUm9IbhjbyUrWCf1F1tEjgZoR1pownJqRirEc2C96h7t5NAlF"
+    AuthResponseForgotPasswordObjectSchema:
+      summary: Status OK
+      value:
+        success: true
+        result:
+          status: OK
+    ClientRequestBodyObjectSchemaPost:
+      summary: Client
+      value:
+        name: Client 1
+        entity:
+          type: company
+          id: fghfghfgdfghdfghf
+    ClientRequestBodyObjectSchema:
+      summary: Client
+      value:
+        name: Client 1
+        suspended: false
+    ClientResponseObjectSchemaPost:
+      summary: Client
+      value:
+        success: true
+        result:
+          id: hfghdfghdfhd4575676
+          name: Client 1
+          created_at: "2020-01-29T15:26:20.000Z"
+          entity:
+            type: company
+            id: rtetetwtertert
+            name: WeSeeDo B.V.
+            package:
+              id: 674a5rb3ca9d4f7e4f1da67a
+              name: professional
+              features:
+                - agent_create_appointment
+                - send_file
+                - screenshot
+                - chat
+          suspended: false
+          client_id: "3133978753845485"
+          client_secret: 5G4451WTZGHSJYKL10BL7PHPH6RBEC
+    ClientResponseObjectSchema:
+      summary: Client
+      value:
+        success: true
+        result:
+          id: 46f6aa336a2308a55ca35da1
+          name: Client 1
+          created_at: "2020-01-29T15:26:20.000Z"
+          entity:
+            type: company
+            id: 58h6aa8a0e14a4c24df20760
+            name: WeSeeDo B.V.
+            package:
+              id: 674a5rb3ca9d4f7e4f1da67a
+              name: professional
+              features:
+                - agent_create_appointment
+                - send_file
+                - screenshot
+                - chat
+          suspended: false
+          client_id: "3133978753845485"
+    ClientResponseObjectArraySchema:
+      summary: List of clients
+      value:
+        success: true
+        result:
+          - id: 46f6aa336a2308a55ca35da1
+            name: Client 1
+            created_at: "2020-01-28T14:26:06.000Z"
+            entity:
+              type: company
+              id: 58h6aa8a0e14a4c24df20760
+              name: WeSeeDo B.V.
+              package:
+                id: 674a5rb3ca9d4f7e4f1da67a
+                name: professional
+                features:
+                  - agent_create_appointment
+                  - send_file
+                  - screenshot
+                  - chat
+            suspended: false
+            client_id: "3133978753845485"
+          - id: 46f6aa336a2308a55ca35da2
+            name: Client 2
+            created_at: "2020-01-29T15:26:20.000Z"
+            entity:
+              type: company
+              id: 58h6aa8a0e14a4c24df20760
+              name: WeSeeDo B.V.
+              package:
+                id: 674a5rb3ca9d4f7e4f1da67a
+                name: professional
+                features:
+                  - agent_create_appointment
+                  - send_file
+                  - screenshot
+                  - chat
+            suspended: false
+            client_id: "3133978753845486"
+    ClientResponseDeletedObjectSchema:
+      summary: Client ID
+      value:
+        success: true
+        result:
+          id: 46f6aa336a2308a55ca35da1
+    ClientResponseResetSecretObjectSchema:
+      summary: Client secret
+      value:
+        success: true
+        result:
+          id: 46f6aa336a2308a55ca35da1
+          client_id: "3133978753845485"
+          client_secret: 5G4451WTZBJHJKJYKL10BL7PHPH6RBED
+    CompanyRequestBodyObjectSchemaPost:
+      summary: Company
+      value:
+        name: Company 1
+        contact:
+          first_name: Firstname
+          last_name: Lastname
+          email: contact1@weseedo.nl
+          phone: "+31612345678"
+          language: nl
+        package: 674a5rb3ca9d4f7e4f1da67a
+        dealer: 674d071c1854dd4c97774aa8
+    CompanyRequestBodyObjectSchema:
+      summary: Company
+      value:
+        name: Company 1
+        contact:
+          first_name: Firstname
+          last_name: Lastname
+          email: contact1@weseedo.nl
+          phone: "+31612345678"
+          language: nl
+        package: 674a5rb3ca9d4f7e4f1da67a
+        dealer: 674d071c1854dd4c97774aa8
+        suspended: false
+    CompanyResponseObjectSchema:
+      summary: Company
+      value:
+        success: true
+        result:
+          id: 58h6aa8a0e14a4c24df20760
+          name: Company 1
+          contact:
+            id: 784d061c0856dc4c97774da7
+            first_name: Firstname
+            last_name: Lastname
+            email: contact1@weseedo.nl
+            phone: "+31612345678"
+            language: nl
+          package:
+            id: 674a5rb3ca9d4f7e4f1da67a
+            name: professional
+            features:
+              - agent_create_appointment
+              - send_file
+              - screenshot
+              - chat
+          dealer:
+            id: 674d071c1854dd4c97774aa8
+            name: Dealer 1
+            contact:
+              id: 384c061c0956dc4c98874ba8
+              first_name: Firstname
+              last_name: Lastname
+              email: dealer1@weseedo.nl
+              phone: "+31612345678"
+              language: nl
+            suspended: false
+          suspended: false
+    CompanyResponseObjectArraySchema:
+      summary: List of companies
+      value:
+        success: true
+        result:
+          - id: 58h6aa8a0e14a4c24df20760
+            name: Company 1
+            contact:
+              id: 784d061c0856dc4c97774da7
+              first_name: Firstname
+              last_name: Lastname
+              email: contact1@weseedo.nl
+              phone: "+31612345678"
+              language: nl
+            package:
+              id: 674a5rb3ca9d4f7e4f1da67a
+              name: professional
+              features:
+                - agent_create_appointment
+                - send_file
+                - screenshot
+                - chat
+            dealer:
+              id: 674d071c1854dd4c97774aa8
+              name: Dealer 1
+              contact:
+                id: 384c061c0956dc4c98874ba8
+                first_name: Firstname
+                last_name: Lastname
+                email: dealer1@weseedo.nl
+                phone: "+31612345678"
+                language: nl
+              suspended: false
+            suspended: false
+          - id: 58h6aa8a0e14a4c24df20761
+            name: Company 2
+            contact:
+              id: 784d061c0856dc4c97774da8
+              first_name: Firstname
+              last_name: Lastname
+              email: contact2@weseedo.nl
+              phone: "+31612345678"
+              language: nl
+            package:
+              id: 674a5rb3ca9d4f7e4f1da67a
+              name: premium
+              features:
+                - agent_create_appointment
+                - send_file
+                - screenshot
+                - chat
+                - screensharing
+                - appointment
+            dealer:
+              id: 674d071c1854dd4c97774aa8
+              name: Dealer 1
+              contact:
+                id: 384c061c0956dc4c98874ba8
+                first_name: Firstname
+                last_name: Lastname
+                email: dealer1@weseedo.nl
+                phone: "+31612345678"
+                language: nl
+              suspended: false
+            suspended: false
+    CompanyResponseDeletedObjectSchema:
+      summary: Company ID
+      value:
+        success: true
+        result:
+          id: 58h6aa8a0e14a4c24df20760
+    ContactRequestBodyObjectSchema:
+      summary: Contact
+      value:
+        first_name: Firstname
+        last_name: Lastname
+        email: contact1@weseedo.nl
+        phone: "+31612345678"
+        language: nl
+    ContactResponseObjectSchema:
+      summary: Contact
+      value:
+        success: true
+        result:
+          id: 784d061c0856dc4c97774da7
+          first_name: Firstname
+          last_name: Lastname
+          email: contact1@weseedo.nl
+          phone: "+31612345678"
+          language: nl
+    DealerRequestBodyObjectSchemaPost:
+      summary: Dealer
+      value:
+        name: Dealer 1
+        contact:
+          first_name: Firstname
+          last_name: Lastname
+          email: dealer1@weseedo.nl
+          phone: "+31612345678"
+          language: nl
+        notification_contact:
+          email: notify_dealer@weseedo.nl
+        reseller: 334d171d1854dd4c97874ba8
+    DealerRequestBodyObjectSchema:
+      summary: Dealer
+      value:
+        name: Dealer 1
+        contact:
+          first_name: Firstname
+          last_name: Lastname
+          email: dealer1@weseedo.nl
+          phone: "+31612345678"
+          language: nl
+        notification_contact:
+          email: notify_dealer@weseedo.nl
+        reseller: 334d171d1854dd4c97874ba8
+        suspended: false
+    DealerResponseObjectSchema:
+      summary: Dealer
+      value:
+        success: true
+        result:
+          id: 45h6ac8a1e14a3c24ab20740
+          name: Dealer 1
+          contact:
+            id: 734d161c1456dc4c97774bb7
+            first_name: Firstname
+            last_name: Lastname
+            email: dealer1@weseedo.nl
+            phone: "+31612345678"
+            language: nl
+          notification_contact:
+            email: notify_dealer@weseedo.nl
+          reseller:
+            id: 334d171d1854dd4c97874ba8
+            name: Reseller 1
+            contact:
+              id: 444c071c0956db4c986674ba8
+              first_name: Firstname
+              last_name: Lastname
+              email: reseller1@weseedo.nl
+              phone: "+31612345678"
+              language: nl
+            notification_contact:
+              email: notify_reseller@weseedo.nl
+            suspended: false
+          suspended: false
+    DealerResponseObjectArraySchema:
+      summary: List of dealers
+      value:
+        success: true
+        result:
+          - id: 45h6ac8a1e14a3c24ab20740
+            name: Dealer 1
+            contact:
+              id: 734d161c1456dc4c97774bb7
+              first_name: Firstname
+              last_name: Lastname
+              email: dealer1@weseedo.nl
+              phone: "+31612345678"
+              language: nl
+            notification_contact:
+              email: notify_dealer@weseedo.nl
+            reseller:
+              id: 334d171d1854dd4c97874ba8
+              name: Reseller 1
+              contact:
+                id: 384c061c0956dc4c98874ba8
+                first_name: Firstname
+                last_name: Lastname
+                email: reseller1@weseedo.nl
+                phone: "+31612345678"
+                language: nl
+              notification_contact:
+                email: notify_reseller@weseedo.nl
+              suspended: false
+            suspended: false
+          - id: 45h6ac8a1e14a3c24ab20741
+            name: Dealer 2
+            contact:
+              id: 734d161c1456dc4c97774bb7
+              first_name: Firstname
+              last_name: Lastname
+              email: dealer2@weseedo.nl
+              phone: "+31612345678"
+              language: nl
+            notification_contact:
+              email: notify_dealer@weseedo.nl
+            reseller:
+              id: 334d171d1854dd4c97874ba8
+              name: Reseller 1
+              contact:
+                id: 384c061c0956dc4c98874ba8
+                first_name: Firstname
+                last_name: Lastname
+                email: reseller1@weseedo.nl
+                phone: "+31612345678"
+                language: nl
+              notification_contact:
+                email: notify_reseller@weseedo.nl
+              suspended: false
+            suspended: false
+    DealerResponseDeletedObjectSchema:
+      summary: Dealer ID
+      value:
+        success: true
+        result:
+          id: 45h6ac8a1e14a3c24ab20740
+    MeetingRequestBodyObjectSchema:
+      summary: Meeting
+      value:
+        site: 35h64d8a0e14e4c24ac20f42
+        agent: 5aedbd02e138231a7c1d7719
+        is_appointment: true
+        time_start: "2020-03-18T14:15:00.000Z"
+        time_end: "2020-03-18T15:15:00.000Z"
+        participants:
+          - name: Participant 1
+            email: visitor1@participant.nl
+            phone: "+31612312312"
+          - name: Participant 2
+            email: visitor2@participant.nl
+            phone: "+31612312312"
+        subject: Meeting
+        invitation: Hereby I send you the confirmation for our online video call. On the specified date and time you can click the link in this email. The video call will appear on your screen and we can start the conversation. See you soon!
+        invitation_sms: Click on the link to join.
+        send_email: true
+        send_sms: true
+    MeetingResponseObjectSchema:
+      summary: Meeting
+      value:
+        success: true
+        result:
+          id: 6bbf64a9e13844d1d140d6e2
+          company:
+            id: 58h6aa8a0e14a4c24df20760
+            name: Company 1
+            contact:
+              id: 784d061c0856dc4c97774da7
+              first_name: Firstname
+              last_name: Lastname
+              email: contact1@weseedo.nl
+              phone: "+31612345678"
+              language: nl
+            suspended: false
+          room_id: 9Pusrq3Do43DAEQnOG9aCtLFfl2FoURd
+          room_password: O0p48P2TuMavG0EAtMSdpy4PbkO2h2
+          duration: 0
+          is_appointment: true
+          room_created: "2020-03-18T14:15:00.000Z"
+          room_available_from: "2020-03-18T14:15:00.000Z"
+          room_available_till: "2020-03-18T15:15:00.000Z"
+          created_by:
+            id: 58f6ee406a2308a38ca39dec
+            name: Firstname Lastname
+          site:
+            id: 47c6eedd1a14d3b20dd20771
+            name: Account 1
+          subject: Meeting
+          invitation: Hereby I send you the confirmation for our online video call. On the specified date and time you can click the link in this email. The video call will appear on your screen and we can start the conversation. See you soon!
+          participants:
+            - username: agent.89f6aa406a2307a38da39a4r
+              name: Agent
+              id: 5aedbd02e138231a7c1d7719
+              user: 58f6ee406a2308a38ca39dec
+              email: agent1@weseedo.nl
+              initial_participant: true
+              sessions:
+                - sessions
+              hash: qj7OqoxSt2zK6S16my8VZ28N1IigzvNl_jMz42wlA8Dj59DKV0G8zAc6PJ8LvWiHx
+              url: "https://login.weseedo.nl/#/conversation/qj7OqoxSt2zK6S16my8VZ28N1IigzvNl_jMz42wlA8Dj59DKV0G8zAc6PJ8LvWiHx"
+            - username: visitor.Cxo9uuYVYFAJDW47
+              name: Participant 1
+              id: 5aedbd02e138231a7c1d7820
+              email: visitor1@participant.nl
+              phone: "+31612312312"
+              initial_participant: true
+              sessions:
+                - sessions
+              hash: wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubA
+              url: "https://login.weseedo.nl/meeting/wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubA"
+            - username: visitor.Cxo9uuYVYFAJDW48
+              name: Participant 1
+              id: 5aedbd02e138231a7c1d7820
+              email: visitor2@participant.nl
+              phone: "+31612312312"
+              initial_participant: true
+              sessions:
+                - sessions
+              hash: wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubB
+              url: "https://login.weseedo.nl/meeting/wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubB"
+    MeetingResponseObjectArraySchema:
+      summary: List of meetings
+      value:
+        success: true
+        result:
+          - id: 6bbf64a9e13844d1d140d6e2
+            company:
+              id: 58h6aa8a0e14a4c24df20760
+              name: Company 1
+              contact:
+                id: 784d061c0856dc4c97774da7
+                first_name: Firstname
+                last_name: Lastname
+                email: contact1@weseedo.nl
+                phone: "+31612345678"
+                language: nl
+              suspended: false
+            room_id: 9Pusrq3Do43DAEQnOG9aCtLFfl2FoURc
+            room_password: O0p48P2TuMavG0EAtMSdpy4PbkO2h1
+            duration: 0
+            is_appointment: true
+            room_created: "2020-03-18T14:15:00.000Z"
+            room_available_from: "2020-03-18T14:15:00.000Z"
+            room_available_till: "2020-03-18T15:15:00.000Z"
+            created_by:
+              id: 58f6ee406a2308a38ca39dec
+              name: Firstname Lastname
+            site:
+              id: 47c6eedd1a14d3b20dd20771
+              name: Account 1
+            subject: Meeting
+            invitation: Hereby I send you the confirmation for our online video call. On the specified date and time you can click the link in this email. The video call will appear on your screen and we can start the conversation. See you soon!
+            participants:
+              - username: agent.89f6aa406a2307a38da39a4r
+                name: Agent
+                id: 5aedbd02e138231a7c1d7719
+                user: 58f6ee406a2308a38ca39dec
+                email: agent1@weseedo.nl
+                initial_participant: true
+                sessions:
+                  - sessions
+                hash: qj7OqoxSt2zK6S16my8VZ28N1IigzvNl_jMz42wlA8Dj59DKV0G8zAc6PJ8LvWiHx
+                url: "https://login.weseedo.nl/#/conversation/qj7OqoxSt2zK6S16my8VZ28N1IigzvNl_jMz42wlA8Dj59DKV0G8zAc6PJ8LvWiHx"
+              - username: visitor.Cxo9uuYVYFAJDW47
+                name: Participant 1
+                id: 5aedbd02e138231a7c1d7820
+                email: visitor1@participant.nl
+                phone: "+31612312312"
+                initial_participant: true
+                sessions:
+                  - sessions
+                hash: wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubA
+                url: "https://login.weseedo.nl/meeting/wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubA"
+              - username: visitor.Cxo9uuYVYFAJDW48
+                name: Participant 1
+                id: 5aedbd02e138231a7c1d7820
+                email: visitor2@participant.nl
+                phone: "+31612312312"
+                initial_participant: true
+                sessions:
+                  - sessions
+                hash: wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubB
+                url: "https://login.weseedo.nl/meeting/wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubB"
+          - id: 6bbf64a9e13844d1d140d6e3
+            company:
+              id: 58h6aa8a0e14a4c24df20760
+              name: Company 1
+              contact:
+                id: 784d061c0856dc4c97774da7
+                first_name: Firstname
+                last_name: Lastname
+                email: contact1@weseedo.nl
+                phone: "+31612345678"
+                language: nl
+              suspended: false
+            room_id: 9Pusrq3Do43DAEQnOG9aCtLFfl2FoURc
+            room_password: O0p48P2TuMavG0EAtMSdpy4PbkO2h1
+            duration: 0
+            is_appointment: true
+            room_created: "2020-03-18T14:15:00.000Z"
+            room_available_from: "2020-03-18T14:15:00.000Z"
+            room_available_till: "2020-03-18T15:15:00.000Z"
+            created_by:
+              id: 54c6ae2c7a4504a38ca39dea
+              name: Firstname Lastname
+            site:
+              id: 47c6eedd1a14d3b20dd20771
+              name: Account 1
+            subject: Meeting
+            invitation: Hereby I send you the confirmation for our online video call. On the specified date and time you can click the link in this email. The video call will appear on your screen and we can start the conversation. See you soon!
+            participants:
+              - username: agent.89f6aa406a2307a38da39a4b
+                name: Agent
+                id: 5aedbd02e138231a7c1d7720
+                user: 54c6ae2c7a4504a38ca39dea
+                email: agent2@weseedo.nl
+                initial_participant: true
+                sessions:
+                  - sessions
+                hash: qj7OqoxSt2zK6S16my8VZ28N1IigzvNl_jMz42wlA8Dj59DKV0G8zAc6PJ8LvWiHy
+                url: "https://login.weseedo.nl/#/conversation/qj7OqoxSt2zK6S16my8VZ28N1IigzvNl_jMz42wlA8Dj59DKV0G8zAc6PJ8LvWiHy"
+              - username: visitor.Cxo9uuYVYFAJDW49
+                name: Participant 1
+                id: 5aedbd02e138231a7c1d7820
+                email: visitor1@participant.nl
+                phone: "+31612312312"
+                initial_participant: true
+                sessions:
+                  - sessions
+                hash: wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubC
+                url: "https://login.weseedo.nl/meeting/wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubC"
+              - username: visitor.Cxo9uuYVYFAJDW50
+                name: Participant 1
+                id: 5aedbd02e138231a7c1d7820
+                email: visitor2@participant.nl
+                phone: "+31612312312"
+                initial_participant: true
+                sessions:
+                  - sessions
+                hash: wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubD
+                url: "https://login.weseedo.nl/meeting/wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubD"
+    MeetingResponseDeletedObjectSchema:
+      summary: Meeting ID
+      value:
+        success: true
+        result:
+          id: 6bbf64a9e13844d1d140d6e2
+    MeetingSmsRequestBodyObjectSchema:
+      summary: Sms
+      value:
+        participant: 58c6dd8a0a14d4b20df36e62
+        message: Please click on the link to join.
+    MeetingSmsResponseObjectSchema:
+      summary: Sms
+      value:
+        success: true
+        result:
+          status: OK
+    NotificationContactRequestBodyObjectSchema:
+      summary: Notification contact
+      value:
+        email: contact1@weseedo.nl
+    NotificationContactResponseObjectSchema:
+      summary: Notification contact
+      value:
+        success: true
+        result:
+          id: 784d061c0856dc4c97774da7
+          email: contact1@weseedo.nl
+    PackageResponseObjectSchema:
+      summary: Package
+      value:
+        success: true
+        result:
+          id: 674a5rb3ca9d4f7e4f1da67a
+          name: professional
+          features:
+            - agent_create_appointment
+            - send_file
+            - screenshot
+            - chat
+    PackageResponseObjectArraySchema:
+      summary: List of packages
+      value:
+        success: true
+        result:
+          - id: 674a5rb3ca9d4f7e4f1da67a
+            name: professional
+            features:
+              - agent_create_appointment
+              - send_file
+              - screenshot
+              - chat
+          - id: 674a5rb3ca9d4f7e4f1da68b
+            name: premium
+            features:
+              - agent_create_appointment
+              - send_file
+              - screenshot
+              - chat
+              - screensharing
+              - appointment
+    ProductMeetingRequestBodyObjectSchema:
+      summary: Meeting
+      value:
+        agent: 58f6ee406a2308a38ca39dec
+        phone: "+31612312312"
+        invitation_sms: Click on the link to join.
+        send_sms: true
+    ProductMeetingResponseObjectSchema:
+      summary: Meeting
+      value:
+        success: true
+        result:
+          id: 6bbf64a9e13844d1d140d6e2
+          company:
+            id: 58h6aa8a0e14a4c24df20760
+            name: Company 1
+            contact:
+              id: 784d061c0856dc4c97774da7
+              first_name: Firstname
+              last_name: Lastname
+              email: contact1@weseedo.nl
+              phone: "+31612345678"
+              language: nl
+            suspended: false
+          room_id: 9Pusrq3Do43DAEQnOG9aCtLFfl2FoURd
+          room_password: O0p48P2TuMavG0EAtMSdpy4PbkO2h2
+          duration: 0
+          room_created: "2020-03-27T18:43:07.000Z"
+          room_available_from: "2020-03-27T18:43:07.000Z"
+          room_available_till: "2020-04-03T18:43:07.000Z"
+          created_by:
+            id: 58f6ee406a2308a38ca39dec
+            name: Firstname Lastname
+          participants:
+            - username: agent.89f6aa406a2307a38da39a4r
+              name: Agent 1
+              id: 5aedbd02e138231a7c1d7719
+              user: 58f6ee406a2308a38ca39dec
+              email: agent1@weseedo.nl
+              initial_participant: true
+              sessions:
+                - sessions
+              hash: qj7OqoxSt2zK6S16my8VZ28N1IigzvNl_jMz42wlA8Dj59DKV0G8zAc6PJ8LvWiHx
+              url: "https://login-direct.weseedo.nl/login/TOKEN/1"
+            - username: visitor.Cxo9uuYVYFAJDW47
+              phone: "+3112312312"
+              id: 5aedbd02e138231a7c1d7820
+              initial_participant: true
+              sessions:
+                - sessions
+              hash: wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubA
+              url: "https://login-direct.weseedo.nl/meeting/wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubA"
+    ProductMeetingResponseObjectArraySchema:
+      summary: List of meetings
+      value:
+        success: true
+        result:
+          - id: 6bbf64a9e13844d1d140d6e2
+            company:
+              id: 58h6aa8a0e14a4c24df20760
+              name: Company 1
+              contact:
+                id: 784d061c0856dc4c97774da7
+                first_name: Firstname
+                last_name: Lastname
+                email: contact1@weseedo.nl
+                phone: "+31612345678"
+                language: nl
+              suspended: false
+            room_id: 9Pusrq3Do43DAEQnOG9aCtLFfl2FoURc
+            room_password: O0p48P2TuMavG0EAtMSdpy4PbkO2h1
+            duration: 0
+            room_created: "2020-03-27T18:43:07.000Z"
+            room_available_from: "2020-03-27T18:43:07.000Z"
+            room_available_till: "2020-04-03T18:43:07.000Z"
+            created_by:
+              id: 58f6ee406a2308a38ca39dec
+              name: Firstname Lastname
+            participants:
+              - username: agent.89f6aa406a2307a38da39a4r
+                name: Agent 1
+                id: 5aedbd02e138231a7c1d7719
+                user: 58f6ee406a2308a38ca39dec
+                email: agent1@weseedo.nl
+                initial_participant: true
+                sessions:
+                  - sessions
+                hash: qj7OqoxSt2zK6S16my8VZ28N1IigzvNl_jMz42wlA8Dj59DKV0G8zAc6PJ8LvWiHx
+                url: "https://login-direct.weseedo.nl/login/TOKEN/1"
+              - username: visitor.Cxo9uuYVYFAJDW47
+                phone: "+3112312312"
+                id: 5aedbd02e138231a7c1d7820
+                initial_participant: true
+                sessions:
+                  - sessions
+                hash: wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubA
+                url: "https://login-direct.weseedo.nl/meeting/wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubA"
+          - id: 6bbf64a9e13844d1d140d6e3
+            company:
+              id: 58h6aa8a0e14a4c24df20760
+              name: Company 1
+              contact:
+                id: 784d061c0856dc4c97774da7
+                first_name: Firstname
+                last_name: Lastname
+                email: contact1@weseedo.nl
+                phone: "+31612345678"
+                language: nl
+              suspended: false
+            room_id: 9Pusrq3Do43DAEQnOG9aCtLFfl2FoURc
+            room_password: O0p48P2TuMavG0EAtMSdpy4PbkO2h1
+            duration: 0
+            room_created: "2020-03-27T18:43:07.000Z"
+            room_available_from: "2020-03-27T18:43:07.000Z"
+            room_available_till: "2020-04-03T18:43:07.000Z"
+            created_by:
+              id: 54c6ae2c7a4504a38ca39dea
+              name: Firstname Lastname
+            participants:
+              - username: agent.89f6aa406a2307a38da39a4b
+                name: Agent 1
+                id: 5aedbd02e138231a7c1d7720
+                user: 54c6ae2c7a4504a38ca39dea
+                email: agent2@weseedo.nl
+                initial_participant: true
+                sessions:
+                  - sessions
+                hash: qj7OqoxSt2zK6S16my8VZ28N1IigzvNl_jMz42wlA8Dj59DKV0G8zAc6PJ8LvWiHy
+                url: "https://login-direct.weseedo.nl/login/TOKEN/1"
+              - username: visitor.Cxo9uuYVYFAJDW48
+                phone: "+3112312312"
+                id: 5aedbd02e138231a7c1d7820
+                initial_participant: true
+                sessions:
+                  - sessions
+                hash: wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubB
+                url: "https://login-direct.weseedo.nl/meeting/wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubB"
+    ProductMeetingResponseDeletedObjectSchema:
+      summary: Meeting ID
+      value:
+        success: true
+        result:
+          id: 6bbf64a9e13844d1d140d6e2
+    ProductSmsRequestBodyObjectSchema:
+      summary: Sms
+      value:
+        participant: 58c6dd8a0a14d4b20df36e62
+        message: Please click on the link to join.
+    ProductSmsResponseObjectSchema:
+      summary: Sms
+      value:
+        success: true
+        result:
+          status: OK
+    ResellerRequestBodyObjectSchemaPost:
+      summary: Reseller
+      value:
+        name: Reseller 1
+        contact:
+          first_name: Firstname
+          last_name: Lastname
+          email: reseller1@weseedo.nl
+          phone: "+31612345678"
+          language: nl
+        notification_contact:
+          email: notify_reseller@weseedo.nl
+    ResellerRequestBodyObjectSchema:
+      summary: Reseller
+      value:
+        name: Reseller 1
+        contact:
+          first_name: Firstname
+          last_name: Lastname
+          email: reseller1@weseedo.nl
+          phone: "+31612345678"
+          language: nl
+        notification_contact:
+          email: notify_reseller@weseedo.nl
+        suspended: false
+    ResellerResponseObjectSchema:
+      summary: Reseller
+      value:
+        success: true
+        result:
+          id: 334d171d1854dd4c97874ba8
+          name: Reseller 1
+          contact:
+            id: 734d161c1456dc4c97774bb7
+            first_name: Firstname
+            last_name: Lastname
+            email: reseller1@weseedo.nl
+            phone: "+31612345678"
+            language: nl
+          notification_contact:
+            email: notify_reseller@weseedo.nl
+          suspended: false
+    ResellerResponseObjectArraySchema:
+      summary: List of resellers
+      value:
+        success: true
+        result:
+          - id: 334d171d1854dd4c97874ba8
+            name: Reseller 1
+            contact:
+              id: 734d161c1456dc4c97774bb7
+              first_name: Firstname
+              last_name: Lastname
+              email: reseller1@weseedo.nl
+              phone: "+31612345678"
+              language: nl
+            notification_contact:
+              email: notify_reseller@weseedo.nl
+            suspended: false
+          - id: 334d171d1854dd4c97874ba9
+            name: Reseller 2
+            contact:
+              id: 734d161c1456dc4c97774bb8
+              first_name: Firstname
+              last_name: Lastname
+              email: reseller2@weseedo.nl
+              phone: "+31612345678"
+              language: nl
+            notification_contact:
+              email: notify_reseller@weseedo.nl
+            suspended: false
+    ResellerResponseDeletedObjectSchema:
+      summary: Reseller ID
+      value:
+        success: true
+        result:
+          id: 334d171d1854dd4c97874ba8
+    UserRequestBodyObjectSchemaPost:
+      summary: User
+      value:
+        first_name: Firstname
+        last_name: Lastname
+        email: agent1@weseedo.nl
+        photo: iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
+        password: StrongPassword123!
+        locale: nl
+        role: agent
+        entity:
+          type: company
+          id: 58h6aa8a0e14a4c24df20760
+    UserRequestBodyObjectSchema:
+      summary: User
+      value:
+        first_name: Firstname
+        last_name: Lastname
+        email: agent1@weseedo.nl
+        photo: iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
+        password: StrongPassword123!
+        locale: nl
+        suspended: false
+    UserResponseObjectSchema:
+      summary: User
+      value:
+        success: true
+        result:
+          id: 58f6ee406a2308a38ca39dec
+          first_name: Firstname
+          last_name: Lastname
+          name: Firstname Lastname
+          email: agent1@weseedo.nl
+          photo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA....."
+          locale: nl
+          role: agent
+          created_at: "2020-01-29T15:26:20.000Z"
+          sites:
+            - id: 47c6eedd1a14d3b20dd20771
+              name: Account 1
+            - id: 47c6eedd1a14d3b20dd20772
+              name: Account 2
+          entity:
+            type: company
+            id: 58h6aa8a0e14a4c24df20760
+            name: WeSeeDo B.V.
+            package:
+              id: 674a5rb3ca9d4f7e4f1da67a
+              name: professional
+              features:
+                - agent_create_appointment
+                - send_file
+                - screenshot
+                - chat
+          status: online
+          suspended: false
+    UserResponseObjectArraySchema:
+      summary: List of users
+      value:
+        success: true
+        result:
+          - id: 58f6ee406a2308a38ca39dec
+            first_name: Firstname
+            last_name: Lastname
+            name: Firstname Lastname
+            email: agent1@weseedo.nl
+            photo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA....."
+            locale: nl
+            role: agent
+            created_at: "2020-01-28T14:26:06.000Z"
+            sites:
+              - id: 47c6eedd1a14d3b20dd20771
+                name: Account 1
+              - id: 47c6eedd1a14d3b20dd20772
+                name: Account 2
+            entity:
+              type: company
+              id: 58h6aa8a0e14a4c24df20760
+              name: WeSeeDo B.V.
+              package:
+                id: 674a5rb3ca9d4f7e4f1da67a
+                name: professional
+                features:
+                  - agent_create_appointment
+                  - send_file
+                  - screenshot
+                  - chat
+            status: online
+            suspended: false
+          - id: 54c6ae2c7a4504a38ca39dea
+            first_name: Firstname
+            last_name: Lastname
+            name: Firstname Lastname
+            email: agent2@weseedo.nl
+            photo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA....."
+            locale: nl
+            role: agent
+            created_at: "2020-01-29T15:26:20.000Z"
+            sites:
+              - id: 47c6eedd1a14d3b20dd20771
+                name: Account 1
+              - id: 47c6eedd1a14d3b20dd20772
+                name: Account 2
+            entity:
+              type: company
+              id: 58h6aa8a0e14a4c24df20760
+              name: WeSeeDo B.V.
+              package:
+                id: 674a5rb3ca9d4f7e4f1da67a
+                name: professional
+                features:
+                  - agent_create_appointment
+                  - send_file
+                  - screenshot
+                  - chat
+            status: online
+            suspended: false
+    UserResponseDeletedObjectSchema:
+      summary: User ID
+      value:
+        success: true
+        result:
+          id: 58f6ee406a2308a38ca39dec

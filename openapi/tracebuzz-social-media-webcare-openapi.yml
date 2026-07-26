@@ -1,0 +1,1328 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: api_developer@kpn.com
+    name: API Support
+    url: https://developer.kpn.com/support
+  description: |
+      The SocialMediaWebcare API allows you to organise and manage your inbound and outbound social media channels traffic.
+
+      ### Key highlights
+
+        - **Security:**  HTTPS, Oauth, Rate limit
+    
+        - **Versioning:**  supports version-less API, version tight. If no version
+        is provided (in header) it defaults to latest version. 
+
+
+      ## Getting Started
+  
+      
+      ## [Source view](https://app.swaggerhub.com/apis/kpn/SocialMediaWebcare-Tracebuzz/)<br/>
+        [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/SocialMediaWebcare-Tracebuzz/)
+    
+      ---
+    
+      ## [KPN Developer](https://developer.kpn.com/)<br/>
+      [Getting Started](https://developer.kpn.com/getting-started)
+    
+       ---
+  
+  termsOfService: https://developer.kpn.com/legal
+  title: SocialMediaWebcare - Tracebuzz
+  version: "1.0.0"
+tags:
+- name: OAuth 2.0
+  description: 'Authentication'
+- name: Results
+  description: 'All about managing results'
+- name: Configuration
+  description: 'All about configuring Tracebuzz'
+- name: Cases
+  description: 'All about case handling'
+servers:
+- url: https://api-prd.kpn.com/communication/tracebuzz/social-media-webcare
+  variables: {}
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers
+paths:
+  /configuration:
+    get:
+      deprecated: false
+      description: The configuration contains a lot of information about the current account. Available searches, social media connections, users, etc., and some default parameters that help you understand some of the integers we return.
+      operationId: Configuration
+      security:
+      - oauth2: []
+      parameters: []
+      responses:
+        200:
+          $ref: '#/components/responses/config_result'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+      summary: Configuration
+      tags:
+      - Configuration
+  /results/{profilename}/source:{media}:
+    get:
+      deprecated: false
+      description: |
+        Use filters to retrieve results. You need to add the `profilename` and the `media`. If you are in the Traceboard dashboard, you can find the string with filters in the URL. All filters can be used within the string.
+        
+        Example URL: `/test-profile/source:twitter/word:aloha/`
+        
+        **media**
+        
+        - twitter 
+        - facebook
+        - instagram
+        - google+plus
+        - linkedin
+        - whatsapp 
+        - blogs
+        - forums
+        - news
+        - web
+        - print
+        - rtv
+        - irischat
+        
+      operationId: Result
+      security:
+      - oauth2: []
+      parameters:
+      - description: 'Enter the profile name, for example: `/demo1`.'
+        explode: false
+        in: path
+        name: profilename
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: 'Enter the media, for example`/source:twitter`'
+        explode: false
+        in: path
+        name: media
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          $ref: '#/components/responses/fetch_result'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+      summary: Result
+      tags:
+      - Results
+  /results/{resultId}/noContext:
+    get:
+      deprecated: false
+      description: 'Retrieves information for 1 specific `resultId`. Retrieves all information for a result object.'
+      operationId: ResultWithoutContext
+      security:
+      - oauth2: []
+      parameters:
+      - description: ''
+        explode: false
+        in: path
+        name: resultId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          $ref: '#/components/responses/fetch_result'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+      summary: Retrieves results without context
+      tags:
+      - Results
+  /results/{resultId}/replies:
+    post:
+      deprecated: false
+      description: 'This endpoint allows you to reply to a message'
+      operationId: Reply
+      security:
+      - oauth2: []
+      parameters:
+      - description: 'Use `application/x-www-form-urlencoded`.'
+        explode: false
+        in: header
+        name: Content-Type
+        required: true
+        schema:
+          example: application/x-www-form-urlencoded
+          type: string
+        style: simple
+      - description: 'Enter the unique `resultId`.'
+        explode: false
+        in: path
+        name: resultId
+        required: true
+        schema:
+          example: 233
+          format: int32
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                connectionId:
+                  example: 1451
+                  format: int32
+                  type: integer
+                  description: ConnectionId
+                message:
+                  example: '@pranavsnazzy ok'
+                  type: string
+                  description: Message content
+                public:
+                  example: true
+                  type: boolean
+                  description: Set `public=false` if you want to reply private to a public
+                    message.
+              required:
+              - message
+              - connectionId
+              - public
+              type: object
+        required: false
+      responses:
+        200:
+          $ref: '#/components/responses/reply_result'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+      summary: Replies to a message
+      tags:
+      - Results
+  /results/{resultId}/event/{event}:
+    post:
+      deprecated: false
+      description: |
+          Start or stop typing on a message. Open or close a message.
+      operationId: Event
+      security:
+      - oauth2: []
+      parameters:
+      - description: 'Enter the `resultId`.'
+        explode: false
+        in: path
+        name: resultId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: 'Possible events: `starttyping`, `stoptyping`, `closed`, `opened`.'
+        explode: false
+        in: path
+        name: event
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          $ref: '#/components/responses/result_event'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+      summary: Message events
+      tags:
+      - Results      
+  /searches/{searchId}/cases/{caseId}/close:
+    post:
+      deprecated: false
+      description: This method let's you close the case.
+      operationId: CloseCase
+      security:
+      - oauth2: []
+      parameters:
+      - description: 'The search id for that search profile.'
+        explode: false
+        in: path
+        name: searchId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: 'The case id for that case..'
+        explode: false
+        in: path
+        name: caseId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          $ref: '#/components/responses/case_result'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+      summary: Closes case
+      
+      tags:
+      - Cases
+  /searches/{searchId}/cases/{caseId}/close/handOverToHandler/{handlerId}:
+    post:
+      deprecated: false
+      description: This method let's you assign your case to another handler.
+      operationId: HandlerReleasesCaseToHandler
+      security:
+      - oauth2: []
+      parameters:
+      - description: ''
+        explode: false
+        in: path
+        name: searchId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: ''
+        explode: false
+        in: path
+        name: caseId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: ''
+        explode: false
+        in: path
+        name: handlerId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          $ref: '#/components/responses/case_result'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+      summary: Releases case to another handler
+      tags:
+      - Cases
+  /searches/{searchId}/cases/{caseId}/releaseHandler:
+    post:
+      deprecated: false
+      description: This method let's you release the case.
+      operationId: HandlerReleasesFromCase
+      security:
+      - oauth2: []
+      parameters:
+      - description: ''
+        explode: false
+        in: path
+        name: searchId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: ''
+        explode: false
+        in: path
+        name: caseId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          $ref: '#/components/responses/case_result'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+      summary: Releases handler from case
+      tags:
+      - Cases
+components:
+  parameters:
+    api_version:
+      description: API Version. If no version is provided it defaults to latest version.
+      in: header
+      name: api-version
+      required: false
+      schema:
+        type: string
+    api_version_query:
+      description: API Version. If no version is provided it defaults to latest version.
+      in: query
+      name: api-version
+      required: false
+      schema:
+        type: string
+  responses:
+    get_configuration:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              configuration:
+                type: array
+                items:
+                  $ref: '#/components/schemas/configuration'
+              tabs:
+                type: array
+                items:    
+                  $ref: '#/components/schemas/tab'
+              subtabs:
+                type: array
+                items:    
+                  $ref: '#/components/schemas/subtab'
+    results_no_context:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              activities:
+                type: array
+                description: This is an array with all the activities for this result.
+                items:
+                  $ref: '#/components/schemas/activity'
+              earlierContact:
+                type: boolean
+                description: If there is ealier contact with the author from the result.
+              authorNotes:
+                type: boolean
+                description: Notes belonging to the author. For some accounts this value is set.
+              notes:
+                type: array
+                description: Notes that belong to this result.
+                items:
+                  type: string
+                  description: This is the text for the note
+              relatedNotes:
+                type: string
+                description: Notes by other messages from this author
+              conversationNotes:
+                type: string
+                description: Notes by comments from this message
+              draft:
+                type: string
+                description: Drafts contain messages that needs to be send later. It will be saved if it is a private message, the user who did it, the connectionId and possibly an imageurl.
+              availableConnections:
+                type: array
+                description: For each availableConnection an object with values for the connection
+                items: {}
+              defaultConnection:
+                type: integer
+                description: This is the same as the availableConnection that is used by default.
+              replyPrefix: 
+                type: string
+                description: The message at the beginning of a new reply. For Twitter this will be the persons that you would like to mention
+              replySuffix:
+                type: string
+                description: This is the message after a new reply. For Twitter this will be the initials from the current user ^MK for example
+              kanaActions:
+                type: object
+                description: All kana activities. The possible actions for this account. Example actions are reply and log.
+              uniqueId:
+                type: integer
+                description: Unique id for the message
+              searchId:
+                type: integer
+                description: Search id for the message
+              link:
+                type: string
+                description: URL to the source
+              profileId:
+                type: string
+                description: Contains the unique id of the social profile that authored/send this message. For Twitter this contains the username (@name) instead of an id.
+              description:
+                type: string
+                description: content for the message
+              private:
+                type: boolean
+                description: Private message or public message on platform
+              replies:
+                type: array
+                description: Replies result array. The uniqueId is the key for the array.
+                items: 
+                  type: string
+                  description: Reply message
+              twitterFavorite:
+                type: boolean
+                description: Is this post bookmarked
+              image:
+                type: string
+                description: First found image in the resultId. Only images from the message not from profile information are in this URL.
+              imageLink:
+                type: string
+                description: Location for the profile image (URL)
+              time:
+                type: string
+                description: Time stamp placed time for the message on the platform
+              status:
+                type: integer
+                description: Status for the message
+              own:
+                type: integer
+                description: Own set to 1 for all the messages from your own company. 0 for message from customer
+              source:
+                type: integer
+                description: Full list with sources is available in configuration -> global -> source
+              type:
+                type: integer
+                description: Type message 1=page, 2=post, 3=comment, 4=private message, 5=ad
+              bookmarked:
+                type: integer
+                description: Bookmarked is 1 if the result is in the bookmarked list
+              tbrank:
+                type: integer
+                description: Rank that Tracebuzz added to this result as important
+              checked:
+                type: integer
+                description: When is the message checked by a engagement user
+              sentiment:
+                type: integer
+                description: -1 negative, 0 neutral, 1 positive
+              title:
+                type: string
+                description: Title for the message
+              subtitle:
+                type: string
+                description: Subtitle for the message
+              tagsList:
+                type: array
+                description: All the labels added to the result
+                items:
+                  $ref: '#/components/schemas/taglist'
+              personId:
+                type: string
+                description: Id for the author of the message. If the message is from company it should state the personId from the person that you reply to
+              caseId:
+                type: string
+                description: Id for the case of the message
+    
+    fetch_result:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/get_result'
+            
+    reply_result:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/post_result'
+    case_result:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/case_result'
+    config_result:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/config_result'
+            
+    result_event:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/post_result'
+    bad_gateway:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: bad gateway
+    bad_request:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: bad request
+    forbidden:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: forbidden
+    method_not_allowed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: method not allowed
+    not_found:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: not found
+    precondition_failed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: precondition failed
+    server_error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: server error
+    service_unavailable:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Service unavailable
+    too_many:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: too many requests
+    unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: unauthorized
+  schemas:
+    tab:
+      properties:
+        filters:
+          type: string
+          description: What filters are used for each tab (written in code)
+        name:
+          type: string
+          description: What is the name for the tab
+        action:
+          type: string
+          description: What should happen with the results
+        onChangeSetChecked:
+          type: boolean
+          description: If the found resultats needs to be changed, set this on true of false.
+    subtab:
+      properties:
+        name:
+          type: string
+          description: Name of subtab.
+        shortname:
+          type: string
+          description: Shorter name of subtab.
+        filters:
+          type: string
+          description: What filters are used (written in code).
+    activity:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: Id from the activity
+          resultId:
+            type: integer
+            description: ResultId from the result
+          memberId:
+            type: integer
+            description: Id from the account that did the activity.
+          actor:
+            type: integer
+            description: User that did the activity
+          actorUser:
+            type: object
+            description: Account Object
+          activity:
+            type: integer
+            description: Activity type (you can lookup what the meaning for the Integer is configuration -> globals -> activities)
+          subject:
+            type: string
+            description: The subject is depending on the type activity, for example 'Reply by activity 19 (log verint express)'. 
+          result:
+            type: string
+            description: Result for the activity
+          time:
+            type: string
+            description: Timestamp in seconds when the activity took place
+    taglist:
+      type: array
+      items:
+        type: object
+        description: Id from the label used as a key for the array
+        properties:
+          id:
+            type: integer
+            description: Id for the label for the array
+          name:
+            type: string
+            description: Name tagged person
+          description:
+            type: string  
+            description: Description what the label means
+          active:
+            type: integer
+            description: Online status 1 or 0
+          visibleInWebcare:
+            type: integer 
+            description: If the label is visible in engagement view 1 or 0
+    configuration:
+      type: object
+      description: Configuration set
+      properties: 
+        lastChange:
+          type: string
+          description: Timestamp of the last change made
+        globals:
+          type: array
+          description: All the GLOBAL tracebuzz information within arrays.
+          items:
+            properties:
+              sources:
+                type: array
+                description: All social platforms that are monitored via Tracebuzz. Each platform has an integer value.
+                properties:
+                  key:
+                    type: string
+                    description: key
+                  value:
+                    type: integer
+                    description: value
+              activities:
+                type: array
+                description: All the possible activities that we can log for each message. Mostly used as an Integer value. Within this list you can lookup what the value means.
+                properties:
+                  key:
+                    type: string
+                    description: key
+                  value:
+                    type: integer
+                    description: value
+              statusses:
+                type: object
+                description: All the possible statusses a message can be in.
+                properties:
+                  key:
+                    type: string
+                    description: key
+                  value:
+                    type: integer
+                    description: value
+        format:
+          type: string
+          description: This is the standard format to present data in the API.
+        account:
+          type: array
+          description: Standard values available for this account.
+          items:
+            properties:
+              memberId:
+                type: string
+                description: id of the member
+              company:
+                type: string
+                description: comany name
+              memberSince:
+                type: string
+                description: date of start membership
+              standaardZoekopdracht:
+                type: string
+                description: default search query
+              users:
+                $ref: '#/components/schemas/user'
+              searches:
+                type: array
+                description: All searches and search profiles.
+                properties:
+                  searchid:
+                    type: string
+                    description: id of the search
+                    properties:
+                      id:
+                        type: string
+                        description: id of the search
+                      name:
+                        type: string
+                        description: name of search
+                      encodedName:
+                        type: string
+                        description: same as name but urlencoded
+                      visible:
+                        type: boolean
+                        description: 'true or false for visibility'
+                      servicelevel:
+                        type: integer
+                        description: 'level of service'
+                      webcareHideButtons:
+                        type: string
+                        description: '"0" for no "1" for hiding of webcare buttons'
+                      facebookLikeVisible:
+                        type: string
+                        description: '"0" for no "1" for yes' 
+                      twitterFavVisible:
+                        type: string
+                        description: '"0" for no "1" for yes'
+                      webcareReplyAuthorOnly:
+                        type: string
+                        description: '"0" for no "1" for yes'
+                      categoriesAndLabels:
+                        type: array
+                        description: All labels and categories for this account, searchId = key.
+                        properties:
+                          catlabid:
+                            type: string
+                            description: 'id of the categorylabel'
+                            properties:
+                              id:
+                                type: string
+                                description: the id of the categorylabel
+                              name:
+                                type: string
+                                description: the name of the categorylabel
+                              active:
+                                type: boolean
+                                description: should this be active or not
+                              visibleInWebcare:
+                                type: boolean
+                                description: 'should this be visible in webcare'
+                              labels:
+                                type: array
+                                properties:
+                                  labelid:
+                                    type: array
+                                    description: ''
+                                    properties:
+                                      id:
+                                        type: string
+                                        description: ''
+                                      name:
+                                        type: string
+                                        description: '' 
+                                      description:
+                                        type: string
+                                        description: ''
+                                      backgroundColor:
+                                        type: string
+                                        description: '' 
+                                      active:
+                                        type: integer
+                                        description: ''
+                                      visibleInWebcare:
+                                        type: string
+                                        description: ''
+                      webcareTabs:
+                        type: array
+                        description: All possible engagement tabs for the account.
+                        properties:
+                          filters:
+                            type: string
+                            description: ''
+                          name:
+                            type: string
+                            description: ''
+                          action:
+                            type: string
+                            description: ''
+                          onChangeSetChecked:
+                            type: boolean
+                            description: ''
+                          subTabs:
+                            type: array
+                            description: '' 
+                            properties:
+                              name:
+                                type: string
+                                description: ''
+                              shortname:
+                                type: string
+                                description: ''
+                              filters:
+                                type: string
+                                description: ''
+                      availableSources:
+                        type: array
+                        description: All possible sources for the account.
+                        properties:
+                          source:
+                            type: string
+                            description: source description
+    user:
+      properties:
+        userid:
+          type: array
+          description: ''
+          properties:
+            memberId:
+              type: string
+              description: ''
+            id:
+              type: string
+              description: ''
+            name:
+              type: string
+              description: ''
+            firstName:
+              type: string
+              description: ''
+            email:
+              type: string
+              description: ''
+            tag:
+              type: string
+              description: ''
+            facebookTag:
+              type: string
+              description: ''
+            admin:
+              type: boolean
+              description: ''
+            sentiment:
+              type: string
+              description: ''
+            response:
+              type: string
+              description: ''
+            settings:
+              type: string
+              description: ''
+            monitoring:
+              type: string
+              description: ''
+            analysis:
+              type: string
+              description: ''
+            reports:
+              type: string
+              description: ''
+            engagement:
+              type: string
+              description: ''
+            presenter:
+              type: string
+              description: ''
+            publisher:
+              type: string
+              description: ''
+            configuration:
+              type: string
+              description: ''
+            qm:
+              type: string
+              description: ''
+            language:
+              type: string
+              description: ''
+            loginSearchId:
+              type: integer
+              description: ''
+            webcareJumpSearchId:
+              type: integer
+              description: ''
+            image:
+              type: string
+              description: ''
+            userUploadedAvatar:
+              type: boolean
+              description: ''
+    get_result:
+      properties:
+        data:
+          type: object
+        messages:
+          type: array
+          default: []
+          items:
+            type: string
+        status:
+          type: string
+          default: "SUCCES"
+        metadata:
+          type: object
+          properties:
+            values:
+              type: object
+              properties:
+                url:
+                  type: integer
+            method:
+              type: string
+              default: "get"
+            duration:
+              type: integer
+              
+    post_result:
+      properties:
+        data:
+          type: object
+        messages:
+          type: array
+          default: []
+          items:
+            type: string
+        status:
+          type: string
+          default: "SUCCES"
+        metadata:
+          type: object
+          properties:
+            values:
+              type: object
+              properties:
+                url:
+                  type: integer
+            method:
+              type: string
+              default: "post"
+            duration:
+              type: integer
+              
+    case_result:
+      properties:
+        data:
+          type: object
+        messages:
+          type: array
+          default: []
+          items:
+            type: string
+        status:
+          type: string
+          default: "SUCCES"
+        metadata:
+          type: object
+          properties:
+            values:
+              type: object
+              properties:
+                url:
+                  type: integer
+            method:
+              type: string
+              default: "post"
+            duration:
+              type: integer
+    
+    config_result:
+      properties:
+        data:
+          type: object
+        messages:
+          type: array
+          default: []
+          items:
+            type: string
+        status:
+          type: string
+          default: "SUCCES"
+        metadata:
+          type: object
+          properties:
+            values:
+              type: object
+              properties:
+                url:
+                  type: integer
+            method:
+              type: string
+              default: "get"
+            duration:
+              type: integer
+        configuration:
+          type: object
+          properties:
+            lastChange:
+              type: string
+              example: "1612430033"
+            globals:
+              type: object
+              properties:
+                sources:
+                  type: object
+                  example: {"irischat": 14, "facebook": 6,"twitter": 3,}
+                activities:
+                  type: object
+                  example: {"open": 1,"check": 2,"respond": 3}
+                statusses:
+                  type: object
+                  example: {"open": 1, "closed": 2, "deleted": 5}
+            format:
+              type: string
+              example: "all"
+            duration:
+              type: integer
+            
+            account:
+              type: object
+              properties:
+                memberId:
+                  type: string
+                  example: "53453423"
+                company:
+                  type: string
+                  example: "ABC"
+                memberSince:
+                  type: string
+                  example: "2021-01-01"
+                standaardZoekopdracht:
+                  type: string
+                  example: "0"
+                users:
+                  type: object
+                searches:
+                  type: object
+                connections:
+                  type: object
+                categoriesAndLabels:
+                  type: object
+                knowledgeBase:
+                  type: array
+                  default: []
+                  items:
+                    type: string
+                currentUser:
+                  type: object
+                monitoring:
+                  type: string
+                  example: "1"
+                result:
+                  type: integer
+                  example: 1
+                analysis:
+                  type: string
+                  example: "1"
+                reports:
+                  type: string
+                  example: "1"
+                engagement:
+                  type: string
+                  example: "1"
+                tbmessenger:
+                  type: string
+                  example: "1"
+                presenter:
+                  type: string
+                  example: "1"
+                publisher:
+                  type: string
+                  example: "1"
+                qmModule:
+                  type: string
+                  example: "1"
+                fbInsights:
+                  type: string
+                  example: "1"
+                chatModule:
+                  type: string
+                  example: "0"
+                personView:
+                  type: string
+                  example: "0"
+                rss:
+                  type: string
+                  example: null
+                webcareTable:
+                  type: string
+                  example: null
+                iframe:
+                  type: string
+                  example: null
+                supportButton:
+                  type: string
+                  example: "1"
+                workflowModule:
+                  type: string
+                  example: "1"
+                webcareMagicModule:
+                  type: string
+                  example: "0"
+                qm:
+                  type: string
+                  example: null
+                timezone:
+                  type: string
+                  example: "Europe/Amsterdam"
+                defaultCountry:
+                  type: string
+                  example: "nl-NL"
+                disableAccount:
+                  type: boolean
+                  example: false
+    error:
+      properties:
+        info:
+          description: Additional information about error
+          title: Info
+          type: string
+        message:
+          description: Error message
+          title: Error message
+          type: string
+        name:
+          description: Error name
+          title: Error name
+          type: string
+        status:
+          description: Status
+          title: Status
+          type: string
+        transactionId:
+          description: transaction id of the the request
+          title: Transaction ID
+          type: string
+      type: object
+  securitySchemes:
+    oauth2:
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes : {}
+      type: oauth2

@@ -1,0 +1,273 @@
+openapi: 3.0.0
+info:
+  title: Match - KPN
+  description: >-
+    Seamlessly check and verify an identity.
+    
+    ---
+        
+    ## [Source view](https://app.swaggerhub.com/apis/kpn/match-kpn/)<br/>
+    [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/match-kpn/)
+    
+    ---
+    
+    ## [KPN API Store](https://developer.kpn.com/)<br/>
+    [Getting Started](https://developer.kpn.com/getting-started)
+    
+    ---
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: 'https://developer.kpn.com/support'
+  termsOfService: 'https://developer.kpn.com/legal'
+  version: 1.1.1
+servers:
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/kpn/Match-KPN/1.1.1
+- url: https://api-prd.kpn.com/communication/kpn/match
+paths:
+  /token:
+    post:
+      summary: Token Request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
+            examples:
+              grant_type_and_refresh_token:
+                summary: credentials
+                value:
+                  client_id: your_client_id
+                  client_secret: your_client_secret
+              grant_type_and_refresh_token_correlation_id:
+                summary: credentials + correlation_id
+                value:
+                  client_id: your_client_id
+                  client_secret: your_client_secret
+                  correlation_id: abcd1234
+              grant_type_refresh_token_scope:
+                summary: credentials + scopes
+                value:
+                  client_id: your_client_id
+                  client_secret: your_client_secret
+                  scopes: ["mpm"]
+              grant_type_refresh_token_scope_correlation_id:
+                summary: credentials + scopes + correlation_id
+                value:
+                  client_id: your_client_id
+                  client_secret: your_client_secret
+                  scopes: ["mpm"]
+                  correlation_id: abcd1234
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                error_response:
+                  summary: Example of Bad Request
+                  value:
+                    error_code: 400
+                    message: Bad Request
+                    correlation_id: abcd1234
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                error_response:
+                  summary: Example of Unauthorized
+                  value:
+                    error_code: 401
+                    message: Unauthorized
+                    correlation_id: abcd1234
+
+  /insights/{msisdn}:
+    post:
+      summary: Insights Request
+      parameters:
+        - name: msisdn
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '31630000001'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsightsRequest'
+            examples:
+              mpm:
+                summary: mpm
+                value:
+                  mpm:
+                    firstname: 'Jacques'
+                    lastname: 'van ‘t Schip'
+                    address1: '45 a'
+                    postal_code: '3912 XB'
+                    date_of_birth: '2002-11-25'
+              correlation_id_mpm:
+                summary: correlation_id + mpm
+                value:
+                  mpm:
+                    firstname: 'Jacques'
+                    lastname: 'van ‘t Schip'
+                    address1: '45 a'
+                    postal_code: '3912 XB'
+                    date_of_birth: '2002-11-25'
+                  correlation_id: 12345-abcde
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsightsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                error_response:
+                  summary: Example of Bad Request
+                  value:
+                    error_code: 400
+                    message: Bad Request
+                    correlation_id: abcd1234
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                error_response:
+                  summary: Example of Not Found
+                  value:
+                    error_code: 404
+                    message: Not Found
+                    correlation_id: abcd1234
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                error_response:
+                  summary: Example of Internal Server Error
+                  value:
+                    error_code: 500
+                    message: Internal Server Error
+                    correlation_id: abcd1234
+      security:
+        - BearerAuth: []
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Error:
+      type: object
+      properties:
+        error_code:
+          type: integer
+          description: HTTP status code representing the error
+          example: 400
+          enum:
+            - 400 # Bad Request
+            - 401 # Unauthorized
+            - 403 # Forbidden
+            - 404 # Not Found
+            - 405 # Method Not Allowed
+            - 412 # Precondition Failed
+            - 429 # Too Many Requests
+            - 500 # Internal Server Error
+            - 502 # Bad Gateway
+            - 503 # Service Unavailable
+        message:
+          type: string
+          description: A short description of the error
+          example: Bad Request
+          enum:
+            - Bad Request
+            - Unauthorized
+            - Forbidden
+            - Not Found
+            - Method Not Allowed
+            - Precondition Failed
+            - Too Many Requests
+            - Internal Server Error
+            - Bad Gateway
+            - Service Unavailable
+        correlation_id:
+          type: string
+          description: Correlation ID for debugging purposes
+          example: abcd1234
+    mpm:
+      type: object
+      properties:
+        firstname:
+          type: string
+          example: John
+          description: first name, given name
+        lastname:
+          type: string
+          example: Doe
+          description: last name, family name
+        address1:
+          type: string
+          example: 71-75 Shelton Street
+          description: House number, first line of address
+        address2:
+          type: string
+        address3:
+          type: string
+        postal_code:
+          type: string
+          example: WC2H 9JQ
+          description: Postcode, P.O. BOX, postal code
+        date_of_birth:
+          type: string
+          example: YYYY-MM-DD
+          description: Date Of Birth in YYYY-MM-DD format
+    mpmResponse:
+      type: object
+      properties:
+        name_match:
+          type: boolean
+          example: true
+        firstname_match:
+          type: boolean
+          example: true
+        lastname_match:
+          type: boolean
+          example: true
+        address_match:
+          type: boolean
+          example: true
+        postal_code_match:
+          type: boolean
+          example: true
+        date_of_birth_match:
+          type: boolean
+          example: true

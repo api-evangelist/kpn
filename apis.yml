@@ -1,0 +1,825 @@
+aid: kpn
+url: https://raw.githubusercontent.com/api-evangelist/kpn/refs/heads/main/apis.yml
+name: KPN
+kind: company
+description: 'Koninklijke KPN N.V. is the incumbent telecommunications and IT provider of the Netherlands,
+  operating the country''s national fixed (copper and fibre) and mobile networks and selling telephony,
+  broadband, television, IoT connectivity and managed IT services to consumers, businesses and — through
+  KPN Wholesale — to other operators. In the telecom API value chain KPN sits on the network-operator
+  side, but it is a conspicuous exception to the carrier norm: rather than routing developers exclusively
+  through aggregators, KPN runs a genuine self-serve developer portal at developer.kpn.com where anyone
+  can register a free account, get a client ID and secret, test in a sandbox at no cost, and see per-transaction
+  pricing, then upgrade to production via a KRN company number or an iDIN identity check. Thirty-four
+  OpenAPI/Swagger definitions are published anonymously downloadable under KPN''s public SwaggerHub organisation,
+  all fronted by an Apigee-style gateway at api-prd.kpn.com with OAuth 2.0 client-credentials. KPN is
+  listed in the official CAMARA landscape as an operator and, with Odido and Vodafone under the COIN association
+  and GSMA Open Gateway, launched CAMARA-standard fraud-prevention APIs for the Dutch market in October
+  2025; its SIM Swap definition points explicitly at github.com/camaraproject as its product documentation.
+  KPN is not an Aduna shareholder and does not reach developers through that JV. Notably, KPN also resells
+  Vonage and Apidaze CPaaS products through its own portal — the aggregator layer appearing inside the
+  carrier''s own catalogue rather than the other way round.'
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Telecommunications
+- Netherlands
+- Mobile Network Operator
+- Broadband
+- Network APIs
+- CAMARA
+- Open Gateway
+- SIM Swap
+- Identity Verification
+- Messaging
+- SMS
+- Voice
+- IoT
+- LoRaWAN
+- Fiber
+- Wholesale
+- 5G
+- Europe
+created: '2026-07-25'
+modified: '2026-07-25'
+specificationVersion: '0.19'
+apis:
+- aid: kpn:kpn-number-verify
+  name: KPN Number Verify API
+  description: With KPN Number Verify, you can quickly check whether the mobile number someone provides
+    is the same as their SIM card.
+  humanURL: https://developer.kpn.com/products/kpn-number-verify
+  tags:
+  - Identity
+  - Verification
+  - Number Verification
+  - Mobile
+  - Network APIs
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/kpn-number-verify
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/kpn-number-verify-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/numberverify-kpn
+  - type: OpenAPI
+    url: openapi/kpn-number-verify-openapi.yml
+  baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
+- aid: kpn:kpn-sim-swap
+  name: KPN SIM Swap API (Account Takeover Protection)
+  description: The SIM swap API provides a programmable interface for developers and other users (capabilities
+    consumers) to request the last date of a SIM swap performed on the mobile line, or, to check whether
+    a SIM swap has been performed during a past period.
+  humanURL: https://developer.kpn.com/products/kpn-account-takeover-protection
+  tags:
+  - Security
+  - SIM Swap
+  - Anti-Fraud
+  - CAMARA
+  - Network APIs
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/kpn-account-takeover-protection
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/kpn-account-takeover-protection-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/simswap-kpn
+  - type: OpenAPI
+    url: openapi/kpn-sim-swap-openapi.yml
+  baseURL: https://api-prd.kpn.com/kpn/sim-swap
+- aid: kpn:kpn-match
+  name: KPN Match API
+  description: Seamlessly check and verify an identity.
+  humanURL: https://developer.kpn.com/products/kpn-match
+  tags:
+  - Identity
+  - KYC
+  - Verification
+  - Mobile Connect
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/kpn-match
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/kpn-match-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/match-kpn
+  - type: OpenAPI
+    url: openapi/kpn-match-openapi.yml
+  baseURL: https://api-prd.kpn.com/communication/kpn/match
+- aid: kpn:kpn-sms
+  name: KPN SMS API
+  description: Send SMS through the KPN network.
+  humanURL: https://developer.kpn.com/products/kpn-sms-api
+  tags:
+  - Messaging
+  - SMS
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/kpn-sms-api
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/kpn-sms-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/sms-kpn
+  - type: OpenAPI
+    url: openapi/kpn-sms-openapi.yml
+  baseURL: https://api-prd.kpn.com/communication/kpn/sms
+- aid: kpn:kpn-sms-inbound
+  name: KPN SMS Inbound API
+  description: This API is designed to inform users about the response schema they will receive on their
+    webhook when an SMS message is sent to their virtual number. The API provides details of the message
+    format that includes sender, recipient, message ID, content, timestamp, and type of the SMS.
+  humanURL: https://developer.kpn.com/products/kpn-sms-api
+  tags:
+  - Messaging
+  - SMS
+  - Webhooks
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/kpn-sms-api
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/kpn-sms-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/sms-inbound
+  - type: OpenAPI
+    url: openapi/kpn-sms-inbound-openapi.yml
+  baseURL: https://api-prd.kpn.com
+- aid: kpn:kpn-mobile-services-management
+  name: KPN Mobile Services Management API
+  description: MobileServicesManagement APIs ---
+  humanURL: https://developer.kpn.com/products/kpn-mobile-services-management-api
+  tags:
+  - Mobile
+  - Fleet Management
+  - Ordering
+  - BSS
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/kpn-mobile-services-management-api
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/kpn-mobile-services-management-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/mobileservicesmanagement-kpn
+  - type: OpenAPI
+    url: openapi/kpn-mobile-services-management-openapi.yml
+  baseURL: https://api-prd.kpn.com/mobile/kpn/mobileservices
+- aid: kpn:kpn-fiam
+  name: KPN FIAM API
+  description: A collection of crates for federated identity and access management
+  humanURL: https://developer.kpn.com/products/federated-identity-and-access-management
+  tags:
+  - Identity
+  - Federated Identity
+  - Access Management
+  - Data Spaces
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/federated-identity-and-access-management
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/fiam-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/fiam-kpn
+  - type: OpenAPI
+    url: openapi/kpn-fiam-openapi.yml
+  baseURL: https://api-prd.kpn.com/fiam
+- aid: kpn:kpn-fiam-eneco-data-products
+  name: KPN FIAM Eneco Data Products API
+  description: FIAM – Eneco Data Products
+  humanURL: https://developer.kpn.com/products/fiam-eneco-data-products
+  tags:
+  - Identity
+  - Data Sharing
+  - Energy
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/fiam-eneco-data-products
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/eneco-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/fiam-eneco-data-products
+  - type: OpenAPI
+    url: openapi/kpn-fiam-eneco-data-products-openapi.yml
+  baseURL: https://api-acc.enecogroup.com/
+- aid: kpn:kpn-disturbance-check
+  name: KPN Disturbance Check API
+  description: This API allows you to check the disturbance of the internet and the technology at an address.
+    The API takes the postcode, house number and house extension, sends the request to the backend to
+    retrieve real time information about the internet and technology service at the address.
+  humanURL: https://developer.kpn.com/products/kpn-disturbance-check-api
+  tags:
+  - Network
+  - Broadband
+  - Service Assurance
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/kpn-disturbance-check-api
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/kpn-disturbance-check-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/disturbance-check-kpn
+  - type: OpenAPI
+    url: openapi/kpn-disturbance-check-openapi.yml
+  baseURL: https://api-prd.kpn.com/network/kpn/disturbance-check
+- aid: kpn:kpn-internet-speed-check
+  name: KPN Internet Speed Check API
+  description: This API allows you to check the speed of the internet and the technology at an address.
+    The API takes the postcode, house number and house extension, sends the request to the backend to
+    retrieve real time information about the internet service at the address.
+  humanURL: https://developer.kpn.com/products/kpn-internet-speed-check-api
+  tags:
+  - Network
+  - Broadband
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/kpn-internet-speed-check-api
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/kpn-internet-speed-check-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/internet-speed-check-kpn
+  - type: OpenAPI
+    url: openapi/kpn-internet-speed-check-openapi.yml
+  baseURL: https://api-prd.kpn.com/network/kpn/internet-speed-check
+- aid: kpn:kpn-high-level-design-ftth
+  name: KPN High Level Design FttX API
+  description: 'The High-Level Design FTTx API supports Fiber to the Home (FTTH) engineering jobs. It
+    allows you to calculate the required work and cost for Fiber rollout in a provided region. Run the
+    endpoints in this order: 1. **POST /startJobS3** to retrieve a signed URL for Amazon S3 bucket. Send
+    this URL using the following endpoint. 2. **PUT /s3url_uploads/{jsonFileNameAndExtension}** to upload
+    the job. 3. **GET /jobStatus/{jobId}** to retrieve the status of the job. 4. **GET / jobResultS3/{jobId}**
+    to retrieve a signed URL for the Amazon Simple Storage Service (Amazon S3) bucket. Send this URL using
+    the following endpoint. 5. **GET /Output/{jsonFileNameAndExtension}** to retrieve the results of the
+    engineering job.'
+  humanURL: https://developer.kpn.com/products/kpn-high-level-design-fttx-api
+  tags:
+  - Network
+  - Fiber
+  - FTTH
+  - Engineering
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/kpn-high-level-design-fttx-api
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/kpn-high-level-design-fttx-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/high-level_design_ftth
+  - type: OpenAPI
+    url: openapi/kpn-high-level-design-ftth-openapi.yml
+  baseURL: https://api-prd.kpn.com/network/kpn/ftth-engineering/
+- aid: kpn:kpn-lora-device-management
+  name: KPN LoRa Device Management API
+  description: KPN’s Low Power Long Range (LoRa) network service compliments existing 2G, 3G, 4G and LTE-M
+    networks. It is based on the LoRaWAN protocol for Internet of Things (IoT).
+  humanURL: https://developer.kpn.com/products/kpn-lora-device-management-api
+  tags:
+  - IoT
+  - LoRaWAN
+  - Device Management
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/kpn-lora-device-management-api
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/kpn-lora-device-management-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/lora-device-management-kpn
+  - type: OpenAPI
+    url: openapi/kpn-lora-device-management-openapi.yml
+  baseURL: https://api-prd.kpn.com/data/lora/thingpark
+- aid: kpn:kpn-sd-lan-sd-wan-network-view
+  name: KPN SD-LAN / SD-WAN Network View API
+  description: 'The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.
+    The Network View API gives users read rights to retrieve information from the `Network View API` resources.
+    - **Note**: By default you have read only access but based on your requirements and contract you can
+    be granted `Manager` access to this API which is more than read only. To request manager access, please
+    contact us at api_developer@kpn.com.'
+  humanURL: https://developer.kpn.com/products/kpn-sd-lan-sd-wan-network-view-api
+  tags:
+  - Network
+  - SD-WAN
+  - SD-LAN
+  - Enterprise Networking
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/kpn-sd-lan-sd-wan-network-view-api
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/kpn-sd-lan-sd-wan-network-view-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/kpn-sd_lan_sd_wan_network_view_api
+  - type: OpenAPI
+    url: openapi/kpn-sd-lan-sd-wan-network-view-openapi.yml
+  baseURL: https://api-prd.kpn.com/kpn/meraki
+- aid: kpn:kpn-servicenow-connect
+  name: KPN ServiceNow Connect API
+  description: This is Customer Connect API for KPN ServiceNow-Green Tickets. With this API KPN SN Green
+    will be able to create new, or update existing tickets. This document provides the API specification.
+  humanURL: https://developer.kpn.com/products/kpn-servicenow-connect-api
+  tags:
+  - Service Management
+  - ITSM
+  - Ticketing
+  - OSS
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/kpn-servicenow-connect-api
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/kpn-servicenow-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/servicenow-kpn
+  - type: OpenAPI
+    url: openapi/kpn-servicenow-connect-openapi.yml
+  baseURL: https://api-prd.kpn.com/network/kpn/servicenow
+- aid: kpn:kpn-ise
+  name: KPN ISE API
+  description: Cisco Identity Services Engine (ISE) network access control resources exposed through the
+    KPN API gateway, covering endpoints, endpoint groups, identity groups and internal users. The spec
+    advertises a full-capability sandbox, HTTPS with OAuth, rate limiting and header-based versioning
+    that defaults to the latest version.
+  humanURL: https://app.swaggerhub.com/apis-docs/kpn/ise-kpn
+  tags:
+  - Network
+  - Security
+  - Identity Services Engine
+  properties:
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/ise-kpn
+  - type: OpenAPI
+    url: openapi/kpn-ise-openapi.yml
+  baseURL: https://api-prd.kpn.com/kpn/ise
+- aid: kpn:kpn-tv-guide
+  name: KPN TV Guide API
+  description: This API provides you different TV related content services. Currently there are 3 main
+    calls with some of them have successive calls. The data provided consists of JSON formatted text mainly
+    related to TV content metadata. This data can be used to enrich all sort of platforms with actual
+    TV data.
+  humanURL: https://app.swaggerhub.com/apis-docs/kpn/tv-guide-kpn
+  tags:
+  - Media
+  - TV
+  - EPG
+  - Content Metadata
+  properties:
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/tv-guide-kpn
+  - type: OpenAPI
+    url: openapi/kpn-tv-guide-openapi.yml
+  baseURL: https://api-prd.kpn.com/media/kpn/itv
+- aid: kpn:kpn-webhook-signing-keys
+  name: KPN Webhook Signing Keys API
+  description: 'When KPN delivers a webhook to your endpoint, signing keys are to know the request genuinely
+    came from KPN and wasn''t tampered with in transit. KPN signs every outbound webhook payload using
+    HMAC-SHA256 and includes the signature in a header. You store a shared secret on your side, compute
+    the expected signature over the incoming request body, and compare it to the header value. If they
+    match, the payload is genuine. This API lets you create and manage those shared secrets. **How signing
+    keys work** You can set a signing key at three levels — Organization, Team, or Application. When KPN
+    delivers a webhook, it picks the active key starting at the most specific level (Application), falling
+    back to Team, then Organization. KPN automatically provisions an organization-level key on your first
+    webhook delivery if you haven''t created one. Each key moves through a simple lifecycle: -...'
+  humanURL: https://app.swaggerhub.com/apis-docs/kpn/webhook-signing-key-management-kpn
+  tags:
+  - Webhooks
+  - Security
+  - Key Management
+  properties:
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/webhook-signing-key-management-kpn
+  - type: OpenAPI
+    url: openapi/kpn-webhook-signing-keys-openapi.yml
+  baseURL: https://api-prd.kpn.com/webhookconfigs-kpn
+- aid: kpn:kpn-webhook-privacy-config-manager
+  name: KPN Webhook Privacy Config Manager API
+  description: 'KPN delivers outbound webhook notifications — such as SMS delivery reports — to the endpoints
+    you configure. This API lets you control two things about those deliveries: the URL they are sent
+    to, and which fields are included in the payload. **How configuration scopes work** You can configure
+    webhooks at three levels — Organization, Team, or Application. Settings resolve from the most specific
+    level to the broadest: an Application config overrides a Team config, which overrides the Organization
+    config. This lets you set sensible defaults at org or team level and override them only where a specific
+    application needs it. **Controlling payload fields (privacy)** `privacy_config.excluded_fields` maps
+    a service name to the list of fields to omit from that service''s outbound payloads. Any field not
+    listed is included; an empty or absent map means every field is sent. Exclusion rules...'
+  humanURL: https://app.swaggerhub.com/apis-docs/kpn/webhook-privacy-config-manager
+  tags:
+  - Webhooks
+  - Privacy
+  - Configuration
+  properties:
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/webhook-privacy-config-manager
+  - type: OpenAPI
+    url: openapi/kpn-webhook-privacy-config-manager-openapi.yml
+  baseURL: https://api-prd.kpn.com/webhookconfigs-kpn
+- aid: kpn:kpn-wholesale-wba
+  name: KPN Wholesale Broadband Access (WBA) API
+  description: 'KPN Wholesale Broadband Access (WBA) is a KPN Wholesale product offering copper and fiber
+    access to wholesale customers. WBA has the following APIs available: * Functional Product Information:
+    The Functional Product Information (FPI) service is used to provide WBA access information for new
+    and existing WBA connections. FPI provides carrier vendor information and WBA technology availability
+    with actual up and down bitrates with a reliability per technology type. * Carrier Information Product:
+    information about the infrastructure and active services on the physical connection of a customer
+    address.'
+  humanURL: https://app.swaggerhub.com/apis-docs/kpn/wholesale-wba-kpn
+  tags:
+  - Wholesale
+  - Broadband
+  - Access
+  properties:
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/wholesale-wba-kpn
+  - type: OpenAPI
+    url: openapi/kpn-wholesale-wba-openapi.yml
+  baseURL: https://api-prd.kpn.com/wba/adresses
+- aid: kpn:kpn-wholesale-broadband-access-fpi-cip
+  name: KPN Wholesale Broadband Access FPI/CIP API
+  description: 'KPN Wholesale Broadband Access (WBA) is a KPN Wholesale product offering copper and fiber
+    access to wholesale customers. WBA has the following APIs available: * Functional Product Information:
+    The Functional Product Information (FPI) service is used to provide WBA access information for new
+    and existing WBA connections. FPI provides carrier vendor information and WBA technology availability
+    with actual up and down bitrates with a reliability per technology type. * Carrier Information Product:
+    The Carrier Information Product (CIP) service is used to provide information about the infrastructure
+    and active services on the physical connection of a customer address.'
+  humanURL: https://app.swaggerhub.com/apis-docs/kpn/wholesale-broadband_access_fpi_cip
+  tags:
+  - Wholesale
+  - Broadband
+  - Product Information
+  properties:
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/wholesale-broadband_access_fpi_cip
+  - type: OpenAPI
+    url: openapi/kpn-wholesale-broadband-access-fpi-cip-openapi.yml
+  baseURL: https://api-prd.kpn.com/wba
+- aid: kpn:pollyhelp-knowledge-management
+  name: Polly.help Knowledge Management API
+  description: The Knowledge Management API allows you to organize your organization's information with
+    knowledge management software.
+  humanURL: https://developer.kpn.com/products/pollyhelp-knowledge-management-api
+  tags:
+  - Contact Center
+  - Knowledge Management
+  - Partner API
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/pollyhelp-knowledge-management-api
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/pollyhelp-knowledge-management-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/knowledge-management-polly.help
+  - type: OpenAPI
+    url: openapi/pollyhelp-knowledge-management-openapi.yml
+  baseURL: https://api-prd.kpn.com/data/pollyhelp/knowledgemanagement
+- aid: kpn:xdroid-speech-to-text
+  name: Xdroid Speech to Text API
+  description: Xdroid Speech To Text API provides a seamless audio transcription service.
+  humanURL: https://developer.kpn.com/products/xdroid-speech-text-api
+  tags:
+  - Contact Center
+  - Speech to Text
+  - Voice Analytics
+  - Partner API
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/xdroid-speech-text-api
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/xdroid-xdroid-speech-text-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/speech-to-text-xdroid
+  - type: OpenAPI
+    url: openapi/xdroid-speech-to-text-openapi.yml
+  baseURL: https://api-prd.kpn.com/data/kpn/voiceanalytics
+- aid: kpn:parley-secure-messenger
+  name: Parley Secure Messenger API
+  description: This API enables a secure communication between your agent/bot desktop and the client website/mobile
+    app.
+  humanURL: https://developer.kpn.com/products/parley-secure-messenger-api
+  tags:
+  - Messaging
+  - Chat
+  - Partner API
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/parley-secure-messenger-api
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/parley-chat-and-messaging-api-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/secure-messenger-parley
+  - type: OpenAPI
+    url: openapi/parley-secure-messenger-openapi.yml
+  baseURL: https://api-prd.kpn.com/communication/parley/secure-messenger
+- aid: kpn:tracebuzz-social-media-webcare
+  name: Tracebuzz Social Media Webcare API
+  description: The SocialMediaWebcare API allows you to organise and manage your inbound and outbound
+    social media channels traffic.
+  humanURL: https://developer.kpn.com/products/social-media-chat-and-messaging
+  tags:
+  - Messaging
+  - Social Media
+  - Webcare
+  - Partner API
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/social-media-chat-and-messaging
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/parley-webcare-parley-documentation-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/socialmediawebcare-tracebuzz
+  - type: OpenAPI
+    url: openapi/tracebuzz-social-media-webcare-openapi.yml
+  baseURL: https://api-prd.kpn.com/communication/tracebuzz/social-media-webcare
+- aid: kpn:weseedo-direct
+  name: WeSeeDo Direct API
+  description: WeSeeDo Direct API allows you to set up a video communication channel between people by
+    sending an SMS with a link to the meeting.
+  humanURL: https://developer.kpn.com/products/weseedo-weseedo-direct-api
+  tags:
+  - Video
+  - Communications
+  - Partner API
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/weseedo-weseedo-direct-api
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/weseedo-weseedo-direct-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/weseedo-direct-weseedo
+  - type: OpenAPI
+    url: openapi/weseedo-direct-openapi.yml
+  baseURL: https://api-prd.kpn.com/communication/weseedo/weseedodirect
+- aid: kpn:weseedo-personal
+  name: WeSeeDo Personal API
+  description: The WeSeeDo Personal API allows video calling in the right way and distinguishes itself
+    in human contact, ease of use and safety.
+  humanURL: https://developer.kpn.com/products/weseedo-weseedo-personal-api
+  tags:
+  - Video
+  - Communications
+  - Partner API
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/weseedo-weseedo-personal-api
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/weseedo-weseedo-personal-weseedo-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/weseedo-personal-weseedo
+  - type: OpenAPI
+    url: openapi/weseedo-personal-openapi.yml
+  baseURL: https://api-prd.kpn.com/communication/weseedo/weseedopersonal
+- aid: kpn:vonage-messages
+  name: Vonage Messages API (via KPN)
+  description: Encapsulates multiple APIs to interact with our various channels such as WhatsApp Business,
+    SMS, MMS, Viber, Facebook Messenger, etc. The API normalises information across all channels to abstracted
+    to, from and content. This API is for outbound messages.
+  humanURL: https://developer.kpn.com/products/vonage-messages-api
+  tags:
+  - Messaging
+  - CPaaS
+  - Resold API
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/vonage-messages-api
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/vonage-messages-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/messages-nexmo
+  - type: OpenAPI
+    url: openapi/vonage-messages-openapi.yml
+  baseURL: https://api-prd.kpn.com/communication/nexmo
+- aid: kpn:vonage-voice
+  name: Vonage Voice API (via KPN)
+  description: 'The Voice API lets you create outboud calls, control in progress calls and get information
+    about current and historical calls. The API is divided in 2 big resources blocks: - Application: Manage
+    application level options - Call: Manage call level options ## Call Guidelines 1. Create an application
+    2. Make a call ## Guidelines to create an application In order to create an application, we need to
+    provide 3 values: - name - type (voice) - answer_url - event_url For more information regarding the
+    meaning of each field, refer to the <samp>POST /application</samp> endpoint. Among the return values
+    of this call, there is the application identifier (<samp>uuid</samp>). It is needed to make calls
+    or to operate with the application. ## Guidelines to make a call In order to make a call, we must
+    include the identifier of the application in the **header** and fill the basic fields from the...'
+  humanURL: https://developer.kpn.com/products/vonage-voice-api
+  tags:
+  - Voice
+  - CPaaS
+  - Resold API
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/vonage-voice-api
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/vonage-voice-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/voice-nexmo
+  - type: OpenAPI
+    url: openapi/vonage-voice-openapi.yml
+  baseURL: https://api-prd.kpn.com/communication/nexmo/
+- aid: kpn:vonage-phone-numbers
+  name: Vonage Phone Numbers API (via KPN)
+  description: 'The Numbers API lets you manage your numbers and buy new virtual numbers for use with
+    Vonage''s APIs. ## Prerequirement: Your project has to be in the production environment in order to
+    use of this API. For any questions, please contact our support team.'
+  humanURL: https://developer.kpn.com/products/vonage-phone-numbers-api
+  tags:
+  - Voice
+  - Phone Numbers
+  - CPaaS
+  - Resold API
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/vonage-phone-numbers-api
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/vonage-phone-numbers-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/phone-numbers-nexmo
+  - type: OpenAPI
+    url: openapi/vonage-phone-numbers-openapi.yml
+  baseURL: https://api-prd.kpn.com/communication/nexmo/phone-numbers
+- aid: kpn:vonage-number-insight
+  name: Vonage Number Insight API (via KPN)
+  description: 'Vonage''s Number Insight API provides details about the validity, reachability and roaming
+    status of a phone number, as well as giving you details on how to format the number properly in your
+    application. There are three levels of the Number Insight API available: - Basic - Standard - Advanced
+    The advanced API is available asynchronously as well as synchronously.'
+  humanURL: https://developer.kpn.com/products/vonage-number-insight-api
+  tags:
+  - Identity
+  - Number Insight
+  - CPaaS
+  - Resold API
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/vonage-number-insight-api
+  - type: Documentation
+    url: https://developer.kpn.com/documentation/vonage-number-insight-api-documentation
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/number-insight-nexmo
+  - type: OpenAPI
+    url: openapi/vonage-number-insight-openapi.yml
+  baseURL: https://api-prd.kpn.com/communication/nexmo/number-insight
+- aid: kpn:vonage-sms
+  name: Vonage SMS API (via KPN)
+  description: Vonage's SMS API allows you to send and receive text messages to users around the globe
+    through simple RESTful APIs. * Programmatically send and receive high volume of SMS anywhere in the
+    world. * Build apps that scale with the web technologies that you are already using. * Send SMS with
+    low latency and high delivery rates. * Receive SMS for free using SMS-enabled local numbers in countries
+    around the world. * Only pay for what you use, nothing more.
+  humanURL: https://app.swaggerhub.com/apis-docs/kpn/sms-nexmo
+  tags:
+  - Messaging
+  - SMS
+  - CPaaS
+  - Resold API
+  properties:
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/sms-nexmo
+  - type: OpenAPI
+    url: openapi/vonage-sms-openapi.yml
+  baseURL: https://api-prd.kpn.com/communication/nexmo/sms
+- aid: kpn:vonage-verify
+  name: Vonage Verify API (via KPN)
+  description: Verify API is to Verify if a phone number is valid, reachable, and accessible by the user.
+    Verification message can be customerized. Verify API provides the following services - **Verify Request**
+    - Generate and send a PIN to your user. You use the request_id in the response is used for the Verify
+    check. - **Verify Check** - Confirm that the PIN you received from your user matches the one sent
+    by Vonage as a result of your Verify request. - **Verify Search** - Lookup the status of one or more
+    requests. - **Verify Control** - Control the progress of your Verify requests.
+  humanURL: https://app.swaggerhub.com/apis-docs/kpn/verify-nexmo
+  tags:
+  - Identity
+  - Verification
+  - CPaaS
+  - Resold API
+  properties:
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/verify-nexmo
+  - type: OpenAPI
+    url: openapi/vonage-verify-openapi.yml
+  baseURL: https://api-prd.kpn.com/communication/nexmo/verify
+- aid: kpn:apidaze-voice
+  name: Apidaze Voice CPaaS API (via KPN)
+  description: This REST API exposes actions that help your apps to interact with APIdaze’s Telco platform
+    in mulitples ways. You can set the URL from where Apidaze fetchs XML instructions to run on Apidaze
+    platform. You can write your various scripts there using the [Script Reference doc](https://developer.kpn.com/script-reference-documentation),
+    and test them. You can manage your phone numbers, connect directly with other SIP carriers (inbound
+    and outbound), manage your SIP accounts, voicemail boxes and messages, provision your hardphones.
+  humanURL: https://app.swaggerhub.com/apis-docs/kpn/apidaze-voice-voip-innovations
+  tags:
+  - Voice
+  - VoIP
+  - CPaaS
+  - Resold API
+  properties:
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/apidaze-voice-voip-innovations
+  - type: OpenAPI
+    url: openapi/apidaze-voice-openapi.yml
+  baseURL: https://api-prd.kpn.com/communication/apidaze/cpaas
+- aid: kpn:registered-email
+  name: Registered Email API (via KPN)
+  description: 'This API offers three functionalities: - User management - Emailing User management can
+    be used to add, get and modify user information. This can be done be a user with customer admin rights,
+    without 2FA.Emailing can be used without authorization. The mail functionality can be used to sent
+    registered emails with attachment without 2FA. Mail management, XML, can be seen by webservice users.
+    It can be used to retrieve ticket information once the ticket id is known.'
+  humanURL: https://app.swaggerhub.com/apis-docs/kpn/registeredemail-registeredemail
+  tags:
+  - Email
+  - Registered Delivery
+  - Partner API
+  properties:
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/kpn/registeredemail-registeredemail
+  - type: OpenAPI
+    url: openapi/registered-email-openapi.yml
+  baseURL: https://api-prd.kpn.com/data/registeredemail/registeredemail
+- aid: kpn:kpn-grip
+  name: KPN GRIP API
+  description: KPN GRIP identity and access product. Documented on the KPN Developer portal; no public
+    OpenAPI definition was found for this product on KPN's SwaggerHub organisation as of the harvest date.
+  humanURL: https://developer.kpn.com/products/kpn-grip-api
+  tags:
+  - Security
+  - Identity
+  - Access Management
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/kpn-grip-api
+  - type: APIReference
+    url: https://developer.kpn.com/documentation/kpn-grip-api-documentation
+- aid: kpn:kpn-pim-id
+  name: KPN PIM ID API
+  description: KPN PIM app identity product. Documented on the KPN Developer portal; no public OpenAPI
+    definition was found for this product on KPN's SwaggerHub organisation as of the harvest date.
+  humanURL: https://developer.kpn.com/products/kpn-pim-id-api
+  tags:
+  - Identity
+  - Verification
+  - Mobile
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/kpn-pim-id-api
+  - type: APIReference
+    url: https://developer.kpn.com/documentation/kpn-pim-id-api-documentation
+- aid: kpn:kpn-sms-campaigns
+  name: KPN SMS Campaigns API
+  description: Send and schedule bulk SMS campaigns over the KPN network. Documented on the KPN Developer
+    portal; no public OpenAPI definition was found for this product on KPN's SwaggerHub organisation as
+    of the harvest date.
+  humanURL: https://developer.kpn.com/products/sms-campaigns
+  tags:
+  - Messaging
+  - SMS
+  - Campaigns
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/sms-campaigns
+  - type: APIReference
+    url: https://developer.kpn.com/documentation/sms-campaign-documentation
+- aid: kpn:kpn-email-to-sms
+  name: KPN Email-to-SMS API
+  description: Converts inbound email into SMS messages delivered over the KPN network. Documented on
+    the KPN Developer portal; no public OpenAPI definition was found for this product on KPN's SwaggerHub
+    organisation as of the harvest date.
+  humanURL: https://developer.kpn.com/products/email-to-sms
+  tags:
+  - Messaging
+  - SMS
+  - Email
+  properties:
+  - type: Documentation
+    url: https://developer.kpn.com/products/email-to-sms
+common:
+- type: Website
+  url: https://www.kpn.com/
+- type: DeveloperPortal
+  url: https://developer.kpn.com/
+- type: Documentation
+  url: https://developer.kpn.com/documentation
+- type: GettingStarted
+  url: https://developer.kpn.com/page/getting-started
+- type: SignUp
+  url: https://developer.kpn.com/dashboard/register
+- type: Login
+  url: https://developer.kpn.com/dashboard/login
+- type: Products
+  url: https://developer.kpn.com/products
+- type: Tutorials
+  url: https://developer.kpn.com/tutorials
+- type: Blog
+  url: https://developer.kpn.com/blog
+- type: StatusPage
+  url: https://developer.kpn.com/status
+- type: Support
+  url: https://developer.kpn.com/support
+- type: TermsOfService
+  url: https://developer.kpn.com/page/legal
+- type: VulnerabilityDisclosure
+  url: https://developer.kpn.com/page/responsible-disclosure
+- type: OpenAPIRepository
+  url: https://app.swaggerhub.com/search?owner=kpn
+- type: PostmanWorkspace
+  url: https://www.postman.com/kpndeveloper
+- type: GitHubOrganization
+  url: https://github.com/kpn
+- type: LinkedIn
+  url: https://www.linkedin.com/company/kpn
+- type: Wholesale
+  url: https://www.kpn-wholesale.com/
+- type: Standard
+  url: https://github.com/camaraproject/
+- type: Standard
+  url: https://coin.nl/camara
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

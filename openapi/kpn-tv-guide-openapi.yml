@@ -1,0 +1,976 @@
+openapi: 3.0.0
+servers:
+  - url: 'https://api-prd.kpn.com/media/kpn/itv'
+info:
+  description: >-
+
+    This API provides you different TV related content services. Currently there
+    are 3 main calls with some of them have successive calls. The data provided
+    consists of JSON formatted text mainly related to TV content metadata. This
+    data can be used to enrich all sort of platforms with actual TV data.
+
+    ### Key highlights
+
+    - **Sandbox:** full-fledged capabilities.
+
+    - **Security:**  HTTPS, Oauth
+
+    - **Versioning:**  supports version-less API, version tight. If no version
+    is provided (in header) it defaults to latest version. 
+
+    ## [Source view](https://app.swaggerhub.com/apis/kpn/tv-guide-kpn/)<br/>
+    [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/tv-guide-kpn/)
+    
+    ---
+    
+    ## [KPN API Store](https://developer.kpn.com/)<br/>
+    [Getting Started](https://developer.kpn.com/getting-started)
+    
+    ---
+  version: '1.0'
+  title: TV Guide - KPN
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: 'https://developer.kpn.com/support'
+  termsOfService: 'https://developer.kpn.com/legal'
+tags:
+  - name: Catalog
+    description: Logical grouping of content
+  - name: Item
+    description: Detailed descriptions of the content
+paths:
+  '/{channel}/kpn/TRAY/LIVECHANNELS':
+    get:
+      tags:
+        - Catalog
+      summary: Get live channels
+      description: Get a list of live channels. Allows filtering by properties.
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: '#/components/parameters/path_channel'
+        - $ref: '#/components/parameters/header_api_version'
+        - $ref: '#/components/parameters/query_from'
+        - $ref: '#/components/parameters/query_to'
+        - $ref: '#/components/parameters/query_maxresults'
+        - $ref: '#/components/parameters/query_query'
+        - $ref: '#/components/parameters/query_api_version'
+        - $ref: '#/components/parameters/query_filter_isadult'
+        - $ref: '#/components/parameters/query_filter_channelids'
+        - $ref: '#/components/parameters/query_filter_channeltype'
+        - $ref: '#/components/parameters/query_filter_types'
+        - $ref: '#/components/parameters/query_orderby_live'
+        - $ref: '#/components/parameters/query_sortorder'
+      responses:
+        '200':
+          $ref: '#/components/responses/life_channels_found'
+        '302':
+          $ref: '#/components/responses/found'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'
+  '/{channel}/kpn/TRAY/SEARCH/VOD':
+    get:
+      tags:
+        - Catalog
+      summary: Search Video On Demand (VOD)
+      description: >-
+        Searches VOD from the catalog given the conditions described in the
+        query parameters.
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: '#/components/parameters/path_channel'
+        - $ref: '#/components/parameters/header_api_version'
+        - $ref: '#/components/parameters/query_api_version'
+        - $ref: '#/components/parameters/query_from'
+        - $ref: '#/components/parameters/query_to'
+        - $ref: '#/components/parameters/query_maxresults'
+        - $ref: '#/components/parameters/query_query'
+        - $ref: '#/components/parameters/query_filter_contenttype'
+        - $ref: '#/components/parameters/query_filter_contentsubtype'
+        - $ref: '#/components/parameters/query_filter_contenttypeextended'
+        - $ref: '#/components/parameters/query_filter_parentid'
+        - $ref: '#/components/parameters/query_filter_title'
+        - $ref: '#/components/parameters/query_filter_year'
+        - $ref: '#/components/parameters/query_filter_categoryid'
+        - $ref: '#/components/parameters/query_filter_genres'
+        - $ref: '#/components/parameters/query_filter_genresoperator'
+        - $ref: '#/components/parameters/query_filter_excludedgenres'
+        - $ref: '#/components/parameters/query_filter_excludedgenresoperator'
+        - $ref: '#/components/parameters/query_filter_seriesids'
+        - $ref: '#/components/parameters/query_filter_season'
+        - $ref: '#/components/parameters/query_filter_quality'
+        - $ref: '#/components/parameters/query_filter_fuzzy'
+        - $ref: '#/components/parameters/query_orderby_vod'
+        - $ref: '#/components/parameters/query_sortorder'
+        - $ref: '#/components/parameters/query_outputformat'
+      responses:
+        '200':
+          $ref: '#/components/responses/search_vod_found'
+        '302':
+          $ref: '#/components/responses/found'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '412':
+          $ref: '#/components/responses/empty_file'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'
+  '/{channel}/kpn/TRAY/SEARCH/PROGRAM':
+    get:
+      tags:
+        - Catalog
+      summary: Search programs
+      description: >-
+        Searches PROGRAMS from the catalog given the conditions described in the
+        query parameters.
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: '#/components/parameters/path_channel'
+        - $ref: '#/components/parameters/header_api_version'
+        - $ref: '#/components/parameters/query_api_version'
+        - $ref: '#/components/parameters/query_from'
+        - $ref: '#/components/parameters/query_to'
+        - $ref: '#/components/parameters/query_maxresults'
+        - $ref: '#/components/parameters/query_query'
+        - $ref: '#/components/parameters/query_filter_airingtime'
+        - $ref: '#/components/parameters/query_filter_starttime_string'
+        - $ref: '#/components/parameters/query_filter_airingstarttime'
+        - $ref: '#/components/parameters/query_filter_channelids'
+        - $ref: '#/components/parameters/query_filter_endtime_string'
+        - $ref: '#/components/parameters/query_filter_airingendtime'
+        - $ref: '#/components/parameters/query_filter_excludedchannelids'
+        - $ref: '#/components/parameters/query_filter_iscatchup'
+        - $ref: '#/components/parameters/query_filter_isstartover'
+        - $ref: '#/components/parameters/query_filter_seriesid'
+        - $ref: '#/components/parameters/query_filter_genre'
+        - $ref: '#/components/parameters/query_filter_genreoperator'
+        - $ref: '#/components/parameters/query_filter_excludedgenre'
+        - $ref: '#/components/parameters/query_filter_excludedgenreoperator'
+        - $ref: '#/components/parameters/query_filter_programtype'
+        - $ref: '#/components/parameters/query_filter_istvpremiere'
+        - $ref: '#/components/parameters/query_filter_fuzzy'
+        - $ref: '#/components/parameters/query_orderby_program'
+        - $ref: '#/components/parameters/query_sortorder'
+        - $ref: '#/components/parameters/query_outputformat'
+      responses:
+        '200':
+          $ref: '#/components/responses/search_vod_found'
+        '302':
+          $ref: '#/components/responses/found'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '412':
+          $ref: '#/components/responses/empty_file'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'
+  '/{channel}/kpn/TRAY/EPG':
+    get:
+      tags:
+        - Catalog
+      summary: Get a list of transcripts uploaded by the client
+      description: |-
+        Gets a list of transcriptions. 
+        This feature is only available in production
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: '#/components/parameters/path_channel'
+        - $ref: '#/components/parameters/header_api_version'
+        - $ref: '#/components/parameters/query_api_version'
+        - $ref: '#/components/parameters/query_filter_starttime'
+        - $ref: '#/components/parameters/query_filter_endtime'
+        - $ref: '#/components/parameters/query_filter_day'
+        - $ref: '#/components/parameters/query_filter_channelids'
+        - $ref: '#/components/parameters/query_outputformat'
+      responses:
+        '200':
+          $ref: '#/components/responses/epg_found'
+        '302':
+          $ref: '#/components/responses/found'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '428':
+          $ref: '#/components/responses/precondition_required'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'
+  '/{channel}/kpn/CONTENT/DETAIL/{contentType}/{contentId}':
+    get:
+      tags:
+        - Item
+      summary: content details
+      description: Get's the detailed description of the content identified as contentId
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: '#/components/parameters/path_channel'
+        - $ref: '#/components/parameters/path_contenttype'
+        - $ref: '#/components/parameters/path_contentid'
+        - $ref: '#/components/parameters/header_api_version'
+        - $ref: '#/components/parameters/query_api_version'
+      responses:
+        '200':
+          $ref: '#/components/responses/content_detail'
+        '302':
+          $ref: '#/components/responses/found'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: >-
+            https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+  schemas:
+    container:
+      type: object
+      description: >-
+        A Container represents one of the objects returned by the AGL
+        Nanoservice. This container is used to link together all the page
+        composition information related to the object itself. The attribute
+        "metadata" contains the original object attributes, while layout,
+        actions and retrieveItems are the attributes needed to correctly render
+        the object in the given Client App UI.
+      properties:
+        id:
+          type: string
+          description: unique id of a container
+        layout:
+          type: string
+          description: >-
+            Layout template needed from a client to show this container data.
+
+            The layout templates list is shared between the client applications
+            and the AGL. For a list of valid layout values please look at each
+            specific NanoService page.
+        proeprties:
+          description: multigeo properties.
+          type: object
+          properties:
+            propertyName:
+              type: string
+              description: Name for multigeo properties
+              example: UK
+        metadata:
+          type: object
+          description: generic object API dependent
+        actions:
+          description: >-
+            list of actions to be executed client side when a certain event
+            occurs
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                description: >-
+                  action key. Describes action type. Keys are API dependant and
+                  thus they are described on each api Interface Agreement page
+                type: string
+                example:
+                  - onClick
+                  - onFocus
+                  - onPlay
+              url:
+                description: an URI relative to the AGL base path.
+                type: string
+                example: /CONTENT/DETAIL/VOD/500
+              targetType:
+                description: >-
+                  the target page to be opened when performing the action
+                  described on the "key" parameter. the "uri" will return the
+                  Container instance to be used to configure the new page.
+                type: string
+        retrieveItems:
+          type: object
+          description: >-
+            object describing how to retrieve the subitems of this container in
+            case it's needed (node content). This field is normally used by the
+            PAGE/MENU api.
+          properties:
+            url:
+              type: string
+              description: >-
+                An URI relative to the AGL base path. This uri has to be
+                executed in order to retrieve this Container subitems.
+
+                REMOTE - items need to be retrieved remotly executing the given
+                uri LOCAL - items need to be retrieved with a client local
+                orchestration
+            type:
+              type: string
+              description: specify the kind of orchestration to be performed client side
+              enum:
+                - REMOTE
+                - LOCAL
+        containers:
+          type: array
+          description: >-
+            A node content may have its subitems loaded dynamically
+            (retrieveItems field) or statically (containers field). If this
+            field is valorized it will contain this content subitems.
+          items:
+            type: object
+            description: Container object
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+  responses:
+    life_channels_found:
+      description: result object when successful /TRAY/LIVECHANNELS call is made
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              total:
+                type: integer
+              containers:
+                type: array
+                items:
+                  $ref: '#/components/schemas/container'
+    search_programs_found:
+      description: result object when successful /TRAY/SEARCH/LIVE call is made
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              total:
+                type: integer
+              containers:
+                type: array
+                items:
+                  $ref: '#/components/schemas/container'
+    search_vod_found:
+      description: result object when successful /TRAY/SEARCH/VOD call is made
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              total:
+                type: integer
+              containers:
+                type: array
+                items:
+                  $ref: '#/components/schemas/container'
+    epg_found:
+      description: result object when successful /TRAY/EPG call is made
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              total:
+                type: integer
+              containers:
+                type: array
+                items:
+                  $ref: '#/components/schemas/container'
+    content_detail:
+      description: >-
+        result object with all the content that satisfies the /CONTENT/DETAIL
+        criteria
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              total:
+                type: integer
+              containers:
+                type: array
+                items:
+                  $ref: '#/components/schemas/container'
+    bad_request:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    found:
+      description: Found
+      content:
+        application/json:
+          schema:
+            type: object
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    empty_file:
+      description: uploaded file has size 0
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    precondition_required:
+      description: precondition required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  parameters:
+    header_api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+    query_api_version:
+      in: query
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+    path_channel:
+      in: path
+      name: channel
+      description: Any valid platform
+      schema:
+        type: string
+        enum:
+          - pctv
+          - ios
+          - android
+          - stb
+          - chromecast
+          - smarttv
+      required: true
+    path_contenttype:
+      in: path
+      name: contentType
+      description: Identifier of the content type.
+      schema:
+        type: string
+        enum:
+          - PROGRAM
+          - VOD
+      required: true
+    path_contentid:
+      in: path
+      name: contentId
+      description: The unique content identifier.
+      schema:
+        type: integer
+      required: true
+    query_filter_isadult:
+      in: query
+      name: filter_isAdult
+      description: Return the channels with the isAdult flag set or unset
+      schema:
+        type: boolean
+      required: false
+    query_filter_iscatchup:
+      in: query
+      name: filter_isCatchUp
+      description: Return the programs with the catchup (just missed) flag set or unset
+      schema:
+        type: boolean
+    query_filter_isstartover:
+      in: query
+      name: filter_isStartOver
+      description: Return the programs with the startover (just missed) flag set or unset
+      schema:
+        type: boolean
+    query_filter_istvpremiere:
+      in: query
+      name: filter_isTvPremiere
+      description: Returns all the programs with the tvPremiere flag set to the given value
+      schema:
+        type: boolean
+    query_filter_airingendtime:
+      in: query
+      name: filter_airingEndTime
+      description: >-
+        Return the programs airing at the specified time and before. The time
+        can be a unix timestamp (milliseconds) or 'now' to indicate the current
+        time.
+      schema:
+        type: string
+    query_filter_airingstarttime:
+      in: query
+      name: filter_airingStartTime
+      description: >-
+        Return the programs airing at the specified time and after. The time can
+        be a unix timestamp (milliseconds) or 'now' to indicate the current
+        time.
+      schema:
+        type: string
+    query_filter_airingtime:
+      in: query
+      name: filter_airingTime
+      description: >-
+        Return the program onair at the specified time. The time can be a unix
+        timestamp (milliseconds) or 'now' to indicate the current time
+      schema:
+        type: string
+    query_filter_categoryid:
+      in: query
+      name: filter_categoryId
+      description: >-
+        Return the contents with a specific category identifier. The categoryId
+        is an integer value.
+      schema:
+        type: integer
+    query_filter_channelids:
+      in: query
+      name: filter_channelIds
+      description: Return the programs belonging to the specified channel id list
+      schema:
+        type: string
+      required: false
+    query_filter_channeltype:
+      in: query
+      name: filter_chanellType
+      description: >-
+        Return the channels of the given channel group ("standard" or
+        "extended")
+      schema:
+        type: string
+        enum:
+          - standard
+          - extended
+      required: false
+    query_filter_contentsubtype:
+      in: query
+      name: filter_contentSubtype
+      description: >-
+        Return the contents with the specified contentsubtype. Note: some
+        subtypes only make sense with the corrent contentsubtype. type |
+        subtypes :--- |:--- BUNDLE | SEASON GROUP_OF_BUNDLES | SERIES VOD | VOD,
+        EPISODE
+      schema:
+        type: string
+    query_filter_contenttype:
+      in: query
+      name: filter_contentType
+      description: |-
+        Return the contents with the spiecified content type.
+         - VOD: returns episodes or movies
+         - BUNDLE: returns a vod container (i.e. seasons)
+         - GROUP_OF_BUNDLES: returns a bundle container (i.e. series)
+      schema:
+        type: string
+    query_filter_contenttypeextended:
+      in: query
+      name: filter_contentTypeExtended
+      description: >-
+        Return the contents with the specified filter_contentTypeExtended.
+        **Note:** only meaningfull for VOD content types.
+      schema:
+        type: string
+        enum:
+          - VOD
+          - TVOY
+    query_filter_day:
+      in: query
+      name: filter_day
+      description: >-
+        Useful when you want all programs of a given day. It can be used for
+        both past / future days. This filter calculates on its own the
+        Summer/Winter time offsets. Using the starttime and endTime filters
+        thosethe offsets have to be calculates from the client application. Note
+        that whenever you set this parameter, the request parameter values of
+        `filter_startTime`and `filter_endTime` will be replaced by the values
+        computed by this one.
+
+        **Note**: Mandatory if `filter_startTime`and `filter_endTime` not set.
+
+        - 0 means today - Negative values means past days. - Positive not zero
+        values means future days.
+      schema:
+        type: integer
+    query_filter_endtime:
+      in: query
+      name: filter_endTime
+      description: It must be an unix timestamp expressed in milliseconds
+      schema:
+        type: integer
+    query_filter_endtime_string:
+      in: query
+      name: filter_endTime
+      description: >-
+        Return the programs ending before the specified time. The time can be a
+        unix timestamp (milliseconds) or 'now' to indicate the current time
+      schema:
+        type: string
+    query_filter_excludedchannelids:
+      in: query
+      name: filter_excludeChannelIds
+      description: >-
+        Exclude the programs belongingto the specified channel id list. This
+        filter can be used together with `filter_channelIds`
+      schema:
+        type: string
+      required: false
+    query_filter_excludedgenre:
+      in: query
+      name: filter_excludeGenre
+      description: >-
+        Returns the programs that don't belong to at least one of the genres in
+        the list if the filter_excludedGenreOperator is "or" or not specified.
+        Returns the programs that don't belong to all the genres in the list if
+        the filter_excludedGenreOperator is "and".
+      schema:
+        type: string
+    query_filter_excludedgenreoperator:
+      in: query
+      name: filter_excludeGenreOperator
+      description: >-
+        To be used in combination with "filter_excludedGenre". Defines the
+        operator to be used in the query for "filter_excludedGenre".
+      schema:
+        type: string
+        enum:
+          - and
+          - or
+    query_filter_excludedgenres:
+      in: query
+      name: filter_excludeGenres
+      description: >-
+        Return all the programs that don't belong to at least one of the genres
+        in the list if the `filter_excludeGenreOperator` is "or" or "not
+        specified". Returns the programs that don't belong to all the genres in
+        the list if the `filter_excludeGenreOperator` is "and"
+      schema:
+        type: string
+    query_filter_excludedgenresoperator:
+      in: query
+      name: filter_excludeGenresOperator
+      description: >-
+        To be used in combination with `filter_filter_excludeGenregenre`.
+        Defines the operator to be used in the query for `filter_excludeGenre`.
+      schema:
+        type: string
+        enum:
+          - and
+          - or
+    query_filter_fuzzy:
+      in: query
+      name: filter_fuzzy
+      description: >
+        When set to true, 
+         - adds AUTO fuzziness on the query string
+         - adds a prefix_length of 2 to each word of the query string
+         - adds a boost of 2 to a result if the title contains a phrase match of the query string
+         - adds a boost of 4 to a result if the title contains an exact match of the query string
+        Returns all the programs matching the query string within the maximum
+        edit distance specified in fuzziness.
+
+        NOTE: If query is used, fuzziness is only applied to title, not to
+        genres, actors, etc.
+      schema:
+        type: boolean
+    query_filter_genre:
+      in: query
+      name: filter_genre
+      description: >-
+        Returns all the programs of the given genres if the filter_genreOperator
+        is "or" or not specified. Returns all the programs belonging to all the
+        genres in the list if the filter_genreOperator is "and".
+      schema:
+        type: string
+    query_filter_genreoperator:
+      in: query
+      name: filter_genresOperator
+      description: >-
+        To be used in combination with `filter_genre`. Defines the operator to
+        be used in the query for `filter_genre`.
+      schema:
+        type: string
+        enum:
+          - and
+          - or
+    query_filter_genres:
+      in: query
+      name: filter_genres
+      description: >-
+        Return all the programs of the given genres if the
+        `filter_genreOperator` is "or" or "not specified"
+      schema:
+        type: string
+    query_filter_genresoperator:
+      in: query
+      name: filter_genresOperator
+      description: >-
+        To be used in combination with `filter_genres`. Defines the operator to
+        be used in the query for `filter_genre`.
+      schema:
+        type: string
+        enum:
+          - and
+          - or
+    query_filter_parentid:
+      in: query
+      name: filter_parentId
+      description: >-
+        Returns the contents belonging to the specified parent contentId. The
+        parentId can be a Season ID or a Series ID.
+      schema:
+        type: integer
+    query_filter_programtype:
+      in: query
+      name: filter_programType
+      description: Returns all the programs of the given program types
+      schema:
+        type: string
+    query_filter_quality:
+      in: query
+      name: filter_quality
+      description: Return the contents tagged with at least one of the input quality
+      schema:
+        type: string
+    query_filter_season:
+      in: query
+      name: filter_season
+      description: Return all the episodes of the given season
+      schema:
+        type: integer
+    query_filter_seriesid:
+      in: query
+      name: filter_seriesId
+      description: >-
+        Return all the episodes of the specified seriesId. Note that this
+        seriesId is not related to the parentId and it's not referred to any
+        contentId.
+      schema:
+        type: integer
+    query_filter_seriesids:
+      in: query
+      name: filter_seriesIds
+      description: >-
+        Return all the episodes of the specified list of seriesIds. Note that
+        this seriesId is not related to the parentId and it's not referred to
+        any contentId.
+      schema:
+        type: string
+    query_filter_starttime:
+      in: query
+      name: filter_startTime
+      description: It must be an unix timestamp expressed in milliseconds
+      schema:
+        type: integer
+    query_filter_starttime_string:
+      in: query
+      name: filter_startTime
+      description: >-
+        Return the programs starting after the specified time. The time can be a
+        unix timestamp (milliseconds) or 'now' to indicate the current time.
+      schema:
+        type: string
+    query_filter_title:
+      in: query
+      name: filter_title
+      description: >-
+        Return the contents with the specified title. The title is a string that
+        fully or partially matches with the searched contents.
+      schema:
+        type: string
+    query_filter_types:
+      in: query
+      name: filter_types
+      description: Return the channels of the given type
+      schema:
+        type: string
+        enum:
+          - LIVE
+          - PPVVAR
+          - MUSIC
+          - BARKER
+      required: false
+    query_filter_year:
+      in: query
+      name: filter_year
+      description: >-
+        Return the contents with the specified publishing year. The year is an
+        integer in the format YYYY.
+      schema:
+        type: integer
+    query_from:
+      in: query
+      name: from
+      description: Starting value of pagination
+      schema:
+        type: integer
+    query_maxresults:
+      in: query
+      name: maxResults
+      description: Max number of items to be retrieved
+      required: false
+      schema:
+        type: integer
+    query_orderby_live:
+      in: query
+      name: orderBy
+      description: Specify the channels sorting
+      schema:
+        type: string
+        enum:
+          - orderId
+          - name
+        default: orderId
+    query_orderby_vod:
+      in: query
+      name: orderBy
+      description: Specify the contents sorting
+      schema:
+        type: string
+        enum:
+          - title
+          - airingStartTime
+          - starRating
+        default: airingStartTime
+    query_orderby_program:
+      in: query
+      name: orderBy
+      description: Specify the contents sorting
+      schema:
+        type: string
+        enum:
+          - title
+          - starRating
+          - season
+          - episodeNumber
+          - activationDate
+        default: title
+    query_outputformat:
+      in: query
+      name: outputFormat
+      description: Specify the format of the output to be returned
+      schema:
+        type: string
+        enum:
+          - STANDARD
+          - EXTENDED
+    query_query:
+      in: query
+      name: query
+      description: Free text search applied to channel name
+      schema:
+        type: string
+    query_sortorder:
+      in: query
+      name: sortOrder
+      description: Specify the sorting order
+      schema:
+        type: string
+        enum:
+          - asc
+          - desc
+        default: desc
+      required: false
+    query_to:
+      in: query
+      name: to
+      description: Ending value of pagination
+      schema:
+        type: integer

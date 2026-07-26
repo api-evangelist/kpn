@@ -1,0 +1,2072 @@
+openapi: 3.0.0
+info:
+  description: >-
+    KPN’s Low Power Long Range (LoRa) network service compliments existing 2G, 3G, 4G and LTE-M networks. It is based on the LoRaWAN protocol for Internet of Things (IoT). 
+    
+    ### Key highlights
+
+    - **Sandbox:** Full-fledged capabilities.
+
+    - **Security:**  HTTPS, OAuth, Rate limiting.
+
+    - **Versioning:**  Supports version-less API, version tight. If no version
+    is provided (in the header) it defaults to latest version. 
+
+     ---
+  
+    ## [Source view](https://app.swaggerhub.com/apis/kpn/lora-device-management-kpn/)<br/>
+    [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/lora-device-management-kpn/)
+    
+    ---
+    
+    ## [KPN Developer](https://developer.kpn.com/)<br/>
+    [Getting Started](https://developer.kpn.com/getting-started)
+    
+    ---
+    
+  version: "v1.2"
+  title: LoRa Device Management - KPN
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: 'https://developer.kpn.com/support'
+  termsOfService: 'https://developer.kpn.com/legal'
+servers:
+  - url: 'https://api-prd.kpn.com/data/lora/thingpark'
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers
+paths:
+  /activate:
+    post:
+      tags:
+      - Activation
+      summary: Activates API
+      description: "Need to update description."
+      operationId: Activation
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      requestBody:
+        description: Contents of Activation.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivationReq'
+            example:
+              thingpark_username: abc@lora.com
+              thingpark_password: Abc@23
+        required: true
+      responses:
+        200:
+          description: Successful
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivationResp'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      deprecated: false
+  /devices:
+    get:
+      tags:
+      - Device
+      summary: Retrieves devices
+      description: "Retrieves a list of devices existing within authorized scopes. Note that for each device, by default only the following information is retrieved: `ref`, `name`, `EUI`, `networkAddress`."
+      operationId: Devicesretrieval
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: deviceEUI
+        in: query
+        description: EUI of the device to search for.
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: healthState
+        in: query
+        description: Health state of the devices to search for. By default, all devices are returned.
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/healthState1'
+      - name: connectivityPlanId
+        in: query
+        description: Connectivity plan assigned to the devices to search for. Value `_NOCP` means that only devices with no connectivity plan assigned should be returned. Value `_CP` means that only devices with any connectivity plan assigned should be returned. By default, all devices are returned.
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: statistics
+        in: query
+        description: Indicates to also retrieve usage statistic information along each device. Default is false.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: commercialDetails
+        in: query
+        description: Indicates to also retrieve commercial information along each device. Default is false.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: extendedInfo
+        in: query
+        description: Indicates to retrieve all available information (including statistics and commercial details) along each device. Default is false.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: pageIndex
+        in: query
+        description: If set, enables pagination and returns only the 100 devices of the specified page. First available page index is 1. Note that device pagination is only supported in case of a SUBSCRIBER scope.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Devices retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Device'
+                description: Devices retrieved successfully.
+              example:
+              - x-regga-type: sniplet
+                id: device-getall-as-vendor
+                title: Devices retrieval example with a VENDOR scope
+                requestSniplet:
+                  headers:
+                    Authorization: Bearer <vendor_token>
+                data: '[ { "ref": "3579", "name": "New OTAA device", "EUI": "0018A20000000004" }, { "ref": "3582", "name": "New ABP device", "EUI": "0018A20000000005", "networkAddress": "04000800" } ]'
+              - x-regga-type: sniplet
+                id: device-getall-as-subscriber
+                title: Devices retrieval example with a SUBSCRIBER scope
+                requestSniplet:
+                  headers:
+                    Authorization: Bearer <subscriber_token>
+                data: '[ { "ref": "3579", "name": "New OTAA device", "EUI": "0018A20000000004" }, { "ref": "3582", "name": "New ABP device", "EUI": "0018A20000000005", "networkAddress": "04000800" } ]'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      deprecated: false
+    post:
+      tags:
+      - Device
+      summary: Creates devices
+      description: Creates a new device. If no `routingProfileId` or `processingStrategyId` values are provided, then `processingStrategyId` will be automatically set to `DATAFLOW`. If no `connectivityPlanId` value is provided, then the first connectivity plan of the subscriber with available connections will be assigned to the device.
+      operationId: Devicecreation
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: deviceToken
+        in: query
+        description: Token provided by the manufacturer for an easy registration on a standalone Join Server. Not available in ThingPark Enterprise versions.
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: jsProfile
+        in: query
+        description: When providing a device token, you need provide your Join Server account. Not available in ThingPark Enterprise versions.
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: jsSubscriberRef
+        in: query
+        description: When providing a device token, you need provide your Join Server account. Not available in ThingPark Enterprise versions.
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        description: Contents of the device to create.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+            example:
+              name: New OTAA device
+              EUI: 0018A20000000004
+              activationType: OTAA
+              hsmGroupId: HSM_KPN-ACC-OPE.1
+              connectivityPlanId: kpn-acc-ope-cs/often-geo-2019
+              deviceProfileId: LORA/GenericC.1_ETSI_Rx2-SF9
+              applicationEUI: 70B3D53260000003
+              applicationKey: 258DB54023EA74F0D55085F7351737D0
+        required: true
+      responses:
+        201:
+          description: Device created successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      deprecated: false
+  /devices/{deviceRef}:
+    get:
+      tags:
+      - Device
+      summary: Retrieves specific device 
+      description: Retrieves the device corresponding to the provided `device ref`, if that device is within authorized scopes.
+      operationId: Deviceretrieval
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: deviceRef
+        in: path
+        description: Ref of the device to retrieve.
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        200:
+          description: Device retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      deprecated: false
+    put:
+      tags:
+      - Device
+      summary: Updates specific device
+      description: "Updates the device corresponding to the provided `device ref`, if that device is within authorized scopes. Only following attributes can be updated: `name`, `routingProfileId`, `processingStrategyId`, `connectivityPlanId`, `deviceProfileId` and `applicationEUI`. To update other attributes, device must be deleted than re-created."
+      operationId: Deviceupdate
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: deviceRef
+        in: path
+        description: Ref of the device to update.
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: jsProfile
+        in: query
+        description: When you use a standalone JoinServer, you need provide your Join Server account. Not available in ThingPark Enterprise versions.
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: jsSubscriberRef
+        in: query
+        description: When you use a standalone JoinServer, you need provide your Join Server account. Not available in ThingPark Enterprise versions.
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        description: Contents of the device to update.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+            example:
+              name: Updated device
+        required: true
+      responses:
+        200:
+          description: Device updated successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      deprecated: false
+    delete:
+      tags:
+      - Device
+      summary: Deletes specific device
+      description: Deletes the device corresponding to the provided `device ref`, if that device is within authorized scopes.
+      operationId: Devicedeletion
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: deviceRef
+        in: path
+        description: Ref of the device to delete.
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        204:
+          description: Device deleted successfully.
+          headers: {}
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      deprecated: false
+  /deviceProfiles:
+    get:
+      tags:
+      - Device
+      summary: Retrieves device profiles
+      description: Retrieves the list of existing device profiles.
+      operationId: Deviceprofilesretrieval
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      responses:
+        200:
+          description: Device profiles retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeviceProfile'
+                description: Device profiles retrieved successfully.
+              example:
+              - x-regga-type: sniplet
+                id: deviceprofile-getall-as-subscriber
+                title: Device profiles retrieval example with a SUBSCRIBER scope
+                requestSniplet:
+                  headers:
+                    Authorization: Bearer <subscriber_token>
+                data: '[{ "id": "LORA/GenericC.1_ETSI_Rx2-SF9", "name": "LoRaWAN Demonstrator", "typeMAC": "LoRaMAC" }, { "id": "LORA/GenericA.1_FCC_SF12", "name": "LoRaWAN 1.0 class A FCC Rx2-SF12 dummy", "typeMAC": "LoRaMAC"}]'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      deprecated: false
+  /connectivityPlans:
+    get:
+      tags:
+      - Subscription
+      summary: Retrieves connectivity plans
+      description: Retrieves a list of connectivity plans existing within authorized scopes.
+      operationId: Connectivityplansretrieval
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      responses:
+        200:
+          description: Connectivity plans retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConnectivityPlan'
+                description: Connectivity plans retrieved successfully.
+              example:
+              - x-regga-type: sniplet
+                id: connectivityplan-getall-as-vendor
+                title: Connectivity plans retrieval example with a VENDOR scope
+                requestSniplet:
+                  headers:
+                    Authorization: Bearer <vendor_token>
+                data: '[ { "id": "lpwa-cs/testing", "ref": "413", "name": "Lpwa testing random", "grantedConnections": 10, "usedConnections": 0 }, { "id": "lpwa-cs/plan20", "ref": "414", "name": "Lpwa 20 dummy license plan", "grantedConnections": 20, "usedConnections": 3 } ]'
+              - x-regga-type: sniplet
+                id: connectivityplan-getall-as-subscriber
+                title: Connectivity plans retrieval example with a SUBSCRIBER scope
+                requestSniplet:
+                  headers:
+                    Authorization: Bearer <subscriber_token>
+                data: '[ { "id": "lpwa-cs/testing", "ref": "413", "name": "Lpwa testing random", "grantedConnections": 10, "usedConnections": 0 }, { "id": "lpwa-cs/plan20", "ref": "414", "name": "Lpwa 20 dummy license plan", "grantedConnections": 20, "usedConnections": 3 } ]'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      deprecated: false
+  /routingProfiles:
+    get:
+      tags:
+      - Routing
+      summary: Retrieves routing profiles
+      description: Retrieves a list of existing routing profiles within authorized scopes.
+      operationId: Routingprofilesretrieval
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: routingProfileId
+        in: query
+        description: Id of the routing profile to search for.
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Routing profiles retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoutingProfile'
+                description: Routing profiles retrieved successfully.
+              example:
+              - x-regga-type: sniplet
+                id: routingprofile-getall-as-subscriber
+                title: Routing profiles retrieval example with a SUBSCRIBER scope
+                requestSniplet:
+                  headers:
+                    Authorization: Bearer <subscriber_token>
+                data: '[ { "id": "TWA_100001620.1087.dummy", "ref": "1087", "name": "NOAS", "default": true }, { "id": "TWA_100001620.1090", "ref": "1090", "name": "Storage RP", "default": true, "routes": [ { "sourcePorts": "*", "strategy": "SEQUENTIAL", "contentType": "XML", "addresses": [ "https://datastoragevendor.com/uplinks" ] } ] } ]'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      deprecated: false
+    post:
+      tags:
+      - Routing
+      summary: Creates routing profiles
+      description: Creates a new routing profile.
+      operationId: Routingprofilescreation
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      requestBody:
+        description: Contents of the routing profile to create.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoutingProfile'
+            example:
+              name: Storage RP
+              routes:
+              - addresses:
+                - https://datastoragevendor.com/uplinks
+        required: true
+      responses:
+        201:
+          description: Routing profile created successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutingProfile'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      deprecated: false
+  /routingProfiles/{routingProfileRef}:
+    get:
+      tags:
+      - Routing
+      summary: Retrieves specific routing profiles
+      description: Retrieves the routing profile corresponding to the provided routing `profile ref`, if that routing profile is within authorized scopes.
+      operationId: Routingprofileretrieval
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: routingProfileRef
+        in: path
+        description: Ref of the routing profile to retrieve.
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        200:
+          description: Routing profile retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutingProfile'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      deprecated: false
+    put:
+      tags:
+      - Routing
+      summary: Updates specific routing profiles
+      description: Updates the routing profile corresponding to the provided routing `profile ref`, if that routing profile is within authorized scopes. Note that the `default` attribute can only be updated from `false` to `true` (thus updating `default` attribute for the previous default routing profile from `true` to `false`).
+      operationId: Routingprofileupdate
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: routingProfileRef
+        in: path
+        description: Ref of the routing profile to update.
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        description: Contents of the routing profile to update.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoutingProfile'
+            example:
+              name: Storage RP updated
+        required: true
+      responses:
+        200:
+          description: Routing profile updated successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutingProfile'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      deprecated: false
+    delete:
+      tags:
+      - Routing
+      summary: Deletes routing profiles
+      description: Deletes the routing profile corresponding to the provided routing `profile ref`, if that routing profile is within authorized scopes.
+      operationId: Routingprofiledeletion
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: routingProfileRef
+        in: path
+        description: Ref of the routing profile to delete.
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        204:
+          description: Routing profile deleted successfully.
+          headers: {}
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      deprecated: false
+  /deviceFrameStatistics:
+    get:
+      tags:
+      - Statistics
+      summary: Retrieves frame statistics
+      description: Retrieves frame statistics of the devices corresponding to the provided parameters, if those devices are within authorized scopes.
+      operationId: Framestatisticsretrieval
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: deviceEUIList
+        in: query
+        description: List of device EUIs for which device statistics should be retrieved.
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: baseStationId
+        in: query
+        description: Id of the base station which received the frame.
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: startDate
+        in: query
+        description: Start date in ISO 8601 format of the period for which frame statistics should be retrieved. By default, only the last frame statistics resource is retrieved.
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: duration
+        in: query
+        description: Period (number of days) for which frame statistics should be retrieved. By default, the default duration is 7 days.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      - name: aggregationStep
+        in: query
+        description: Number of hours (between 1 and 24) used for aggregating the frame statistics. By default, all frame statistics are returned (no aggregation).
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Frame statistics retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FrameStatistics'
+                description: Frame statistics retrieved successfully.
+              example:
+              - x-regga-type: sniplet
+                id: deviceframestatistics-retrieval-as-subscriber
+                title: Device frame statistics retrieval example with a SUBSCRIBER scope
+                requestSniplet:
+                  headers:
+                    Authorization: Bearer <subscriber_token>
+                  uri: /deviceFrameStatistics?deviceEUIList=0018A20000000345&startDate=2017-09-25T10%3A00%3A00Z&duration=3&aggregationStep=24
+                data: '[ { "type": "UPLINK", "date": "2017-09-25T12:00:00.000+00:00", "frameCount": 173, "payloadSize": 2428, "baseStationRSSI": -29.696531, "baseStationSNR": 4.6098266, "payloadReceivedOnTime": 173, "payloadReceivedLate": 0, "payloadReceivedOnTimeSize": 2428, "payloadReceivedLateSize": 0, "averagePER": 0 }, { "type": "DOWNLINK", "date": "2017-09-25T12:00:00.000+00:00", "frameCount": 173, "payloadSize": 0, "payloadSentWithSuccess": 173, "payloadSentWithSuccessSize": 0, "payloadSentWithFailure": 0, "payloadSentWithFailureSize": 0 } ]'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      deprecated: false
+  /deviceHealthStatistics:
+    get:
+      tags:
+      - Statistics
+      summary: Retrieves health statistics
+      description: Retrieves health statistics for all devices within authorized scopes.
+      operationId: Healthstatisticsretrieval
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      responses:
+        200:
+          description: Health statistics retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceHealthStatistics'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      deprecated: false
+  /hsmGroups:
+    get:
+      tags:
+      - DeviceSecurity
+      summary: Retrieves HSM groups
+      description: Retrieves a list of HSM groups existing within authorized scopes.
+      operationId: HSMgroupsretrieval
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: pageIndex
+        in: query
+        description: If set, enables pagination and returns only the 100 HSM groups of the specified page. First available page index is 1.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: List of HSM groups retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HSMGroup'
+                description: List of HSM groups retrieved successfully.
+              example:
+              - x-regga-type: sniplet
+                id: hsmgroup-getall-as-subscriber
+                title: HSM groups retrieval example with a SUBSCRIBER scope
+                requestSniplet:
+                  headers:
+                    Authorization: Bearer <subscriber_token>
+                data: '[ { "id": "HSM_JS-OPE.3", "name": "HSM_LABS_SIMU" } ]'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      deprecated: false
+  /deviceAlarms:
+    get:
+      tags:
+      - Alarm
+      summary: Retrieves device alarms
+      description: Retrieves a list of device alarms existing within authorized scopes.
+      operationId: Devicealarmsretrieval
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: deviceEUI
+        in: query
+        description: EUI of the device to search alarms for.
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: pageIndex
+        in: query
+        description: If set, enables pagination and returns only the 100 device alarms of the specified page. First available page index is 1. Note that device alarm pagination is only supported in case of a SUBSCRIBER scope AND if a deviceEUI is specified.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Device alarms retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeviceAlarm'
+                description: Device alarms retrieved successfully.
+              example:
+              - x-regga-type: sniplet
+                id: devicealarm-getall-as-subscriber
+                title: Device alarms retrieval example with a SUBSCRIBER scope
+                requestSniplet:
+                  headers:
+                    Authorization: Bearer <subscriber_token>
+                data: '[ { "ref": "57e928bd0cf24491ef03cde5", "alarmState": "CLEARED", "occurrence": 63, "acked": true, "creationTime": "2016-09-26T13:55:09.617+00:00", "lastUpdateTime": "2017-03-08T11:20:11.692+00:00", "lastAckTime": "2016-11-23T16:32:35.996+00:00", "additionalInfo1": "33%", "ackAuthor": "Janet Blink", "deviceRef": "209", "deviceAlarmTypeId": 1 }, { "ref": "578ffe0b0cf24491ee9b0257", "alarmState": "MAJOR", "occurrence": 100, "creationTime": "2016-07-20T22:41:15.828+00:00", "lastUpdateTime": "2016-08-16T00:55:11.758+00:00", "additionalInfo1": "SF12", "additionalInfo2": "SF7", "additionalInfo3": "7.250000dB", "additionalInfo4": "-7.500000dB", "deviceRef": "239", "deviceAlarmTypeId": 6 } ]'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      deprecated: false
+  /deviceAlarms/{deviceAlarmRef}:
+    get:
+      tags:
+      - Alarm
+      summary: Retrieves specific device alarm
+      description: Retrieves the device alarm corresponding to the provided device alarm ref, if that device alarm is within authorized scopes.
+      operationId: Devicealarmretrieval
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: deviceAlarmRef
+        in: path
+        description: Ref of the device alarm to retrieve.
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        200:
+          description: Device alarm retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceAlarm'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      deprecated: false
+  /deviceAlarms/{deviceAlarmRef}/acks:
+    post:
+      tags:
+      - Alarm
+      summary: Acknowledges device alarm
+      description: Acknowledges a device alarm.
+      operationId: Devicealarmacknowledgement
+      security:
+        - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: deviceAlarmRef
+        in: path
+        description: Ref of the device alarm to acknowledge.
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        201:
+          description: Device alarm acknowledged successfully.
+          headers: {}
+      deprecated: false
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes : {}
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+  schemas:
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    AlarmStatistics:
+      title: AlarmStatistics
+      type: object
+      properties:
+        nonAckedClearedCount:
+          type: integer
+          description: Number of non-acked alarms with the CLEARED state.
+          format: int32
+        nonAckedUnclearedCount:
+          type: integer
+          description: Number of non-acked alarms with the UNCLEARED state.
+          format: int32
+        nonAckedWarningCount:
+          type: integer
+          description: Number of non-acked alarms with the WARNING state.
+          format: int32
+        nonAckedMinorCount:
+          type: integer
+          description: Number of non-acked alarms with the MINOR state.
+          format: int32
+        nonAckedMajorCount:
+          type: integer
+          description: Number of non-acked alarms with the MAJOR state.
+          format: int32
+        nonAckedCriticalCount:
+          type: integer
+          description: Number of non-acked alarms with the CRITICAL state.
+          format: int32
+      description: Resource representing a set of statistics related to alarms.
+    AlarmThreshold:
+      title: AlarmThreshold
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Indicates if the alarm is active.
+        durationOfInactivity:
+          $ref: '#/components/schemas/DurationOfInactivity'
+        level:
+          $ref: '#/components/schemas/Level'
+      description: Resource representing a generic ThingPark alarm threshold.
+    ApplicationSessionKeyRule:
+      title: ApplicationSessionKeyRule
+      required:
+      - sourcePorts
+      type: object
+      properties:
+        applicationSessionKey:
+          type: string
+          description: Application session key to use.
+        sourcePorts:
+          type: string
+          description: LoRa port(s) which should use this application session key. Wildcard '*' indicates to use this application session key for all LoRa ports used by the device.
+      description: Resource representing a rule to indicate which application session key to use for each LoRa source port.
+    CommercialDetails:
+      title: CommercialDetails
+      type: object
+      properties:
+        image:
+          type: string
+          description: Image of the device.
+        manufacturerName:
+          type: string
+          description: Name of the device manufacturer.
+        manufacturerLogo:
+          type: string
+          description: Commercial logo of the device manufacturer.
+      description: Resource representing read-only commercial information about a device.
+    ConnectivityPlan:
+      title: ConnectivityPlan
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of the connectivity plan.
+        ref:
+          type: string
+          description: Ref of the connectivity plan.
+        name:
+          type: string
+          description: Name of the connectivity plan.
+        grantedConnections:
+          type: integer
+          description: Number of granted connections of the connectivity plan.
+          format: int32
+        usedConnections:
+          type: integer
+          description: Number of used connections of the connectivity plan.
+          format: int32
+        communicationType:
+          $ref: '#/components/schemas/CommunicationType'
+      description: Resource representing a ThingPark connectivity plan.
+    Device:
+      title: Device
+      type: object
+      properties:
+        ref:
+          type: string
+          description: Ref of the device.
+        name:
+          type: string
+          description: Name of the device.
+        EUI:
+          type: string
+          description: EUI of the device (hexadecimal value).
+        networkAddress:
+          type: string
+          description: Network address of the device (hexadecimal value).
+        activationType:
+          $ref: '#/components/schemas/ActivationType'
+        deviceClass:
+          $ref: '#/components/schemas/DeviceClass'
+        classBState:
+          $ref: '#/components/schemas/ClassBState'
+        deviceProfileId:
+          type: string
+          description: Id of the device profile (device model) associated with the device.
+        connectivityPlanId:
+          type: string
+          description: Id of the connectivity plan associated with the device. Note that a 'reset' string value removes all connectivity plan information from the device.
+        processingStrategyId:
+          $ref: '#/components/schemas/ProcessingStrategyId'
+        routingProfileId:
+          type: string
+          description: Id of the routing profile associated with the device. Not available in ThingPark Enterprise versions; for those, use the 'routeRefs' attribute instead. Note that a 'reset' string value removes all routing profile information from the device.
+        routeRefs:
+          type: array
+          items:
+            type: string
+          description: List of refs of routes associated with the device. Only available in ThingPark Enterprise versions; for other ThingPark versions, the 'routingProfileId' attribute should be used.
+        networkSessionKey:
+          type: string
+          description: Network session key of the device (hexadecimal value), in case of ABP activation.
+        applicationSessionKeyRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationSessionKeyRule'
+          description: List of rules to associate application session keys with LoRa source ports, in case of ABP activation.
+        applicationEUI:
+          type: string
+          description: Application EUI, in case of OTAA activation (On LoRa 1.1, this field is JoinEUI).
+        applicationKey:
+          type: string
+          description: Application key, in case of OTAA activation.
+        administrativeInfo:
+          type: string
+          description: Optional administrative information.
+        geoLatitude:
+          type: number
+          description: Physical location latitude.
+        geoLongitude:
+          type: number
+          description: Physical location longitude.
+        dataflowTags:
+          type: array
+          items:
+            type: string
+          description: List of tags used to qualify uplinks of the device in order to be decoded and/or routed to the right cloud.
+        homeNsNetID:
+          type: string
+          description: Network Identifier of the Home Network Server. Home NS NetID can be set only if the device state is COMMISSIONED.
+        asKeyId:
+          type: string
+          description: Id of the AS key. Can be provided in case of a standalone Join Server.
+        hsmGroupId:
+          type: string
+          description: Id of the HSM group used to generate the AS key. Can be provided when the Network Server relies locally on a Join Server with HSM.
+        secureElement:
+          type: string
+          description: The secure element (SE) can be used to obtain an 'applicationKey' from a third-party provider. It consists in the association of a provider identifier, an SE implementation version, and a unique SE identifier.
+        alarmThresholds:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlarmThreshold'
+          description: List of the alarm thresholds associated with the device.
+        motionIndicator:
+          $ref: '#/components/schemas/MotionIndicator'
+        statistics:
+          $ref: '#/components/schemas/DeviceStatistics'
+        commercialDetails:
+          $ref: '#/components/schemas/CommercialDetails'
+      description: Resource representing a device created by a ThingPark subscriber.
+    DeviceAlarm:
+      title: DeviceAlarm
+      type: object
+      properties:
+        ref:
+          type: string
+          description: Ref of the alarm.
+        alarmState:
+          $ref: '#/components/schemas/AlarmState'
+        occurrence:
+          type: integer
+          description: Number of occurrences of the alarm.
+          format: int32
+        acked:
+          type: boolean
+          description: Indicates if the alarm has been acknowledged.
+        creationTime:
+          type: string
+          description: ISO 8601 time of the alarm creation.
+        lastUpdateTime:
+          type: string
+          description: ISO 8601 time of the last alarm update.
+        lastAckTime:
+          type: string
+          description: ISO 8601 time of the last alarm acknowledgement.
+        additionalInfo1:
+          type: string
+          description: First additional information related to the alarm creation.
+        additionalInfo2:
+          type: string
+          description: Second additional information related to the alarm creation.
+        additionalInfo3:
+          type: string
+          description: Third additional information related to the alarm creation.
+        additionalInfo4:
+          type: string
+          description: Fourth additional information related to the alarm creation.
+        additionalInfo5:
+          type: string
+          description: Fifth additional information related to the alarm creation.
+        ackAuthor:
+          type: string
+          description: Author of the alarm acknowledgement.
+        deviceRef:
+          type: string
+          description: Ref of the device related to the alarm.
+        deviceAlarmTypeId:
+          type: integer
+          description: Id of the device alarm type. Refer to the list of ThingPark device alarm types to get the corresponding label.
+          format: int32
+        deviceAlarmObjectId:
+          type: string
+          description: Id of the device alarm object. Refer to the list of ThingPark device alarm objects to get the corresponding label.
+      description: Resource representing a device alarm.
+    DeviceHealthStatistics:
+      title: DeviceHealthStatistics
+      type: object
+      properties:
+        initCount:
+          type: integer
+          description: Number of devices with the 'healthState' attribute set to 'INIT'.
+          format: int32
+        activeCount:
+          type: integer
+          description: Number of devices with the 'healthState' attribute set to 'ACTIVE'.
+          format: int32
+        rfConnectionErrorCount:
+          type: integer
+          description: Number of devices with the 'healthState' attribute set to 'RF_CNX_ERROR'.
+          format: int32
+        totalCount:
+          type: integer
+          description: Total number of devices in authorized scopes.
+          format: int32
+      description: Resource representing read-only statistics about health states for devices.
+    DeviceProfile:
+      title: DeviceProfile
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of the device profile.
+        name:
+          type: string
+          description: Name of the device profile.
+        typeMAC:
+          type: string
+          description: MAC type of the device profile.
+      description: Resource representing a ThingPark device profile.
+    DeviceStatistics:
+      title: DeviceStatistics
+      type: object
+      properties:
+        creationTime:
+          type: string
+          description: ISO 8601 time of the device creation.
+        healthState:
+          $ref: '#/components/schemas/HealthState'
+        lastRSSI:
+          type: number
+          description: Last RSSI value.
+        lastSNR:
+          type: number
+          description: Last SNR value.
+        averageRSSI:
+          type: number
+          description: Average RSSI value.
+        averageSNR:
+          type: number
+          description: Average SNR value.
+        lastSF:
+          type: integer
+          description: Last SF value.
+          format: int32
+        last24hUplinkCount:
+          type: integer
+          description: Number of uplink messages within the last 24 hours before the last uplink.
+          format: int32
+        last24hDownlinkCount:
+          type: integer
+          description: Number of downlink messages within the last 24 hours before the last downlink.
+          format: int32
+        firstUplinkTime:
+          type: string
+          description: ISO 8601 time of the first uplink.
+        lastUplinkTime:
+          type: string
+          description: ISO 8601 time of the last uplink.
+        lastDownlinkTime:
+          type: string
+          description: ISO 8601 time of the last downlink.
+        lastInstantPER:
+          type: number
+          description: Last instantaneous PER, without consideration for base stations.
+        lastMeanPER:
+          type: number
+          description: Last mean PER, without consideration for base st.
+        lastBatteryLevel:
+          type: integer
+          description: Last battery level value. Valid values are between 1 and 254. '0' means that the device uses an external power source. '255' means that the level could not be measured.
+          format: int32
+        lastBatteryLevelTime:
+          type: string
+          description: ISO 8601 time of the last battery level measure.
+        alarmStatistics:
+          $ref: '#/components/schemas/AlarmStatistics'
+        commissioningState:
+          $ref: '#/components/schemas/CommissioningState'
+        loraClass:
+          $ref: '#/components/schemas/LoraClass'
+        motionIndicator:
+          $ref: '#/components/schemas/MotionIndicator'
+        lastUpdateUser:
+          type: string
+          description: Name of the user who performed the last update of the device.
+        lastUpdateTime:
+          type: string
+          description: ISO 8601 time of the last update of the device.
+      description: Resource representing read-only statistics for devices.
+    FrameStatistics:
+      title: FrameStatistics
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/Type'
+        date:
+          type: string
+          description: ISO 8601 time of the frame emission/reception, or time of the aggregated time slot.
+        frameCount:
+          type: integer
+          description: Number of uplink/downlink frames received or sent for this aggregated time slot.
+          format: int32
+        payloadSize:
+          type: integer
+          description: Size of the frame payload, or average size of payload associated to this aggregated time slot.
+          format: int32
+        baseStationRSSI:
+          type: number
+          description: Received Signal Strength Indication for the base station that receives the frame. Only available in case of an uplink.
+        baseStationSNR:
+          type: number
+          description: Signal Noise Ratio Indication for the base station that receives the frame.
+        payloadReceivedOnTime:
+          type: integer
+          description: Number of uplinks sent with no delay by the base station. Only available in case of an uplink.
+          format: int32
+        payloadReceivedLate:
+          type: integer
+          description: Number of uplinks queued in the base station and sent with a delay. Only available in case of an uplink.
+          format: int32
+        payloadReceivedOnTimeSize:
+          type: integer
+          description: Size of the cumulated uplink payloads sent with no delay by the base station. Only available in case of an uplink.
+          format: int32
+        payloadReceivedLateSize:
+          type: integer
+          description: Size of the cumulated uplink payloads queued in the base station and sent with a delay. Only available in case of an uplink.
+          format: int32
+        payloadSentWithSuccess:
+          type: integer
+          description: Number of downlinks sent successfully. Only available in case of a downlink.
+          format: int32
+        payloadSentWithSuccessSize:
+          type: integer
+          description: Size of the cumulated downlink payloads sent successfully. Only available in case of a downlink.
+          format: int32
+        payloadSentWithFailure:
+          type: integer
+          description: Number of downlinks which failed to be sent. Only available in case of a downlink.
+          format: int32
+        payloadSentWithFailureSize:
+          type: integer
+          description: Size of the cumulated downlink payloads sent successfully. Only available in case of a downlink.
+          format: int32
+        averagePER:
+          type: number
+          description: Average Packet Error Rate Indication for the base station that receives the frame.
+      description: Resource representing read-only statistics about radio frames for a device or a base station.
+    HSMGroup:
+      title: HSMGroup
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of the HSM group.The HSM group is mandatory.
+        name:
+          type: string
+          description: Name of the HSM group.
+      description: Resource representing an HSM group managed by ThingPark.
+    ActivationReq:
+      title: ActivationResponse
+      type: object
+      properties:
+        thingpark_username:
+          type: string
+          description: Username.
+        thingpark_password:
+          type: string
+          description: Password
+      description: Thingpark Activation Credentials
+    ActivationResp:
+      title: ActivationRequest
+      type: object
+      properties:
+        status:
+          type: string
+          description: Activation Response
+    Route:
+      title: Route
+      type: object
+      properties:
+        sourcePorts:
+          type: string
+          description: Source port(s) of the route. Use wildcard character '*' (default value) to accept all device LoRa ports as possible sources.
+        strategy:
+          $ref: '#/components/schemas/Strategy'
+        contentType:
+          $ref: '#/components/schemas/ContentType'
+        asId:
+          type: string
+          description: If set together with the 'asKey' attribute, enables Uplink/Downlink signing security. Indicates the id of the authorized application server.
+        asKey:
+          type: string
+          description: If set together with the 'asId' attribute, enables Uplink/Downlink signing security. Indicates the key to be used to generate the signing token.
+        maxDeviation:
+          type: integer
+          description: If Uplink/Downlink signing security is enabled, indicates the maximal accepted duration (in seconds) between message sending by the AS and message reception by the LRC.
+          format: int32
+        addresses:
+          type: array
+          items:
+            type: string
+          description: List of target HTTP addresses to which the payload should be routed.
+      description: Resource representing a route of a ThingPark routing profile.
+    RoutingProfile:
+      title: RoutingProfile
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of the routing profile.
+        ref:
+          type: string
+          description: Ref of the routing profile.
+        name:
+          type: string
+          description: Name of the routing profile.
+        default:
+          type: boolean
+          description: Indicates if the routing profile should be used by default for new devices.
+        hsmGroupId:
+          type: string
+          description: Id of the HSM group used to generate the AS key.
+        rsaEncryptedASKey:
+          type: string
+          description: AS key generated by the the HSM and encrypted with the RSA public key. Only returned during AS key generation.
+        rsaPublicKey:
+          type: string
+          description: RSA public key used by the HSM to encrypt the AS key. RSA public key must be provided in PEM format.
+        routes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Route'
+          description: List of routes of the routing profile.
+      description: Resource representing a ThingPark routing profile. Not available in ThingPark Enterprise versions, which rely on direct routes.
+    ActivationType:
+      title: ActivationType
+      enum:
+      - OTAA
+      type: string
+      description: Activation type of the device. Possible value is 'OTAA' (Over The Air Activation). 'ABP' (Activation By Personalization) is no longer possible in interface version 1.2.
+    AlarmState:
+      title: AlarmState
+      enum:
+      - CLEARED
+      - UNCLEARED
+      - WARNING
+      - MINOR
+      - MAJOR
+      - CRITICAL
+      type: string
+      description: State of the alarm. Possible values are, by ascending order of criticity, 'CLEARED', 'UNCLEARED', 'WARNING', 'MINOR', 'MAJOR' and 'CRITICAL'.
+    ClassBState:
+      title: ClassBState
+      enum:
+      - ACTIVE
+      - INACTIVE
+      type: string
+      description: Define the state of classB for the device. Possible values are 'ACTIVE' (Ready to be used) or 'INACTIVE' (Class B disable or not yet configured).
+    CommissioningState:
+      title: CommissioningState
+      enum:
+      - PERSONALIZED
+      - COMMISSIONED
+      - ACTIVATED
+      type: string
+      description: Commissioning state of the device. Possible values are 'PERSONALIZED' (prepared but not yet registered on the network), 'COMMISSIONED' (prepared and registered on the network) or 'ACTIVATED' (active on the network).
+    CommunicationType:
+      title: CommunicationType
+      enum:
+      - UNICAST
+      - MULTICAST
+      type: string
+      description: 'Communication type of Connectivity Plan : UNICAST, MULTICAST .'
+    ContentType:
+      title: ContentType
+      enum:
+      - XML
+      - JSON
+      type: string
+      description: Format of the routed payload. Possible values are 'XML' or 'JSON'. Default is 'XML' ('JSON' is supported starting from ThingPark 3.2).
+    DeviceClass:
+      title: DeviceClass
+      enum:
+      - A
+      - B
+      - C
+      type: string
+      description: 'Define the class type of the device.  A: Class A (Bi-directional end-devices with RIT), B: Class B (Bi-directional end-devices with synchronized receive slots), C: Class C (Bi-directional end-devices with maximal receive slots)'
+    DurationOfInactivity:
+      title: DurationOfInactivity
+      enum:
+      - 1_HOUR
+      - 2_HOURS
+      - 5_HOURS
+      - 10_HOURS
+      - 1_DAY
+      - 2_DAYS
+      - 4_DAYS
+      - 7_DAYS
+      - 15_DAYS
+      type: string
+      description: Duration of inactivity after which the alarm is raised. Possible values are  '1_HOUR', '2_HOURS', '5_HOURS', '10_HOURS', '1_DAY', '2_DAYS', '4_DAYS', '7_DAYS' and '15_DAYS'.
+    HealthState:
+      title: HealthState
+      enum:
+      - RF_CNX_ERROR
+      - INIT
+      - ACTIVE
+      type: string
+      description: Health state of the device. Possible values are 'INIT', 'ACTIVE' or 'RF_CNX_ERROR'.
+    healthState1:
+      title: healthState1
+      enum:
+      - RF_CNX_ERROR
+      - INIT
+      - ACTIVE
+      type: string
+    Level:
+      title: Level
+      enum:
+      - ALL
+      - WARNING
+      - MINOR
+      - MAJOR
+      - CRITICAL
+      type: string
+      description: Level of the alarm. Possible values are, by ascending order of criticity, 'ALL', 'WARNING', 'MINOR', 'MAJOR' and 'CRITICAL'.
+    LoraClass:
+      title: LoraClass
+      enum:
+      - A
+      - B
+      - C
+      type: string
+      description: LoRaWan class of the device.
+    MotionIndicator:
+      title: MotionIndicator
+      enum:
+      - NEAR_STATIC
+      - WALKING_SPEED
+      - VEHICLE_SPEED
+      - RANDOM
+      type: string
+      description: "Motion indicator configured for the device. Possible values are: 'NEAR_STATIC', 'WALKING_SPEED', 'VEHICLE_SPEED' or 'RANDOM'."
+    ProcessingStrategyId:
+      title: ProcessingStrategyId
+      enum:
+      - DATAFLOW
+      - IOT_FLOW
+      - NOAS
+      - DEFAULTRP
+      type: string
+      description: Id of a pre-defined data processing strategy. If set, it automatically configures relevant routing information for this device (and overrides existing routing profiles if necessary). Current possible values are 'DATAFLOW' (uplink messages will be processed through a ThingPark X Dataflow - thus requiring additional configuration using the DX Dataflow API), 'IOT_FLOW' (uplink messages will be processed through TPX Iot-Flow - DATAFLOW is now deprecated and replaced by IOT_FLOW), 'NOAS' (no processing, messages will be dropped using an empty routing profile) or 'DEFAULTRP' (messages will be processed based on the default routing profile).
+    Strategy:
+      title: Strategy
+      enum:
+      - SEQUENTIAL
+      - BLAST
+      type: string
+      description: Strategy to use for routing to target addresses. Possible values are 'SEQUENTIAL' (try each target one after the other, stop after first success) or 'BLAST' (try all targets at the same time). Default is 'SEQUENTIAL'.
+    Type:
+      title: Type
+      enum:
+      - UPLINK
+      - DOWNLINK
+      type: string
+      description: Type of frame. Possible values are 'UPLINK' or 'DOWNLINK'.
+tags:
+- name: Device
+  description: Device operations provide the ability to manage ThingPark devices, device profiles, routing profiles, and connectivity plans.
+- name: DeviceSecurity
+  description: Device security operations provide the ability to manage AS keys and HSM groups for enhanced message encryption.
+- name: Alarm
+  description: Alarm operations provide the ability to retrieve and acknowledge ThingPark device and base station alarms.

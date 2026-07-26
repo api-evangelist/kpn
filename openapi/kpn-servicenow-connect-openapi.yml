@@ -1,0 +1,851 @@
+openapi: 3.0.0
+info:
+  version: v1
+  title: 'ServiceNow Customer Connect'
+  description: >-
+    This is Customer Connect API for KPN ServiceNow-Green Tickets. With this API KPN SN Green will be able to create new, or update existing tickets. This document provides the API specification. 
+
+    ### Key highlights
+
+    - **Security:**  HTTPS, OAuth, Rate limit
+
+    - **Versioning:**  Supports version-less API, version tight. If no version
+    is provided (in header) it defaults to latest version. 
+
+
+    ---
+
+    ## [Source view](https://app.swaggerhub.com/apis/kpn/servicenow-kpn/)<br/>
+    [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/servicenow-kpn/)</br>
+
+    ---
+    
+    ## [KPN Developer](https://developer.kpn.com/)<br/>
+    [Getting Started](https://developer.kpn.com/getting-started)
+    
+    
+    ---
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: 'https://developer.kpn.com/support'
+  termsOfService: 'https://developer.kpn.com/legal'
+servers:
+  - url: 'https://api-prd.kpn.com/network/kpn/servicenow'
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers
+paths:
+  /Ticket:
+    post:
+      tags:
+      - Ticket    
+      description: This operation will create a new ticket in KPN ServiceNow Green
+      operationId: ticket-post
+      summary: Create a new Ticket
+      security:
+      - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        
+      requestBody:
+        description: JSON object with the data to create the new Ticket
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewTicket'
+
+      responses:
+        200:
+          description: Successful operation. The body will contain the ticket number in KPN ServiceNow Green
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/NewTicket200Response'
+        400:
+          description: Bad Request. The body will contain details for the error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error, please try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
+    patch:
+      tags:
+      - Ticket    
+      description: This operation will update an existing ticket in KPN ServiceNow Green
+      operationId: ticket-patch
+      summary: Update an existing Ticket
+      security:
+      - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+       
+      requestBody:
+        description: update Request. Update existing Incident
+        content:
+          application/json:
+            schema:        
+              $ref: '#/components/schemas/UpdateTicket'
+
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/UpdateTicket200Response'
+        400:
+          description: Bad Request. The body will contain details for the error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error, please try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
+    get:
+      tags:
+       - Ticket  
+      description: Get details for an open tickets
+      operationId: ticket-get
+      summary: Get Ticket delatils
+      security:
+      - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        - $ref: "#/components/parameters/kpn_ticket_number"
+
+      responses:
+        200:
+          description: Successful operation, the body will contain an array with ticket data.
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/GetTicket200Response'
+        400:
+          description: Bad Request. The body will contain details for the error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error, please try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'    
+
+  /Task:
+    patch:
+      tags:
+      - Task    
+      description: This operation will update an existing task in KPN ServiceNow Green
+      operationId: task-patch
+      summary: Update an existing Task
+      security:
+      - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+       
+      requestBody:
+        description: update Request. Update existing Incident
+        content:
+          application/json:
+            schema:        
+              $ref: '#/components/schemas/UpdateTask'
+
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/UpdateTicket200Response'
+        400:
+          description: Bad Request. The body will contain details for the error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error, please try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
+  /ListOpenTickets:
+    get:
+      tags:
+       - Ticket  
+      description: Get a list of open tickets
+      operationId: ticket-list
+      summary: List Tickets
+      security:
+      - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        - $ref: "#/components/parameters/kpn_ticket_number"
+
+      responses:
+        200:
+          description: Successful operation, the body will contain an array with ticket data.
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/GetTicket200Response'
+        400:
+          description: Bad Request. The body will contain details for the error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error, please try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'    
+
+  /TicketUpdates:
+    get:
+      tags:
+      - Ticket
+      description: This operation retrieves the updates for tickets
+      operationId: ticketupdates-get
+      summary: Ticket Updates
+      security:
+      - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+       
+      responses:
+        200:
+          description: Successful operation, the body will contain an array with ticket updates.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTicketUpdates200Response'
+        400:
+          description: Bad Request. The body will contain details for the error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error, please try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+         
+                
+  /GetAttachment/{attachment_id}:
+    get:
+      description: Get attachment
+      operationId: get-attachment
+      summary: Get Attachment
+      tags:
+        - Attachment
+      security:
+      - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        
+        - $ref: "#/components/parameters/attachment_id"
+
+      responses:
+        200:
+          description: Successful operation. The body will contain the attachment details.
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/GetAttachment200Response'
+        400:
+          description: Bad Request. The body will contain details for the error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error, please try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes : {}
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: >-
+          API Version. If no version is provided it defaults to latest version.
+      required: false
+
+    attachment_id:
+      in: path
+      name: attachment_id
+      schema:
+        type: string 
+      description: >-
+          attachment_id to get the attachment.
+      required: true   
+
+    kpn_ticket_number:
+      in: query
+      name: kpn_ticket_number
+      schema:
+        type: string 
+      description: >-
+        KPN number of the ticket to get the details for. If not provided a list of open tickets will be returned.
+      required: false
+
+
+  schemas:
+    error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Code representing the error
+              example: '1234'
+            message:
+              type: string
+              description: Description of the error
+              example: Description of the error.
+
+    NewTicket:
+      type: object
+      required:
+        - ticket_type
+        - customer_reference_number
+        - short_description
+        - service
+      properties:
+        ticket_type:
+          enum:
+            - Incident
+            - Request for Information
+            - Change Request
+          type: string
+          description: Type of ticket
+          example: incident
+        customer_reference_number:
+          type: string
+          description: Unique reference-number of the customer system
+          example: INC01234567
+        short_description:
+          type: string
+          description: Short description of the ticket
+          example: 'Win11 L schijf: Kan niet worden toegevoegd'
+        description:
+          type: string
+          description: Details of the ticket
+          example: Some extended description\nSecond line
+        service:
+          type: string
+          description: Service for which the ticket is reported
+          example: Azure Managed Cloud
+        ci:
+          type: string
+          description: Configuration item for which the ticket is reported
+          example: GSEM01300
+        desired_delivery_date:
+          type: string
+          description: Only for Change Request tickets, the desired date when the change should be completed
+          example: 2024-10-25 10:26:27
+        contact:
+          type: string
+          description: Id of the contact (Reported by / Requested by)
+          example: jan.jansen@customer.com
+        user:
+          type: string
+          description: Id of the user (Affected user / Requested for)
+          example: truus.bakker@customer.com
+        priority:
+          enum:
+            - 1 - Critical
+            - 2 - High
+            - 3 - Moderate
+            - 4 - Low
+            - 5 - Planning
+          type: string
+          description: Only for Incident tickets, the desired priority of the ticket
+          example: 1 - Critical
+        attachments:
+          type: array
+          items:
+            type: object
+            required:
+              - name
+              - content
+            properties:
+              name:
+                type: string
+                description: Name of the file with file extension
+                example: test.txt
+              content:
+                type: string
+                description: Base64 coded content of the attachment
+                example: IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k
+              content_type:
+                type: string
+                description: Content_type of the attachment
+                example: text/plain
+    UpdateTicket:
+      type: object
+      required:
+        - action
+        - customer_reference_number
+        - kpn_ticket_number
+      properties:
+        action:
+          type: string
+          enum:
+            - Comment
+            - Response
+          description: Action to take on the ticket
+          example: Comment
+        comment:
+          type: string
+          description: Additional information
+          example: New comment update
+        status:
+          type: string
+          enum:
+            - Success
+            - Failure
+          description: Status for the response
+          example: success
+        transaction_id:
+          type: string
+          description: Transaction_id for the response. To be taken from the retrieved ticket update.
+          example: 29b2ffa5-f0a7-428f-a8d6-aff95c469deb
+        kpn_ticket_number:
+          type: string
+          example: INC#34567890
+          description: Ticket number in the KPN system
+        customer_reference_number:
+          type: string
+          description: Unique reference-number of the customer system
+          example: INC01234567
+        attachments:
+          type: array
+          items:
+            type: object
+            required:
+              - name
+              - content
+            properties:
+              name:
+                type: string
+                example: test.txt
+                description: Name of the file with file extension
+              content:
+                type: string
+                example: IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k
+                description: Base64 coded content of the attachment
+              content_type:
+                type: string
+                description: Content_type of the attachment
+                example: text/plain
+    UpdateTask:
+      type: object
+      required:
+        - action
+        - customer_reference_number
+        - kpn_ticket_number
+      properties:
+        action:
+          type: string
+          enum:
+            - In Progress
+            - Comment
+            - Worknote
+            - On Hold
+            - Closed Complete
+            - Closed Incomplete
+            - Closed Skipped
+            - Response
+          description: Action to take on the task
+          example: Comment
+        comment:
+          type: string
+          description: Additional information, user visible, for action = Comment
+          example: New comment update
+        worknotes:
+          type: string
+          description: Additional information, not user visible, for action = Worknote & action = On Hold
+          example: New worknote update
+        close_notes:
+          type: string
+          description: Additional information on task closure, for action = Closed Complete/Closed Incomplete/Closed Skipped
+          example: close update
+        error_details:
+          type: string
+          description: Additional information for action = Response and status = Failure
+          example: error description
+        status:
+          type: string
+          enum:
+            - Success
+            - Failure
+          description: Status for the response
+          example: Success
+        transaction_id:
+          type: string
+          description: Transaction_id for the response. To be taken from the retrieved ticket update.
+          example: 29b2ffa5-f0a7-428f-a8d6-aff95c469deb
+        kpn_ticket_number:
+          type: string
+          example: INC#34567890
+          description: Ticket number in the KPN system
+        customer_reference_number:
+          type: string
+          description: Unique reference-number of the customer system
+          example: INC01234567
+        attachments:
+          type: array
+          items:
+            type: object
+            required:
+              - name
+              - content
+            properties:
+              name:
+                type: string
+                example: test.txt
+                description: Name of the file with file extension
+              content:
+                type: string
+                example: IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k
+                description: Base64 coded content of the attachment
+              content_type:
+                type: string
+                description: Content_type of the attachment
+                example: text/plain
+    NewTicket200Response:
+      type: object
+      properties:
+        code:
+          type: string
+          example: TechnicalEndpointSuccess
+        state:
+          type: string
+          example: inserted
+        kpn_ticket_number:
+          type: string
+          example: INC#34567890
+        customer_reference_number:
+          type: string
+          example: INC01234567
+        note:
+          type: string
+          example: Incident INC#34567890 has been created;
+    UpdateTicket200Response:
+      type: object
+      properties:
+        code:
+          type: string
+          example: TechnicalEndpointSuccess
+        state:
+          type: string
+          example: updated
+        kpn_ticket_number:
+          type: string
+          example: INC#34567890
+        customer_reference_number:
+          type: string
+          example: INC01234567
+        note:
+          type: string
+          example: Incident INC#34567890 has been updated;
+    GetTicket200Response:
+      type: object
+      properties:
+        result:
+          type: array
+          items:
+            type: object
+            properties:
+              kpn_ticket_number:
+                type: string
+                description: Ticket number in the KPN system
+                example: INC#34567890
+              customer_reference_number:
+                type: string
+                description: Unique reference-number of the customer system
+                example: INC01234567
+              ticket_type:
+                type: string
+                description: Type of ticket
+                example: Incident
+              state:
+                type: string
+                description: State of the ticket in the KPN system
+                example: In Progress
+              short_description:
+                type: string
+                description: Short description of the ticket
+                example: 'Win11 L schijf: Kan niet worden toegevoegd'
+              link:
+                type: string
+                description: Url-extension to be use to query more ticket-details
+                example: /Ticket?kpn_ticket_number=INC%2334567890
+            required:
+              - kpn_ticket_number
+              - ticket_type
+              - state
+              - short_description
+              - link
+    GetTicketUpdates200Response:
+      type: array
+      items:
+        type: object
+        properties:
+          transaction_id:
+            type: string
+            description: Unique transaction-message identifier
+            example: 9ac7901f-276e-4202-8a40-757af564cb30
+          message_datetime_utc:
+            type: string
+            description: Creation date-time of the update
+            example: '2024-10-03T11:08:32Z'
+          ticket_type:
+            type: string
+            description: Type of ticket
+            example: incident
+          action:
+            type: string
+            description: Action taken on the ticket
+            example: In Progress
+          kpn_ticket_number:
+            type: string
+            description: Ticket number in the KPN system
+            example: INC#34567890
+          customer_reference_number:
+            type: string
+            description: Unique reference-number of the customer system
+            example: INC01234567
+          ticket_attributes:
+            type: object
+            properties:
+              state:
+                type: string
+                description: State of the ticket in the KPN system
+                example: In Progress
+              comments:
+                type: string
+                description: Additional information
+                example: Some additional information from KPN
+        required:
+          - transaction_id
+          - message_datetime_utc
+          - ticket_type
+          - action
+          - kpn_ticket_number
+    GetAttachment200Response:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the file with file extension
+          example: sample.txt
+        content:
+          type: string
+          description: Base64 coded content of the attachment
+          example: VGVzdA==
+        content_type:
+          type: string
+          description: Content_type of the attachment
+          example: text/plain

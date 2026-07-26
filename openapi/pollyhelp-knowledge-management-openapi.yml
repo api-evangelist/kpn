@@ -1,0 +1,239 @@
+openapi: 3.0.0
+info:
+  version: '1.0'
+  title: 'Knowledge Management – Polly.help'
+  description: >-
+   The Knowledge Management API allows you to organize your organization's information with knowledge management software.
+
+    ### Key highlights
+
+    - **Sandbox:** Full-fledged capabilities.
+
+    - **Security:** HTTPS, OAuth, Rate limit.
+
+    - **Versioning:** Supports version-less API, version tight. If no version
+    is provided (in header) it defaults to latest version. 
+
+
+    ## [Source view](https://app.swaggerhub.com/apis/kpn/knowledge-management-polly.help/)<br/>
+    [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/knowledge-management-polly.help/)
+    
+    ---
+    
+    ## [KPN Developer](https://developer.kpn.com/)<br/>
+    [Getting Started](https://developer.kpn.com/getting-started)
+    
+
+    ---
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: 'https://developer.kpn.com/support'
+  termsOfService: 'https://developer.kpn.com/legal'
+servers:
+  - url: 'https://api-prd.kpn.com/data/pollyhelp/knowledgemanagement'
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers
+paths:
+  /graphql:
+    post:
+      description: >-
+        Send request to get article, publication, search, analytics and submit suggestion.
+      security:
+      - oauth2: []
+      parameters: 
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/api_version_query'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/graphql_payload'
+        required: true
+      responses:
+        '200':
+          description: Success
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'
+  /token:
+    get:
+      description: Retrieves polly.help token information.
+      security:
+      - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/api_version"
+        - $ref: "#/components/parameters/api_version_query"
+      responses:
+        '200':
+          $ref: '#/components/responses/token_success'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes : {}
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: >-
+          API Version. If no version is provided it defaults to latest version.
+      required: false
+    api_version_query:
+      in: query
+      name: api-version
+      schema:
+        type: string
+      description: >-
+          API Version. If no version is provided it defaults to latest version.
+      required: false
+  schemas:
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    token:
+      type: array
+      items:
+        $ref: '#/components/schemas/token_model'
+    token_model:
+      type: object
+      properties:
+        CustomerEmail:
+          type: string
+          description: Customer Email
+          title: CustomerEmail
+        Id:
+          type: string
+          description: Id
+          title: Id
+        IdType:
+          type: string
+          description: Id Type
+          title: IdType
+        Token:
+          type: string
+          description: Token
+          title: Token
+        DocName:
+          type: string
+          description: Doc Name
+          title: DocName
+    graphql_payload:
+      title: graphql
+      type: object
+      properties:
+        query:
+          type: string
+        variables:
+          $ref: '#/components/schemas/graphql_variables'
+    graphql_variables:
+      title: variables
+      type: object
+      properties:
+        publicationId:
+          type: string
+        api_token:
+          type: string
+  responses:
+    success:
+      description: OK
+    token_success:
+      description: polly.help token information
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/token'
+    bad_request:
+      description: bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'

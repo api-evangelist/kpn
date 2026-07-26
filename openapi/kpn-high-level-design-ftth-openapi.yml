@@ -1,0 +1,911 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: High-Level Design FTTx
+  description: |
+    The High-Level Design FTTx API supports Fiber to the Home (FTTH) engineering jobs. It allows you to calculate the required work and cost for Fiber rollout in a provided region.
+    
+    Run the endpoints in this order:
+    
+    1. **POST /startJobS3** to retrieve a signed URL for Amazon S3 bucket. Send this URL using the following endpoint.
+    2. **PUT /s3url_uploads/{jsonFileNameAndExtension}** to upload the job.
+    3. **GET /jobStatus/{jobId}** to retrieve the status of the job.
+    4. **GET / jobResultS3/{jobId}** to retrieve a signed URL for the Amazon Simple Storage Service (Amazon S3) bucket. Send this URL using the following endpoint.
+    5. **GET /Output/{jsonFileNameAndExtension}** to retrieve the results of the engineering job.
+    
+     ### Key highlights
+
+     - **Security:** HTTPS, OAuth, Rate limit
+     - **Versioning:** Supports version-less API, version tight. If no version
+     is provided (in header) it defaults to latest version. 
+
+      [Source view](https://app.swaggerhub.com/apis/kpn/high-level_design_ftth)<br/>
+      [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/high-level_design_ftth)
+      
+      ---
+      
+      [KPN Developer](https://developer.kpn.com/)<br/>
+      [Getting Started](https://developer.kpn.com/getting-started)
+      
+servers:
+  - url: "https://api-prd.kpn.com/network/kpn/ftth-engineering/"
+    variables: {}
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers
+
+paths:
+  /startJobS3:
+    post:
+      tags:
+         - Start engineering job
+      summary: Request a signed URL to start an FTTx engineering job.
+      description: >-
+        Submits a new engineering job identifier. The response is a signed URL for the Amazon Simple Storage Service (Amazon S3) bucket. The input data for the engineering job needs to be uploaded to the received the signed URL location. See **/s3url_uploads** endpoint.
+      parameters:
+        - in: header
+          name: jsonFileName
+          required: true
+          schema:
+            $ref: '#/components/schemas/jsonFileNameSchema'
+          description: The **jobId** of the engineering job that you want to run. This will be used as identifier (and filename) for the Amazon Simple Storage Service (Amazon S3) bucket where you need to submit the input data for the engineering job.
+      responses:
+        200:
+          description: The result of the startJobS3 is a signed URL for the Amazon Simple Storage Service (Amazon S3) bucket. The input data for the engineering job needs to be uploaded to the received signed URL location.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/signedInputUrl'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/gateway_error'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+          
+  /s3url_uploads/{jsonFileNameAndExtension}:
+    put:
+      tags:
+         - Start engineering job
+      summary: Submit the input for the engineering job.
+      description: >-
+        Uploads the data of the new engineering job for calculation. Use the signed URL received from **/startJobS3** for this. In the request body you need to specify an area for engineering. When the input has been submitted, this is detected and the calculation will start.
+      servers:
+        - url: https://ftth-engineering-prod.s3.amazonaws.com
+          description: This API call is done towards an Amazon Simple Storage Service (Amazon S3) bucket instead of the API store server.
+      parameters:
+        - in: path
+          name: jsonFileNameAndExtension
+          required: true
+          description: | 
+             The **jobId** of the engineering job you defined in **/startJobS3** or **/jobResultS3** with added .json extension.  </br>
+             Pattern: `^.+\.(json)$` </br>
+             Example: `FTTx_AdamNorth_Input_Dec2020.json`
+          schema:
+            $ref: '#/components/schemas/jsonFileNameAndExtensionSchema'
+        - in: query
+          name: X-Amz-Algorithm
+          required: true
+          description: >-
+            Identifies the version of AWS Signature and the algorithm used to calculate the signature. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br>
+            Example: `AWS4-HMAC-SHA256`
+          schema:
+            $ref: '#/components/schemas/amzAlgorithm'
+        - in: query
+          name: X-Amz-Credential
+          required: true
+          description: >-
+            This parameter provides scope (AWS region and service) for which the signature is valid. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br>
+            Example: `AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request`
+          schema:
+            $ref: '#/components/schemas/amzCredential'
+        - in: query
+          name: X-Amz-Date
+          required: true
+          description: | 
+            The date when the signedUrl was generated. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**.     </br>
+                Example: `20201201T120000Z`
+          schema:
+            $ref: '#/components/schemas/amzDate'
+        - in: query
+          name: X-Amz-Expires
+          required: true
+          description: | 
+            Provides the time period, in seconds, for which the generated presigned URL is valid. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br>
+                Example: `3600`
+          schema:
+            $ref: '#/components/schemas/amzExpires'
+        - in: query
+          name: X-Amz-SignedHeaders
+          required: true
+          description: |
+            Lists the headers used to calculate the signature. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS**. </br>
+                Example: `host`
+          schema:
+            $ref: '#/components/schemas/amzSignedHeaders'
+        - in: query
+          name: X-Amz-Security-Token
+          required: true
+          description: |
+                Additional credential parameter. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br>
+                Example: `AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA`
+          schema:
+            $ref: '#/components/schemas/amzSecurityToken'
+        - in: query
+          name: X-Amz-Signature
+          required: true
+          description: | 
+                The signature to authenticate your request. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**.
+                  </br>
+                Example: `aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb`
+          schema:
+            $ref: '#/components/schemas/amzSignature'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Job'
+      responses:
+        200:
+          description: Successful input data submission.
+          
+  /jobStatus/{jobId}:
+    get:
+      tags:
+         - Retrieve job result
+      summary: Returns the current status of the calculation job identified by jobId
+      description: >-
+        This method is called by the HLD front-end to get the current status of
+        a job
+      parameters:
+        - in: path
+          name: jobId
+          required: true
+          schema:
+            $ref: '#/components/schemas/jsonFileNameSchema'
+      responses:
+        200:
+          description: Job status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jobStatus'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/gateway_error'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+          
+  /jobResultS3/{jobId}:
+    get:
+      tags:
+         - Retrieve job result
+      summary: Returns a signed URL where the results of an engineering job can be retrieved.
+      description: >-
+        When an engineering job is finished. This endpoint should be called first to retrieve a signed URL for the Amazon Simple Storage Service (Amazon S3) bucket where the results are stored. More details on how to use this URL to retrieve the results are specified in the /Output endpoint.
+      parameters:
+        - in: path
+          name: jobId
+          required: true
+          schema:
+            $ref: '#/components/schemas/jsonFileNameSchema'
+      responses:
+        200:
+          description: |
+            The expected response is a signed URL for the Amazon Simple Storage Service (Amazon S3) bucket.</br> This signed URL is then to be used to retreieve the engineering job results, see **/Output/{jsonFileNameAndExtension}**.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/signedOutputUrl'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/gateway_error'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+          
+  /Output/{jsonFileNameAndExtension}:
+    get:
+      tags:
+         - Retrieve job result
+      summary: Retrieve the results of an engineering job.
+      description: >-
+        Retrieves the results of the engineering job. Use the signed URL received from /jobResultS3/{jobId} for this.
+      servers:
+        - url: https://ftth-engineering-prod.s3.amazonaws.com
+          description: This API request is done towards an Amazon Simple Storage Service (Amazon S3) bucket instead of the API store server.
+      parameters:
+        - in: path
+          name: jsonFileNameAndExtension
+          required: true
+          description: | 
+             The **jobId** of the engineering job you defined in **/startJobS3** or **/jobResultS3** with added .json extension.  </br>
+             Pattern: `^.+\.(json)$` </br>
+             Example: `FTTx_AdamNorth_Input_Dec2020.json`
+          schema:
+            $ref: '#/components/schemas/jsonFileNameAndExtensionSchema'
+        - in: query
+          name: X-Amz-Algorithm
+          required: true
+          description: >-
+            Identifies the version of AWS Signature and the algorithm used to calculate the signature. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br>
+            Example: `AWS4-HMAC-SHA256`
+          schema:
+            $ref: '#/components/schemas/amzAlgorithm'
+        - in: query
+          name: X-Amz-Credential
+          required: true
+          description: >-
+            This parameter provides scope (AWS region and service) for which the signature is valid. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br>
+            Example: `AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request`
+          schema:
+            $ref: '#/components/schemas/amzCredential'
+        - in: query
+          name: X-Amz-Date
+          required: true
+          description: | 
+            The date when the signedUrl was generated. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**.     </br>
+                Example: `20201201T120000Z`
+          schema:
+            $ref: '#/components/schemas/amzDate'
+        - in: query
+          name: X-Amz-Expires
+          required: true
+          description: | 
+            Provides the time period, in seconds, for which the generated presigned URL is valid. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br>
+                Example: `3600`
+          schema:
+            $ref: '#/components/schemas/amzExpires'
+        - in: query
+          name: X-Amz-SignedHeaders
+          required: true
+          description: |
+            Lists the headers used to calculate the signature. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS**. </br>
+                Example: `host`
+          schema:
+            $ref: '#/components/schemas/amzSignedHeaders'
+        - in: query
+          name: X-Amz-Security-Token
+          required: true
+          description: |
+                Additional credential parameter. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br>
+                Example: `AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA`
+          schema:
+            $ref: '#/components/schemas/amzSecurityToken'
+        - in: query
+          name: X-Amz-Signature
+          required: true
+          description: | 
+                The signature to authenticate your request. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**.
+                  </br>
+                Example: `aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb`
+          schema:
+            $ref: '#/components/schemas/amzSignature'
+      responses:
+        200:
+          description: >-
+            This is the result of the High-Level Design FTTx engieering job, based on the input provided.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jobResult'
+
+security:
+  - oauth2: []
+  
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+  schemas:
+    address:
+      type: object
+      properties:
+        zipcode:
+          type: string
+          description: The postal code.
+        street:
+          type: string
+          description: The name of the street. 
+        housenumber:
+          type: integer
+          description: The number of the property.
+        extension:
+          type: string
+          description: | 
+            The extension of the house number, for example: `a-c`.
+        x:
+          type: number
+          format: double
+          description: x coordinates.
+        y:
+          type: number
+          format: double
+          description: x coordinates.
+        city:
+          type: string
+          description: The name of the city or town.
+        bagGeometryIdentificatie:
+          type: string
+          description: | 
+              Can be a Pand (non-residential/non-office building) or an addressable object (Pand or Ligplaats) with an Addresses and Buildings key register (BAG) id. It represents a contour.
+        usagegoals:
+          type: array
+          items:
+            type: string
+          example: bijvoorbeeld "woonfunctie" of "logiesfunctie"
+    NetworkType:
+      type: string
+      description: P2P or PON to indicate what the FTTH model should do.
+      enum:
+        - P2P
+        - PON
+    Job:
+      type: object
+      description: The input data to be used for the engineering job, most importantly the addresses of the region for which to perform the engineering job. amongst.
+      properties:
+        jobId:
+          type: string
+          format: uuid
+          description: The unique UUID for this job.
+        cable7x14Costs:
+          type: number
+          format: double
+          description: 7x14 is a duct which contains 7 subducts in which a 96fold fibercable could be blown. A 7x14 duct is deployed between the Point Of Presence (PoP) - the central office - the splitter cabinet (OAP).
+        cable2x14Costs:
+          type: number
+          format: double
+          description: 2x14 is a duct which contains 2 subducts in which a 96fold fibercable could be blown. A 2x14 duct is deployed between the splitter cabinet (OAP) and a Distribution Point.
+        cableDacCosts:
+          type: number
+          format: double
+          description: DAC stands for Direct Access Cable, this is the cable deployed from the households to a Distribution Point. This is a Direct Buried cable.
+        hasCosts:
+          type: number
+          format: double
+          description: Tuinboring or Huisaansluiting (HAS) is the lead-in from the public pavement to the household. By using an airdriven drilling, there is no need to dig in the garden.
+        dpCosts:
+          type: number
+          format: double
+          description: DP, the distribution Point. In the distribution point a number of households are aggregated (normally around 45 households). In the DP the fibers of the DAC are welted to the 96fold cable.
+        cable96vCosts:
+          type: number
+          format: double
+          description: Blowing of 96fold fiber cable. From the PoP a 96fold cable is blown to the splitters cabinet (OAP) through the 7x14 duct, and from the OAP, a 96fold fiber cable is blown to 2 DP's in cascade (2x 48 fibers).
+        bisCosts:
+          type: number
+          format: double
+          description: Cost of digging the trench
+        miniPopCosts:
+          type: number
+          format: double
+          description: Cost of a small Point of Presence
+        cityPopCosts:
+          type: number
+          format: double
+          description: Cost of a Point of Presence 6,6m2
+        floorTiles:
+          type: number
+          format: double
+          description: Percentage of the ground that contains floor klinkers.
+        klinkers:
+          type: number
+          format: double
+          description: Percentage of the ground that contains floor tiles.
+        pavement:
+          type: number
+          format: double
+          description: Percentage of the ground that contains floor pavement.
+        green:
+          type: number
+          format: double
+          description: Percentage of the ground that contains floor green - grass.
+        asphalt:
+          type: number
+          format: double
+          description: Percentage of the ground that contains floor asphalt.
+        treeDrilling:
+          type: number
+          format: double
+          description: Percentage of the total amount of drilling that has trees blocking.
+        sand:
+          type: number
+          format: double
+          description: Percentage of sand in the ground of the selected area of households.
+        peat:
+          type: number
+          format: double
+          description: Percentage of peat in the ground of the selected area of households.
+        clay:
+          type: number
+          format: double
+          description: Percentage of clay in the ground of the selected area of households.
+        loss:
+          type: number
+          format: double
+          description: Percentage of loss in the ground of the selected area of households.
+        projectSpecificCosts:
+          description: Costs that can be added to project specific cases.
+          type: number
+          format: double
+        feesAndDegeneration:
+          type: number
+          format: double
+          description: Fees and Degeneration per household that should be payed to the municipality.
+        backhaulCost:
+          type: number
+          format: double
+          description: Standard costs per household to connect it towards the backhaul and the core network.
+        contractor:
+          type: string
+          description: Choose a contractor to determine cost levels.
+        depthPosition:
+          type: string
+          description: Choose a depthPosition to determine cost, can be 30 cm, 40/45 cm, 50 cm, 60 cm.
+        areaPopCosts:
+          type: number
+          format: double
+          description: Cost of a Point of Presence 15m2.
+        maxDpConnections:
+          type: number
+          format: double
+          description: The maximal number of households that could be connected in the distribution point.
+        networkType:
+          $ref: '#/components/schemas/NetworkType'
+        popLocation:
+          $ref: '#/components/schemas/Coordinate'
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/address'
+          description: The addresses to include in the engineering process.
+    signedInputUrl:
+      type: object
+      properties:
+        signedUrl:
+          type: string
+          format: uri
+          example: 'https://ftth-engineering-prod.s3.amazonaws.com/s3url_uploads/FTTx_AdamNorth_Input_Dec2020.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20201201T120000Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA&X-Amz-Signature=aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb'
+    signedOutputUrl:
+      type: object
+      properties:
+        signedUrl:
+          type: string
+          format: uri
+          example: 'https://ftth-engineering-prod.s3.amazonaws.com/Output/FTTx_AdamNorth_Input_Dec2020.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20201201T120000Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA&X-Amz-Signature=aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb'
+    jobStatus:
+      type: object
+      properties:
+        #refer UpdateJobStatusScheduler.mapToDomain(nl.reggefiber.hld.rest2.hld.model.JobStatus source) for allowed string values
+        status:
+          type: string
+          
+          enum:
+              - queued
+              - accepted
+              - running
+              - done
+              - failed
+              - unknown
+    jobResult:
+      type: object
+      properties:
+        status:
+          type: string
+        jobId:
+          type: string
+          format: uuid
+        numberOfCoreAreas:
+          type: integer
+          format: int32
+        amountHp:
+          type: integer
+          format: int32
+          description: Total number of adresses after filtering on existing FttH adresses/BC received from Python
+        amountHpLowRise:
+          type: integer
+          format: int32
+          description: Total number of low-rise adresses after filtering on existing FttH adresses/BC received from Python
+        amountHpHighRise:
+          type: integer
+          format: int32
+          description: Total number of high-rise adresses after filtering on existing FttH adresses/BC received from Python
+        totalCable7x14Length:
+          type: number
+          format: double
+          description: Total length of the 7x14 ducts, received from Python. Column per HP should be calculated by dividing the total length by 'Aantal HP'
+        totalCable2x14Length:
+          type: number
+          format: double
+          description: Total length of the 2x14 ducts, received from Python. Column per HP should be calculated by dividing the total length by 'Aantal HP'
+        totalCable96vLength:
+          type: number
+          format: double
+          description: Total length of the 96fold fibercable received from Python. Column per HP should be calculated by dividing the total length by 'Aantal HP'
+        totalCableDacLength:
+          type: number
+          format: double
+          description: Total length of the DAC's, received from Python. Column per HP should be calculated by dividing the total length by 'Aantal HP'
+        totalBisLength:
+          type: number
+          format: double
+          description: Total length of digging, received from Python. Column per HP should be calculated by dividing the total length by 'Aantal HP'
+        hasLength:
+          type: number
+          format: double
+          description: Total length of lead-ins, received from Python. Column per HP should be calculated by dividing the total length by 'Aantal HP laagbouw'
+        lengthDirectionalBoring:
+          type: number
+          format: double
+          description: Total length of Horizontal Directional Drillings (HDD), received from Python. Column per HP should not be calculated
+        amountDp:
+          type: number
+          format: double
+          description:  Total number of DP's, received from Python. Column per HP should not be calculated
+        ftthDeploymentCosts:
+          type: number
+          format: double
+          description: Cost per HP to build the network, received from Python. Column Totaal should be calculated by multiplying the cost per HP with 'Aantal HP'
+        incaContractCapex:
+          type: number
+          format: double
+          description: Cost per HP to build the network according to the INCA model (simplified calculation method agreed on with the contractor), received from Python. Column Totaal should be calculated by multiplying the cost per HP with 'Aantal HP'
+        incaCapex:
+          type: number
+          format: double
+          description:  Cost per HP to build the network according to the INCA model (simplified calculation method agreed on with the contractor) including some internal costs like active costs  (e.g. DSLAM), received from Python. Column Totaal should be calculated by multiplying the cost per HP with 'Aantal HP'
+        maximalCableLength:
+          type: number
+          format: double
+          description: The maximum length from household to PoP, received from Python
+        distributionPoints:
+          type: array
+          items:
+            $ref: '#/components/schemas/DistributionPoint'
+        cables96v:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cable96V'
+        coreCables:
+          type: array
+          items:
+            $ref: '#/components/schemas/CoreCable'
+        pops:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pop'
+        splitters:
+          type: array
+          items:
+            $ref: '#/components/schemas/Splitter'
+        haslist:
+          type: array
+          items:
+            $ref: '#/components/schemas/Has'
+        trenches:
+          type: array
+          items:
+            $ref: '#/components/schemas/Trench'
+        message:
+          type: string
+    DistributionPoint:
+      type: object
+      properties:
+        id:
+          type: string
+        x:
+          type: number
+          format: double
+        y:
+          type: number
+          format: double
+        hhRoutes:
+          type: array
+          items:
+            $ref: '#/components/schemas/HHRoute'
+      required:
+        - id
+        - x
+        - 'y'
+        - hhRoutes
+    HHRoute:
+      type: object
+      properties:
+        trenchIds:
+          type: array
+          items:
+            type: string
+    Cable96V:
+      type: object
+      properties:
+        distributionPointId1:
+          type: string
+        distributionPointId2:
+          type: string
+        coreCableId:
+          type: integer
+          format: int64
+          example: 222
+        trenchIds:
+          type: array
+          items:
+            type: string
+    CoreCable:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 222
+        popId:
+          type: integer
+          format: int64
+          example: 333
+        trenchIds:
+          type: array
+          items:
+            type: string
+    Pop:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 333
+        type:
+          type: string
+          example: CP-AP_1496
+          enum:
+            - CP-AP_528
+            - CP-AP_1496
+            - CP-AP_1848
+            - CP-AP_3696
+            - AP_3696
+        x:
+          type: number
+          format: double
+          example: 52.99187331
+        y:
+          type: number
+          format: double
+          example: 5.99117733
+    Splitter:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 754
+        type:
+          type: string
+          example: Splitter
+        x:
+          type: number
+          format: double
+          example: 52.99187331
+        y:
+          type: number
+          format: double
+          example: 5.99117733
+    Has:
+      type: object
+      description: Has geo properties
+      properties:
+        id:
+          type: string
+          example: HAS 1127PV189
+        x1:
+          type: number
+          format: double
+        y1:
+          type: number
+          format: double
+        x2:
+          type: number
+          format: double
+        y2:
+          type: number
+          format: double
+    Trench:
+      type: object
+      description: Trench properties
+      properties:
+        id:
+          type: string
+          example: 1005_up_12800
+        x1:
+          type: number
+          format: double
+        y1:
+          type: number
+          format: double
+        x2:
+          type: number
+          format: double
+        y2:
+          type: number
+          format: double
+        length:
+          type: number
+          format: double
+        surfaceType:
+          type: string
+          enum:
+            - premium_road
+            - road
+          example: road
+    Coordinate:
+      type: object
+      description: Location of a point on a two-dimensional plane.
+      properties:
+        x:
+          type: number
+          format: double
+          description: x coordinates. National triangle coordinates (RD coordinates) in meters.
+        y:
+          type: number
+          format: double
+          description: y coordinates. National triangle coordinates (RD coordinates) in meters.
+    jsonFileNameSchema:
+      type: string
+      example: 'FTTx_AdamNorth_Input_Dec2020'
+
+    jsonFileNameAndExtensionSchema:
+      type: string
+      pattern: '^.+\.(json)$'
+      example: 'FTTx_AdamNorth_Input_Dec2020.json'
+      description: | 
+          The `jobId` of the engineering job you defined in /startJobS3 or /jobResultS3 with added .json extension. 
+    amzAlgorithm:
+      type: string
+      example: 'AWS4-HMAC-SHA256'
+      description: >-
+        Identifies the version of AWS Signature and the algorithm used to calculate the signature. Use the value provided as part of the signed URL response of `/startJobS3` or `/jobResultS3`.
+    amzCredential:
+      type: string
+      example: 'AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request'
+      description: >-
+        This parameter provides scope (AWS region and service) for which the signature is valid. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
+    amzDate:
+      type: string
+      example: '20201201T120000Z'
+      description: The date when the signedUrl was generated. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
+    amzExpires:
+      type: string
+      example: '3600'
+      description: Provides the time period, in seconds, for which the generated presigned URL is valid. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
+    amzSignedHeaders:
+      type: string
+      example: 'host'
+      description: Lists the headers used to calculate the signature. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
+    amzSecurityToken:
+      type: string
+      example: 'AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA'
+      description: Additional credential parameter. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
+    amzSignature:
+      type: string
+      example: 'aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb'
+      description: The signature to authenticate your request. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
+    
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+  
+  responses:
+    bad_request:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+
+    gateway_error:
+      description: gateway_error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    empty_file:
+      description: uploaded file has size 0
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    precondition_required:
+      description: precondition required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'

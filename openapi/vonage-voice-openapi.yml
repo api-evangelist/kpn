@@ -1,0 +1,1387 @@
+openapi: 3.0.0
+info:
+  version: "v1.1.1"
+  title: Voice-Vonage
+  description: >-
+      The Voice API lets you create outboud calls, control in progress calls
+        and get information about current and historical calls.
+
+
+      The API is divided in 2 big resources blocks:
+      
+       - Application: Manage application level options
+       - Call: Manage call level options
+
+      ## Call Guidelines
+      
+       1. Create an application
+       2. Make a call
+
+
+      ## Guidelines to create an application
+
+      In order to create an application, we need to provide 3 values: 
+       - name
+       - type (voice)
+       - answer_url
+       - event_url
+
+      For more information regarding the meaning of each field, refer to the <samp>POST /application</samp> endpoint.
+      
+      Among the return values of this call, there is the application identifier (<samp>uuid</samp>). It is needed to make calls or to operate with the application.
+
+      ## Guidelines to make a call
+      
+      In order to make a call, we must include the identifier of the application in the **header** and fill the basic fields from the **request body**:
+       - to
+       - from
+       - answer_url
+       
+      More information about the meaning of the fields and optional parameters can be found in POST /calls endpoint description.
+      
+      This call will return, among other fields, the <samp>conversation_uuid</samp> where the call is attached to and the identifier (<samp>uuid</samp>) of the call itself.
+      
+      
+      ## [Source view](https://app.swaggerhub.com/apis/kpn/voice-nexmo/)<br/>
+      [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/voice-nexmo/)
+      
+      ---
+      
+      ## [KPN Developer](https://developer.kpn.com/)<br/>
+      [Getting Started](https://developer.kpn.com/getting-started)
+      
+        ---
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: 'https://developer.kpn.com/support'
+  termsOfService: 'https://developer.kpn.com/legal'
+tags:
+  - 
+    name: applications
+    description: Application related resource management
+  - 
+    name: voice
+    description: Call related resource management
+  - 
+    name: JWT
+    description: Call to generate JWT.
+
+servers:
+  - 
+    url: 'https://api-prd.kpn.com/communication/nexmo/'
+    description: API Store Application
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers
+paths:
+  "/voice/calls":
+    parameters:
+      - $ref: '#/components/parameters/api_version_header'
+
+      - $ref: '#/components/parameters/call_application_id_header'
+    post:
+      security:
+        - oauth2: []
+      summary: Outbound call
+      description: >-
+        Create an outbound Call.
+
+        
+        The basic body `to`, `from` and `answer_url` fields are **mandatory**. 
+        
+        
+        Other arguments like `answer_method`, `event_url`, `event_method`, `machine_detection`, `length_timer`, `ringing_timer` are **optional**.
+
+        
+        Creates a call and returns a JSON object with the call identifier (`uuid`), `status` of the call, `conversation_uuid` where the call is attached to and the `direction` of the call.
+      tags:
+        - voice
+      operationId: createCall
+      requestBody:
+        description: Call Details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                to:
+                  type: array
+                  items:
+                    oneOf:
+                      - "$ref": "#/components/schemas/endpoints/properties/phone"
+                      - "$ref": "#/components/schemas/endpoints/properties/sip"
+                      - "$ref": "#/components/schemas/endpoints/properties/websocket"
+                from:
+                  description: The phone needs to be a Vonage number
+                  type: object
+                  items:
+                    oneOf:
+                      - "$ref": "#/components/schemas/endpoints/properties/phone"
+                      - "$ref": "#/components/schemas/endpoints/properties/sip"
+                      - "$ref": "#/components/schemas/endpoints/properties/websocket"
+                answer_url:
+                  description: The webhook endpoint where you provide the Vonage Call
+                    Control Object that governs this call.
+                  type: array
+                  x-nexmo-developer-collection-description-shown: true
+                  example: '["https://example.com/answer"]'
+                  items:
+                    type: string
+                answer_method:
+                  description: The HTTP method used to send event information to answer_url.
+                  type: string
+                  default: GET
+                  enum:
+                    - POST
+                    - GET
+                event_url:
+                  description: The webhook endpoint where call progress events are
+                    sent to. For more information about the values sent, see callback
+                  type: array
+                  x-nexmo-developer-collection-description-shown: true
+                  example: '["https://example.com/event"]'
+                  items:
+                    type: string
+                    format: uri
+                event_method:
+                  description: The HTTP method used to send event information to event_url.
+                  type: string
+                  default: POST
+                  enum:
+                    - POST
+                    - GET
+                machine_detection:
+                  description: Configure the behavior when Vonage detects that the
+                    call is answered by voicemail. If Continue Vonage sends an HTTP
+                    request to event_url with the Call event machine. hangup  end
+                    the call
+                  type: string
+                  enum:
+                    - continue
+                    - hangup
+                  example: continue
+                length_timer:
+                  description: Set the number of seconds that elapse before Vonage
+                    hangs up after the call state changes to in_progress.
+                  minimum: 1
+                  maximum: 7200
+                  default: 7200
+                  type: integer
+                ringing_timer:
+                  description: Set the number of seconds that elapse before Vonage
+                    hangs up after the call state changes to ‘ringing’.
+                  minimum: 1
+                  maximum: 120
+                  default: 60
+                  type: integer
+              required:
+                - to
+                - from
+                - answer_url
+              example:
+                to:
+                  - type: phone
+                    number: "14155550100"
+                from:
+                  type: phone 
+                  number: "447700900000"
+                answer_url:
+                  - https://nexmo.cubesapi.com/ncco/answer
+      responses:
+        '201':
+           $ref: '#/components/responses/call_created'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+    get:
+      security:
+        - oauth2: []
+      summary: Details of your calls
+      description: >-
+        Get details of your calls.
+
+        Filtering works by tunning the following fields
+         - status
+         - date_start
+         - date_end
+         - conversation_uuid
+        
+        Paging configuration fields
+         - page_size (default 10)
+         - record_index (default 0)
+         - order (default asc)
+      tags:
+        - voice
+      operationId: getCalls
+      parameters:
+        - name: status
+          in: query
+          description: Filter by call status
+          schema:
+            $ref: '#/components/schemas/fields_status'
+        - name: date_start
+          in: query
+          description: Return the records that occurred after this point in time
+          schema:
+            type: string
+            format: date-time
+            example: 2016-11-14T07:45:14Z
+        - name: date_end
+          in: query
+          description: Return the records that occurred before this point in time
+          schema:
+            type: string
+            format: date-time
+            example: 2016-11-14T07:45:14Z
+        - name: page_size
+          in: query
+          description: Return this amount of records in the response
+          schema:
+            type: integer
+            maximum: 100
+            minimum: 1
+            default: 10
+        - name: record_index
+          in: query
+          description: Return calls from this index in the response
+          schema:
+            type: integer
+            default: 0
+        - name: order
+          in: query
+          description: Either ascending or descending order.
+          schema:
+            type: string
+            default: asc
+            enum:
+              - asc
+              - desc
+        - name: conversation_uuid
+          in: query
+          description: Return all the records associated with a specific conversation.
+          schema:
+            $ref: '#/components/schemas/fields_conversation_uuid'
+      responses:
+        '200':
+          $ref: '#/components/responses/call_list'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+  "/voice/calls/{uuid}":
+    parameters:
+      - $ref: '#/components/parameters/api_version_header'
+
+      - $ref: '#/components/parameters/call_application_id_header'
+      - $ref: '#/components/parameters/call_uuid'
+    get:
+      security:
+        - oauth2: []
+      summary: Details of a specific call
+      description: >-
+        Get detailed information of a specific call
+      tags:
+        - voice
+      operationId: getCall
+      responses:
+        '200':
+          $ref: '#/components/responses/call_detail_ok'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+    put:
+      security:
+        - oauth2: []
+      summary: Modify an in progress call
+      description: >-
+        Modify an in progress call
+
+        Allows to modify the action and the destination (required when action is `transfer`).
+
+        Allowed action values are: `hangup`, `mute`, `unmute`, `earmuff`, `unearmuff` and `transfer`.
+      tags:
+        - voice
+      operationId: updateCall
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              properties:
+                action:
+                  type: string
+                  default: mute
+                  # required: true
+                  # example: mute
+                  enum:
+                    - hangup
+                    - mute
+                    - unmute
+                    - earmuff
+                    - unearmuff
+                    - transfer
+                destination:
+                  type: object
+                  description: Required when action is `transfer`
+                  properties:
+                    type:
+                      type: string
+                      example: ncco
+                      enum:
+                        - ncco
+                    url:
+                      x-nexmo-developer-collection-description-shown: true
+                      example: '["https://example.com/ncco.json"]'
+                      type: array
+                      items:
+                        type: string
+      responses:
+        # TODO get the 200 response
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/unauthorized'
+  "/voice/calls/{uuid}/stream":
+    parameters:
+      - $ref: '#/components/parameters/api_version_header'
+
+      - $ref: '#/components/parameters/call_application_id_header'
+      - $ref: '#/components/parameters/call_uuid'
+    put:
+      security:
+        - oauth2: []
+      summary: Play an audio file into a call
+      # it's unclear if loop affects to each of the files or the whole stream_url.
+      description: >-
+        Play an audio file into a call
+
+        Include in the body a list of URL under stream_url and loop to configure the number of times to play the file (0 for infinite).
+      tags:
+        - voice
+      operationId: startStream
+      requestBody:
+        description: action to perform
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                stream_url:
+                  x-nexmo-developer-collection-description-shown: true
+                  example: '["https://example.com/waiting.mp3"]'
+                  type: array
+                  items:
+                    type: string
+                loop:
+                  type: integer
+                  description: the number of times to play the file, 0 for infinite
+                  default: 1
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    description: Description of the action taken
+                    type: string
+                    example: Stream started
+                  uuid:
+                    $ref: '#/components/schemas/fields_uuid'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        # undocumented error: failed to fetch when body is empty
+    delete:
+      security:
+        - oauth2: []
+      summary: Stop playing an audio file into a call
+      description: >-
+        Stop playing an audio file into a call
+      tags:
+        - voice
+      operationId: stopStream
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    description: Description of the action taken
+                    type: string
+                    example: Stream stopped
+                  uuid:
+                    $ref: '#/components/schemas/fields_uuid'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        # TODO undocumented error: failed to fetch
+  "/voice/calls/{uuid}/talk":
+    parameters:
+      - $ref: '#/components/parameters/api_version_header'
+
+      - $ref: '#/components/parameters/call_application_id_header'
+      - $ref: '#/components/parameters/call_uuid'
+    put:
+      security:
+        - oauth2: []
+      summary: Play text to speech into a call
+      description: >-
+        Play text to speech into a call
+
+        The options to be included in the body are:
+         - text you want the machine to read
+         - voiceName the name of the voice and language you want to use
+         - loop value with the number of times you want the text to be repeated. 0 for infinite
+      tags:
+        - voice
+      operationId: startTalk
+      requestBody:
+        description: action to perform
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                text:
+                  type: string
+                  description: The text to read
+                  example: Hello. How are you today?
+                voiceName:
+                  $ref: "#/components/schemas/voiceNames"
+                loop:
+                  type: integer
+                  description: The number of times to repeat the text the file, 0
+                    for infinite
+                  default: 1
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    description: Description of the action taken
+                    type: string
+                    example: Talk started
+                  uuid:
+                    $ref: '#/components/schemas/fields_uuid'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        # undocumented error when the body is empty
+    delete:
+      security:
+        - oauth2: []
+      summary: Stop text to speech in a call
+      description: >-
+       Stop text to speech in a call
+      tags:
+        - voice
+      operationId: stopTalk
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    description: Description of the action taken
+                    type: string
+                    example: Talk stopped
+                  uuid:
+                    $ref: '#/components/schemas/fields_uuid'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+  "/voice/calls/{uuid}/dtmf":
+    parameters:
+      - $ref: '#/components/parameters/api_version_header'
+
+      - $ref: '#/components/parameters/call_application_id_header'
+      - $ref: '#/components/parameters/call_uuid'
+    put:
+      security:
+        - oauth2: []
+      summary: Play DTMF tones into a call
+      description: >-
+        Play DTMF tones into a call
+
+        Specify the digits to send in the request body
+      tags:
+        - voice
+      operationId: startDTMF
+      requestBody:
+        description: action to perform
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/fields_digits'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    description: Description of the action taken
+                    type: string
+                    example: DTMF sent
+                  uuid:
+                    $ref: '#/components/schemas/fields_uuid'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        # undocumented error: failed to fetch
+  "/applications":
+    parameters:
+      - $ref: '#/components/parameters/api_version_header'
+
+    post:  
+      security:
+        - oauth2: []
+      summary: New Application
+      description: >
+        Create a new application
+
+        The basic body needs to include:
+         - `name` with the name of the application
+         - `type` set to `voice`
+         - `answer_url` the URL where your webhook delivers the NCCO that governs this call. As soon as your user answers a call Vonage makes a request to answer_url.
+         - `event_url` the API sends event information asynchronously to this URL when status changes.
+
+        Creates a call and returns a JSON object with the call identifier (uuid), status of the call, conversation_uuid the call is attached to and the direction of the call.
+      tags:
+        - applications
+      operationId: createApplication
+      requestBody:
+        description: Application Details
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                type:
+                  type: string
+                  enum:
+                    - voice
+                    - message
+                  default: voice
+                answer_url:
+                  description: The webhook endpoint where you provide the Vonage Call Control Object that governs this call. As soon as your user answers a call Vonage makes a request to `answer_url`
+                  type: string
+                  x-nexmo-developer-collection-description-shown: true
+                  example: "https://example.com/answer"
+                answer_method:
+                  description: The HTTP method used to make the request to answer_url. The default value is `GET`
+                  type: string
+                  default: GET
+                  example: GET
+                  enum: [GET, POST]
+                event_url:
+                  description: The webhook endpoint where call progress events are
+                    sent to. For more information about the values sent, see callback
+                  type: string
+                  example: "https://example.com/event"
+                  items:
+                    type: string
+                    format: uri
+                event_method:
+                  description: The HTTP method used to make the request to answer_url. The default value is `GET`
+                  type: string
+                  default: GET
+                  example: GET
+                  enum: [GET, POST]
+              required:
+                [name, type, answer_url, event_url]
+      callbacks:
+        answer_url:
+          '{$request.body#/answer_url}':
+            get:
+              # type: object
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        to:
+                          type: string
+                        from:
+                          type: string
+                        uuid:
+                          type: string
+                        conversation_uuid:
+                          type: string
+              responses:
+                '200':
+                  description: returns the corresponding NCCO
+                  content:
+                    application/json:
+                      schema:
+                        $ref: '#/components/schemas/NCCO'
+      responses:
+        '201':
+          $ref: '#/components/responses/app_created'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+    get:  
+      security:
+        - oauth2: []
+      summary: Details of your applications.
+      description: >-
+        Get details of your applications.
+        
+         This endpoint is not available for sandbox environments, in order to use it please apply for production.
+      tags:
+        - applications
+      operationId: getApplications
+      parameters:
+        - name: page_size
+          in: query
+          description: Set the number of items returned on each call to this endpoint
+          schema:
+            type: integer
+            default: 10
+          required: false
+        - name: page_index
+          in: query
+          description: Set the offset from the first page
+          schema:
+            type: integer
+            default: 0
+          required: false
+      responses:
+        '200':
+          $ref: '#/components/responses/app_list'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+  "/applications/{uuid}":
+    parameters:
+      - $ref: '#/components/parameters/api_version_header'
+
+      - $ref: '#/components/parameters/application_uuid'
+    get:
+      security:
+        - oauth2: []
+      summary: Details of a specific application
+      description: >-
+        Get detailed information of a specific application
+      tags:
+        - applications
+      operationId: getApplication
+      responses:
+        '200':
+          $ref: '#/components/responses/app_detail_ok'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+    put:
+      security:
+        - oauth2: []
+      summary: Modify an existing application
+      description: >-
+        Modify an existing application
+      tags:
+        - applications
+      operationId: updateApplication
+      parameters:
+        - name: name
+          in: query
+          description: The name of your application.
+          required: true
+          schema:
+            type: string
+            example: My App
+        - name: type
+          in: query
+          description: Products you access with this application
+          required: true
+          schema:
+            type: string
+            enum:
+              - voice
+            default: voice
+        - name: answer_url
+          in: query
+          description: The webhook endpoint where you provide the Vonage Call Control Object that governs this call.
+          required: true
+          schema:
+            type: string
+            example: https://example.com/answer
+        - name: answer_method
+          in: query
+          description: The HTTP method used to make the request to `answer_url`
+          schema:
+            type: string
+            default: GET
+            enum:
+              - GET
+              - POST
+              - PUT
+        - name: event_url
+          in: query
+          description: URL to send events when status updates
+          required: true
+          schema:
+            type: string
+            example: https://example.com/event
+        - name: event_method
+          in: query
+          description: The HTTP method used to make the request to `event_method`
+          schema:
+            type: string
+            default: GET
+            enum:
+              - GET
+              - POST
+              - PUT
+      responses:
+        '200':
+          $ref: '#/components/responses/app_detail_ok'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+    delete:
+      security:
+        - oauth2: []
+      summary: Delete application
+      description: >-
+        Deletes the existing application
+      tags:
+        - applications
+      operationId: deleteApplication
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+              # TODO revise with test
+                type: object
+                properties:
+                  message:
+                    description: Description of the action taken
+                    type: string
+                    example: Stream stopped
+                  uuid:
+                    $ref: '#/components/schemas/fields_uuid'
+
+  "/jwt":
+    parameters:
+      - $ref: '#/components/parameters/api_version_header'
+      - $ref: '#/components/parameters/call_application_id_header'
+    get:
+      security:
+        - oauth2: []
+      summary: Generate JWT Call
+      description: >-
+        Create a JWT to access the recording URL
+      tags:
+        - JWT
+      operationId: createJWT
+      responses:
+        '200':
+           $ref: '#/components/responses/jwt_created'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes : {}
+  schemas:
+    fields_network:
+      description: >-
+          The Mobile Country Code Mobile Network Code 
+          ([MCCMNC](https://en.wikipedia.org/wiki/Mobile_country_code)) for
+          the carrier network used to make this call.
+      type: string
+      title: 'The Network ID of the destination '
+      example: '65512'
+    fields_start_time:
+      description: 'The time the call started in the following format: `YYYY-MM-DD HH:MM:SS`. For example, `2020-01-01 12:00:00`.'
+      type: string
+      format: timestamp
+      title: 'The Start Time of the call '
+      example: '2020-01-01 12:00:00'
+    fields_end_time:
+      description: 'The time the call started in the following format: `YYYY-MM-DD HH:MM:SS`. For example, `2020-01-01 12:00:00`. This is only sent if `status` is `completed`.'
+      type: string
+      format: timestamp
+      title: 'The End Time of the call '
+      example: '2020-01-01 12:00:00'
+    fields_duration:
+      description: The time elapsed for the call to take place in seconds. This is only sent if `status` is `completed`.
+      type: string
+      title: 'The Duration of the call '
+      example: '60'
+    fields_price:
+      description: The total price charged for this call. This is only sent if `status` is `completed`.
+      type: string
+      title: 'The total price of the call '
+      example: '23.40'
+    fields_rate:
+      description: The price per minute for this call. This is only sent if `status` is `completed`.
+      type: string
+      title: The Price per minute of the called destination
+      example: '0.39'
+    fields_direction:
+      type: string
+      description: Possible values are `outbound` or `inbound`
+      example: outbound
+      enum:
+      - outbound
+      - inbound
+    fields_uuid:
+      type: string
+      format: uuid
+      title: The UUID of the call leg that the event relates to
+      example: 63f61863-4a51-4f6b-86e1-46edebcf9356
+      description: >-
+          The unique identifier for this call leg. The UUID is created when
+          your call request is accepted by Vonage. You use the UUID in all
+          requests for individual live calls
+    fields_conversation_uuid:
+      type: string
+      format: uuid
+      title: The UUID of the Conversation
+      example: CON-f972836a-550f-45fa-956c-12a2ab5b7d22
+      description: The unique identifier for the conversation this call leg is part of.
+    fields_from:
+      type: array
+      description: The endpoint you called from. Possible values are the same as `to`.
+      title: The number or address that has been called
+      items:
+          type: object
+          properties:
+            type:
+              type: string
+              title: The type of Endpoint that made the call
+              example: phone
+            number:
+              type: string
+              title: The number that made the call
+              example: '447700900001'
+    fields_to:
+      type: array
+      description: The single or mixed collection of endpoint types you connected to
+      title: The number or address to call
+      items:
+          type: object
+          properties:
+            type:
+              type: string
+              title: The Type of Endpoint Called
+            number:
+              type: string
+              title: The number of the endpoint called
+    fields_status:
+      type: string
+      title: The State of the call
+      example: started
+      description: The status of the call. [See possible values](/voice/voice-api/guides/call-flow#events)
+      enum:
+        - started
+        - ringing
+        - answered
+        - machine
+        - completed
+        - timeout
+        - failed
+        - rejected
+        - cancelled
+        - busy
+    fields_digits:
+      type: string
+      example: 1713
+      description: The digits to send
+    fields_http_method:
+      description: The HTTP method used to send event information to event_url.
+      type: string
+      default: POST
+      enum:
+        - POST
+        - GET
+    fields_call_link:
+      type: object
+      properties:
+        self:
+          type: object
+          properties:
+            href:
+              type: string
+              title: Link to the object list
+              example: "/calls?page_size=10&record_index=20&order=asc"
+    fields_call_link_self:
+        type: object
+        properties:
+          self:
+            type: object
+            properties:
+              href:
+                type: string
+                title: Link to the object detail
+                example: "/calls/63f61863-4a51-4f6b-86e1-46edebcf9356"
+    endpoints:
+      type: object
+      properties:
+        phone:
+          type: object
+          description: Connect to a Phone (PSTN) number
+          properties:
+            type:
+              type: string
+              example: phone
+              description: The type of connection. Must be `phone`
+              enum:
+              - phone
+            number:
+              "$ref": "#/components/schemas/addresses/properties/e164"
+            dtmfAnswer:
+              description: Provide [DTMF digits](/voice/voice-api/guides/dtmf) to send when the call is answered
+              type: string
+              example: p*123#
+          example:
+            -
+              type: phone
+              number: 31612950603
+              dtmfAnswer:
+        websocket:
+          type: object
+          description: Connect to a Websocket
+          properties:
+            type:
+              description: The type of connection. Must be `websocket`
+              type: string
+              example: websocket
+              enum:
+              - websocket
+            uri:
+              "$ref": "#/components/schemas/addresses/properties/wsurl"
+            content-type:
+              type: string
+              example: audio/l16;rate=16000
+              enum:
+              - audio/l16;rate=8000
+              - audio/l16;rate=16000
+            headers:
+              description: Details of the Websocket you want to connect to
+              type: object
+              properties:
+                customer_id:
+                  type: string
+                  example: ABC123
+                  description: This is an example header. You can provide any headers you may need
+        sip:
+          type: object
+          description: Connect to a SIP Endpoint
+          properties:
+            type:
+              description: The type of connection. Must be `sip`
+              type: string
+              example: sip
+              enum:
+              - sip
+            uri:
+              "$ref": "#/components/schemas/addresses/properties/sipuri"
+    addresses:
+      type: object
+      properties:
+        e164:
+          description: The phone number to connect to
+          type: string
+          minLength: 7
+          maxLength: 15
+          example: '14155550100'
+          pattern: "\\d{7,15}"
+        sipuri:
+          description: The SIP URI to connect to
+          type: string
+          minLength: 1
+          maxLength: 50
+          example: rebekka@sip.example.com
+        wsurl:
+          type: string
+          minLength: 1
+          maxLength: 50
+          example: wss://example.com/socket
+    callEvent:
+      type: object
+      required:
+        - conversation_uuid
+        - to
+        - from
+        - uuid
+        - status
+      properties:
+        conversation_uuid:
+          $ref: "#/components/schemas/fields_conversation_uuid"
+        to:
+          $ref: '#/components/schemas/fields_from'
+        from:
+          $ref: '#/components/schemas/fields_from'
+        uuid:
+          $ref: '#/components/schemas/fields_uuid'
+        timestamp:
+          type: string
+          format: date-time
+          example: 2018-01-12T15:01:55.315Z
+        status:
+          $ref: '#/components/schemas/fields_status'
+        direction:
+          $ref: '#/components/schemas/fields_direction'
+    voiceNames:
+      type: string
+      description: The voice & language to use
+      default: Kimberly
+      enum:
+        - Salli
+        - Joey
+        - Naja
+        - Mads
+        - Marlene
+        - Hans
+        - Nicole
+        - Russell
+        - Amy
+        - Brian
+        - Emma
+        - Geraint
+        - Gwyneth
+        - Raveena
+        - Chipmunk
+        - Eric
+        - Ivy
+        - Jennifer
+        - Justin
+        - Kendra
+        - Kimberly
+        - Conchita
+        - Enrique
+        - Penelope
+        - Miguel
+        - Chantal
+        - Celine
+        - Mathieu
+        - Dora
+        - Karl
+        - Carla
+        - Giorgio
+        - Liv
+        - Lotte
+        - Ruben
+        - Agnieszka
+        - Jacek
+        - Ewa
+        - Jan
+        - Maja
+        - Vitoria
+        - Ricardo
+        - Cristiano
+        - Ines
+        - Carmen
+        - Maxim
+        - Tatyana
+        - Astrid
+        - Filiz
+        - Mizuki
+        - Seoyeon
+    application:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name: 
+          type: string
+        voice:
+          type: object
+          properties:
+            webhooks:
+              type: array
+              items:
+                type: object
+                properties:
+                  enpoint_type:
+                    type: string
+                    default: answer_url
+                    # example: answer_url
+                  endpoint:
+                    type: string
+                    format: url
+                    # example: https://example.com/answer
+                  http_method:
+                    type: string
+                    default: GET
+              example:
+                -
+                  endpoint_type: answer_url
+                  endpoint: https://example.com/answer
+                  http_method: GET
+                - 
+                  endpoint_type: event_url
+                  endpoint: https://example.com/event
+                  http_method: POST
+        keys:
+          type: object
+          properties:
+            public_key:
+              type: string
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: "/applications/aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+    call:
+      type: object
+      properties:
+        _links:
+          $ref: '#/components/schemas/fields_call_link_self'
+        uuid:
+          $ref: '#/components/schemas/fields_uuid'
+        conversation_uuid:
+          $ref: '#/components/schemas/fields_conversation_uuid'
+        to:
+          $ref: '#/components/schemas/fields_to'
+        from:
+          $ref: '#/components/schemas/fields_from'
+        status:
+          $ref: '#/components/schemas/fields_status'
+        direction:
+          $ref: '#/components/schemas/fields_direction'
+        rate:
+          $ref: '#/components/schemas/fields_rate'
+        price:
+          $ref: '#/components/schemas/fields_price'
+        duration:
+          $ref: '#/components/schemas/fields_duration'
+        start_time:
+          $ref: '#/components/schemas/fields_start_time'
+        end_time:
+          $ref: '#/components/schemas/fields_end_time'
+        network:
+          $ref: '#/components/schemas/fields_network'
+    error401:
+      type: object
+      properties:
+        type: 
+          type: string
+          title: the unauthorized response
+          example: "UNAUTHORIZED"
+          description: Unauthorized type description
+        error_title: 
+          type: string
+          title: the title of an unauthorized response
+          example: Unauthorized
+          description: Unauthorized title description
+      required:
+        - type
+        - error_title
+    NCCO:
+      type: object
+      properties:
+        action:
+          type: string
+        type:
+          type: string
+        option1:
+          type: string
+        option2:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              option1:
+                type: string
+              option2:
+                type: string
+            required:
+            - type
+            - option1
+      required:
+      - action
+                
+    jwt_created:
+      type: object
+      properties:
+        app_level:
+          type: string
+        application_Id:
+          type: string
+        JWT_token:
+          type: string
+      required:
+      - app_level
+      - application_Id
+      - JWT_token
+
+             
+  responses:
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error401'
+    app_created:
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/application'
+    app_list:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              count:
+                type: integer
+                title: The total number of records returned by your request.
+                example: 100
+              page_size:
+                type: integer
+                title: The amount of records returned in this response.
+                example: 10
+              record_index:
+                type: integer
+                title: The `record_index` used in your request.
+                example: 0
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        title: Link to the object
+                        example: "/applications?page_size=10&record_index=20&order=asc"
+              _embedded:
+                description: >-
+                    A list of application objects. See the
+                    [get details of a specific application](#getApplication)
+                    response fields for a description of the nested objects
+                type: object
+                properties:
+                  applications:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/application'
+    app_detail_ok:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/application'
+    call_created:
+      description: Created
+      content:
+        application/json:
+          schema:
+            properties:
+              uuid:
+                $ref: '#/components/schemas/fields_uuid'
+              status:
+                $ref: '#/components/schemas/fields_status'
+              direction:
+                $ref: '#/components/schemas/fields_direction'
+              conversation_uuid:
+                $ref: '#/components/schemas/fields_conversation_uuid'
+    call_list:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              count:
+                type: integer
+                title: The total number of records returned by your request.
+                example: 100
+              page_size:
+                type: integer
+                title: The amount of records returned in this response.
+                example: 10
+              record_index:
+                type: integer
+                title: The `record_index` used in your request.
+                example: 0
+              _links:
+                $ref: '#/components/schemas/fields_call_link'
+              _embedded:
+                description: >-
+                    A list of call objects. See the
+                    [get details of a specific call](#getCall)
+                    response fields for a description of the nested objects
+                type: object
+                properties:
+                  calls:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/call'
+    call_detail_ok:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/call'
+    jwt_created:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/jwt_created'
+
+  parameters:
+    call_uuid:
+      in: path
+      name: uuid
+      schema:
+        type: string
+      required: true
+      description: UUID of the Call
+      example: 63f61863-4a51-4f6b-86e1-46edebcf9356
+    api_version_header:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      required: false
+      description: API-version to use. Not provided uses latest
+      example: v1
+    application_uuid:
+      in: path
+      name: uuid
+      schema:
+        type: string
+      required: true
+      description: UUID of the application
+      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+    call_application_id_header:
+      in: header
+      name: ApplicationId
+      schema:
+        type: string
+      required: true
+      description: UUID of the application
+      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
