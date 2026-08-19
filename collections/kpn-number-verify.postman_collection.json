@@ -1,0 +1,1048 @@
+{
+  "item": [
+    {
+      "id": "cd5b4608-e489-4906-a59e-8f3f3c4ad5e6",
+      "name": "Token Request",
+      "request": {
+        "name": "Token Request",
+        "description": {},
+        "url": {
+          "path": [
+            "token"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "disabled": false,
+              "key": "client_id",
+              "value": "<string>",
+              "description": "(Required) Your client ID"
+            },
+            {
+              "disabled": false,
+              "key": "client_secret",
+              "value": "<string>",
+              "description": "(Required) Your client secret"
+            },
+            {
+              "disabled": false,
+              "key": "scopes",
+              "value": "<string>",
+              "description": "(Required) - Scopes determine what the token can access. Valid scopes include `operator_lookup`, `device_match`, and `device_match_notify`.\n- device_match_notify scope should be used for *Notification* and device_match for *Polling*.\n- Choose either device_match or device_match_notify at a time\n- Enter the values in a comma-separated format.\n"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "4aa31cb3-263b-49a3-978b-f26ebf17b9fd",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Your client ID",
+                    "type": "text/plain"
+                  },
+                  "key": "client_id",
+                  "value": "your_client_id"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Your client secret",
+                    "type": "text/plain"
+                  },
+                  "key": "client_secret",
+                  "value": "your_client_secret"
+                },
+                {
+                  "disabled": false,
+                  "key": "scope",
+                  "value": "operator_lookup,device_match"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"access_token\": \"ewuriwerewrew\",\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 3600\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "8bd824d6-3ad7-4955-baf0-55151097ed81",
+          "name": "Bad Request",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Your client ID",
+                    "type": "text/plain"
+                  },
+                  "key": "client_id",
+                  "value": "your_client_id"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Your client secret",
+                    "type": "text/plain"
+                  },
+                  "key": "client_secret",
+                  "value": "your_client_secret"
+                },
+                {
+                  "disabled": false,
+                  "key": "scope",
+                  "value": "operator_lookup,device_match"
+                }
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error_code\": 400,\n  \"message\": \"Bad Request\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "d699e95e-f521-4aef-93cf-a0b123b05088",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Your client ID",
+                    "type": "text/plain"
+                  },
+                  "key": "client_id",
+                  "value": "your_client_id"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Your client secret",
+                    "type": "text/plain"
+                  },
+                  "key": "client_secret",
+                  "value": "your_client_secret"
+                },
+                {
+                  "disabled": false,
+                  "key": "scope",
+                  "value": "operator_lookup,device_match"
+                }
+              ]
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error_code\": 400,\n  \"message\": \"Bad Request\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "6c09fc29-5f8e-4cb6-af80-ea9ddee99028",
+      "name": "Insights Request",
+      "request": {
+        "name": "Insights Request",
+        "description": {},
+        "url": {
+          "path": [
+            "insights",
+            ":msisdn"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "msisdn",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{bearerToken}}"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "e8f7a3ee-1288-4982-8ee4-3a00af4e1446",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "insights",
+                ":msisdn"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "msisdn",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"device_match\": {\n    \"session_id\": \"e46714d908600d8cf9f3abbf9f4056ff\",\n    \"polling_id\": \"e46714d908600d8cf9f3abbf9f4056ff\"\n  },\n  \"operator_lookup\": {\n    \"regionCode\": \"NL\",\n    \"operatorName\": \"KPN\",\n    \"mcc\": null,\n    \"mnc\": null\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "f1271bee-629d-4f34-9a91-a7acc51ba754",
+          "name": "Bad Request",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "insights",
+                ":msisdn"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "msisdn",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error_code\": 400,\n  \"message\": \"Bad Request\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "b33f218c-07a0-42f9-b9d2-0b7df2b1e8df",
+          "name": "Not Found",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "insights",
+                ":msisdn"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "msisdn",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error_code\": 400,\n  \"message\": \"Bad Request\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "f3760d36-1832-4bc0-877f-6ce1ddd77b77",
+          "name": "Internal Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "insights",
+                ":msisdn"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "msisdn",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error_code\": 400,\n  \"message\": \"Bad Request\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "05d225d4-b81d-4698-85d4-e35d6aa7a118",
+      "name": "Session Request",
+      "request": {
+        "name": "Session Request",
+        "description": {
+          "content": "Invoke the session using the session ID returned from the `/insights/{msisdn}` endpoint, specifically under the `device_match.session_id`. This endpoint returns a `302 Found` response with a `Location` header that the client must follow to continue the process.\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "session",
+            ":session_id"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "session_id",
+              "description": "(Required) The session ID extracted from the URI provided in the `/insights/{msisdn}` response.\nExample: `de32343b3fe474515429d487f6989628`\n"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "93c4fa59-b720-454e-927e-741c95351131",
+          "name": "Found — The session was successfully initiated. The client must follow the `Location` header to continue.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "session",
+                ":session_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "session_id",
+                  "description": "(Required) The session ID extracted from the URI provided in the `/insights/{msisdn}` response.\nExample: `de32343b3fe474515429d487f6989628`\n"
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Found",
+          "code": 302,
+          "header": [
+            {
+              "disabled": false,
+              "description": "URL to follow to continue the session or retrieve further information.",
+              "key": "Location",
+              "value": "https://server/v1/dm/session/next-step"
+            },
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "c83c87b4-cc16-4211-b38a-6b728c6f713e",
+          "name": "Bad Request",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "session",
+                ":session_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "session_id",
+                  "description": "(Required) The session ID extracted from the URI provided in the `/insights/{msisdn}` response.\nExample: `de32343b3fe474515429d487f6989628`\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error_code\": 400,\n  \"message\": \"Bad Request\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "945fa4ab-bd6e-422b-b89b-9a2f472a1b6e",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "session",
+                ":session_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "session_id",
+                  "description": "(Required) The session ID extracted from the URI provided in the `/insights/{msisdn}` response.\nExample: `de32343b3fe474515429d487f6989628`\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error_code\": 400,\n  \"message\": \"Bad Request\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "5cf7630f-be4a-42f1-9c78-a92e2b7d6837",
+          "name": "Internal Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "session",
+                ":session_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "session_id",
+                  "description": "(Required) The session ID extracted from the URI provided in the `/insights/{msisdn}` response.\nExample: `de32343b3fe474515429d487f6989628`\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error_code\": 400,\n  \"message\": \"Bad Request\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "369b5923-ca0e-41c7-913c-5c9618a6fedf",
+      "name": "Polling Request",
+      "request": {
+        "name": "Polling Request",
+        "description": {
+          "content": "Retrieve the polling information using the `polling_id` provided in the header.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "polling",
+            ":polling_id"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "polling_id",
+              "description": "(Required) - Enter the Polling Id you received in the response of `/insights/{msisdn}`, specifically located under the `device_match/polling_id` field. \n"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{bearerToken}}"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "768daa45-79a7-4beb-a781-4556e1ab6479",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "polling",
+                ":polling_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "polling_id",
+                  "description": "(Required) - Enter the Polling Id you received in the response of `/insights/{msisdn}`, specifically located under the `device_match/polling_id` field. \n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"msisdn\": \"316xxxxxxxx\",\n  \"device_match\": null,\n  \"remote_addr\": \"xx.xx.x.xx\",\n  \"user_agent\": \"Mozilla/5.0...\",\n  \"errors\": [\n    {\n      \"device_match\": \"AVAILABLE or UNAVAILABLE\"\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "4d1be527-b291-4366-8cf4-738b6b52accf",
+          "name": "Bad Request",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "polling",
+                ":polling_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "polling_id",
+                  "description": "(Required) - Enter the Polling Id you received in the response of `/insights/{msisdn}`, specifically located under the `device_match/polling_id` field. \n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error_code\": 400,\n  \"message\": \"Bad Request\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "30d6ceca-6fbe-4fb2-9b6d-5ce1e85c268b",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "polling",
+                ":polling_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "polling_id",
+                  "description": "(Required) - Enter the Polling Id you received in the response of `/insights/{msisdn}`, specifically located under the `device_match/polling_id` field. \n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error_code\": 400,\n  \"message\": \"Bad Request\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "711d540f-14d4-4b6f-a8c1-e889f7bb9ee1",
+          "name": "Internal Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "polling",
+                ":polling_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "polling_id",
+                  "description": "(Required) - Enter the Polling Id you received in the response of `/insights/{msisdn}`, specifically located under the `device_match/polling_id` field. \n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error_code\": 400,\n  \"message\": \"Bad Request\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-prd.kpn.com/communication/kpn/numberverify",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "fcf24a06-9ea8-4aec-a5f0-3283e697eeb0",
+    "name": "Number Verify - KPN",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "With KPN Number Verify, you can quickly check whether the mobile number someone provides is the same as their SIM card.\n**Important Notes:**\n- It is advised to use **Postman** for testing this API, as it involves a redirect call. SwaggerHub does not handle redirect flows well.\n- Please **download this Swagger file** and import it into your Postman client for best results.\n---\n**Testing the `/session` endpoint:** \n- Make sure that the call is made using your mobile client or via the hostspot.\n- In **Postman**, disable **automatic redirects** to ensure the `Location` header is visible in the response.\n\n- In **cURL**, avoid using the `--location` flag. A correct example request:\n\n  ```bash\n  curl -v GET https://api-prd.kpn.com/communication/kpn/numberverify/session/bc74adca8f761*******\n  ```\n---\n\n    \n## [Source view](https://app.swaggerhub.com/apis/kpn/match-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/match-kpn/)\n---\n## [KPN API Store](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---\n\nContact Support:\n Name: API Support\n Email: api_developer@kpn.com",
+      "type": "text/plain"
+    }
+  }
+}

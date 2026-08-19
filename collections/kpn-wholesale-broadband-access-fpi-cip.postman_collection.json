@@ -1,0 +1,1592 @@
+{
+  "item": [
+    {
+      "id": "34621a7f-0e05-4bf1-81dd-31257a9b0d7b",
+      "name": "default",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1377ad38-f863-4f0c-8388-8f97c4fcbebf",
+          "name": "Retrieves Functional Product Information",
+          "request": {
+            "name": "Retrieves Functional Product Information",
+            "description": {
+              "content": "This API is in line with WBA FPI v26.\n\nThe Functional Product Information (FPI) service is used to provide WBA access information for new and existing WBA connections. FPI provides carrier vendor information and WBA technology availability with actual up and down bitrates with a reliability per technology type. The reliability is defined as the probability that the bitrate can be achieved and is only applicable for WBA connections on copper lines. The provided reliability in FPI is within 50% to 100%. The reliability for fiber WBA connections is always 100%. It is allowed to request different reliability per copper technology type.\n\nAn address is mandatory in the FPI request.\nFor an existing WBA broadband connection, the WSO specifies the `xdf-access-serviceid`, provided by KPN when the connection was delivered. The `xdf-access-serviceid` is the unique identifier for the current access connection. The bitrates up/down are determined by measurement on the broadband connection of the `xdf-access-serviceid`.\n\nAn address can have one or more carrier vendors. FPI provides information for the following carrier vendors:\n- MDF: WBA services on copper lines from central office (MDF)\n- SDF: WBA services on copper lines from street cabinet (SDF)\n- REGG: WBA Fiber to the Home (FttH) services from Reggefiber\n- KPNFO: WBA Fiber to the Office (FttO) services form KPNFO\n\nThe API request should be of the form: `/fip/addresses?{query-parameters}`.\n\nExample without URL encoding: \n\n`/fpi/addresses?requested-zipcode=1234AB&requested-housenumber=12&requested-housenrext=A&connectionpointnumber=001&technologyreliability=[{\"technology-type\":\"ADSL2+_ISDN\",\"reliability\":\"80\"},{\"technology-type\":\"GPON\"}]`\n\nExample with URL encoding: \n\n`/fpi/addresses?requested-zipcode=1234AB&requested-housenumber=12&requested-housenrext=A&connectionpointnumber=001&technologyreliability=%5B%7B%22technology-type%22%3A%22ADSL2+_ISDN%22%2C%22reliability%22%3A%2280%22%7D%2C%7B%22technology-type%22%3A%22GPON%22%7D%5D`\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fpi",
+                "addresses"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "requested-zipcode",
+                  "value": "<string>",
+                  "description": "(Required) The zipcode for which to retrieve the functional product information or carrier information."
+                },
+                {
+                  "disabled": false,
+                  "key": "requested-housenumber",
+                  "value": "<string>",
+                  "description": "(Required) The house number for which to retrieve the functional product information or carrier information."
+                },
+                {
+                  "disabled": false,
+                  "key": "requested-housenrext",
+                  "value": "<string>",
+                  "description": "The house number extension for which to retrieve the functional product information or carrier information."
+                },
+                {
+                  "disabled": false,
+                  "key": "connectionpointnumber",
+                  "value": "<string>",
+                  "description": "The connectionpointnumber is an identification for the ISRA on the end-user’s address (e.g. 001, B, MTK, METERKAS). In case more connectionpoints exists on an address, the connectionpointnumber is required to retrieve connection details. If no connectionpointnumber was specified, the Carrier Information service will provide connection details for one or two ISRAs. If more than two ISRA’s are connected at the customers address, the Carrier Information service provides the list of available ISRA’s on the end-user address. This field is optional."
+                },
+                {
+                  "disabled": false,
+                  "key": "fiber-terminationpoint-id",
+                  "value": "<string>",
+                  "description": "This is an optional field which specifies the fiber terminationpoint-id at the end-user’s address. In case of FTTH from carrier vendor Reggefiber (REGG), the fiber-terminationpoint-id is the name of the room on the address where the fiber is terminated. If a fiber-terminationpoint-id is specified, the Carrier Information Product will provide the current and future (planned) connection details for the given fiber-terminationpoint-id. If no fiber-terminationpoint-id is specified, the carrier-info will provide current and future connections of all fiber-terminationpoints on the end-user address."
+                },
+                {
+                  "disabled": false,
+                  "key": "xdf-access-serviceid",
+                  "value": "<string>",
+                  "description": "The xdf-access-service-id is a 1-to-1 relationship between the address and the active copperpair or fiber connection. The xdf-access-service-id is used to provide most accurate bitrate and available technology type information for an existing WBA connection. If an xdf-access-serviceid is specified, address corrections can be done on zipcode, house number and house number extension. This field is optional."
+                },
+                {
+                  "description": {
+                    "content": "The optional technologyreliability query parameter should be provided as JSON array of objects. FPI uses a list of default technology types and reliability when these parameters are not used. A specified technology type and reliability in FPI overrules the default setting. ADSL_ISDN, SDSL and ADSL2+_ISDN are not shown in the output, unless explicitly specified in the request.\n\nExamples:\n\n[\n  {\n    \"technology-type\":\"ADSL2+_POTS\",\n    \"reliability\":\"80\"\n  }\n]\n\n[\n  {\n    \"technology-type\":\"GPON\",\n  }\n]\n\n[\n  {\n    \"technology-type\":\"ADSL2+_ISDN\",\n    \"reliability\":\"80\"\n  },\n  {\n    \"technology-type\":\"ADSL2+_POTS\",\n    \"reliability\":\"80\"\n  }\n]\n\n[\n  {\n    \"technology-type\":\"ADSL2+_POTS\",\n    \"reliability\":\"80\"\n  },\n  {\n    \"technology-type\":\"GPON\"\n  }\n]\n\nNote to supply this as query parameter, the special characeters must be url encoded (incl the + in ADSL2+). i.e. technologyreliability=[{\"technology-type\":\"ADSL2+_POTS\",\"reliability\":\"80\"},{\"technology-type\":\"GPON\"}] becomes technologyreliability=%5B%7B%22technology-type%22%3A%22ADSL2%2B_POTS%22%2C%22reliability%22%3A%2280%22%7D%2C%7B%22technology-type%22%3A%22GPON%22%7D%5D\n",
+                    "type": "text/plain"
+                  },
+                  "key": "technologyreliability",
+                  "value": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "service-group",
+                  "value": "<string>",
+                  "description": "The service-group is a reference to the existing WBA service. The service-group is used for migration orders and for changes in existing WBA service of a WSO."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0b393273-512c-49b2-b66a-903b46d15d93",
+              "name": "WBA Functional Product Information response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fpi",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requested-zipcode",
+                      "value": "1234AB"
+                    },
+                    {
+                      "key": "requested-housenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "requested-housenrext",
+                      "value": "A"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "technologyreliability",
+                      "value": ""
+                    },
+                    {
+                      "key": "service-group",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"enduserinfo\": {\n    \"requested-housenumber\": \"<string>\",\n    \"requested-zipcode\": \"1234AB\",\n    \"requested-housenrext\": \"A\",\n    \"connectionpointnumber\": \"<string>\",\n    \"fiber-terminationpoint-id\": \"<string>\",\n    \"xdf-access-serviceid\": \"CDQ12344\",\n    \"service-group\": \"<string>\"\n  },\n  \"actualuserinfo\": {\n    \"zipcode\": \"1234AB\",\n    \"housenumber\": \"<string>\",\n    \"housenrext\": \"A\",\n    \"connectionpointnumber\": \"<string>\",\n    \"fiber-terminationpoint-id\": \"<string>\"\n  },\n  \"carriervendor\": [\n    {\n      \"carrier-vendor-id\": \"REGG\",\n      \"carrier-status\": \"O\",\n      \"asw\": \"st\",\n      \"ftu-type\": \"FTU_GN01\",\n      \"current-nt-type\": \"KPN-G\",\n      \"nl-type\": \"string\",\n      \"plan-date\": \"\",\n      \"has-date\": \"\",\n      \"san-only\": true,\n      \"commentcode\": \"string\",\n      \"addresslist\": [\n        {\n          \"zipcode\": \"1234AB\",\n          \"housenumber\": \"<string>\",\n          \"housenrext\": \"A\",\n          \"isra-specs\": \"001/MK/MK\",\n          \"fiber-terminationpoint-id\": \"<string>\"\n        },\n        {\n          \"zipcode\": \"1234AB\",\n          \"housenumber\": \"<string>\",\n          \"housenrext\": \"A\",\n          \"isra-specs\": \"001/MK/MK\",\n          \"fiber-terminationpoint-id\": \"<string>\"\n        }\n      ]\n    },\n    {\n      \"carrier-vendor-id\": \"REGG\",\n      \"carrier-status\": \"O\",\n      \"asw\": \"st\",\n      \"ftu-type\": \"FTU_GN01\",\n      \"current-nt-type\": \"KPN-G\",\n      \"nl-type\": \"string\",\n      \"plan-date\": \"21211797\",\n      \"has-date\": \"10661881\",\n      \"san-only\": true,\n      \"commentcode\": \"string\",\n      \"addresslist\": [\n        {\n          \"zipcode\": \"1234AB\",\n          \"housenumber\": \"<string>\",\n          \"housenrext\": \"A\",\n          \"isra-specs\": \"001/MK/MK\",\n          \"fiber-terminationpoint-id\": \"<string>\"\n        },\n        {\n          \"zipcode\": \"1234AB\",\n          \"housenumber\": \"<string>\",\n          \"housenrext\": \"A\",\n          \"isra-specs\": \"001/MK/MK\",\n          \"fiber-terminationpoint-id\": \"<string>\"\n        }\n      ]\n    }\n  ],\n  \"technologyavailability\": [\n    {\n      \"patchless-possible\": true,\n      \"soft-connect-possible\": true,\n      \"supported-on-current-nt\": true,\n      \"technology-type\": \"BVPLUS_POTS\",\n      \"bandwidth-up\": \"string\",\n      \"bandwidth-down\": \"string\",\n      \"reliability\": \"\",\n      \"carrier-vendor-id\": \"REGG\",\n      \"access-area-id\": \"AA/12345\",\n      \"commentcode\": \"string\",\n      \"availability\": \"O\",\n      \"plandate\": \"\",\n      \"plandate-reliability\": \"Dec. 2017\"\n    },\n    {\n      \"patchless-possible\": true,\n      \"soft-connect-possible\": true,\n      \"supported-on-current-nt\": true,\n      \"technology-type\": \"BVPLUS_POTS\",\n      \"bandwidth-up\": \"string\",\n      \"bandwidth-down\": \"string\",\n      \"reliability\": \"\",\n      \"carrier-vendor-id\": \"REGG\",\n      \"access-area-id\": \"AA/12345\",\n      \"commentcode\": \"string\",\n      \"availability\": \"O\",\n      \"plandate\": \"\",\n      \"plandate-reliability\": \"Dec. 2017\"\n    }\n  ],\n  \"errorinfo\": {\n    \"errorcode\": 3996,\n    \"commentcode\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5407fb7d-1d22-45e3-b945-02e1d2edfe7f",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fpi",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requested-zipcode",
+                      "value": "1234AB"
+                    },
+                    {
+                      "key": "requested-housenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "requested-housenrext",
+                      "value": "A"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "technologyreliability",
+                      "value": ""
+                    },
+                    {
+                      "key": "service-group",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e487c1e2-3806-40aa-8883-432c4e1f4ef7",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fpi",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requested-zipcode",
+                      "value": "1234AB"
+                    },
+                    {
+                      "key": "requested-housenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "requested-housenrext",
+                      "value": "A"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "technologyreliability",
+                      "value": ""
+                    },
+                    {
+                      "key": "service-group",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ef275895-efa7-479b-89bc-5933b86131ea",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fpi",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requested-zipcode",
+                      "value": "1234AB"
+                    },
+                    {
+                      "key": "requested-housenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "requested-housenrext",
+                      "value": "A"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "technologyreliability",
+                      "value": ""
+                    },
+                    {
+                      "key": "service-group",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4cc8a0ca-3778-4fb8-a8e2-165b1440fcce",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fpi",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requested-zipcode",
+                      "value": "1234AB"
+                    },
+                    {
+                      "key": "requested-housenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "requested-housenrext",
+                      "value": "A"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "technologyreliability",
+                      "value": ""
+                    },
+                    {
+                      "key": "service-group",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e26ed46e-5982-4856-acfb-5fbb18f08595",
+              "name": "Too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fpi",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requested-zipcode",
+                      "value": "1234AB"
+                    },
+                    {
+                      "key": "requested-housenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "requested-housenrext",
+                      "value": "A"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "technologyreliability",
+                      "value": ""
+                    },
+                    {
+                      "key": "service-group",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bdde5bba-f8c9-4b98-b553-af2b7145957c",
+              "name": "Server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fpi",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requested-zipcode",
+                      "value": "1234AB"
+                    },
+                    {
+                      "key": "requested-housenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "requested-housenrext",
+                      "value": "A"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "technologyreliability",
+                      "value": ""
+                    },
+                    {
+                      "key": "service-group",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bb1c471a-8e56-466e-8e11-54e8b333f70d",
+              "name": "Bad gateway",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fpi",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requested-zipcode",
+                      "value": "1234AB"
+                    },
+                    {
+                      "key": "requested-housenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "requested-housenrext",
+                      "value": "A"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "technologyreliability",
+                      "value": ""
+                    },
+                    {
+                      "key": "service-group",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1041c2e1-4097-4a35-a37f-531fd77aaacd",
+              "name": "Server unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fpi",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requested-zipcode",
+                      "value": "1234AB"
+                    },
+                    {
+                      "key": "requested-housenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "requested-housenrext",
+                      "value": "A"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "technologyreliability",
+                      "value": ""
+                    },
+                    {
+                      "key": "service-group",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0d17b4f3-7076-4ee7-8d3d-26f0d6b37737",
+          "name": "Retrieves Carrier Information Product",
+          "request": {
+            "name": "Retrieves Carrier Information Product",
+            "description": {
+              "content": "This API is in line with WBA CIP v46.\n\nThe Carrier Information Product (CIP) service provides information about the infrastructure and active services on the physical connection of a customer address. For physical carrier Copper, the ISRA with current and future connection details of all copperlines are shown. For physical carrier Fiber, all fiber-terminationpoints are shown including current and future connection details. To support WSO’s clean order process, a list of house number extensions per carrier-vendor will be provided in case of a wrong or missing housenumber extension and there are no other identifiers (i.e. phone number or xdf-access-service-id) specified for the connection.\n\nThe Carrier Information service can be used for several scenarios:\n1. Scenario for an address connected to physical carrier Copper. User creates a CIP request for physical carrier Copper and the connection details for the copper connection will be shown\n2. Scenario for an address connected to physical carrier Fiber. User creates a CIP request for physical carrier Fiber and the connection details for the fiber connection will be shown\n3. Scenario for an address connected to both Copper and Fiber. User creates a CIP request without specifying physical carrier (empty field) and the connection details for the copper and fiber connection will be shown.\n\nWhen the user requests information for a Copper carrier, an optional phonenumber, xdf-service-id or a connectionpointnumber can be provided. The Carrier Info Product provides current and future type of services on all copper lines of the ISRA-connectionpoint. Note that there may be more than one ISRA-connectionpoints on the customer’s address. \n\nIn case one or two ISRA-connectionpoints exists, all connection details of those ISRA’s will be shown. If more than two ISRA-connectionpoints exist, the list of ISRA’s is shown without connection details and errorcode 642 will be returned When the user requests information for a Fiber carrier, an optional fiber-terminationpoint-id can be provided. The Carrier Info Product provides current and future type of services on the specified fiber-terminationpoint-id. If no fiber-terminationpoint was specified, the Carrier Info Service provides current and future type of services on all fiber-terminationpoints.\n\nThe API request should be of the form: `/cip/addresses?{query-parameters}`.\n\nExample: \n\n`/cip/addresses?requested-zipcode=1234AB&requested-housenumber=12&requested-housenrext=A&connectionpointnumber=001`\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cip",
+                "addresses"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "requested-zipcode",
+                  "value": "<string>",
+                  "description": "(Required) The zipcode for which to retrieve the functional product information or carrier information."
+                },
+                {
+                  "disabled": false,
+                  "key": "requested-housenumber",
+                  "value": "<string>",
+                  "description": "(Required) The house number for which to retrieve the functional product information or carrier information."
+                },
+                {
+                  "disabled": false,
+                  "key": "requested-housenrext",
+                  "value": "<string>",
+                  "description": "The house number extension for which to retrieve the functional product information or carrier information."
+                },
+                {
+                  "disabled": false,
+                  "key": "physical-carrier",
+                  "value": "<string>",
+                  "description": "Physical carrier of the connection between the end-user’s termination point (ISRA) and the remote access point (MDF/SDF/ODF). Valid input values are “Copper” or “Fiber”. This field is optional."
+                },
+                {
+                  "disabled": false,
+                  "key": "requested-phonenumber",
+                  "value": "<string>",
+                  "description": "This is the phonenumber that will be used as reference for the copper-line and the ISRA. If a phonenumber is specified, address corrections can be done on zipcode, house number and house number extension. This field is optional."
+                },
+                {
+                  "disabled": false,
+                  "key": "copper-xdf-access-serviceid",
+                  "value": "<string>",
+                  "description": "The xdf-access-service-id is a 1-to-1 relationship between the address and the active copperpair. The xdf-access-service-id is used to provide most accurate bitrate and available technology type information for an existing WBA connection. If an xdf-access-serviceid is specified, address corrections can be done on zipcode, house number and house number extension. This field is optional."
+                },
+                {
+                  "disabled": false,
+                  "key": "connectionpointnumber",
+                  "value": "<string>",
+                  "description": "The connectionpointnumber is an identification for the ISRA on the end-user’s address (e.g. 001, B, MTK, METERKAS). In case more connectionpoints exists on an address, the connectionpointnumber is required to retrieve connection details. If no connectionpointnumber was specified, the Carrier Information service will provide connection details for one or two ISRAs. If more than two ISRA’s are connected at the customers address, the Carrier Information service provides the list of available ISRA’s on the end-user address. This field is optional."
+                },
+                {
+                  "disabled": false,
+                  "key": "fiber-terminationpoint-id",
+                  "value": "<string>",
+                  "description": "This is an optional field which specifies the fiber terminationpoint-id at the end-user’s address. In case of FTTH from carrier vendor Reggefiber (REGG), the fiber-terminationpoint-id is the name of the room on the address where the fiber is terminated. If a fiber-terminationpoint-id is specified, the Carrier Information Product will provide the current and future (planned) connection details for the given fiber-terminationpoint-id. If no fiber-terminationpoint-id is specified, the carrier-info will provide current and future connections of all fiber-terminationpoints on the end-user address."
+                },
+                {
+                  "disabled": false,
+                  "key": "fiber-xdf-access-serviceid",
+                  "value": "<string>",
+                  "description": "This is the xdf-access-serviceid of the fiber connection. If xdf-access-serviceid and fiber-terminationpoint-id both are filled, the service-id will be taken as leading."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "2d2632b2-7616-4ed9-bb25-e01053cd4822",
+              "name": "WBA Carrier Information Product response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cip",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requested-zipcode",
+                      "value": "1234AB"
+                    },
+                    {
+                      "key": "requested-housenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "requested-housenrext",
+                      "value": "A"
+                    },
+                    {
+                      "key": "physical-carrier",
+                      "value": "Copper"
+                    },
+                    {
+                      "key": "requested-phonenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "copper-xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"enduserinfo\": {\n    \"requested-housenumber\": \"<string>\",\n    \"requested-zipcode\": \"1234AB\",\n    \"requested-housenrext\": \"A\",\n    \"requested-phonenumber\": \"<string>\"\n  },\n  \"planneduserinfo\": {\n    \"zipcode\": \"1234AB\",\n    \"housenumber\": \"<string>\",\n    \"housenrext\": \"A\",\n    \"street\": \"Boonstraat\",\n    \"city\": \"Den Haag\"\n  },\n  \"carriervendor\": [\n    {\n      \"carrier-vendor-id\": \"REGG\",\n      \"physical-carrier\": \"Copper\",\n      \"address\": [\n        {\n          \"zipcode\": \"1234AB\",\n          \"housenumber\": \"<string>\",\n          \"housenrext\": \"A\",\n          \"carrier-status\": \"O\",\n          \"planned-nl-type\": \"string\"\n        },\n        {\n          \"zipcode\": \"1234AB\",\n          \"housenumber\": \"<string>\",\n          \"housenrext\": \"A\",\n          \"carrier-status\": \"O\",\n          \"planned-nl-type\": \"string\"\n        }\n      ]\n    },\n    {\n      \"carrier-vendor-id\": \"REGG\",\n      \"physical-carrier\": \"Copper\",\n      \"address\": [\n        {\n          \"zipcode\": \"1234AB\",\n          \"housenumber\": \"<string>\",\n          \"housenrext\": \"A\",\n          \"carrier-status\": \"O\",\n          \"planned-nl-type\": \"string\"\n        },\n        {\n          \"zipcode\": \"1234AB\",\n          \"housenumber\": \"<string>\",\n          \"housenrext\": \"A\",\n          \"carrier-status\": \"O\",\n          \"planned-nl-type\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"copperinfo\": {\n    \"carrier-vendor-id\": \"REGG\",\n    \"carrier-status\": \"O\",\n    \"requestedlinedetails\": {\n      \"main-phonenumber\": \"<string>\",\n      \"currenttelephonytype\": \"POTS\",\n      \"xdf-access-serviceid\": \"CDQ12344\",\n      \"additional-xdf-access-serviceid\": \"CDQ12344\",\n      \"status-connection\": \"st\",\n      \"isra-pin\": \"stri\",\n      \"plandate\": \"\"\n    },\n    \"connectionpointinfo\": [\n      {\n        \"cgb-name\": \"Asd-C\",\n        \"isra-specs\": \"001/MK/MK\",\n        \"number-of-nl1-lines\": \"\",\n        \"number-of-nl2-lines\": \"40,10\",\n        \"san-only\": true,\n        \"bonding-allowed\": \"2\",\n        \"plandate\": \"01597724\",\n        \"cable-length\": \"string\",\n        \"mdf-cable-length\": \"string\",\n        \"copperconnection\": [\n          {\n            \"current-typeofconnection\": \"string\",\n            \"current-xdf-access-serviceid\": \"CDQ12344\",\n            \"current-phonenumber\": \"<string>\",\n            \"current-telephony-type\": \"POTS\",\n            \"future-typeofconnection\": \"string\",\n            \"future-xdf-access-serviceid\": \"CDQ12344\",\n            \"future-phonenumber\": \"<string>\",\n            \"future-telephony-type\": \"POTS\"\n          },\n          {\n            \"current-typeofconnection\": \"string\",\n            \"current-xdf-access-serviceid\": \"CDQ12344\",\n            \"current-phonenumber\": \"<string>\",\n            \"current-telephony-type\": \"POTS\",\n            \"future-typeofconnection\": \"string\",\n            \"future-xdf-access-serviceid\": \"CDQ12344\",\n            \"future-phonenumber\": \"<string>\",\n            \"future-telephony-type\": \"POTS\"\n          }\n        ]\n      },\n      {\n        \"cgb-name\": \"Asd-C\",\n        \"isra-specs\": \"001/MK/MK\",\n        \"number-of-nl1-lines\": \"\",\n        \"number-of-nl2-lines\": \"\",\n        \"san-only\": true,\n        \"bonding-allowed\": \"0\",\n        \"plandate\": \"\",\n        \"cable-length\": \"string\",\n        \"mdf-cable-length\": \"string\",\n        \"copperconnection\": [\n          {\n            \"current-typeofconnection\": \"string\",\n            \"current-xdf-access-serviceid\": \"CDQ12344\",\n            \"current-phonenumber\": \"<string>\",\n            \"current-telephony-type\": \"POTS\",\n            \"future-typeofconnection\": \"string\",\n            \"future-xdf-access-serviceid\": \"CDQ12344\",\n            \"future-phonenumber\": \"<string>\",\n            \"future-telephony-type\": \"POTS\"\n          },\n          {\n            \"current-typeofconnection\": \"string\",\n            \"current-xdf-access-serviceid\": \"CDQ12344\",\n            \"current-phonenumber\": \"<string>\",\n            \"current-telephony-type\": \"POTS\",\n            \"future-typeofconnection\": \"string\",\n            \"future-xdf-access-serviceid\": \"CDQ12344\",\n            \"future-phonenumber\": \"<string>\",\n            \"future-telephony-type\": \"POTS\"\n          }\n        ]\n      }\n    ]\n  },\n  \"fiberinfo\": {\n    \"carrier-vendor-id\": \"REGG\",\n    \"areapop\": \"string\",\n    \"connectionpointinfo\": [\n      {\n        \"fiber-terminationpoint-id\": \"<string>\",\n        \"network-provider\": \"KPN Network NL\",\n        \"ftu-type\": \"FTU_GN01\",\n        \"location-ftu\": \"LIVINGROOM\",\n        \"power-outlet-available\": \"YES\",\n        \"ftu-close-to-isra\": true,\n        \"nl-type\": \"string\",\n        \"construction-type\": \"EXISTING_CONSTRUCTION\",\n        \"diy-allowed\": \"\",\n        \"carrier-status\": \"O\",\n        \"plan-date\": \"76989325\",\n        \"has-date\": \"74509448\",\n        \"fiberconnection\": [\n          {\n            \"current-typeofconnection\": \"string\",\n            \"current-xdf-connectionid\": \"string\",\n            \"future-typeofconnection\": \"string\",\n            \"future-xdf-connectionid\": \"string\"\n          },\n          {\n            \"current-typeofconnection\": \"string\",\n            \"current-xdf-connectionid\": \"string\",\n            \"future-typeofconnection\": \"string\",\n            \"future-xdf-connectionid\": \"string\"\n          }\n        ]\n      },\n      {\n        \"fiber-terminationpoint-id\": \"<string>\",\n        \"network-provider\": \"KPN Network NL\",\n        \"ftu-type\": \"FTU_GN01\",\n        \"location-ftu\": \"LIVINGROOM\",\n        \"power-outlet-available\": \"YES\",\n        \"ftu-close-to-isra\": true,\n        \"nl-type\": \"string\",\n        \"construction-type\": \"EXISTING_CONSTRUCTION\",\n        \"diy-allowed\": \"{true\",\n        \"carrier-status\": \"O\",\n        \"plan-date\": \"30270023\",\n        \"has-date\": \"80987719\",\n        \"fiberconnection\": [\n          {\n            \"current-typeofconnection\": \"string\",\n            \"current-xdf-connectionid\": \"string\",\n            \"future-typeofconnection\": \"string\",\n            \"future-xdf-connectionid\": \"string\"\n          },\n          {\n            \"current-typeofconnection\": \"string\",\n            \"current-xdf-connectionid\": \"string\",\n            \"future-typeofconnection\": \"string\",\n            \"future-xdf-connectionid\": \"string\"\n          }\n        ]\n      }\n    ]\n  },\n  \"errorinfo\": {\n    \"errorcode\": 7892,\n    \"commentcode\": \"string\",\n    \"note\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f814dca1-7a0e-4010-b7e4-b68de51dac3e",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cip",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requested-zipcode",
+                      "value": "1234AB"
+                    },
+                    {
+                      "key": "requested-housenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "requested-housenrext",
+                      "value": "A"
+                    },
+                    {
+                      "key": "physical-carrier",
+                      "value": "Copper"
+                    },
+                    {
+                      "key": "requested-phonenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "copper-xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e976c129-8ec2-470f-b123-7f8a5c0d1ebf",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cip",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requested-zipcode",
+                      "value": "1234AB"
+                    },
+                    {
+                      "key": "requested-housenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "requested-housenrext",
+                      "value": "A"
+                    },
+                    {
+                      "key": "physical-carrier",
+                      "value": "Copper"
+                    },
+                    {
+                      "key": "requested-phonenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "copper-xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b9246186-d6ad-43cd-a63b-5e90479a7feb",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cip",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requested-zipcode",
+                      "value": "1234AB"
+                    },
+                    {
+                      "key": "requested-housenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "requested-housenrext",
+                      "value": "A"
+                    },
+                    {
+                      "key": "physical-carrier",
+                      "value": "Copper"
+                    },
+                    {
+                      "key": "requested-phonenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "copper-xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "91360961-b930-44a5-8d42-b9474fe3933d",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cip",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requested-zipcode",
+                      "value": "1234AB"
+                    },
+                    {
+                      "key": "requested-housenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "requested-housenrext",
+                      "value": "A"
+                    },
+                    {
+                      "key": "physical-carrier",
+                      "value": "Copper"
+                    },
+                    {
+                      "key": "requested-phonenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "copper-xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "58feb2a4-9bd7-4ef3-be7a-db456d79d2f6",
+              "name": "Too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cip",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requested-zipcode",
+                      "value": "1234AB"
+                    },
+                    {
+                      "key": "requested-housenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "requested-housenrext",
+                      "value": "A"
+                    },
+                    {
+                      "key": "physical-carrier",
+                      "value": "Copper"
+                    },
+                    {
+                      "key": "requested-phonenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "copper-xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e1f07152-efd1-465b-91fb-a0e54c7d698a",
+              "name": "Server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cip",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requested-zipcode",
+                      "value": "1234AB"
+                    },
+                    {
+                      "key": "requested-housenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "requested-housenrext",
+                      "value": "A"
+                    },
+                    {
+                      "key": "physical-carrier",
+                      "value": "Copper"
+                    },
+                    {
+                      "key": "requested-phonenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "copper-xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "606f0ff5-1322-4e17-b012-ab003fd46526",
+              "name": "Bad gateway",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cip",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requested-zipcode",
+                      "value": "1234AB"
+                    },
+                    {
+                      "key": "requested-housenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "requested-housenrext",
+                      "value": "A"
+                    },
+                    {
+                      "key": "physical-carrier",
+                      "value": "Copper"
+                    },
+                    {
+                      "key": "requested-phonenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "copper-xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e202babd-5d83-44d7-aa2a-1c310d631ffb",
+              "name": "Server unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cip",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requested-zipcode",
+                      "value": "1234AB"
+                    },
+                    {
+                      "key": "requested-housenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "requested-housenrext",
+                      "value": "A"
+                    },
+                    {
+                      "key": "physical-carrier",
+                      "value": "Copper"
+                    },
+                    {
+                      "key": "requested-phonenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "copper-xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-prd.kpn.com/wba",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ac07960d-af83-4672-a0b4-21057a33103a",
+    "name": "Wholesale Broadband Access",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "KPN Wholesale Broadband Access (WBA) is a KPN Wholesale product offering copper and fiber access to wholesale customers. WBA has the following APIs available:\n* Functional Product Information: The Functional Product Information (FPI) service is used to provide WBA access information for new and existing WBA connections. FPI provides carrier vendor information and WBA technology availability with actual up and down bitrates with a reliability per technology type.\n* Carrier Information Product: The Carrier Information Product (CIP) service is used to provide information about the infrastructure and active services on the physical connection of a customer address.\n### Key highlights\n- **Security:**  HTTPS, OAuth, Rate limits.\n- **Versioning:**  Supports version-less API, version tight. If no version is provided (in the header) it defaults to latest version. \n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/wholesale-broadband_access_fpi_cip/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/wholesale-broadband_access_fpi_cip/)\n---\n## [KPN API Store](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started) <br/> [KPN Wholesale Broadband Access](https://www.kpn-wholesale.com/product-information/broadband/wba.htm)\n\n---\n\nContact Support:\n Name: API Support\n Email: api_developer@kpn.com",
+      "type": "text/plain"
+    }
+  }
+}

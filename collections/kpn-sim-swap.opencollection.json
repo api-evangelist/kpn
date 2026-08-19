@@ -1,0 +1,42 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SIM Swap",
+    "version": "1.0.2"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Retrieve SIM swap date",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "retrieveSimSwapDate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://virtserver.swaggerhub.com/kpn/SimSwap-KPN/1.0.2/retrieve-date",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get timestamp of last MSISDN <-> IMSI pairing change for a mobile user account provided with MSIDN."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

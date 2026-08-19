@@ -1,0 +1,199 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "FIAM – Eneco Data Products",
+    "version": "1.0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apikey",
+      "value": "{{apikey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "DataConsumer",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get usages for data consumers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-acc.enecogroup.com/datashare/v1/:businessUnit/:label/dataconsumer/:dataOwnerId/:productType/usages",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "businessUnit",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "label",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "dataOwnerId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "productType",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get usages for data consumers by validating contract via KPN FIAM"
+        },
+        {
+          "info": {
+            "name": "Get metadata of data owner for data consumers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-acc.enecogroup.com/datashare/v1/:businessUnit/:label/dataconsumer/:dataOwnerId/:productType/metadata",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "businessUnit",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "label",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "dataOwnerId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "productType",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get metadata of data owner for data consumers by validating contract via KPN"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "DataConsumerDemo",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get demo data consumers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-acc.enecogroup.com/datashare/v1/:businessUnit/:label/dataconsumer/demo/:dataOwnerId/:productType/consumers",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "businessUnit",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "label",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "dataOwnerId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "productType",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get all data consumers for a given customer for demo purposes. The response is decorated with consent information for the given customer"
+        },
+        {
+          "info": {
+            "name": "Set demo consent",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-acc.enecogroup.com/datashare/v1/:businessUnit/:label/dataconsumer/demo/:dataOwnerId/:productType/setConsent",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "businessUnit",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "label",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "dataOwnerId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "productType",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set consent for the given customer for demo purposes. This will create or delete a contract in KPN FIAM depending on the consent value"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

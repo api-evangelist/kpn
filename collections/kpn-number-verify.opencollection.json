@@ -1,0 +1,106 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Number Verify - KPN",
+    "version": "1.2.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Token Request",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://api-prd.kpn.com/communication/kpn/numberverify/token",
+        "body": {
+          "type": "form-urlencoded",
+          "data": [
+            {
+              "name": "client_id",
+              "value": ""
+            },
+            {
+              "name": "client_secret",
+              "value": ""
+            },
+            {
+              "name": "scopes",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "docs": "Token Request"
+    },
+    {
+      "info": {
+        "name": "Insights Request",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://api-prd.kpn.com/communication/kpn/numberverify/insights/:msisdn",
+        "params": [
+          {
+            "name": "msisdn",
+            "value": "",
+            "type": "path"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        },
+        "auth": {
+          "type": "bearer",
+          "token": "{{bearerToken}}"
+        }
+      },
+      "docs": "Insights Request"
+    },
+    {
+      "info": {
+        "name": "Session Request",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api-prd.kpn.com/communication/kpn/numberverify/session/:session_id",
+        "params": [
+          {
+            "name": "session_id",
+            "value": "",
+            "type": "path",
+            "description": "The session ID extracted from the URI provided in the `/insights/{msisdn}` response.\nExample: `de32343b3fe474515429d487f6989628`\n"
+          }
+        ]
+      },
+      "docs": "Invoke the session using the session ID returned from the `/insights/{msisdn}` endpoint, specifically under the `device_match.session_id`. This endpoint returns a `302 Found` response with a `Location` header that the client must follow to continue the process.\n"
+    },
+    {
+      "info": {
+        "name": "Polling Request",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api-prd.kpn.com/communication/kpn/numberverify/polling/:polling_id",
+        "params": [
+          {
+            "name": "polling_id",
+            "value": "",
+            "type": "path",
+            "description": "- Enter the Polling Id you received in the response of `/insights/{msisdn}`, specifically located under the `device_match/polling_id` field. \n"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "token": "{{bearerToken}}"
+        }
+      },
+      "docs": "Retrieve the polling information using the `polling_id` provided in the header."
+    }
+  ],
+  "bundled": true
+}

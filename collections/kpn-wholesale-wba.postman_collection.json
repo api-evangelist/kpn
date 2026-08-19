@@ -1,0 +1,1140 @@
+{
+  "item": [
+    {
+      "id": "8003d4c7-e4ad-47f8-859e-2246d0fb5654",
+      "name": "default",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "14c89a3b-c884-443a-bf2d-049320b1df0b",
+          "name": "Functional Product Information",
+          "request": {
+            "name": "Functional Product Information",
+            "description": {
+              "content": "This API is in line with WBA FPI v24.\n\nThe Functional Product Information (FPI) service is used to provide WBA access information for new and existing WBA connections. FPI provides carrier vendor information and WBA technology availability with actual up and down bitrates with a reliability per technology type. The reliability is defined as the probability that the bitrate can be achieved and is only applicable for WBA connections on copper lines. The provided reliability in FPI is within 50% to 100%. The reliability for fiber WBA connections is always 100%. It is allowed to request different reliability per copper technology type.\n\nAn address is mandatory in the FPI request.\nFor an existing WBA broadband connection, the WSO specifies the xdf-access-serviceid, provided by KPN when the connection was delivered. The xdf-access-serviceid is the unique identifier for the current access connection. The bitrates up/down are determined by measurement on the broadband connection of the xdf-access-serviceid.\n\nAn address can have one or more carrier vendors. FPI provides information for the following carrier vendors:\n- MDF: WBA services on copper lines from central office (MDF)\n- SDF: WBA services on copper lines from street cabinet (SDF)\n- REGG: WBA Fiber to the Home (FttH) services from Reggefiber\n- KPNFO: WBA Fiber to the Office (FttO) services form KPNFO\n\nThe API request should be of the form `/wba/addresses/{requested-address}/functional-products?{query-parameters}`.\n\nExample with URL encoding: \n\n`/wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products?connectionpointnumber=001&technologyreliability=%5B%7B%22technology-type%22%3A%22ADSL2+_ISDN%22%2C%22reliability%22%3A%2280%22%7D%2C%7B%22technology-type%22%3A%22GPON%22%7D%5D`\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "functional-products"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "connectionpointnumber",
+                  "value": "<string>",
+                  "description": "The connectionpointnumber is an identification for the ISRA on the end-user’s address (e.g. 001, B, MTK, METERKAS). In case more connectionpoints exists on an address, the connectionpointnumber is required to retrieve connection details. If no connectionpointnumber was specified, the Carrier Information service will provide connection details for one or two ISRAs. If more than two ISRA’s are connected at the customers address, the Carrier Information service provides the list of available ISRA’s on the end-user address. This field is optional."
+                },
+                {
+                  "disabled": false,
+                  "key": "fiber-terminationpoint-id",
+                  "value": "<string>",
+                  "description": "This is an optional field which specifies the fiber terminationpoint-id at the end-user’s address. In case of FTTH from carrier vendor Reggefiber (REGG), the fiber-terminationpoint-id is the name of the room on the address where the fiber is terminated. If a fiber-terminationpoint-id is specified, the Carrier Information Product will provide the current and future (planned) connection details for the given fiber-terminationpoint-id. If no fiber-terminationpoint-id is specified, the carrier-info will provide current and future connections of all fiber-terminationpoints on the end-user address."
+                },
+                {
+                  "disabled": false,
+                  "key": "xdf-access-serviceid",
+                  "value": "<string>",
+                  "description": "The xdf-access-service-id is a 1-to-1 relationship between the address and the active copperpair. The xdf-access-service-id is used to provide most accurate bitrate and available technology type information for an existing WBA connection. If an xdf-access-serviceid is specified, address corrections can be done on zipcode, house number and house number extension. This field is optional."
+                },
+                {
+                  "description": {
+                    "content": "The optional technologyreliability query parameter should be provided as JSON array of objects. FPI uses a list of default technology types and reliability when these parameters are not used. A specified technology type and reliability in FPI overrules the default setting. ADSL_ISDN, SDSL and ADSL2+_ISDN are not shown in the output, unless explicitly specified in the request.\n\nExamples:\n\n[\n  {\n    \"technology-type\":\"ADSL2+_ISDN\",\n    \"reliability\":\"80\"\n  }\n]\n\n[\n  {\n    \"technology-type\":\"GPON\",\n  }\n]\n\n[\n  {\n    \"technology-type\":\"ADSL2+_ISDN\",\n    \"reliability\":\"80\"\n  },\n  {\n    \"technology-type\":\"ADSL2+_POTS\",\n    \"reliability\":\"80\"\n  }\n]\n\n[\n  {\n    \"technology-type\":\"ADSL2+_ISDN\",\n    \"reliability\":\"80\"\n  },\n  {\n    \"technology-type\":\"GPON\"\n  }\n]\n\nNote to supply this as query parameter, the special characeters must be url encoded. i.e. technologyreliability=[{\"technology-type\":\"ADSL2+_ISDN\",\"reliability\":\"80\"},{\"technology-type\":\"GPON\"}] becomes technologyreliability=%5B%7B%22technology-type%22%3A%22ADSL2+_ISDN%22%2C%22reliability%22%3A%2280%22%7D%2C%7B%22technology-type%22%3A%22GPON%22%7D%5D\n",
+                    "type": "text/plain"
+                  },
+                  "key": "technologyreliability",
+                  "value": ""
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "requested-zipcode=<string>,requested-housenumber=<string>,requested-housenrext=<string>",
+                  "key": "requested-address",
+                  "description": "(Required) The address for which to retrieve the functional product information or carrier information. The path parameter request-address is a serialised object and should be of form requested-zipcode={requested-zipcode}},requested-housenumber={requested-housenumber},requested-housenrext={requested-housenrext} with requested-housenrext as optional property. Examples\n  - With URL encoding: requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carrier\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Originator",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2c0c8d2a-7073-43bd-aba8-f6e9945117fe",
+              "name": "WBA Functional Product Information response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "functional-products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "technologyreliability",
+                      "value": ""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "requested-zipcode=<string>,requested-housenumber=<string>,requested-housenrext=<string>",
+                      "key": "requested-address",
+                      "description": "(Required) The address for which to retrieve the functional product information or carrier information. The path parameter request-address is a serialised object and should be of form requested-zipcode={requested-zipcode}},requested-housenumber={requested-housenumber},requested-housenrext={requested-housenrext} with requested-housenrext as optional property. Examples\n  - With URL encoding: requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carrier\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Originator",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"enduserinfo\": {\n    \"requested-housenumber\": \"<string>\",\n    \"requested-zipcode\": \"1234AB\",\n    \"requested-housenrext\": \"A\",\n    \"connectionpointnumber\": \"<string>\",\n    \"fiber-terminationpoint-id\": \"<string>\",\n    \"xdf-access-serviceid\": \"CDQ12344\"\n  },\n  \"actualuserinfo\": {\n    \"zipcode\": \"1234AB\",\n    \"housenumber\": \"<string>\",\n    \"housenrext\": \"A\"\n  },\n  \"carriervendor\": [\n    {\n      \"carrier-vendor-id\": \"REGG\",\n      \"carrier-status\": \"O\",\n      \"asw\": \"st\",\n      \"ftu-type\": \"FTU_GN01\",\n      \"nl-type\": \"string\",\n      \"plan-date\": \"\",\n      \"has-date\": \"35805671\",\n      \"san-only\": true,\n      \"commentcode\": \"string\",\n      \"addresslist\": [\n        {\n          \"zipcode\": \"1234AB\",\n          \"housenumber\": \"<string>\",\n          \"housenrext\": \"A\",\n          \"isra-specs\": \"001/MK/MK\",\n          \"fiber-terminationpoint-id\": \"<string>\"\n        },\n        {\n          \"zipcode\": \"1234AB\",\n          \"housenumber\": \"<string>\",\n          \"housenrext\": \"A\",\n          \"isra-specs\": \"001/MK/MK\",\n          \"fiber-terminationpoint-id\": \"<string>\"\n        }\n      ]\n    },\n    {\n      \"carrier-vendor-id\": \"REGG\",\n      \"carrier-status\": \"O\",\n      \"asw\": \"st\",\n      \"ftu-type\": \"FTU_GN01\",\n      \"nl-type\": \"string\",\n      \"plan-date\": \"\",\n      \"has-date\": \"14084536\",\n      \"san-only\": true,\n      \"commentcode\": \"string\",\n      \"addresslist\": [\n        {\n          \"zipcode\": \"1234AB\",\n          \"housenumber\": \"<string>\",\n          \"housenrext\": \"A\",\n          \"isra-specs\": \"001/MK/MK\",\n          \"fiber-terminationpoint-id\": \"<string>\"\n        },\n        {\n          \"zipcode\": \"1234AB\",\n          \"housenumber\": \"<string>\",\n          \"housenrext\": \"A\",\n          \"isra-specs\": \"001/MK/MK\",\n          \"fiber-terminationpoint-id\": \"<string>\"\n        }\n      ]\n    }\n  ],\n  \"technologyavailability\": [\n    {\n      \"patchless-possible\": true,\n      \"soft-connect-possible\": true,\n      \"technology-type\": \"GPON\",\n      \"bandwidth-up\": \"string\",\n      \"bandwidth-down\": \"string\",\n      \"reliability\": \"\",\n      \"carrier-vendor-id\": \"REGG\",\n      \"access-area-id\": \"AA/12345\",\n      \"commentcode\": \"string\",\n      \"availability\": \"O\",\n      \"plandate\": \"\",\n      \"plandate-reliability\": \"Dec. 2017\"\n    },\n    {\n      \"patchless-possible\": true,\n      \"soft-connect-possible\": true,\n      \"technology-type\": \"ADSL2%2B_POTS\",\n      \"bandwidth-up\": \"string\",\n      \"bandwidth-down\": \"string\",\n      \"reliability\": \"191\",\n      \"carrier-vendor-id\": \"REGG\",\n      \"access-area-id\": \"AA/12345\",\n      \"commentcode\": \"string\",\n      \"availability\": \"O\",\n      \"plandate\": \"731792\",\n      \"plandate-reliability\": \"Dec. 2017\"\n    }\n  ],\n  \"errorinfo\": {\n    \"errorcode\": 1317,\n    \"commentcode\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "55ed5674-383e-4fd4-8b7a-e112bbbd1a4b",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "functional-products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "technologyreliability",
+                      "value": ""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "requested-zipcode=<string>,requested-housenumber=<string>,requested-housenrext=<string>",
+                      "key": "requested-address",
+                      "description": "(Required) The address for which to retrieve the functional product information or carrier information. The path parameter request-address is a serialised object and should be of form requested-zipcode={requested-zipcode}},requested-housenumber={requested-housenumber},requested-housenrext={requested-housenrext} with requested-housenrext as optional property. Examples\n  - With URL encoding: requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carrier\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Originator",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0cb4ea64-663d-452f-b93d-73139a1f3e44",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "functional-products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "technologyreliability",
+                      "value": ""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "requested-zipcode=<string>,requested-housenumber=<string>,requested-housenrext=<string>",
+                      "key": "requested-address",
+                      "description": "(Required) The address for which to retrieve the functional product information or carrier information. The path parameter request-address is a serialised object and should be of form requested-zipcode={requested-zipcode}},requested-housenumber={requested-housenumber},requested-housenrext={requested-housenrext} with requested-housenrext as optional property. Examples\n  - With URL encoding: requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carrier\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Originator",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "daefb449-5f0f-4f7a-9253-1a151322b0fb",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "functional-products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "technologyreliability",
+                      "value": ""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "requested-zipcode=<string>,requested-housenumber=<string>,requested-housenrext=<string>",
+                      "key": "requested-address",
+                      "description": "(Required) The address for which to retrieve the functional product information or carrier information. The path parameter request-address is a serialised object and should be of form requested-zipcode={requested-zipcode}},requested-housenumber={requested-housenumber},requested-housenrext={requested-housenrext} with requested-housenrext as optional property. Examples\n  - With URL encoding: requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carrier\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Originator",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a6f3ea30-4e92-47ca-84e1-7f224a9590b7",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "functional-products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "technologyreliability",
+                      "value": ""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "requested-zipcode=<string>,requested-housenumber=<string>,requested-housenrext=<string>",
+                      "key": "requested-address",
+                      "description": "(Required) The address for which to retrieve the functional product information or carrier information. The path parameter request-address is a serialised object and should be of form requested-zipcode={requested-zipcode}},requested-housenumber={requested-housenumber},requested-housenrext={requested-housenrext} with requested-housenrext as optional property. Examples\n  - With URL encoding: requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carrier\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Originator",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "da64312a-086e-4685-afea-91a76839adad",
+              "name": "too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "functional-products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "technologyreliability",
+                      "value": ""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "requested-zipcode=<string>,requested-housenumber=<string>,requested-housenrext=<string>",
+                      "key": "requested-address",
+                      "description": "(Required) The address for which to retrieve the functional product information or carrier information. The path parameter request-address is a serialised object and should be of form requested-zipcode={requested-zipcode}},requested-housenumber={requested-housenumber},requested-housenrext={requested-housenrext} with requested-housenrext as optional property. Examples\n  - With URL encoding: requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carrier\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Originator",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5198f99d-e7f4-47d9-8697-e52e8213b97d",
+              "name": "server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "functional-products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "technologyreliability",
+                      "value": ""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "requested-zipcode=<string>,requested-housenumber=<string>,requested-housenrext=<string>",
+                      "key": "requested-address",
+                      "description": "(Required) The address for which to retrieve the functional product information or carrier information. The path parameter request-address is a serialised object and should be of form requested-zipcode={requested-zipcode}},requested-housenumber={requested-housenumber},requested-housenrext={requested-housenrext} with requested-housenrext as optional property. Examples\n  - With URL encoding: requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carrier\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Originator",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "eca44ce8-0c63-4c46-bcb9-f1602a199b6c",
+          "name": "Carrier Information Product",
+          "request": {
+            "name": "Carrier Information Product",
+            "description": {
+              "content": "This API is in line with WBA CIP v44.\n\nThe Carrier Information Product (CIP) service provides information about the infrastructure and active services on the physical connection of a customer address. For physical carrier Copper, the ISRA with current and future connection details of all copperlines are shown. For physical carrier Fiber, all fiber-terminationpoints are shown including current and future connection details. To support WSO’s clean order process, a list of house number extensions per carrier-vendor will be provided in case of a wrong or missing housenumber extension and there are no other identifiers (i.e. phone number or xdf-access-service-id) specified for the connection.\n\nThe Carrier Information service can be used for several scenarios:\n1. Scenario for an address connected to physical carrier Copper. User creates a CIP request for physical carrier Copper and the connection details for the copper connection will be shown\n2. Scenario for an address connected to physical carrier Fiber. User creates a CIP request for physical carrier Fiber and the connection details for the fiber connection will be shown\n3. Scenario for an address connected to both Copper and Fiber. User creates a CIP request without specifying physical carrier (empty field) and the connection details for the copper and fiber connection will be shown.\n\nWhen the user requests information for a Copper carrier, an optional phonenumber, xdf-service-id or a connectionpointnumber can be provided. The Carrier Info Product provides current and future type of services on all copper lines of the ISRA-connectionpoint. Note that there may be more than one ISRA-connectionpoints on the customer’s address. In case one or two ISRA-connectionpoints exists, all connection details of those ISRA’s will be shown. If more than two ISRA-connectionpoints exist, the list of ISRA’s is shown without connection details and errorcode 642 will be returned When the user requests information for a Fiber carrier, an optional fiber-terminationpoint-id can be provided. The Carrier Info Product provides current and future type of services on the specified fiber-terminationpoint-id. If no fiber-terminationpoint was specified, the Carrier Info Service provides current and future type of services on all fiber-terminationpoints.\n\nThe API request should be of the form `/wba/addresses/{requested-address}/carriers?{query-parameters}`. \n\nExample without URL encoding: \n\n`/wba/addresses/requested-zipcode=1234AB,requested-housenumber=12,requested-housenrext=A/carriers?connectionpointnumber=001`\n\nExample with URL encoding: \n\n`/wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carriers?connectionpointnumber=001`\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "carriers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "physical-carrier",
+                  "value": "<string>",
+                  "description": "Physical carrier of the connection between the end-user’s termination point (ISRA) and the remote access point (MDF/SDF/ODF). Valid input values are “Copper” or “Fiber”. This field is optional."
+                },
+                {
+                  "disabled": false,
+                  "key": "requested-phonenumber",
+                  "value": "<string>",
+                  "description": "This is the phonenumber that will be used as reference for the copper-line and the ISRA. If a phonenumber is specified, address corrections can be done on zipcode, house number and house number extension. This field is optional."
+                },
+                {
+                  "disabled": false,
+                  "key": "xdf-access-serviceid",
+                  "value": "<string>",
+                  "description": "The xdf-access-service-id is a 1-to-1 relationship between the address and the active copperpair. The xdf-access-service-id is used to provide most accurate bitrate and available technology type information for an existing WBA connection. If an xdf-access-serviceid is specified, address corrections can be done on zipcode, house number and house number extension. This field is optional."
+                },
+                {
+                  "disabled": false,
+                  "key": "connectionpointnumber",
+                  "value": "<string>",
+                  "description": "The connectionpointnumber is an identification for the ISRA on the end-user’s address (e.g. 001, B, MTK, METERKAS). In case more connectionpoints exists on an address, the connectionpointnumber is required to retrieve connection details. If no connectionpointnumber was specified, the Carrier Information service will provide connection details for one or two ISRAs. If more than two ISRA’s are connected at the customers address, the Carrier Information service provides the list of available ISRA’s on the end-user address. This field is optional."
+                },
+                {
+                  "disabled": false,
+                  "key": "fiber-terminationpoint-id",
+                  "value": "<string>",
+                  "description": "This is an optional field which specifies the fiber terminationpoint-id at the end-user’s address. In case of FTTH from carrier vendor Reggefiber (REGG), the fiber-terminationpoint-id is the name of the room on the address where the fiber is terminated. If a fiber-terminationpoint-id is specified, the Carrier Information Product will provide the current and future (planned) connection details for the given fiber-terminationpoint-id. If no fiber-terminationpoint-id is specified, the carrier-info will provide current and future connections of all fiber-terminationpoints on the end-user address."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "requested-zipcode=<string>,requested-housenumber=<string>,requested-housenrext=<string>",
+                  "key": "requested-address",
+                  "description": "(Required) The address for which to retrieve the functional product information or carrier information. The path parameter request-address is a serialised object and should be of form requested-zipcode={requested-zipcode}},requested-housenumber={requested-housenumber},requested-housenrext={requested-housenrext} with requested-housenrext as optional property. Examples\n  - With URL encoding: requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carrier\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Originator",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b7d74a65-f46a-4ac8-95ea-980198537448",
+              "name": "WBA Carrier Information Product response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carriers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "physical-carrier",
+                      "value": "Copper"
+                    },
+                    {
+                      "key": "requested-phonenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "requested-zipcode=<string>,requested-housenumber=<string>,requested-housenrext=<string>",
+                      "key": "requested-address",
+                      "description": "(Required) The address for which to retrieve the functional product information or carrier information. The path parameter request-address is a serialised object and should be of form requested-zipcode={requested-zipcode}},requested-housenumber={requested-housenumber},requested-housenrext={requested-housenrext} with requested-housenrext as optional property. Examples\n  - With URL encoding: requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carrier\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Originator",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"enduserinfo\": {\n    \"requested-housenumber\": \"<string>\",\n    \"requested-zipcode\": \"1234AB\",\n    \"requested-housenrext\": \"A\",\n    \"requested-phonenumber\": \"<string>\"\n  },\n  \"planneduserinfo\": {\n    \"zipcode\": \"1234AB\",\n    \"housenumber\": \"<string>\",\n    \"housenrext\": \"A\",\n    \"street\": \"Boonstraat\",\n    \"city\": \"Den Haag\"\n  },\n  \"carriervendor\": [\n    {\n      \"carrier-vendor-id\": \"REGG\",\n      \"physical-carrier\": \"Copper\",\n      \"address\": [\n        {\n          \"zipcode\": \"1234AB\",\n          \"housenumber\": \"<string>\",\n          \"housenrext\": \"A\",\n          \"carrier-status\": \"O\",\n          \"planned-nl-type\": \"string\"\n        },\n        {\n          \"zipcode\": \"1234AB\",\n          \"housenumber\": \"<string>\",\n          \"housenrext\": \"A\",\n          \"carrier-status\": \"O\",\n          \"planned-nl-type\": \"string\"\n        }\n      ]\n    },\n    {\n      \"carrier-vendor-id\": \"REGG\",\n      \"physical-carrier\": \"Copper\",\n      \"address\": [\n        {\n          \"zipcode\": \"1234AB\",\n          \"housenumber\": \"<string>\",\n          \"housenrext\": \"A\",\n          \"carrier-status\": \"O\",\n          \"planned-nl-type\": \"string\"\n        },\n        {\n          \"zipcode\": \"1234AB\",\n          \"housenumber\": \"<string>\",\n          \"housenrext\": \"A\",\n          \"carrier-status\": \"O\",\n          \"planned-nl-type\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"copperinfo\": {\n    \"carrier-vendor-id\": \"REGG\",\n    \"carrier-status\": \"O\",\n    \"requestedlinedetails\": {\n      \"main-phonenumber\": \"<string>\",\n      \"currenttelephonytype\": \"POTS\",\n      \"xdf-access-serviceid\": \"CDQ12344\",\n      \"additional-xdf-access-serviceid\": \"CDQ12344\",\n      \"status-connection\": \"st\",\n      \"isra-pin\": \"stri\",\n      \"plandate\": \"48664045\"\n    },\n    \"connectionpointinfo\": [\n      {\n        \"cgb-name\": \"Asd-C\",\n        \"isra-specs\": \"001/MK/MK\",\n        \"number-of-nl1-lines\": \"\",\n        \"number-of-nl2-lines\": \"70,10\",\n        \"san-only\": true,\n        \"bonding-allowed\": \"3\",\n        \"plandate\": \"93083804\",\n        \"cable-length\": \"string\",\n        \"copperconnection\": [\n          {\n            \"current-typeofconnection\": \"string\",\n            \"current-mdf-access-serviceid\": \"CDQ12344\",\n            \"current-phonenumber\": \"<string>\",\n            \"currenttelephonytype\": \"POTS\",\n            \"future-typeofconnection\": \"string\",\n            \"future-mdf-access-serviceid\": \"CDQ12344\",\n            \"future-phonenumber\": \"<string>\",\n            \"futuretelephonytype\": \"POTS\"\n          },\n          {\n            \"current-typeofconnection\": \"string\",\n            \"current-mdf-access-serviceid\": \"CDQ12344\",\n            \"current-phonenumber\": \"<string>\",\n            \"currenttelephonytype\": \"POTS\",\n            \"future-typeofconnection\": \"string\",\n            \"future-mdf-access-serviceid\": \"CDQ12344\",\n            \"future-phonenumber\": \"<string>\",\n            \"futuretelephonytype\": \"POTS\"\n          }\n        ]\n      },\n      {\n        \"cgb-name\": \"Asd-C\",\n        \"isra-specs\": \"001/MK/MK\",\n        \"number-of-nl1-lines\": \"50,10\",\n        \"number-of-nl2-lines\": \"\",\n        \"san-only\": true,\n        \"bonding-allowed\": \"\",\n        \"plandate\": \"\",\n        \"cable-length\": \"string\",\n        \"copperconnection\": [\n          {\n            \"current-typeofconnection\": \"string\",\n            \"current-mdf-access-serviceid\": \"CDQ12344\",\n            \"current-phonenumber\": \"<string>\",\n            \"currenttelephonytype\": \"POTS\",\n            \"future-typeofconnection\": \"string\",\n            \"future-mdf-access-serviceid\": \"CDQ12344\",\n            \"future-phonenumber\": \"<string>\",\n            \"futuretelephonytype\": \"POTS\"\n          },\n          {\n            \"current-typeofconnection\": \"string\",\n            \"current-mdf-access-serviceid\": \"CDQ12344\",\n            \"current-phonenumber\": \"<string>\",\n            \"currenttelephonytype\": \"POTS\",\n            \"future-typeofconnection\": \"string\",\n            \"future-mdf-access-serviceid\": \"CDQ12344\",\n            \"future-phonenumber\": \"<string>\",\n            \"futuretelephonytype\": \"POTS\"\n          }\n        ]\n      }\n    ]\n  },\n  \"fiberinfo\": {\n    \"carrier-vendor-id\": \"REGG\",\n    \"areapop\": \"string\",\n    \"connectionpointinfo\": [\n      {\n        \"fiber-terminationpoint-id\": \"<string>\",\n        \"ftu-type\": \"FTU_GN01\",\n        \"nl-type\": \"string\",\n        \"carrier-status\": \"O\",\n        \"plan-date\": \"\",\n        \"has-date\": \"\",\n        \"fiberconnection\": [\n          {\n            \"current-typeofconnection\": \"string\",\n            \"current-odf-connection-id\": \"string\",\n            \"future-typeofconnection\": \"string\",\n            \"future-odf-connection-id\": \"string\"\n          },\n          {\n            \"current-typeofconnection\": \"string\",\n            \"current-odf-connection-id\": \"string\",\n            \"future-typeofconnection\": \"string\",\n            \"future-odf-connection-id\": \"string\"\n          }\n        ]\n      },\n      {\n        \"fiber-terminationpoint-id\": \"<string>\",\n        \"ftu-type\": \"FTU_GN01\",\n        \"nl-type\": \"string\",\n        \"carrier-status\": \"O\",\n        \"plan-date\": \"38476211\",\n        \"has-date\": \"36578411\",\n        \"fiberconnection\": [\n          {\n            \"current-typeofconnection\": \"string\",\n            \"current-odf-connection-id\": \"string\",\n            \"future-typeofconnection\": \"string\",\n            \"future-odf-connection-id\": \"string\"\n          },\n          {\n            \"current-typeofconnection\": \"string\",\n            \"current-odf-connection-id\": \"string\",\n            \"future-typeofconnection\": \"string\",\n            \"future-odf-connection-id\": \"string\"\n          }\n        ]\n      }\n    ]\n  },\n  \"errorinfo\": {\n    \"errorcode\": 906,\n    \"commentcode\": \"string\",\n    \"note\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d1b2734f-0674-4d99-8431-e26d919f3e9f",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carriers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "physical-carrier",
+                      "value": "Copper"
+                    },
+                    {
+                      "key": "requested-phonenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "requested-zipcode=<string>,requested-housenumber=<string>,requested-housenrext=<string>",
+                      "key": "requested-address",
+                      "description": "(Required) The address for which to retrieve the functional product information or carrier information. The path parameter request-address is a serialised object and should be of form requested-zipcode={requested-zipcode}},requested-housenumber={requested-housenumber},requested-housenrext={requested-housenrext} with requested-housenrext as optional property. Examples\n  - With URL encoding: requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carrier\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Originator",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d3304c35-b1d4-4a87-b846-81aa912b5948",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carriers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "physical-carrier",
+                      "value": "Copper"
+                    },
+                    {
+                      "key": "requested-phonenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "requested-zipcode=<string>,requested-housenumber=<string>,requested-housenrext=<string>",
+                      "key": "requested-address",
+                      "description": "(Required) The address for which to retrieve the functional product information or carrier information. The path parameter request-address is a serialised object and should be of form requested-zipcode={requested-zipcode}},requested-housenumber={requested-housenumber},requested-housenrext={requested-housenrext} with requested-housenrext as optional property. Examples\n  - With URL encoding: requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carrier\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Originator",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4578e1d4-dbf6-48ee-b806-b8f4aceadd87",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carriers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "physical-carrier",
+                      "value": "Copper"
+                    },
+                    {
+                      "key": "requested-phonenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "requested-zipcode=<string>,requested-housenumber=<string>,requested-housenrext=<string>",
+                      "key": "requested-address",
+                      "description": "(Required) The address for which to retrieve the functional product information or carrier information. The path parameter request-address is a serialised object and should be of form requested-zipcode={requested-zipcode}},requested-housenumber={requested-housenumber},requested-housenrext={requested-housenrext} with requested-housenrext as optional property. Examples\n  - With URL encoding: requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carrier\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Originator",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6748eaf8-3c3b-43a7-b795-3ea6e218e50c",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carriers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "physical-carrier",
+                      "value": "Copper"
+                    },
+                    {
+                      "key": "requested-phonenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "requested-zipcode=<string>,requested-housenumber=<string>,requested-housenrext=<string>",
+                      "key": "requested-address",
+                      "description": "(Required) The address for which to retrieve the functional product information or carrier information. The path parameter request-address is a serialised object and should be of form requested-zipcode={requested-zipcode}},requested-housenumber={requested-housenumber},requested-housenrext={requested-housenrext} with requested-housenrext as optional property. Examples\n  - With URL encoding: requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carrier\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Originator",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "77c9fc4e-3ee3-4b78-bbf2-57dec13960be",
+              "name": "too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carriers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "physical-carrier",
+                      "value": "Copper"
+                    },
+                    {
+                      "key": "requested-phonenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "requested-zipcode=<string>,requested-housenumber=<string>,requested-housenrext=<string>",
+                      "key": "requested-address",
+                      "description": "(Required) The address for which to retrieve the functional product information or carrier information. The path parameter request-address is a serialised object and should be of form requested-zipcode={requested-zipcode}},requested-housenumber={requested-housenumber},requested-housenrext={requested-housenrext} with requested-housenrext as optional property. Examples\n  - With URL encoding: requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carrier\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Originator",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ecef9d44-2b5a-4ac5-a6e0-7b11b17a4dbf",
+              "name": "server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carriers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "physical-carrier",
+                      "value": "Copper"
+                    },
+                    {
+                      "key": "requested-phonenumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xdf-access-serviceid",
+                      "value": "CDQ12344"
+                    },
+                    {
+                      "key": "connectionpointnumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fiber-terminationpoint-id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "requested-zipcode=<string>,requested-housenumber=<string>,requested-housenrext=<string>",
+                      "key": "requested-address",
+                      "description": "(Required) The address for which to retrieve the functional product information or carrier information. The path parameter request-address is a serialised object and should be of form requested-zipcode={requested-zipcode}},requested-housenumber={requested-housenumber},requested-housenrext={requested-housenrext} with requested-housenrext as optional property. Examples\n  - With URL encoding: requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carrier\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Originator",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-prd.kpn.com/wba/adresses",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "1e478311-3b73-41f5-b6d4-10db6fd9aa46",
+    "name": "WBA APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "KPN Wholesale Broadband Access (WBA) is a KPN Wholesale product offering copper and fiber access to wholesale customers. WBA has the following APIs available:\n* Functional Product Information: The Functional Product Information (FPI) service is used to provide WBA access information for new and existing WBA connections. FPI provides carrier vendor information and WBA technology availability with actual up and down bitrates with a reliability per technology type.\n* Carrier Information Product: information about the infrastructure and active services on the physical connection of a customer address.\n\n ### Key highlights\n\n - **Sandbox:** Full-fledged capabilities.\n\n - **Security:**  HTTPS, OAuth, Rate limit.\n\n - **Versioning:**  Supports version-less API, version tight. If no version\n is provided (in the header) it defaults to latest version. \n \n - **Response headers:** See Schemas > ResponseHeaders or [Schemas > ResponseHeaders](https://app.swaggerhub.com/apis/kpn/wholesale-wba-kpn/v1#/ResponseHeaders) (opens in another window).\n\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/wholesale-wba-kpn/)<br/>\n## [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/wholesale-wba-kpn/)\n\n---\n\n## [KPN API Store](https://developer.kpn.com/)<br/>\n[Getting Started](https://developer.kpn.com/getting-started)\n\n---\n\n\nContact Support:\n Name: API Support\n Email: api_developer@kpn.com",
+      "type": "text/plain"
+    }
+  }
+}

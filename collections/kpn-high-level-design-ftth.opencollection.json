@@ -1,0 +1,216 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "High-Level Design FTTx",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Start engineering job",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Request a signed URL to start an FTTx engineering job.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/network/kpn/ftth-engineering/startJobS3",
+            "headers": [
+              {
+                "name": "jsonFileName",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Submits a new engineering job identifier. The response is a signed URL for the Amazon Simple Storage Service (Amazon S3) bucket. The input data for the engineering job needs to be uploaded to the received the signed URL location. See **/s3url_uploads** endpoint."
+        },
+        {
+          "info": {
+            "name": "Submit the input for the engineering job.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-prd.kpn.com/network/kpn/ftth-engineering/s3url_uploads/:jsonFileNameAndExtension",
+            "params": [
+              {
+                "name": "jsonFileNameAndExtension",
+                "value": "",
+                "type": "path",
+                "description": "The **jobId** of the engineering job you defined in **/startJobS3** or **/jobResultS3** with added .json extension.  </br>\nPattern: `^.+\\.(json)$` </br>\nExample: `FTTx_AdamNorth_Input_Dec2020.json`\n"
+              },
+              {
+                "name": "X-Amz-Algorithm",
+                "value": "",
+                "type": "query",
+                "description": "Identifies the version of AWS Signature and the algorithm used to calculate the signature. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br> Example: `AWS4-HMAC-SHA256`"
+              },
+              {
+                "name": "X-Amz-Credential",
+                "value": "",
+                "type": "query",
+                "description": "This parameter provides scope (AWS region and service) for which the signature is valid. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br> Example: `AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request`"
+              },
+              {
+                "name": "X-Amz-Date",
+                "value": "",
+                "type": "query",
+                "description": "The date when the signedUrl was generated. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**.     </br>\n    Example: `20201201T120000Z`\n"
+              },
+              {
+                "name": "X-Amz-Expires",
+                "value": "",
+                "type": "query",
+                "description": "Provides the time period, in seconds, for which the generated presigned URL is valid. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br>\n    Example: `3600`\n"
+              },
+              {
+                "name": "X-Amz-SignedHeaders",
+                "value": "",
+                "type": "query",
+                "description": "Lists the headers used to calculate the signature. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS**. </br>\n    Example: `host`\n"
+              },
+              {
+                "name": "X-Amz-Security-Token",
+                "value": "",
+                "type": "query",
+                "description": "Additional credential parameter. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br>\nExample: `AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA`\n"
+              },
+              {
+                "name": "X-Amz-Signature",
+                "value": "",
+                "type": "query",
+                "description": "The signature to authenticate your request. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**.\n  </br>\nExample: `aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb`\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Uploads the data of the new engineering job for calculation. Use the signed URL received from **/startJobS3** for this. In the request body you need to specify an area for engineering. When the input has been submitted, this is detected and the calculation will start."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Retrieve job result",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns the current status of the calculation job identified by jobId",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/network/kpn/ftth-engineering/jobStatus/:jobId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This method is called by the HLD front-end to get the current status of a job"
+        },
+        {
+          "info": {
+            "name": "Returns a signed URL where the results of an engineering job can be retrieved.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/network/kpn/ftth-engineering/jobResultS3/:jobId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "When an engineering job is finished. This endpoint should be called first to retrieve a signed URL for the Amazon Simple Storage Service (Amazon S3) bucket where the results are stored. More details on how to use this URL to retrieve the results are specified in the /Output endpoint."
+        },
+        {
+          "info": {
+            "name": "Retrieve the results of an engineering job.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/network/kpn/ftth-engineering/Output/:jsonFileNameAndExtension",
+            "params": [
+              {
+                "name": "jsonFileNameAndExtension",
+                "value": "",
+                "type": "path",
+                "description": "The **jobId** of the engineering job you defined in **/startJobS3** or **/jobResultS3** with added .json extension.  </br>\nPattern: `^.+\\.(json)$` </br>\nExample: `FTTx_AdamNorth_Input_Dec2020.json`\n"
+              },
+              {
+                "name": "X-Amz-Algorithm",
+                "value": "",
+                "type": "query",
+                "description": "Identifies the version of AWS Signature and the algorithm used to calculate the signature. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br> Example: `AWS4-HMAC-SHA256`"
+              },
+              {
+                "name": "X-Amz-Credential",
+                "value": "",
+                "type": "query",
+                "description": "This parameter provides scope (AWS region and service) for which the signature is valid. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br> Example: `AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request`"
+              },
+              {
+                "name": "X-Amz-Date",
+                "value": "",
+                "type": "query",
+                "description": "The date when the signedUrl was generated. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**.     </br>\n    Example: `20201201T120000Z`\n"
+              },
+              {
+                "name": "X-Amz-Expires",
+                "value": "",
+                "type": "query",
+                "description": "Provides the time period, in seconds, for which the generated presigned URL is valid. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br>\n    Example: `3600`\n"
+              },
+              {
+                "name": "X-Amz-SignedHeaders",
+                "value": "",
+                "type": "query",
+                "description": "Lists the headers used to calculate the signature. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS**. </br>\n    Example: `host`\n"
+              },
+              {
+                "name": "X-Amz-Security-Token",
+                "value": "",
+                "type": "query",
+                "description": "Additional credential parameter. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br>\nExample: `AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA`\n"
+              },
+              {
+                "name": "X-Amz-Signature",
+                "value": "",
+                "type": "query",
+                "description": "The signature to authenticate your request. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**.\n  </br>\nExample: `aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb`\n"
+              }
+            ]
+          },
+          "docs": "Retrieves the results of the engineering job. Use the signed URL received from /jobResultS3/{jobId} for this."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

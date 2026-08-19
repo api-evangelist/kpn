@@ -1,0 +1,214 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Apidaze Voice - VoIP Innovations",
+    "version": "v1.1.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "XML Scripting API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "External Script List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/externalscripts"
+          },
+          "docs": "Returns the list of the external scripts for your domain. Only one external script is allowed per domain."
+        },
+        {
+          "info": {
+            "name": "External Script Create",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/externalscripts"
+          },
+          "docs": "Creates a new external script."
+        },
+        {
+          "info": {
+            "name": "External Script Read",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/externalscripts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id of the external script."
+              }
+            ]
+          },
+          "docs": "Returns the External Script object details by id."
+        },
+        {
+          "info": {
+            "name": "External Script Update",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/externalscripts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id of the external script."
+              }
+            ]
+          },
+          "docs": "Updates the external script."
+        },
+        {
+          "info": {
+            "name": "External Script Delete",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/externalscripts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id of the external script."
+              }
+            ]
+          },
+          "docs": "Deletes the external script."
+        },
+        {
+          "info": {
+            "name": "External Script Test",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/externalscripts/test"
+          },
+          "docs": "Tests in real time your External Script by fetching its URL and returning the XML instructions. You can send any parameter in the request and therefore check the proper behaviour of the script depending on how call are placed (to a DID, from a SIP account, from WebRTC/JavaScript, etc.). Only one external script is allowed per domain."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "VoIP SIP API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "SIP Account List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/sipaccounts"
+          },
+          "docs": "Returns the list of SIP accounts."
+        },
+        {
+          "info": {
+            "name": "SIP Account Create",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/sipaccounts"
+          },
+          "docs": "Creates a new SIP account"
+        },
+        {
+          "info": {
+            "name": "SIP Account Read",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/sipaccounts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the SIP account whose details are returned"
+              }
+            ]
+          },
+          "docs": "Returns a SIP account by id."
+        },
+        {
+          "info": {
+            "name": "SIP Account Update",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/sipaccounts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the SIP account whose details are returned"
+              }
+            ]
+          },
+          "docs": "Returns a SIP account by id."
+        },
+        {
+          "info": {
+            "name": "SIP Account Delete",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/sipaccounts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the SIP account whose details are returned"
+              }
+            ]
+          },
+          "docs": "Deletes the SIP account."
+        },
+        {
+          "info": {
+            "name": "SIP Account Read",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/sipaccounts/:id/status",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the SIP account whose details are returned"
+              }
+            ]
+          },
+          "docs": "Returns a SIP account by id."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

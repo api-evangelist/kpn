@@ -1,0 +1,414 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ISE - KPN",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "endpointgroup",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /endpointgroup/",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/kpn/ise/endpointgroup/",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "info"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "endpoint",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /endpoint/",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/kpn/ise/endpoint/",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "info"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get endpoints within group using the endpointgroup id."
+        },
+        {
+          "info": {
+            "name": "GET /endpoint/name/{name}",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/kpn/ise/endpoint/name/:name",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "info"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get endpoints within group using the endpointgroup id."
+        },
+        {
+          "info": {
+            "name": "POST /endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/kpn/ise/endpoint",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get endpoints within group using the endpointgroup id."
+        },
+        {
+          "info": {
+            "name": "PUT /endpoint/{id}",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-prd.kpn.com/kpn/ise/endpoint/:id",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "info"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get endpoints within group using the endpointgroup id."
+        },
+        {
+          "info": {
+            "name": "DELETE /endpoint/{id}",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-prd.kpn.com/kpn/ise/endpoint/:id",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "info"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get endpoints within group using the endpointgroup id."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "identitygroup",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /identitygroup/",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/kpn/ise/identitygroup/",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "info"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "With this endpoint a user can sent registered emails."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "internaluser",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /internaluser/",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/kpn/ise/internaluser/",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "info"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "POST /internaluser/",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/kpn/ise/internaluser/",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get endpoints within group using the endpointgroup id."
+        },
+        {
+          "info": {
+            "name": "PUT /internaluser/",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-prd.kpn.com/kpn/ise/internaluser/",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "info"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get endpoints within group using the endpointgroup id."
+        },
+        {
+          "info": {
+            "name": "DELETE /internaluser/",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-prd.kpn.com/kpn/ise/internaluser/",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "info"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get endpoints within group using the endpointgroup id."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

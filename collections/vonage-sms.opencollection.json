@@ -1,0 +1,86 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SMS-Vonage",
+    "version": "v1.1.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Send SMS",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send SMS",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/send"
+          },
+          "docs": "Send an outbound SMS"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Register webhook - Demo testing ONLY",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register callback URL to webhook for incoming messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/register"
+          },
+          "docs": "Handling inbound SMS with with API is easy. You just need to create a webhook endpoint and configure your number or account to point to the endpoint. \n- If you are a test user  try inbound messaging using below using 'Register Webhook endpoint'. \n- If you are production user,  use the `Phone Numbers API` to search, buy and manage your virtual number.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Callback",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Delivery Receipt",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/https://example.com:webhooks/delivery-receipt"
+          },
+          "docs": "This is not an API call but it is to showcase how the schema of delivery receipt will look like. You can get delivery receipt by using `status-report-req` and `callback` parameters of 'Send SMS' request body."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Webhook",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Inbound SMS",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/https://example.com:webhooks/inbound-sms"
+          },
+          "docs": "This is not an API call but it is to showcase how the schema of inbound SMS will look like. You can get inbound SMS by registering your webhook URL using `Register webhook` and then passing 'inbound' header value as 'yes' in 'Send SMS'."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

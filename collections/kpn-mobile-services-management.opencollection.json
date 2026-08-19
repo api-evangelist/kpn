@@ -1,0 +1,2371 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MobileServicesManagement-KPN",
+    "version": "v11"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "rest-track-and-trace-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get order list",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/track-and-trace/orders",
+            "params": [
+              {
+                "name": "currentUserOrdersOnly",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - start from (included). The elements are counted from 0. Default value is 0."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "patterns",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - end element (exluded). Default value is 20."
+              },
+              {
+                "name": "withRequiredActionFirst",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get order details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/track-and-trace/orders/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Cancel order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/track-and-trace/orders/:id/cancel",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              },
+              {
+                "name": "note",
+                "value": "",
+                "type": "query",
+                "description": "note"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get list of hardware which was ordered in the order with the given id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/track-and-trace/orders/:id/hardware",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Change port in date or customer number",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/track-and-trace/orders/:id/porting-data",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "Endpoint allows to change both : customer number and wish date in one request or change only one parameter. \nThere are several possibility to set data:\n| newWishDate | asap | customerNumber | result                              |\n|-------------|--------|----------------|-------------------------------------|\n| date        | false  | null           | change only wish date               |\n| null        | true   | null           | change only wish date to ASAP       |\n| null        | true   | numbe"
+        },
+        {
+          "info": {
+            "name": "Get order details in pretty form",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/track-and-trace/orders/:id/pretty",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get number of orders grouped by orders type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/track-and-trace/overview"
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get return hardware service requests list",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/track-and-trace/returned-hardware-service-requests",
+            "params": [
+              {
+                "name": "currentUserOrdersOnly",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - start from (included). The elements are counted from 0. Default value is 0."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "patterns",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - end element (exluded). Default value is 20."
+              },
+              {
+                "name": "withRequiredActionFirst",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get service requests list",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/track-and-trace/service-requests",
+            "headers": [
+              {
+                "name": "Content-Language",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "currentUserOrdersOnly",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - start from (included). The elements are counted from 0. Default value is 0."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "patterns",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - end element (exluded). Default value is 20."
+              },
+              {
+                "name": "withRequiredActionFirst",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get service requests details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/track-and-trace/service-requests/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "The possible keys of `attributes` map in response object:<div style='max-height: 400px; overflow: auto; width: 100%'>\n<dl>\n<dt><b>Attribute name</b></dt><dd><b>Meaning</b></dd>\n<dt>login</dt><dd>Login</dd>\n<dt>roles</dt><dd>Roles</dd>\n<dt>firstName</dt><dd>First name</dd>\n<dt>lastName</dt><dd>Last name</dd>\n<dt>surnamePrefix</dt><dd>Surname prefix</dd>\n<dt>email</dt><dd>E-mail</dd>\n<dt>dateOfBirth</dt><dd>Date of birth</dd>\n<dt>vip</dt><dd>VIP</dd>\n<dt>employeeNumber</dt><dd>Employee number</dd>"
+        },
+        {
+          "info": {
+            "name": "Get attachment with given id and serviceRequestId",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/track-and-trace/service-requests/:id/attachments/:attachmentId",
+            "params": [
+              {
+                "name": "attachmentId",
+                "value": "",
+                "type": "path",
+                "description": "attachmentId"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Cancel service request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/track-and-trace/service-requests/:id/cancel",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              },
+              {
+                "name": "note",
+                "value": "",
+                "type": "query",
+                "description": "note"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "rest-hardware-enrollment-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register Apple Dep",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/order/apple-dep"
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Register Samsung Knox",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/order/samsung-knox"
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "rest-order-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Authorize order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/order/authorize"
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Move contract with given contractId to group with given destinationGroupId",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/order/move"
+          },
+          "docs": "Wish date should be empty, current or in the future. Reference number cannot exceed 25 character. When individualBundle field is set as true in ContractDetails, user is supposed to set moveAddonBundles to true or false.Otherwise it will be used as false by default. If individualBundle is false, the value of the field moveAddonBundles will not be used.\n\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_a"
+        },
+        {
+          "info": {
+            "name": "Get information about operations available for given contract.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/order/operations",
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "query",
+                "description": "contractId"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Port out contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/order/porting-out"
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Replace sim for given contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/order/replace-sim"
+          },
+          "docs": "If eSim is used email is mandatory.\n\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Validate if sim card number can be used in replace sim operation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/order/replace-sim/validator"
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Return hardware",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/order/return-hardware"
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "rest-block-sim-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Block sim for given contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/order/block-sim"
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Unblock sim for given contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/order/unblock-sim"
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "rest-contract-terminate-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Terminate contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/order/terminate"
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get termination fee for giver contract and termination date",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/order/terminate/termination-fee",
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "query",
+                "description": "contractId"
+              },
+              {
+                "name": "wishDate",
+                "value": "",
+                "type": "query",
+                "description": "wishDate"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get first possible termination date for given contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/order/terminate/:contractId/min-date",
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path",
+                "description": "contractId"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "rest-hierarchy-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get immediate children of given parent hierarchy entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/hierarchy/children",
+            "params": [
+              {
+                "name": "contextId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "contextIds",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - start from (included). The elements are counted from 0. Default value is 0."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "includeCustomer",
+                "value": "",
+                "type": "query",
+                "description": "Information if it should include customer. Default value: false."
+              },
+              {
+                "name": "includeGroups",
+                "value": "",
+                "type": "query",
+                "description": "Information if it should include pure virtual groups. Default value: true."
+              },
+              {
+                "name": "operationType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pattern",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - end element (exluded). Default value is 20."
+              }
+            ]
+          },
+          "docs": "Return all children of given hierarchy entity which user manages. If no parent id given it returns root entities.<br><br>When `operationType` is given API returns also information if operation is possible for each item. For some oprations possibilty information is returned in context of object or objects passed with `contextIds` or alternately a single `contextId` For example if user wants to check if he can move a hierarchy item , he should use `operationType=MOVE_GROUP`If user wants to check i"
+        },
+        {
+          "info": {
+            "name": "Create cost center",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/hierarchy/children/cost-center"
+          },
+          "docs": "Create new cost center\nThe request is validated. Possible validation errors: \n| HTTP code | Error code                         | Description                                                  |\n|-----------|------------------------------------|--------------------------------------------------------------|\n| `400`     | `WRONG_GROUP_TYPE`                 | Cannot create cost center under this type of group           |\n| `400`     | `VALUE_NOT_UNIQUE`                 | `costCenterNumber` field must"
+        },
+        {
+          "info": {
+            "name": "Move specified hierarchy items to the chosen location",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/hierarchy/children/move"
+          },
+          "docs": "Returns ids and summaries of generated service requests, if any where created.\nUp to 10 items can be moved at the same time\nWish date is applied only when moving employess between debtors. If part of the items are moved within the same debtor, wish date will be ignored for these.\nReference number is only supported when moving emplyees or business location items. Otherwise no service requests are created\nThe request is validated. Possible validation errors: \n| HTTP code | Error code              "
+        },
+        {
+          "info": {
+            "name": "Get operations availability for logged user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/hierarchy/children/operations"
+          },
+          "docs": "Return all operations with availability and reason if blocked. \n| Reason                                         | Description                                                       |\n|------------------------------------------------|-------------------------------------------------------------------|\n| `NO_REQUIRED_PRIVILEGE`                        | User doesn't have required privilege                                   |\n| `NO_ENTITIES_TO_USE`                           | There is no entity to e"
+        },
+        {
+          "info": {
+            "name": "Create virtual group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/hierarchy/children/virtual-group"
+          },
+          "docs": "Create new virtual group\nThe request is validated. Possible validation errors: \n| HTTP code | Error code                         | Description                                                |\n|-----------|------------------------------------|------------------------------------------------------------|\n| `400`     | `WRONG_GROUP_TYPE`                 | Cannot create virtual group as a child of given group type |\n| `404`     | `VIRTUAL_HIERARCHY_ITEM_NOT_FOUND` | Hierarchy group with given `id` c"
+        },
+        {
+          "info": {
+            "name": "Get hierarchy entity details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/hierarchy/children/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "Get details for organisation structure entitity with given `id`.\nDifferent set of attributes is returned for different entity types. Supported item types are:<ul><li>`CUSTOMER`</li><li>`DEBTOR`</li><li>`COST_CENTER`</li><li>`CUSTOM_GROUP`</li><li>`BUSINESS_LOCATION`</li></ul>Details for `SUBSCRIBER` are not supported. `subscribers/{id}` should be used instead.\n<br>Possible exceptions:\n| HTTP code | Error code                         | Description                                                  "
+        },
+        {
+          "info": {
+            "name": "Update hierarchy entity (cost center, custom group)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/hierarchy/children/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "Change custom group or cost center data\nThe request is validated. Possible validation errors: \n| HTTP code | Error code                         | Description                                                  |\n|-----------|------------------------------------|--------------------------------------------------------------|\n| `400`     | `WRONG_GROUP_TYPE`                 | Only custom group and cost center data can be modified       |\n| `400`     | `VALUE_REQUIRED`                   | `costCenterN"
+        },
+        {
+          "info": {
+            "name": "Get operations availability for chosen item",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/hierarchy/children/:id/operations",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "Get available operations for organisational hierarchy item with the given `id`.\nPossible operations are:<ul><li>`create subscriber`</li><li>`create cost center`</li><li>`create virtual group`</li><li>`edit item`</li><li>`move item`</li><li>`remove item`</li></ul>Operations for `SUBSCRIBER` are not supported. `subscribers/{id}/operations` should be used instead.\n<br>Possible exceptions:\n| HTTP code | Error code                         | Description                                                 "
+        },
+        {
+          "info": {
+            "name": "Remove hierarchy entity (cost center, custom group)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/hierarchy/children/:id/remove",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "Remove custom group or cost center data. The underlying end users and organizational units will be moved to the next highest item in the organizational structure.\nThe request is validated. Possible validation errors: \n| HTTP code | Error code                         | Description                                                  |\n|-----------|------------------------------------|--------------------------------------------------------------|\n| `400`     | `WRONG_GROUP_TYPE`                 | Onl"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "rest-user-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all grip entities not linked to subscriber",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/hierarchy/grip-entities"
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Link existing subscriber to grip identity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/hierarchy/subscribers/link"
+          },
+          "docs": "Possible errors when validating request:\n | ERROR CODE                                    | CODE  |DESCRIPTION |\n|-----------------------------------------------|-------|-------------------------------------------------------------------------------|\n| `ORDERING_IS_BLOCKED_FOR_CUSTOMER`            | `403` | Current customer is frozen and can not order anything                        .|\n| `VIRTUAL_HIERARCHY_ITEM_NOT_FOUND`            | `404` | given subscriber does not exist or user does not have"
+        },
+        {
+          "info": {
+            "name": "Get all roles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/hierarchy/subscribers/roles",
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - start from (included). The elements are counted from 0. Default value is 0."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pattern",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - end element (exluded). Default value is 20."
+              }
+            ]
+          },
+          "docs": "Get all roles"
+        },
+        {
+          "info": {
+            "name": "Get privileges for given role",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/hierarchy/subscribers/roles/:roleId/privileges",
+            "params": [
+              {
+                "name": "roleId",
+                "value": "",
+                "type": "path",
+                "description": "roleId"
+              }
+            ]
+          },
+          "docs": "Get privileges for given role"
+        },
+        {
+          "info": {
+            "name": "Assign hierarchy entities managed by employee",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/hierarchy/subscribers/:id/assign-entities",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get hierarchy entities managed by employee",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/hierarchy/subscribers/:id/managed-entities",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Assign hierarchy entities managed by employee",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/hierarchy/subscribers/:id/unassign-entities",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get roles for given subscriber user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/hierarchy/subscribers/:subscriberId/roles",
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - start from (included). The elements are counted from 0. Default value is 0."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pattern",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "subscriberId",
+                "value": "",
+                "type": "path",
+                "description": "subscriberId"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - end element (exluded). Default value is 20."
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Edit roles assigned for given subscriber user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/hierarchy/subscribers/:subscriberId/roles",
+            "params": [
+              {
+                "name": "subscriberId",
+                "value": "",
+                "type": "path",
+                "description": "subscriberId"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "rest-subscriber-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Find all subscribers whom user manages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/hierarchy/subscribers",
+            "params": [
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query",
+                "description": "Possible columns:FIRSTNAME, LASTNAME, SURNAME_PREFIX, CONTRACTS, DEBTORNAME, FIXED_NUMBER, EMPLOYEE_NUMBER. For example: FIRSTNAME: \"abc\", \"abd\"; LASTNAME: \"add\", \"aad\""
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - start from (included). The elements are counted from 0. Default value is 0."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "patterns",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - end element (exluded). Default value is 20."
+              },
+              {
+                "name": "userOnly",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Create subscriber (with or without user)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/hierarchy/subscribers"
+          },
+          "docs": "If you want to create both subscriber and user at the same time, you should fill userAdditionalInfo.\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get subscriber details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/hierarchy/subscribers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "Operations availability will be removed. Please use 'subscribers/{id}/operations' instead\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Update subscriber",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/hierarchy/subscribers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Delete subscriber",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/hierarchy/subscribers/:id/delete",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Move subscriber",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/hierarchy/subscribers/:id/move",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "Moves subscriber to a different location in company hierachy. \n`destinationGroupId` should be chosen through `GET /hierarchy/chidlren` with `MOVE_GROUP` as `operatinType` and subscriber id as `contextId`. \n`wishDate` is only supported when moving between two debtors, otherwise the employee will be moved immediately \nService Request in Track & Trace will be created only when moving between debtors or cost centers. \n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privi"
+        },
+        {
+          "info": {
+            "name": "Get subscriber operations availability",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/hierarchy/subscribers/:id/operations",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Find all contracts belonging to subscriber",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/hierarchy/subscribers/:subscriberId/contracts",
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "from"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "order"
+              },
+              {
+                "name": "subscriberId",
+                "value": "",
+                "type": "path",
+                "description": "subscriberId"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "to"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get contracts overview for a subscriber",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/hierarchy/subscribers/:subscriberId/contracts/overview",
+            "params": [
+              {
+                "name": "subscriberId",
+                "value": "",
+                "type": "path",
+                "description": "subscriberId"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "rest-invoice-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Change billing period for current customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/finances/billing-period"
+          },
+          "docs": "Start service request of changing billing period for current customer.\nPossible errors:\n| HTTP code | Error code                         | Description                                                                      |\n|-----------|------------------------------------|----------------------------------------------------------------------------------|\n| `403`     | `ORDERING_IS_BLOCKED_FOR_CUSTOMER` | Current customer is frozen and can not order anything                           .|\n| `404`   "
+        },
+        {
+          "info": {
+            "name": "Get billing period changing availability",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/finances/billing-period/availability"
+          },
+          "docs": "Get availability of changing billing period.\n\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul> <strong>and:</strong><ul> <li>privileges_billing_retention_portlet</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get list of invoices for given debtor",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/finances/invoices",
+            "params": [
+              {
+                "name": "debtorId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - start from (included). The elements are counted from 0. Default value is 0."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pattern",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "searchFrom",
+                "value": "",
+                "type": "query",
+                "description": "Start date to search from in ISO format (YYYY-MM-DD)"
+              },
+              {
+                "name": "searchTo",
+                "value": "",
+                "type": "query",
+                "description": "End date to search to in ISO format (YYYY-MM-DD)"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - end element (exluded). Default value is 20."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Possible errors:\n| HTTP code | Error code         | Description                                                  |\n|-----------|--------------------|--------------------------------------------------------------|\n| `404`     | `DEBTOR_NOT_FOUND` | Given debtor does not exist or user don't have access to him |\n\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_financial_documents_view</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Download the invoice as pdf file",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/finances/invoices/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "Possible errors:\n| HTTP code | Error code          | Description                       |\n|-----------|---------------------|-----------------------------------|\n| `404`     | `INVOICE_NOT_FOUND` | Invoice with given id not found   |\n\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_financial_documents_view</li></ul>"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "rest-address-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a list of all addresses",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/address/all"
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get a list of general addresses",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/address/customer"
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Add new general address",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/address/customer"
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get a list of personal addresses",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/address/user"
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Add new personal address",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/address/user"
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Delete given address from general or personal addresses",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/address/:id/delete",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Update personal or general address",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/address/:id/edit",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "rest-contract-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all contracts.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contract/all",
+            "headers": [
+              {
+                "name": "Content-Language",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "category",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query",
+                "description": "Possible columns: FIRSTNAME, LASTNAME, SURNAME_PREFIX, PRODUCT_NAME, PRODUCT_CATEGORY, MOBILE_NUMBER, FIXED_NUMBER, STATE, EXTENSION, SIM_CARD_NUMBER, IMEI. For example: FIRSTNAME: \"aab\", \"aac\"; LASTNAME: \"aba\", \"abb\""
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - start from (included). The elements are counted from 0. Default value is 0."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "patterns",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - end element (exluded). Default value is 20."
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get contract details.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contract/id/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get all contract items (in form of tree) for given contract.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contract/id/:id/items",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get all possible fixed numbers for combining operation.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contract/id/:id/vamo/fixed-numbers",
+            "params": [
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query",
+                "description": "Possible columns: FIRSTNAME, LASTNAME, SURNAME_PREFIX, PRODUCT_NAME, PRODUCT_CATEGORY. MOBILE_NUMBER, STATE, EXTENSION, SIM_CARD_NUMBER. For example: FIRSTNAME: \"aab\", \"aac\"; LASTNAME: \"aba\", \"abb\""
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "patterns",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get all possible mobile numbers for combining operation.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contract/id/:id/vamo/mobile-numbers",
+            "params": [
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query",
+                "description": "Possible columns: FIRSTNAME, LASTNAME, SURNAME_PREFIX, PRODUCT_NAME, PRODUCT_CATEGORY, FIXED_NUMBER, STATE, EXTENSION, SIM_CARD_NUMBER. For example: FIRSTNAME: \"aab\", \"aac\"; LASTNAME: \"aba\", \"abb\""
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - start from (included). The elements are counted from 0. Default value is 0."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "patterns",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - end element (exluded). Default value is 20."
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get number of contracts grouped by contract type.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contract/overview"
+          },
+          "docs": "Return contracts statistics. Possible contract types (key values): mobile, fixed, fixed_mobile, hardware, other\n\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li></ul>"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "rest-threshold-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get list of thresholds",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contract/thresholds"
+          },
+          "docs": "Return list of thresholds for current user.\n\n<strong>Required privileges</strong> (one of the following):<ul><li>privileges_threshold_management</li><li>privileges_orders_authorization</li><li>privileges_un-authorized_orders_creation</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Create new threshold",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/contract/thresholds"
+          },
+          "docs": "Creates new threshold. Name must be unique in context of customer.\n\n<br>The request is validated. Possible validation errors: \n| HTTP code | Error code               | Description                                           |\n|-----------|--------------------------|-------------------------------------------------------|\n| `400`     | `VALUE_NOT_UNIQUE`       | `name` must be unique in context of customer          |\n\n<strong>Required privilege</strong>:<ul><li>privileges_threshold_management</li><"
+        },
+        {
+          "info": {
+            "name": "Check if user should have access to thresholds",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contract/thresholds/availability"
+          },
+          "docs": "Return if user should have access to thresholds.\n\n<strong>Required privileges</strong> (one of the following):<ul><li>privileges_threshold_management</li><li>privileges_orders_authorization</li><li>privileges_un-authorized_orders_creation</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Remove thresholds",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/contract/thresholds/remove"
+          },
+          "docs": "If at least one item cannot be deleted, none of the items will be deleted.\n\n<br>The request is validated. Possible validation errors: \n| HTTP code | Error code                 | Description                                         |\n|-----------|----------------------------|-----------------------------------------------------|\n| `404`     | `REMOVING_BLOCKED`         | Cannot remove at least one of threshold             |\n| `404`     | `THRESHOLD_NOT_FOUND`      | Not an existing threshold was g"
+        },
+        {
+          "info": {
+            "name": "Get threshold with information about operation availability",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contract/thresholds/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "Returns a single threshold by `id` with additional information about possibility to modify and delete subscription.Accessible only if user has priviliges to perform these operations at all. \n\n<strong>Required privilege</strong>:<ul><li>privileges_threshold_management</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Modify existing threshold",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/contract/thresholds/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "Modifies existing threshold. Name must be unique in context of customer or the same as before.\n\n<br>The request is validated. Possible validation errors: \n| HTTP code | Error code                 | Description                                                          |\n|-----------|----------------------------|----------------------------------------------------------------------|\n| `400`     | `VALUE_NOT_UNIQUE  `       | `name` must be unique in context of customer or the same as before   |\n| `"
+        },
+        {
+          "info": {
+            "name": "Allows to assign list of contracts to given threshold",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/contract/thresholds/:id/assign",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "Assigne list of contracts to threshold.\n\nThe request is validated. Possible validation errors: \n\n| HTTP code | Error code                                | Description                                                      |\n|-----------|-------------------------------------------|------------------------------------------------------------------|\n| `400`     | `CONTRACTS_ALREADY_ASSIGNED_TO_GIVEN_TYPE`| At least one contract is already assigned to this threshold type |\n| `400`     | `NOT_VALID_PRO"
+        },
+        {
+          "info": {
+            "name": "Allows to unassign contracts from given threshold",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/contract/thresholds/:id/unassign",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "Unassigns the given list of contracts from the given threshold.\n<br>The request is validated. Possible validation errors: \n| HTTP code | Error code                 | Description                                                                             |\n|-----------|----------------------------|-----------------------------------------------------------------------------------------|\n| `403`     | `FORBIDDEN_FOR_USER`       | Thresholds are not available for loggin in user                     "
+        },
+        {
+          "info": {
+            "name": "Get contracts assigned to threshold",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contract/thresholds/:thresholdId/contracts",
+            "headers": [
+              {
+                "name": "Content-Language",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "category",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query",
+                "description": "Possible columns: FIRSTNAME, LASTNAME, SURNAME_PREFIX, PRODUCT_NAME, PRODUCT_CATEGORY, MOBILE_NUMBER, FIXED_NUMBER, STATE, EXTENSION, SIM_CARD_NUMBER, IMEI. For example: FIRSTNAME: \"aab\", \"aac\"; LASTNAME: \"aba\", \"abb\""
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - start from (included). The elements are counted from 0. Default value is 0."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "patterns",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "thresholdId",
+                "value": "",
+                "type": "path",
+                "description": "thresholdId"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - end element (exluded). Default value is 20."
+              }
+            ]
+          },
+          "docs": "Possible validation errors: \n| HTTP code | Error code                 | Description                                        |\n|-----------|----------------------------|----------------------------------------------------|\n| `404`     | `THRESHOLD_NOT_FOUND`      | Not an existing threshold was given in list        |\n| `403`     | `FORBIDDEN_FOR_USER`       | Operation not allowed for current user             |\n\n<strong>Required privileges</strong> (one of the following):<ul><li>privileges_thresho"
+        },
+        {
+          "info": {
+            "name": "Get a list of contracts which can be later assigned to given threshold.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contract/thresholds/:thresholdId/contracts-to-assign",
+            "headers": [
+              {
+                "name": "Content-Language",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "category",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query",
+                "description": "Possible columns: FIRSTNAME, LASTNAME, SURNAME_PREFIX, PRODUCT_NAME, PRODUCT_CATEGORY, MOBILE_NUMBER, FIXED_NUMBER, STATE, EXTENSION, SIM_CARD_NUMBER, IMEI. For example: FIRSTNAME: \"aab\", \"aac\"; LASTNAME: \"aba\", \"abb\""
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - start from (included). The elements are counted from 0. Default value is 0."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "patterns",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "thresholdId",
+                "value": "",
+                "type": "path",
+                "description": "thresholdId"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - end element (exluded). Default value is 20."
+              }
+            ]
+          },
+          "docs": "Possible validation errors: \n| HTTP code | Error code                 | Description                                         |\n|-----------|----------------------------|-----------------------------------------------------|\n| `403`     | `FORBIDDEN_FOR_USER`       | Operation not allowed for current user              |\n| `404`     | `THRESHOLD_NOT_FOUND`      | Given threshold can not be found                    |\n\n<strong>Required privileges</strong> (one of the following):<ul><li>privileges_thr"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "rest-contracting-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get basket content with products tree and prices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contracting/basket",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query",
+                "description": "sessionId"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Modify state of current basket",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/contracting/basket",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query",
+                "description": "sessionId"
+              }
+            ]
+          },
+          "docs": "<div style='max-height: 400px; overflow: auto; width: 100%'>This is a central enpoint for contracting or modifing products. Depending on `change` object passed to this method you can initialize basket, mark product to be contracted, mark product to be terminated, set some parameter for contracting process and so on. Below you will find example scenarios of using basket. \n\n# Modify contract\n\n1. Find contract to modify using: `GET /contract/all`\n2. Check if contract modification is possible for se"
+        },
+        {
+          "info": {
+            "name": "Get characteristics grouped by its names",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contracting/basket/characteristics",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query",
+                "description": "sessionId"
+              }
+            ]
+          },
+          "docs": "Example characteristics names: `pbxGroup`, `serviceType`, `combineType`\n\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get list of main products to order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contracting/basket/main-products",
+            "headers": [
+              {
+                "name": "Content-Language",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "Possible values: MOBILE, SIM CARDS, FIXED, HARDWARE, SOFTWARE, OTHER"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query",
+                "description": "Possible columns: PRODUCT_NAME, PRICE_IN_CENTS, PRIVATE_COPYING_LEVY_IN_CENTS. For example: STATUS: \"a\", \"b\"; PRICE_IN_CENTS: \"1\", \"2\""
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - start from (included). The elements are counted from 0. Default value is 0."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "patterns",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query",
+                "description": "sessionId"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - end element (exluded). Default value is 20."
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Modify template",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/contracting/basket/modify-template",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query",
+                "description": "sessionId"
+              },
+              {
+                "name": "spectatedUserId",
+                "value": "",
+                "type": "query",
+                "description": "spectatedUserId"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul><strong>and</strong>:</strong><ul><li>privileges_portfolio_and_profiles_management</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Create order applying changes introduced to basket staring from initializing",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/contracting/basket/order",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query",
+                "description": "sessionId"
+              }
+            ]
+          },
+          "docs": "Possible errors:\n| HTTP code                          | Error code          | Description                                              |\n|------------------------------------|---------------------|----------------------------------------------------------|\n| `ORDERING_IS_BLOCKED_FOR_CUSTOMER` | `403`               | Current customer is frozen and can not order anything    |\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><"
+        },
+        {
+          "info": {
+            "name": "Get products tree",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contracting/basket/products",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query",
+                "description": "sessionId"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Reset basket",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/contracting/basket/reset",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query",
+                "description": "sessionId"
+              }
+            ]
+          },
+          "docs": "Some of the methods are stateful and depend on basket state. Due to this it is sometimes helpful to reinitialize basket.\n\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get resources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contracting/basket/resources",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "limit"
+              },
+              {
+                "name": "prefix",
+                "value": "",
+                "type": "query",
+                "description": "prefix"
+              },
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query",
+                "description": "sessionId"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Save as template",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/contracting/basket/save-as-template",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query",
+                "description": "sessionId"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul><strong>and</strong>:</strong><ul><li>privileges_portfolio_and_profiles_management</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contracting/basket/templates",
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - start from (included). The elements are counted from 0. Default value is 0."
+              },
+              {
+                "name": "mainProductCategory",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pattern",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query",
+                "description": "sessionId"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter - end element (exluded). Default value is 20."
+              }
+            ]
+          },
+          "docs": "List of templates can be limited by main product category (if null given all templates will be returned).\n\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get available product categories to be contracted for currently logged user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contracting/categories",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query",
+                "description": "sessionId"
+              }
+            ]
+          },
+          "docs": "Possible values: mobile, fixed, hardware, other, software\n\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get available hardware categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contracting/hardware/categories",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query",
+                "description": "sessionId"
+              }
+            ]
+          },
+          "docs": "Possible values: `handsets`, `additional mobile hardware`, `sim cards`\n\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "rest-business-voice-mail-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Business voicemail availability",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contracting/bvm/availability"
+          },
+          "docs": "Check if business voicemail service is availabe for current user.\n\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Order Business voicemail",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/contracting/bvm/order",
+            "params": [
+              {
+                "name": "companyName",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "companyNamePronunciation",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "customerReferenceNumber",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "voiceLanguage",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "voiceMailMessage",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "wishDate",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Order business voicemail. Subscriptions file validations:\n\n| FILE ERROR CODE                    | CODE  | DESCRIPTION                                                                     |    ERRORS                           |\n|------------------------------------|-------|-------------------------------------------------------------------------------  |-------------------------------------|\n| `INVALID_BVM_FILE`                 | `400` | The file does not contain the .csv extension or it's binary "
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "rest-separate-fixed-mobile-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Separate fixed-mobile subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/contracting/separate-fixed-mobile"
+          },
+          "docs": "Possible errors:\n| HTTP code                          | Error code          | Description                                              |\n|------------------------------------|---------------------|----------------------------------------------------------|\n| `ORDERING_IS_BLOCKED_FOR_CUSTOMER` | `403`               | Current customer is frozen and can not order anything    |\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "rest-template-controller",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get template overview",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contracting/templates",
+            "params": [
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "query",
+                "description": "groupId"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_portfolio_and_profiles_management</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get template details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contracting/templates/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_portfolio_and_profiles_management</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Remove template",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/contracting/templates/:id/delete",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "id"
+              }
+            ]
+          },
+          "docs": "<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_portfolio_and_profiles_management</li></ul>"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

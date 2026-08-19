@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Number Insight - Vonage",
+    "version": "v1.1.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Request",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Synchronously get information about a phone number",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/:level",
+            "params": [
+              {
+                "name": "level",
+                "value": "",
+                "type": "path",
+                "description": "The level of request you wish to make."
+              }
+            ]
+          },
+          "docs": "**Number Insight Basic**\nYou can use Vonage's Number Insight Basic API to retrieve local and international representations of a phone number by doing semantic checks on the number you submit. This can help you normalise and consistently print numbers in your user interface and gives you information to help you decide if a phone number accept the phone number entered by your user, or ask them to check and correct it.\n\n  Number Insight Basic API is a free synchronous, easy-to-use RESTful web servi"
+        },
+        {
+          "info": {
+            "name": "Asynchronously get information about a phone number",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/advanced/async"
+          },
+          "docs": "**Number Insight Advanced Async**\nYou can use Vonage's Number Insight Async API to retrieve a user's landline or mobile number, including checking to see that it is registered to an operator. This can help you verify that a phone number is real and give you information on how to format the number.\n\nNumber Insight Advanced Async API is an asynchronous web service that returns data to a webhook. For any phone number you can\n\n- Retrieve the international and local format.\n- Know the country where t"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

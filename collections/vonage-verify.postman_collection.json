@@ -1,0 +1,2930 @@
+{
+  "item": [
+    {
+      "id": "f556e1fa-fb43-4f77-abcd-9c646e803416",
+      "name": "Verify",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5c7d03fd-00ad-491b-beb7-229040dc9ff6",
+          "name": "Generate PIN",
+          "request": {
+            "name": "Generate PIN",
+            "description": {
+              "content": "To use Verify Request,  follwoing steps needs to be followed\n -   Create a Request to send a PIN to your user.\n -   Check the response codes in the Response to ensure that your request was successful.\n \n### Example\n  \n  Request:\n  \n  ```\n  curl -X POST \\\n    'https://api-prd.kpn.com/communication/nexmo/verify' \\\n      -H 'authorization: Bearer access_token' \\\n      -H 'content-type: application/x-www-form-urlencoded' \\\n      -d 'number=316********&brand=VerifyTest'\n  \n  ```\n  \n  Response:\n  \n  ```\n  {\n    \"request_id\":\"1267899\",\n    \"status\":\"status\",\n    \"error_text\":\"error\"\n  }\n  \n  ```\n  ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "number",
+                  "value": "<string>",
+                  "description": "(Required) The mobile or landline phone number to verify. Unless you are setting country explicitly, this number must be in E.164  format. \n  example: 447700900000"
+                },
+                {
+                  "disabled": false,
+                  "key": "brand",
+                  "value": "<string>",
+                  "description": "(Required) The name of the company or App you are using Verify for. This 18 character alphanumeric string is used in the body of Verify message. \n  example: \"Your brand PIN is ..\"."
+                },
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "<string>",
+                  "description": "If do not set number in international format or you are not sure if number is correctly formatted, set country with the two-character country code. For example, GB, US. Verify works out the international phone number for you."
+                },
+                {
+                  "disabled": false,
+                  "key": "sender_id",
+                  "value": "<string>",
+                  "description": "An 11 character alphanumeric string to specify the SenderID for SMS sent by Verify. Depending on the destination of the phone number you are applying, restrictions may apply. By default, sender_id is VERIFY."
+                },
+                {
+                  "disabled": false,
+                  "key": "code_length",
+                  "value": "<string>",
+                  "description": "The length of the PIN. Possible values are 6 or 4 characters. The default value is 4."
+                },
+                {
+                  "disabled": false,
+                  "key": "lg",
+                  "value": "<string>",
+                  "description": "By default, the SMS or text-to-speech (TTS) message is generated in the locale that matches the number. For example, the text message or TTS message for a 33* number is sent in French. Use this parameter to explicitly control the language and accent used for the Verify request. The default language is en-us."
+                },
+                {
+                  "disabled": false,
+                  "key": "require_type",
+                  "value": "<string>",
+                  "description": "'Restrict verification to a certain network type. Possible values are-\n  All (Default)\n  Mobile\n  Landline\n  Note- contact api_developer@kpn.com to enable this feature.'"
+                },
+                {
+                  "disabled": false,
+                  "key": "pin_expiry",
+                  "value": "<string>",
+                  "description": "The PIN validity time from generation. This is an integer value between 60 and 3600 seconds. The default is 300 seconds. When specified together, pin_expiry must be an integer multiple of next_event_wait. Otherwise, pin_expiry is set to equal next_event_wait. \n  For example:\n    - pin_expiry = 360 seconds, so next_event_wait = 120 seconds - all three attempts have the same PIN.\n    - pin_expiry = 240 seconds, so next_event_wait = 120 seconds - 1st and 2nd attempts have the same PIN, third attempt has a different PIN.\n    - pin_expiry = 120 (or 200 or 400 seconds) - each attempt has a different PIN."
+                },
+                {
+                  "disabled": false,
+                  "key": "next_event_wait",
+                  "value": "<string>",
+                  "description": "An integer value between 60 and 900 seconds inclusive that specifies the wait time between attempts to deliver the PIN. Verify calculates the default value based on the average time taken by users to complete verification."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "78467263-c444-4667-9399-d94c43338946",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The mobile or landline phone number to verify. Unless you are setting country explicitly, this number must be in E.164  format. \n  example: 447700900000",
+                        "type": "text/plain"
+                      },
+                      "key": "number",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The name of the company or App you are using Verify for. This 18 character alphanumeric string is used in the body of Verify message. \n  example: \"Your brand PIN is ..\".",
+                        "type": "text/plain"
+                      },
+                      "key": "brand",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "If do not set number in international format or you are not sure if number is correctly formatted, set country with the two-character country code. For example, GB, US. Verify works out the international phone number for you.",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "An 11 character alphanumeric string to specify the SenderID for SMS sent by Verify. Depending on the destination of the phone number you are applying, restrictions may apply. By default, sender_id is VERIFY.",
+                        "type": "text/plain"
+                      },
+                      "key": "sender_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The length of the PIN. Possible values are 6 or 4 characters. The default value is 4.",
+                        "type": "text/plain"
+                      },
+                      "key": "code_length",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "By default, the SMS or text-to-speech (TTS) message is generated in the locale that matches the number. For example, the text message or TTS message for a 33* number is sent in French. Use this parameter to explicitly control the language and accent used for the Verify request. The default language is en-us.",
+                        "type": "text/plain"
+                      },
+                      "key": "lg",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "'Restrict verification to a certain network type. Possible values are-\n  All (Default)\n  Mobile\n  Landline\n  Note- contact api_developer@kpn.com to enable this feature.'",
+                        "type": "text/plain"
+                      },
+                      "key": "require_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The PIN validity time from generation. This is an integer value between 60 and 3600 seconds. The default is 300 seconds. When specified together, pin_expiry must be an integer multiple of next_event_wait. Otherwise, pin_expiry is set to equal next_event_wait. \n  For example:\n    - pin_expiry = 360 seconds, so next_event_wait = 120 seconds - all three attempts have the same PIN.\n    - pin_expiry = 240 seconds, so next_event_wait = 120 seconds - 1st and 2nd attempts have the same PIN, third attempt has a different PIN.\n    - pin_expiry = 120 (or 200 or 400 seconds) - each attempt has a different PIN.",
+                        "type": "text/plain"
+                      },
+                      "key": "pin_expiry",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "An integer value between 60 and 900 seconds inclusive that specifies the wait time between attempts to deliver the PIN. Verify calculates the default value based on the average time taken by users to complete verification.",
+                        "type": "text/plain"
+                      },
+                      "key": "next_event_wait",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "18f52ffe-7647-43ae-9116-7cdd6050983b",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The mobile or landline phone number to verify. Unless you are setting country explicitly, this number must be in E.164  format. \n  example: 447700900000",
+                        "type": "text/plain"
+                      },
+                      "key": "number",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The name of the company or App you are using Verify for. This 18 character alphanumeric string is used in the body of Verify message. \n  example: \"Your brand PIN is ..\".",
+                        "type": "text/plain"
+                      },
+                      "key": "brand",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "If do not set number in international format or you are not sure if number is correctly formatted, set country with the two-character country code. For example, GB, US. Verify works out the international phone number for you.",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "An 11 character alphanumeric string to specify the SenderID for SMS sent by Verify. Depending on the destination of the phone number you are applying, restrictions may apply. By default, sender_id is VERIFY.",
+                        "type": "text/plain"
+                      },
+                      "key": "sender_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The length of the PIN. Possible values are 6 or 4 characters. The default value is 4.",
+                        "type": "text/plain"
+                      },
+                      "key": "code_length",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "By default, the SMS or text-to-speech (TTS) message is generated in the locale that matches the number. For example, the text message or TTS message for a 33* number is sent in French. Use this parameter to explicitly control the language and accent used for the Verify request. The default language is en-us.",
+                        "type": "text/plain"
+                      },
+                      "key": "lg",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "'Restrict verification to a certain network type. Possible values are-\n  All (Default)\n  Mobile\n  Landline\n  Note- contact api_developer@kpn.com to enable this feature.'",
+                        "type": "text/plain"
+                      },
+                      "key": "require_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The PIN validity time from generation. This is an integer value between 60 and 3600 seconds. The default is 300 seconds. When specified together, pin_expiry must be an integer multiple of next_event_wait. Otherwise, pin_expiry is set to equal next_event_wait. \n  For example:\n    - pin_expiry = 360 seconds, so next_event_wait = 120 seconds - all three attempts have the same PIN.\n    - pin_expiry = 240 seconds, so next_event_wait = 120 seconds - 1st and 2nd attempts have the same PIN, third attempt has a different PIN.\n    - pin_expiry = 120 (or 200 or 400 seconds) - each attempt has a different PIN.",
+                        "type": "text/plain"
+                      },
+                      "key": "pin_expiry",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "An integer value between 60 and 900 seconds inclusive that specifies the wait time between attempts to deliver the PIN. Verify calculates the default value based on the average time taken by users to complete verification.",
+                        "type": "text/plain"
+                      },
+                      "key": "next_event_wait",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0619059f-36c1-430a-972f-6f117f553af4",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The mobile or landline phone number to verify. Unless you are setting country explicitly, this number must be in E.164  format. \n  example: 447700900000",
+                        "type": "text/plain"
+                      },
+                      "key": "number",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The name of the company or App you are using Verify for. This 18 character alphanumeric string is used in the body of Verify message. \n  example: \"Your brand PIN is ..\".",
+                        "type": "text/plain"
+                      },
+                      "key": "brand",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "If do not set number in international format or you are not sure if number is correctly formatted, set country with the two-character country code. For example, GB, US. Verify works out the international phone number for you.",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "An 11 character alphanumeric string to specify the SenderID for SMS sent by Verify. Depending on the destination of the phone number you are applying, restrictions may apply. By default, sender_id is VERIFY.",
+                        "type": "text/plain"
+                      },
+                      "key": "sender_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The length of the PIN. Possible values are 6 or 4 characters. The default value is 4.",
+                        "type": "text/plain"
+                      },
+                      "key": "code_length",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "By default, the SMS or text-to-speech (TTS) message is generated in the locale that matches the number. For example, the text message or TTS message for a 33* number is sent in French. Use this parameter to explicitly control the language and accent used for the Verify request. The default language is en-us.",
+                        "type": "text/plain"
+                      },
+                      "key": "lg",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "'Restrict verification to a certain network type. Possible values are-\n  All (Default)\n  Mobile\n  Landline\n  Note- contact api_developer@kpn.com to enable this feature.'",
+                        "type": "text/plain"
+                      },
+                      "key": "require_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The PIN validity time from generation. This is an integer value between 60 and 3600 seconds. The default is 300 seconds. When specified together, pin_expiry must be an integer multiple of next_event_wait. Otherwise, pin_expiry is set to equal next_event_wait. \n  For example:\n    - pin_expiry = 360 seconds, so next_event_wait = 120 seconds - all three attempts have the same PIN.\n    - pin_expiry = 240 seconds, so next_event_wait = 120 seconds - 1st and 2nd attempts have the same PIN, third attempt has a different PIN.\n    - pin_expiry = 120 (or 200 or 400 seconds) - each attempt has a different PIN.",
+                        "type": "text/plain"
+                      },
+                      "key": "pin_expiry",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "An integer value between 60 and 900 seconds inclusive that specifies the wait time between attempts to deliver the PIN. Verify calculates the default value based on the average time taken by users to complete verification.",
+                        "type": "text/plain"
+                      },
+                      "key": "next_event_wait",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "67f76bd3-4de1-4271-9185-6fab109198c9",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The mobile or landline phone number to verify. Unless you are setting country explicitly, this number must be in E.164  format. \n  example: 447700900000",
+                        "type": "text/plain"
+                      },
+                      "key": "number",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The name of the company or App you are using Verify for. This 18 character alphanumeric string is used in the body of Verify message. \n  example: \"Your brand PIN is ..\".",
+                        "type": "text/plain"
+                      },
+                      "key": "brand",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "If do not set number in international format or you are not sure if number is correctly formatted, set country with the two-character country code. For example, GB, US. Verify works out the international phone number for you.",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "An 11 character alphanumeric string to specify the SenderID for SMS sent by Verify. Depending on the destination of the phone number you are applying, restrictions may apply. By default, sender_id is VERIFY.",
+                        "type": "text/plain"
+                      },
+                      "key": "sender_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The length of the PIN. Possible values are 6 or 4 characters. The default value is 4.",
+                        "type": "text/plain"
+                      },
+                      "key": "code_length",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "By default, the SMS or text-to-speech (TTS) message is generated in the locale that matches the number. For example, the text message or TTS message for a 33* number is sent in French. Use this parameter to explicitly control the language and accent used for the Verify request. The default language is en-us.",
+                        "type": "text/plain"
+                      },
+                      "key": "lg",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "'Restrict verification to a certain network type. Possible values are-\n  All (Default)\n  Mobile\n  Landline\n  Note- contact api_developer@kpn.com to enable this feature.'",
+                        "type": "text/plain"
+                      },
+                      "key": "require_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The PIN validity time from generation. This is an integer value between 60 and 3600 seconds. The default is 300 seconds. When specified together, pin_expiry must be an integer multiple of next_event_wait. Otherwise, pin_expiry is set to equal next_event_wait. \n  For example:\n    - pin_expiry = 360 seconds, so next_event_wait = 120 seconds - all three attempts have the same PIN.\n    - pin_expiry = 240 seconds, so next_event_wait = 120 seconds - 1st and 2nd attempts have the same PIN, third attempt has a different PIN.\n    - pin_expiry = 120 (or 200 or 400 seconds) - each attempt has a different PIN.",
+                        "type": "text/plain"
+                      },
+                      "key": "pin_expiry",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "An integer value between 60 and 900 seconds inclusive that specifies the wait time between attempts to deliver the PIN. Verify calculates the default value based on the average time taken by users to complete verification.",
+                        "type": "text/plain"
+                      },
+                      "key": "next_event_wait",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "190532d6-7e56-4430-8662-d202dac7ccd8",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The mobile or landline phone number to verify. Unless you are setting country explicitly, this number must be in E.164  format. \n  example: 447700900000",
+                        "type": "text/plain"
+                      },
+                      "key": "number",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The name of the company or App you are using Verify for. This 18 character alphanumeric string is used in the body of Verify message. \n  example: \"Your brand PIN is ..\".",
+                        "type": "text/plain"
+                      },
+                      "key": "brand",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "If do not set number in international format or you are not sure if number is correctly formatted, set country with the two-character country code. For example, GB, US. Verify works out the international phone number for you.",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "An 11 character alphanumeric string to specify the SenderID for SMS sent by Verify. Depending on the destination of the phone number you are applying, restrictions may apply. By default, sender_id is VERIFY.",
+                        "type": "text/plain"
+                      },
+                      "key": "sender_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The length of the PIN. Possible values are 6 or 4 characters. The default value is 4.",
+                        "type": "text/plain"
+                      },
+                      "key": "code_length",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "By default, the SMS or text-to-speech (TTS) message is generated in the locale that matches the number. For example, the text message or TTS message for a 33* number is sent in French. Use this parameter to explicitly control the language and accent used for the Verify request. The default language is en-us.",
+                        "type": "text/plain"
+                      },
+                      "key": "lg",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "'Restrict verification to a certain network type. Possible values are-\n  All (Default)\n  Mobile\n  Landline\n  Note- contact api_developer@kpn.com to enable this feature.'",
+                        "type": "text/plain"
+                      },
+                      "key": "require_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The PIN validity time from generation. This is an integer value between 60 and 3600 seconds. The default is 300 seconds. When specified together, pin_expiry must be an integer multiple of next_event_wait. Otherwise, pin_expiry is set to equal next_event_wait. \n  For example:\n    - pin_expiry = 360 seconds, so next_event_wait = 120 seconds - all three attempts have the same PIN.\n    - pin_expiry = 240 seconds, so next_event_wait = 120 seconds - 1st and 2nd attempts have the same PIN, third attempt has a different PIN.\n    - pin_expiry = 120 (or 200 or 400 seconds) - each attempt has a different PIN.",
+                        "type": "text/plain"
+                      },
+                      "key": "pin_expiry",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "An integer value between 60 and 900 seconds inclusive that specifies the wait time between attempts to deliver the PIN. Verify calculates the default value based on the average time taken by users to complete verification.",
+                        "type": "text/plain"
+                      },
+                      "key": "next_event_wait",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "71064caf-879a-465c-8781-0db9c8283dcf",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The mobile or landline phone number to verify. Unless you are setting country explicitly, this number must be in E.164  format. \n  example: 447700900000",
+                        "type": "text/plain"
+                      },
+                      "key": "number",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The name of the company or App you are using Verify for. This 18 character alphanumeric string is used in the body of Verify message. \n  example: \"Your brand PIN is ..\".",
+                        "type": "text/plain"
+                      },
+                      "key": "brand",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "If do not set number in international format or you are not sure if number is correctly formatted, set country with the two-character country code. For example, GB, US. Verify works out the international phone number for you.",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "An 11 character alphanumeric string to specify the SenderID for SMS sent by Verify. Depending on the destination of the phone number you are applying, restrictions may apply. By default, sender_id is VERIFY.",
+                        "type": "text/plain"
+                      },
+                      "key": "sender_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The length of the PIN. Possible values are 6 or 4 characters. The default value is 4.",
+                        "type": "text/plain"
+                      },
+                      "key": "code_length",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "By default, the SMS or text-to-speech (TTS) message is generated in the locale that matches the number. For example, the text message or TTS message for a 33* number is sent in French. Use this parameter to explicitly control the language and accent used for the Verify request. The default language is en-us.",
+                        "type": "text/plain"
+                      },
+                      "key": "lg",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "'Restrict verification to a certain network type. Possible values are-\n  All (Default)\n  Mobile\n  Landline\n  Note- contact api_developer@kpn.com to enable this feature.'",
+                        "type": "text/plain"
+                      },
+                      "key": "require_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The PIN validity time from generation. This is an integer value between 60 and 3600 seconds. The default is 300 seconds. When specified together, pin_expiry must be an integer multiple of next_event_wait. Otherwise, pin_expiry is set to equal next_event_wait. \n  For example:\n    - pin_expiry = 360 seconds, so next_event_wait = 120 seconds - all three attempts have the same PIN.\n    - pin_expiry = 240 seconds, so next_event_wait = 120 seconds - 1st and 2nd attempts have the same PIN, third attempt has a different PIN.\n    - pin_expiry = 120 (or 200 or 400 seconds) - each attempt has a different PIN.",
+                        "type": "text/plain"
+                      },
+                      "key": "pin_expiry",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "An integer value between 60 and 900 seconds inclusive that specifies the wait time between attempts to deliver the PIN. Verify calculates the default value based on the average time taken by users to complete verification.",
+                        "type": "text/plain"
+                      },
+                      "key": "next_event_wait",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f920fed2-50f0-4354-84aa-d815edf2c43c",
+              "name": "Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The mobile or landline phone number to verify. Unless you are setting country explicitly, this number must be in E.164  format. \n  example: 447700900000",
+                        "type": "text/plain"
+                      },
+                      "key": "number",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The name of the company or App you are using Verify for. This 18 character alphanumeric string is used in the body of Verify message. \n  example: \"Your brand PIN is ..\".",
+                        "type": "text/plain"
+                      },
+                      "key": "brand",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "If do not set number in international format or you are not sure if number is correctly formatted, set country with the two-character country code. For example, GB, US. Verify works out the international phone number for you.",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "An 11 character alphanumeric string to specify the SenderID for SMS sent by Verify. Depending on the destination of the phone number you are applying, restrictions may apply. By default, sender_id is VERIFY.",
+                        "type": "text/plain"
+                      },
+                      "key": "sender_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The length of the PIN. Possible values are 6 or 4 characters. The default value is 4.",
+                        "type": "text/plain"
+                      },
+                      "key": "code_length",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "By default, the SMS or text-to-speech (TTS) message is generated in the locale that matches the number. For example, the text message or TTS message for a 33* number is sent in French. Use this parameter to explicitly control the language and accent used for the Verify request. The default language is en-us.",
+                        "type": "text/plain"
+                      },
+                      "key": "lg",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "'Restrict verification to a certain network type. Possible values are-\n  All (Default)\n  Mobile\n  Landline\n  Note- contact api_developer@kpn.com to enable this feature.'",
+                        "type": "text/plain"
+                      },
+                      "key": "require_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The PIN validity time from generation. This is an integer value between 60 and 3600 seconds. The default is 300 seconds. When specified together, pin_expiry must be an integer multiple of next_event_wait. Otherwise, pin_expiry is set to equal next_event_wait. \n  For example:\n    - pin_expiry = 360 seconds, so next_event_wait = 120 seconds - all three attempts have the same PIN.\n    - pin_expiry = 240 seconds, so next_event_wait = 120 seconds - 1st and 2nd attempts have the same PIN, third attempt has a different PIN.\n    - pin_expiry = 120 (or 200 or 400 seconds) - each attempt has a different PIN.",
+                        "type": "text/plain"
+                      },
+                      "key": "pin_expiry",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "An integer value between 60 and 900 seconds inclusive that specifies the wait time between attempts to deliver the PIN. Verify calculates the default value based on the average time taken by users to complete verification.",
+                        "type": "text/plain"
+                      },
+                      "key": "next_event_wait",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "09875962-491b-4f5d-8ce4-e25bb62843f2",
+              "name": "Service Unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The mobile or landline phone number to verify. Unless you are setting country explicitly, this number must be in E.164  format. \n  example: 447700900000",
+                        "type": "text/plain"
+                      },
+                      "key": "number",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The name of the company or App you are using Verify for. This 18 character alphanumeric string is used in the body of Verify message. \n  example: \"Your brand PIN is ..\".",
+                        "type": "text/plain"
+                      },
+                      "key": "brand",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "If do not set number in international format or you are not sure if number is correctly formatted, set country with the two-character country code. For example, GB, US. Verify works out the international phone number for you.",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "An 11 character alphanumeric string to specify the SenderID for SMS sent by Verify. Depending on the destination of the phone number you are applying, restrictions may apply. By default, sender_id is VERIFY.",
+                        "type": "text/plain"
+                      },
+                      "key": "sender_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The length of the PIN. Possible values are 6 or 4 characters. The default value is 4.",
+                        "type": "text/plain"
+                      },
+                      "key": "code_length",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "By default, the SMS or text-to-speech (TTS) message is generated in the locale that matches the number. For example, the text message or TTS message for a 33* number is sent in French. Use this parameter to explicitly control the language and accent used for the Verify request. The default language is en-us.",
+                        "type": "text/plain"
+                      },
+                      "key": "lg",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "'Restrict verification to a certain network type. Possible values are-\n  All (Default)\n  Mobile\n  Landline\n  Note- contact api_developer@kpn.com to enable this feature.'",
+                        "type": "text/plain"
+                      },
+                      "key": "require_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The PIN validity time from generation. This is an integer value between 60 and 3600 seconds. The default is 300 seconds. When specified together, pin_expiry must be an integer multiple of next_event_wait. Otherwise, pin_expiry is set to equal next_event_wait. \n  For example:\n    - pin_expiry = 360 seconds, so next_event_wait = 120 seconds - all three attempts have the same PIN.\n    - pin_expiry = 240 seconds, so next_event_wait = 120 seconds - 1st and 2nd attempts have the same PIN, third attempt has a different PIN.\n    - pin_expiry = 120 (or 200 or 400 seconds) - each attempt has a different PIN.",
+                        "type": "text/plain"
+                      },
+                      "key": "pin_expiry",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "An integer value between 60 and 900 seconds inclusive that specifies the wait time between attempts to deliver the PIN. Verify calculates the default value based on the average time taken by users to complete verification.",
+                        "type": "text/plain"
+                      },
+                      "key": "next_event_wait",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "24b348ce-5162-47d2-88e7-bf391a035043",
+          "name": "Verify PIN",
+          "request": {
+            "name": "Verify PIN",
+            "description": {
+              "content": "To use Check reosurce following steps need to be followed\n\n -  Use a check request to send the PIN you received from your user to Vonage.\n - Check the response codes in the response to see if the PIN sent by your user matched the PIN generated by Vonage\n \n### Examples\n  \n  Request:\n  \n  ```\n  curl -X POST \\\n    'https://api-prd.kpn.com/communication/nexmo/verify/check' \\\n      -H 'authorization: Bearer access_token' \\\n      -H 'content-type: application/x-www-form-urlencoded' \\\n      -d 'request_id=REQUEST_ID&code=CODE'\n  \n  ```\n  \n  \n  Response:\n  \n  ```\n  {\n    \"request_id\":\"1267899\",\n    \"status\":\"status\",\n    \"error_text\":\"error\"\n  }\n  \n  ```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "check"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "request_id",
+                  "value": "<string>",
+                  "description": "(Required) The identifier of the Verify request to check. This is the request_id you received in the Verify Request response."
+                },
+                {
+                  "disabled": false,
+                  "key": "code",
+                  "value": "<string>",
+                  "description": "(Required) The PIN given by your user."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "48f39a60-27df-41ca-84ee-9eeeb4d37b45",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The identifier of the Verify request to check. This is the request_id you received in the Verify Request response.",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The PIN given by your user.",
+                        "type": "text/plain"
+                      },
+                      "key": "code",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "712e4b23-1c70-4dbc-927b-d1cc7952c69b",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The identifier of the Verify request to check. This is the request_id you received in the Verify Request response.",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The PIN given by your user.",
+                        "type": "text/plain"
+                      },
+                      "key": "code",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9905fda1-9938-4694-a490-2ba2531be01f",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The identifier of the Verify request to check. This is the request_id you received in the Verify Request response.",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The PIN given by your user.",
+                        "type": "text/plain"
+                      },
+                      "key": "code",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ea18e3f0-2623-45dd-be76-e45738b7a67d",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The identifier of the Verify request to check. This is the request_id you received in the Verify Request response.",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The PIN given by your user.",
+                        "type": "text/plain"
+                      },
+                      "key": "code",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "897d198e-cfc2-4bc4-8104-719b7c60aa68",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The identifier of the Verify request to check. This is the request_id you received in the Verify Request response.",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The PIN given by your user.",
+                        "type": "text/plain"
+                      },
+                      "key": "code",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e3a00734-4bde-4135-9cfe-d062b80181f5",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The identifier of the Verify request to check. This is the request_id you received in the Verify Request response.",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The PIN given by your user.",
+                        "type": "text/plain"
+                      },
+                      "key": "code",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d06abdd6-a63a-4fef-95a6-8aa8dd87d9aa",
+              "name": "Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The identifier of the Verify request to check. This is the request_id you received in the Verify Request response.",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The PIN given by your user.",
+                        "type": "text/plain"
+                      },
+                      "key": "code",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "258a428a-776d-4e26-858e-66dfb00c0339",
+              "name": "Service Unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The identifier of the Verify request to check. This is the request_id you received in the Verify Request response.",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The PIN given by your user.",
+                        "type": "text/plain"
+                      },
+                      "key": "code",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6a6fa958-ebf3-4fc1-9389-c86151c66011",
+          "name": "Look up status",
+          "request": {
+            "name": "Look up status",
+            "description": {
+              "content": "This API resource performs the following \n - Send a Verify Search request containing the request_id's of the Verify requests to search for.\n - Check the status response parameter in the Search Response to see if the request was successfully completed.\n \n **Note :** Either `request_id` or `request_ids` can be provided as part of a request message.\n\n ### Example\n  \n  Request:\n  \n  ```\n  curl -X POST \\\n    'https://api-prd.kpn.com/communication/nexmo/verify/search' \\\n      -H 'authorization: Bearer access_token' \\\n      -H 'content-type: application/x-www-form-urlencoded' \\\n      -d 'request_id=REQUEST_ID'\n  \n  ```\n  \n  Response:\n  \n  ```\n  {\n    \"request_id\":\"1267899\",\n    \"status\":\"status\",\n    \"error_text\":\"error\"\n  }\n  \n  ```          \n  ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "request_id",
+                  "value": "<string>",
+                  "description": "`Conditional` The request_id you received in the Verify Request Response.\n  (Either request_id or request_ids to be provided)"
+                },
+                {
+                  "disabled": false,
+                  "key": "request_ids",
+                  "value": "<string>",
+                  "description": "`Conditional` More than one request_id. Each request_id is a new parameter in the Verify Search request. A maximum of 10 request_id parameters can be specified.\n    (Either request_id or request_ids to be provided)"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "d692bdb2-b207-4eeb-822f-24fef744174a",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "`Conditional` The request_id you received in the Verify Request Response.\n  (Either request_id or request_ids to be provided)",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "`Conditional` More than one request_id. Each request_id is a new parameter in the Verify Search request. A maximum of 10 request_id parameters can be specified.\n    (Either request_id or request_ids to be provided)",
+                        "type": "text/plain"
+                      },
+                      "key": "request_ids",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2794315c-c256-4a8b-b548-645026c44593",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "`Conditional` The request_id you received in the Verify Request Response.\n  (Either request_id or request_ids to be provided)",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "`Conditional` More than one request_id. Each request_id is a new parameter in the Verify Search request. A maximum of 10 request_id parameters can be specified.\n    (Either request_id or request_ids to be provided)",
+                        "type": "text/plain"
+                      },
+                      "key": "request_ids",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8d04d88d-7145-42e1-9180-d7e444ce36f7",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "`Conditional` The request_id you received in the Verify Request Response.\n  (Either request_id or request_ids to be provided)",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "`Conditional` More than one request_id. Each request_id is a new parameter in the Verify Search request. A maximum of 10 request_id parameters can be specified.\n    (Either request_id or request_ids to be provided)",
+                        "type": "text/plain"
+                      },
+                      "key": "request_ids",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f7814eec-1120-4c0e-8e69-090b040f49c7",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "`Conditional` The request_id you received in the Verify Request Response.\n  (Either request_id or request_ids to be provided)",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "`Conditional` More than one request_id. Each request_id is a new parameter in the Verify Search request. A maximum of 10 request_id parameters can be specified.\n    (Either request_id or request_ids to be provided)",
+                        "type": "text/plain"
+                      },
+                      "key": "request_ids",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0decf0d7-8e88-4b25-905f-51bce3530e9a",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "`Conditional` The request_id you received in the Verify Request Response.\n  (Either request_id or request_ids to be provided)",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "`Conditional` More than one request_id. Each request_id is a new parameter in the Verify Search request. A maximum of 10 request_id parameters can be specified.\n    (Either request_id or request_ids to be provided)",
+                        "type": "text/plain"
+                      },
+                      "key": "request_ids",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6da13ddd-1c20-4e43-b358-b93586684084",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "`Conditional` The request_id you received in the Verify Request Response.\n  (Either request_id or request_ids to be provided)",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "`Conditional` More than one request_id. Each request_id is a new parameter in the Verify Search request. A maximum of 10 request_id parameters can be specified.\n    (Either request_id or request_ids to be provided)",
+                        "type": "text/plain"
+                      },
+                      "key": "request_ids",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "09c7e2e4-d586-4568-b2da-32f7fa9c1119",
+              "name": "Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "`Conditional` The request_id you received in the Verify Request Response.\n  (Either request_id or request_ids to be provided)",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "`Conditional` More than one request_id. Each request_id is a new parameter in the Verify Search request. A maximum of 10 request_id parameters can be specified.\n    (Either request_id or request_ids to be provided)",
+                        "type": "text/plain"
+                      },
+                      "key": "request_ids",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0faeb6d8-c357-425a-aec6-4f0df1cdac77",
+              "name": "Service Unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "`Conditional` The request_id you received in the Verify Request Response.\n  (Either request_id or request_ids to be provided)",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "`Conditional` More than one request_id. Each request_id is a new parameter in the Verify Search request. A maximum of 10 request_id parameters can be specified.\n    (Either request_id or request_ids to be provided)",
+                        "type": "text/plain"
+                      },
+                      "key": "request_ids",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9399238a-2ebd-4e70-862e-16ced538e2ae",
+          "name": "Control Verify Request",
+          "request": {
+            "name": "Control Verify Request",
+            "description": {
+              "content": "This APi resource is used to control the progress of your Verify Requests\n  - Send a Verify request.\n  - Check the response.\n  \n  Following are possible values of \"status\" in the response.(Code =  Command :  Error Text : Meaning)\n  \n  - 0 = Success :  Success : Success.\n  - 19 = Cancel  Verification requests can't be cancelled within the first 30 seconds  :  You must wait at least 30s after sending a Verify Request before cancelling.\n  - 19 =  Cancel : Verification requests can't be cancelled now. Too many attempts to re-deliver have already been made :  Verify has made too many attempts to redeliver a PIN for this request; you have to wait for the workflow to complete. Also, you cannot initiate a new Verify Request until this one expires.\n  - 19 =   Trigger_Next_Event : No more events are left to execute  : All the attempts to deliver the PIN for this request have been completed and there are no more events to skip to.\n  \n\n  \n ### Example\n\n  Request:\n  \n  ```\n  curl -X POST \\\n  'https://api-prd.kpn.com/communication/nexmo/verify/control' \\\n    -H 'authorization: Bearer access_token' \\\n    -H 'content-type: application/x-www-form-urlencoded' \\\n    -d 'request_id=REQUEST_ID&cmd=CMD'\n  \n  ```\n  Response:\n  \n  ```\n  {\n    \"status\":\"0\",\n    \"command\":\"cancel\"\n  }\n  \n  ```\n  ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "control"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "request_id",
+                  "value": "<string>",
+                  "description": "(Required) The request_id you received in the Verify Request Response."
+                },
+                {
+                  "disabled": false,
+                  "key": "cmd",
+                  "value": "<string>",
+                  "description": "(Required) Change the command workflow. Supported values are\n   cancel - stop the request\n   trigger_next_event - advance the request to the next part of the process.\n\n  Verification requests can't be cancelled within the first 30 seconds. You must wait at least 30s after sending a Verify Request before cancelling."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "426587a8-af93-4f11-b525-de35396b45e3",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "control"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The request_id you received in the Verify Request Response.",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Change the command workflow. Supported values are\n   cancel - stop the request\n   trigger_next_event - advance the request to the next part of the process.\n\n  Verification requests can't be cancelled within the first 30 seconds. You must wait at least 30s after sending a Verify Request before cancelling.",
+                        "type": "text/plain"
+                      },
+                      "key": "cmd",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "74d9f18e-724f-4022-ac72-eb77084ede0c",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "control"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The request_id you received in the Verify Request Response.",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Change the command workflow. Supported values are\n   cancel - stop the request\n   trigger_next_event - advance the request to the next part of the process.\n\n  Verification requests can't be cancelled within the first 30 seconds. You must wait at least 30s after sending a Verify Request before cancelling.",
+                        "type": "text/plain"
+                      },
+                      "key": "cmd",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8250663d-abe8-490a-acb1-51b7af4fca41",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "control"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The request_id you received in the Verify Request Response.",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Change the command workflow. Supported values are\n   cancel - stop the request\n   trigger_next_event - advance the request to the next part of the process.\n\n  Verification requests can't be cancelled within the first 30 seconds. You must wait at least 30s after sending a Verify Request before cancelling.",
+                        "type": "text/plain"
+                      },
+                      "key": "cmd",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bc625c6d-f866-4071-b78b-ebf0aacc47b4",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "control"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The request_id you received in the Verify Request Response.",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Change the command workflow. Supported values are\n   cancel - stop the request\n   trigger_next_event - advance the request to the next part of the process.\n\n  Verification requests can't be cancelled within the first 30 seconds. You must wait at least 30s after sending a Verify Request before cancelling.",
+                        "type": "text/plain"
+                      },
+                      "key": "cmd",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d558c328-e01c-4f09-8e25-675479ac08d6",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "control"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The request_id you received in the Verify Request Response.",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Change the command workflow. Supported values are\n   cancel - stop the request\n   trigger_next_event - advance the request to the next part of the process.\n\n  Verification requests can't be cancelled within the first 30 seconds. You must wait at least 30s after sending a Verify Request before cancelling.",
+                        "type": "text/plain"
+                      },
+                      "key": "cmd",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5520f292-fd29-4b4d-b19c-38830eba2c2c",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "control"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The request_id you received in the Verify Request Response.",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Change the command workflow. Supported values are\n   cancel - stop the request\n   trigger_next_event - advance the request to the next part of the process.\n\n  Verification requests can't be cancelled within the first 30 seconds. You must wait at least 30s after sending a Verify Request before cancelling.",
+                        "type": "text/plain"
+                      },
+                      "key": "cmd",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2322beb6-9cad-4029-b0e4-77407a6393e4",
+              "name": "Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "control"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The request_id you received in the Verify Request Response.",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Change the command workflow. Supported values are\n   cancel - stop the request\n   trigger_next_event - advance the request to the next part of the process.\n\n  Verification requests can't be cancelled within the first 30 seconds. You must wait at least 30s after sending a Verify Request before cancelling.",
+                        "type": "text/plain"
+                      },
+                      "key": "cmd",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "260dc5aa-3957-41ce-8862-c65ec4a983f4",
+              "name": "Service Unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "control"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The request_id you received in the Verify Request Response.",
+                        "type": "text/plain"
+                      },
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Change the command workflow. Supported values are\n   cancel - stop the request\n   trigger_next_event - advance the request to the next part of the process.\n\n  Verification requests can't be cancelled within the first 30 seconds. You must wait at least 30s after sending a Verify Request before cancelling.",
+                        "type": "text/plain"
+                      },
+                      "key": "cmd",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-prd.kpn.com/communication/nexmo/verify",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "107809c1-89a7-49ba-9462-10d26522112e",
+    "name": "Verify-Vonage",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Verify API is to Verify if a phone number is valid, reachable, and accessible by the user. Verification message can be customerized. Verify API provides the following services\n\n - **Verify Request** - Generate and send a PIN to your user. You use the request_id in the response is used for the Verify check.\n - **Verify Check** - Confirm that the PIN you received from your user matches the one sent by Vonage as a result of your Verify request.\n - **Verify Search** - Lookup the status of one or more requests.\n - **Verify Control** - Control the progress of your Verify requests.\n\n  \n## [Source view](https://app.swaggerhub.com/apis/kpn/verify-nexmo/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/verify-nexmo/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n  ---\n\nContact Support:\n Name: API Support\n Email: api_developer@kpn.com",
+      "type": "text/plain"
+    }
+  }
+}

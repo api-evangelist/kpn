@@ -1,0 +1,600 @@
+{
+  "item": [
+    {
+      "id": "420080bb-f66a-4be5-bea4-ee07e7a1b1a4",
+      "name": "default",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2029e48b-6cce-4f2f-8b52-f04bd96ea555",
+          "name": "get info",
+          "request": {
+            "name": "get info",
+            "description": {
+              "content": "Retrieves the information about internet connection and technology for the given address identified by postcode, house number and house extension.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "address"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "zip_code",
+                  "value": "<string>",
+                  "description": "(Required) Zip code of the address. Format `1111AR`."
+                },
+                {
+                  "disabled": false,
+                  "key": "house_number",
+                  "value": "<string>",
+                  "description": "(Required) House number of the address."
+                },
+                {
+                  "disabled": false,
+                  "key": "house_number_extension",
+                  "value": "<string>",
+                  "description": "House number extension of the address."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "API Version. If no version is provided it defaults to latest version.",
+                "key": "api-version",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "631c7ce8-d735-49ab-92f8-d3e81ac50930",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "zip_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "house_number",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "house_number_extension",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"broadband\": [\n    {\n      \"id\": 3193,\n      \"affected_elements_count\": 7485,\n      \"affected_customers_count\": 6168,\n      \"communicated_customers_sms_count\": 9827,\n      \"communicated_customers_email_count\": 424,\n      \"type\": \"string\",\n      \"cause\": \"string\",\n      \"source\": \"string\",\n      \"service\": \"string\",\n      \"state\": \"string\",\n      \"start_date\": \"string\",\n      \"end_date\": \"string\",\n      \"region\": \"string\",\n      \"description\": \"string\",\n      \"long_description\": \"string\",\n      \"serviceguard_ticket_id\": \"string\",\n      \"created_at\": \"string\",\n      \"communication_type\": \"string\",\n      \"user\": \"string\"\n    },\n    {\n      \"id\": 2688,\n      \"affected_elements_count\": 2802,\n      \"affected_customers_count\": 4984,\n      \"communicated_customers_sms_count\": 7240,\n      \"communicated_customers_email_count\": 3805,\n      \"type\": \"string\",\n      \"cause\": \"string\",\n      \"source\": \"string\",\n      \"service\": \"string\",\n      \"state\": \"string\",\n      \"start_date\": \"string\",\n      \"end_date\": \"string\",\n      \"region\": \"string\",\n      \"description\": \"string\",\n      \"long_description\": \"string\",\n      \"serviceguard_ticket_id\": \"string\",\n      \"created_at\": \"string\",\n      \"communication_type\": \"string\",\n      \"user\": \"string\"\n    }\n  ],\n  \"fixed\": [\n    {\n      \"id\": 5388,\n      \"affected_elements_count\": 9539,\n      \"affected_customers_count\": 6477,\n      \"communicated_customers_sms_count\": 7390,\n      \"communicated_customers_email_count\": 99,\n      \"type\": \"string\",\n      \"cause\": \"string\",\n      \"source\": \"string\",\n      \"service\": \"string\",\n      \"state\": \"string\",\n      \"start_date\": \"string\",\n      \"end_date\": \"string\",\n      \"region\": \"string\",\n      \"description\": \"string\",\n      \"long_description\": \"string\",\n      \"serviceguard_ticket_id\": \"string\",\n      \"created_at\": \"string\",\n      \"communication_type\": \"string\",\n      \"user\": \"string\"\n    },\n    {\n      \"id\": 2578,\n      \"affected_elements_count\": 4703,\n      \"affected_customers_count\": 3433,\n      \"communicated_customers_sms_count\": 9010,\n      \"communicated_customers_email_count\": 6205,\n      \"type\": \"string\",\n      \"cause\": \"string\",\n      \"source\": \"string\",\n      \"service\": \"string\",\n      \"state\": \"string\",\n      \"start_date\": \"string\",\n      \"end_date\": \"string\",\n      \"region\": \"string\",\n      \"description\": \"string\",\n      \"long_description\": \"string\",\n      \"serviceguard_ticket_id\": \"string\",\n      \"created_at\": \"string\",\n      \"communication_type\": \"string\",\n      \"user\": \"string\"\n    }\n  ],\n  \"mobile\": [\n    {\n      \"id\": 4186,\n      \"affected_elements_count\": 2263,\n      \"affected_customers_count\": 4431,\n      \"communicated_customers_sms_count\": 6397,\n      \"communicated_customers_email_count\": 5228,\n      \"type\": \"string\",\n      \"cause\": \"string\",\n      \"source\": \"string\",\n      \"service\": \"string\",\n      \"state\": \"string\",\n      \"start_date\": \"string\",\n      \"end_date\": \"string\",\n      \"region\": \"string\",\n      \"description\": \"string\",\n      \"long_description\": \"string\",\n      \"serviceguard_ticket_id\": \"string\",\n      \"created_at\": \"string\",\n      \"communication_type\": \"string\",\n      \"user\": \"string\"\n    },\n    {\n      \"id\": 1708,\n      \"affected_elements_count\": 6664,\n      \"affected_customers_count\": 4075,\n      \"communicated_customers_sms_count\": 5900,\n      \"communicated_customers_email_count\": 3008,\n      \"type\": \"string\",\n      \"cause\": \"string\",\n      \"source\": \"string\",\n      \"service\": \"string\",\n      \"state\": \"string\",\n      \"start_date\": \"string\",\n      \"end_date\": \"string\",\n      \"region\": \"string\",\n      \"description\": \"string\",\n      \"long_description\": \"string\",\n      \"serviceguard_ticket_id\": \"string\",\n      \"created_at\": \"string\",\n      \"communication_type\": \"string\",\n      \"user\": \"string\"\n    }\n  ],\n  \"generic\": [\n    {\n      \"id\": 2778,\n      \"affected_elements_count\": 6258,\n      \"affected_customers_count\": 2466,\n      \"communicated_customers_sms_count\": 4649,\n      \"communicated_customers_email_count\": 4386,\n      \"type\": \"string\",\n      \"cause\": \"string\",\n      \"source\": \"string\",\n      \"service\": \"string\",\n      \"state\": \"string\",\n      \"start_date\": \"string\",\n      \"end_date\": \"string\",\n      \"region\": \"string\",\n      \"description\": \"string\",\n      \"long_description\": \"string\",\n      \"serviceguard_ticket_id\": \"string\",\n      \"created_at\": \"string\",\n      \"communication_type\": \"string\",\n      \"user\": \"string\"\n    },\n    {\n      \"id\": 5215,\n      \"affected_elements_count\": 7138,\n      \"affected_customers_count\": 683,\n      \"communicated_customers_sms_count\": 7998,\n      \"communicated_customers_email_count\": 5569,\n      \"type\": \"string\",\n      \"cause\": \"string\",\n      \"source\": \"string\",\n      \"service\": \"string\",\n      \"state\": \"string\",\n      \"start_date\": \"string\",\n      \"end_date\": \"string\",\n      \"region\": \"string\",\n      \"description\": \"string\",\n      \"long_description\": \"string\",\n      \"serviceguard_ticket_id\": \"string\",\n      \"created_at\": \"string\",\n      \"communication_type\": \"string\",\n      \"user\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bcac017f-257f-412b-816f-222e0e062ed5",
+              "name": "bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "zip_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "house_number",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "house_number_extension",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "72bf28d7-08ea-4ee9-8d35-4f6035212468",
+              "name": "unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "zip_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "house_number",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "house_number_extension",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "36d8daec-a09d-4b89-8b3b-6542ecdc289b",
+              "name": "forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "zip_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "house_number",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "house_number_extension",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ee49b23b-1026-4478-996a-62eadeb238e0",
+              "name": "not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "zip_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "house_number",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "house_number_extension",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f98d8da5-bf87-4be0-8db8-a87196766439",
+              "name": "too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "zip_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "house_number",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "house_number_extension",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d6c0af86-3f55-4afb-8031-fc84cf022461",
+              "name": "server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "zip_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "house_number",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "house_number_extension",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a5838556-f63b-4819-a9bd-c8535a80ff43",
+              "name": "service unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "zip_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "house_number",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "house_number_extension",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-prd.kpn.com/network/kpn/disturbance-check",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "2d5a86be-55b8-4bf8-be54-48dfa03a96a7",
+    "name": "Disturbance Check - KPN",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API allows you to check the disturbance of the internet and the technology at an address. The API takes the postcode, house number and house extension, sends the request to the backend to retrieve real time information about the internet and technology service at the address.\n### Key highlights\n- **Sandbox:** Full-fledged capabilities.\n- **Security:**  HTTPS, OAuth, Rate limit.\n- **Versioning:**  Supports version-less API, version tight. If no version is provided (in header) it defaults to latest version. \n\n## [Source view](https://app.swaggerhub.com/apis/kpn/disturbance-check-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/disturbance-check-kpn/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---\n\nContact Support:\n Name: API Support\n Email: api_developer@kpn.com",
+      "type": "text/plain"
+    }
+  }
+}

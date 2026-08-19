@@ -1,0 +1,1927 @@
+{
+  "item": [
+    {
+      "id": "222e8113-5725-4e2d-a06b-54aca57d26e1",
+      "name": "Start engineering job",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e81f2102-9bf2-439f-a827-bb4b2144c9aa",
+          "name": "Request a signed URL to start an FTTx engineering job.",
+          "request": {
+            "name": "Request a signed URL to start an FTTx engineering job.",
+            "description": {
+              "content": "Submits a new engineering job identifier. The response is a signed URL for the Amazon Simple Storage Service (Amazon S3) bucket. The input data for the engineering job needs to be uploaded to the received the signed URL location. See **/s3url_uploads** endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "startJobS3"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The **jobId** of the engineering job that you want to run. This will be used as identifier (and filename) for the Amazon Simple Storage Service (Amazon S3) bucket where you need to submit the input data for the engineering job.",
+                "key": "jsonFileName",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "db8ba75c-5958-4dab-9e3d-0ceec176198d",
+              "name": "The result of the startJobS3 is a signed URL for the Amazon Simple Storage Service (Amazon S3) bucket. The input data for the engineering job needs to be uploaded to the received signed URL location.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "startJobS3"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The **jobId** of the engineering job that you want to run. This will be used as identifier (and filename) for the Amazon Simple Storage Service (Amazon S3) bucket where you need to submit the input data for the engineering job.",
+                    "key": "jsonFileName",
+                    "value": "FTTx_AdamNorth_Input_Dec2020"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"signedUrl\": \"https://ftth-engineering-prod.s3.amazonaws.com/s3url_uploads/FTTx_AdamNorth_Input_Dec2020.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20201201T120000Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA&X-Amz-Signature=aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2a1b0825-fbe7-477d-8bcc-926c5d121376",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "startJobS3"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The **jobId** of the engineering job that you want to run. This will be used as identifier (and filename) for the Amazon Simple Storage Service (Amazon S3) bucket where you need to submit the input data for the engineering job.",
+                    "key": "jsonFileName",
+                    "value": "FTTx_AdamNorth_Input_Dec2020"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d17f6547-a9c0-4ac1-a91f-88694aaa6efc",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "startJobS3"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The **jobId** of the engineering job that you want to run. This will be used as identifier (and filename) for the Amazon Simple Storage Service (Amazon S3) bucket where you need to submit the input data for the engineering job.",
+                    "key": "jsonFileName",
+                    "value": "FTTx_AdamNorth_Input_Dec2020"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c76986d2-474f-4a7b-a717-7eebc0dd1842",
+              "name": "forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "startJobS3"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The **jobId** of the engineering job that you want to run. This will be used as identifier (and filename) for the Amazon Simple Storage Service (Amazon S3) bucket where you need to submit the input data for the engineering job.",
+                    "key": "jsonFileName",
+                    "value": "FTTx_AdamNorth_Input_Dec2020"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a19cb552-f37c-4400-8e2c-ca92075a5c82",
+              "name": "not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "startJobS3"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The **jobId** of the engineering job that you want to run. This will be used as identifier (and filename) for the Amazon Simple Storage Service (Amazon S3) bucket where you need to submit the input data for the engineering job.",
+                    "key": "jsonFileName",
+                    "value": "FTTx_AdamNorth_Input_Dec2020"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa5d9d3a-f89b-4621-be1f-dfd74737dc29",
+              "name": "too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "startJobS3"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The **jobId** of the engineering job that you want to run. This will be used as identifier (and filename) for the Amazon Simple Storage Service (Amazon S3) bucket where you need to submit the input data for the engineering job.",
+                    "key": "jsonFileName",
+                    "value": "FTTx_AdamNorth_Input_Dec2020"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f4805647-ea50-4165-b827-ffec8d5d2ee6",
+              "name": "server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "startJobS3"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The **jobId** of the engineering job that you want to run. This will be used as identifier (and filename) for the Amazon Simple Storage Service (Amazon S3) bucket where you need to submit the input data for the engineering job.",
+                    "key": "jsonFileName",
+                    "value": "FTTx_AdamNorth_Input_Dec2020"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "77399b8b-65cf-4213-8a33-b0f5fb548c51",
+              "name": "gateway_error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "startJobS3"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The **jobId** of the engineering job that you want to run. This will be used as identifier (and filename) for the Amazon Simple Storage Service (Amazon S3) bucket where you need to submit the input data for the engineering job.",
+                    "key": "jsonFileName",
+                    "value": "FTTx_AdamNorth_Input_Dec2020"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "94a5f4cd-15f2-45d4-8485-e41214c797e8",
+              "name": "service unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "startJobS3"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The **jobId** of the engineering job that you want to run. This will be used as identifier (and filename) for the Amazon Simple Storage Service (Amazon S3) bucket where you need to submit the input data for the engineering job.",
+                    "key": "jsonFileName",
+                    "value": "FTTx_AdamNorth_Input_Dec2020"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2be61f27-1726-49bc-9a65-08d5467881c9",
+          "name": "Submit the input for the engineering job.",
+          "request": {
+            "name": "Submit the input for the engineering job.",
+            "description": {
+              "content": "Uploads the data of the new engineering job for calculation. Use the signed URL received from **/startJobS3** for this. In the request body you need to specify an area for engineering. When the input has been submitted, this is detected and the calculation will start.",
+              "type": "text/plain"
+            },
+            "url": {
+              "protocol": "https",
+              "path": [
+                "s3url_uploads",
+                ":jsonFileNameAndExtension"
+              ],
+              "host": [
+                "ftth-engineering-prod",
+                "s3",
+                "amazonaws",
+                "com"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "X-Amz-Algorithm",
+                  "value": "<string>",
+                  "description": "(Required) Identifies the version of AWS Signature and the algorithm used to calculate the signature. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br> Example: `AWS4-HMAC-SHA256`"
+                },
+                {
+                  "disabled": false,
+                  "key": "X-Amz-Credential",
+                  "value": "<string>",
+                  "description": "(Required) This parameter provides scope (AWS region and service) for which the signature is valid. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br> Example: `AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request`"
+                },
+                {
+                  "disabled": false,
+                  "key": "X-Amz-Date",
+                  "value": "<string>",
+                  "description": "(Required) The date when the signedUrl was generated. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**.     </br>\n    Example: `20201201T120000Z`\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "X-Amz-Expires",
+                  "value": "<string>",
+                  "description": "(Required) Provides the time period, in seconds, for which the generated presigned URL is valid. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br>\n    Example: `3600`\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "X-Amz-SignedHeaders",
+                  "value": "<string>",
+                  "description": "(Required) Lists the headers used to calculate the signature. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS**. </br>\n    Example: `host`\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "X-Amz-Security-Token",
+                  "value": "<string>",
+                  "description": "(Required) Additional credential parameter. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br>\nExample: `AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA`\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "X-Amz-Signature",
+                  "value": "<string>",
+                  "description": "(Required) The signature to authenticate your request. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**.\n  </br>\nExample: `aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb`\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "jsonFileNameAndExtension",
+                  "description": "(Required) The **jobId** of the engineering job you defined in **/startJobS3** or **/jobResultS3** with added .json extension.  </br>\nPattern: `^.+\\.(json)$` </br>\nExample: `FTTx_AdamNorth_Input_Dec2020.json`\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jobId\": \"<uuid>\",\n  \"cable7x14Costs\": \"<double>\",\n  \"cable2x14Costs\": \"<double>\",\n  \"cableDacCosts\": \"<double>\",\n  \"hasCosts\": \"<double>\",\n  \"dpCosts\": \"<double>\",\n  \"cable96vCosts\": \"<double>\",\n  \"bisCosts\": \"<double>\",\n  \"miniPopCosts\": \"<double>\",\n  \"cityPopCosts\": \"<double>\",\n  \"floorTiles\": \"<double>\",\n  \"klinkers\": \"<double>\",\n  \"pavement\": \"<double>\",\n  \"green\": \"<double>\",\n  \"asphalt\": \"<double>\",\n  \"treeDrilling\": \"<double>\",\n  \"sand\": \"<double>\",\n  \"peat\": \"<double>\",\n  \"clay\": \"<double>\",\n  \"loss\": \"<double>\",\n  \"projectSpecificCosts\": \"<double>\",\n  \"feesAndDegeneration\": \"<double>\",\n  \"backhaulCost\": \"<double>\",\n  \"contractor\": \"<string>\",\n  \"depthPosition\": \"<string>\",\n  \"areaPopCosts\": \"<double>\",\n  \"maxDpConnections\": \"<double>\",\n  \"networkType\": \"<string>\",\n  \"popLocation\": {\n    \"x\": \"<double>\",\n    \"y\": \"<double>\"\n  },\n  \"addresses\": [\n    {\n      \"zipcode\": \"<string>\",\n      \"street\": \"<string>\",\n      \"housenumber\": \"<integer>\",\n      \"extension\": \"<string>\",\n      \"x\": \"<double>\",\n      \"y\": \"<double>\",\n      \"city\": \"<string>\",\n      \"bagGeometryIdentificatie\": \"<string>\",\n      \"usagegoals\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"zipcode\": \"<string>\",\n      \"street\": \"<string>\",\n      \"housenumber\": \"<integer>\",\n      \"extension\": \"<string>\",\n      \"x\": \"<double>\",\n      \"y\": \"<double>\",\n      \"city\": \"<string>\",\n      \"bagGeometryIdentificatie\": \"<string>\",\n      \"usagegoals\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c339a499-e2e7-4e42-b560-5924b96de287",
+              "name": "Successful input data submission.",
+              "originalRequest": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "s3url_uploads",
+                    ":jsonFileNameAndExtension"
+                  ],
+                  "host": [
+                    "ftth-engineering-prod",
+                    "s3",
+                    "amazonaws",
+                    "com"
+                  ],
+                  "query": [
+                    {
+                      "key": "X-Amz-Algorithm",
+                      "value": "AWS4-HMAC-SHA256"
+                    },
+                    {
+                      "key": "X-Amz-Credential",
+                      "value": "AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request"
+                    },
+                    {
+                      "key": "X-Amz-Date",
+                      "value": "20201201T120000Z"
+                    },
+                    {
+                      "key": "X-Amz-Expires",
+                      "value": "3600"
+                    },
+                    {
+                      "key": "X-Amz-SignedHeaders",
+                      "value": "host"
+                    },
+                    {
+                      "key": "X-Amz-Security-Token",
+                      "value": "AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA"
+                    },
+                    {
+                      "key": "X-Amz-Signature",
+                      "value": "aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jsonFileNameAndExtension",
+                      "description": "(Required) The **jobId** of the engineering job you defined in **/startJobS3** or **/jobResultS3** with added .json extension.  </br>\nPattern: `^.+\\.(json)$` </br>\nExample: `FTTx_AdamNorth_Input_Dec2020.json`\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"jobId\": \"<uuid>\",\n  \"cable7x14Costs\": \"<double>\",\n  \"cable2x14Costs\": \"<double>\",\n  \"cableDacCosts\": \"<double>\",\n  \"hasCosts\": \"<double>\",\n  \"dpCosts\": \"<double>\",\n  \"cable96vCosts\": \"<double>\",\n  \"bisCosts\": \"<double>\",\n  \"miniPopCosts\": \"<double>\",\n  \"cityPopCosts\": \"<double>\",\n  \"floorTiles\": \"<double>\",\n  \"klinkers\": \"<double>\",\n  \"pavement\": \"<double>\",\n  \"green\": \"<double>\",\n  \"asphalt\": \"<double>\",\n  \"treeDrilling\": \"<double>\",\n  \"sand\": \"<double>\",\n  \"peat\": \"<double>\",\n  \"clay\": \"<double>\",\n  \"loss\": \"<double>\",\n  \"projectSpecificCosts\": \"<double>\",\n  \"feesAndDegeneration\": \"<double>\",\n  \"backhaulCost\": \"<double>\",\n  \"contractor\": \"<string>\",\n  \"depthPosition\": \"<string>\",\n  \"areaPopCosts\": \"<double>\",\n  \"maxDpConnections\": \"<double>\",\n  \"networkType\": \"<string>\",\n  \"popLocation\": {\n    \"x\": \"<double>\",\n    \"y\": \"<double>\"\n  },\n  \"addresses\": [\n    {\n      \"zipcode\": \"<string>\",\n      \"street\": \"<string>\",\n      \"housenumber\": \"<integer>\",\n      \"extension\": \"<string>\",\n      \"x\": \"<double>\",\n      \"y\": \"<double>\",\n      \"city\": \"<string>\",\n      \"bagGeometryIdentificatie\": \"<string>\",\n      \"usagegoals\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"zipcode\": \"<string>\",\n      \"street\": \"<string>\",\n      \"housenumber\": \"<integer>\",\n      \"extension\": \"<string>\",\n      \"x\": \"<double>\",\n      \"y\": \"<double>\",\n      \"city\": \"<string>\",\n      \"bagGeometryIdentificatie\": \"<string>\",\n      \"usagegoals\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "1fdcfd68-e225-4539-a3d4-f576efe3002a",
+      "name": "Retrieve job result",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0ff44eb4-058b-4038-b5a0-0acb472ca97b",
+          "name": "Returns the current status of the calculation job identified by jobId",
+          "request": {
+            "name": "Returns the current status of the calculation job identified by jobId",
+            "description": {
+              "content": "This method is called by the HLD front-end to get the current status of a job",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "jobStatus",
+                ":jobId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "jobId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "26cf6ca9-43b6-4ce3-b14a-b653426fef8a",
+              "name": "Job status",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jobStatus",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"queued\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "64482df9-f1f1-4c1e-a22e-b79500b51f8c",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jobStatus",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "475422e5-b532-47eb-9fe9-953762f2f60b",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jobStatus",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5bd2ee84-686f-4e16-a866-48fa2d5b0cf3",
+              "name": "forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jobStatus",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1f0d13ef-7c3c-4ea7-bd8c-e9ae4ad874a4",
+              "name": "not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jobStatus",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b9861a33-80bc-4b27-900f-bc292ee632b0",
+              "name": "too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jobStatus",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "18fa170d-c661-479a-8ea3-4808b635a5ad",
+              "name": "server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jobStatus",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3fb8e9ed-641d-41da-9f73-d8b10bcc69b4",
+              "name": "gateway_error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jobStatus",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ca64616-32a3-4a76-b5a9-b2fdeb899164",
+              "name": "service unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jobStatus",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4829a03b-c233-4053-9572-8e973f0a387c",
+          "name": "Returns a signed URL where the results of an engineering job can be retrieved.",
+          "request": {
+            "name": "Returns a signed URL where the results of an engineering job can be retrieved.",
+            "description": {
+              "content": "When an engineering job is finished. This endpoint should be called first to retrieve a signed URL for the Amazon Simple Storage Service (Amazon S3) bucket where the results are stored. More details on how to use this URL to retrieve the results are specified in the /Output endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "jobResultS3",
+                ":jobId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "jobId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cf3a905d-1875-46c9-9c13-c2ef0146ad6f",
+              "name": "The expected response is a signed URL for the Amazon Simple Storage Service (Amazon S3) bucket.</br> This signed URL is then to be used to retreieve the engineering job results, see **/Output/{jsonFileNameAndExtension}**.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jobResultS3",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"signedUrl\": \"https://ftth-engineering-prod.s3.amazonaws.com/Output/FTTx_AdamNorth_Input_Dec2020.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20201201T120000Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA&X-Amz-Signature=aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ac469b82-65e9-4166-8930-3f78c35f34e7",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jobResultS3",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e2c5f817-16ed-4547-b647-5ad29d886b48",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jobResultS3",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5f579d41-c833-4441-977e-73a89436ffef",
+              "name": "forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jobResultS3",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d93303de-8c13-479f-8d5d-57549731bbd4",
+              "name": "not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jobResultS3",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3e95cb41-dbec-499c-babb-2e6107ad5413",
+              "name": "too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jobResultS3",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1cf97230-bf2c-456d-8338-ad3e34d008bf",
+              "name": "server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jobResultS3",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "efca44e7-9045-4cac-a4fd-90037058fffe",
+              "name": "gateway_error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jobResultS3",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "42b2dd47-095c-46d1-be1e-f614fd8c422d",
+              "name": "service unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "jobResultS3",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "43f905b7-6233-46ba-9ea4-f18c7d928612",
+          "name": "Retrieve the results of an engineering job.",
+          "request": {
+            "name": "Retrieve the results of an engineering job.",
+            "description": {
+              "content": "Retrieves the results of the engineering job. Use the signed URL received from /jobResultS3/{jobId} for this.",
+              "type": "text/plain"
+            },
+            "url": {
+              "protocol": "https",
+              "path": [
+                "Output",
+                ":jsonFileNameAndExtension"
+              ],
+              "host": [
+                "ftth-engineering-prod",
+                "s3",
+                "amazonaws",
+                "com"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "X-Amz-Algorithm",
+                  "value": "<string>",
+                  "description": "(Required) Identifies the version of AWS Signature and the algorithm used to calculate the signature. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br> Example: `AWS4-HMAC-SHA256`"
+                },
+                {
+                  "disabled": false,
+                  "key": "X-Amz-Credential",
+                  "value": "<string>",
+                  "description": "(Required) This parameter provides scope (AWS region and service) for which the signature is valid. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br> Example: `AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request`"
+                },
+                {
+                  "disabled": false,
+                  "key": "X-Amz-Date",
+                  "value": "<string>",
+                  "description": "(Required) The date when the signedUrl was generated. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**.     </br>\n    Example: `20201201T120000Z`\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "X-Amz-Expires",
+                  "value": "<string>",
+                  "description": "(Required) Provides the time period, in seconds, for which the generated presigned URL is valid. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br>\n    Example: `3600`\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "X-Amz-SignedHeaders",
+                  "value": "<string>",
+                  "description": "(Required) Lists the headers used to calculate the signature. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS**. </br>\n    Example: `host`\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "X-Amz-Security-Token",
+                  "value": "<string>",
+                  "description": "(Required) Additional credential parameter. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**. </br>\nExample: `AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA`\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "X-Amz-Signature",
+                  "value": "<string>",
+                  "description": "(Required) The signature to authenticate your request. Use the value provided as part of the signed URL response of **/startJobS3** or **/jobResultS3**.\n  </br>\nExample: `aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb`\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "jsonFileNameAndExtension",
+                  "description": "(Required) The **jobId** of the engineering job you defined in **/startJobS3** or **/jobResultS3** with added .json extension.  </br>\nPattern: `^.+\\.(json)$` </br>\nExample: `FTTx_AdamNorth_Input_Dec2020.json`\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ed8f3adb-5d1b-4797-ad5b-a1470990273a",
+              "name": "This is the result of the High-Level Design FTTx engieering job, based on the input provided.",
+              "originalRequest": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "Output",
+                    ":jsonFileNameAndExtension"
+                  ],
+                  "host": [
+                    "ftth-engineering-prod",
+                    "s3",
+                    "amazonaws",
+                    "com"
+                  ],
+                  "query": [
+                    {
+                      "key": "X-Amz-Algorithm",
+                      "value": "AWS4-HMAC-SHA256"
+                    },
+                    {
+                      "key": "X-Amz-Credential",
+                      "value": "AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request"
+                    },
+                    {
+                      "key": "X-Amz-Date",
+                      "value": "20201201T120000Z"
+                    },
+                    {
+                      "key": "X-Amz-Expires",
+                      "value": "3600"
+                    },
+                    {
+                      "key": "X-Amz-SignedHeaders",
+                      "value": "host"
+                    },
+                    {
+                      "key": "X-Amz-Security-Token",
+                      "value": "AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA"
+                    },
+                    {
+                      "key": "X-Amz-Signature",
+                      "value": "aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jsonFileNameAndExtension",
+                      "description": "(Required) The **jobId** of the engineering job you defined in **/startJobS3** or **/jobResultS3** with added .json extension.  </br>\nPattern: `^.+\\.(json)$` </br>\nExample: `FTTx_AdamNorth_Input_Dec2020.json`\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"jobId\": \"ea87c5b5-3dbd-7814-35b2-2e6f04553950\",\n  \"numberOfCoreAreas\": 9984,\n  \"amountHp\": 9650,\n  \"amountHpLowRise\": 2842,\n  \"amountHpHighRise\": 5777,\n  \"totalCable7x14Length\": 7938.867888980029,\n  \"totalCable2x14Length\": 4724.1676955049,\n  \"totalCable96vLength\": 3367.8367219046854,\n  \"totalCableDacLength\": 7073.717934704889,\n  \"totalBisLength\": 3351.8428126309695,\n  \"hasLength\": 7942.655803696609,\n  \"lengthDirectionalBoring\": 433.7691078524042,\n  \"amountDp\": 6699.853414564507,\n  \"ftthDeploymentCosts\": 2953.8992223261575,\n  \"incaContractCapex\": 722.8148901669496,\n  \"incaCapex\": 2879.462350186759,\n  \"maximalCableLength\": 9425.856287392771,\n  \"distributionPoints\": [\n    {\n      \"id\": \"string\",\n      \"x\": 9720.885681616997,\n      \"y\": 4847.907847150876,\n      \"hhRoutes\": [\n        {\n          \"trenchIds\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"trenchIds\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"x\": 6118.009112288262,\n      \"y\": 6702.429149363679,\n      \"hhRoutes\": [\n        {\n          \"trenchIds\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"trenchIds\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"cables96v\": [\n    {\n      \"distributionPointId1\": \"string\",\n      \"distributionPointId2\": \"string\",\n      \"coreCableId\": 222,\n      \"trenchIds\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"distributionPointId1\": \"string\",\n      \"distributionPointId2\": \"string\",\n      \"coreCableId\": 222,\n      \"trenchIds\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"coreCables\": [\n    {\n      \"id\": 222,\n      \"popId\": 333,\n      \"trenchIds\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": 222,\n      \"popId\": 333,\n      \"trenchIds\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"pops\": [\n    {\n      \"id\": 333,\n      \"type\": \"CP-AP_1496\",\n      \"x\": 52.99187331,\n      \"y\": 5.99117733\n    },\n    {\n      \"id\": 333,\n      \"type\": \"CP-AP_1496\",\n      \"x\": 52.99187331,\n      \"y\": 5.99117733\n    }\n  ],\n  \"splitters\": [\n    {\n      \"id\": 754,\n      \"type\": \"Splitter\",\n      \"x\": 52.99187331,\n      \"y\": 5.99117733\n    },\n    {\n      \"id\": 754,\n      \"type\": \"Splitter\",\n      \"x\": 52.99187331,\n      \"y\": 5.99117733\n    }\n  ],\n  \"haslist\": [\n    {\n      \"id\": \"HAS 1127PV189\",\n      \"x1\": 109.80735020248211,\n      \"y1\": 8390.545358705367,\n      \"x2\": 8116.959178174078,\n      \"y2\": 3095.1315509341625\n    },\n    {\n      \"id\": \"HAS 1127PV189\",\n      \"x1\": 5887.209495715198,\n      \"y1\": 7896.533630676882,\n      \"x2\": 307.65599937013997,\n      \"y2\": 2804.2696133309255\n    }\n  ],\n  \"trenches\": [\n    {\n      \"id\": \"1005_up_12800\",\n      \"x1\": 1261.163047896997,\n      \"y1\": 4531.502898301788,\n      \"x2\": 7654.037105720918,\n      \"y2\": 4703.663393832649,\n      \"length\": 2883.040666462858,\n      \"surfaceType\": \"road\"\n    },\n    {\n      \"id\": \"1005_up_12800\",\n      \"x1\": 1501.5871306940442,\n      \"y1\": 5102.572967880701,\n      \"x2\": 6577.967570730998,\n      \"y2\": 7373.799205285506,\n      \"length\": 7039.757021881301,\n      \"surfaceType\": \"road\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-prd.kpn.com/network/kpn/ftth-engineering/",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "bcacc9a3-5fea-452a-9e46-480e9279b229",
+    "name": "High-Level Design FTTx",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The High-Level Design FTTx API supports Fiber to the Home (FTTH) engineering jobs. It allows you to calculate the required work and cost for Fiber rollout in a provided region.\n\nRun the endpoints in this order:\n\n1. **POST /startJobS3** to retrieve a signed URL for Amazon S3 bucket. Send this URL using the following endpoint.\n2. **PUT /s3url_uploads/{jsonFileNameAndExtension}** to upload the job.\n3. **GET /jobStatus/{jobId}** to retrieve the status of the job.\n4. **GET / jobResultS3/{jobId}** to retrieve a signed URL for the Amazon Simple Storage Service (Amazon S3) bucket. Send this URL using the following endpoint.\n5. **GET /Output/{jsonFileNameAndExtension}** to retrieve the results of the engineering job.\n\n ### Key highlights\n\n - **Security:** HTTPS, OAuth, Rate limit\n - **Versioning:** Supports version-less API, version tight. If no version\n is provided (in header) it defaults to latest version. \n\n  [Source view](https://app.swaggerhub.com/apis/kpn/high-level_design_ftth)<br/>\n  [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/high-level_design_ftth)\n  \n  ---\n  \n  [KPN Developer](https://developer.kpn.com/)<br/>\n  [Getting Started](https://developer.kpn.com/getting-started)\n  \n",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,252 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ServiceNow Customer Connect",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Ticket",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Ticket delatils",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/network/kpn/servicenow/Ticket",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "kpn_ticket_number",
+                "value": "",
+                "type": "query",
+                "description": "KPN number of the ticket to get the details for. If not provided a list of open tickets will be returned."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get details for an open tickets"
+        },
+        {
+          "info": {
+            "name": "Create a new Ticket",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/network/kpn/servicenow/Ticket",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation will create a new ticket in KPN ServiceNow Green"
+        },
+        {
+          "info": {
+            "name": "Update an existing Ticket",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api-prd.kpn.com/network/kpn/servicenow/Ticket",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation will update an existing ticket in KPN ServiceNow Green"
+        },
+        {
+          "info": {
+            "name": "List Tickets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/network/kpn/servicenow/ListOpenTickets",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "kpn_ticket_number",
+                "value": "",
+                "type": "query",
+                "description": "KPN number of the ticket to get the details for. If not provided a list of open tickets will be returned."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get a list of open tickets"
+        },
+        {
+          "info": {
+            "name": "Ticket Updates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/network/kpn/servicenow/TicketUpdates",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation retrieves the updates for tickets"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Task",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update an existing Task",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api-prd.kpn.com/network/kpn/servicenow/Task",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation will update an existing task in KPN ServiceNow Green"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Attachment",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Attachment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/network/kpn/servicenow/GetAttachment/:attachment_id",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "attachment_id",
+                "value": "",
+                "type": "path",
+                "description": "attachment_id to get the attachment."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get attachment"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

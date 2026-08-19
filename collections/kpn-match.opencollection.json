@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Match - KPN",
+    "version": "1.1.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Token Request",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://virtserver.swaggerhub.com/kpn/Match-KPN/1.1.1/token",
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Token Request"
+    },
+    {
+      "info": {
+        "name": "Insights Request",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://virtserver.swaggerhub.com/kpn/Match-KPN/1.1.1/insights/:msisdn",
+        "params": [
+          {
+            "name": "msisdn",
+            "value": "",
+            "type": "path"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        },
+        "auth": {
+          "type": "bearer",
+          "token": "{{bearerToken}}"
+        }
+      },
+      "docs": "Insights Request"
+    }
+  ],
+  "bundled": true
+}

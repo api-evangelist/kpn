@@ -1,0 +1,82 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Speech To Text - Xdroid",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Upload audio",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submits audio files for analyis.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/data/kpn/voiceanalytics/job",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "config",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "audio_file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "To create a new transcript use the following recommendations: \n+ Accepted container formats:\n  - .wav\n  - .mp3 / .mp4\n  - .opus / .ogg\n  \n+ Preferred requirements:\n  - Bitrate: 64 Kbit/s per channel (stero recording is supported)\n  - Sample rate: 8 KHz\n  - Uncompressed files preferred\n\n+ Max audio file size: 150 MB."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Retrieve transcription",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves JSON transcript of a finished transcription job.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/data/kpn/voiceanalytics/job/:job_id",
+            "params": [
+              {
+                "name": "job_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of job to fetch."
+              }
+            ]
+          },
+          "docs": "Retrieves JSON file with the transcript of a previously uploaded audio file.\n "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

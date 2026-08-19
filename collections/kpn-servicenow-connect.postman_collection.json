@@ -1,0 +1,3189 @@
+{
+  "item": [
+    {
+      "id": "734ca3ff-fb2c-40e8-adbb-4602717f050d",
+      "name": "Ticket",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8d29c9d9-f847-4e0d-aaac-0850d9334f18",
+          "name": "Create a new Ticket",
+          "request": {
+            "name": "Create a new Ticket",
+            "description": {
+              "content": "This operation will create a new ticket in KPN ServiceNow Green",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Ticket"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "API Version. If no version is provided it defaults to latest version.",
+                "key": "api-version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ticket_type\": \"<string>\",\n  \"customer_reference_number\": \"<string>\",\n  \"short_description\": \"<string>\",\n  \"service\": \"<string>\",\n  \"description\": \"<string>\",\n  \"ci\": \"<string>\",\n  \"desired_delivery_date\": \"<string>\",\n  \"contact\": \"<string>\",\n  \"user\": \"<string>\",\n  \"priority\": \"<string>\",\n  \"attachments\": [\n    {\n      \"name\": \"<string>\",\n      \"content\": \"<string>\",\n      \"content_type\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"content\": \"<string>\",\n      \"content_type\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fe655159-7b82-46a5-be10-e21687341164",
+              "name": "Successful operation. The body will contain the ticket number in KPN ServiceNow Green",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ticket_type\": \"<string>\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"short_description\": \"Win11 L schijf: Kan niet worden toegevoegd\",\n  \"service\": \"Azure Managed Cloud\",\n  \"description\": \"Some extended description\\\\nSecond line\",\n  \"ci\": \"GSEM01300\",\n  \"desired_delivery_date\": \"2024-10-25 10:26:27\",\n  \"contact\": \"jan.jansen@customer.com\",\n  \"user\": \"truus.bakker@customer.com\",\n  \"priority\": \"1 - Critical\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"TechnicalEndpointSuccess\",\n  \"state\": \"inserted\",\n  \"kpn_ticket_number\": \"INC#34567890\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"note\": \"Incident INC#34567890 has been created;\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "452c5ef7-ce9d-40c2-87d5-99a3b3ec95cd",
+              "name": "Bad Request. The body will contain details for the error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ticket_type\": \"<string>\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"short_description\": \"Win11 L schijf: Kan niet worden toegevoegd\",\n  \"service\": \"Azure Managed Cloud\",\n  \"description\": \"Some extended description\\\\nSecond line\",\n  \"ci\": \"GSEM01300\",\n  \"desired_delivery_date\": \"2024-10-25 10:26:27\",\n  \"contact\": \"jan.jansen@customer.com\",\n  \"user\": \"truus.bakker@customer.com\",\n  \"priority\": \"1 - Critical\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f6965cd1-1ac7-440c-86c4-451defc7508f",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ticket_type\": \"<string>\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"short_description\": \"Win11 L schijf: Kan niet worden toegevoegd\",\n  \"service\": \"Azure Managed Cloud\",\n  \"description\": \"Some extended description\\\\nSecond line\",\n  \"ci\": \"GSEM01300\",\n  \"desired_delivery_date\": \"2024-10-25 10:26:27\",\n  \"contact\": \"jan.jansen@customer.com\",\n  \"user\": \"truus.bakker@customer.com\",\n  \"priority\": \"1 - Critical\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0d62aece-4123-4b97-956d-dd6955e05522",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ticket_type\": \"<string>\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"short_description\": \"Win11 L schijf: Kan niet worden toegevoegd\",\n  \"service\": \"Azure Managed Cloud\",\n  \"description\": \"Some extended description\\\\nSecond line\",\n  \"ci\": \"GSEM01300\",\n  \"desired_delivery_date\": \"2024-10-25 10:26:27\",\n  \"contact\": \"jan.jansen@customer.com\",\n  \"user\": \"truus.bakker@customer.com\",\n  \"priority\": \"1 - Critical\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4fdbbe90-7f2d-46bc-a8a1-e3ff950b01f0",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ticket_type\": \"<string>\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"short_description\": \"Win11 L schijf: Kan niet worden toegevoegd\",\n  \"service\": \"Azure Managed Cloud\",\n  \"description\": \"Some extended description\\\\nSecond line\",\n  \"ci\": \"GSEM01300\",\n  \"desired_delivery_date\": \"2024-10-25 10:26:27\",\n  \"contact\": \"jan.jansen@customer.com\",\n  \"user\": \"truus.bakker@customer.com\",\n  \"priority\": \"1 - Critical\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0fc03b36-00ee-40f6-8a7a-7de39a8046c2",
+              "name": "Too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ticket_type\": \"<string>\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"short_description\": \"Win11 L schijf: Kan niet worden toegevoegd\",\n  \"service\": \"Azure Managed Cloud\",\n  \"description\": \"Some extended description\\\\nSecond line\",\n  \"ci\": \"GSEM01300\",\n  \"desired_delivery_date\": \"2024-10-25 10:26:27\",\n  \"contact\": \"jan.jansen@customer.com\",\n  \"user\": \"truus.bakker@customer.com\",\n  \"priority\": \"1 - Critical\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dca0debd-671b-4358-b367-b1b5dc05601c",
+              "name": "Server error, please try again.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ticket_type\": \"<string>\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"short_description\": \"Win11 L schijf: Kan niet worden toegevoegd\",\n  \"service\": \"Azure Managed Cloud\",\n  \"description\": \"Some extended description\\\\nSecond line\",\n  \"ci\": \"GSEM01300\",\n  \"desired_delivery_date\": \"2024-10-25 10:26:27\",\n  \"contact\": \"jan.jansen@customer.com\",\n  \"user\": \"truus.bakker@customer.com\",\n  \"priority\": \"1 - Critical\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "880427b8-5aab-4f16-ad41-0387d1cae3d2",
+          "name": "Update an existing Ticket",
+          "request": {
+            "name": "Update an existing Ticket",
+            "description": {
+              "content": "This operation will update an existing ticket in KPN ServiceNow Green",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Ticket"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "API Version. If no version is provided it defaults to latest version.",
+                "key": "api-version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"<string>\",\n  \"customer_reference_number\": \"<string>\",\n  \"kpn_ticket_number\": \"<string>\",\n  \"comment\": \"<string>\",\n  \"status\": \"<string>\",\n  \"transaction_id\": \"<string>\",\n  \"attachments\": [\n    {\n      \"name\": \"<string>\",\n      \"content\": \"<string>\",\n      \"content_type\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"content\": \"<string>\",\n      \"content_type\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fa4ac657-cdc0-40bf-b42b-58cb396d3a05",
+              "name": "Successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"Comment\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"kpn_ticket_number\": \"INC#34567890\",\n  \"comment\": \"New comment update\",\n  \"status\": \"<string>\",\n  \"transaction_id\": \"29b2ffa5-f0a7-428f-a8d6-aff95c469deb\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"TechnicalEndpointSuccess\",\n  \"state\": \"updated\",\n  \"kpn_ticket_number\": \"INC#34567890\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"note\": \"Incident INC#34567890 has been updated;\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8c267a0f-17fe-48ea-a2ea-4696f08679cc",
+              "name": "Bad Request. The body will contain details for the error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"Comment\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"kpn_ticket_number\": \"INC#34567890\",\n  \"comment\": \"New comment update\",\n  \"status\": \"<string>\",\n  \"transaction_id\": \"29b2ffa5-f0a7-428f-a8d6-aff95c469deb\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8cb4487a-4f93-437e-959d-2f242123a098",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"Comment\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"kpn_ticket_number\": \"INC#34567890\",\n  \"comment\": \"New comment update\",\n  \"status\": \"<string>\",\n  \"transaction_id\": \"29b2ffa5-f0a7-428f-a8d6-aff95c469deb\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7ecc74a4-9a3a-4d98-ba1a-507c0cd1cb93",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"Comment\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"kpn_ticket_number\": \"INC#34567890\",\n  \"comment\": \"New comment update\",\n  \"status\": \"<string>\",\n  \"transaction_id\": \"29b2ffa5-f0a7-428f-a8d6-aff95c469deb\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5beadfa2-fd4b-4503-9f14-70613cc5ca42",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"Comment\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"kpn_ticket_number\": \"INC#34567890\",\n  \"comment\": \"New comment update\",\n  \"status\": \"<string>\",\n  \"transaction_id\": \"29b2ffa5-f0a7-428f-a8d6-aff95c469deb\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cdb060f6-10ba-4016-bd8a-40a6520af9de",
+              "name": "Too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"Comment\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"kpn_ticket_number\": \"INC#34567890\",\n  \"comment\": \"New comment update\",\n  \"status\": \"<string>\",\n  \"transaction_id\": \"29b2ffa5-f0a7-428f-a8d6-aff95c469deb\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9b2699d1-bce9-4902-918f-6548c421ad76",
+              "name": "Server error, please try again.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"Comment\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"kpn_ticket_number\": \"INC#34567890\",\n  \"comment\": \"New comment update\",\n  \"status\": \"<string>\",\n  \"transaction_id\": \"29b2ffa5-f0a7-428f-a8d6-aff95c469deb\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3dd17395-913e-4ab3-a714-4717ae0cc8f8",
+          "name": "Get Ticket delatils",
+          "request": {
+            "name": "Get Ticket delatils",
+            "description": {
+              "content": "Get details for an open tickets",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Ticket"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "kpn_ticket_number",
+                  "value": "<string>",
+                  "description": "KPN number of the ticket to get the details for. If not provided a list of open tickets will be returned."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "API Version. If no version is provided it defaults to latest version.",
+                "key": "api-version",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "fa1a3fcc-e725-4d12-90c6-816c58e6c92b",
+              "name": "Successful operation, the body will contain an array with ticket data.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "kpn_ticket_number",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"result\": [\n    {\n      \"kpn_ticket_number\": \"INC#34567890\",\n      \"ticket_type\": \"Incident\",\n      \"state\": \"In Progress\",\n      \"short_description\": \"Win11 L schijf: Kan niet worden toegevoegd\",\n      \"link\": \"/Ticket?kpn_ticket_number=INC%2334567890\",\n      \"customer_reference_number\": \"INC01234567\"\n    },\n    {\n      \"kpn_ticket_number\": \"INC#34567890\",\n      \"ticket_type\": \"Incident\",\n      \"state\": \"In Progress\",\n      \"short_description\": \"Win11 L schijf: Kan niet worden toegevoegd\",\n      \"link\": \"/Ticket?kpn_ticket_number=INC%2334567890\",\n      \"customer_reference_number\": \"INC01234567\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e94955fe-0323-486f-accd-c128f2d3627b",
+              "name": "Bad Request. The body will contain details for the error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "kpn_ticket_number",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3fd95da4-d5ea-45a0-ad4c-c67ebcc98eb3",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "kpn_ticket_number",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0e493e02-f19a-4b31-9d0e-f73f3d558fe4",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "kpn_ticket_number",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0426f79a-1bb7-47d9-af6e-2ad5812b478d",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "kpn_ticket_number",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "076d041f-26e8-46fd-9003-d54606505b6d",
+              "name": "Too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "kpn_ticket_number",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "34725cbd-de0a-4c75-871b-5cd80b97236f",
+              "name": "Server error, please try again.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Ticket"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "kpn_ticket_number",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "230b1514-f52d-4216-bf8e-7a5f126abf28",
+          "name": "List Tickets",
+          "request": {
+            "name": "List Tickets",
+            "description": {
+              "content": "Get a list of open tickets",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ListOpenTickets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "kpn_ticket_number",
+                  "value": "<string>",
+                  "description": "KPN number of the ticket to get the details for. If not provided a list of open tickets will be returned."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "API Version. If no version is provided it defaults to latest version.",
+                "key": "api-version",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "988b308b-4d01-4dc6-8942-1882c3b1a486",
+              "name": "Successful operation, the body will contain an array with ticket data.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ListOpenTickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "kpn_ticket_number",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"result\": [\n    {\n      \"kpn_ticket_number\": \"INC#34567890\",\n      \"ticket_type\": \"Incident\",\n      \"state\": \"In Progress\",\n      \"short_description\": \"Win11 L schijf: Kan niet worden toegevoegd\",\n      \"link\": \"/Ticket?kpn_ticket_number=INC%2334567890\",\n      \"customer_reference_number\": \"INC01234567\"\n    },\n    {\n      \"kpn_ticket_number\": \"INC#34567890\",\n      \"ticket_type\": \"Incident\",\n      \"state\": \"In Progress\",\n      \"short_description\": \"Win11 L schijf: Kan niet worden toegevoegd\",\n      \"link\": \"/Ticket?kpn_ticket_number=INC%2334567890\",\n      \"customer_reference_number\": \"INC01234567\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bdf1071f-07cc-45d1-9c95-6369b2e2cfa9",
+              "name": "Bad Request. The body will contain details for the error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ListOpenTickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "kpn_ticket_number",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0dee4749-25d3-4ac7-a2f5-24e67b20c76f",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ListOpenTickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "kpn_ticket_number",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "617a26ba-74f8-404b-893b-72fe6581d403",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ListOpenTickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "kpn_ticket_number",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "adee2b95-d3d7-4c62-ad9f-4c81708f8974",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ListOpenTickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "kpn_ticket_number",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b3252ecb-eb30-4631-8f9e-2412223e0224",
+              "name": "Too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ListOpenTickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "kpn_ticket_number",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "64a3de90-4560-4075-9291-9866bd2cc11c",
+              "name": "Server error, please try again.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ListOpenTickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "kpn_ticket_number",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0400e867-5960-4e1c-b430-e70d2643be60",
+          "name": "Ticket Updates",
+          "request": {
+            "name": "Ticket Updates",
+            "description": {
+              "content": "This operation retrieves the updates for tickets",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "TicketUpdates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "API Version. If no version is provided it defaults to latest version.",
+                "key": "api-version",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "3f3a7664-f579-4a9a-afdc-59383e83df98",
+              "name": "Successful operation, the body will contain an array with ticket updates.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "TicketUpdates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"transaction_id\": \"9ac7901f-276e-4202-8a40-757af564cb30\",\n    \"message_datetime_utc\": \"2024-10-03T11:08:32Z\",\n    \"ticket_type\": \"incident\",\n    \"action\": \"In Progress\",\n    \"kpn_ticket_number\": \"INC#34567890\",\n    \"customer_reference_number\": \"INC01234567\",\n    \"ticket_attributes\": {\n      \"state\": \"In Progress\",\n      \"comments\": \"Some additional information from KPN\"\n    }\n  },\n  {\n    \"transaction_id\": \"9ac7901f-276e-4202-8a40-757af564cb30\",\n    \"message_datetime_utc\": \"2024-10-03T11:08:32Z\",\n    \"ticket_type\": \"incident\",\n    \"action\": \"In Progress\",\n    \"kpn_ticket_number\": \"INC#34567890\",\n    \"customer_reference_number\": \"INC01234567\",\n    \"ticket_attributes\": {\n      \"state\": \"In Progress\",\n      \"comments\": \"Some additional information from KPN\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "98fe3663-aef6-47af-a65d-efd3521ed39b",
+              "name": "Bad Request. The body will contain details for the error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "TicketUpdates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0f35bf5d-0ad8-4b77-8312-75cb296a7486",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "TicketUpdates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "231b2424-d35d-4ded-a2f0-fc8ccfbb4561",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "TicketUpdates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a37829ba-8c63-426a-abf3-1a49659f7a22",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "TicketUpdates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "33f3f9d1-8df7-419e-af25-58e2ae1a248f",
+              "name": "Too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "TicketUpdates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c821db4a-b739-4ab3-a14a-62383f38942b",
+              "name": "Server error, please try again.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "TicketUpdates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "d7719e02-bf91-4f87-9345-1e49c42d7392",
+      "name": "Task",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7271c0e6-2d9d-4f7d-951b-4dd081446a07",
+          "name": "Update an existing Task",
+          "request": {
+            "name": "Update an existing Task",
+            "description": {
+              "content": "This operation will update an existing task in KPN ServiceNow Green",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Task"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "API Version. If no version is provided it defaults to latest version.",
+                "key": "api-version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"<string>\",\n  \"customer_reference_number\": \"<string>\",\n  \"kpn_ticket_number\": \"<string>\",\n  \"comment\": \"<string>\",\n  \"worknotes\": \"<string>\",\n  \"close_notes\": \"<string>\",\n  \"error_details\": \"<string>\",\n  \"status\": \"<string>\",\n  \"transaction_id\": \"<string>\",\n  \"attachments\": [\n    {\n      \"name\": \"<string>\",\n      \"content\": \"<string>\",\n      \"content_type\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"content\": \"<string>\",\n      \"content_type\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5e682cbe-6937-44c2-8657-bb5147dac46e",
+              "name": "Successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Task"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"Comment\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"kpn_ticket_number\": \"INC#34567890\",\n  \"comment\": \"New comment update\",\n  \"worknotes\": \"New worknote update\",\n  \"close_notes\": \"close update\",\n  \"error_details\": \"error description\",\n  \"status\": \"Success\",\n  \"transaction_id\": \"29b2ffa5-f0a7-428f-a8d6-aff95c469deb\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"TechnicalEndpointSuccess\",\n  \"state\": \"updated\",\n  \"kpn_ticket_number\": \"INC#34567890\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"note\": \"Incident INC#34567890 has been updated;\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b63ba94c-89e8-4e4e-8f7d-dcbc387ba62a",
+              "name": "Bad Request. The body will contain details for the error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Task"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"Comment\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"kpn_ticket_number\": \"INC#34567890\",\n  \"comment\": \"New comment update\",\n  \"worknotes\": \"New worknote update\",\n  \"close_notes\": \"close update\",\n  \"error_details\": \"error description\",\n  \"status\": \"Success\",\n  \"transaction_id\": \"29b2ffa5-f0a7-428f-a8d6-aff95c469deb\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ef8043f7-7ea3-4df2-8f80-a964e063fbe9",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Task"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"Comment\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"kpn_ticket_number\": \"INC#34567890\",\n  \"comment\": \"New comment update\",\n  \"worknotes\": \"New worknote update\",\n  \"close_notes\": \"close update\",\n  \"error_details\": \"error description\",\n  \"status\": \"Success\",\n  \"transaction_id\": \"29b2ffa5-f0a7-428f-a8d6-aff95c469deb\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2cbf2eba-7c23-4f0f-b0d9-74360f217661",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Task"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"Comment\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"kpn_ticket_number\": \"INC#34567890\",\n  \"comment\": \"New comment update\",\n  \"worknotes\": \"New worknote update\",\n  \"close_notes\": \"close update\",\n  \"error_details\": \"error description\",\n  \"status\": \"Success\",\n  \"transaction_id\": \"29b2ffa5-f0a7-428f-a8d6-aff95c469deb\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "18d30549-b078-4e5c-b6d6-11c80e6981db",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Task"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"Comment\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"kpn_ticket_number\": \"INC#34567890\",\n  \"comment\": \"New comment update\",\n  \"worknotes\": \"New worknote update\",\n  \"close_notes\": \"close update\",\n  \"error_details\": \"error description\",\n  \"status\": \"Success\",\n  \"transaction_id\": \"29b2ffa5-f0a7-428f-a8d6-aff95c469deb\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "646691dc-3dcc-4407-a966-c2033b61e873",
+              "name": "Too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Task"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"Comment\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"kpn_ticket_number\": \"INC#34567890\",\n  \"comment\": \"New comment update\",\n  \"worknotes\": \"New worknote update\",\n  \"close_notes\": \"close update\",\n  \"error_details\": \"error description\",\n  \"status\": \"Success\",\n  \"transaction_id\": \"29b2ffa5-f0a7-428f-a8d6-aff95c469deb\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6ed024ce-6064-44c2-bafe-791ab71a540d",
+              "name": "Server error, please try again.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Task"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"Comment\",\n  \"customer_reference_number\": \"INC01234567\",\n  \"kpn_ticket_number\": \"INC#34567890\",\n  \"comment\": \"New comment update\",\n  \"worknotes\": \"New worknote update\",\n  \"close_notes\": \"close update\",\n  \"error_details\": \"error description\",\n  \"status\": \"Success\",\n  \"transaction_id\": \"29b2ffa5-f0a7-428f-a8d6-aff95c469deb\",\n  \"attachments\": [\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    },\n    {\n      \"name\": \"test.txt\",\n      \"content\": \"IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k\",\n      \"content_type\": \"text/plain\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "1e2ad408-af9e-4354-acad-baf320ab6dc3",
+      "name": "Attachment",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0463303d-844a-4c3d-8e28-26c6268ac3c7",
+          "name": "Get Attachment",
+          "request": {
+            "name": "Get Attachment",
+            "description": {
+              "content": "Get attachment",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "GetAttachment",
+                ":attachment_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "attachment_id",
+                  "description": "(Required) attachment_id to get the attachment."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "API Version. If no version is provided it defaults to latest version.",
+                "key": "api-version",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "3cb660d7-56a7-4aab-8e80-2e7a3dc6e356",
+              "name": "Successful operation. The body will contain the attachment details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "GetAttachment",
+                    ":attachment_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "attachment_id",
+                      "description": "(Required) attachment_id to get the attachment."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"sample.txt\",\n  \"content\": \"VGVzdA==\",\n  \"content_type\": \"text/plain\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "36d0b79c-d60d-45ee-a117-931c70c0bc6c",
+              "name": "Bad Request. The body will contain details for the error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "GetAttachment",
+                    ":attachment_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "attachment_id",
+                      "description": "(Required) attachment_id to get the attachment."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "54359b80-62c8-459e-8dda-76e21dcaef0d",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "GetAttachment",
+                    ":attachment_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "attachment_id",
+                      "description": "(Required) attachment_id to get the attachment."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "97d1f9ad-efed-4ca7-99ee-ba679b51fb40",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "GetAttachment",
+                    ":attachment_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "attachment_id",
+                      "description": "(Required) attachment_id to get the attachment."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4be1d58e-2d28-40b7-847c-bffd4efc0845",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "GetAttachment",
+                    ":attachment_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "attachment_id",
+                      "description": "(Required) attachment_id to get the attachment."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "db09a0a5-9f2b-483a-8081-cf934326c7f7",
+              "name": "Too many requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "GetAttachment",
+                    ":attachment_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "attachment_id",
+                      "description": "(Required) attachment_id to get the attachment."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e906e5b8-9c28-4d7d-9b79-3ff16e6b41d5",
+              "name": "Server error, please try again.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "GetAttachment",
+                    ":attachment_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "attachment_id",
+                      "description": "(Required) attachment_id to get the attachment."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"1234\",\n    \"message\": \"Description of the error.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-prd.kpn.com/network/kpn/servicenow",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "23af88e3-5a10-4cb0-b829-de99d7299415",
+    "name": "ServiceNow Customer Connect",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This is Customer Connect API for KPN ServiceNow-Green Tickets. With this API KPN SN Green will be able to create new, or update existing tickets. This document provides the API specification. \n### Key highlights\n- **Security:**  HTTPS, OAuth, Rate limit\n- **Versioning:**  Supports version-less API, version tight. If no version is provided (in header) it defaults to latest version. \n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/servicenow-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/servicenow-kpn/)</br>\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n---\n\nContact Support:\n Name: API Support\n Email: api_developer@kpn.com",
+      "type": "text/plain"
+    }
+  }
+}

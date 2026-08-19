@@ -1,0 +1,164 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Wholesale Broadband Access",
+    "version": "v1.0.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "default",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves Functional Product Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/wba/fpi/addresses",
+            "params": [
+              {
+                "name": "requested-zipcode",
+                "value": "",
+                "type": "query",
+                "description": "The zipcode for which to retrieve the functional product information or carrier information."
+              },
+              {
+                "name": "requested-housenumber",
+                "value": "",
+                "type": "query",
+                "description": "The house number for which to retrieve the functional product information or carrier information."
+              },
+              {
+                "name": "requested-housenrext",
+                "value": "",
+                "type": "query",
+                "description": "The house number extension for which to retrieve the functional product information or carrier information."
+              },
+              {
+                "name": "connectionpointnumber",
+                "value": "",
+                "type": "query",
+                "description": "The connectionpointnumber is an identification for the ISRA on the end-user’s address (e.g. 001, B, MTK, METERKAS). In case more connectionpoints exists on an address, the connectionpointnumber is required to retrieve connection details. If no connectionpointnumber was specified, the Carrier Information service will provide connection details for one or two ISRAs. If more than two ISRA’s are connected at the customers address, the Carrier Information service provides the list of available ISRA’s on the end-user address. This field is optional."
+              },
+              {
+                "name": "fiber-terminationpoint-id",
+                "value": "",
+                "type": "query",
+                "description": "This is an optional field which specifies the fiber terminationpoint-id at the end-user’s address. In case of FTTH from carrier vendor Reggefiber (REGG), the fiber-terminationpoint-id is the name of the room on the address where the fiber is terminated. If a fiber-terminationpoint-id is specified, the Carrier Information Product will provide the current and future (planned) connection details for the given fiber-terminationpoint-id. If no fiber-terminationpoint-id is specified, the carrier-info will provide current and future connections of all fiber-terminationpoints on the end-user address."
+              },
+              {
+                "name": "xdf-access-serviceid",
+                "value": "",
+                "type": "query",
+                "description": "The xdf-access-service-id is a 1-to-1 relationship between the address and the active copperpair or fiber connection. The xdf-access-service-id is used to provide most accurate bitrate and available technology type information for an existing WBA connection. If an xdf-access-serviceid is specified, address corrections can be done on zipcode, house number and house number extension. This field is optional."
+              },
+              {
+                "name": "technologyreliability",
+                "value": "",
+                "type": "query",
+                "description": "The optional technologyreliability query parameter should be provided as JSON array of objects. FPI uses a list of default technology types and reliability when these parameters are not used. A specified technology type and reliability in FPI overrules the default setting. ADSL_ISDN, SDSL and ADSL2+_ISDN are not shown in the output, unless explicitly specified in the request.\n\nExamples:\n\n[\n  {\n    \"technology-type\":\"ADSL2+_POTS\",\n    \"reliability\":\"80\"\n  }\n]\n\n[\n  {\n    \"technology-type\":\"GPON\",\n  }\n]\n\n[\n  {\n    \"technology-type\":\"ADSL2+_ISDN\",\n    \"reliability\":\"80\"\n  },\n  {\n    \"technology-type\":\"ADSL2+_POTS\",\n    \"reliability\":\"80\"\n  }\n]\n\n[\n  {\n    \"technology-type\":\"ADSL2+_POTS\",\n    \"reliability\":\"80\"\n  },\n  {\n    \"technology-type\":\"GPON\"\n  }\n]\n\nNote to supply this as query parameter, the special characeters must be url encoded (incl the + in ADSL2+). i.e. technologyreliability=[{\"technology-type\":\"ADSL2+_POTS\",\"reliability\":\"80\"},{\"technology-type\":\"GPON\"}] becomes technologyreliability=%5B%7B%22technology-type%22%3A%22ADSL2%2B_POTS%22%2C%22reliability%22%3A%2280%22%7D%2C%7B%22technology-type%22%3A%22GPON%22%7D%5D\n"
+              },
+              {
+                "name": "service-group",
+                "value": "",
+                "type": "query",
+                "description": "The service-group is a reference to the existing WBA service. The service-group is used for migration orders and for changes in existing WBA service of a WSO."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This API is in line with WBA FPI v26.\n\nThe Functional Product Information (FPI) service is used to provide WBA access information for new and existing WBA connections. FPI provides carrier vendor information and WBA technology availability with actual up and down bitrates with a reliability per technology type. The reliability is defined as the probability that the bitrate can be achieved and is only applicable for WBA connections on copper lines. The provided reliability in FPI is within 50% to"
+        },
+        {
+          "info": {
+            "name": "Retrieves Carrier Information Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/wba/cip/addresses",
+            "params": [
+              {
+                "name": "requested-zipcode",
+                "value": "",
+                "type": "query",
+                "description": "The zipcode for which to retrieve the functional product information or carrier information."
+              },
+              {
+                "name": "requested-housenumber",
+                "value": "",
+                "type": "query",
+                "description": "The house number for which to retrieve the functional product information or carrier information."
+              },
+              {
+                "name": "requested-housenrext",
+                "value": "",
+                "type": "query",
+                "description": "The house number extension for which to retrieve the functional product information or carrier information."
+              },
+              {
+                "name": "physical-carrier",
+                "value": "",
+                "type": "query",
+                "description": "Physical carrier of the connection between the end-user’s termination point (ISRA) and the remote access point (MDF/SDF/ODF). Valid input values are “Copper” or “Fiber”. This field is optional."
+              },
+              {
+                "name": "requested-phonenumber",
+                "value": "",
+                "type": "query",
+                "description": "This is the phonenumber that will be used as reference for the copper-line and the ISRA. If a phonenumber is specified, address corrections can be done on zipcode, house number and house number extension. This field is optional."
+              },
+              {
+                "name": "copper-xdf-access-serviceid",
+                "value": "",
+                "type": "query",
+                "description": "The xdf-access-service-id is a 1-to-1 relationship between the address and the active copperpair. The xdf-access-service-id is used to provide most accurate bitrate and available technology type information for an existing WBA connection. If an xdf-access-serviceid is specified, address corrections can be done on zipcode, house number and house number extension. This field is optional."
+              },
+              {
+                "name": "connectionpointnumber",
+                "value": "",
+                "type": "query",
+                "description": "The connectionpointnumber is an identification for the ISRA on the end-user’s address (e.g. 001, B, MTK, METERKAS). In case more connectionpoints exists on an address, the connectionpointnumber is required to retrieve connection details. If no connectionpointnumber was specified, the Carrier Information service will provide connection details for one or two ISRAs. If more than two ISRA’s are connected at the customers address, the Carrier Information service provides the list of available ISRA’s on the end-user address. This field is optional."
+              },
+              {
+                "name": "fiber-terminationpoint-id",
+                "value": "",
+                "type": "query",
+                "description": "This is an optional field which specifies the fiber terminationpoint-id at the end-user’s address. In case of FTTH from carrier vendor Reggefiber (REGG), the fiber-terminationpoint-id is the name of the room on the address where the fiber is terminated. If a fiber-terminationpoint-id is specified, the Carrier Information Product will provide the current and future (planned) connection details for the given fiber-terminationpoint-id. If no fiber-terminationpoint-id is specified, the carrier-info will provide current and future connections of all fiber-terminationpoints on the end-user address."
+              },
+              {
+                "name": "fiber-xdf-access-serviceid",
+                "value": "",
+                "type": "query",
+                "description": "This is the xdf-access-serviceid of the fiber connection. If xdf-access-serviceid and fiber-terminationpoint-id both are filled, the service-id will be taken as leading."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This API is in line with WBA CIP v46.\n\nThe Carrier Information Product (CIP) service provides information about the infrastructure and active services on the physical connection of a customer address. For physical carrier Copper, the ISRA with current and future connection details of all copperlines are shown. For physical carrier Fiber, all fiber-terminationpoints are shown including current and future connection details. To support WSO’s clean order process, a list of house number extensions p"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

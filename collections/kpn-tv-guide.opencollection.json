@@ -1,0 +1,604 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TV Guide - KPN",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Catalog",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get live channels",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/media/kpn/itv/:channel/kpn/TRAY/LIVECHANNELS",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel",
+                "value": "",
+                "type": "path",
+                "description": "Any valid platform"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Starting value of pagination"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Ending value of pagination"
+              },
+              {
+                "name": "maxResults",
+                "value": "",
+                "type": "query",
+                "description": "Max number of items to be retrieved"
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Free text search applied to channel name"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "API Version. If no version is provided it defaults to latest version."
+              },
+              {
+                "name": "filter_isAdult",
+                "value": "",
+                "type": "query",
+                "description": "Return the channels with the isAdult flag set or unset"
+              },
+              {
+                "name": "filter_channelIds",
+                "value": "",
+                "type": "query",
+                "description": "Return the programs belonging to the specified channel id list"
+              },
+              {
+                "name": "filter_chanellType",
+                "value": "",
+                "type": "query",
+                "description": "Return the channels of the given channel group (\"standard\" or \"extended\")"
+              },
+              {
+                "name": "filter_types",
+                "value": "",
+                "type": "query",
+                "description": "Return the channels of the given type"
+              },
+              {
+                "name": "orderBy",
+                "value": "",
+                "type": "query",
+                "description": "Specify the channels sorting"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Specify the sorting order"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get a list of live channels. Allows filtering by properties."
+        },
+        {
+          "info": {
+            "name": "Search Video On Demand (VOD)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/media/kpn/itv/:channel/kpn/TRAY/SEARCH/VOD",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel",
+                "value": "",
+                "type": "path",
+                "description": "Any valid platform"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "API Version. If no version is provided it defaults to latest version."
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Starting value of pagination"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Ending value of pagination"
+              },
+              {
+                "name": "maxResults",
+                "value": "",
+                "type": "query",
+                "description": "Max number of items to be retrieved"
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Free text search applied to channel name"
+              },
+              {
+                "name": "filter_contentType",
+                "value": "",
+                "type": "query",
+                "description": "Return the contents with the spiecified content type.\n - VOD: returns episodes or movies\n - BUNDLE: returns a vod container (i.e. seasons)\n - GROUP_OF_BUNDLES: returns a bundle container (i.e. series)"
+              },
+              {
+                "name": "filter_contentSubtype",
+                "value": "",
+                "type": "query",
+                "description": "Return the contents with the specified contentsubtype. Note: some subtypes only make sense with the corrent contentsubtype. type | subtypes :--- |:--- BUNDLE | SEASON GROUP_OF_BUNDLES | SERIES VOD | VOD, EPISODE"
+              },
+              {
+                "name": "filter_contentTypeExtended",
+                "value": "",
+                "type": "query",
+                "description": "Return the contents with the specified filter_contentTypeExtended. **Note:** only meaningfull for VOD content types."
+              },
+              {
+                "name": "filter_parentId",
+                "value": "",
+                "type": "query",
+                "description": "Returns the contents belonging to the specified parent contentId. The parentId can be a Season ID or a Series ID."
+              },
+              {
+                "name": "filter_title",
+                "value": "",
+                "type": "query",
+                "description": "Return the contents with the specified title. The title is a string that fully or partially matches with the searched contents."
+              },
+              {
+                "name": "filter_year",
+                "value": "",
+                "type": "query",
+                "description": "Return the contents with the specified publishing year. The year is an integer in the format YYYY."
+              },
+              {
+                "name": "filter_categoryId",
+                "value": "",
+                "type": "query",
+                "description": "Return the contents with a specific category identifier. The categoryId is an integer value."
+              },
+              {
+                "name": "filter_genres",
+                "value": "",
+                "type": "query",
+                "description": "Return all the programs of the given genres if the `filter_genreOperator` is \"or\" or \"not specified\""
+              },
+              {
+                "name": "filter_genresOperator",
+                "value": "",
+                "type": "query",
+                "description": "To be used in combination with `filter_genres`. Defines the operator to be used in the query for `filter_genre`."
+              },
+              {
+                "name": "filter_excludeGenres",
+                "value": "",
+                "type": "query",
+                "description": "Return all the programs that don't belong to at least one of the genres in the list if the `filter_excludeGenreOperator` is \"or\" or \"not specified\". Returns the programs that don't belong to all the genres in the list if the `filter_excludeGenreOperator` is \"and\""
+              },
+              {
+                "name": "filter_excludeGenresOperator",
+                "value": "",
+                "type": "query",
+                "description": "To be used in combination with `filter_filter_excludeGenregenre`. Defines the operator to be used in the query for `filter_excludeGenre`."
+              },
+              {
+                "name": "filter_seriesIds",
+                "value": "",
+                "type": "query",
+                "description": "Return all the episodes of the specified list of seriesIds. Note that this seriesId is not related to the parentId and it's not referred to any contentId."
+              },
+              {
+                "name": "filter_season",
+                "value": "",
+                "type": "query",
+                "description": "Return all the episodes of the given season"
+              },
+              {
+                "name": "filter_quality",
+                "value": "",
+                "type": "query",
+                "description": "Return the contents tagged with at least one of the input quality"
+              },
+              {
+                "name": "filter_fuzzy",
+                "value": "",
+                "type": "query",
+                "description": "When set to true, \n - adds AUTO fuzziness on the query string\n - adds a prefix_length of 2 to each word of the query string\n - adds a boost of 2 to a result if the title contains a phrase match of the query string\n - adds a boost of 4 to a result if the title contains an exact match of the query string\nReturns all the programs matching the query string within the maximum edit distance specified in fuzziness.\nNOTE: If query is used, fuzziness is only applied to title, not to genres, actors, etc.\n"
+              },
+              {
+                "name": "orderBy",
+                "value": "",
+                "type": "query",
+                "description": "Specify the contents sorting"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Specify the sorting order"
+              },
+              {
+                "name": "outputFormat",
+                "value": "",
+                "type": "query",
+                "description": "Specify the format of the output to be returned"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Searches VOD from the catalog given the conditions described in the query parameters."
+        },
+        {
+          "info": {
+            "name": "Search programs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/media/kpn/itv/:channel/kpn/TRAY/SEARCH/PROGRAM",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel",
+                "value": "",
+                "type": "path",
+                "description": "Any valid platform"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "API Version. If no version is provided it defaults to latest version."
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Starting value of pagination"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Ending value of pagination"
+              },
+              {
+                "name": "maxResults",
+                "value": "",
+                "type": "query",
+                "description": "Max number of items to be retrieved"
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Free text search applied to channel name"
+              },
+              {
+                "name": "filter_airingTime",
+                "value": "",
+                "type": "query",
+                "description": "Return the program onair at the specified time. The time can be a unix timestamp (milliseconds) or 'now' to indicate the current time"
+              },
+              {
+                "name": "filter_startTime",
+                "value": "",
+                "type": "query",
+                "description": "Return the programs starting after the specified time. The time can be a unix timestamp (milliseconds) or 'now' to indicate the current time."
+              },
+              {
+                "name": "filter_airingStartTime",
+                "value": "",
+                "type": "query",
+                "description": "Return the programs airing at the specified time and after. The time can be a unix timestamp (milliseconds) or 'now' to indicate the current time."
+              },
+              {
+                "name": "filter_channelIds",
+                "value": "",
+                "type": "query",
+                "description": "Return the programs belonging to the specified channel id list"
+              },
+              {
+                "name": "filter_endTime",
+                "value": "",
+                "type": "query",
+                "description": "Return the programs ending before the specified time. The time can be a unix timestamp (milliseconds) or 'now' to indicate the current time"
+              },
+              {
+                "name": "filter_airingEndTime",
+                "value": "",
+                "type": "query",
+                "description": "Return the programs airing at the specified time and before. The time can be a unix timestamp (milliseconds) or 'now' to indicate the current time."
+              },
+              {
+                "name": "filter_excludeChannelIds",
+                "value": "",
+                "type": "query",
+                "description": "Exclude the programs belongingto the specified channel id list. This filter can be used together with `filter_channelIds`"
+              },
+              {
+                "name": "filter_isCatchUp",
+                "value": "",
+                "type": "query",
+                "description": "Return the programs with the catchup (just missed) flag set or unset"
+              },
+              {
+                "name": "filter_isStartOver",
+                "value": "",
+                "type": "query",
+                "description": "Return the programs with the startover (just missed) flag set or unset"
+              },
+              {
+                "name": "filter_seriesId",
+                "value": "",
+                "type": "query",
+                "description": "Return all the episodes of the specified seriesId. Note that this seriesId is not related to the parentId and it's not referred to any contentId."
+              },
+              {
+                "name": "filter_genre",
+                "value": "",
+                "type": "query",
+                "description": "Returns all the programs of the given genres if the filter_genreOperator is \"or\" or not specified. Returns all the programs belonging to all the genres in the list if the filter_genreOperator is \"and\"."
+              },
+              {
+                "name": "filter_genresOperator",
+                "value": "",
+                "type": "query",
+                "description": "To be used in combination with `filter_genre`. Defines the operator to be used in the query for `filter_genre`."
+              },
+              {
+                "name": "filter_excludeGenre",
+                "value": "",
+                "type": "query",
+                "description": "Returns the programs that don't belong to at least one of the genres in the list if the filter_excludedGenreOperator is \"or\" or not specified. Returns the programs that don't belong to all the genres in the list if the filter_excludedGenreOperator is \"and\"."
+              },
+              {
+                "name": "filter_excludeGenreOperator",
+                "value": "",
+                "type": "query",
+                "description": "To be used in combination with \"filter_excludedGenre\". Defines the operator to be used in the query for \"filter_excludedGenre\"."
+              },
+              {
+                "name": "filter_programType",
+                "value": "",
+                "type": "query",
+                "description": "Returns all the programs of the given program types"
+              },
+              {
+                "name": "filter_isTvPremiere",
+                "value": "",
+                "type": "query",
+                "description": "Returns all the programs with the tvPremiere flag set to the given value"
+              },
+              {
+                "name": "filter_fuzzy",
+                "value": "",
+                "type": "query",
+                "description": "When set to true, \n - adds AUTO fuzziness on the query string\n - adds a prefix_length of 2 to each word of the query string\n - adds a boost of 2 to a result if the title contains a phrase match of the query string\n - adds a boost of 4 to a result if the title contains an exact match of the query string\nReturns all the programs matching the query string within the maximum edit distance specified in fuzziness.\nNOTE: If query is used, fuzziness is only applied to title, not to genres, actors, etc.\n"
+              },
+              {
+                "name": "orderBy",
+                "value": "",
+                "type": "query",
+                "description": "Specify the contents sorting"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Specify the sorting order"
+              },
+              {
+                "name": "outputFormat",
+                "value": "",
+                "type": "query",
+                "description": "Specify the format of the output to be returned"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Searches PROGRAMS from the catalog given the conditions described in the query parameters."
+        },
+        {
+          "info": {
+            "name": "Get a list of transcripts uploaded by the client",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/media/kpn/itv/:channel/kpn/TRAY/EPG",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel",
+                "value": "",
+                "type": "path",
+                "description": "Any valid platform"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "API Version. If no version is provided it defaults to latest version."
+              },
+              {
+                "name": "filter_startTime",
+                "value": "",
+                "type": "query",
+                "description": "It must be an unix timestamp expressed in milliseconds"
+              },
+              {
+                "name": "filter_endTime",
+                "value": "",
+                "type": "query",
+                "description": "It must be an unix timestamp expressed in milliseconds"
+              },
+              {
+                "name": "filter_day",
+                "value": "",
+                "type": "query",
+                "description": "Useful when you want all programs of a given day. It can be used for both past / future days. This filter calculates on its own the Summer/Winter time offsets. Using the starttime and endTime filters thosethe offsets have to be calculates from the client application. Note that whenever you set this parameter, the request parameter values of `filter_startTime`and `filter_endTime` will be replaced by the values computed by this one.\n**Note**: Mandatory if `filter_startTime`and `filter_endTime` not set.\n- 0 means today - Negative values means past days. - Positive not zero values means future days."
+              },
+              {
+                "name": "filter_channelIds",
+                "value": "",
+                "type": "query",
+                "description": "Return the programs belonging to the specified channel id list"
+              },
+              {
+                "name": "outputFormat",
+                "value": "",
+                "type": "query",
+                "description": "Specify the format of the output to be returned"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Gets a list of transcriptions. \nThis feature is only available in production"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Item",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "content details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/media/kpn/itv/:channel/kpn/CONTENT/DETAIL/:contentType/:contentId",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel",
+                "value": "",
+                "type": "path",
+                "description": "Any valid platform"
+              },
+              {
+                "name": "contentType",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the content type."
+              },
+              {
+                "name": "contentId",
+                "value": "",
+                "type": "path",
+                "description": "The unique content identifier."
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "API Version. If no version is provided it defaults to latest version."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get's the detailed description of the content identified as contentId"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

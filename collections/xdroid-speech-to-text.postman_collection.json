@@ -1,0 +1,857 @@
+{
+  "item": [
+    {
+      "id": "481ce554-fb29-4a0a-8937-36c32c919570",
+      "name": "Upload audio",
+      "description": {
+        "content": "Uploads an audio file and start a new analytics job.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "65db493a-eec6-47a9-b5cd-ad446bd76eac",
+          "name": "Submits audio files for analyis.",
+          "request": {
+            "name": "Submits audio files for analyis.",
+            "description": {
+              "content": "To create a new transcript use the following recommendations: \n+ Accepted container formats:\n  - .wav\n  - .mp3 / .mp4\n  - .opus / .ogg\n  \n+ Preferred requirements:\n  - Bitrate: 64 Kbit/s per channel (stero recording is supported)\n  - Sample rate: 8 KHz\n  - Uncompressed files preferred\n\n+ Max audio file size: 150 MB.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "job"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "config",
+                  "value": "<object>",
+                  "type": "text",
+                  "description": "A JSON object defining the language of the audio file. For example: \n\n`{\"language\":\"en\",\"recording_start\":\"20201119121111\" }` or\n`{\"language\":\"en\",\"recording_start\":\"\" }`\n\nBody parameter | Description\n---------------|----------------------\n`language` | The parameter `language` is required in ISO language code. Supported language codes: </br> Global English: `en` </br> Global Spanish: `es` </br> Dutch: `nl` </br> French: `fr `</br> Example: `{\"language\":\"en\"}`\n`recording_start` | Day and time when the recording starts. Optional </br> Format: `YmdHis`. Example: `20201216081228`\n"
+                },
+                {
+                  "key": "audio_file",
+                  "type": "file",
+                  "description": "Attach the audio file to be transcribed. Requirements see above."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "501e3e9e-b201-45da-b1ed-02a7aa7a51c3",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "A JSON object defining the language of the audio file. For example: \n\n`{\"language\":\"en\",\"recording_start\":\"20201119121111\" }` or\n`{\"language\":\"en\",\"recording_start\":\"\" }`\n\nBody parameter | Description\n---------------|----------------------\n`language` | The parameter `language` is required in ISO language code. Supported language codes: </br> Global English: `en` </br> Global Spanish: `es` </br> Dutch: `nl` </br> French: `fr `</br> Example: `{\"language\":\"en\"}`\n`recording_start` | Day and time when the recording starts. Optional </br> Format: `YmdHis`. Example: `20201216081228`\n",
+                        "type": "text/plain"
+                      },
+                      "key": "config",
+                      "value": "<object>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Attach the audio file to be transcribed. Requirements see above.",
+                        "type": "text/plain"
+                      },
+                      "key": "audio_file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"job_id\": 17424\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "31b7ca07-8b4d-4140-b5cd-866fb7db1ae8",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "A JSON object defining the language of the audio file. For example: \n\n`{\"language\":\"en\",\"recording_start\":\"20201119121111\" }` or\n`{\"language\":\"en\",\"recording_start\":\"\" }`\n\nBody parameter | Description\n---------------|----------------------\n`language` | The parameter `language` is required in ISO language code. Supported language codes: </br> Global English: `en` </br> Global Spanish: `es` </br> Dutch: `nl` </br> French: `fr `</br> Example: `{\"language\":\"en\"}`\n`recording_start` | Day and time when the recording starts. Optional </br> Format: `YmdHis`. Example: `20201216081228`\n",
+                        "type": "text/plain"
+                      },
+                      "key": "config",
+                      "value": "<object>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Attach the audio file to be transcribed. Requirements see above.",
+                        "type": "text/plain"
+                      },
+                      "key": "audio_file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fea9d9be-7956-4bbd-88a6-541fd9de7692",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "A JSON object defining the language of the audio file. For example: \n\n`{\"language\":\"en\",\"recording_start\":\"20201119121111\" }` or\n`{\"language\":\"en\",\"recording_start\":\"\" }`\n\nBody parameter | Description\n---------------|----------------------\n`language` | The parameter `language` is required in ISO language code. Supported language codes: </br> Global English: `en` </br> Global Spanish: `es` </br> Dutch: `nl` </br> French: `fr `</br> Example: `{\"language\":\"en\"}`\n`recording_start` | Day and time when the recording starts. Optional </br> Format: `YmdHis`. Example: `20201216081228`\n",
+                        "type": "text/plain"
+                      },
+                      "key": "config",
+                      "value": "<object>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Attach the audio file to be transcribed. Requirements see above.",
+                        "type": "text/plain"
+                      },
+                      "key": "audio_file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c137a7fd-cc68-4f01-9c75-22eba22e7fca",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "A JSON object defining the language of the audio file. For example: \n\n`{\"language\":\"en\",\"recording_start\":\"20201119121111\" }` or\n`{\"language\":\"en\",\"recording_start\":\"\" }`\n\nBody parameter | Description\n---------------|----------------------\n`language` | The parameter `language` is required in ISO language code. Supported language codes: </br> Global English: `en` </br> Global Spanish: `es` </br> Dutch: `nl` </br> French: `fr `</br> Example: `{\"language\":\"en\"}`\n`recording_start` | Day and time when the recording starts. Optional </br> Format: `YmdHis`. Example: `20201216081228`\n",
+                        "type": "text/plain"
+                      },
+                      "key": "config",
+                      "value": "<object>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Attach the audio file to be transcribed. Requirements see above.",
+                        "type": "text/plain"
+                      },
+                      "key": "audio_file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "26758e15-0a73-437c-a68f-6f369e4a60a9",
+              "name": "Request entity too large",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "A JSON object defining the language of the audio file. For example: \n\n`{\"language\":\"en\",\"recording_start\":\"20201119121111\" }` or\n`{\"language\":\"en\",\"recording_start\":\"\" }`\n\nBody parameter | Description\n---------------|----------------------\n`language` | The parameter `language` is required in ISO language code. Supported language codes: </br> Global English: `en` </br> Global Spanish: `es` </br> Dutch: `nl` </br> French: `fr `</br> Example: `{\"language\":\"en\"}`\n`recording_start` | Day and time when the recording starts. Optional </br> Format: `YmdHis`. Example: `20201216081228`\n",
+                        "type": "text/plain"
+                      },
+                      "key": "config",
+                      "value": "<object>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Attach the audio file to be transcribed. Requirements see above.",
+                        "type": "text/plain"
+                      },
+                      "key": "audio_file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "54313ce8-31d6-4fe8-aeeb-0da7b16dc8ad",
+              "name": "Server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "A JSON object defining the language of the audio file. For example: \n\n`{\"language\":\"en\",\"recording_start\":\"20201119121111\" }` or\n`{\"language\":\"en\",\"recording_start\":\"\" }`\n\nBody parameter | Description\n---------------|----------------------\n`language` | The parameter `language` is required in ISO language code. Supported language codes: </br> Global English: `en` </br> Global Spanish: `es` </br> Dutch: `nl` </br> French: `fr `</br> Example: `{\"language\":\"en\"}`\n`recording_start` | Day and time when the recording starts. Optional </br> Format: `YmdHis`. Example: `20201216081228`\n",
+                        "type": "text/plain"
+                      },
+                      "key": "config",
+                      "value": "<object>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Attach the audio file to be transcribed. Requirements see above.",
+                        "type": "text/plain"
+                      },
+                      "key": "audio_file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "6559c5f6-ab2e-48e1-a96a-c5d076ce74d3",
+      "name": "Retrieve transcription",
+      "description": {
+        "content": "To retrieve transcritions, check the processing status with your unique **job_id**. \n\nPlease do not use intervals that are shorter than 10 seconds to check status to avoid a throttle penalty.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9cb8915f-b1ec-47d1-8c51-4c382a92c481",
+          "name": "Retrieves JSON transcript of a finished transcription job.",
+          "request": {
+            "name": "Retrieves JSON transcript of a finished transcription job.",
+            "description": {
+              "content": "Retrieves JSON file with the transcript of a previously uploaded audio file.\n ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "job",
+                ":job_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "",
+                  "key": "job_id",
+                  "description": "(Required) ID of job to fetch."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "730141a3-ba8a-4324-8d26-c3ad075efc7b",
+              "name": "Success response if job is found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":job_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "job_id",
+                      "description": "(Required) ID of job to fetch."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"job_id\": 17424,\n    \"created_at\": \"2020-11-19 15:26:06\",\n    \"audio_file\": \"0036550e-720f-1239-0b99-eecf4973.wav\",\n    \"status\": \"parsing\"\n  },\n  \"results\": {\n    \"data_type\": \"TRANSCRIPT\",\n    \"data_channel\": 1,\n    \"data_detect_start\": 8820,\n    \"data_detect_end\": 9070,\n    \"data_length\": 250,\n    \"data_probability\": 3227\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a716c579-f17d-42ee-af80-784627162dd2",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":job_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "job_id",
+                      "description": "(Required) ID of job to fetch."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "46cd590c-26d8-47da-9a31-8d8a1a09de39",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":job_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "job_id",
+                      "description": "(Required) ID of job to fetch."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6328cc0e-ed4a-4a9d-b3ce-ed78e2b4fb49",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":job_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "job_id",
+                      "description": "(Required) ID of job to fetch."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad83eb00-2fac-4990-8e22-d731f5054e57",
+              "name": "Request entity too large",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":job_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "job_id",
+                      "description": "(Required) ID of job to fetch."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "38479cfa-042c-44f8-bf95-e24f8dfd7353",
+              "name": "Server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":job_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "job_id",
+                      "description": "(Required) ID of job to fetch."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-prd.kpn.com/data/kpn/voiceanalytics",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c33def59-6c94-49c7-9d23-85cafe178d16",
+    "name": "Speech To Text - Xdroid",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Xdroid Speech To Text API provides a seamless audio transcription service. \n\n### Key highlights\n\n- **Sandbox:** Full-fledged capabilities.\n\n- **Security:** HTTPS, OAuth, Rate limit.\n\n- **Versioning:** Supports version-less API, version tight. If no version is provided (in header) it defaults to latest version. \n\n---\n\n[Source view](https://app.swaggerhub.com/apis/kpn/speech-to-text-Xdroid)<br/>\n[Documentation view](https://app.swaggerhub.com/apis-docs/kpn/speech-to-text-Xdroid/)\n  \n---\n    \n[KPN Developer](https://developer.kpn.com/)<br/>\n[Getting Started](https://developer.kpn.com/getting-started)\n    \n---\n\n\nContact Support:\n Name: API Support Support\n Email: api_developer@kpn.com",
+      "type": "text/plain"
+    }
+  }
+}

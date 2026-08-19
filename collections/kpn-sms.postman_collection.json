@@ -1,0 +1,429 @@
+{
+  "item": [
+    {
+      "id": "d3557c03-7f52-4e01-8f96-2a903acffa49",
+      "name": "Sends one or more SMS to one or more recipients.",
+      "request": {
+        "name": "Sends one or more SMS to one or more recipients.",
+        "description": {
+          "content": "Following features are supported- \n * One SMS can be sent to one recipient. \n * One SMS can be sent to multiple recipients, with comma separated list of phone numbers. `Bulk function` \n * Multiple SMS can be sent to single or multiple recipients. Add json object(s) inside messages array to add content for different SMS and mobile_number for single or multiple recipients. Add comma separated list of phone numbers for multiple recipients `Bulk function` \n \n * Delivery receipts (DLRs) for the SMS. DLRs can be received for one or more SMS on one or more webhook URLs.  \n \nFollowing number formats are supported- \n * `06`, `+316`, `0031`, `097` \n * messages can be sent globally to mobile phones",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "send"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "disabled": false,
+            "description": "Leave it blank if not applicable.",
+            "key": "SubAccount",
+            "value": "<string>"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": {
+          "type": "oauth2",
+          "oauth2": [
+            {
+              "key": "accessTokenUrl",
+              "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken"
+            },
+            {
+              "key": "grant_type",
+              "value": "client_credentials"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"messages\": [\n    {\n      \"content\": \"<string>\",\n      \"mobile_number\": \"<string>\"\n    }\n  ],\n  \"sender\": \"KPN\",\n  \"webhook_url\": \"<string>\",\n  \"expirein\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "7312e984-f93b-4ddc-9777-44bccc5ec100",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "send"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: oauth2",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "<token>"
+              },
+              {
+                "disabled": false,
+                "description": "Leave it blank if not applicable.",
+                "key": "SubAccount",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sender\": \"KPN API\",\n  \"webhook_url\": \"http URL where you want the DLR to be delivered\",\n  \"expirein\": \"10\",\n  \"messages\": [\n    {\n      \"mobile_number\": \"one number or a comma separated list of numbers. example1: +316xxxxxxxx or 06xxxxxxxx example2: 06xxxxxxxx,06xxxxxxxx,06xxxxxxxx\",\n      \"content\": \"Hi from KPN!\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"document_id\": \"b4e905d4-774c-4c83-8360-01427e17a33a\",\n  \"status\": \"OK\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "5c52fff6-1cb6-4039-a051-337989db4a1f",
+          "name": "Bad Request",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "send"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: oauth2",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "<token>"
+              },
+              {
+                "disabled": false,
+                "description": "Leave it blank if not applicable.",
+                "key": "SubAccount",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sender\": \"KPN API\",\n  \"webhook_url\": \"http URL where you want the DLR to be delivered\",\n  \"expirein\": \"10\",\n  \"messages\": [\n    {\n      \"mobile_number\": \"one number or a comma separated list of numbers. example1: +316xxxxxxxx or 06xxxxxxxx example2: 06xxxxxxxx,06xxxxxxxx,06xxxxxxxx\",\n      \"content\": \"Hi from KPN!\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorResponse\": {\n    \"code\": \"Status codes possible 401, 403, 404, 500\",\n    \"message\": \"eq. internal server error\",\n    \"info\": \"eq. for additional information look at https://developer.kpn.com\"\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "0f8ac93d-cf9f-4eed-91f2-01b572eaf819",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "send"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: oauth2",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "<token>"
+              },
+              {
+                "disabled": false,
+                "description": "Leave it blank if not applicable.",
+                "key": "SubAccount",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sender\": \"KPN API\",\n  \"webhook_url\": \"http URL where you want the DLR to be delivered\",\n  \"expirein\": \"10\",\n  \"messages\": [\n    {\n      \"mobile_number\": \"one number or a comma separated list of numbers. example1: +316xxxxxxxx or 06xxxxxxxx example2: 06xxxxxxxx,06xxxxxxxx,06xxxxxxxx\",\n      \"content\": \"Hi from KPN!\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorResponse\": {\n    \"code\": \"Status codes possible 401, 403, 404, 500\",\n    \"message\": \"eq. internal server error\",\n    \"info\": \"eq. for additional information look at https://developer.kpn.com\"\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "39663407-3db1-41cf-8c8b-f9b9816a2593",
+          "name": "Forbidden",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "send"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: oauth2",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "<token>"
+              },
+              {
+                "disabled": false,
+                "description": "Leave it blank if not applicable.",
+                "key": "SubAccount",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sender\": \"KPN API\",\n  \"webhook_url\": \"http URL where you want the DLR to be delivered\",\n  \"expirein\": \"10\",\n  \"messages\": [\n    {\n      \"mobile_number\": \"one number or a comma separated list of numbers. example1: +316xxxxxxxx or 06xxxxxxxx example2: 06xxxxxxxx,06xxxxxxxx,06xxxxxxxx\",\n      \"content\": \"Hi from KPN!\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorResponse\": {\n    \"code\": \"Status codes possible 401, 403, 404, 500\",\n    \"message\": \"eq. internal server error\",\n    \"info\": \"eq. for additional information look at https://developer.kpn.com\"\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "6d08718d-c092-4bdf-8513-f9fa17851571",
+          "name": "Not Found",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "send"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: oauth2",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "<token>"
+              },
+              {
+                "disabled": false,
+                "description": "Leave it blank if not applicable.",
+                "key": "SubAccount",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sender\": \"KPN API\",\n  \"webhook_url\": \"http URL where you want the DLR to be delivered\",\n  \"expirein\": \"10\",\n  \"messages\": [\n    {\n      \"mobile_number\": \"one number or a comma separated list of numbers. example1: +316xxxxxxxx or 06xxxxxxxx example2: 06xxxxxxxx,06xxxxxxxx,06xxxxxxxx\",\n      \"content\": \"Hi from KPN!\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorResponse\": {\n    \"code\": \"Status codes possible 401, 403, 404, 500\",\n    \"message\": \"eq. internal server error\",\n    \"info\": \"eq. for additional information look at https://developer.kpn.com\"\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "dbed7553-2d10-45cb-9f44-1bcf3fea498e",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "send"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: oauth2",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "<token>"
+              },
+              {
+                "disabled": false,
+                "description": "Leave it blank if not applicable.",
+                "key": "SubAccount",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sender\": \"KPN API\",\n  \"webhook_url\": \"http URL where you want the DLR to be delivered\",\n  \"expirein\": \"10\",\n  \"messages\": [\n    {\n      \"mobile_number\": \"one number or a comma separated list of numbers. example1: +316xxxxxxxx or 06xxxxxxxx example2: 06xxxxxxxx,06xxxxxxxx,06xxxxxxxx\",\n      \"content\": \"Hi from KPN!\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorResponse\": {\n    \"code\": \"Status codes possible 401, 403, 404, 500\",\n    \"message\": \"eq. internal server error\",\n    \"info\": \"eq. for additional information look at https://developer.kpn.com\"\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-prd.kpn.com/communication/kpn/sms",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e711a69e-dd53-412c-9299-c93e83da8d35",
+    "name": "SMS - KPN",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Send SMS through the KPN network.\n---\n    \n## [Source view](https://app.swaggerhub.com/apis/kpn/sms-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/sms-kpn/)\n---\n## [KPN API Store](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n---\n\nContact Support:\n Name: API Support\n Email: api_developer@kpn.com",
+      "type": "text/plain"
+    }
+  }
+}

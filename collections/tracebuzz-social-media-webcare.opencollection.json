@@ -1,0 +1,303 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SocialMediaWebcare - Tracebuzz",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Configuration",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/communication/tracebuzz/social-media-webcare/configuration",
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "The configuration contains a lot of information about the current account. Available searches, social media connections, users, etc., and some default parameters that help you understand some of the integers we return."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Results",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Result",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/communication/tracebuzz/social-media-webcare/results/:profilename/source::media",
+            "params": [
+              {
+                "name": "profilename",
+                "value": "",
+                "type": "path",
+                "description": "Enter the profile name, for example: `/demo1`."
+              },
+              {
+                "name": "media",
+                "value": "",
+                "type": "path",
+                "description": "Enter the media, for example`/source:twitter`"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Use filters to retrieve results. You need to add the `profilename` and the `media`. If you are in the Traceboard dashboard, you can find the string with filters in the URL. All filters can be used within the string.\n\nExample URL: `/test-profile/source:twitter/word:aloha/`\n\n**media**\n\n- twitter \n- facebook\n- instagram\n- google+plus\n- linkedin\n- whatsapp \n- blogs\n- forums\n- news\n- web\n- print\n- rtv\n- irischat\n"
+        },
+        {
+          "info": {
+            "name": "Retrieves results without context",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/communication/tracebuzz/social-media-webcare/results/:resultId/noContext",
+            "params": [
+              {
+                "name": "resultId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves information for 1 specific `resultId`. Retrieves all information for a result object."
+        },
+        {
+          "info": {
+            "name": "Replies to a message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/communication/tracebuzz/social-media-webcare/results/:resultId/replies",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "resultId",
+                "value": "",
+                "type": "path",
+                "description": "Enter the unique `resultId`."
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "connectionId",
+                  "value": ""
+                },
+                {
+                  "name": "message",
+                  "value": ""
+                },
+                {
+                  "name": "public",
+                  "value": ""
+                }
+              ]
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This endpoint allows you to reply to a message"
+        },
+        {
+          "info": {
+            "name": "Message events",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/communication/tracebuzz/social-media-webcare/results/:resultId/event/:event",
+            "params": [
+              {
+                "name": "resultId",
+                "value": "",
+                "type": "path",
+                "description": "Enter the `resultId`."
+              },
+              {
+                "name": "event",
+                "value": "",
+                "type": "path",
+                "description": "Possible events: `starttyping`, `stoptyping`, `closed`, `opened`."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Start or stop typing on a message. Open or close a message.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Cases",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Closes case",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/communication/tracebuzz/social-media-webcare/searches/:searchId/cases/:caseId/close",
+            "params": [
+              {
+                "name": "searchId",
+                "value": "",
+                "type": "path",
+                "description": "The search id for that search profile."
+              },
+              {
+                "name": "caseId",
+                "value": "",
+                "type": "path",
+                "description": "The case id for that case.."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This method let's you close the case."
+        },
+        {
+          "info": {
+            "name": "Releases case to another handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/communication/tracebuzz/social-media-webcare/searches/:searchId/cases/:caseId/close/handOverToHandler/:handlerId",
+            "params": [
+              {
+                "name": "searchId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "caseId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "handlerId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This method let's you assign your case to another handler."
+        },
+        {
+          "info": {
+            "name": "Releases handler from case",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/communication/tracebuzz/social-media-webcare/searches/:searchId/cases/:caseId/releaseHandler",
+            "params": [
+              {
+                "name": "searchId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "caseId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This method let's you release the case."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

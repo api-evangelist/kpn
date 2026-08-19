@@ -1,0 +1,603 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "FIAM-KPN",
+    "version": "0.1.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authorization",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "enforce_authorization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/fiam/api/v1/authorization/enforce",
+            "params": [
+              {
+                "name": "subject",
+                "value": "",
+                "type": "query",
+                "description": "Subject requesting access (maps to target.accessSubject)"
+              },
+              {
+                "name": "resources",
+                "value": "",
+                "type": "query",
+                "description": "Resources being accessed (maps to target.resource.identifiers)"
+              },
+              {
+                "name": "actions",
+                "value": "",
+                "type": "query",
+                "description": "Action being performed (maps to target.actions)"
+              },
+              {
+                "name": "resource_type",
+                "value": "",
+                "type": "query",
+                "description": "Resource type (maps to target.resource.type) - e.g., \"API\", \"API2\""
+              },
+              {
+                "name": "attributes",
+                "value": "",
+                "type": "query",
+                "description": "Resource attributes being accessed (maps to target.resource.attributes)"
+              },
+              {
+                "name": "issuer",
+                "value": "",
+                "type": "query",
+                "description": "Policy issuer (maps to policyIssuer)"
+              },
+              {
+                "name": "service_provider",
+                "value": "",
+                "type": "query",
+                "description": "Service provider for environment constraints"
+              },
+              {
+                "name": "license",
+                "value": "",
+                "type": "query",
+                "description": "License context for policy set matching"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "enforce_authorization_post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/fiam/api/v1/authorization/enforce",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Contract Validation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "validate_contract_access",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/fiam/api/v1/contracts/validate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Parties",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "get_dataspaces",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/fiam/api/v1/dataspaces"
+          }
+        },
+        {
+          "info": {
+            "name": "search_parties",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/fiam/api/v1/parties",
+            "params": [
+              {
+                "name": "active_only",
+                "value": "",
+                "type": "query",
+                "description": "Optional parameter used to search by party's \\\"Active\\\" status."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Optional parameter used to search by party's name. Can contain a single * as wildcard."
+              },
+              {
+                "name": "eori",
+                "value": "",
+                "type": "query",
+                "description": "Optional parameter used to search by party's EORI. Can contain a single * as wildcard. It searches through the\nparty_id array  for matching eori (contained in the party_id array). This parameter must be considered\ndeprecated and will be removed in future  releases."
+              },
+              {
+                "name": "party_id",
+                "value": "",
+                "type": "query",
+                "description": "Optional parameter used to search by party's ID. Can contain a single * as wildcard. It searches through the\nparty_id array  for matching party_id."
+              },
+              {
+                "name": "certified_only",
+                "value": "",
+                "type": "query",
+                "description": "Search for parties that play one of the certified roles as defined in iSHARE role framework."
+              },
+              {
+                "name": "date_time",
+                "value": "",
+                "type": "query",
+                "description": "Search parties with a specific adherence date"
+              },
+              {
+                "name": "adherenceStatus",
+                "value": "",
+                "type": "query",
+                "description": "Search for parties with adherence status like \\\"Active\\\", \\\"Revoked\\\",\\\"Not Active\\\", \\\"Pending\\\""
+              },
+              {
+                "name": "adherenceStartdate",
+                "value": "",
+                "type": "query",
+                "description": "Search parties with a specific adherence start date"
+              },
+              {
+                "name": "adherenceEnddate",
+                "value": "",
+                "type": "query",
+                "description": "Search parties with a specific adherence end date"
+              },
+              {
+                "name": "registrarPartyId",
+                "value": "",
+                "type": "query",
+                "description": "Search parties by their registrar Participant Registry's ID number"
+              },
+              {
+                "name": "webSiteUrl",
+                "value": "",
+                "type": "query",
+                "description": "Search a party by their website URL"
+              },
+              {
+                "name": "companyEmail",
+                "value": "",
+                "type": "query",
+                "description": "Search a party by their email ID"
+              },
+              {
+                "name": "companyPhone",
+                "value": "",
+                "type": "query",
+                "description": "Search a party by their company phone number"
+              },
+              {
+                "name": "publiclyPublishable",
+                "value": "",
+                "type": "query",
+                "description": "Search parties whose general company contact information is allowed to be published"
+              },
+              {
+                "name": "tags",
+                "value": "",
+                "type": "query",
+                "description": "Search parties who match any of the keywords that they have added in their participant information under tags.\nIt is a free text field and can contain any value"
+              },
+              {
+                "name": "framework",
+                "value": "",
+                "type": "query",
+                "description": "Search parties based on which framework they were onboarded with. Currently parties can only be registered with\n\\\"iSHARE\\\" framework"
+              },
+              {
+                "name": "subjectName",
+                "value": "",
+                "type": "query",
+                "description": "Search parties based on the subject name of their PKI (x509) certificates. Usually to find a party who is\nrequesting tokens"
+              },
+              {
+                "name": "role",
+                "value": "",
+                "type": "query",
+                "description": "Search parties based on their roles as defined in the iSHARE role framework. Possible roles are ServiceConsumer,\nServiceProvider,  EntitledParty, AuthorisationRegistry, IdentityProvider,  IdentityBroker and IdentityBroker\nand ParticipantRegistry,  iShareSatellite (deprecated, will be removed in future releases,  use\nParticipantRegistry instead)."
+              },
+              {
+                "name": "loA",
+                "value": "",
+                "type": "query",
+                "description": "Search parties based on their level of assurance which is registered in the participant list. Possible values\nare Low/Substantial/High"
+              },
+              {
+                "name": "compliancyVerified",
+                "value": "",
+                "type": "query",
+                "description": "Search parties that have their compliance to framework verified or not."
+              },
+              {
+                "name": "legalAdherence",
+                "value": "",
+                "type": "query",
+                "description": "Search parties that have signed the appropriate legal agreements and that have been verified during or after\nonboarding. Parties adhering to legal agreements are legally obliged to adhere to terms of use of data."
+              },
+              {
+                "name": "authorizationRegistryID",
+                "value": "",
+                "type": "query",
+                "description": "Search parties based on their authorization registry provider. The ID of the authorization registry must be\nprovided in search parameter, and this must be listed as the authorization registry in the participant record"
+              },
+              {
+                "name": "authorizationRegistryName",
+                "value": "",
+                "type": "query",
+                "description": "Search parties based on their authorization registry provider. The name of the authorization registry must be\nprovided in search parameter and this must be listed as authorization registry in the participant record"
+              },
+              {
+                "name": "dataSpaceID",
+                "value": "",
+                "type": "query",
+                "description": "Search parties based on data-spaces they participate in. The ID of the data-space must be provided"
+              },
+              {
+                "name": "dataSpaceTitle",
+                "value": "",
+                "type": "query",
+                "description": "Search parties based on data-spaces they participate in. The name of the data-space must be provided"
+              },
+              {
+                "name": "countriesOfOperation",
+                "value": "",
+                "type": "query",
+                "description": "Search parties by name of country they list as their country of operation"
+              },
+              {
+                "name": "sectorIndustry",
+                "value": "",
+                "type": "query",
+                "description": "Search parties by name of sector they list as their sector/industry"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The parties API by default uses pagination. Each page size is fixed at 10 parties per page. When search results\ninto more then 10 parties, the page parameter must be added for next pages"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "into more then 10 parties, the page parameter must be added for next pages"
+              },
+              {
+                "name": "certificate_subject_name",
+                "value": "",
+                "type": "query",
+                "description": "Search parties based on the subject name of their PKI (x509) certificates. Usually to find a party who is\nrequesting tokens"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "create_ep",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/fiam/api/v1/parties",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "get_party",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/fiam/api/v1/parties/:party_id",
+            "params": [
+              {
+                "name": "party_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the party to retrieve"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "access_token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/fiam/api/v1/oauth/token",
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Service Consumer Contracts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "get_contracts_sc",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/fiam/api/v1/service-consumers/contracts",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "get_contract_sc",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/fiam/api/v1/service-consumers/contracts/:contract_id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path",
+                "description": "Contract ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Service Provider Contracts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "list_contracts_sp",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/fiam/api/v1/service-providers/contracts",
+            "params": [
+              {
+                "name": "data_owner",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "service_consumer",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "resource_type",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "create_contract_sp",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/fiam/api/v1/service-providers/contracts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "get_contract_sp",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/fiam/api/v1/service-providers/contracts/:contract_id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path",
+                "description": "Contract ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "update_contract_sp",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-prd.kpn.com/fiam/api/v1/service-providers/contracts/:contract_id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path",
+                "description": "Contract ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "delete_contract_sp",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-prd.kpn.com/fiam/api/v1/service-providers/contracts/:contract_id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path",
+                "description": "Contract ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Service Provider Parties",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "get_service_provider_parties",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/fiam/api/v1/service-providers/parties",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

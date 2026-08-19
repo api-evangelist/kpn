@@ -1,0 +1,687 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Voice-Vonage",
+    "version": "v1.1.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "voice",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Details of your calls",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/communication/nexmo/voice/calls",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "v1"
+              },
+              {
+                "name": "ApplicationId",
+                "value": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+              }
+            ],
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by call status"
+              },
+              {
+                "name": "date_start",
+                "value": "",
+                "type": "query",
+                "description": "Return the records that occurred after this point in time"
+              },
+              {
+                "name": "date_end",
+                "value": "",
+                "type": "query",
+                "description": "Return the records that occurred before this point in time"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Return this amount of records in the response"
+              },
+              {
+                "name": "record_index",
+                "value": "",
+                "type": "query",
+                "description": "Return calls from this index in the response"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Either ascending or descending order."
+              },
+              {
+                "name": "conversation_uuid",
+                "value": "",
+                "type": "query",
+                "description": "Return all the records associated with a specific conversation."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get details of your calls.\nFiltering works by tunning the following fields\n - status\n - date_start\n - date_end\n - conversation_uuid\n\nPaging configuration fields\n - page_size (default 10)\n - record_index (default 0)\n - order (default asc)"
+        },
+        {
+          "info": {
+            "name": "Outbound call",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/communication/nexmo/voice/calls",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "v1"
+              },
+              {
+                "name": "ApplicationId",
+                "value": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Create an outbound Call.\n\nThe basic body `to`, `from` and `answer_url` fields are **mandatory**. \n\nOther arguments like `answer_method`, `event_url`, `event_method`, `machine_detection`, `length_timer`, `ringing_timer` are **optional**.\n\nCreates a call and returns a JSON object with the call identifier (`uuid`), `status` of the call, `conversation_uuid` where the call is attached to and the `direction` of the call."
+        },
+        {
+          "info": {
+            "name": "Details of a specific call",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/communication/nexmo/voice/calls/:uuid",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "v1"
+              },
+              {
+                "name": "ApplicationId",
+                "value": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "63f61863-4a51-4f6b-86e1-46edebcf9356",
+                "type": "path",
+                "description": "UUID of the Call"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get detailed information of a specific call"
+        },
+        {
+          "info": {
+            "name": "Modify an in progress call",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-prd.kpn.com/communication/nexmo/voice/calls/:uuid",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "v1"
+              },
+              {
+                "name": "ApplicationId",
+                "value": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "63f61863-4a51-4f6b-86e1-46edebcf9356",
+                "type": "path",
+                "description": "UUID of the Call"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Modify an in progress call\nAllows to modify the action and the destination (required when action is `transfer`).\nAllowed action values are: `hangup`, `mute`, `unmute`, `earmuff`, `unearmuff` and `transfer`."
+        },
+        {
+          "info": {
+            "name": "Play an audio file into a call",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-prd.kpn.com/communication/nexmo/voice/calls/:uuid/stream",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "v1"
+              },
+              {
+                "name": "ApplicationId",
+                "value": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "63f61863-4a51-4f6b-86e1-46edebcf9356",
+                "type": "path",
+                "description": "UUID of the Call"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Play an audio file into a call\nInclude in the body a list of URL under stream_url and loop to configure the number of times to play the file (0 for infinite)."
+        },
+        {
+          "info": {
+            "name": "Stop playing an audio file into a call",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-prd.kpn.com/communication/nexmo/voice/calls/:uuid/stream",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "v1"
+              },
+              {
+                "name": "ApplicationId",
+                "value": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "63f61863-4a51-4f6b-86e1-46edebcf9356",
+                "type": "path",
+                "description": "UUID of the Call"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Stop playing an audio file into a call"
+        },
+        {
+          "info": {
+            "name": "Play text to speech into a call",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-prd.kpn.com/communication/nexmo/voice/calls/:uuid/talk",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "v1"
+              },
+              {
+                "name": "ApplicationId",
+                "value": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "63f61863-4a51-4f6b-86e1-46edebcf9356",
+                "type": "path",
+                "description": "UUID of the Call"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Play text to speech into a call\nThe options to be included in the body are:\n - text you want the machine to read\n - voiceName the name of the voice and language you want to use\n - loop value with the number of times you want the text to be repeated. 0 for infinite"
+        },
+        {
+          "info": {
+            "name": "Stop text to speech in a call",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-prd.kpn.com/communication/nexmo/voice/calls/:uuid/talk",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "v1"
+              },
+              {
+                "name": "ApplicationId",
+                "value": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "63f61863-4a51-4f6b-86e1-46edebcf9356",
+                "type": "path",
+                "description": "UUID of the Call"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Stop text to speech in a call"
+        },
+        {
+          "info": {
+            "name": "Play DTMF tones into a call",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-prd.kpn.com/communication/nexmo/voice/calls/:uuid/dtmf",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "v1"
+              },
+              {
+                "name": "ApplicationId",
+                "value": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "63f61863-4a51-4f6b-86e1-46edebcf9356",
+                "type": "path",
+                "description": "UUID of the Call"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Play DTMF tones into a call\nSpecify the digits to send in the request body"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "applications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Details of your applications.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/communication/nexmo/applications",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "v1"
+              }
+            ],
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Set the number of items returned on each call to this endpoint"
+              },
+              {
+                "name": "page_index",
+                "value": "",
+                "type": "query",
+                "description": "Set the offset from the first page"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get details of your applications.\n\n This endpoint is not available for sandbox environments, in order to use it please apply for production."
+        },
+        {
+          "info": {
+            "name": "New Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/communication/nexmo/applications",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "v1"
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "name",
+                  "value": ""
+                },
+                {
+                  "name": "type",
+                  "value": ""
+                },
+                {
+                  "name": "answer_url",
+                  "value": ""
+                },
+                {
+                  "name": "answer_method",
+                  "value": ""
+                },
+                {
+                  "name": "event_url",
+                  "value": ""
+                },
+                {
+                  "name": "event_method",
+                  "value": ""
+                }
+              ]
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Create a new application\nThe basic body needs to include:\n - `name` with the name of the application\n - `type` set to `voice`\n - `answer_url` the URL where your webhook delivers the NCCO that governs this call. As soon as your user answers a call Vonage makes a request to answer_url.\n - `event_url` the API sends event information asynchronously to this URL when status changes.\n\nCreates a call and returns a JSON object with the call identifier (uuid), status of the call, conversation_uuid the cal"
+        },
+        {
+          "info": {
+            "name": "Details of a specific application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/communication/nexmo/applications/:uuid",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "v1"
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                "type": "path",
+                "description": "UUID of the application"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get detailed information of a specific application"
+        },
+        {
+          "info": {
+            "name": "Modify an existing application",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-prd.kpn.com/communication/nexmo/applications/:uuid",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "v1"
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                "type": "path",
+                "description": "UUID of the application"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "The name of your application."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Products you access with this application"
+              },
+              {
+                "name": "answer_url",
+                "value": "",
+                "type": "query",
+                "description": "The webhook endpoint where you provide the Vonage Call Control Object that governs this call."
+              },
+              {
+                "name": "answer_method",
+                "value": "",
+                "type": "query",
+                "description": "The HTTP method used to make the request to `answer_url`"
+              },
+              {
+                "name": "event_url",
+                "value": "",
+                "type": "query",
+                "description": "URL to send events when status updates"
+              },
+              {
+                "name": "event_method",
+                "value": "",
+                "type": "query",
+                "description": "The HTTP method used to make the request to `event_method`"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Modify an existing application"
+        },
+        {
+          "info": {
+            "name": "Delete application",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-prd.kpn.com/communication/nexmo/applications/:uuid",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "v1"
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                "type": "path",
+                "description": "UUID of the application"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Deletes the existing application"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "JWT",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate JWT Call",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/communication/nexmo/jwt",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "v1"
+              },
+              {
+                "name": "ApplicationId",
+                "value": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Create a JWT to access the recording URL"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

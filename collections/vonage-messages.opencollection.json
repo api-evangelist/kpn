@@ -1,0 +1,189 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Messages - Vonage",
+    "version": "v1.1.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "applications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves details of your applications.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/communication/nexmo/applications/v2",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "null"
+              }
+            ],
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Set the number of items returned on each call to this endpoint"
+              },
+              {
+                "name": "page_index",
+                "value": "",
+                "type": "query",
+                "description": "Set the offset from the first page"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves details of your applications.\n\n > **Note:** This endpoint is not available for sandbox environments. To use it please apply for production."
+        },
+        {
+          "info": {
+            "name": "Creates new application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/communication/nexmo/applications/v2",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "null"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Creates a new application.\nThe basic body needs to include:\n - `name` with the name of the application.\n - `type` should be `messages`.\n - `status_url` Vonage sends Submitted, Delivered, Read and Rejected statuses for every message to this URL.\n - `inbound_url`to receive Inbound Messages.\n \nCreates a call and returns a JSON object with the call identifier (uuid), status of the call, conversation_uuid the call is attached to and the direction of the call.\n"
+        },
+        {
+          "info": {
+            "name": "Retrieves details of a specific application.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/communication/nexmo/applications/v2/:uuid",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "null"
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                "type": "path",
+                "description": "UUID of the application"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves detailed information of a specific application."
+        },
+        {
+          "info": {
+            "name": "Deletes application.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-prd.kpn.com/communication/nexmo/applications/v2/:uuid",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": "null"
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                "type": "path",
+                "description": "UUID of the application"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Deletes the existing application."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "messages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Sends a message.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/communication/nexmo/messages",
+            "headers": [
+              {
+                "name": "ApplicationId",
+                "value": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Sends a message."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

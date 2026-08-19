@@ -1,0 +1,713 @@
+{
+  "item": [
+    {
+      "id": "d058bf72-4481-4841-8e1f-8af40d65d4fc",
+      "name": "account",
+      "description": {
+        "content": "number management from accounts",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "86d2c091-b5ac-4b5a-81fa-c9b784d09604",
+          "name": "List owned numbers",
+          "request": {
+            "name": "List owned numbers",
+            "description": {
+              "content": "Retrieve all the inbound numbers associated with your Vonage account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "account",
+                "numbers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "index",
+                  "value": "1",
+                  "description": "Page index"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "10",
+                  "description": "Page size"
+                },
+                {
+                  "disabled": false,
+                  "key": "pattern",
+                  "value": "<string>",
+                  "description": "A number pattern to search for."
+                },
+                {
+                  "disabled": false,
+                  "key": "search_pattern",
+                  "value": "<integer>",
+                  "description": "Strategy for matching pattern. Expected values: 0 (starts with, default), 1 (anywhere), 2 (ends with)."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "02664516-56d7-4835-9a52-7a9f3be571a1",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account",
+                    "numbers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "index",
+                      "value": "0"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "pattern",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search_pattern",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 416,\n  \"numbers\": [\n    {\n      \"country\": \"NL\",\n      \"msisdn\": \"31612345789\",\n      \"type\": \"mobile-lvn\",\n      \"features\": [\n        \"VOICE\",\n        \"SMS\"\n      ],\n      \"moHttpUrl\": \"https://example.com/mo\",\n      \"voiceCallbackType\": \"app\",\n      \"voiceCallbackValue\": \"aaaaaaaa-bbbb-cccc-dddd-0123456789ab\"\n    },\n    {\n      \"country\": \"NL\",\n      \"msisdn\": \"31612345789\",\n      \"type\": \"mobile-lvn\",\n      \"features\": [\n        \"VOICE\",\n        \"SMS\"\n      ],\n      \"moHttpUrl\": \"https://example.com/mo\",\n      \"voiceCallbackType\": \"app\",\n      \"voiceCallbackValue\": \"aaaaaaaa-bbbb-cccc-dddd-0123456789ab\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "0f93e58a-99d8-4e0b-ba77-a2aaebd63950",
+      "name": "number",
+      "description": {
+        "content": "numbers operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a360e21f-aee7-47ff-bfd2-18a6ceb98e81",
+          "name": "Search available numbers",
+          "request": {
+            "name": "Search available numbers",
+            "description": {
+              "content": "Retrieve inbound numbers that are available for a given country.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "number",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "pattern",
+                  "value": "<string>",
+                  "description": "A number pattern to search for."
+                },
+                {
+                  "disabled": false,
+                  "key": "search_pattern",
+                  "value": "<integer>",
+                  "description": "Strategy for matching pattern. Expected values: 0 (starts with, default), 1 (anywhere), 2 (ends with)."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "The type of number to search for. By default it takes landline."
+                },
+                {
+                  "disabled": false,
+                  "key": "features",
+                  "value": "[\"<string>\",\"<string>\"]"
+                },
+                {
+                  "disabled": false,
+                  "key": "features",
+                  "value": "[\"<string>\",\"<string>\"]"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "10",
+                  "description": "Page size"
+                },
+                {
+                  "disabled": false,
+                  "key": "index",
+                  "value": "1",
+                  "description": "Page index"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "fa0e7b0a-af83-4a4c-8e04-d3a7a9b55d88",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "number",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pattern",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search_pattern",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "features",
+                      "value": "VOICE,SMS"
+                    },
+                    {
+                      "key": "features",
+                      "value": "VOICE,SMS"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "index",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 6713,\n  \"numbers\": [\n    {\n      \"country\": \"NL\",\n      \"msisdn\": \"31612345789\",\n      \"type\": \"mobile-lvn\",\n      \"features\": [\n        \"VOICE\",\n        \"SMS\"\n      ],\n      \"moHttpUrl\": \"https://example.com/mo\",\n      \"voiceCallbackType\": \"app\",\n      \"voiceCallbackValue\": \"aaaaaaaa-bbbb-cccc-dddd-0123456789ab\"\n    },\n    {\n      \"country\": \"NL\",\n      \"msisdn\": \"31612345789\",\n      \"type\": \"mobile-lvn\",\n      \"features\": [\n        \"VOICE\",\n        \"SMS\"\n      ],\n      \"moHttpUrl\": \"https://example.com/mo\",\n      \"voiceCallbackType\": \"app\",\n      \"voiceCallbackValue\": \"aaaaaaaa-bbbb-cccc-dddd-0123456789ab\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9fe728f7-6a00-4d74-b7a7-062b2a320012",
+          "name": "Buy a number",
+          "request": {
+            "name": "Buy a number",
+            "description": {
+              "content": "Request to purchase a specific inbound number.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "number",
+                "buy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "msisdn",
+                  "value": "<number>",
+                  "description": "(Required) "
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "a43d5402-45c0-43a3-bf1c-5f08932bd062",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "number",
+                    "buy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error-code\": \"string\",\n  \"error-code-label\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ff1b706e-3fad-4502-ae79-bef609b9e711",
+          "name": "Cancel a number",
+          "request": {
+            "name": "Cancel a number",
+            "description": {
+              "content": "Cancel your subscription for a specific inbound number.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "number",
+                "cancel"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "msisdn",
+                  "value": "<number>",
+                  "description": "(Required) "
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "bb845867-2246-4adc-a3cf-a8b599477105",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "number",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error-code\": \"string\",\n  \"error-code-label\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3a4c5954-1990-4c0e-91db-0e168f2643b5",
+          "name": "Update a number",
+          "request": {
+            "name": "Update a number",
+            "description": {
+              "content": "Change the behaviour of a number that you own",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "number",
+                "update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "msisdn",
+                  "value": "<number>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "moHttpUrl",
+                  "value": "<url>"
+                },
+                {
+                  "disabled": false,
+                  "key": "moSmppSysType",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "voiceCallbackType",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "voiceCallbackValue",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "voiceStatusCallback",
+                  "value": "<url>"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b1bdb6ef-40fc-415c-ab3f-abbf251d9d9b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "number",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error-code\": \"string\",\n  \"error-code-label\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-prd.kpn.com/communication/nexmo/phone-numbers",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f19c58fd-954e-4097-835f-aff3525f1037",
+    "name": "Phone Numbers - Vonage",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Numbers API lets you manage your numbers and buy new virtual numbers for use with Vonage's APIs.\n## Prerequirement:\nYour project has to be in the production environment in order to use of this API.\nFor any questions, please contact our support team.\n## [Source view](https://app.swaggerhub.com/apis/kpn/phone-numbers-nexmo/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/phone-numbers-nexmo/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n\n   ---\n\nContact Support:\n Name: API Support\n Email: api_developer@kpn.com",
+      "type": "text/plain"
+    }
+  }
+}

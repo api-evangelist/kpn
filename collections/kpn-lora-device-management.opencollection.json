@@ -1,0 +1,782 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "LoRa Device Management - KPN",
+    "version": "v1.2"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Activation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Activates API",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/activate",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Need to update description."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Device",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves devices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/devices",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "deviceEUI",
+                "value": "",
+                "type": "query",
+                "description": "EUI of the device to search for."
+              },
+              {
+                "name": "healthState",
+                "value": "",
+                "type": "query",
+                "description": "Health state of the devices to search for. By default, all devices are returned."
+              },
+              {
+                "name": "connectivityPlanId",
+                "value": "",
+                "type": "query",
+                "description": "Connectivity plan assigned to the devices to search for. Value `_NOCP` means that only devices with no connectivity plan assigned should be returned. Value `_CP` means that only devices with any connectivity plan assigned should be returned. By default, all devices are returned."
+              },
+              {
+                "name": "statistics",
+                "value": "",
+                "type": "query",
+                "description": "Indicates to also retrieve usage statistic information along each device. Default is false."
+              },
+              {
+                "name": "commercialDetails",
+                "value": "",
+                "type": "query",
+                "description": "Indicates to also retrieve commercial information along each device. Default is false."
+              },
+              {
+                "name": "extendedInfo",
+                "value": "",
+                "type": "query",
+                "description": "Indicates to retrieve all available information (including statistics and commercial details) along each device. Default is false."
+              },
+              {
+                "name": "pageIndex",
+                "value": "",
+                "type": "query",
+                "description": "If set, enables pagination and returns only the 100 devices of the specified page. First available page index is 1. Note that device pagination is only supported in case of a SUBSCRIBER scope."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of devices existing within authorized scopes. Note that for each device, by default only the following information is retrieved: `ref`, `name`, `EUI`, `networkAddress`."
+        },
+        {
+          "info": {
+            "name": "Creates devices",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/devices",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "deviceToken",
+                "value": "",
+                "type": "query",
+                "description": "Token provided by the manufacturer for an easy registration on a standalone Join Server. Not available in ThingPark Enterprise versions."
+              },
+              {
+                "name": "jsProfile",
+                "value": "",
+                "type": "query",
+                "description": "When providing a device token, you need provide your Join Server account. Not available in ThingPark Enterprise versions."
+              },
+              {
+                "name": "jsSubscriberRef",
+                "value": "",
+                "type": "query",
+                "description": "When providing a device token, you need provide your Join Server account. Not available in ThingPark Enterprise versions."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Creates a new device. If no `routingProfileId` or `processingStrategyId` values are provided, then `processingStrategyId` will be automatically set to `DATAFLOW`. If no `connectivityPlanId` value is provided, then the first connectivity plan of the subscriber with available connections will be assigned to the device."
+        },
+        {
+          "info": {
+            "name": "Retrieves specific device",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/devices/:deviceRef",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "deviceRef",
+                "value": "",
+                "type": "path",
+                "description": "Ref of the device to retrieve."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves the device corresponding to the provided `device ref`, if that device is within authorized scopes."
+        },
+        {
+          "info": {
+            "name": "Updates specific device",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/devices/:deviceRef",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "deviceRef",
+                "value": "",
+                "type": "path",
+                "description": "Ref of the device to update."
+              },
+              {
+                "name": "jsProfile",
+                "value": "",
+                "type": "query",
+                "description": "When you use a standalone JoinServer, you need provide your Join Server account. Not available in ThingPark Enterprise versions."
+              },
+              {
+                "name": "jsSubscriberRef",
+                "value": "",
+                "type": "query",
+                "description": "When you use a standalone JoinServer, you need provide your Join Server account. Not available in ThingPark Enterprise versions."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Updates the device corresponding to the provided `device ref`, if that device is within authorized scopes. Only following attributes can be updated: `name`, `routingProfileId`, `processingStrategyId`, `connectivityPlanId`, `deviceProfileId` and `applicationEUI`. To update other attributes, device must be deleted than re-created."
+        },
+        {
+          "info": {
+            "name": "Deletes specific device",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/devices/:deviceRef",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "deviceRef",
+                "value": "",
+                "type": "path",
+                "description": "Ref of the device to delete."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Deletes the device corresponding to the provided `device ref`, if that device is within authorized scopes."
+        },
+        {
+          "info": {
+            "name": "Retrieves device profiles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/deviceProfiles",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves the list of existing device profiles."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Subscription",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves connectivity plans",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/connectivityPlans",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of connectivity plans existing within authorized scopes."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Routing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves routing profiles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/routingProfiles",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "routingProfileId",
+                "value": "",
+                "type": "query",
+                "description": "Id of the routing profile to search for."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of existing routing profiles within authorized scopes."
+        },
+        {
+          "info": {
+            "name": "Creates routing profiles",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/routingProfiles",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Creates a new routing profile."
+        },
+        {
+          "info": {
+            "name": "Retrieves specific routing profiles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/routingProfiles/:routingProfileRef",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "routingProfileRef",
+                "value": "",
+                "type": "path",
+                "description": "Ref of the routing profile to retrieve."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves the routing profile corresponding to the provided routing `profile ref`, if that routing profile is within authorized scopes."
+        },
+        {
+          "info": {
+            "name": "Updates specific routing profiles",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/routingProfiles/:routingProfileRef",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "routingProfileRef",
+                "value": "",
+                "type": "path",
+                "description": "Ref of the routing profile to update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Updates the routing profile corresponding to the provided routing `profile ref`, if that routing profile is within authorized scopes. Note that the `default` attribute can only be updated from `false` to `true` (thus updating `default` attribute for the previous default routing profile from `true` to `false`)."
+        },
+        {
+          "info": {
+            "name": "Deletes routing profiles",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/routingProfiles/:routingProfileRef",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "routingProfileRef",
+                "value": "",
+                "type": "path",
+                "description": "Ref of the routing profile to delete."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Deletes the routing profile corresponding to the provided routing `profile ref`, if that routing profile is within authorized scopes."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Statistics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves frame statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/deviceFrameStatistics",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "deviceEUIList",
+                "value": "",
+                "type": "query",
+                "description": "List of device EUIs for which device statistics should be retrieved."
+              },
+              {
+                "name": "baseStationId",
+                "value": "",
+                "type": "query",
+                "description": "Id of the base station which received the frame."
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date in ISO 8601 format of the period for which frame statistics should be retrieved. By default, only the last frame statistics resource is retrieved."
+              },
+              {
+                "name": "duration",
+                "value": "",
+                "type": "query",
+                "description": "Period (number of days) for which frame statistics should be retrieved. By default, the default duration is 7 days."
+              },
+              {
+                "name": "aggregationStep",
+                "value": "",
+                "type": "query",
+                "description": "Number of hours (between 1 and 24) used for aggregating the frame statistics. By default, all frame statistics are returned (no aggregation)."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves frame statistics of the devices corresponding to the provided parameters, if those devices are within authorized scopes."
+        },
+        {
+          "info": {
+            "name": "Retrieves health statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/deviceHealthStatistics",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves health statistics for all devices within authorized scopes."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "DeviceSecurity",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves HSM groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/hsmGroups",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "pageIndex",
+                "value": "",
+                "type": "query",
+                "description": "If set, enables pagination and returns only the 100 HSM groups of the specified page. First available page index is 1."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of HSM groups existing within authorized scopes."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Alarm",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves device alarms",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/deviceAlarms",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "deviceEUI",
+                "value": "",
+                "type": "query",
+                "description": "EUI of the device to search alarms for."
+              },
+              {
+                "name": "pageIndex",
+                "value": "",
+                "type": "query",
+                "description": "If set, enables pagination and returns only the 100 device alarms of the specified page. First available page index is 1. Note that device alarm pagination is only supported in case of a SUBSCRIBER scope AND if a deviceEUI is specified."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of device alarms existing within authorized scopes."
+        },
+        {
+          "info": {
+            "name": "Retrieves specific device alarm",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/deviceAlarms/:deviceAlarmRef",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "deviceAlarmRef",
+                "value": "",
+                "type": "path",
+                "description": "Ref of the device alarm to retrieve."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves the device alarm corresponding to the provided device alarm ref, if that device alarm is within authorized scopes."
+        },
+        {
+          "info": {
+            "name": "Acknowledges device alarm",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/data/lora/thingpark/deviceAlarms/:deviceAlarmRef/acks",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "deviceAlarmRef",
+                "value": "",
+                "type": "path",
+                "description": "Ref of the device alarm to acknowledge."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Acknowledges a device alarm."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

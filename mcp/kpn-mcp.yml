@@ -15,8 +15,9 @@ server:
   name: kpn
   transport: http
   url: null
-  note: Candidate only - KPN publishes no hosted MCP endpoint. Tools below are derived one-per-operation from the
-    KPN-owned OpenAPI definitions; each tool inherits its real input contract from the referenced operation parameters/requestBody.
+  note: Candidate only - KPN publishes no hosted MCP endpoint. Tools below are derived one-per-operation
+    from the KPN-owned OpenAPI definitions; each tool inherits its real input contract from the referenced
+    operation parameters/requestBody.
 authentication:
   type: oauth2
   flow: clientCredentials
@@ -38,7 +39,8 @@ tools:
   source_operation: openapi/kpn-sms-inbound-openapi.yml#POST /your-active-webhook
   operation_id_published: false
 - name: kpn_retrieve_sim_swap_date
-  description: Get timestamp of last MSISDN <-> IMSI pairing change for a mobile user account provided with MSIDN.
+  description: Get timestamp of last MSISDN <-> IMSI pairing change for a mobile user account provided
+    with MSIDN.
   product: SIM Swap
   source_operation: openapi/kpn-sim-swap-openapi.yml#retrieveSimSwapDate
   operation_id_published: true
@@ -557,3 +559,9 @@ tools:
   product: ISE - KPN
   source_operation: openapi/kpn-ise-openapi.yml#DELETE /internaluser/
   operation_id_published: false
+deployment:
+  mode: none
+  verified: derived
+  tools: 106
+  checked: '2026-08-12'
+  source: catalog MCP census

@@ -1,0 +1,2240 @@
+{
+  "item": [
+    {
+      "id": "56c70ac6-622b-4f1a-99f6-6c54be9ab5df",
+      "name": "Devices",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fdc7d278-4f09-4d89-a71c-6f63d0d00306",
+          "name": "Subscribe device",
+          "request": {
+            "name": "Subscribe device",
+            "description": {
+              "content": "You need to subscribe the device before you can send and get messages.<br /> When you do not subscribe, we can't tell who you are. It's that important.<br /> When you subscribe you will also want to setup the pushToken and pushType of your device to receive updates when a new event or message is available for this device.<br /> To make the different push types work for your application, you will need to contact <a href=\"http://parley.nu/contact\" target=\"_blank\">Parley</a> to configure one or multiple pushTypes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "devices"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pushToken",
+                  "value": "<string>",
+                  "description": "A push token for the device. This is used to send the device a push message when the account respond. Must be unique, if they are re-used they will be deleted from previous device(s)."
+                },
+                {
+                  "disabled": false,
+                  "key": "pushType",
+                  "value": "<integer>",
+                  "description": "The type of push token. <ol>\n  - Google Cloud Messaging\n  - Apple Push Notification Service\n  - Firebase Cloud Messaging\n  - Custom webhook\n  - Custom webhook behind OAuth\n</ol>"
+                },
+                {
+                  "disabled": false,
+                  "key": "userAdditionalInformation",
+                  "value": "<string>",
+                  "description": "Addition information for the user. You can add anything you want, should be in a key value combination and key must be a string. It&#39;s logical to send the name of the authenticated user.                                                          For privacy reasons we want as little information as possible for you to work with. And remember that we can&#39;t verify that wat is sent here is really about the user."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<integer>",
+                  "description": "The type of device. <ol>\n  - Android\n  - iOS\n  - Web\n  - Generic (custom build)\n</ol>"
+                },
+                {
+                  "disabled": false,
+                  "key": "version",
+                  "value": "<string>",
+                  "description": "The version number of the client application. Format &quot;1.2.3&quot; or &quot;01.02.03&quot; or &quot;010203&quot; but NOT &quot;123&quot;"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "API Version. If no version is provided it defaults to latest version.",
+                "key": "api-version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                "key": "uniqueAppDeviceId",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                "key": "authString",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "08ef5a3a-2f4c-4028-b65b-00ce409fbab3",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "devices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pushToken",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pushType",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "userAdditionalInformation",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                    "key": "uniqueAppDeviceId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"notifications\": [\n    {\n      \"type\": \"success\",\n      \"message\": \"device_successfully_subscribed\"\n    }\n  ],\n  \"status\": \"SUCCESS\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"devices\"\n    },\n    \"method\": \"post\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "834b9210-c958-40fc-bfc5-f11179c59365",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "devices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pushToken",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pushType",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "userAdditionalInformation",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                    "key": "uniqueAppDeviceId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"notifications\": [\n    {\n      \"type\": \"error\",\n      \"message\": \"authentication_required\"\n    }\n  ],\n  \"status\": \"ERROR\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"devices\"\n    },\n    \"method\": \"post\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b9c8d43d-2f39-4c7c-aef4-e71ef4e0179c",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "devices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pushToken",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pushType",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "userAdditionalInformation",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                    "key": "uniqueAppDeviceId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"notifications\": [\n    {\n      \"type\": \"error\",\n      \"message\": \"api_key_not_valid\"\n    }\n  ],\n  \"status\": \"ERROR\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"string\"\n    },\n    \"method\": \"string\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "cb808a4f-1997-402f-a953-34555127ba99",
+      "name": "Config",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bafb26ba-07b4-450e-a744-75c3ebd081a3",
+          "name": "Get Config",
+          "request": {
+            "name": "Get Config",
+            "description": {
+              "content": "Request the configuration for the identified account.<br /> This contains settings and display settings of the account.<br /> All colors are RGB colors saved in hexadecimals.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "config"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "API Version. If no version is provided it defaults to latest version.",
+                "key": "api-version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                "key": "uniqueAppDeviceId",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                "key": "authString",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "09aad58c-a47b-4d5b-a246-a7502cbf0383",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                    "key": "uniqueAppDeviceId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"name\": \"string\",\n    \"telephone\": \"string\",\n    \"font\": 0,\n    \"allowImage\": true,\n    \"backgroundColor\": \"string\",\n    \"backgroundImage\": \"string\",\n    \"iOSStatusBarTextColor\": 0,\n    \"navBackgroundColor\": \"string\",\n    \"navTextColor\": \"string\",\n    \"navHideCloseButton\": \"string\",\n    \"dateColor\": \"string\",\n    \"dateBorder\": true,\n    \"iOSInputContainerBackgroundColor\": \"string\",\n    \"inputFieldBackgroundColor\": \"string\",\n    \"inputFieldTextColor\": \"string\",\n    \"inputFieldPlaceholderColor\": \"string\",\n    \"inputBackgroundColor\": \"string\",\n    \"inputTextColor\": \"string\",\n    \"balloonStyle\": 0,\n    \"userBackgroundColor\": \"string\",\n    \"userTextColor\": \"string\",\n    \"userTextLinkColor\": \"string\",\n    \"userTimeColor\": \"string\",\n    \"userSentColor\": \"string\",\n    \"accountBackgroundColor\": \"string\",\n    \"accountTextColor\": \"string\",\n    \"accountTextLinkColor\": \"string\",\n    \"accountTimeColor\": \"string\",\n    \"infoTextBackgroundColor\": \"string\",\n    \"infoTextBorder\": 0,\n    \"infoTextColor\": \"string\",\n    \"infoText\": \"string\",\n    \"infoText2\": \"string\",\n    \"genericPushMessage\": \"string\"\n  },\n  \"notifications\": [],\n  \"status\": \"SUCCESS\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"config\"\n    },\n    \"method\": \"get\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4ce9c00c-55ac-499f-a7d1-48d9eaf3c656",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                    "key": "uniqueAppDeviceId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"notifications\": [\n    {\n      \"type\": \"error\",\n      \"message\": \"api_key_not_valid\"\n    }\n  ],\n  \"status\": \"ERROR\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"string\"\n    },\n    \"method\": \"string\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "2f3af62a-4f67-4119-8f94-5be4882ce8ba",
+      "name": "Events",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0822e00c-405f-4bb6-98a7-a57d1809747a",
+          "name": "Send StartTyping event",
+          "request": {
+            "name": "Send StartTyping event",
+            "description": {
+              "content": "Fires the StartTyping event and pushes data to the service ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "services",
+                "event",
+                "startTyping"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "API Version. If no version is provided it defaults to latest version.",
+                "key": "api-version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                "key": "authString",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "df31d095-3e74-41ef-858d-021a3c166b6a",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "services",
+                    "event",
+                    "startTyping"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": \"event startTyping executed\",\n  \"notifications\": [],\n  \"status\": \"SUCCESS\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"services/event/startTyping\"\n    },\n    \"method\": \"post\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2679b0a5-f957-4cf0-a0c1-c13f11a6b52f",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "services",
+                    "event",
+                    "startTyping"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"notifications\": [\n    {\n      \"type\": \"error\",\n      \"message\": \"Something went wrong with the event\"\n    }\n  ],\n  \"status\": \"ERROR\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"services/event/startTyping\"\n    },\n    \"method\": \"post\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a22c442f-e061-4698-8456-dfd3c235b713",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "services",
+                    "event",
+                    "startTyping"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"notifications\": [\n    {\n      \"type\": \"error\",\n      \"message\": \"api_key_not_valid\"\n    }\n  ],\n  \"status\": \"ERROR\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"string\"\n    },\n    \"method\": \"string\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3c1c183c-bd05-4fb4-88c2-4109d3628f0e",
+          "name": "Send StopTyping event",
+          "request": {
+            "name": "Send StopTyping event",
+            "description": {
+              "content": "Fires the StopTyping event and pushes data to the service ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "services",
+                "event",
+                "stopTyping"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "API Version. If no version is provided it defaults to latest version.",
+                "key": "api-version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                "key": "authString",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ced0201f-edcb-4946-8ee5-84e86e703a8d",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "services",
+                    "event",
+                    "stopTyping"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": \"event stopTyping executed\",\n  \"notifications\": [],\n  \"status\": \"SUCCESS\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"services/event/stopTyping\"\n    },\n    \"method\": \"post\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1629a94c-c83c-4099-ae16-d51ada3c967d",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "services",
+                    "event",
+                    "stopTyping"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"notifications\": [\n    {\n      \"type\": \"error\",\n      \"message\": \"Something went wrong with the event\"\n    }\n  ],\n  \"status\": \"ERROR\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"services/event/stopTyping\"\n    },\n    \"method\": \"post\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e57916a0-3350-45c4-a5f5-678b40cb6fc5",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "services",
+                    "event",
+                    "stopTyping"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"notifications\": [\n    {\n      \"type\": \"error\",\n      \"message\": \"api_key_not_valid\"\n    }\n  ],\n  \"status\": \"ERROR\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"string\"\n    },\n    \"method\": \"string\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "afb05e1f-595b-4ec3-b455-59a4e445ee1c",
+      "name": "Messages",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8e289a67-822c-4be5-9fdf-8c33f3f9c192",
+          "name": "Single message",
+          "request": {
+            "name": "Single message",
+            "description": {
+              "content": "Retrieve a message for a particular user by the message ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "messages",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) The identifier of the message you want "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "API Version. If no version is provided it defaults to latest version.",
+                "key": "api-version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                "key": "uniqueAppDeviceId",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                "key": "authString",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "5a73096b-58a2-417b-b294-f361d62796a6",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) The identifier of the message you want "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                    "key": "uniqueAppDeviceId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": 10737,\n    \"time\": 1536739259,\n    \"message\": \"hi!\",\n    \"image\": null,\n    \"typeId\": 2,\n    \"agent\": {\n      \"id\": \"1\",\n      \"name\": \"John Doe\",\n      \"avatar\": \"https://beta.tracebuzz.com//V002//img//avatar.php?i=JD&c=ff0000\"\n    }\n  },\n  \"notifications\": [],\n  \"status\": \"SUCCESS\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"messages/10737\"\n    },\n    \"method\": \"get\",\n    \"duration\": 0\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2c4b091e-03b8-4680-9563-26504df7b7c7",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) The identifier of the message you want "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                    "key": "uniqueAppDeviceId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"notifications\": [\n    {\n      \"type\": \"error\",\n      \"message\": \"authentication_required\"\n    }\n  ],\n  \"status\": \"ERROR\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"devices\"\n    },\n    \"method\": \"post\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "129d6bf3-2e87-4a41-9f65-9b0f4103a3f8",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) The identifier of the message you want "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                    "key": "uniqueAppDeviceId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"notifications\": [\n    {\n      \"type\": \"error\",\n      \"message\": \"api_key_not_valid\"\n    }\n  ],\n  \"status\": \"ERROR\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"string\"\n    },\n    \"method\": \"string\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "98a80efe-b594-47e8-a10e-21cff10b1bcb",
+          "name": "Latest messages",
+          "request": {
+            "name": "Latest messages",
+            "description": {
+              "content": "Get the latest 50 messages from and to a particular user.<br /> The order is by time and descending (from new to old)",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "messages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "API Version. If no version is provided it defaults to latest version.",
+                "key": "api-version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                "key": "uniqueAppDeviceId",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                "key": "authString",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b9345d01-0354-433d-bcc1-a244205d2788",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                    "key": "uniqueAppDeviceId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 10737,\n      \"time\": 1536739259,\n      \"message\": \"hi!\",\n      \"image\": null,\n      \"typeId\": 2,\n      \"agent\": {\n        \"id\": \"2\",\n        \"name\": \"Gerben\",\n        \"avatar\": \"https://beta.tracebuzz.com/images/avatars/1912991618/6033.jpg\"\n      }\n    },\n    {\n      \"id\": 10736,\n      \"time\": 1536739157,\n      \"message\": \"Hello, i have a question\",\n      \"image\": null,\n      \"typeId\": 1,\n      \"agent\": null\n    }\n  ],\n  \"agent\": {\n    \"id\": \"2\",\n    \"name\": \"Gerben\",\n    \"avatar\": \"https://beta.tracebuzz.com/images/avatars/1912991618/6033.jpg\",\n    \"isTyping\": 0\n  },\n  \"paging\": {\n    \"before\": \"\",\n    \"after\": \"/messages/after:10737\"\n  },\n  \"notifications\": [],\n  \"status\": \"SUCCESS\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"messages\"\n    },\n    \"method\": \"get\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e63c525f-d81b-4c8c-944a-39e8736e3b8b",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                    "key": "uniqueAppDeviceId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"notifications\": [\n    {\n      \"type\": \"error\",\n      \"message\": \"authentication_required\"\n    }\n  ],\n  \"status\": \"ERROR\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"devices\"\n    },\n    \"method\": \"post\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "47d8da2f-cab0-48a0-bd9b-acb40e66196d",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                    "key": "uniqueAppDeviceId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"notifications\": [\n    {\n      \"type\": \"error\",\n      \"message\": \"api_key_not_valid\"\n    }\n  ],\n  \"status\": \"ERROR\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"string\"\n    },\n    \"method\": \"string\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5eaa5240-f8f7-431c-b57b-bfb20d327885",
+          "name": "Send message",
+          "request": {
+            "name": "Send message",
+            "description": {
+              "content": "Post a message to the API where the 'sender' is a particular user.<br><br> **Important**<br> You can choose to send a text message or an message with an image. For the textual message you send a 'regular' POST request with the parameters described in 'Query parameters'. To send an image in a message you need to send a POST as multipart/form-data with the attributes from 'Request Body schema'",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "messages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "message",
+                  "value": "<string>",
+                  "description": "(Required) The message from the user to the accountIt is required to set either message or image"
+                },
+                {
+                  "disabled": false,
+                  "key": "typeId",
+                  "value": "<integer>",
+                  "description": "The type of the message. Can be one of the following: \n  - Message from the user `default`\n  - Automated/system message from the user"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "API Version. If no version is provided it defaults to latest version.",
+                "key": "api-version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                "key": "uniqueAppDeviceId",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                "key": "authString",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "contentType": "image/jpeg, image/png, image/gif",
+                  "description": "The image contents. The image should have one of the following mime-types:\n  - image/jpeg\n  - image/png\n  - image/gif"
+                },
+                {
+                  "key": "typeId",
+                  "value": "<integer>",
+                  "type": "text",
+                  "description": "The type of the message. Can be one of the following:\n  - Message from the user <code>default</code>\n  - Automated/system message from the user (This can only be one of 1,4)"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "fc81e777-b1dc-41d2-9c51-79a9a7b71f80",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "message",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "typeId",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                    "key": "uniqueAppDeviceId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "The image contents. The image should have one of the following mime-types:\n  - image/jpeg\n  - image/png\n  - image/gif",
+                        "type": "text/plain"
+                      },
+                      "key": "image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg, image/png, image/gif"
+                    },
+                    {
+                      "description": {
+                        "content": "The type of the message. Can be one of the following:\n  - Message from the user <code>default</code>\n  - Automated/system message from the user (This can only be one of 1,4)",
+                        "type": "text/plain"
+                      },
+                      "key": "typeId",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"messageId\": \"10743\"\n  },\n  \"notifications\": [],\n  \"status\": \"SUCCESS\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"messages\",\n      \"message\": \"test\"\n    },\n    \"method\": \"post\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "96a424a1-9cb9-4556-bcb8-b1b8aba17e18",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "message",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "typeId",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                    "key": "uniqueAppDeviceId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "The image contents. The image should have one of the following mime-types:\n  - image/jpeg\n  - image/png\n  - image/gif",
+                        "type": "text/plain"
+                      },
+                      "key": "image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg, image/png, image/gif"
+                    },
+                    {
+                      "description": {
+                        "content": "The type of the message. Can be one of the following:\n  - Message from the user <code>default</code>\n  - Automated/system message from the user (This can only be one of 1,4)",
+                        "type": "text/plain"
+                      },
+                      "key": "typeId",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"notifications\": [\n    {\n      \"type\": \"error\",\n      \"message\": \"authentication_required\"\n    }\n  ],\n  \"status\": \"ERROR\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"devices\"\n    },\n    \"method\": \"post\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "914b7c15-9293-400d-8352-9e24bc2e5677",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "message",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "typeId",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                    "key": "uniqueAppDeviceId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "The image contents. The image should have one of the following mime-types:\n  - image/jpeg\n  - image/png\n  - image/gif",
+                        "type": "text/plain"
+                      },
+                      "key": "image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg, image/png, image/gif"
+                    },
+                    {
+                      "description": {
+                        "content": "The type of the message. Can be one of the following:\n  - Message from the user <code>default</code>\n  - Automated/system message from the user (This can only be one of 1,4)",
+                        "type": "text/plain"
+                      },
+                      "key": "typeId",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"notifications\": [\n    {\n      \"type\": \"error\",\n      \"message\": \"api_key_not_valid\"\n    }\n  ],\n  \"status\": \"ERROR\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"string\"\n    },\n    \"method\": \"string\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a3fbf6c9-323c-485c-b0d6-a5b5b9091be0",
+          "name": "Get older/newer messages",
+          "request": {
+            "name": "Get older/newer messages",
+            "description": {
+              "content": "Retrieve messages for a particular user by a paginator, defined as 'before:messageID' or 'after:messagedID'.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "messages",
+                "{{paging}}:{{id}}"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "API Version. If no version is provided it defaults to latest version.",
+                "key": "api-version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                "key": "uniqueAppDeviceId",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                "key": "authString",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "74c65bd3-aa42-48b5-8225-2ba1ec4182a9",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "{{paging}}:{{id}}"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                    "key": "uniqueAppDeviceId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 10737,\n      \"time\": 1536739259,\n      \"message\": \"hi!\",\n      \"image\": null,\n      \"typeId\": 2,\n      \"agent\": {\n        \"id\": \"2\",\n        \"name\": \"Gerben\",\n        \"avatar\": \"https://beta.tracebuzz.com/images/avatars/1912991618/6033.jpg\"\n      }\n    }\n  ],\n  \"agent\": {\n    \"id\": \"2\",\n    \"name\": \"Gerben\",\n    \"avatar\": \"https://beta.tracebuzz.com/images/avatars/1912991618/6033.jpg\",\n    \"isTyping\": 0\n  },\n  \"paging\": {\n    \"before\": \"/messages/before:10737\",\n    \"after\": \"/messages/after:10737\"\n  },\n  \"notifications\": [],\n  \"status\": \"SUCCESS\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"messages/after:10736\"\n    },\n    \"method\": \"get\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1dc21448-52f2-4203-a01c-5d044309211d",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "{{paging}}:{{id}}"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                    "key": "uniqueAppDeviceId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"notifications\": [\n    {\n      \"type\": \"error\",\n      \"message\": \"authentication_required\"\n    }\n  ],\n  \"status\": \"ERROR\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"devices\"\n    },\n    \"method\": \"post\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9385090a-7984-40d0-a9fa-c7d63849f8d3",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "{{paging}}:{{id}}"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API Version. If no version is provided it defaults to latest version.",
+                    "key": "api-version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.",
+                    "key": "uniqueAppDeviceId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)",
+                    "key": "authString",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"notifications\": [\n    {\n      \"type\": \"error\",\n      \"message\": \"api_key_not_valid\"\n    }\n  ],\n  \"status\": \"ERROR\",\n  \"metadata\": {\n    \"values\": {\n      \"url\": \"string\"\n    },\n    \"method\": \"string\",\n    \"duration\": 0.01\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-prd.kpn.com/communication/parley/secure-messenger",
+      "key": "baseUrl"
+    },
+    {
+      "disabled": false,
+      "description": {
+        "content": "(Required) The paging endpoint is the easiest when you follow the direction in the `paging` parameter you get returned on each call to get a list of messages (latest & paging). This parameter will describe exactly what you need to use this endpoint.<br> <br> But you can create the paging parameter yourself as well, you can use `before` or `after` to get message before or after a specific message you have retrieved before.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "<string>",
+      "key": "paging"
+    },
+    {
+      "disabled": false,
+      "description": {
+        "content": "(Required) The identifier of the message you want ",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "<integer>",
+      "key": "id"
+    }
+  ],
+  "info": {
+    "_postman_id": "d097437f-0419-4cff-b860-b4a1b48f424c",
+    "name": "Chat and Messaging - Parley",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API enables a secure communication between your agent/bot desktop and the client website/mobile app.\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/secure-messenger-parley/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/secure-messenger-parley/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---\n\nContact Support:\n Name: API Support\n Email: api_developer@kpn.com",
+      "type": "text/plain"
+    }
+  }
+}

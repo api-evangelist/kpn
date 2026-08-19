@@ -1,0 +1,2585 @@
+{
+  "item": [
+    {
+      "id": "6d638238-1361-40a6-bb7a-79d87db4f828",
+      "name": "Send SMS",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "83f50c7a-96b9-4c4e-b360-77994fa5bc92",
+          "name": "Send SMS",
+          "request": {
+            "name": "Send SMS",
+            "description": {
+              "content": "Send an outbound SMS",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "send"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<string>",
+                  "description": "(Required) The name or number the message should be sent from. Alphanumeric senderID's are not supported in all countries, see Global Messaging for more details. If alphanumeric, spaces will be ignored. Numbers are specified in E.164 format. You can use any alphanumeric string up to 11 characters (or up to 15 numeric characters).  It is recommended to send at least \"3\" characters (in case of alphanumeric), as it might show differently on different mobile devices. Moreover, alphanumeric cannot contain spaces as well.\n  example: `AcmeInc`.Note: If the value in your from parameter does not obey these rules it might be modified in transit or not delivered at all."
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<string>",
+                  "description": "(Required) The number that the message should be sent to. Numbers are specified in E.164 format.\n  minLength: 7\n  maxLength: 15\n  pattern: '\\d{7,15}'\n  example: 447700900000              "
+                },
+                {
+                  "disabled": false,
+                  "key": "text",
+                  "value": "<string>",
+                  "description": "The body of the message being sent. If your message contains characters that can be encoded according to the GSM Standard and Extended tables then you can set the `type` to `text`. If your message contains characters outside this range, then you will need to set the `type` to `unicode`.\n  example: Hello World! "
+                },
+                {
+                  "disabled": false,
+                  "key": "ttl",
+                  "value": "<integer>",
+                  "description": "**Advanced**: The duration in milliseconds the delivery of an SMS will be attempted.§§ By default Vonage attempt delivery for 72 hours, however the maximum effective value depends on the operator and is typically 24 - 48 hours. We recommend this value should be kept at its default or at least 30 minutes.\n  minimum: 20000\n  maximum: 604800000\n  example: 900000"
+                },
+                {
+                  "disabled": false,
+                  "key": "status-report-req",
+                  "value": "false",
+                  "description": "**Advanced**: Boolean indicating if you like to receive a [Delivery Receipt](/messaging/sms/building-blocks/receive-a-delivery-receipt).'"
+                },
+                {
+                  "disabled": false,
+                  "key": "callback",
+                  "value": "<string>",
+                  "description": "**Advanced**: The webhook endpoint the delivery receipt for this sms is sent to. This parameter overrides the webhook endpoint you set in Dashboard.\n  "
+                },
+                {
+                  "disabled": false,
+                  "key": "message-class",
+                  "value": "<integer>",
+                  "description": "**Advanced**: The Data Coding Scheme value of the message"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "**Advanced**: The format of the message body'' example: text"
+                },
+                {
+                  "disabled": false,
+                  "key": "vcard",
+                  "value": "<vcard>",
+                  "description": "**Advanced**: A business card in [vCard format](https://en.wikipedia.org/wiki/VCard). Depends on `type` parameter having the value `vcard`."
+                },
+                {
+                  "disabled": false,
+                  "key": "vcal",
+                  "value": "<vcal>",
+                  "description": "**Advanced**: A calendar event in [vCal format](https://en.wikipedia.org/wiki/VCal). Depends on `type` parameter having the value `vcal`."
+                },
+                {
+                  "disabled": false,
+                  "key": "body",
+                  "value": "<string>",
+                  "description": "**Advanced**: Hex encoded binary data. Depends on `type` parameter having the value `binary`."
+                },
+                {
+                  "disabled": false,
+                  "key": "udh",
+                  "value": "<string>",
+                  "description": "**Advanced**: Your custom Hex encoded [User Data Header](https://en.wikipedia.org/wiki/User_Data_Header). Depends on `type` parameter having the value `binary`."
+                },
+                {
+                  "disabled": false,
+                  "key": "protocol-id",
+                  "value": "<integer>",
+                  "description": "**Advanced**: The value of the [protocol identifier](https://en.wikipedia.org/wiki/GSM_03.40#Protocol_Identifier) to use. Ensure that the value is aligned with `udh`."
+                },
+                {
+                  "disabled": false,
+                  "key": "title",
+                  "value": "<string>",
+                  "description": "**Advanced**: The title for a wappush SMS. Depends on `type` parameter having the value `wappush`.   "
+                },
+                {
+                  "disabled": false,
+                  "key": "url",
+                  "value": "<string>",
+                  "description": "**Advanced**: The URL of your website. Depends on `type` parameter having the value `wappush`."
+                },
+                {
+                  "disabled": false,
+                  "key": "validity",
+                  "value": "<string>",
+                  "description": "**Advanced**: The availability for an SMS in milliseconds. Depends on `type` parameter having the value `wappush`."
+                },
+                {
+                  "disabled": false,
+                  "key": "client-ref",
+                  "value": "<string>",
+                  "description": "**Advanced**: You can optionally include your own reference of up to 40 characters."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "710ea502-64da-4728-8155-8dda386bc409",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The name or number the message should be sent from. Alphanumeric senderID's are not supported in all countries, see Global Messaging for more details. If alphanumeric, spaces will be ignored. Numbers are specified in E.164 format. You can use any alphanumeric string up to 11 characters (or up to 15 numeric characters).  It is recommended to send at least \"3\" characters (in case of alphanumeric), as it might show differently on different mobile devices. Moreover, alphanumeric cannot contain spaces as well.\n  example: `AcmeInc`.Note: If the value in your from parameter does not obey these rules it might be modified in transit or not delivered at all.",
+                        "type": "text/plain"
+                      },
+                      "key": "from",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The number that the message should be sent to. Numbers are specified in E.164 format.\n  minLength: 7\n  maxLength: 15\n  pattern: '\\d{7,15}'\n  example: 447700900000              ",
+                        "type": "text/plain"
+                      },
+                      "key": "to",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The body of the message being sent. If your message contains characters that can be encoded according to the GSM Standard and Extended tables then you can set the `type` to `text`. If your message contains characters outside this range, then you will need to set the `type` to `unicode`.\n  example: Hello World! ",
+                        "type": "text/plain"
+                      },
+                      "key": "text",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The duration in milliseconds the delivery of an SMS will be attempted.§§ By default Vonage attempt delivery for 72 hours, however the maximum effective value depends on the operator and is typically 24 - 48 hours. We recommend this value should be kept at its default or at least 30 minutes.\n  minimum: 20000\n  maximum: 604800000\n  example: 900000",
+                        "type": "text/plain"
+                      },
+                      "key": "ttl",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Boolean indicating if you like to receive a [Delivery Receipt](/messaging/sms/building-blocks/receive-a-delivery-receipt).'",
+                        "type": "text/plain"
+                      },
+                      "key": "status-report-req",
+                      "value": "false"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The webhook endpoint the delivery receipt for this sms is sent to. This parameter overrides the webhook endpoint you set in Dashboard.\n  ",
+                        "type": "text/plain"
+                      },
+                      "key": "callback",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The Data Coding Scheme value of the message",
+                        "type": "text/plain"
+                      },
+                      "key": "message-class",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The format of the message body'' example: text",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: A business card in [vCard format](https://en.wikipedia.org/wiki/VCard). Depends on `type` parameter having the value `vcard`.",
+                        "type": "text/plain"
+                      },
+                      "key": "vcard",
+                      "value": "<vcard>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: A calendar event in [vCal format](https://en.wikipedia.org/wiki/VCal). Depends on `type` parameter having the value `vcal`.",
+                        "type": "text/plain"
+                      },
+                      "key": "vcal",
+                      "value": "<vcal>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Hex encoded binary data. Depends on `type` parameter having the value `binary`.",
+                        "type": "text/plain"
+                      },
+                      "key": "body",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Your custom Hex encoded [User Data Header](https://en.wikipedia.org/wiki/User_Data_Header). Depends on `type` parameter having the value `binary`.",
+                        "type": "text/plain"
+                      },
+                      "key": "udh",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The value of the [protocol identifier](https://en.wikipedia.org/wiki/GSM_03.40#Protocol_Identifier) to use. Ensure that the value is aligned with `udh`.",
+                        "type": "text/plain"
+                      },
+                      "key": "protocol-id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The title for a wappush SMS. Depends on `type` parameter having the value `wappush`.   ",
+                        "type": "text/plain"
+                      },
+                      "key": "title",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The URL of your website. Depends on `type` parameter having the value `wappush`.",
+                        "type": "text/plain"
+                      },
+                      "key": "url",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The availability for an SMS in milliseconds. Depends on `type` parameter having the value `wappush`.",
+                        "type": "text/plain"
+                      },
+                      "key": "validity",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: You can optionally include your own reference of up to 40 characters.",
+                        "type": "text/plain"
+                      },
+                      "key": "client-ref",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message-count\": 1,\n  \"messages\": [\n    {\n      \"to\": \"447700900000\",\n      \"message-id\": \"0A0000000123ABCD1\",\n      \"status\": \"0\",\n      \"network\": \"12345\"\n    },\n    {\n      \"to\": \"447700900000\",\n      \"message-id\": \"0A0000000123ABCD1\",\n      \"status\": \"0\",\n      \"network\": \"12345\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d4005b72-5678-4a4e-9b31-51477c8d59d2",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The name or number the message should be sent from. Alphanumeric senderID's are not supported in all countries, see Global Messaging for more details. If alphanumeric, spaces will be ignored. Numbers are specified in E.164 format. You can use any alphanumeric string up to 11 characters (or up to 15 numeric characters).  It is recommended to send at least \"3\" characters (in case of alphanumeric), as it might show differently on different mobile devices. Moreover, alphanumeric cannot contain spaces as well.\n  example: `AcmeInc`.Note: If the value in your from parameter does not obey these rules it might be modified in transit or not delivered at all.",
+                        "type": "text/plain"
+                      },
+                      "key": "from",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The number that the message should be sent to. Numbers are specified in E.164 format.\n  minLength: 7\n  maxLength: 15\n  pattern: '\\d{7,15}'\n  example: 447700900000              ",
+                        "type": "text/plain"
+                      },
+                      "key": "to",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The body of the message being sent. If your message contains characters that can be encoded according to the GSM Standard and Extended tables then you can set the `type` to `text`. If your message contains characters outside this range, then you will need to set the `type` to `unicode`.\n  example: Hello World! ",
+                        "type": "text/plain"
+                      },
+                      "key": "text",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The duration in milliseconds the delivery of an SMS will be attempted.§§ By default Vonage attempt delivery for 72 hours, however the maximum effective value depends on the operator and is typically 24 - 48 hours. We recommend this value should be kept at its default or at least 30 minutes.\n  minimum: 20000\n  maximum: 604800000\n  example: 900000",
+                        "type": "text/plain"
+                      },
+                      "key": "ttl",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Boolean indicating if you like to receive a [Delivery Receipt](/messaging/sms/building-blocks/receive-a-delivery-receipt).'",
+                        "type": "text/plain"
+                      },
+                      "key": "status-report-req",
+                      "value": "false"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The webhook endpoint the delivery receipt for this sms is sent to. This parameter overrides the webhook endpoint you set in Dashboard.\n  ",
+                        "type": "text/plain"
+                      },
+                      "key": "callback",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The Data Coding Scheme value of the message",
+                        "type": "text/plain"
+                      },
+                      "key": "message-class",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The format of the message body'' example: text",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: A business card in [vCard format](https://en.wikipedia.org/wiki/VCard). Depends on `type` parameter having the value `vcard`.",
+                        "type": "text/plain"
+                      },
+                      "key": "vcard",
+                      "value": "<vcard>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: A calendar event in [vCal format](https://en.wikipedia.org/wiki/VCal). Depends on `type` parameter having the value `vcal`.",
+                        "type": "text/plain"
+                      },
+                      "key": "vcal",
+                      "value": "<vcal>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Hex encoded binary data. Depends on `type` parameter having the value `binary`.",
+                        "type": "text/plain"
+                      },
+                      "key": "body",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Your custom Hex encoded [User Data Header](https://en.wikipedia.org/wiki/User_Data_Header). Depends on `type` parameter having the value `binary`.",
+                        "type": "text/plain"
+                      },
+                      "key": "udh",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The value of the [protocol identifier](https://en.wikipedia.org/wiki/GSM_03.40#Protocol_Identifier) to use. Ensure that the value is aligned with `udh`.",
+                        "type": "text/plain"
+                      },
+                      "key": "protocol-id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The title for a wappush SMS. Depends on `type` parameter having the value `wappush`.   ",
+                        "type": "text/plain"
+                      },
+                      "key": "title",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The URL of your website. Depends on `type` parameter having the value `wappush`.",
+                        "type": "text/plain"
+                      },
+                      "key": "url",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The availability for an SMS in milliseconds. Depends on `type` parameter having the value `wappush`.",
+                        "type": "text/plain"
+                      },
+                      "key": "validity",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: You can optionally include your own reference of up to 40 characters.",
+                        "type": "text/plain"
+                      },
+                      "key": "client-ref",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "57854f4a-5709-4e9e-8479-4c607ff8466d",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The name or number the message should be sent from. Alphanumeric senderID's are not supported in all countries, see Global Messaging for more details. If alphanumeric, spaces will be ignored. Numbers are specified in E.164 format. You can use any alphanumeric string up to 11 characters (or up to 15 numeric characters).  It is recommended to send at least \"3\" characters (in case of alphanumeric), as it might show differently on different mobile devices. Moreover, alphanumeric cannot contain spaces as well.\n  example: `AcmeInc`.Note: If the value in your from parameter does not obey these rules it might be modified in transit or not delivered at all.",
+                        "type": "text/plain"
+                      },
+                      "key": "from",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The number that the message should be sent to. Numbers are specified in E.164 format.\n  minLength: 7\n  maxLength: 15\n  pattern: '\\d{7,15}'\n  example: 447700900000              ",
+                        "type": "text/plain"
+                      },
+                      "key": "to",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The body of the message being sent. If your message contains characters that can be encoded according to the GSM Standard and Extended tables then you can set the `type` to `text`. If your message contains characters outside this range, then you will need to set the `type` to `unicode`.\n  example: Hello World! ",
+                        "type": "text/plain"
+                      },
+                      "key": "text",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The duration in milliseconds the delivery of an SMS will be attempted.§§ By default Vonage attempt delivery for 72 hours, however the maximum effective value depends on the operator and is typically 24 - 48 hours. We recommend this value should be kept at its default or at least 30 minutes.\n  minimum: 20000\n  maximum: 604800000\n  example: 900000",
+                        "type": "text/plain"
+                      },
+                      "key": "ttl",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Boolean indicating if you like to receive a [Delivery Receipt](/messaging/sms/building-blocks/receive-a-delivery-receipt).'",
+                        "type": "text/plain"
+                      },
+                      "key": "status-report-req",
+                      "value": "false"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The webhook endpoint the delivery receipt for this sms is sent to. This parameter overrides the webhook endpoint you set in Dashboard.\n  ",
+                        "type": "text/plain"
+                      },
+                      "key": "callback",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The Data Coding Scheme value of the message",
+                        "type": "text/plain"
+                      },
+                      "key": "message-class",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The format of the message body'' example: text",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: A business card in [vCard format](https://en.wikipedia.org/wiki/VCard). Depends on `type` parameter having the value `vcard`.",
+                        "type": "text/plain"
+                      },
+                      "key": "vcard",
+                      "value": "<vcard>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: A calendar event in [vCal format](https://en.wikipedia.org/wiki/VCal). Depends on `type` parameter having the value `vcal`.",
+                        "type": "text/plain"
+                      },
+                      "key": "vcal",
+                      "value": "<vcal>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Hex encoded binary data. Depends on `type` parameter having the value `binary`.",
+                        "type": "text/plain"
+                      },
+                      "key": "body",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Your custom Hex encoded [User Data Header](https://en.wikipedia.org/wiki/User_Data_Header). Depends on `type` parameter having the value `binary`.",
+                        "type": "text/plain"
+                      },
+                      "key": "udh",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The value of the [protocol identifier](https://en.wikipedia.org/wiki/GSM_03.40#Protocol_Identifier) to use. Ensure that the value is aligned with `udh`.",
+                        "type": "text/plain"
+                      },
+                      "key": "protocol-id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The title for a wappush SMS. Depends on `type` parameter having the value `wappush`.   ",
+                        "type": "text/plain"
+                      },
+                      "key": "title",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The URL of your website. Depends on `type` parameter having the value `wappush`.",
+                        "type": "text/plain"
+                      },
+                      "key": "url",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The availability for an SMS in milliseconds. Depends on `type` parameter having the value `wappush`.",
+                        "type": "text/plain"
+                      },
+                      "key": "validity",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: You can optionally include your own reference of up to 40 characters.",
+                        "type": "text/plain"
+                      },
+                      "key": "client-ref",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f26dc9b0-27e2-4ae0-95ee-c27fe7726d4c",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The name or number the message should be sent from. Alphanumeric senderID's are not supported in all countries, see Global Messaging for more details. If alphanumeric, spaces will be ignored. Numbers are specified in E.164 format. You can use any alphanumeric string up to 11 characters (or up to 15 numeric characters).  It is recommended to send at least \"3\" characters (in case of alphanumeric), as it might show differently on different mobile devices. Moreover, alphanumeric cannot contain spaces as well.\n  example: `AcmeInc`.Note: If the value in your from parameter does not obey these rules it might be modified in transit or not delivered at all.",
+                        "type": "text/plain"
+                      },
+                      "key": "from",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The number that the message should be sent to. Numbers are specified in E.164 format.\n  minLength: 7\n  maxLength: 15\n  pattern: '\\d{7,15}'\n  example: 447700900000              ",
+                        "type": "text/plain"
+                      },
+                      "key": "to",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The body of the message being sent. If your message contains characters that can be encoded according to the GSM Standard and Extended tables then you can set the `type` to `text`. If your message contains characters outside this range, then you will need to set the `type` to `unicode`.\n  example: Hello World! ",
+                        "type": "text/plain"
+                      },
+                      "key": "text",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The duration in milliseconds the delivery of an SMS will be attempted.§§ By default Vonage attempt delivery for 72 hours, however the maximum effective value depends on the operator and is typically 24 - 48 hours. We recommend this value should be kept at its default or at least 30 minutes.\n  minimum: 20000\n  maximum: 604800000\n  example: 900000",
+                        "type": "text/plain"
+                      },
+                      "key": "ttl",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Boolean indicating if you like to receive a [Delivery Receipt](/messaging/sms/building-blocks/receive-a-delivery-receipt).'",
+                        "type": "text/plain"
+                      },
+                      "key": "status-report-req",
+                      "value": "false"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The webhook endpoint the delivery receipt for this sms is sent to. This parameter overrides the webhook endpoint you set in Dashboard.\n  ",
+                        "type": "text/plain"
+                      },
+                      "key": "callback",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The Data Coding Scheme value of the message",
+                        "type": "text/plain"
+                      },
+                      "key": "message-class",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The format of the message body'' example: text",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: A business card in [vCard format](https://en.wikipedia.org/wiki/VCard). Depends on `type` parameter having the value `vcard`.",
+                        "type": "text/plain"
+                      },
+                      "key": "vcard",
+                      "value": "<vcard>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: A calendar event in [vCal format](https://en.wikipedia.org/wiki/VCal). Depends on `type` parameter having the value `vcal`.",
+                        "type": "text/plain"
+                      },
+                      "key": "vcal",
+                      "value": "<vcal>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Hex encoded binary data. Depends on `type` parameter having the value `binary`.",
+                        "type": "text/plain"
+                      },
+                      "key": "body",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Your custom Hex encoded [User Data Header](https://en.wikipedia.org/wiki/User_Data_Header). Depends on `type` parameter having the value `binary`.",
+                        "type": "text/plain"
+                      },
+                      "key": "udh",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The value of the [protocol identifier](https://en.wikipedia.org/wiki/GSM_03.40#Protocol_Identifier) to use. Ensure that the value is aligned with `udh`.",
+                        "type": "text/plain"
+                      },
+                      "key": "protocol-id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The title for a wappush SMS. Depends on `type` parameter having the value `wappush`.   ",
+                        "type": "text/plain"
+                      },
+                      "key": "title",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The URL of your website. Depends on `type` parameter having the value `wappush`.",
+                        "type": "text/plain"
+                      },
+                      "key": "url",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The availability for an SMS in milliseconds. Depends on `type` parameter having the value `wappush`.",
+                        "type": "text/plain"
+                      },
+                      "key": "validity",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: You can optionally include your own reference of up to 40 characters.",
+                        "type": "text/plain"
+                      },
+                      "key": "client-ref",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4d826a59-8013-4d2b-b861-a408fe1742c4",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The name or number the message should be sent from. Alphanumeric senderID's are not supported in all countries, see Global Messaging for more details. If alphanumeric, spaces will be ignored. Numbers are specified in E.164 format. You can use any alphanumeric string up to 11 characters (or up to 15 numeric characters).  It is recommended to send at least \"3\" characters (in case of alphanumeric), as it might show differently on different mobile devices. Moreover, alphanumeric cannot contain spaces as well.\n  example: `AcmeInc`.Note: If the value in your from parameter does not obey these rules it might be modified in transit or not delivered at all.",
+                        "type": "text/plain"
+                      },
+                      "key": "from",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The number that the message should be sent to. Numbers are specified in E.164 format.\n  minLength: 7\n  maxLength: 15\n  pattern: '\\d{7,15}'\n  example: 447700900000              ",
+                        "type": "text/plain"
+                      },
+                      "key": "to",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The body of the message being sent. If your message contains characters that can be encoded according to the GSM Standard and Extended tables then you can set the `type` to `text`. If your message contains characters outside this range, then you will need to set the `type` to `unicode`.\n  example: Hello World! ",
+                        "type": "text/plain"
+                      },
+                      "key": "text",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The duration in milliseconds the delivery of an SMS will be attempted.§§ By default Vonage attempt delivery for 72 hours, however the maximum effective value depends on the operator and is typically 24 - 48 hours. We recommend this value should be kept at its default or at least 30 minutes.\n  minimum: 20000\n  maximum: 604800000\n  example: 900000",
+                        "type": "text/plain"
+                      },
+                      "key": "ttl",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Boolean indicating if you like to receive a [Delivery Receipt](/messaging/sms/building-blocks/receive-a-delivery-receipt).'",
+                        "type": "text/plain"
+                      },
+                      "key": "status-report-req",
+                      "value": "false"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The webhook endpoint the delivery receipt for this sms is sent to. This parameter overrides the webhook endpoint you set in Dashboard.\n  ",
+                        "type": "text/plain"
+                      },
+                      "key": "callback",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The Data Coding Scheme value of the message",
+                        "type": "text/plain"
+                      },
+                      "key": "message-class",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The format of the message body'' example: text",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: A business card in [vCard format](https://en.wikipedia.org/wiki/VCard). Depends on `type` parameter having the value `vcard`.",
+                        "type": "text/plain"
+                      },
+                      "key": "vcard",
+                      "value": "<vcard>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: A calendar event in [vCal format](https://en.wikipedia.org/wiki/VCal). Depends on `type` parameter having the value `vcal`.",
+                        "type": "text/plain"
+                      },
+                      "key": "vcal",
+                      "value": "<vcal>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Hex encoded binary data. Depends on `type` parameter having the value `binary`.",
+                        "type": "text/plain"
+                      },
+                      "key": "body",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Your custom Hex encoded [User Data Header](https://en.wikipedia.org/wiki/User_Data_Header). Depends on `type` parameter having the value `binary`.",
+                        "type": "text/plain"
+                      },
+                      "key": "udh",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The value of the [protocol identifier](https://en.wikipedia.org/wiki/GSM_03.40#Protocol_Identifier) to use. Ensure that the value is aligned with `udh`.",
+                        "type": "text/plain"
+                      },
+                      "key": "protocol-id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The title for a wappush SMS. Depends on `type` parameter having the value `wappush`.   ",
+                        "type": "text/plain"
+                      },
+                      "key": "title",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The URL of your website. Depends on `type` parameter having the value `wappush`.",
+                        "type": "text/plain"
+                      },
+                      "key": "url",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The availability for an SMS in milliseconds. Depends on `type` parameter having the value `wappush`.",
+                        "type": "text/plain"
+                      },
+                      "key": "validity",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: You can optionally include your own reference of up to 40 characters.",
+                        "type": "text/plain"
+                      },
+                      "key": "client-ref",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "51c8b8cd-8597-4294-ad73-0d2fbdc1eb7c",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The name or number the message should be sent from. Alphanumeric senderID's are not supported in all countries, see Global Messaging for more details. If alphanumeric, spaces will be ignored. Numbers are specified in E.164 format. You can use any alphanumeric string up to 11 characters (or up to 15 numeric characters).  It is recommended to send at least \"3\" characters (in case of alphanumeric), as it might show differently on different mobile devices. Moreover, alphanumeric cannot contain spaces as well.\n  example: `AcmeInc`.Note: If the value in your from parameter does not obey these rules it might be modified in transit or not delivered at all.",
+                        "type": "text/plain"
+                      },
+                      "key": "from",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The number that the message should be sent to. Numbers are specified in E.164 format.\n  minLength: 7\n  maxLength: 15\n  pattern: '\\d{7,15}'\n  example: 447700900000              ",
+                        "type": "text/plain"
+                      },
+                      "key": "to",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The body of the message being sent. If your message contains characters that can be encoded according to the GSM Standard and Extended tables then you can set the `type` to `text`. If your message contains characters outside this range, then you will need to set the `type` to `unicode`.\n  example: Hello World! ",
+                        "type": "text/plain"
+                      },
+                      "key": "text",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The duration in milliseconds the delivery of an SMS will be attempted.§§ By default Vonage attempt delivery for 72 hours, however the maximum effective value depends on the operator and is typically 24 - 48 hours. We recommend this value should be kept at its default or at least 30 minutes.\n  minimum: 20000\n  maximum: 604800000\n  example: 900000",
+                        "type": "text/plain"
+                      },
+                      "key": "ttl",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Boolean indicating if you like to receive a [Delivery Receipt](/messaging/sms/building-blocks/receive-a-delivery-receipt).'",
+                        "type": "text/plain"
+                      },
+                      "key": "status-report-req",
+                      "value": "false"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The webhook endpoint the delivery receipt for this sms is sent to. This parameter overrides the webhook endpoint you set in Dashboard.\n  ",
+                        "type": "text/plain"
+                      },
+                      "key": "callback",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The Data Coding Scheme value of the message",
+                        "type": "text/plain"
+                      },
+                      "key": "message-class",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The format of the message body'' example: text",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: A business card in [vCard format](https://en.wikipedia.org/wiki/VCard). Depends on `type` parameter having the value `vcard`.",
+                        "type": "text/plain"
+                      },
+                      "key": "vcard",
+                      "value": "<vcard>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: A calendar event in [vCal format](https://en.wikipedia.org/wiki/VCal). Depends on `type` parameter having the value `vcal`.",
+                        "type": "text/plain"
+                      },
+                      "key": "vcal",
+                      "value": "<vcal>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Hex encoded binary data. Depends on `type` parameter having the value `binary`.",
+                        "type": "text/plain"
+                      },
+                      "key": "body",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Your custom Hex encoded [User Data Header](https://en.wikipedia.org/wiki/User_Data_Header). Depends on `type` parameter having the value `binary`.",
+                        "type": "text/plain"
+                      },
+                      "key": "udh",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The value of the [protocol identifier](https://en.wikipedia.org/wiki/GSM_03.40#Protocol_Identifier) to use. Ensure that the value is aligned with `udh`.",
+                        "type": "text/plain"
+                      },
+                      "key": "protocol-id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The title for a wappush SMS. Depends on `type` parameter having the value `wappush`.   ",
+                        "type": "text/plain"
+                      },
+                      "key": "title",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The URL of your website. Depends on `type` parameter having the value `wappush`.",
+                        "type": "text/plain"
+                      },
+                      "key": "url",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The availability for an SMS in milliseconds. Depends on `type` parameter having the value `wappush`.",
+                        "type": "text/plain"
+                      },
+                      "key": "validity",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: You can optionally include your own reference of up to 40 characters.",
+                        "type": "text/plain"
+                      },
+                      "key": "client-ref",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4ceaded7-e475-4ce2-b2b1-65c4a4ab9f9a",
+              "name": "Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The name or number the message should be sent from. Alphanumeric senderID's are not supported in all countries, see Global Messaging for more details. If alphanumeric, spaces will be ignored. Numbers are specified in E.164 format. You can use any alphanumeric string up to 11 characters (or up to 15 numeric characters).  It is recommended to send at least \"3\" characters (in case of alphanumeric), as it might show differently on different mobile devices. Moreover, alphanumeric cannot contain spaces as well.\n  example: `AcmeInc`.Note: If the value in your from parameter does not obey these rules it might be modified in transit or not delivered at all.",
+                        "type": "text/plain"
+                      },
+                      "key": "from",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The number that the message should be sent to. Numbers are specified in E.164 format.\n  minLength: 7\n  maxLength: 15\n  pattern: '\\d{7,15}'\n  example: 447700900000              ",
+                        "type": "text/plain"
+                      },
+                      "key": "to",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The body of the message being sent. If your message contains characters that can be encoded according to the GSM Standard and Extended tables then you can set the `type` to `text`. If your message contains characters outside this range, then you will need to set the `type` to `unicode`.\n  example: Hello World! ",
+                        "type": "text/plain"
+                      },
+                      "key": "text",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The duration in milliseconds the delivery of an SMS will be attempted.§§ By default Vonage attempt delivery for 72 hours, however the maximum effective value depends on the operator and is typically 24 - 48 hours. We recommend this value should be kept at its default or at least 30 minutes.\n  minimum: 20000\n  maximum: 604800000\n  example: 900000",
+                        "type": "text/plain"
+                      },
+                      "key": "ttl",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Boolean indicating if you like to receive a [Delivery Receipt](/messaging/sms/building-blocks/receive-a-delivery-receipt).'",
+                        "type": "text/plain"
+                      },
+                      "key": "status-report-req",
+                      "value": "false"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The webhook endpoint the delivery receipt for this sms is sent to. This parameter overrides the webhook endpoint you set in Dashboard.\n  ",
+                        "type": "text/plain"
+                      },
+                      "key": "callback",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The Data Coding Scheme value of the message",
+                        "type": "text/plain"
+                      },
+                      "key": "message-class",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The format of the message body'' example: text",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: A business card in [vCard format](https://en.wikipedia.org/wiki/VCard). Depends on `type` parameter having the value `vcard`.",
+                        "type": "text/plain"
+                      },
+                      "key": "vcard",
+                      "value": "<vcard>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: A calendar event in [vCal format](https://en.wikipedia.org/wiki/VCal). Depends on `type` parameter having the value `vcal`.",
+                        "type": "text/plain"
+                      },
+                      "key": "vcal",
+                      "value": "<vcal>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Hex encoded binary data. Depends on `type` parameter having the value `binary`.",
+                        "type": "text/plain"
+                      },
+                      "key": "body",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Your custom Hex encoded [User Data Header](https://en.wikipedia.org/wiki/User_Data_Header). Depends on `type` parameter having the value `binary`.",
+                        "type": "text/plain"
+                      },
+                      "key": "udh",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The value of the [protocol identifier](https://en.wikipedia.org/wiki/GSM_03.40#Protocol_Identifier) to use. Ensure that the value is aligned with `udh`.",
+                        "type": "text/plain"
+                      },
+                      "key": "protocol-id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The title for a wappush SMS. Depends on `type` parameter having the value `wappush`.   ",
+                        "type": "text/plain"
+                      },
+                      "key": "title",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The URL of your website. Depends on `type` parameter having the value `wappush`.",
+                        "type": "text/plain"
+                      },
+                      "key": "url",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The availability for an SMS in milliseconds. Depends on `type` parameter having the value `wappush`.",
+                        "type": "text/plain"
+                      },
+                      "key": "validity",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: You can optionally include your own reference of up to 40 characters.",
+                        "type": "text/plain"
+                      },
+                      "key": "client-ref",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8ba2b5cd-63bb-4d5b-893d-bbb82125313f",
+              "name": "Service Unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The name or number the message should be sent from. Alphanumeric senderID's are not supported in all countries, see Global Messaging for more details. If alphanumeric, spaces will be ignored. Numbers are specified in E.164 format. You can use any alphanumeric string up to 11 characters (or up to 15 numeric characters).  It is recommended to send at least \"3\" characters (in case of alphanumeric), as it might show differently on different mobile devices. Moreover, alphanumeric cannot contain spaces as well.\n  example: `AcmeInc`.Note: If the value in your from parameter does not obey these rules it might be modified in transit or not delivered at all.",
+                        "type": "text/plain"
+                      },
+                      "key": "from",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The number that the message should be sent to. Numbers are specified in E.164 format.\n  minLength: 7\n  maxLength: 15\n  pattern: '\\d{7,15}'\n  example: 447700900000              ",
+                        "type": "text/plain"
+                      },
+                      "key": "to",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The body of the message being sent. If your message contains characters that can be encoded according to the GSM Standard and Extended tables then you can set the `type` to `text`. If your message contains characters outside this range, then you will need to set the `type` to `unicode`.\n  example: Hello World! ",
+                        "type": "text/plain"
+                      },
+                      "key": "text",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The duration in milliseconds the delivery of an SMS will be attempted.§§ By default Vonage attempt delivery for 72 hours, however the maximum effective value depends on the operator and is typically 24 - 48 hours. We recommend this value should be kept at its default or at least 30 minutes.\n  minimum: 20000\n  maximum: 604800000\n  example: 900000",
+                        "type": "text/plain"
+                      },
+                      "key": "ttl",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Boolean indicating if you like to receive a [Delivery Receipt](/messaging/sms/building-blocks/receive-a-delivery-receipt).'",
+                        "type": "text/plain"
+                      },
+                      "key": "status-report-req",
+                      "value": "false"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The webhook endpoint the delivery receipt for this sms is sent to. This parameter overrides the webhook endpoint you set in Dashboard.\n  ",
+                        "type": "text/plain"
+                      },
+                      "key": "callback",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The Data Coding Scheme value of the message",
+                        "type": "text/plain"
+                      },
+                      "key": "message-class",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The format of the message body'' example: text",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: A business card in [vCard format](https://en.wikipedia.org/wiki/VCard). Depends on `type` parameter having the value `vcard`.",
+                        "type": "text/plain"
+                      },
+                      "key": "vcard",
+                      "value": "<vcard>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: A calendar event in [vCal format](https://en.wikipedia.org/wiki/VCal). Depends on `type` parameter having the value `vcal`.",
+                        "type": "text/plain"
+                      },
+                      "key": "vcal",
+                      "value": "<vcal>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Hex encoded binary data. Depends on `type` parameter having the value `binary`.",
+                        "type": "text/plain"
+                      },
+                      "key": "body",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: Your custom Hex encoded [User Data Header](https://en.wikipedia.org/wiki/User_Data_Header). Depends on `type` parameter having the value `binary`.",
+                        "type": "text/plain"
+                      },
+                      "key": "udh",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The value of the [protocol identifier](https://en.wikipedia.org/wiki/GSM_03.40#Protocol_Identifier) to use. Ensure that the value is aligned with `udh`.",
+                        "type": "text/plain"
+                      },
+                      "key": "protocol-id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The title for a wappush SMS. Depends on `type` parameter having the value `wappush`.   ",
+                        "type": "text/plain"
+                      },
+                      "key": "title",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The URL of your website. Depends on `type` parameter having the value `wappush`.",
+                        "type": "text/plain"
+                      },
+                      "key": "url",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: The availability for an SMS in milliseconds. Depends on `type` parameter having the value `wappush`.",
+                        "type": "text/plain"
+                      },
+                      "key": "validity",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "**Advanced**: You can optionally include your own reference of up to 40 characters.",
+                        "type": "text/plain"
+                      },
+                      "key": "client-ref",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "72d62e01-3844-4f9b-803b-7cb60e6db1bc",
+      "name": "Register webhook - Demo testing ONLY",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "830164ad-909b-497f-9401-8d29d3c11460",
+          "name": "Register callback URL to webhook for incoming messages",
+          "request": {
+            "name": "Register callback URL to webhook for incoming messages",
+            "description": {
+              "content": "Handling inbound SMS with with API is easy. You just need to create a webhook endpoint and configure your number or account to point to the endpoint. \n- If you are a test user  try inbound messaging using below using 'Register Webhook endpoint'. \n- If you are production user,  use the `Phone Numbers API` to search, buy and manage your virtual number.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "register"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-prd.kpn.com/oauth/client_credential/accesstoken"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<string>",
+                  "description": "(Required) The phone number you use for testing, without buying a virtual number. This is not applicable if you are a premium user. Remember, this is only applicable if you are a demo user."
+                },
+                {
+                  "disabled": false,
+                  "key": "callback_url",
+                  "value": "<string>",
+                  "description": "(Required) The callback URL for inbound SMS.           "
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f25f5fa7-c610-43c1-b726-c558075573e2",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The phone number you use for testing, without buying a virtual number. This is not applicable if you are a premium user. Remember, this is only applicable if you are a demo user.",
+                        "type": "text/plain"
+                      },
+                      "key": "to",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The callback URL for inbound SMS.           ",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"message\": \"Your callback url is registered.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "71b9ead4-b60a-4df1-8643-e4fc11cd320b",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The phone number you use for testing, without buying a virtual number. This is not applicable if you are a premium user. Remember, this is only applicable if you are a demo user.",
+                        "type": "text/plain"
+                      },
+                      "key": "to",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The callback URL for inbound SMS.           ",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3e7630ad-0f40-466a-9191-f73b8737f3cf",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The phone number you use for testing, without buying a virtual number. This is not applicable if you are a premium user. Remember, this is only applicable if you are a demo user.",
+                        "type": "text/plain"
+                      },
+                      "key": "to",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The callback URL for inbound SMS.           ",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d4efa26c-4940-4a86-b1e7-97b94c2255d6",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The phone number you use for testing, without buying a virtual number. This is not applicable if you are a premium user. Remember, this is only applicable if you are a demo user.",
+                        "type": "text/plain"
+                      },
+                      "key": "to",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The callback URL for inbound SMS.           ",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4d6093e6-e5fd-4d31-b4e1-ade7e4bb5d43",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The phone number you use for testing, without buying a virtual number. This is not applicable if you are a premium user. Remember, this is only applicable if you are a demo user.",
+                        "type": "text/plain"
+                      },
+                      "key": "to",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The callback URL for inbound SMS.           ",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "36dc7094-4ca9-409c-bbe2-1aed5595b24f",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The phone number you use for testing, without buying a virtual number. This is not applicable if you are a premium user. Remember, this is only applicable if you are a demo user.",
+                        "type": "text/plain"
+                      },
+                      "key": "to",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The callback URL for inbound SMS.           ",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "74159f53-c23e-4bdf-9a53-048d1df08e20",
+              "name": "Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The phone number you use for testing, without buying a virtual number. This is not applicable if you are a premium user. Remember, this is only applicable if you are a demo user.",
+                        "type": "text/plain"
+                      },
+                      "key": "to",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The callback URL for inbound SMS.           ",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e6ed06f6-ec20-423f-93e5-62bff7229553",
+              "name": "Service Unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The phone number you use for testing, without buying a virtual number. This is not applicable if you are a premium user. Remember, this is only applicable if you are a demo user.",
+                        "type": "text/plain"
+                      },
+                      "key": "to",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The callback URL for inbound SMS.           ",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"transactionId\": \"string\",\n  \"status\": \"string\",\n  \"name\": \"string\",\n  \"message\": \"string\",\n  \"info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "aa74fa6d-ac9f-4111-85e3-c733fe4bccbd",
+      "name": "Callback",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "62466708-2e09-4dd3-8d8a-e52ca6f501b5",
+          "name": "Delivery Receipt",
+          "request": {
+            "name": "Delivery Receipt",
+            "description": {
+              "content": "This is not an API call but it is to showcase how the schema of delivery receipt will look like. You can get delivery receipt by using `status-report-req` and `callback` parameters of 'Send SMS' request body.",
+              "type": "text/plain"
+            },
+            "url": {
+              "protocol": "{{baseUrl}}/https",
+              "port": "webhooks",
+              "path": [
+                "delivery-receipt"
+              ],
+              "host": [
+                "example",
+                "com"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msisdn\": \"<string>\",\n  \"to\": \"<string>\",\n  \"network-code\": \"<string>\",\n  \"messageId\": \"<string>\",\n  \"price\": \"<string>\",\n  \"status\": \"<string>\",\n  \"scts\": \"<string>\",\n  \"err-code\": \"<string>\",\n  \"message-timestamp\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8a700b6d-8c12-40bb-9f52-9d1260e335b1",
+              "name": "Your server returns this code if it accepts the callback",
+              "originalRequest": {
+                "url": {
+                  "protocol": "{{baseUrl}}/https",
+                  "port": "webhooks",
+                  "path": [
+                    "delivery-receipt"
+                  ],
+                  "host": [
+                    "example",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"msisdn\": \"447700900000\",\n  \"to\": \"AcmeInc\",\n  \"network-code\": \"12345\",\n  \"messageId\": \"0A0000001234567B\",\n  \"price\": \"0.03330000\",\n  \"status\": \"delivered\",\n  \"scts\": \"2001011400\",\n  \"err-code\": \"0\",\n  \"message-timestamp\": \"2020-01-01 12:00:00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "0c570ddc-776e-4ce3-8de8-eab309a25666",
+      "name": "Webhook",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0af15708-9e47-4e90-866c-fcf8582e2402",
+          "name": "Inbound SMS",
+          "request": {
+            "name": "Inbound SMS",
+            "description": {
+              "content": "This is not an API call but it is to showcase how the schema of inbound SMS will look like. You can get inbound SMS by registering your webhook URL using `Register webhook` and then passing 'inbound' header value as 'yes' in 'Send SMS'.",
+              "type": "text/plain"
+            },
+            "url": {
+              "protocol": "{{baseUrl}}/https",
+              "port": "webhooks",
+              "path": [
+                "inbound-sms"
+              ],
+              "host": [
+                "example",
+                "com"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msisdn\": \"<string>\",\n  \"to\": \"<string>\",\n  \"messageId\": \"<string>\",\n  \"text\": \"<string>\",\n  \"type\": \"<string>\",\n  \"keyword\": \"<string>\",\n  \"message-timestamp\": \"<string>\",\n  \"timestamp\": \"<string>\",\n  \"nonce\": \"<string>\",\n  \"concat\": \"<string>\",\n  \"concat-ref\": \"<string>\",\n  \"concat-total\": \"<string>\",\n  \"concat-part\": \"<string>\",\n  \"data\": \"<binary>\",\n  \"udh\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "40ac4b4c-3d8e-4b7c-a4ae-715c76d44b6e",
+              "name": "Your server returns this code if it accepts the callback",
+              "originalRequest": {
+                "url": {
+                  "protocol": "{{baseUrl}}/https",
+                  "port": "webhooks",
+                  "path": [
+                    "inbound-sms"
+                  ],
+                  "host": [
+                    "example",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"msisdn\": \"447700900001\",\n  \"to\": \"447700900000\",\n  \"messageId\": \"0A0000000123ABCD1\",\n  \"text\": \"Hello world\",\n  \"type\": \"text\",\n  \"keyword\": \"Hello\",\n  \"message-timestamp\": \"2020-01-01 12:00:00\",\n  \"timestamp\": \"1578787200\",\n  \"nonce\": \"aaaaaaaa-bbbb-cccc-dddd-0123456789ab\",\n  \"concat\": \"true\",\n  \"concat-ref\": \"1\",\n  \"concat-total\": \"3\",\n  \"concat-part\": \"2\",\n  \"data\": \"<binary>\",\n  \"udh\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-prd.kpn.com/communication/nexmo/sms",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e4d65fd6-eeaf-41ad-9321-8d83db4880ba",
+    "name": "SMS-Vonage",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Vonage's SMS API allows you to send and receive text messages to users around the globe through simple RESTful APIs.\n  \n  * Programmatically send and receive high volume of SMS anywhere in the world.\n  * Build apps that scale with the web technologies that you are already using.\n  * Send SMS with low latency and high delivery rates.\n  * Receive SMS for free using SMS-enabled local numbers in countries around the world.\n  * Only pay for what you use, nothing more.\n\n  \n## [Source view](https://app.swaggerhub.com/apis/kpn/sms-nexmo/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/sms-nexmo/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n ---\n\nContact Support:\n Name: API Support\n Email: api_developer@kpn.com",
+      "type": "text/plain"
+    }
+  }
+}

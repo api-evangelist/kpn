@@ -1,0 +1,351 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Webhook Signing Keys - KPN",
+    "version": "4.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organization Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List organization signing keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0/organizations/keys",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter keys by lifecycle status."
+              }
+            ]
+          },
+          "docs": "Lists all signing keys at organization scope. Secrets are never included — use `/reveal` for the active key's plaintext."
+        },
+        {
+          "info": {
+            "name": "Create organization signing key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0/organizations/keys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new signing key at organization scope.\n\n- `staged: false` (default) — key becomes **active** immediately; any previously\n  active org key is moved to **retiring** automatically.\n- `staged: true` — key is created as **staged**; activate it later via\n  `POST /organizations/keys/{key_id}/activate`.\n"
+        },
+        {
+          "info": {
+            "name": "Reveal active org signing key secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0/organizations/keys/reveal"
+          },
+          "docs": "Returns the **decrypted plaintext secret** for the currently active\norganization signing key.\n\nUse this to configure your webhook receiver for HMAC-SHA256 signature\nverification. Treat this value like a password — never log or expose it.\n"
+        },
+        {
+          "info": {
+            "name": "Activate a staged org signing key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0/organizations/keys/:key_id/activate",
+            "params": [
+              {
+                "name": "key_id",
+                "value": "wk_2C6EDCDFDFD944F3A75D0D36",
+                "type": "path",
+                "description": "The `key_id` returned by the create or list endpoint."
+              }
+            ]
+          },
+          "docs": "Transitions the key from `staged` to `active`.\nAny currently `active` org key is automatically moved to `retiring`.\n\nOnly keys in `staged` state can be activated.\n"
+        },
+        {
+          "info": {
+            "name": "Retire a retiring org signing key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0/organizations/keys/:key_id/retire",
+            "params": [
+              {
+                "name": "key_id",
+                "value": "wk_2C6EDCDFDFD944F3A75D0D36",
+                "type": "path",
+                "description": "The `key_id` returned by the create or list endpoint."
+              }
+            ]
+          },
+          "docs": "Transitions the key from `retiring` to `retired`.\n\nWait until all in-flight webhook deliveries signed with this key have been\nverified before retiring it. Retiring keys can still be used for verification\nbut will not sign new deliveries.\n\nOnly keys in `retiring` state can be retired.\n"
+        },
+        {
+          "info": {
+            "name": "Delete a retired org signing key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0/organizations/keys/:key_id",
+            "params": [
+              {
+                "name": "key_id",
+                "value": "wk_2C6EDCDFDFD944F3A75D0D36",
+                "type": "path",
+                "description": "The `key_id` returned by the create or list endpoint."
+              }
+            ]
+          },
+          "docs": "Permanently deletes the signing key record.\nOnly keys in `retired` state can be deleted.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Team Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List team signing keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0/teams/keys",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter keys by lifecycle status."
+              }
+            ]
+          },
+          "docs": "Lists all signing keys at team scope."
+        },
+        {
+          "info": {
+            "name": "Create team signing key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0/teams/keys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new signing key at team scope.\n\n- `staged: false` (default) — key becomes **active** immediately; any previously\n  active team key is moved to **retiring** automatically.\n- `staged: true` — key is created as **staged**; activate it later.\n"
+        },
+        {
+          "info": {
+            "name": "Reveal active team signing key secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0/teams/keys/reveal"
+          },
+          "docs": "Returns the decrypted plaintext secret for the currently active team signing key."
+        },
+        {
+          "info": {
+            "name": "Activate a staged team signing key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0/teams/keys/:key_id/activate",
+            "params": [
+              {
+                "name": "key_id",
+                "value": "wk_2C6EDCDFDFD944F3A75D0D36",
+                "type": "path",
+                "description": "The `key_id` returned by the create or list endpoint."
+              }
+            ]
+          },
+          "docs": "Transitions the key from `staged` to `active`.\nAny currently `active` team key is automatically moved to `retiring`.\n"
+        },
+        {
+          "info": {
+            "name": "Retire a retiring team signing key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0/teams/keys/:key_id/retire",
+            "params": [
+              {
+                "name": "key_id",
+                "value": "wk_2C6EDCDFDFD944F3A75D0D36",
+                "type": "path",
+                "description": "The `key_id` returned by the create or list endpoint."
+              }
+            ]
+          },
+          "docs": "Transitions the key from `retiring` to `retired`. Only keys in `retiring` state can be retired."
+        },
+        {
+          "info": {
+            "name": "Delete a retired team signing key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0/teams/keys/:key_id",
+            "params": [
+              {
+                "name": "key_id",
+                "value": "wk_2C6EDCDFDFD944F3A75D0D36",
+                "type": "path",
+                "description": "The `key_id` returned by the create or list endpoint."
+              }
+            ]
+          },
+          "docs": "Permanently deletes the key record. Only keys in `retired` state can be deleted."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Application Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List application signing keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0/applications/keys",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter keys by lifecycle status."
+              }
+            ]
+          },
+          "docs": "Lists all signing keys at application scope."
+        },
+        {
+          "info": {
+            "name": "Create application signing key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0/applications/keys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new signing key at application scope.\n\n- `staged: false` (default) — key becomes **active** immediately; any previously\n  active application key is moved to **retiring** automatically.\n- `staged: true` — key is created as **staged**; activate it later.\n"
+        },
+        {
+          "info": {
+            "name": "Reveal active application signing key secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0/applications/keys/reveal"
+          },
+          "docs": "Returns the decrypted plaintext secret for the currently active application signing key."
+        },
+        {
+          "info": {
+            "name": "Activate a staged application signing key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0/applications/keys/:key_id/activate",
+            "params": [
+              {
+                "name": "key_id",
+                "value": "wk_2C6EDCDFDFD944F3A75D0D36",
+                "type": "path",
+                "description": "The `key_id` returned by the create or list endpoint."
+              }
+            ]
+          },
+          "docs": "Transitions the key from `staged` to `active`.\nAny currently `active` application key is automatically moved to `retiring`.\n"
+        },
+        {
+          "info": {
+            "name": "Retire a retiring application signing key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0/applications/keys/:key_id/retire",
+            "params": [
+              {
+                "name": "key_id",
+                "value": "wk_2C6EDCDFDFD944F3A75D0D36",
+                "type": "path",
+                "description": "The `key_id` returned by the create or list endpoint."
+              }
+            ]
+          },
+          "docs": "Transitions the key from `retiring` to `retired`. Only keys in `retiring` state can be retired."
+        },
+        {
+          "info": {
+            "name": "Delete a retired application signing key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0/applications/keys/:key_id",
+            "params": [
+              {
+                "name": "key_id",
+                "value": "wk_2C6EDCDFDFD944F3A75D0D36",
+                "type": "path",
+                "description": "The `key_id` returned by the create or list endpoint."
+              }
+            ]
+          },
+          "docs": "Permanently deletes the key record. Only keys in `retired` state can be deleted."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,389 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Chat and Messaging - Parley",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Messages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Single message",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/communication/parley/secure-messenger/messages/:id",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              },
+              {
+                "name": "uniqueAppDeviceId",
+                "value": ""
+              },
+              {
+                "name": "authString",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the message you want "
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve a message for a particular user by the message ID."
+        },
+        {
+          "info": {
+            "name": "Latest messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/communication/parley/secure-messenger/messages",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              },
+              {
+                "name": "uniqueAppDeviceId",
+                "value": ""
+              },
+              {
+                "name": "authString",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get the latest 50 messages from and to a particular user.<br /> The order is by time and descending (from new to old)"
+        },
+        {
+          "info": {
+            "name": "Send message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/communication/parley/secure-messenger/messages",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              },
+              {
+                "name": "uniqueAppDeviceId",
+                "value": ""
+              },
+              {
+                "name": "authString",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "message",
+                "value": "",
+                "type": "query",
+                "description": "The message from the user to the accountIt is required to set either message or image"
+              },
+              {
+                "name": "typeId",
+                "value": "",
+                "type": "query",
+                "description": "The type of the message. Can be one of the following: \n  - Message from the user `default`\n  - Automated/system message from the user"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "image",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "typeId",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Post a message to the API where the 'sender' is a particular user.<br><br> **Important**<br> You can choose to send a text message or an message with an image. For the textual message you send a 'regular' POST request with the parameters described in 'Query parameters'. To send an image in a message you need to send a POST as multipart/form-data with the attributes from 'Request Body schema'"
+        },
+        {
+          "info": {
+            "name": "Get older/newer messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/communication/parley/secure-messenger/messages/:paging::id",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              },
+              {
+                "name": "uniqueAppDeviceId",
+                "value": ""
+              },
+              {
+                "name": "authString",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "paging",
+                "value": "",
+                "type": "path",
+                "description": "The paging endpoint is the easiest when you follow the direction in the `paging` parameter you get returned on each call to get a list of messages (latest & paging). This parameter will describe exactly what you need to use this endpoint.<br> <br> But you can create the paging parameter yourself as well, you can use `before` or `after` to get message before or after a specific message you have retrieved before."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the message you want "
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve messages for a particular user by a paginator, defined as 'before:messageID' or 'after:messagedID'."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send StartTyping event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/communication/parley/secure-messenger/services/event/startTyping",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              },
+              {
+                "name": "authString",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Fires the StartTyping event and pushes data to the service "
+        },
+        {
+          "info": {
+            "name": "Send StopTyping event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/communication/parley/secure-messenger/services/event/stopTyping",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              },
+              {
+                "name": "authString",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Fires the StopTyping event and pushes data to the service "
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Devices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Subscribe device",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-prd.kpn.com/communication/parley/secure-messenger/devices",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              },
+              {
+                "name": "uniqueAppDeviceId",
+                "value": ""
+              },
+              {
+                "name": "authString",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "pushToken",
+                "value": "",
+                "type": "query",
+                "description": "A push token for the device. This is used to send the device a push message when the account respond. Must be unique, if they are re-used they will be deleted from previous device(s)."
+              },
+              {
+                "name": "pushType",
+                "value": "",
+                "type": "query",
+                "description": "The type of push token. <ol>\n  - Google Cloud Messaging\n  - Apple Push Notification Service\n  - Firebase Cloud Messaging\n  - Custom webhook\n  - Custom webhook behind OAuth\n</ol>"
+              },
+              {
+                "name": "userAdditionalInformation",
+                "value": "",
+                "type": "query",
+                "description": "Addition information for the user. You can add anything you want, should be in a key value combination and key must be a string. It&#39;s logical to send the name of the authenticated user.                                                          For privacy reasons we want as little information as possible for you to work with. And remember that we can&#39;t verify that wat is sent here is really about the user."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of device. <ol>\n  - Android\n  - iOS\n  - Web\n  - Generic (custom build)\n</ol>"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "The version number of the client application. Format &quot;1.2.3&quot; or &quot;01.02.03&quot; or &quot;010203&quot; but NOT &quot;123&quot;"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "You need to subscribe the device before you can send and get messages.<br /> When you do not subscribe, we can't tell who you are. It's that important.<br /> When you subscribe you will also want to setup the pushToken and pushType of your device to receive updates when a new event or message is available for this device.<br /> To make the different push types work for your application, you will need to contact <a href=\"http://parley.nu/contact\" target=\"_blank\">Parley</a> to configure one or mul"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Config",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prd.kpn.com/communication/parley/secure-messenger/config",
+            "headers": [
+              {
+                "name": "api-version",
+                "value": ""
+              },
+              {
+                "name": "uniqueAppDeviceId",
+                "value": ""
+              },
+              {
+                "name": "authString",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Request the configuration for the identified account.<br /> This contains settings and display settings of the account.<br /> All colors are RGB colors saved in hexadecimals."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

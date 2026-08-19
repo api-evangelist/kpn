@@ -1,0 +1,21 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Inbound SMS - KPN",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Receive an Inbound SMS on your active HTTP Webhook Endpoint",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://virtserver.swaggerhub.com/kpn/SMS-Inbound/1.0.0/your-active-webhook"
+      },
+      "docs": "This is your configured webhook endpoint. You will receive inbound SMS here when a user sends a message to your virtual number. Please note that this endpoint is for receiving messages only and cannot be used to send requests. It serves as a reference for understanding how responses are delivered to your webhook."
+    }
+  ],
+  "bundled": true
+}
