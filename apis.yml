@@ -150,6 +150,10 @@ apis:
   tags:
   - Messaging
   - SMS
+  - Webhook
+  tags_raw:
+  - Messaging
+  - SMS
   - Webhooks
   properties:
   - type: Documentation
@@ -425,6 +429,10 @@ apis:
     moves through a simple lifecycle: -...'
   humanURL: https://app.swaggerhub.com/apis-docs/kpn/webhook-signing-key-management-kpn
   tags:
+  - Webhook
+  - Security
+  - Key Management
+  tags_raw:
   - Webhooks
   - Security
   - Key Management
@@ -454,6 +462,10 @@ apis:
     an empty or absent map means every field is sent. Exclusion rules...'
   humanURL: https://app.swaggerhub.com/apis-docs/kpn/webhook-privacy-config-manager
   tags:
+  - Webhook
+  - Privacy
+  - Configuration
+  tags_raw:
   - Webhooks
   - Privacy
   - Configuration
@@ -520,6 +532,10 @@ apis:
   humanURL: https://developer.kpn.com/products/pollyhelp-knowledge-management-api
   tags:
   - Contact Center
+  - Knowledge-Management
+  - Partner API
+  tags_raw:
+  - Contact Center
   - Knowledge Management
   - Partner API
   properties:
@@ -539,6 +555,11 @@ apis:
   description: Xdroid Speech To Text API provides a seamless audio transcription service.
   humanURL: https://developer.kpn.com/products/xdroid-speech-text-api
   tags:
+  - Contact Center
+  - Speech-to-Text
+  - Voice Analytics
+  - Partner API
+  tags_raw:
   - Contact Center
   - Speech to Text
   - Voice Analytics
@@ -582,6 +603,11 @@ apis:
     media channels traffic.
   humanURL: https://developer.kpn.com/products/social-media-chat-and-messaging
   tags:
+  - Messaging
+  - Social-Media
+  - Webcare
+  - Partner API
+  tags_raw:
   - Messaging
   - Social Media
   - Webcare
