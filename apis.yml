@@ -17,6 +17,18 @@ description: 'Koninklijke KPN N.V. is the incumbent telecommunications and IT pr
   github.com/camaraproject as its product documentation. KPN is not an Aduna shareholder and does not reach
   developers through that JV. Notably, KPN also resells Vonage and Apidaze CPaaS products through its own portal
   — the aggregator layer appearing inside the carrier''s own catalogue rather than the other way round.'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
 - Telecommunications
@@ -17945,6 +17957,9 @@ apis:
   - type: APIReference
     url: https://app.swaggerhub.com/apis-docs/kpn/registeredemail-registeredemail
 common:
+- type: CapabilityMap
+  url: capabilities/kpn-capability-edges.yml
+  name: KPN Business Capability Map
 - type: Overlay
   url: overlays/kpn-number-verify-overlay.yaml
 - type: Overlay
