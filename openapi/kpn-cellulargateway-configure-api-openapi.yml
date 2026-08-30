@@ -1,0 +1,1803 @@
+openapi: 3.2.0
+info:
+  version: 1.54.0
+  title: KPN SD-LAN SD-WAN Network View Cellular Gateway.configure API
+  description: "The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.\n    \nThe Network View API gives users read rights to retrieve information from the `Network View API` resources. \n    \n- **Note**: By default you have read only access but based on your requirements and contract you can be granted `Manager` access to this API which is more than read only. To request manager access, please contact us at api_developer@kpn.com.\n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/kpn-sd_lan_sd_wan_network_view_api/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/kpn-sd_lan_sd_wan_network_view_api/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)"
+servers:
+- url: https://api-prd.kpn.com/kpn/meraki
+security:
+- OAuth2ClientCredentials: []
+tags:
+- name: cellularGateway.configure
+paths:
+  /devices/{serial}/cellularGateway/lan:
+    get:
+      description: Show the LAN Settings of a MG
+      operationId: getDeviceCellularGatewayLan
+      parameters:
+      - name: serial
+        in: path
+        description: Serial
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deviceName:
+                    type: string
+                    description: Name of the MG.
+                  deviceLanIp:
+                    type: string
+                    description: Lan IP of the MG
+                  deviceSubnet:
+                    type: string
+                    description: Subnet configuration of the MG.
+                  fixedIpAssignments:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: A descriptive name of the assignment
+                        ip:
+                          type: string
+                          description: The IP address you want to assign to a specific server or device
+                        mac:
+                          type: string
+                          description: The MAC address of the server or device that hosts the internal resource that you wish to receive the specified IP address
+                    description: list of all fixed IP assignments for a single MG
+                  reservedIpRanges:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        start:
+                          type: string
+                          description: Starting IP included in the reserved range of IPs
+                        end:
+                          type: string
+                          description: Ending IP included in the reserved range of IPs
+                        comment:
+                          type: string
+                          description: Comment explaining the reserved IP range
+                    description: list of all reserved IP ranges for a single MG
+              example:
+                deviceName: name of the MG
+                deviceLanIp: 192.168.0.33
+                deviceSubnet: 192.168.0.32/27
+                fixedIpAssignments:
+                - name: server 1
+                  ip: 192.168.0.10
+                  mac: 0b:00:00:00:00:ac
+                reservedIpRanges:
+                - start: 192.168.1.0
+                  end: 192.168.1.1
+                  comment: A reserved IP range
+      summary: Show the LAN Settings of a MG
+      tags:
+      - cellularGateway.configure
+    put:
+      description: Update the LAN Settings for a single MG.
+      operationId: updateDeviceCellularGatewayLan
+      parameters:
+      - name: serial
+        in: path
+        description: Serial
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reservedIpRanges:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      start:
+                        type: string
+                        description: Starting IP included in the reserved range of IPs
+                      end:
+                        type: string
+                        description: Ending IP included in the reserved range of IPs
+                      comment:
+                        type: string
+                        description: Comment explaining the reserved IP range
+                    required:
+                    - start
+                    - end
+                    - comment
+                  description: list of all reserved IP ranges for a single MG
+                fixedIpAssignments:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: A descriptive name of the assignment
+                      ip:
+                        type: string
+                        description: The IP address you want to assign to a specific server or device
+                      mac:
+                        type: string
+                        description: The MAC address of the server or device that hosts the internal resource that you wish to receive the specified IP address
+                    required:
+                    - ip
+                    - mac
+                  description: list of all fixed IP assignments for a single MG
+              example:
+                reservedIpRanges:
+                - start: 192.168.1.0
+                  end: 192.168.1.1
+                  comment: A reserved IP range
+                fixedIpAssignments:
+                - name: server 1
+                  ip: 192.168.0.10
+                  mac: 0b:00:00:00:00:ac
+        required: false
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deviceName:
+                    type: string
+                    description: Name of the MG.
+                  deviceLanIp:
+                    type: string
+                    description: Lan IP of the MG
+                  deviceSubnet:
+                    type: string
+                    description: Subnet configuration of the MG.
+                  fixedIpAssignments:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: A descriptive name of the assignment
+                        ip:
+                          type: string
+                          description: The IP address you want to assign to a specific server or device
+                        mac:
+                          type: string
+                          description: The MAC address of the server or device that hosts the internal resource that you wish to receive the specified IP address
+                    description: list of all fixed IP assignments for a single MG
+                  reservedIpRanges:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        start:
+                          type: string
+                          description: Starting IP included in the reserved range of IPs
+                        end:
+                          type: string
+                          description: Ending IP included in the reserved range of IPs
+                        comment:
+                          type: string
+                          description: Comment explaining the reserved IP range
+                    description: list of all reserved IP ranges for a single MG
+              example:
+                deviceName: name of the MG
+                deviceLanIp: 192.168.0.33
+                deviceSubnet: 192.168.0.32/27
+                fixedIpAssignments:
+                - name: server 1
+                  ip: 192.168.0.10
+                  mac: 0b:00:00:00:00:ac
+                reservedIpRanges:
+                - start: 192.168.1.0
+                  end: 192.168.1.1
+                  comment: A reserved IP range
+      summary: Update the LAN Settings for a single MG.
+      tags:
+      - cellularGateway.configure
+  /devices/{serial}/cellularGateway/portForwardingRules:
+    get:
+      description: Returns the port forwarding rules for a single MG.
+      operationId: getDeviceCellularGatewayPortForwardingRules
+      parameters:
+      - name: serial
+        in: path
+        description: Serial
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rules:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: A descriptive name for the rule
+                        lanIp:
+                          type: string
+                          description: The IP address of the server or device that hosts the internal resource that you wish to make available on the WAN
+                        publicPort:
+                          type: string
+                          description: A port or port ranges that will be forwarded to the host on the LAN
+                        localPort:
+                          type: string
+                          description: A port or port ranges that will receive the forwarded traffic from the WAN
+                        allowedIps:
+                          type: array
+                          items:
+                            type: string
+                          description: An array of ranges of WAN IP addresses that are allowed to make inbound connections on the specified ports or port ranges.
+                        protocol:
+                          type: string
+                          description: TCP or UDP
+                        access:
+                          type: string
+                          description: '`any` or `restricted`. Specify the right to make inbound connections on the specified ports or port ranges. If `restricted`, a list of allowed IPs is mandatory.'
+                    description: An array of port forwarding params
+              example:
+                rules:
+                - name: test
+                  lanIp: 172.31.128.5
+                  publicPort: 11-12
+                  localPort: '4'
+                  allowedIps:
+                  - 10.10.10.10
+                  - 10.10.10.11
+                  protocol: tcp
+                  access: any
+      summary: Returns the port forwarding rules for a single MG.
+      tags:
+      - cellularGateway.configure
+    put:
+      description: Updates the port forwarding rules for a single MG.
+      operationId: updateDeviceCellularGatewayPortForwardingRules
+      parameters:
+      - name: serial
+        in: path
+        description: Serial
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rules:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: A descriptive name for the rule
+                      lanIp:
+                        type: string
+                        description: The IP address of the server or device that hosts the internal resource that you wish to make available on the WAN
+                      publicPort:
+                        type: string
+                        description: A port or port ranges that will be forwarded to the host on the LAN
+                      localPort:
+                        type: string
+                        description: A port or port ranges that will receive the forwarded traffic from the WAN
+                      allowedIps:
+                        type: array
+                        items:
+                          type: string
+                        description: An array of ranges of WAN IP addresses that are allowed to make inbound connections on the specified ports or port ranges.
+                      protocol:
+                        type: string
+                        description: TCP or UDP
+                      access:
+                        type: string
+                        description: '`any` or `restricted`. Specify the right to make inbound connections on the specified ports or port ranges. If `restricted`, a list of allowed IPs is mandatory.'
+                    required:
+                    - lanIp
+                    - publicPort
+                    - localPort
+                    - protocol
+                    - access
+                  description: An array of port forwarding params
+              example:
+                rules:
+                - name: test
+                  lanIp: 172.31.128.5
+                  publicPort: 11-12
+                  localPort: '4'
+                  allowedIps:
+                  - 10.10.10.10
+                  - 10.10.10.11
+                  protocol: tcp
+                  access: any
+        required: false
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rules:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: A descriptive name for the rule
+                        lanIp:
+                          type: string
+                          description: The IP address of the server or device that hosts the internal resource that you wish to make available on the WAN
+                        publicPort:
+                          type: string
+                          description: A port or port ranges that will be forwarded to the host on the LAN
+                        localPort:
+                          type: string
+                          description: A port or port ranges that will receive the forwarded traffic from the WAN
+                        allowedIps:
+                          type: array
+                          items:
+                            type: string
+                          description: An array of ranges of WAN IP addresses that are allowed to make inbound connections on the specified ports or port ranges.
+                        protocol:
+                          type: string
+                          description: TCP or UDP
+                        access:
+                          type: string
+                          description: '`any` or `restricted`. Specify the right to make inbound connections on the specified ports or port ranges. If `restricted`, a list of allowed IPs is mandatory.'
+                    description: An array of port forwarding params
+              example:
+                rules:
+                - name: test
+                  lanIp: 172.31.128.5
+                  publicPort: 11-12
+                  localPort: '4'
+                  allowedIps:
+                  - 10.10.10.10
+                  - 10.10.10.11
+                  protocol: tcp
+                  access: any
+      summary: Updates the port forwarding rules for a single MG.
+      tags:
+      - cellularGateway.configure
+  /networks/{networkId}/cellularGateway/connectivityMonitoringDestinations:
+    get:
+      description: Return the connectivity testing destinations for an MG network
+      operationId: getNetworkCellularGatewayConnectivityMonitoringDestinations
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  destinations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ip:
+                          type: string
+                          description: The IP address to test connectivity with
+                        description:
+                          type: string
+                          description: Description of the testing destination. Optional, defaults to an empty string
+                        default:
+                          type: boolean
+                          description: Boolean indicating whether this is the default testing destination (true) or not (false). Defaults to false. Only one default is allowed
+                    description: The list of connectivity monitoring destinations
+              example:
+                destinations:
+                - ip: 1.2.3.4
+                  description: Google
+                  default: false
+      summary: Return the connectivity testing destinations for an MG network
+      tags:
+      - cellularGateway.configure
+    put:
+      description: Update the connectivity testing destinations for an MG network
+      operationId: updateNetworkCellularGatewayConnectivityMonitoringDestinations
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                destinations:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      ip:
+                        type: string
+                        description: The IP address to test connectivity with
+                      description:
+                        type: string
+                        description: Description of the testing destination. Optional, defaults to an empty string
+                        default: ''
+                      default:
+                        type: boolean
+                        description: Boolean indicating whether this is the default testing destination (true) or not (false). Defaults to false. Only one default is allowed
+                        default: false
+                    required:
+                    - ip
+                  description: The list of connectivity monitoring destinations
+              example:
+                destinations:
+                - ip: 1.2.3.4
+                  description: Google
+                  default: false
+        required: false
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  destinations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ip:
+                          type: string
+                          description: The IP address to test connectivity with
+                        description:
+                          type: string
+                          description: Description of the testing destination. Optional, defaults to an empty string
+                        default:
+                          type: boolean
+                          description: Boolean indicating whether this is the default testing destination (true) or not (false). Defaults to false. Only one default is allowed
+                    description: The list of connectivity monitoring destinations
+              example:
+                destinations:
+                - ip: 1.2.3.4
+                  description: Google
+                  default: false
+      summary: Update the connectivity testing destinations for an MG network
+      tags:
+      - cellularGateway.configure
+  /networks/{networkId}/cellularGateway/dhcp:
+    get:
+      description: List common DHCP settings of MGs
+      operationId: getNetworkCellularGatewayDhcp
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dhcpLeaseTime:
+                    type: string
+                    enum:
+                    - 1 day
+                    - 1 hour
+                    - 1 week
+                    - 12 hours
+                    - 30 minutes
+                    - 4 hours
+                    description: DHCP Lease time for all MG in the network.
+                  dnsNameservers:
+                    type: string
+                    enum:
+                    - custom
+                    - google_dns
+                    - opendns
+                    - upstream_dns
+                    description: DNS name servers mode for all MG in the network.
+                  dnsCustomNameservers:
+                    type: array
+                    items:
+                      type: string
+                    description: List of fixed IPs representing the the DNS Name servers when the mode is 'custom'.
+              example:
+                dhcpLeaseTime: 1 hour
+                dnsNameservers: custom
+                dnsCustomNameservers:
+                - 172.16.2.111
+                - 172.16.2.30
+      summary: List common DHCP settings of MGs
+      tags:
+      - cellularGateway.configure
+    put:
+      description: Update common DHCP settings of MGs
+      operationId: updateNetworkCellularGatewayDhcp
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dhcpLeaseTime:
+                  type: string
+                  description: DHCP Lease time for all MG of the network. Possible values are '30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1 week'.
+                dnsNameservers:
+                  type: string
+                  description: 'DNS name servers mode for all MG of the network. Possible values are: ''upstream_dns'', ''google_dns'', ''opendns'', ''custom''.'
+                dnsCustomNameservers:
+                  type: array
+                  items:
+                    type: string
+                  description: list of fixed IPs representing the the DNS Name servers when the mode is 'custom'
+              example:
+                dhcpLeaseTime: 1 hour
+                dnsNameservers: custom
+                dnsCustomNameservers:
+                - 172.16.2.111
+                - 172.16.2.30
+        required: false
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dhcpLeaseTime:
+                    type: string
+                    enum:
+                    - 1 day
+                    - 1 hour
+                    - 1 week
+                    - 12 hours
+                    - 30 minutes
+                    - 4 hours
+                    description: DHCP Lease time for all MG in the network.
+                  dnsNameservers:
+                    type: string
+                    enum:
+                    - custom
+                    - google_dns
+                    - opendns
+                    - upstream_dns
+                    description: DNS name servers mode for all MG in the network.
+                  dnsCustomNameservers:
+                    type: array
+                    items:
+                      type: string
+                    description: List of fixed IPs representing the the DNS Name servers when the mode is 'custom'.
+              example:
+                dhcpLeaseTime: 1 hour
+                dnsNameservers: custom
+                dnsCustomNameservers:
+                - 172.16.2.111
+                - 172.16.2.30
+      summary: Update common DHCP settings of MGs
+      tags:
+      - cellularGateway.configure
+  /networks/{networkId}/cellularGateway/subnetPool:
+    get:
+      description: Return the subnet pool and mask configured for MGs in the network.
+      operationId: getNetworkCellularGatewaySubnetPool
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deploymentMode:
+                    type: string
+                    description: Deployment mode for the cellular gateways in the network. (Passthrough/Routed)
+                  cidr:
+                    type: string
+                    description: CIDR of the pool of subnets. Each MG in this network will automatically pick a subnet from this pool.
+                  mask:
+                    type: integer
+                    description: Mask used for the subnet of all MGs in  this network.
+                  subnets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        serial:
+                          type: string
+                          description: Serial Number of the MG.
+                        name:
+                          type: string
+                          description: Name of the MG.
+                        applianceIp:
+                          type: string
+                          description: Appliance IP of the MG device.
+                        subnet:
+                          type: string
+                          description: Subnet of MG device.
+                    description: List of subnets of all MGs in this network.
+              example:
+                deploymentMode: routed
+                cidr: 192.168.0.0/16
+                mask: 24
+                subnets:
+                - serial: AAAA-AAAA-AAAA
+                  name: my first MG
+                  applianceIp: 192.168.0.1
+                  subnet: 192.168.0.0/24
+      summary: Return the subnet pool and mask configured for MGs in the network.
+      tags:
+      - cellularGateway.configure
+    put:
+      description: Update the subnet pool and mask configuration for MGs in the network.
+      operationId: updateNetworkCellularGatewaySubnetPool
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mask:
+                  type: integer
+                  description: Mask used for the subnet of all MGs in  this network.
+                cidr:
+                  type: string
+                  description: CIDR of the pool of subnets. Each MG in this network will automatically pick a subnet from this pool.
+              example:
+                mask: 24
+                cidr: 192.168.0.0/16
+        required: false
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deploymentMode:
+                    type: string
+                    description: Deployment mode for the cellular gateways in the network. (Passthrough/Routed)
+                  cidr:
+                    type: string
+                    description: CIDR of the pool of subnets. Each MG in this network will automatically pick a subnet from this pool.
+                  mask:
+                    type: integer
+                    description: Mask used for the subnet of all MGs in  this network.
+                  subnets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        serial:
+                          type: string
+                          description: Serial Number of the MG.
+                        name:
+                          type: string
+                          description: Name of the MG.
+                        applianceIp:
+                          type: string
+                          description: Appliance IP of the MG device.
+                        subnet:
+                          type: string
+                          description: Subnet of MG device.
+                    description: List of subnets of all MGs in this network.
+              example:
+                deploymentMode: routed
+                cidr: 192.168.0.0/16
+                mask: 24
+                subnets:
+                - serial: AAAA-AAAA-AAAA
+                  name: my first MG
+                  applianceIp: 192.168.0.1
+                  subnet: 192.168.0.0/24
+      summary: Update the subnet pool and mask configuration for MGs in the network.
+      tags:
+      - cellularGateway.configure
+  /networks/{networkId}/cellularGateway/uplink:
+    get:
+      description: Returns the uplink settings for your MG network.
+      operationId: getNetworkCellularGatewayUplink
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bandwidthLimits:
+                    type: object
+                    properties:
+                      limitUp:
+                        type: integer
+                        description: The maximum upload limit (integer, in Kbps). 'null' indicates no limit.
+                      limitDown:
+                        type: integer
+                        description: The maximum download limit (integer, in Kbps). 'null' indicates no limit.
+                    description: The bandwidth settings for the 'cellular' uplink
+              example:
+                bandwidthLimits:
+                  limitUp: 51200
+                  limitDown: 51200
+      summary: Returns the uplink settings for your MG network.
+      tags:
+      - cellularGateway.configure
+    put:
+      description: Updates the uplink settings for your MG network.
+      operationId: updateNetworkCellularGatewayUplink
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bandwidthLimits:
+                  type: object
+                  properties:
+                    limitUp:
+                      type: integer
+                      description: The maximum upload limit (integer, in Kbps). null indicates no limit
+                    limitDown:
+                      type: integer
+                      description: The maximum download limit (integer, in Kbps). null indicates no limit
+                  description: The bandwidth settings for the 'cellular' uplink
+              example:
+                bandwidthLimits:
+                  limitUp: 1000000
+                  limitDown: 1000000
+        required: false
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bandwidthLimits:
+                    type: object
+                    properties:
+                      limitUp:
+                        type: integer
+                        description: The maximum upload limit (integer, in Kbps). 'null' indicates no limit.
+                      limitDown:
+                        type: integer
+                        description: The maximum download limit (integer, in Kbps). 'null' indicates no limit.
+                    description: The bandwidth settings for the 'cellular' uplink
+              example:
+                bandwidthLimits:
+                  limitUp: 51200
+                  limitDown: 51200
+      summary: Updates the uplink settings for your MG network.
+      tags:
+      - cellularGateway.configure
+  /organizations/{organizationId}/cellularGateway/esims/inventory:
+    get:
+      description: The eSIM inventory of a given organization.
+      operationId: getOrganizationCellularGatewayEsimsInventory
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: eids
+        in: query
+        description: Optional parameter to filter the results by EID.
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          device:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                                description: Device name
+                              model:
+                                type: string
+                                description: Device model
+                              serial:
+                                type: string
+                                description: Device serial number
+                              url:
+                                type: string
+                                description: Device URL
+                              status:
+                                type: string
+                                description: Device status
+                            description: Meraki Device properties
+                          active:
+                            type: boolean
+                            description: Whether eSIM is currently active SIM on Device
+                          eid:
+                            type: string
+                            description: eSIM EID
+                          lastUpdatedAt:
+                            type: string
+                            description: Last update of eSIM
+                          network:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                description: Network ID for this eSIM
+                            description: Meraki Network properties
+                          profiles:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                customApns:
+                                  type: array
+                                  items:
+                                    type: string
+                                  description: Available custom APNs for the profile
+                                iccid:
+                                  type: string
+                                  description: eSIM profile ID
+                                status:
+                                  type: string
+                                  description: eSIM profile status
+                                serviceProvider:
+                                  type: object
+                                  properties:
+                                    name:
+                                      type: string
+                                      description: Service Provider name
+                                    plans:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          name:
+                                            type: string
+                                            description: Plan name
+                                          type:
+                                            type: string
+                                            description: Plan type (communication, rate)
+                                      description: Plans currently active on the eSIM
+                                  description: Service Provider information
+                            description: eSIM Profile Information
+                      description: List of eSIM Devices
+                    meta:
+                      type: object
+                      properties:
+                        counts:
+                          type: object
+                          properties:
+                            items:
+                              type: object
+                              properties:
+                                total:
+                                  type: integer
+                                  description: Total number of eSIM Devices
+                                remaining:
+                                  type: integer
+                                  description: Remaining number of eSIM Devices
+                              description: Count of eSIM Devices available
+                          description: Counts of involved entities
+                      description: Meta details about the result
+              example:
+              - items:
+                - device:
+                    name: My cellular gateway
+                    model: mg52
+                    serial: Q234-ABCD-5678
+                    url: https://n1.meraki.com//n//manage/nodes/new_list/000000000000
+                    status: online
+                  active: true
+                  eid: '89000000000000000000000000000000'
+                  lastUpdatedAt: '2023-02-01T00:00:00Z'
+                  network:
+                    id: N_24329156
+                  profiles:
+                  - customApns:
+                    - internet
+                    iccid: '8900000000000000000'
+                    status: activated
+                    serviceProvider:
+                      name: ATT
+                      plans:
+                      - name: 1 Cisco IoT SDO AT&T eSIM Test Plan downloadable
+                        type: communication
+                meta:
+                  counts:
+                    items:
+                      total: 1
+                      remaining: 0
+      summary: The eSIM inventory of a given organization.
+      tags:
+      - cellularGateway.configure
+  /organizations/{organizationId}/cellularGateway/esims/inventory/{id}:
+    put:
+      description: Toggle the status of an eSIM
+      operationId: updateOrganizationCellularGatewayEsimsInventory
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: id
+        in: path
+        description: ID
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: Status the eSIM will be updated to
+              example:
+                status: activated
+        required: false
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  device:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: Device name
+                      model:
+                        type: string
+                        description: Device model
+                      serial:
+                        type: string
+                        description: Device serial number
+                      url:
+                        type: string
+                        description: Device URL
+                      status:
+                        type: string
+                        description: Device status
+                    description: Meraki Device properties
+                  active:
+                    type: boolean
+                    description: Whether eSIM is currently active SIM on Device
+                  eid:
+                    type: string
+                    description: eSIM EID
+                  lastUpdatedAt:
+                    type: string
+                    description: Last update of eSIM
+                  network:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Network ID for this eSIM
+                    description: Meraki Network properties
+                  profiles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        customApns:
+                          type: array
+                          items:
+                            type: string
+                          description: Available custom APNs for the profile
+                        iccid:
+                          type: string
+                          description: eSIM profile ID
+                        status:
+                          type: string
+                          description: eSIM profile status
+                        serviceProvider:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              description: Service Provider name
+                            plans:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                                    description: Plan name
+                                  type:
+                                    type: string
+                                    description: Plan type (communication, rate)
+                              description: Plans currently active on the eSIM
+                          description: Service Provider information
+                    description: eSIM Profile Information
+              example:
+                device:
+                  name: My cellular gateway
+                  model: mg52
+                  serial: Q234-ABCD-5678
+                  url: https://n1.meraki.com//n//manage/nodes/new_list/000000000000
+                  status: online
+                active: true
+                eid: '89000000000000000000000000000000'
+                lastUpdatedAt: '2023-02-01T00:00:00Z'
+                network:
+                  id: N_24329156
+                profiles:
+                - customApns:
+                  - internet
+                  iccid: '8900000000000000000'
+                  status: activated
+                  serviceProvider:
+                    name: ATT
+                    plans:
+                    - name: 1 Cisco IoT SDO AT&T eSIM Test Plan downloadable
+                      type: communication
+      summary: Toggle the status of an eSIM
+      tags:
+      - cellularGateway.configure
+  /organizations/{organizationId}/cellularGateway/esims/serviceProviders:
+    get:
+      description: Service providers customers can add accounts for.
+      operationId: getOrganizationCellularGatewayEsimsServiceProviders
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Service provider name.
+                        logo:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                              description: URL of service provider's logo.
+                          description: Service Provider logo data.
+                        isBootstrap:
+                          type: boolean
+                          description: Indicates if service provider is the bootstrap provider.
+                        terms:
+                          type: object
+                          properties:
+                            content:
+                              type: string
+                              description: URL of service provider's terms.
+                            name:
+                              type: string
+                              description: Label for service provider's terms.
+                          description: Service provider terms.
+                    description: List Cellular Service Providers
+                  meta:
+                    type: object
+                    properties:
+                      counts:
+                        type: object
+                        properties:
+                          items:
+                            type: object
+                            properties:
+                              total:
+                                type: integer
+                                description: Total number of Service Providers
+                              remaining:
+                                type: integer
+                                description: Remaining number of Service Providers
+                            description: Service Providers available
+                        description: Counts of involved entities
+                    description: Meta details about the result
+              example:
+                items:
+                - name: AT&T
+                  logo:
+                    url: Logo URL
+                  isBootstrap: false
+                  terms:
+                    content: Legal jargon
+                    name: AT&T Terms and Conditions
+                meta:
+                  counts:
+                    items:
+                      total: 42
+                      remaining: 0
+      summary: Service providers customers can add accounts for.
+      tags:
+      - cellularGateway.configure
+  /organizations/{organizationId}/cellularGateway/esims/serviceProviders/accounts:
+    get:
+      description: Inventory of service provider accounts tied to the organization.
+      operationId: getOrganizationCellularGatewayEsimsServiceProvidersAccounts
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: accountIds
+        in: query
+        description: Optional parameter to filter the results by service provider account IDs.
+        schema:
+          type: array
+          items:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          accountId:
+                            type: string
+                            description: Service provider account ID
+                          lastUpdatedAt:
+                            type: string
+                            description: Last updated at
+                          serviceProvider:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                                description: Name of the service provider.
+                              logo:
+                                type: object
+                                properties:
+                                  url:
+                                    type: string
+                                    description: Service Provider logo url.
+                                description: Service provider logo data.
+                            description: Service provider data.
+                          title:
+                            type: string
+                            description: Service provider account name
+                          username:
+                            type: string
+                            description: Service provider account username
+                      description: IList of Cellular Service Provider Accounts
+                    meta:
+                      type: object
+                      properties:
+                        counts:
+                          type: object
+                          properties:
+                            items:
+                              type: object
+                              properties:
+                                total:
+                                  type: integer
+                                  description: Total number of Cellular Service Providers
+                                remaining:
+                                  type: integer
+                                  description: Remaining number of Cellular Service Providers
+                              description: Count of Cellular Service Providers available
+                          description: Counts of involved entities
+                      description: Meta details about the result
+              example:
+              - items:
+                - accountId: 0987654321
+                  lastUpdatedAt: '2023-08-21T00:00:00Z'
+                  serviceProvider:
+                    name: ATT
+                    logo:
+                      url: serviceproviderlogo.url
+                  title: My AT&T account
+                  username: MerakiUser
+                meta:
+                  counts:
+                    items:
+                      total: 1
+                      remaining: 0
+      summary: Inventory of service provider accounts tied to the organization.
+      tags:
+      - cellularGateway.configure
+    post:
+      description: Add a service provider account.
+      operationId: createOrganizationCellularGatewayEsimsServiceProvidersAccount
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accountId:
+                  type: string
+                  description: Service provider account ID
+                apiKey:
+                  type: string
+                  description: Service provider account API key
+                serviceProvider:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: Service provider name
+                  description: Service Provider information
+                title:
+                  type: string
+                  description: Service provider account name
+                username:
+                  type: string
+                  description: Service provider account username
+              example:
+                accountId: 0987654321
+                apiKey: foobarfoobarfoobarfoobarfoobarfoobar
+                serviceProvider:
+                  name: ATT
+                title: My AT&T account
+                username: MerakiUser
+              required:
+              - accountId
+              - apiKey
+              - serviceProvider
+              - title
+              - username
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accountId:
+                    type: string
+                    description: Service provider account ID
+                  lastUpdatedAt:
+                    type: string
+                    description: Last updated at
+                  serviceProvider:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: Name of the service provider.
+                      logo:
+                        type: object
+                        properties:
+                          url:
+                            type: string
+                            description: Service Provider logo url.
+                        description: Service provider logo data.
+                    description: Service provider data.
+                  title:
+                    type: string
+                    description: Service provider account name
+                  username:
+                    type: string
+                    description: Service provider account username
+              example:
+                accountId: 0987654321
+                lastUpdatedAt: '2023-08-21T00:00:00Z'
+                serviceProvider:
+                  name: ATT
+                  logo:
+                    url: serviceproviderlogo.url
+                title: My AT&T account
+                username: MerakiUser
+      summary: Add a service provider account.
+      tags:
+      - cellularGateway.configure
+  /organizations/{organizationId}/cellularGateway/esims/serviceProviders/accounts/communicationPlans:
+    get:
+      description: The communication plans available for a given provider.
+      operationId: getOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlans
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: accountIds
+        in: query
+        required: true
+        description: Account IDs that communication plans will be fetched for
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        accountId:
+                          type: string
+                          description: Account ID of plans to be fetched
+                        apns:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                                description: APN name
+                          description: Available APNs
+                        name:
+                          type: string
+                          description: Communication plan name
+                    description: List of Cellular Service Provider Communication Plans
+                  meta:
+                    type: object
+                    properties:
+                      counts:
+                        type: object
+                        properties:
+                          items:
+                            type: object
+                            properties:
+                              total:
+                                type: integer
+                                description: Total number of Communication Plans
+                              remaining:
+                                type: integer
+                                description: Remaining number of Communication Plans
+                            description: Count of Communication Plans available
+                        description: Counts of involved entities
+                    description: Meta details about the result
+              example:
+                items:
+                - accountId: some account ID
+                  apns:
+                  - name: Some APN
+                  name: A communication plan
+                meta:
+                  counts:
+                    items:
+                      total: 2
+                      remaining: 0
+      summary: The communication plans available for a given provider.
+      tags:
+      - cellularGateway.configure
+  /organizations/{organizationId}/cellularGateway/esims/serviceProviders/accounts/ratePlans:
+    get:
+      description: The rate plans available for a given provider.
+      operationId: getOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlans
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: accountIds
+        in: query
+        required: true
+        description: Account IDs that rate plans will be fetched for
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        accountId:
+                          type: string
+                          description: Account ID of plans to be fetched
+                        name:
+                          type: string
+                          description: Rate plan name
+                    description: List of Cellular Service Provider Rate Plans
+                  meta:
+                    type: object
+                    properties:
+                      counts:
+                        type: object
+                        properties:
+                          items:
+                            type: object
+                            properties:
+                              total:
+                                type: integer
+                                description: Total number of Rate Plans
+                              remaining:
+                                type: integer
+                                description: Remaining number of Rate Plans
+                            description: Count of Rate Plans available
+                        description: Counts of involved entities
+                    description: Meta details about the result
+              example:
+                items:
+                - accountId: account ID
+                  name: A rate plan
+                meta:
+                  counts:
+                    items:
+                      total: 2
+                      remaining: 0
+      summary: The rate plans available for a given provider.
+      tags:
+      - cellularGateway.configure
+  /organizations/{organizationId}/cellularGateway/esims/serviceProviders/accounts/{accountId}:
+    put:
+      description: Edit service provider account info stored in Meraki's database.
+      operationId: updateOrganizationCellularGatewayEsimsServiceProvidersAccount
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: accountId
+        in: path
+        description: Account ID
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Service provider account name used on the Meraki UI
+                apiKey:
+                  type: string
+                  description: Service provider account API key
+              example:
+                title: My AT&T account
+                apiKey: foobarfoobarfoobarfoobarfoobarfoobar
+        required: false
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accountId:
+                    type: string
+                    description: Service provider account ID
+                  lastUpdatedAt:
+                    type: string
+                    description: Last updated at
+                  serviceProvider:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: Name of the service provider.
+                      logo:
+                        type: object
+                        properties:
+                          url:
+                            type: string
+                            description: Service Provider logo url.
+                        description: Service provider logo data.
+                    description: Service provider data.
+                  title:
+                    type: string
+                    description: Service provider account name
+                  username:
+                    type: string
+                    description: Service provider account username
+              example:
+                accountId: 0987654321
+                lastUpdatedAt: '2023-08-21T00:00:00Z'
+                serviceProvider:
+                  name: ATT
+                  logo:
+                    url: serviceproviderlogo.url
+                title: My AT&T account
+                username: MerakiUser
+      summary: Edit service provider account info stored in Meraki's database.
+      tags:
+      - cellularGateway.configure
+    delete:
+      description: Remove a service provider account's integration with the Dashboard.
+      operationId: deleteOrganizationCellularGatewayEsimsServiceProvidersAccount
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: accountId
+        in: path
+        description: Account ID
+        schema:
+          type: string
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+      summary: Remove a service provider account's integration with the Dashboard.
+      tags:
+      - cellularGateway.configure
+  /organizations/{organizationId}/cellularGateway/esims/swap:
+    post:
+      description: Swap which profile an eSIM uses.
+      operationId: createOrganizationCellularGatewayEsimsSwap
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                swaps:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      eid:
+                        type: string
+                        description: eSIM EID
+                      target:
+                        type: object
+                        properties:
+                          accountId:
+                            type: string
+                            description: ID of the target account; can be the account currently tied to the eSIM
+                          communicationPlan:
+                            type: string
+                            description: Name of the target communication plan
+                          ratePlan:
+                            type: string
+                            description: Name of the target rate plan
+                        required:
+                        - accountId
+                        - communicationPlan
+                        - ratePlan
+                        description: Target Profile attributes
+                    required:
+                    - eid
+                  description: Each object represents a swap for one eSIM
+              example:
+                swaps:
+                - eid: '1234567890'
+                  target:
+                    accountId: '456'
+                    communicationPlan: A comm plan
+                    ratePlan: A rate plan
+              required:
+              - swaps
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  eid:
+                    type: string
+                    description: eSIM EID
+                  iccid:
+                    type: string
+                    description: eSIM ICCID
+                  status:
+                    type: string
+                    enum:
+                    - Completed
+                    - Failed
+                    - In progress
+                    description: Swap status
+                required:
+                - eid
+                - iccid
+                - status
+              example:
+                eid: '1234567890'
+                iccid: '9876543210'
+                status: Completed
+      summary: Swap which profile an eSIM uses.
+      tags:
+      - cellularGateway.configure
+  /organizations/{organizationId}/cellularGateway/esims/swap/{id}:
+    put:
+      description: Get the status of a profile swap.
+      operationId: updateOrganizationCellularGatewayEsimsSwap
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: eSIM EID
+        schema:
+          type: string
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  eid:
+                    type: string
+                    description: eSIM EID
+                  iccid:
+                    type: string
+                    description: eSIM ICCID
+                  status:
+                    type: string
+                    enum:
+                    - Completed
+                    - Failed
+                    - In progress
+                    description: Swap status
+                required:
+                - eid
+                - iccid
+                - status
+              example:
+                eid: '1234567890'
+                iccid: '9876543210'
+                status: Completed
+      summary: Get the status of a profile swap.
+      tags:
+      - cellularGateway.configure
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}

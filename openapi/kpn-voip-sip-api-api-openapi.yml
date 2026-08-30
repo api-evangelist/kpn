@@ -1,0 +1,525 @@
+openapi: 3.2.0
+info:
+  title: Apidaze Voice - VoIP Innovations VoIP SIP API
+  version: v1.1.1
+  termsOfService: https://developer.kpn.com/legal
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  description: "This REST API exposes actions that help your apps to interact with APIdaze’s Telco platform in mulitples ways. You can set the URL from where Apidaze fetchs XML instructions to run on Apidaze platform. You can write your various scripts there using the [Script Reference doc](https://developer.kpn.com/script-reference-documentation), and test them. You can manage your phone numbers, connect directly with other SIP carriers (inbound and outbound), manage your SIP accounts, voicemail boxes and messages, provision your hardphones.\n## [Source view](https://app.swaggerhub.com/apis/kpn/apidaze-voice-voip-innovations/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/apidaze-voice-voip-innovations/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---\n "
+servers:
+- url: https://api-prd.kpn.com/communication/apidaze/cpaas
+tags:
+- name: VoIP SIP API
+paths:
+  /sipaccounts:
+    get:
+      summary: SIP Account List
+      tags:
+      - VoIP SIP API
+      description: Returns the list of SIP accounts.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SIPAccountResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+    post:
+      summary: SIP Account Create
+      tags:
+      - VoIP SIP API
+      description: Creates a new SIP account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SIPAccountResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Username of this SIP account. This parameter is used to authenticate the SIP account.
+                internal_caller_id_number:
+                  type: string
+                  description: The caller identifier used internally, that is, when calls are placed from within your domain.
+                external_caller_id_number:
+                  type: string
+                  description: The caller identifier used externally, that is, when calls are placed from this account to a PSTN number.
+                name:
+                  type: string
+                  description: Name of this SIP account
+                mwi_account:
+                  type: string
+                  description: Message Waiting Indicator account of this SIP account. The Voicemail account this SIP account will be notified about when messages are left or deleted there.
+              required:
+              - username
+  /sipaccounts/{id}:
+    get:
+      summary: SIP Account Read
+      tags:
+      - VoIP SIP API
+      description: Returns a SIP account by id.
+      parameters:
+      - in: path
+        name: id
+        description: The id of the SIP account whose details are returned
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SIPAccountResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+    put:
+      summary: SIP Account Update
+      tags:
+      - VoIP SIP API
+      description: Returns a SIP account by id.
+      parameters:
+      - in: path
+        name: id
+        description: The id of the SIP account whose details are returned
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SIPAccountResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                internal_caller_id_number:
+                  type: string
+                  description: The caller identifier used internally, that is, when calls are placed from within your domain.
+                external_caller_id_number:
+                  type: string
+                  description: The caller identifier used externally, that is, when calls are placed from this account to a PSTN number.
+                name:
+                  type: string
+                  description: Name of this SIP account
+                mwi_account:
+                  type: string
+                  description: Message Waiting Indicator account of this SIP account. The Voicemail account this SIP account will be notified about when messages are left or deleted there.
+    delete:
+      summary: SIP Account Delete
+      tags:
+      - VoIP SIP API
+      description: Deletes the SIP account.
+      parameters:
+      - in: path
+        name: id
+        description: The id of the SIP account whose details are returned
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SIPAccountResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /sipaccounts/{id}/status:
+    get:
+      summary: SIP Account Read
+      tags:
+      - VoIP SIP API
+      description: Returns a SIP account by id.
+      parameters:
+      - in: path
+        name: id
+        description: The id of the SIP account whose details are returned
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SIPAccountResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    Callerid:
+      type: object
+      properties:
+        internal_name:
+          type: string
+          description: Name of this SIP account
+          title: internal_name
+        internal_number:
+          type: string
+          description: Number of this SIP account
+          title: internal_number
+        external_name:
+          type: string
+          description: Name of this SIP account
+          title: external_name
+        external_number:
+          type: string
+          description: Number of this SIP account
+          title: external_number
+    SIP:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Username of this SIP account. This parameter is used to authenticate the SIP account.
+          title: username
+        password:
+          type: string
+          description: Password of this SIP account.
+          title: password
+    SIPAccountResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/SIPAccountObject'
+      description: Response containing the list of the external scripts for your domain.
+    SIPAccountObject:
+      type: object
+      properties:
+        id:
+          type: string
+          description: id of the external script
+          title: id
+        name:
+          type: string
+          description: name of the external script
+          title: name
+        sip:
+          $ref: '#/components/schemas/SIP'
+        callerid:
+          $ref: '#/components/schemas/Callerid'
+        voicemail:
+          $ref: '#/components/schemas/Voicemail'
+        created_at:
+          type: string
+          description: creation date of SIP account
+          title: created_at
+        updated_at:
+          type: string
+          description: updation date of SIP account
+          title: updated_at
+    Voicemail:
+      type: object
+      properties:
+        mwi_account:
+          type: string
+          description: Message Waiting Indicator account of this SIP account. The Voicemail account this SIP account will be notified about when messages are left or deleted there.
+          title: mwi_account
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

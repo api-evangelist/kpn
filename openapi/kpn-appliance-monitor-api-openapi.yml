@@ -1,0 +1,1120 @@
+openapi: 3.2.0
+info:
+  version: 1.54.0
+  title: KPN SD-LAN SD-WAN Network View Appliance.monitor API
+  description: "The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.\n    \nThe Network View API gives users read rights to retrieve information from the `Network View API` resources. \n    \n- **Note**: By default you have read only access but based on your requirements and contract you can be granted `Manager` access to this API which is more than read only. To request manager access, please contact us at api_developer@kpn.com.\n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/kpn-sd_lan_sd_wan_network_view_api/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/kpn-sd_lan_sd_wan_network_view_api/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)"
+servers:
+- url: https://api-prd.kpn.com/kpn/meraki
+security:
+- OAuth2ClientCredentials: []
+tags:
+- name: appliance.monitor
+paths:
+  /devices/{serial}/appliance/dhcp/subnets:
+    get:
+      description: Return the DHCP subnet information for an appliance
+      operationId: getDeviceApplianceDhcpSubnets
+      parameters:
+      - name: serial
+        in: path
+        description: Serial
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              example:
+              - subnet: 192.168.1.0/24
+                vlanId: 100
+                usedCount: 2
+                freeCount: 251
+      summary: Return the DHCP subnet information for an appliance
+      tags:
+      - appliance.monitor
+  /devices/{serial}/appliance/performance:
+    get:
+      description: Return the performance score for a single MX. Only primary MX devices supported. If no data is available, a 204 error code is returned.
+      operationId: getDeviceAppliancePerformance
+      parameters:
+      - name: serial
+        in: path
+        description: Serial
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 30 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 14 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 30 minutes and be less than or equal to 14 days. The default is 30 minutes.
+        schema:
+          type: number
+          format: float
+          minimum: 1800
+          maximum: 1209600
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                perfScore: 10
+      summary: Return the performance score for a single MX
+      tags:
+      - appliance.monitor
+  /devices/{serial}/appliance/prefixes/delegated:
+    get:
+      description: Return current delegated IPv6 prefixes on an appliance.
+      operationId: getDeviceAppliancePrefixesDelegated
+      parameters:
+      - name: serial
+        in: path
+        description: Serial
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              example:
+              - origin:
+                  interface: wan1
+                prefix: 2001:db8:3c4d:15::/64
+                counts:
+                  assigned: 2
+                  available: 253
+                method: auto
+                description: My ISP provider
+                isPreferred: true
+                expiresAt: '2018-05-12T00:00:00Z'
+      summary: Return current delegated IPv6 prefixes on an appliance.
+      tags:
+      - appliance.monitor
+  /devices/{serial}/appliance/prefixes/delegated/vlanAssignments:
+    get:
+      description: Return prefixes assigned to all IPv6 enabled VLANs on an appliance.
+      operationId: getDeviceAppliancePrefixesDelegatedVlanAssignments
+      parameters:
+      - name: serial
+        in: path
+        description: Serial
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              example:
+              - vlan:
+                  id: 100
+                  name: My VLAN
+                origin:
+                  interface: wan1
+                  prefix: 2001:db8:3c4d:15::/64
+                status: Active
+                ipv6:
+                  prefix: 2001:db8:3c4d:15::/64
+                  address: 2001:db8:3c4d:15::1
+                  linkLocal:
+                    address: 2001:db8:3c4d:15::1
+                  solicitedNodeMulticast:
+                    address: 2001:db8:3c4d:15::1
+      summary: Return prefixes assigned to all IPv6 enabled VLANs on an appliance.
+      tags:
+      - appliance.monitor
+  /networks/{networkId}/appliance/clients/{clientId}/security/events:
+    get:
+      description: List the security events for a client. Clients can be identified by a client key or either the MAC or IP depending on whether the network uses Track-by-IP.
+      operationId: getNetworkApplianceClientSecurityEvents
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: clientId
+        in: path
+        description: Client ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. Data is gathered after the specified t0 value. The maximum lookback period is 791 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 791 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 791 days. The default is 31 days.
+        schema:
+          type: number
+          format: float
+          maximum: 68342400
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 1000. Default is 100.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: sortOrder
+        in: query
+        description: Sorted order of security events based on event detection time. Order options are 'ascending' or 'descending'. Default is ascending order.
+        schema:
+          type: string
+          enum:
+          - ascending
+          - descending
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: true
+              example:
+              - ts: '2018-02-11T00:00:00.090210Z'
+                eventType: File Scanned
+                clientName: COMPUTER-M-V78J
+                clientMac: 10:dd:b1:eb:88:f8
+                clientIp: 192.168.128.2
+                srcIp: 192.168.128.2
+                destIp: 119.192.233.48
+                protocol: http
+                uri: http://www.favorite-icons.com/program/FavoriteIconsUninstall.exe
+                canonicalName: PUA.Win.Dropper.Kraddare::1201
+                destinationPort: 80
+                fileHash: 3ec1b9a95fe62aa25fc959643a0f227b76d253094681934daaf628d3574b3463
+                fileType: MS_EXE
+                fileSizeBytes: 193688
+                disposition: Malicious
+                action: Blocked
+              - ts: '2018-02-11T00:00:00.090210Z'
+                eventType: IDS Alert
+                deviceMac: 00:18:0a:01:02:03
+                clientMac: A1:B2:C3:D4:E5:F6
+                srcIp: 1.2.3.4:34195
+                destIp: 10.20.30.40:80
+                protocol: tcp/ip
+                priority: '2'
+                classification: '4'
+                blocked: true
+                message: SERVER-WEBAPP JBoss JMX console access attempt
+                signature: 1:21516:9
+                sigSource: ''
+                ruleId: meraki:intrusion/snort/GID/1/SID/26267
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: List the security events for a client
+      tags:
+      - appliance.monitor
+  /networks/{networkId}/appliance/security/events:
+    get:
+      description: List the security events for a network
+      operationId: getNetworkApplianceSecurityEvents
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. Data is gathered after the specified t0 value. The maximum lookback period is 365 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 365 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 365 days. The default is 31 days.
+        schema:
+          type: number
+          format: float
+          maximum: 31536000
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 1000. Default is 100.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: sortOrder
+        in: query
+        description: Sorted order of security events based on event detection time. Order options are 'ascending' or 'descending'. Default is ascending order.
+        schema:
+          type: string
+          enum:
+          - ascending
+          - descending
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: true
+              example:
+              - ts: '2018-02-11T00:00:00.090210Z'
+                eventType: File Scanned
+                clientName: COMPUTER-M-V78J
+                clientMac: 10:dd:b1:eb:88:f8
+                clientIp: 192.168.128.2
+                srcIp: 192.168.128.2
+                destIp: 119.192.233.48
+                protocol: http
+                uri: http://www.favorite-icons.com/program/FavoriteIconsUninstall.exe
+                canonicalName: PUA.Win.Dropper.Kraddare::1201
+                destinationPort: 80
+                fileHash: 3ec1b9a95fe62aa25fc959643a0f227b76d253094681934daaf628d3574b3463
+                fileType: MS_EXE
+                fileSizeBytes: 193688
+                disposition: Malicious
+                action: Blocked
+              - ts: '2018-02-11T00:00:00.090210Z'
+                eventType: IDS Alert
+                deviceMac: 00:18:0a:01:02:03
+                clientMac: A1:B2:C3:D4:E5:F6
+                srcIp: 1.2.3.4:34195
+                destIp: 10.20.30.40:80
+                protocol: tcp/ip
+                priority: '2'
+                classification: '4'
+                blocked: true
+                message: SERVER-WEBAPP JBoss JMX console access attempt
+                signature: 1:21516:9
+                sigSource: ''
+                ruleId: meraki:intrusion/snort/GID/1/SID/26267
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: List the security events for a network
+      tags:
+      - appliance.monitor
+  /networks/{networkId}/appliance/uplinks/usageHistory:
+    get:
+      description: Get the sent and received bytes for each uplink of a network.
+      operationId: getNetworkApplianceUplinksUsageHistory
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 365 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 10 minutes.
+        schema:
+          type: number
+          format: float
+          maximum: 2678400
+      - name: resolution
+        in: query
+        description: 'The time resolution in seconds for returned data. The valid resolutions are: 60, 300, 600, 1800, 3600, 86400. The default is 60.'
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              example:
+              - startTime: '2021-07-22T02:00:00Z'
+                endTime: '2021-07-22T03:00:00Z'
+                byInterface:
+                - interface: wan1
+                  sent: 1562063
+                  received: 9528787
+                - interface: wan2
+                  sent: 396646
+                  received: 2747782
+              - startTime: '2021-07-22T03:00:00Z'
+                endTime: '2021-07-22T04:00:00Z'
+                byInterface:
+                - interface: wan1
+                  sent: 6326222
+                  received: 12253346
+                - interface: wan2
+                  sent: 402850
+                  received: 2981021
+      summary: Get the sent and received bytes for each uplink of a network.
+      tags:
+      - appliance.monitor
+  /organizations/{organizationId}/appliance/security/events:
+    get:
+      description: List the security events for an organization
+      operationId: getOrganizationApplianceSecurityEvents
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. Data is gathered after the specified t0 value. The maximum lookback period is 365 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 365 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 365 days. The default is 31 days.
+        schema:
+          type: number
+          format: float
+          maximum: 31536000
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 1000. Default is 100.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: sortOrder
+        in: query
+        description: Sorted order of security events based on event detection time. Order options are 'ascending' or 'descending'. Default is ascending order.
+        schema:
+          type: string
+          enum:
+          - ascending
+          - descending
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: true
+              example:
+              - ts: '2018-02-11T00:00:00.090210Z'
+                eventType: File Scanned
+                clientName: COMPUTER-M-V78J
+                clientMac: 10:dd:b1:eb:88:f8
+                clientIp: 192.168.128.2
+                srcIp: 192.168.128.2
+                destIp: 119.192.233.48
+                protocol: http
+                uri: http://www.favorite-icons.com/program/FavoriteIconsUninstall.exe
+                canonicalName: PUA.Win.Dropper.Kraddare::1201
+                destinationPort: 80
+                fileHash: 3ec1b9a95fe62aa25fc959643a0f227b76d253094681934daaf628d3574b3463
+                fileType: MS_EXE
+                fileSizeBytes: 193688
+                disposition: Malicious
+                action: Blocked
+              - ts: '2018-02-11T00:00:00.090210Z'
+                eventType: IDS Alert
+                deviceMac: 00:18:0a:01:02:03
+                clientMac: A1:B2:C3:D4:E5:F6
+                srcIp: 1.2.3.4:34195
+                destIp: 10.20.30.40:80
+                protocol: tcp/ip
+                priority: '2'
+                classification: '4'
+                blocked: true
+                message: SERVER-WEBAPP JBoss JMX console access attempt
+                signature: 1:21516:9
+                sigSource: ''
+                ruleId: meraki:intrusion/snort/GID/1/SID/26267
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: List the security events for an organization
+      tags:
+      - appliance.monitor
+  /organizations/{organizationId}/appliance/uplink/statuses:
+    get:
+      description: List the uplink status of every Meraki MX and Z series appliances in the organization
+      operationId: getOrganizationApplianceUplinkStatuses
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: networkIds
+        in: query
+        description: A list of network IDs. The returned devices will be filtered to only include these networks.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serials
+        in: query
+        description: A list of serial numbers. The returned devices will be filtered to only include these serials.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: iccids
+        in: query
+        description: A list of ICCIDs. The returned devices will be filtered to only include these ICCIDs.
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    networkId:
+                      type: string
+                      description: Network identifier
+                    serial:
+                      type: string
+                      description: The uplink serial
+                    model:
+                      type: string
+                      description: The uplink model
+                    lastReportedAt:
+                      type: string
+                      format: date-time
+                      description: Last reported time for the device
+                    highAvailability:
+                      type: object
+                      properties:
+                        enabled:
+                          type: boolean
+                          description: Indicates whether High Availability is enabled for the device. For devices that do not support HA, this will be 'false'
+                        role:
+                          type: string
+                          description: The HA role of the device on the network. For devices that do not support HA, this will be 'primary'
+                      description: Device High Availability Capabilities
+                    uplinks:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          interface:
+                            type: string
+                            enum:
+                            - cellular
+                            - wan1
+                            - wan2
+                            - wan3
+                            description: Uplink interface
+                          status:
+                            type: string
+                            enum:
+                            - active
+                            - connecting
+                            - failed
+                            - not connected
+                            - ready
+                            description: Uplink status
+                          ip:
+                            type: string
+                            description: Uplink IP
+                          gateway:
+                            type: string
+                            description: Gateway IP
+                          publicIp:
+                            type: string
+                            description: Public IP
+                          primaryDns:
+                            type: string
+                            description: Primary DNS IP
+                          secondaryDns:
+                            type: string
+                            description: Secondary DNS IP
+                          ipAssignedBy:
+                            type: string
+                            description: The way in which the IP is assigned
+                      description: Uplinks
+              example:
+              - networkId: N_24329156
+                serial: Q234-ABCD-5678
+                model: MX68C
+                lastReportedAt: '2018-02-11T00:00:00Z'
+                highAvailability:
+                  enabled: true
+                  role: primary
+                uplinks:
+                - interface: wan1
+                  status: active
+                  ip: 1.2.3.4
+                  gateway: 1.2.3.5
+                  publicIp: 123.123.123.1
+                  primaryDns: 8.8.8.8
+                  secondaryDns: 8.8.4.4
+                  ipAssignedBy: static
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: List the uplink status of every Meraki MX and Z series appliances in the organization
+      tags:
+      - appliance.monitor
+  /organizations/{organizationId}/appliance/uplinks/statuses/overview:
+    get:
+      description: Returns an overview of uplink statuses
+      operationId: getOrganizationApplianceUplinksStatusesOverview
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  counts:
+                    type: object
+                    properties:
+                      byStatus:
+                        type: object
+                        properties:
+                          active:
+                            type: integer
+                            description: number of uplinks that are active and working
+                          ready:
+                            type: integer
+                            description: number of uplinks that are working but on standby
+                          failed:
+                            type: integer
+                            description: number of uplinks that were working but have failed
+                          connecting:
+                            type: integer
+                            description: number of uplinks currently connecting
+                          notConnected:
+                            type: integer
+                            description: number of uplinks currently where nothing is plugged in
+                        description: byStatus
+                    description: counts
+              example:
+                counts:
+                  byStatus:
+                    active: 5
+                    ready: 5
+                    failed: 4
+                    connecting: 2
+                    notConnected: 1
+      summary: Returns an overview of uplink statuses
+      tags:
+      - appliance.monitor
+  /organizations/{organizationId}/appliance/uplinks/usage/byNetwork:
+    get:
+      description: Get the sent and received bytes for each uplink of all MX and Z networks within an organization. If more than one device was active during the specified timespan, then the sent and received bytes will be aggregated by interface.
+      operationId: getOrganizationApplianceUplinksUsageByNetwork
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 365 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 14 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 14 days. The default is 1 day.
+        schema:
+          type: number
+          format: float
+          maximum: 1209600
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    networkId:
+                      type: string
+                      description: Network identifier
+                    name:
+                      type: string
+                      description: Network name
+                    byUplink:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          serial:
+                            type: string
+                            description: Uplink serial
+                          interface:
+                            type: string
+                            description: Uplink name
+                          sent:
+                            type: integer
+                            description: Bytes sent
+                          received:
+                            type: integer
+                            description: Bytes received
+                      description: Uplink usage
+              example:
+              - networkId: N_24329156
+                name: Main Office
+                byUplink:
+                - serial: Q234-ABCD-5678
+                  interface: wan1
+                  sent: 200
+                  received: 400
+      summary: Get the sent and received bytes for each uplink of all MX and Z networks within an organization
+      tags:
+      - appliance.monitor
+  /organizations/{organizationId}/appliance/vpn/stats:
+    get:
+      description: Show VPN history stat for networks in an organization
+      operationId: getOrganizationApplianceVpnStats
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 300. Default is 300.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: networkIds
+        in: query
+        description: 'A list of Meraki network IDs to filter results to contain only specified networks. E.g.: networkIds[]=N_12345678&networkIds[]=L_3456'
+        schema:
+          type: array
+          items:
+            type: string
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 1 day.
+        schema:
+          type: number
+          format: float
+          maximum: 2678400
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              example:
+              - networkId: N_12345678
+                networkName: San Francisco Office
+                merakiVpnPeers:
+                - networkId: L_23456789
+                  networkName: New York Office
+                  usageSummary:
+                    receivedInKilobytes: 1234567
+                    sentInKilobytes: 2345678
+                  latencySummaries:
+                  - senderUplink: wan1
+                    receiverUplink: wan1
+                    avgLatencyMs: 15
+                    minLatencyMs: 10
+                    maxLatencyMs: 30
+                  - senderUplink: wan2
+                    receiverUplink: wan1
+                    avgLatencyMs: 15
+                    minLatencyMs: 10
+                    maxLatencyMs: 30
+                  lossPercentageSummaries:
+                  - senderUplink: wan1
+                    receiverUplink: wan1
+                    avgLossPercentage: 0
+                    minLossPercentage: 0
+                    maxLossPercentage: 0.1
+                  - senderUplink: wan2
+                    receiverUplink: wan1
+                    avgLossPercentage: 0
+                    minLossPercentage: 0
+                    maxLossPercentage: 0.1
+                  jitterSummaries:
+                  - senderUplink: wan1
+                    receiverUplink: wan1
+                    avgJitter: 0.01
+                    minJitter: 0
+                    maxJitter: 0.25
+                  - senderUplink: wan2
+                    receiverUplink: wan1
+                    avgJitter: 0.01
+                    minJitter: 0
+                    maxJitter: 0.25
+                  mosSummaries:
+                  - senderUplink: wan1
+                    receiverUplink: wan1
+                    avgMos: 4.1
+                    minMos: 4
+                    maxMos: 4.2
+                  - senderUplink: wan2
+                    receiverUplink: wan1
+                    avgMos: 4.1
+                    minMos: 4
+                    maxMos: 4.2
+              - networkId: L_23456789
+                networkName: New York Office
+                merakiVpnPeers:
+                - networkId: N_12345678
+                  networkName: San Francisco Office
+                  usageSummary:
+                    receivedInKilobytes: 2345678
+                    sentInKilobytes: 1234567
+                  latencySummaries:
+                  - senderUplink: wan1
+                    receiverUplink: wan1
+                    avgLatencyMs: 15
+                    minLatencyMs: 10
+                    maxLatencyMs: 30
+                  - senderUplink: wan1
+                    receiverUplink: wan2
+                    avgLatencyMs: 15
+                    minLatencyMs: 10
+                    maxLatencyMs: 30
+                  lossPercentageSummaries:
+                  - senderUplink: wan1
+                    receiverUplink: wan1
+                    avgLossPercentage: 0
+                    minLossPercentage: 0
+                    maxLossPercentage: 0.1
+                  - senderUplink: wan1
+                    receiverUplink: wan2
+                    avgLossPercentage: 0
+                    minLossPercentage: 0
+                    maxLossPercentage: 0.1
+                  jitterSummaries:
+                  - senderUplink: wan1
+                    receiverUplink: wan1
+                    avgJitter: 0.01
+                    minJitter: 0
+                    maxJitter: 0.25
+                  - senderUplink: wan1
+                    receiverUplink: wan2
+                    avgJitter: 0.01
+                    minJitter: 0
+                    maxJitter: 0.25
+                  mosSummaries:
+                  - senderUplink: wan1
+                    receiverUplink: wan1
+                    avgMos: 4.1
+                    minMos: 4
+                    maxMos: 4.2
+                  - senderUplink: wan1
+                    receiverUplink: wan2
+                    avgMos: 4.1
+                    minMos: 4
+                    maxMos: 4.2
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: Show VPN history stat for networks in an organization
+      tags:
+      - appliance.monitor
+  /organizations/{organizationId}/appliance/vpn/statuses:
+    get:
+      description: Show VPN status for networks in an organization
+      operationId: getOrganizationApplianceVpnStatuses
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 300. Default is 300.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: networkIds
+        in: query
+        description: 'A list of Meraki network IDs to filter results to contain only specified networks. E.g.: networkIds[]=N_12345678&networkIds[]=L_3456'
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vpnstatusentities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        networkId:
+                          type: string
+                          description: Network Id
+                        networkName:
+                          type: string
+                          description: Network name
+                        deviceSerial:
+                          type: string
+                          description: Serial number of the device
+                        deviceStatus:
+                          type: string
+                          description: Device Status
+                        uplinks:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              interface:
+                                type: string
+                                description: Uplink Interface Name
+                              publicIp:
+                                type: string
+                                description: Uplink IP address (in IP or CIDR notation)
+                          description: List of Uplink Information
+                        vpnMode:
+                          type: string
+                          description: VPN Mode
+                        exportedSubnets:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              subnet:
+                                type: string
+                                description: Subnet
+                              name:
+                                type: string
+                                description: Name of the subnet
+                          description: List of Exported Subnets
+                        merakiVpnPeers:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              networkId:
+                                type: string
+                                description: Network ID
+                              networkName:
+                                type: string
+                                description: Network Name
+                              reachability:
+                                type: string
+                                description: Reachability
+                          description: Meraki VPN Peers
+                        thirdPartyVpnPeers:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                                description: Name of the peer
+                              publicIp:
+                                type: string
+                                description: Public IP of the peer
+                              reachability:
+                                type: string
+                                description: Reachability
+                          description: Third Party VPN Peers
+                    description: The list of VPN Status for networks
+              example:
+                vpnstatusentities:
+                - networkId: N_12345678
+                  networkName: San Francisco Office
+                  deviceSerial: Q234-ABCD-1234
+                  deviceStatus: online
+                  uplinks:
+                  - interface: wan1
+                    publicIp: 1.2.3.4
+                  vpnMode: hub
+                  exportedSubnets:
+                  - subnet: 192.168.0.0/24
+                    name: sales-vlan
+                  merakiVpnPeers:
+                  - networkId: L_1234
+                    networkName: New York Office
+                    reachability: reachable
+                  thirdPartyVpnPeers:
+                  - name: Tokyo Office
+                    publicIp: 222.111.222.111
+                    reachability: reachable
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: Show VPN status for networks in an organization
+      tags:
+      - appliance.monitor
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}

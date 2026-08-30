@@ -1,0 +1,314 @@
+openapi: 3.2.0
+info:
+  version: 1.54.0
+  title: KPN SD-LAN SD-WAN Network View Insight.configure API
+  description: "The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.\n    \nThe Network View API gives users read rights to retrieve information from the `Network View API` resources. \n    \n- **Note**: By default you have read only access but based on your requirements and contract you can be granted `Manager` access to this API which is more than read only. To request manager access, please contact us at api_developer@kpn.com.\n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/kpn-sd_lan_sd_wan_network_view_api/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/kpn-sd_lan_sd_wan_network_view_api/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)"
+servers:
+- url: https://api-prd.kpn.com/kpn/meraki
+security:
+- OAuth2ClientCredentials: []
+tags:
+- name: insight.configure
+paths:
+  /organizations/{organizationId}/insight/applications:
+    get:
+      description: List all Insight tracked applications
+      operationId: getOrganizationInsightApplications
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    applicationId:
+                      type: string
+                      description: Application identifier
+                    name:
+                      type: string
+                      description: Application name
+                    thresholds:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: Threshold type (static or smart)
+                        byNetwork:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              networkId:
+                                type: string
+                                description: Network identifier
+                              goodput:
+                                type: integer
+                                description: Number of useful information bits delivered over a network per unit of time
+                              responseDuration:
+                                type: integer
+                                description: Duration of the response, in milliseconds
+                          description: Threshold for each network
+                      description: Thresholds defined by a user or Meraki models for each application
+              example:
+              - applicationId: '19.12'
+                name: Meraki HTTPS
+                thresholds:
+                  type: smart
+                  byNetwork:
+                  - networkId: N_12345678
+                    goodput: 50000
+                    responseDuration: 1000
+      summary: List all Insight tracked applications
+      tags:
+      - insight.configure
+  /organizations/{organizationId}/insight/monitoredMediaServers:
+    get:
+      description: List the monitored media servers for this organization. Only valid for organizations with Meraki Insight.
+      operationId: getOrganizationInsightMonitoredMediaServers
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: Monitored media server id
+                    name:
+                      type: string
+                      description: The name of the VoIP provider
+                    address:
+                      type: string
+                      description: The IP address (IPv4 only) or hostname of the media server to monitor
+                    bestEffortMonitoringEnabled:
+                      type: boolean
+                      description: Indicates that if the media server doesn't respond to ICMP pings, the nearest hop will be used in its stead
+              example:
+              - id: '1284392014819'
+                name: Sample VoIP Provider
+                address: 123.123.123.1
+                bestEffortMonitoringEnabled: true
+      summary: List the monitored media servers for this organization
+      tags:
+      - insight.configure
+    post:
+      description: Add a media server to be monitored for this organization. Only valid for organizations with Meraki Insight.
+      operationId: createOrganizationInsightMonitoredMediaServer
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the VoIP provider
+                address:
+                  type: string
+                  description: The IP address (IPv4 only) or hostname of the media server to monitor
+                bestEffortMonitoringEnabled:
+                  type: boolean
+                  description: Indicates that if the media server doesn't respond to ICMP pings, the nearest hop will be used in its stead.
+              example:
+                name: Sample VoIP Provider
+                address: 123.123.123.1
+                bestEffortMonitoringEnabled: true
+              required:
+              - name
+              - address
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Monitored media server id
+                  name:
+                    type: string
+                    description: The name of the VoIP provider
+                  address:
+                    type: string
+                    description: The IP address (IPv4 only) or hostname of the media server to monitor
+                  bestEffortMonitoringEnabled:
+                    type: boolean
+                    description: Indicates that if the media server doesn't respond to ICMP pings, the nearest hop will be used in its stead
+              example:
+                id: '1284392014819'
+                name: Sample VoIP Provider
+                address: 123.123.123.1
+                bestEffortMonitoringEnabled: true
+      summary: Add a media server to be monitored for this organization
+      tags:
+      - insight.configure
+  /organizations/{organizationId}/insight/monitoredMediaServers/{monitoredMediaServerId}:
+    get:
+      description: Return a monitored media server for this organization. Only valid for organizations with Meraki Insight.
+      operationId: getOrganizationInsightMonitoredMediaServer
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: monitoredMediaServerId
+        in: path
+        description: Monitored media server ID
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Monitored media server id
+                  name:
+                    type: string
+                    description: The name of the VoIP provider
+                  address:
+                    type: string
+                    description: The IP address (IPv4 only) or hostname of the media server to monitor
+                  bestEffortMonitoringEnabled:
+                    type: boolean
+                    description: Indicates that if the media server doesn't respond to ICMP pings, the nearest hop will be used in its stead
+              example:
+                id: '1284392014819'
+                name: Sample VoIP Provider
+                address: 123.123.123.1
+                bestEffortMonitoringEnabled: true
+      summary: Return a monitored media server for this organization
+      tags:
+      - insight.configure
+    put:
+      description: Update a monitored media server for this organization. Only valid for organizations with Meraki Insight.
+      operationId: updateOrganizationInsightMonitoredMediaServer
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: monitoredMediaServerId
+        in: path
+        description: Monitored media server ID
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the VoIP provider
+                address:
+                  type: string
+                  description: The IP address (IPv4 only) or hostname of the media server to monitor
+                bestEffortMonitoringEnabled:
+                  type: boolean
+                  description: Indicates that if the media server doesn't respond to ICMP pings, the nearest hop will be used in its stead.
+              example:
+                name: Sample VoIP Provider
+                address: 123.123.123.1
+                bestEffortMonitoringEnabled: true
+        required: false
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Monitored media server id
+                  name:
+                    type: string
+                    description: The name of the VoIP provider
+                  address:
+                    type: string
+                    description: The IP address (IPv4 only) or hostname of the media server to monitor
+                  bestEffortMonitoringEnabled:
+                    type: boolean
+                    description: Indicates that if the media server doesn't respond to ICMP pings, the nearest hop will be used in its stead
+              example:
+                id: '1284392014819'
+                name: Sample VoIP Provider
+                address: 123.123.123.1
+                bestEffortMonitoringEnabled: true
+      summary: Update a monitored media server for this organization
+      tags:
+      - insight.configure
+    delete:
+      description: Delete a monitored media server from this organization. Only valid for organizations with Meraki Insight.
+      operationId: deleteOrganizationInsightMonitoredMediaServer
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: monitoredMediaServerId
+        in: path
+        description: Monitored media server ID
+        schema:
+          type: string
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+      summary: Delete a monitored media server from this organization
+      tags:
+      - insight.configure
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}

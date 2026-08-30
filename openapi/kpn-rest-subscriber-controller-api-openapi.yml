@@ -1,0 +1,1133 @@
+openapi: 3.2.0
+info:
+  description: "MobileServicesManagement APIs\n\n   ---\n     \n ## [Source view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)<br/>\n [Documentation view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)\n \n ---\n \n ## [KPN Developer](https://developer.kpn.com/)<br/>\n [Getting Started](https://developer.kpn.com/getting-started)\n \n\n ---"
+  version: v11
+  title: MobileServicesManagement-KPN Rest Subscriber Controller API
+  termsOfService: https://developer.kpn.com/legal
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+servers:
+- url: https://api-prd.kpn.com/mobile/kpn/mobileservices
+tags:
+- name: rest-subscriber-controller
+  description: Rest Subscriber Controller
+paths:
+  /hierarchy/subscribers:
+    get:
+      tags:
+      - rest-subscriber-controller
+      summary: Find all subscribers whom user manages
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>
+      operationId: findSubscribersUsingGET
+      parameters:
+      - name: filters
+        in: query
+        description: 'Possible columns:FIRSTNAME, LASTNAME, SURNAME_PREFIX, CONTRACTS, DEBTORNAME, FIXED_NUMBER, EMPLOYEE_NUMBER. For example: FIRSTNAME: "abc", "abd"; LASTNAME: "add", "aad"'
+        required: false
+        schema:
+          type: string
+      - name: from
+        in: query
+        description: Pagination parameter - start from (included). The elements are counted from 0. Default value is 0.
+        required: false
+        x-example: 0
+        schema:
+          type: integer
+          format: int32
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: patterns
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: sortBy
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - FIRSTNAME
+          - LASTNAME
+          - DEBTORNAME
+          - FIXED_NUMBER
+          - EMPLOYEE_NUMBER
+          - IS_USER
+      - name: to
+        in: query
+        description: Pagination parameter - end element (exluded). Default value is 20.
+        required: false
+        x-example: 20
+        schema:
+          type: integer
+          format: int32
+      - name: userOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PagedResult_Subscriber_'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+    post:
+      tags:
+      - rest-subscriber-controller
+      summary: Create subscriber (with or without user)
+      description: 'If you want to create both subscriber and user at the same time, you should fill userAdditionalInfo.
+
+        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>'
+      operationId: createSubscriberUsingPOST
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderSummary'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSubscriberRequestParams'
+        description: request
+        required: true
+  /hierarchy/subscribers/{id}:
+    get:
+      tags:
+      - rest-subscriber-controller
+      summary: Get subscriber details
+      description: 'Operations availability will be removed. Please use ''subscribers/{id}/operations'' instead
+
+        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>'
+      operationId: getSubscriberDetailsUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SubscriberDetails'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+    put:
+      tags:
+      - rest-subscriber-controller
+      summary: Update subscriber
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>
+      operationId: updateSubscriberUsingPUT
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderSummary'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSubscriberRequestParams'
+        description: request
+        required: true
+  /hierarchy/subscribers/{id}/delete:
+    post:
+      tags:
+      - rest-subscriber-controller
+      summary: Delete subscriber
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>
+      operationId: deleteSubscriberUsingPOST
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderSummary'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteSubscriberRequestParams'
+        description: request
+        required: true
+  /hierarchy/subscribers/{id}/move:
+    post:
+      tags:
+      - rest-subscriber-controller
+      summary: Move subscriber
+      description: "Moves subscriber to a different location in company hierachy. \n`destinationGroupId` should be chosen through `GET /hierarchy/chidlren` with `MOVE_GROUP` as `operatinType` and subscriber id as `contextId`. \n`wishDate` is only supported when moving between two debtors, otherwise the employee will be moved immediately \nService Request in Track & Trace will be created only when moving between debtors or cost centers. \n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+      operationId: moveSubscriberUsingPOST
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderSummary'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoveSubscriberRequestParams'
+        description: request
+        required: true
+  /hierarchy/subscribers/{id}/operations:
+    get:
+      tags:
+      - rest-subscriber-controller
+      summary: Get subscriber operations availability
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>
+      operationId: getSubscriberOperationsUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SubscriberOperationsAvailability'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /hierarchy/subscribers/{subscriberId}/contracts:
+    get:
+      tags:
+      - rest-subscriber-controller
+      summary: Find all contracts belonging to subscriber
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>
+      operationId: findSubscriberContractsUsingGET
+      parameters:
+      - name: from
+        in: query
+        description: from
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: order
+        in: query
+        description: order
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: subscriberId
+        in: path
+        description: subscriberId
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: to
+        in: query
+        description: to
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PagedResult_Contract_'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /hierarchy/subscribers/{subscriberId}/contracts/overview:
+    get:
+      tags:
+      - rest-subscriber-controller
+      summary: Get contracts overview for a subscriber
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>
+      operationId: getContractOverviewForVGroupUsingGET
+      parameters:
+      - name: subscriberId
+        in: path
+        description: subscriberId
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/PagedResult_Contract_'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+components:
+  schemas:
+    BlockingOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        kpnReference:
+          type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
+          type: string
+          enum:
+          - CONTRACTING
+          - SERVICE_REQUEST
+      title: BlockingOrder
+    UpdateSubscriberRequestParams:
+      type: object
+      properties:
+        referenceNumber:
+          type: string
+        subscriber:
+          $ref: '#/components/schemas/SubscriberDetailsRequestParams'
+      title: UpdateSubscriberRequestParams
+    PagedResult_Subscriber_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Subscriber'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Subscriber_
+      description: Paged list of elements
+    MoveSubscriberRequestParams:
+      type: object
+      properties:
+        destinationGroupId:
+          type: integer
+          format: int64
+        referenceNumber:
+          type: string
+        wishDate:
+          type: string
+          format: date-time
+      title: MoveSubscriberRequestParams
+    VirtualHierarchyItem:
+      type: object
+      properties:
+        costCenterNumber:
+          type: string
+        email:
+          type: string
+        employeeNumber:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        name:
+          type: string
+        operation:
+          $ref: '#/components/schemas/OperationState'
+        path:
+          type: array
+          items:
+            $ref: '#/components/schemas/VirtualHierarchyItem'
+        prefix:
+          type: string
+        type:
+          type: string
+          enum:
+          - CUSTOMER
+          - DEBTOR
+          - SUBSCRIBER
+          - COST_CENTER
+          - CUSTOM_GROUP
+          - BUSINESS_LOCATION
+      title: VirtualHierarchyItem
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    OperationState:
+      type: object
+      properties:
+        blocked:
+          type: boolean
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        reason:
+          type: string
+      title: OperationState
+    SubscriberOperationsAvailability:
+      type: object
+      properties:
+        editable:
+          $ref: '#/components/schemas/OperationEnabled'
+        movable:
+          $ref: '#/components/schemas/OperationEnabled'
+        removable:
+          $ref: '#/components/schemas/OperationEnabled'
+        rolesEditable:
+          $ref: '#/components/schemas/OperationEnabled'
+      title: SubscriberOperationsAvailability
+    LocalizedString:
+      type: object
+      properties:
+        en:
+          type: string
+          description: English version
+        nl:
+          type: string
+          description: Dutch version
+      title: LocalizedString
+      description: Text with two language versions
+    SubscriberDetailsRequestParams:
+      type: object
+      required:
+      - surname
+      properties:
+        comments:
+          type: string
+          minLength: 0
+          maxLength: 4000
+        email:
+          type: string
+        employeeNumber:
+          type: string
+          minLength: 0
+          maxLength: 100
+        firstName:
+          type: string
+          minLength: 0
+          maxLength: 100
+        fixedNumber:
+          type: string
+          description: Should apply to format 31XXXYYYZZZ or 0XXXYYYZZZ
+        gender:
+          type: string
+          enum:
+          - MALE
+          - FEMALE
+          - OTHER
+        mobileNumber:
+          type: string
+          description: Should apply to format 316XXXYYYZZ or 06XXXYYYZZ
+        preferredLanguage:
+          type: string
+          enum:
+          - EN
+          - NL
+        surname:
+          type: string
+          minLength: 1
+          maxLength: 100
+        surnamePrefix:
+          type: string
+          minLength: 0
+          maxLength: 32
+        vip:
+          type: boolean
+      title: SubscriberDetailsRequestParams
+    SubscriberContracts:
+      type: object
+      properties:
+        amount:
+          type: integer
+          format: int32
+        firstPhoneNumber:
+          type: string
+      title: SubscriberContracts
+    SubscriberDetails:
+      type: object
+      properties:
+        comments:
+          type: string
+        email:
+          type: string
+        employeeNumber:
+          type: string
+        firstName:
+          type: string
+        fixedNumber:
+          type: string
+        gender:
+          type: string
+          enum:
+          - MALE
+          - FEMALE
+          - OTHER
+        gripUser:
+          type: boolean
+        id:
+          type: integer
+          format: int64
+        location:
+          type: array
+          items:
+            type: string
+        mobileNumber:
+          type: string
+        path:
+          type: array
+          items:
+            $ref: '#/components/schemas/VirtualHierarchyItem'
+        preferredLanguage:
+          type: string
+          enum:
+          - EN
+          - NL
+        surname:
+          type: string
+        surnamePrefix:
+          type: string
+        user:
+          type: boolean
+        vip:
+          type: boolean
+      title: SubscriberDetails
+    Contract:
+      type: object
+      properties:
+        category:
+          type: string
+        extension:
+          type: string
+        firstName:
+          type: string
+        fixedNumber:
+          type: string
+        id:
+          type: integer
+          format: int64
+        imei:
+          type: string
+        lastName:
+          type: string
+        mobileNumber:
+          type: string
+        namePrefix:
+          type: string
+        product:
+          $ref: '#/components/schemas/LocalizedString'
+        productCategory:
+          type: string
+        simCardNumber:
+          type: string
+        sipAccount:
+          type: string
+        state:
+          type: string
+          enum:
+          - ACTIVE
+          - CLOSED
+          - ORDERED
+          - PENDING
+          - BLOCKED
+      title: Contract
+    OrderSummary:
+      type: object
+      properties:
+        contextName:
+          type: string
+        creationDate:
+          type: string
+        id:
+          type: integer
+          format: int64
+        operation:
+          type: string
+        referenceNumber:
+          type: string
+        status:
+          type: string
+          enum:
+          - Failed
+          - Aborted
+          - Finished
+          - Suspended
+          - InProgress
+          - Waiting
+          - Draft
+          - WaitingForAuthorization
+          - Authorized
+          - Restored
+          - Canceled
+          - Scheduled
+          - Initialized
+          - Rejected
+          - ExternalScheduled
+      title: OrderSummary
+    CreateSubscriberRequestParams:
+      type: object
+      properties:
+        groupId:
+          type: integer
+          format: int64
+        referenceNumber:
+          type: string
+        subscriber:
+          $ref: '#/components/schemas/SubscriberDetailsRequestParams'
+        userAdditionalInfo:
+          $ref: '#/components/schemas/UserAdditionalInfo'
+      title: CreateSubscriberRequestParams
+    PagedResult_Contract_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Contract'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Contract_
+      description: Paged list of elements
+    UserAdditionalInfo:
+      type: object
+      properties:
+        gripEntityId:
+          type: integer
+          format: int64
+        managedEntities:
+          type: array
+          items:
+            type: integer
+            format: int64
+        roles:
+          type: array
+          items:
+            type: integer
+            format: int64
+      title: UserAdditionalInfo
+    DeleteSubscriberRequestParams:
+      type: object
+      properties:
+        referenceNumber:
+          type: string
+      title: DeleteSubscriberRequestParams
+    OperationEnabled:
+      type: object
+      properties:
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        enabled:
+          type: boolean
+      title: OperationEnabled
+    Subscriber:
+      type: object
+      properties:
+        contracts:
+          $ref: '#/components/schemas/SubscriberContracts'
+        employeeNumber:
+          type: string
+        firstName:
+          type: string
+        fixedNumber:
+          type: string
+        gripUser:
+          type: boolean
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        path:
+          type: array
+          items:
+            $ref: '#/components/schemas/VirtualHierarchyItem'
+        prefix:
+          type: string
+        user:
+          type: boolean
+      title: Subscriber
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api-prd.kpn.com/oauth/grip/msm/accesstoken?grant_type=client_credentials

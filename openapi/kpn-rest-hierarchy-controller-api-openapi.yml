@@ -1,0 +1,1054 @@
+openapi: 3.2.0
+info:
+  description: "MobileServicesManagement APIs\n\n   ---\n     \n ## [Source view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)<br/>\n [Documentation view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)\n \n ---\n \n ## [KPN Developer](https://developer.kpn.com/)<br/>\n [Getting Started](https://developer.kpn.com/getting-started)\n \n\n ---"
+  version: v11
+  title: MobileServicesManagement-KPN Rest Hierarchy Controller API
+  termsOfService: https://developer.kpn.com/legal
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+servers:
+- url: https://api-prd.kpn.com/mobile/kpn/mobileservices
+tags:
+- name: rest-hierarchy-controller
+  description: Rest Hierarchy Controller
+paths:
+  /hierarchy/children:
+    get:
+      tags:
+      - rest-hierarchy-controller
+      summary: Get immediate children of given parent hierarchy entity
+      description: "Return all children of given hierarchy entity which user manages. If no parent id given it returns root entities.<br><br>When `operationType` is given API returns also information if operation is possible for each item. For some oprations possibilty information is returned in context of object or objects passed with `contextIds` or alternately a single `contextId` For example if user wants to check if he can move a hierarchy item , he should use `operationType=MOVE_GROUP`If user wants to check if he can move a chosen item to a different hierarchy entity, he should use `operationType=MOVE_GROUP` with `contextIds` set to ids of items to be moved.\nUp to 10 items can be passed using `contextIds`. Currently only MOVE_GROUP operation supports multiple context items, for others, only first item will be used\n<br>The request is validated. Possible validation errors: \n| HTTP code | Error code                 | Description                                                                                   |\n|-----------|----------------------------|-----------------------------------------------------------------------------------------------|\n| `400`     | `MISSING_CONTEXT_ID`       | `operationType` is given but `contextId` is null                                              |\n| `400`     | `OPERATION_NOT_POSSIBLE`   | Given operation (`operationType`) not possible for all hierarchy entities                     |\n| `404`     | `CONTEXT_OBJECT_NOT_FOUND` | Context object of given id (`contextId`) can not be found or current user has no access to it |\n<br>When operation can be performed for specific hierarchy entity in response there will be information like this below:\n```\n\"operation\": {\n    \"blocked\": false,\n}\n```\n<br>Otherwise, if operation can not be executed there will be information like below:\n```\n\"operation\": {\n    \"blocked\": true,\n    \"reason\": \"<REASON>\"\n}\n```\n<br>Possible values of reason for `operationType=MOVE_CONTRACT` (id of single chosen contract as context):\n| Reason                                           | Description                                                                                                                                       |\n|--------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|\n| `FORBIDDEN_PARENT_FOR_PRODUCT`                   | This hierarchy entity type is not allowed to have contracts (only subscriber or debtor can have contracts).                                       |\n| `CANNOT_MOVE_TO_OLD_PARENT`                      | Cannot move contract to the same hierarchy entity (like from subscriber to the same subscriber).                                                  |\n| `FIXED_NUMBER_CANNOT_BE_MOVED_TO_THIS_VGROUP`    | Cannot move fix contract to hierarchy entity that already has fixed subscription (hierarchy entity may have contracted only one fix subscription) |\n| `ACCOUNT_BLOCKED`                                | Account is blocked for moving by a different order.                                                                                               |\n<br>Possible values of reason for `operationType=MOVE_GROUP` (without context):\n| Reason                                           | Description                                                       |\n|--------------------------------------------------|-------------------------------------------------------------------|\n| `WRONG_GROUP_TYPE`                               | Item of this type cannot be moved (applies to customer).          |\n| `CANNOT_MOVE_TEST_ACCOUNT`                       | Test employee accounts cannot be moved.                           |\n| `ACCOUNT_BLOCKED`                                | Moving operation is blocked by a different order                  |\n<br>Possible values of reason for `operationType=MOVE_GROUP` (ids of up to 10 moved item to move as context):\n| Reason                                           | Description                                                       |\n|--------------------------------------------------|-------------------------------------------------------------------|\n| `CANNOT_MOVE_TO_OLD_PARENT`                      | New parent can't be the same as old one.                          |\n| `GROUP_CANNOT_HAVE_CHILDREN`                     | This type of group can not have children.                         |\n| `CANNOT_MOVE_TO_MOVED_GROUP`                     | Destination group can not be the same as group that is being move |\n| `CANNOT_MOVE_TO_THIS_TYPE_OF_GROUP`              | Context group type can not be moved to this type of group.        |\n| `ONLY_SINGLE_TYPE_ALLOWED_IN_PATH`               | There can be only one entity of such type in path.                |\n| `REQUIRE_DEBTOR_IN_PATH`                         | Context group requires debtor above it.                           |\n| `CANNOT_MOVE_DEBTOR_UNDER_DEBTOR`                | Debtor can not be placed under another debtor.                    |\n| `CANNOT_MOVE_NON_SUBSCRIBER_BETWEEN_TWO_DEBTORS` | Only subscriber can be moved between debtors.                     |\n| `CANNOT_MOVE_TO_ANOTHER_IAM`                     | Can not move group between two differents company ids.            |\n<br>Possible values of reason for `operationType=ASSIGN_TO_HIERARCHY` (single manager employee id as context):\n| Reason                                           | Description                                      |\n|--------------------------------------------------|--------------------------------------------------|\n| `SUBSCRIBER_CANNOT_BE_ASSIGNED`                  | Subscriber cannot be assigned as managed entity. |\n| `GROUP_IS_ALREADY_ASSIGNED`                      | This group is already managed by given user.     |\n<br>Possible values of reason for `operationType=CREATE_COST_CENTER`:\n| Reason                                           | Description                                         |\n|--------------------------------------------------|-----------------------------------------------------|\n| `WRONG_GROUP_TYPE`                               | Cannot create cost center under this type of group. |\n| `REQUIRE_DEBTOR_IN_PATH`                         | Cost center requires debtor above it.               |\n| `ONLY_SINGLE_TYPE_ALLOWED_IN_PATH`               | There can be only one entity of such type in path.  |\n<br>Possible values of reason for `operationType=CREATE_CUSTOM_GROUP`:\n| Reason                                           | Description                                                |\n|--------------------------------------------------|------------------------------------------------------------|\n| `WRONG_GROUP_TYPE`                               | Cannot create virtual group as a child of given group type |\n<br>Possible values of reason for `operationType=REMOVE_GROUP`:\n| Reason                                           | Description                                                 |\n|--------------------------------------------------|-------------------------------------------------------------|\n| `WRONG_GROUP_TYPE`                               | Only custom group and cost center data can be modified.     |\n| `FORBIDDEN_PATH_WHEN_REMOVING`                   | Entity cannot be removed because that will cause error in items hierarchy. Exception is thrown when path in hierarchy is: ... -> CUSTOM_GROUP -> COST_CENTER -> CUSTOM_GROUP ... -> and user try to remove COST_CENTER. CUSTOM_GROUP cannot be under CUSTOM_GROUP.                                                                       |\n<br><strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+      operationId: getChildrenUsingGET
+      parameters:
+      - name: contextId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: contextIds
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+      - name: from
+        in: query
+        description: Pagination parameter - start from (included). The elements are counted from 0. Default value is 0.
+        required: false
+        x-example: 0
+        schema:
+          type: integer
+          format: int32
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: includeCustomer
+        in: query
+        description: 'Information if it should include customer. Default value: false.'
+        required: false
+        x-example: false
+        schema:
+          type: boolean
+          default: false
+      - name: includeGroups
+        in: query
+        description: 'Information if it should include pure virtual groups. Default value: true.'
+        required: false
+        x-example: true
+        schema:
+          type: boolean
+          default: true
+      - name: operationType
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - MOVE_CONTRACT
+          - MOVE_GROUP
+          - ASSIGN_TO_HIERARCHY
+          - CREATE_COST_CENTER
+          - CREATE_CUSTOM_GROUP
+          - REMOVE_GROUP
+      - name: pattern
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: to
+        in: query
+        description: Pagination parameter - end element (exluded). Default value is 20.
+        required: false
+        x-example: 20
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PagedResult_VirtualHierarchyItem_'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /hierarchy/children/cost-center:
+    post:
+      tags:
+      - rest-hierarchy-controller
+      summary: Create cost center
+      description: "Create new cost center\nThe request is validated. Possible validation errors: \n| HTTP code | Error code                         | Description                                                  |\n|-----------|------------------------------------|--------------------------------------------------------------|\n| `400`     | `WRONG_GROUP_TYPE`                 | Cannot create cost center under this type of group           |\n| `400`     | `VALUE_NOT_UNIQUE`                 | `costCenterNumber` field must be unique                      |\n| `400`     | `ONLY_SINGLE_TYPE_ALLOWED_IN_PATH` | Only one cost center can be in path                          |\n| `400`     | `REQUIRE_DEBTOR_IN_PATH`           | Cost center requires debtor above it.                        |\n| `404`     | `VIRTUAL_HIERARCHY_ITEM_NOT_FOUND` | Hierarchy group with given `id` can not be found             |\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+      operationId: createCostCenterUsingPOST
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CreateGroupResponse'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCostCenterRequestParams'
+        description: params
+        required: true
+  /hierarchy/children/move:
+    post:
+      tags:
+      - rest-hierarchy-controller
+      summary: Move specified hierarchy items to the chosen location
+      description: "Returns ids and summaries of generated service requests, if any where created.\nUp to 10 items can be moved at the same time\nWish date is applied only when moving employess between debtors. If part of the items are moved within the same debtor, wish date will be ignored for these.\nReference number is only supported when moving emplyees or business location items. Otherwise no service requests are created\nThe request is validated. Possible validation errors: \n| HTTP code | Error code                         | Description                                                           |\n|-----------|------------------------------------|-----------------------------------------------------------------------|\n| `403`     | `ORDERING_IS_BLOCKED_FOR_CUSTOMER` | Current customer is frozen and can not order anything                 |\n| `404`     | `VIRTUAL_HIERARCHY_ITEM_NOT_FOUND` | One of moved hierarchy items or destination location not found        |\n| `400`     | `OPERATION_NOT_POSSIBLE`           | At least one of provided items cannot be moved to chosen destination. |\n| `400`     | `WISH_DATE_NOT_SUPPORTED`          | Wish date is only supported when moving emplyees between debtor. This must apply to at least one of the moved objects                                                                     |\n| `400`     | `REFERENCE_NUMBER_NOT_SUPPORTED`   | Reference number is only supported when moving emplyees or  business location items.                                                                                                 |\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+      operationId: moveHierarchyItemsUsingPOST
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BulkOrderSummary'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoveGroupsParams'
+        description: params
+        required: true
+  /hierarchy/children/operations:
+    get:
+      tags:
+      - rest-hierarchy-controller
+      summary: Get operations availability for logged user
+      description: "Return all operations with availability and reason if blocked. \n| Reason                                         | Description                                                       |\n|------------------------------------------------|-------------------------------------------------------------------|\n| `NO_REQUIRED_PRIVILEGE`                        | User doesn't have required privilege                                   |\n| `NO_ENTITIES_TO_USE`                           | There is no entity to execute this action on                           |\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+      operationId: getHierarchyOperationsUsingGET
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/HierarchyOperationsAvailability'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /hierarchy/children/virtual-group:
+    post:
+      tags:
+      - rest-hierarchy-controller
+      summary: Create virtual group
+      description: "Create new virtual group\nThe request is validated. Possible validation errors: \n| HTTP code | Error code                         | Description                                                |\n|-----------|------------------------------------|------------------------------------------------------------|\n| `400`     | `WRONG_GROUP_TYPE`                 | Cannot create virtual group as a child of given group type |\n| `404`     | `VIRTUAL_HIERARCHY_ITEM_NOT_FOUND` | Hierarchy group with given `id` can not be found           |\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+      operationId: createVirtualGroupUsingPOST
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CreateGroupResponse'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVirtualGroupRequestParams'
+        description: params
+        required: true
+  /hierarchy/children/{id}:
+    get:
+      tags:
+      - rest-hierarchy-controller
+      summary: Get hierarchy entity details
+      description: 'Get details for organisation structure entitity with given `id`.
+
+        Different set of attributes is returned for different entity types. Supported item types are:<ul><li>`CUSTOMER`</li><li>`DEBTOR`</li><li>`COST_CENTER`</li><li>`CUSTOM_GROUP`</li><li>`BUSINESS_LOCATION`</li></ul>Details for `SUBSCRIBER` are not supported. `subscribers/{id}` should be used instead.
+
+        <br>Possible exceptions:
+
+        | HTTP code | Error code                         | Description                                                  |
+
+        |-----------|------------------------------------|--------------------------------------------------------------|
+
+        | `400`     | `WRONG_GROUP_TYPE`                 | Item of unsupported type                                     |
+
+        | `404`     | `VIRTUAL_HIERARCHY_ITEM_NOT_FOUND` | Information for item with the given `id` cannot be found     |
+
+        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>'
+      operationId: getDetailsUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/HierarchyItemDetails'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+    post:
+      tags:
+      - rest-hierarchy-controller
+      summary: Update hierarchy entity (cost center, custom group)
+      description: "Change custom group or cost center data\nThe request is validated. Possible validation errors: \n| HTTP code | Error code                         | Description                                                  |\n|-----------|------------------------------------|--------------------------------------------------------------|\n| `400`     | `WRONG_GROUP_TYPE`                 | Only custom group and cost center data can be modified       |\n| `400`     | `VALUE_REQUIRED`                   | `costCenterNumber` field is required for cost center         |\n| `400`     | `VALUE_NOT_UNIQUE`                 | `costCenterNumber` field must be unique within the customer  |\n| `404`     | `VIRTUAL_HIERARCHY_ITEM_NOT_FOUND` | Hierarchy group with given `id` can not be found             |\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+      operationId: updateChildUsingPOST
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateChildRequestParams'
+        description: params
+        required: true
+  /hierarchy/children/{id}/operations:
+    get:
+      tags:
+      - rest-hierarchy-controller
+      summary: Get operations availability for chosen item
+      description: 'Get available operations for organisational hierarchy item with the given `id`.
+
+        Possible operations are:<ul><li>`create subscriber`</li><li>`create cost center`</li><li>`create virtual group`</li><li>`edit item`</li><li>`move item`</li><li>`remove item`</li></ul>Operations for `SUBSCRIBER` are not supported. `subscribers/{id}/operations` should be used instead.
+
+        <br>Possible exceptions:
+
+        | HTTP code | Error code                         | Description                                                  |
+
+        |-----------|------------------------------------|--------------------------------------------------------------|
+
+        | `400`     | `WRONG_GROUP_TYPE`                 | Item of unsupported type                                     |
+
+        | `404`     | `VIRTUAL_HIERARCHY_ITEM_NOT_FOUND` | Information for item with the given `id` cannot be found     |
+
+        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>'
+      operationId: getItemOperationsUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/HierarchyItemOperationsAvailability'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /hierarchy/children/{id}/remove:
+    post:
+      tags:
+      - rest-hierarchy-controller
+      summary: Remove hierarchy entity (cost center, custom group)
+      description: "Remove custom group or cost center data. The underlying end users and organizational units will be moved to the next highest item in the organizational structure.\nThe request is validated. Possible validation errors: \n| HTTP code | Error code                         | Description                                                  |\n|-----------|------------------------------------|--------------------------------------------------------------|\n| `400`     | `WRONG_GROUP_TYPE`                 | Only custom group and cost center data can be modified       |\n| `404`     | `VIRTUAL_HIERARCHY_ITEM_NOT_FOUND` | Hierarchy group with given `id` can not be found             |\n| `400`     | `FORBIDDEN_PATH_WHEN_REMOVING`     | Entity cannot be removed because that will cause error in items hierarchy. Exception is thrown when path in hierarchy is: ... -> CUSTOM_GROUP -> COST_CENTER -> CUSTOM_GROUP ... -> and user try to remove COST_CENTER. CUSTOM_GROUP cannot be under CUSTOM_GROUP.                                      |\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul>"
+      operationId: removeGroupUsingPOST
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+components:
+  schemas:
+    HierarchyItemDetails:
+      type: object
+      properties:
+        businessLocation:
+          $ref: '#/components/schemas/BusinessLocationDetails'
+        costCenter:
+          $ref: '#/components/schemas/CostCenterDetails'
+        customer:
+          $ref: '#/components/schemas/CustomerDetails'
+        debtor:
+          $ref: '#/components/schemas/DebtorDetails'
+        name:
+          type: string
+        path:
+          type: array
+          items:
+            $ref: '#/components/schemas/VirtualHierarchyItem'
+      title: HierarchyItemDetails
+    BlockingOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        kpnReference:
+          type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
+          type: string
+          enum:
+          - CONTRACTING
+          - SERVICE_REQUEST
+      title: BlockingOrder
+    HierarchyItemOperationsAvailability:
+      type: object
+      properties:
+        createCostCenter:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+        createSubscriber:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+        createVirtualGroup:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+        move:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+        remove:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+        update:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+      title: HierarchyItemOperationsAvailability
+    CreateGroupResponse:
+      type: object
+      properties:
+        groupId:
+          type: integer
+          format: int64
+      title: CreateGroupResponse
+    BulkOrderSummary:
+      type: object
+      properties:
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreatedOrder'
+        referenceNumber:
+          type: string
+      title: BulkOrderSummary
+    LocationAddress:
+      type: object
+      properties:
+        attention:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        floor:
+          type: string
+        houseNumber:
+          type: string
+        location:
+          type: string
+        partyName:
+          type: string
+        poBoxNumber:
+          type: string
+        postalCode:
+          type: string
+        room:
+          type: string
+        street:
+          type: string
+      title: LocationAddress
+    DebtorDetails:
+      type: object
+      properties:
+        activeFrom:
+          type: string
+          format: date-time
+        additionalInvoiceLayuot:
+          type: string
+          enum:
+          - CSV
+          - XML
+        appleDepId:
+          type: string
+        billingAddress:
+          $ref: '#/components/schemas/LocationAddress'
+        inviceFlag:
+          type: boolean
+        invoiceDistribution:
+          type: string
+          enum:
+          - MAIL
+          - EMAIL
+          - EINVOICE
+        invoiceLanguage:
+          type: string
+          enum:
+          - EN
+          - NL
+        krnNumber:
+          type: string
+        primaryAddress:
+          $ref: '#/components/schemas/LocationAddress'
+        primaryEmail:
+          type: string
+        samsungKnoxId:
+          type: string
+      title: DebtorDetails
+    HierarchyOperationsAvailability:
+      type: object
+      properties:
+        create:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+        edit:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+        move:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+        remove:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+        view:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+      title: HierarchyOperationsAvailability
+    VirtualHierarchyItem:
+      type: object
+      properties:
+        costCenterNumber:
+          type: string
+        email:
+          type: string
+        employeeNumber:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        name:
+          type: string
+        operation:
+          $ref: '#/components/schemas/OperationState'
+        path:
+          type: array
+          items:
+            $ref: '#/components/schemas/VirtualHierarchyItem'
+        prefix:
+          type: string
+        type:
+          type: string
+          enum:
+          - CUSTOMER
+          - DEBTOR
+          - SUBSCRIBER
+          - COST_CENTER
+          - CUSTOM_GROUP
+          - BUSINESS_LOCATION
+      title: VirtualHierarchyItem
+    CreateVirtualGroupRequestParams:
+      type: object
+      properties:
+        groupId:
+          type: integer
+          format: int64
+        name:
+          type: string
+      title: CreateVirtualGroupRequestParams
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    CreatedOrder:
+      type: object
+      properties:
+        contextName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        operation:
+          type: string
+      title: CreatedOrder
+    MoveGroupsParams:
+      type: object
+      properties:
+        destinationGroupId:
+          type: integer
+          format: int64
+        movedGroupIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        referenceNumber:
+          type: string
+        wishDate:
+          type: string
+          format: date-time
+      title: MoveGroupsParams
+    CreateCostCenterRequestParams:
+      type: object
+      properties:
+        costCenterNumber:
+          type: string
+        groupId:
+          type: integer
+          format: int64
+        name:
+          type: string
+      title: CreateCostCenterRequestParams
+    OperationState:
+      type: object
+      properties:
+        blocked:
+          type: boolean
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        reason:
+          type: string
+      title: OperationState
+    PagedResult_VirtualHierarchyItem_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/VirtualHierarchyItem'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_VirtualHierarchyItem_
+      description: Paged list of elements
+    CustomerDetails:
+      type: object
+      properties:
+        billingOwner:
+          type: string
+        billingRetentionPeriod:
+          type: string
+          enum:
+          - '6'
+          - '25'
+        ckrNumber:
+          type: string
+        krnNumber:
+          type: string
+        orderFrozen:
+          type: boolean
+        orderFrozenFrom:
+          type: string
+          format: date-time
+        orderFrozenTo:
+          type: string
+          format: date-time
+      title: CustomerDetails
+    CostCenterDetails:
+      type: object
+      properties:
+        number:
+          type: string
+      title: CostCenterDetails
+    UpdateChildRequestParams:
+      type: object
+      properties:
+        costCenterNumber:
+          type: string
+        name:
+          type: string
+      title: UpdateChildRequestParams
+    BusinessLocationDetails:
+      type: object
+      properties:
+        activeFrom:
+          type: string
+          format: date-time
+        activeTo:
+          type: string
+          format: date-time
+        contactEmail:
+          type: string
+        contactName:
+          type: string
+        contactPhoneNumber:
+          type: string
+        expectedNumberOfUsers:
+          type: integer
+          format: int64
+        externalAccountNumber:
+          type: string
+        primaryAddress:
+          $ref: '#/components/schemas/LocationAddress'
+      title: BusinessLocationDetails
+    HierarchyOperationEnabled:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        reason:
+          type: string
+      title: HierarchyOperationEnabled
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api-prd.kpn.com/oauth/grip/msm/accesstoken?grant_type=client_credentials

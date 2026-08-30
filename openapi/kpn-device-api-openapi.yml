@@ -1,0 +1,884 @@
+openapi: 3.2.0
+info:
+  description: "KPN’s Low Power Long Range (LoRa) network service compliments existing 2G, 3G, 4G and LTE-M networks. It is based on the LoRaWAN protocol for Internet of Things (IoT). \n### Key highlights\n- **Sandbox:** Full-fledged capabilities.\n- **Security:**  HTTPS, OAuth, Rate limiting.\n- **Versioning:**  Supports version-less API, version tight. If no version is provided (in the header) it defaults to latest version. \n\n ---\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/lora-device-management-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/lora-device-management-kpn/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+  version: v1.2
+  title: LoRa Management - KPN Device API
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- url: https://api-prd.kpn.com/data/lora/thingpark
+tags:
+- name: Device
+  description: Device operations provide the ability to manage ThingPark devices, device profiles, routing profiles, and connectivity plans.
+paths:
+  /devices:
+    get:
+      tags:
+      - Device
+      summary: Retrieves devices
+      description: 'Retrieves a list of devices existing within authorized scopes. Note that for each device, by default only the following information is retrieved: `ref`, `name`, `EUI`, `networkAddress`.'
+      operationId: Devicesretrieval
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: deviceEUI
+        in: query
+        description: EUI of the device to search for.
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: healthState
+        in: query
+        description: Health state of the devices to search for. By default, all devices are returned.
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/healthState1'
+      - name: connectivityPlanId
+        in: query
+        description: Connectivity plan assigned to the devices to search for. Value `_NOCP` means that only devices with no connectivity plan assigned should be returned. Value `_CP` means that only devices with any connectivity plan assigned should be returned. By default, all devices are returned.
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: statistics
+        in: query
+        description: Indicates to also retrieve usage statistic information along each device. Default is false.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: commercialDetails
+        in: query
+        description: Indicates to also retrieve commercial information along each device. Default is false.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: extendedInfo
+        in: query
+        description: Indicates to retrieve all available information (including statistics and commercial details) along each device. Default is false.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: pageIndex
+        in: query
+        description: If set, enables pagination and returns only the 100 devices of the specified page. First available page index is 1. Note that device pagination is only supported in case of a SUBSCRIBER scope.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Devices retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Device'
+                description: Devices retrieved successfully.
+              example:
+              - x-regga-type: sniplet
+                id: device-getall-as-vendor
+                title: Devices retrieval example with a VENDOR scope
+                requestSniplet:
+                  headers:
+                    Authorization: Bearer <vendor_token>
+                data: '[ { "ref": "3579", "name": "New OTAA device", "EUI": "0018A20000000004" }, { "ref": "3582", "name": "New ABP device", "EUI": "0018A20000000005", "networkAddress": "04000800" } ]'
+              - x-regga-type: sniplet
+                id: device-getall-as-subscriber
+                title: Devices retrieval example with a SUBSCRIBER scope
+                requestSniplet:
+                  headers:
+                    Authorization: Bearer <subscriber_token>
+                data: '[ { "ref": "3579", "name": "New OTAA device", "EUI": "0018A20000000004" }, { "ref": "3582", "name": "New ABP device", "EUI": "0018A20000000005", "networkAddress": "04000800" } ]'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      deprecated: false
+    post:
+      tags:
+      - Device
+      summary: Creates devices
+      description: Creates a new device. If no `routingProfileId` or `processingStrategyId` values are provided, then `processingStrategyId` will be automatically set to `DATAFLOW`. If no `connectivityPlanId` value is provided, then the first connectivity plan of the subscriber with available connections will be assigned to the device.
+      operationId: Devicecreation
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: deviceToken
+        in: query
+        description: Token provided by the manufacturer for an easy registration on a standalone Join Server. Not available in ThingPark Enterprise versions.
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: jsProfile
+        in: query
+        description: When providing a device token, you need provide your Join Server account. Not available in ThingPark Enterprise versions.
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: jsSubscriberRef
+        in: query
+        description: When providing a device token, you need provide your Join Server account. Not available in ThingPark Enterprise versions.
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        description: Contents of the device to create.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+            example:
+              name: New OTAA device
+              EUI: 0018A20000000004
+              activationType: OTAA
+              hsmGroupId: HSM_KPN-ACC-OPE.1
+              connectivityPlanId: kpn-acc-ope-cs/often-geo-2019
+              deviceProfileId: LORA/GenericC.1_ETSI_Rx2-SF9
+              applicationEUI: 70B3D53260000003
+              applicationKey: 258DB54023EA74F0D55085F7351737D0
+        required: true
+      responses:
+        201:
+          description: Device created successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      deprecated: false
+  /devices/{deviceRef}:
+    get:
+      tags:
+      - Device
+      summary: Retrieves specific device
+      description: Retrieves the device corresponding to the provided `device ref`, if that device is within authorized scopes.
+      operationId: Deviceretrieval
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: deviceRef
+        in: path
+        description: Ref of the device to retrieve.
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        200:
+          description: Device retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      deprecated: false
+    put:
+      tags:
+      - Device
+      summary: Updates specific device
+      description: 'Updates the device corresponding to the provided `device ref`, if that device is within authorized scopes. Only following attributes can be updated: `name`, `routingProfileId`, `processingStrategyId`, `connectivityPlanId`, `deviceProfileId` and `applicationEUI`. To update other attributes, device must be deleted than re-created.'
+      operationId: Deviceupdate
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: deviceRef
+        in: path
+        description: Ref of the device to update.
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: jsProfile
+        in: query
+        description: When you use a standalone JoinServer, you need provide your Join Server account. Not available in ThingPark Enterprise versions.
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: jsSubscriberRef
+        in: query
+        description: When you use a standalone JoinServer, you need provide your Join Server account. Not available in ThingPark Enterprise versions.
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        description: Contents of the device to update.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+            example:
+              name: Updated device
+        required: true
+      responses:
+        200:
+          description: Device updated successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      deprecated: false
+    delete:
+      tags:
+      - Device
+      summary: Deletes specific device
+      description: Deletes the device corresponding to the provided `device ref`, if that device is within authorized scopes.
+      operationId: Devicedeletion
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: deviceRef
+        in: path
+        description: Ref of the device to delete.
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        204:
+          description: Device deleted successfully.
+          headers: {}
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      deprecated: false
+  /deviceProfiles:
+    get:
+      tags:
+      - Device
+      summary: Retrieves device profiles
+      description: Retrieves the list of existing device profiles.
+      operationId: Deviceprofilesretrieval
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      responses:
+        200:
+          description: Device profiles retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeviceProfile'
+                description: Device profiles retrieved successfully.
+              example:
+              - x-regga-type: sniplet
+                id: deviceprofile-getall-as-subscriber
+                title: Device profiles retrieval example with a SUBSCRIBER scope
+                requestSniplet:
+                  headers:
+                    Authorization: Bearer <subscriber_token>
+                data: '[{ "id": "LORA/GenericC.1_ETSI_Rx2-SF9", "name": "LoRaWAN Demonstrator", "typeMAC": "LoRaMAC" }, { "id": "LORA/GenericA.1_FCC_SF12", "name": "LoRaWAN 1.0 class A FCC Rx2-SF12 dummy", "typeMAC": "LoRaMAC"}]'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      deprecated: false
+components:
+  schemas:
+    DeviceStatistics:
+      title: DeviceStatistics
+      type: object
+      properties:
+        creationTime:
+          type: string
+          description: ISO 8601 time of the device creation.
+        healthState:
+          $ref: '#/components/schemas/HealthState'
+        lastRSSI:
+          type: number
+          description: Last RSSI value.
+        lastSNR:
+          type: number
+          description: Last SNR value.
+        averageRSSI:
+          type: number
+          description: Average RSSI value.
+        averageSNR:
+          type: number
+          description: Average SNR value.
+        lastSF:
+          type: integer
+          description: Last SF value.
+          format: int32
+        last24hUplinkCount:
+          type: integer
+          description: Number of uplink messages within the last 24 hours before the last uplink.
+          format: int32
+        last24hDownlinkCount:
+          type: integer
+          description: Number of downlink messages within the last 24 hours before the last downlink.
+          format: int32
+        firstUplinkTime:
+          type: string
+          description: ISO 8601 time of the first uplink.
+        lastUplinkTime:
+          type: string
+          description: ISO 8601 time of the last uplink.
+        lastDownlinkTime:
+          type: string
+          description: ISO 8601 time of the last downlink.
+        lastInstantPER:
+          type: number
+          description: Last instantaneous PER, without consideration for base stations.
+        lastMeanPER:
+          type: number
+          description: Last mean PER, without consideration for base st.
+        lastBatteryLevel:
+          type: integer
+          description: Last battery level value. Valid values are between 1 and 254. '0' means that the device uses an external power source. '255' means that the level could not be measured.
+          format: int32
+        lastBatteryLevelTime:
+          type: string
+          description: ISO 8601 time of the last battery level measure.
+        alarmStatistics:
+          $ref: '#/components/schemas/AlarmStatistics'
+        commissioningState:
+          $ref: '#/components/schemas/CommissioningState'
+        loraClass:
+          $ref: '#/components/schemas/LoraClass'
+        motionIndicator:
+          $ref: '#/components/schemas/MotionIndicator'
+        lastUpdateUser:
+          type: string
+          description: Name of the user who performed the last update of the device.
+        lastUpdateTime:
+          type: string
+          description: ISO 8601 time of the last update of the device.
+      description: Resource representing read-only statistics for devices.
+    DeviceClass:
+      title: DeviceClass
+      enum:
+      - A
+      - B
+      - C
+      type: string
+      description: 'Define the class type of the device.  A: Class A (Bi-directional end-devices with RIT), B: Class B (Bi-directional end-devices with synchronized receive slots), C: Class C (Bi-directional end-devices with maximal receive slots)'
+    ClassBState:
+      title: ClassBState
+      enum:
+      - ACTIVE
+      - INACTIVE
+      type: string
+      description: Define the state of classB for the device. Possible values are 'ACTIVE' (Ready to be used) or 'INACTIVE' (Class B disable or not yet configured).
+    CommissioningState:
+      title: CommissioningState
+      enum:
+      - PERSONALIZED
+      - COMMISSIONED
+      - ACTIVATED
+      type: string
+      description: Commissioning state of the device. Possible values are 'PERSONALIZED' (prepared but not yet registered on the network), 'COMMISSIONED' (prepared and registered on the network) or 'ACTIVATED' (active on the network).
+    AlarmThreshold:
+      title: AlarmThreshold
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Indicates if the alarm is active.
+        durationOfInactivity:
+          $ref: '#/components/schemas/DurationOfInactivity'
+        level:
+          $ref: '#/components/schemas/Level'
+      description: Resource representing a generic ThingPark alarm threshold.
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    LoraClass:
+      title: LoraClass
+      enum:
+      - A
+      - B
+      - C
+      type: string
+      description: LoRaWan class of the device.
+    MotionIndicator:
+      title: MotionIndicator
+      enum:
+      - NEAR_STATIC
+      - WALKING_SPEED
+      - VEHICLE_SPEED
+      - RANDOM
+      type: string
+      description: 'Motion indicator configured for the device. Possible values are: ''NEAR_STATIC'', ''WALKING_SPEED'', ''VEHICLE_SPEED'' or ''RANDOM''.'
+    ApplicationSessionKeyRule:
+      title: ApplicationSessionKeyRule
+      required:
+      - sourcePorts
+      type: object
+      properties:
+        applicationSessionKey:
+          type: string
+          description: Application session key to use.
+        sourcePorts:
+          type: string
+          description: LoRa port(s) which should use this application session key. Wildcard '*' indicates to use this application session key for all LoRa ports used by the device.
+      description: Resource representing a rule to indicate which application session key to use for each LoRa source port.
+    ProcessingStrategyId:
+      title: ProcessingStrategyId
+      enum:
+      - DATAFLOW
+      - IOT_FLOW
+      - NOAS
+      - DEFAULTRP
+      type: string
+      description: Id of a pre-defined data processing strategy. If set, it automatically configures relevant routing information for this device (and overrides existing routing profiles if necessary). Current possible values are 'DATAFLOW' (uplink messages will be processed through a ThingPark X Dataflow - thus requiring additional configuration using the DX Dataflow API), 'IOT_FLOW' (uplink messages will be processed through TPX Iot-Flow - DATAFLOW is now deprecated and replaced by IOT_FLOW), 'NOAS' (no processing, messages will be dropped using an empty routing profile) or 'DEFAULTRP' (messages will be processed based on the default routing profile).
+    CommercialDetails:
+      title: CommercialDetails
+      type: object
+      properties:
+        image:
+          type: string
+          description: Image of the device.
+        manufacturerName:
+          type: string
+          description: Name of the device manufacturer.
+        manufacturerLogo:
+          type: string
+          description: Commercial logo of the device manufacturer.
+      description: Resource representing read-only commercial information about a device.
+    Level:
+      title: Level
+      enum:
+      - ALL
+      - WARNING
+      - MINOR
+      - MAJOR
+      - CRITICAL
+      type: string
+      description: Level of the alarm. Possible values are, by ascending order of criticity, 'ALL', 'WARNING', 'MINOR', 'MAJOR' and 'CRITICAL'.
+    ActivationType:
+      title: ActivationType
+      enum:
+      - OTAA
+      type: string
+      description: Activation type of the device. Possible value is 'OTAA' (Over The Air Activation). 'ABP' (Activation By Personalization) is no longer possible in interface version 1.2.
+    HealthState:
+      title: HealthState
+      enum:
+      - RF_CNX_ERROR
+      - INIT
+      - ACTIVE
+      type: string
+      description: Health state of the device. Possible values are 'INIT', 'ACTIVE' or 'RF_CNX_ERROR'.
+    AlarmStatistics:
+      title: AlarmStatistics
+      type: object
+      properties:
+        nonAckedClearedCount:
+          type: integer
+          description: Number of non-acked alarms with the CLEARED state.
+          format: int32
+        nonAckedUnclearedCount:
+          type: integer
+          description: Number of non-acked alarms with the UNCLEARED state.
+          format: int32
+        nonAckedWarningCount:
+          type: integer
+          description: Number of non-acked alarms with the WARNING state.
+          format: int32
+        nonAckedMinorCount:
+          type: integer
+          description: Number of non-acked alarms with the MINOR state.
+          format: int32
+        nonAckedMajorCount:
+          type: integer
+          description: Number of non-acked alarms with the MAJOR state.
+          format: int32
+        nonAckedCriticalCount:
+          type: integer
+          description: Number of non-acked alarms with the CRITICAL state.
+          format: int32
+      description: Resource representing a set of statistics related to alarms.
+    DeviceProfile:
+      title: DeviceProfile
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of the device profile.
+        name:
+          type: string
+          description: Name of the device profile.
+        typeMAC:
+          type: string
+          description: MAC type of the device profile.
+      description: Resource representing a ThingPark device profile.
+    healthState1:
+      title: healthState1
+      enum:
+      - RF_CNX_ERROR
+      - INIT
+      - ACTIVE
+      type: string
+    DurationOfInactivity:
+      title: DurationOfInactivity
+      enum:
+      - 1_HOUR
+      - 2_HOURS
+      - 5_HOURS
+      - 10_HOURS
+      - 1_DAY
+      - 2_DAYS
+      - 4_DAYS
+      - 7_DAYS
+      - 15_DAYS
+      type: string
+      description: Duration of inactivity after which the alarm is raised. Possible values are  '1_HOUR', '2_HOURS', '5_HOURS', '10_HOURS', '1_DAY', '2_DAYS', '4_DAYS', '7_DAYS' and '15_DAYS'.
+    Device:
+      title: Device
+      type: object
+      properties:
+        ref:
+          type: string
+          description: Ref of the device.
+        name:
+          type: string
+          description: Name of the device.
+        EUI:
+          type: string
+          description: EUI of the device (hexadecimal value).
+        networkAddress:
+          type: string
+          description: Network address of the device (hexadecimal value).
+        activationType:
+          $ref: '#/components/schemas/ActivationType'
+        deviceClass:
+          $ref: '#/components/schemas/DeviceClass'
+        classBState:
+          $ref: '#/components/schemas/ClassBState'
+        deviceProfileId:
+          type: string
+          description: Id of the device profile (device model) associated with the device.
+        connectivityPlanId:
+          type: string
+          description: Id of the connectivity plan associated with the device. Note that a 'reset' string value removes all connectivity plan information from the device.
+        processingStrategyId:
+          $ref: '#/components/schemas/ProcessingStrategyId'
+        routingProfileId:
+          type: string
+          description: Id of the routing profile associated with the device. Not available in ThingPark Enterprise versions; for those, use the 'routeRefs' attribute instead. Note that a 'reset' string value removes all routing profile information from the device.
+        routeRefs:
+          type: array
+          items:
+            type: string
+          description: List of refs of routes associated with the device. Only available in ThingPark Enterprise versions; for other ThingPark versions, the 'routingProfileId' attribute should be used.
+        networkSessionKey:
+          type: string
+          description: Network session key of the device (hexadecimal value), in case of ABP activation.
+        applicationSessionKeyRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationSessionKeyRule'
+          description: List of rules to associate application session keys with LoRa source ports, in case of ABP activation.
+        applicationEUI:
+          type: string
+          description: Application EUI, in case of OTAA activation (On LoRa 1.1, this field is JoinEUI).
+        applicationKey:
+          type: string
+          description: Application key, in case of OTAA activation.
+        administrativeInfo:
+          type: string
+          description: Optional administrative information.
+        geoLatitude:
+          type: number
+          description: Physical location latitude.
+        geoLongitude:
+          type: number
+          description: Physical location longitude.
+        dataflowTags:
+          type: array
+          items:
+            type: string
+          description: List of tags used to qualify uplinks of the device in order to be decoded and/or routed to the right cloud.
+        homeNsNetID:
+          type: string
+          description: Network Identifier of the Home Network Server. Home NS NetID can be set only if the device state is COMMISSIONED.
+        asKeyId:
+          type: string
+          description: Id of the AS key. Can be provided in case of a standalone Join Server.
+        hsmGroupId:
+          type: string
+          description: Id of the HSM group used to generate the AS key. Can be provided when the Network Server relies locally on a Join Server with HSM.
+        secureElement:
+          type: string
+          description: The secure element (SE) can be used to obtain an 'applicationKey' from a third-party provider. It consists in the association of a provider identifier, an SE implementation version, and a unique SE identifier.
+        alarmThresholds:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlarmThreshold'
+          description: List of the alarm thresholds associated with the device.
+        motionIndicator:
+          $ref: '#/components/schemas/MotionIndicator'
+        statistics:
+          $ref: '#/components/schemas/DeviceStatistics'
+        commercialDetails:
+          $ref: '#/components/schemas/CommercialDetails'
+      description: Resource representing a device created by a ThingPark subscriber.
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

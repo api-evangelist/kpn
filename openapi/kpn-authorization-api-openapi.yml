@@ -1,0 +1,268 @@
+openapi: 3.2.0
+info:
+  title: FIAM-KPN Authorization API
+  description: A collection of crates for federated identity and access management
+  license:
+    name: ''
+  version: 0.1.1
+servers:
+- url: https://api-prd.kpn.com/fiam
+  description: Server
+tags:
+- name: Authorization
+  description: Authorization policy enforcement endpoints
+paths:
+  /api/v1/authorization/enforce:
+    get:
+      tags:
+      - Authorization
+      operationId: enforce_authorization
+      parameters:
+      - name: subject
+        in: query
+        description: Subject requesting access (maps to target.accessSubject)
+        required: true
+        schema:
+          type: string
+      - name: resources
+        in: query
+        description: Resources being accessed (maps to target.resource.identifiers)
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: actions
+        in: query
+        description: Action being performed (maps to target.actions)
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: resource_type
+        in: query
+        description: Resource type (maps to target.resource.type) - e.g., "API", "API2"
+        required: true
+        schema:
+          type: string
+      - name: attributes
+        in: query
+        description: Resource attributes being accessed (maps to target.resource.attributes)
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: issuer
+        in: query
+        description: Policy issuer (maps to policyIssuer)
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+      - name: service_provider
+        in: query
+        description: Service provider for environment constraints
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+      - name: license
+        in: query
+        description: License context for policy set matching
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+      responses:
+        '200':
+          description: Authorization decision
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorizationResponse'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '401':
+          description: Unauthorized client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '403':
+          description: Forbidden access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+      security:
+      - bearer_auth: []
+    post:
+      tags:
+      - Authorization
+      operationId: enforce_authorization_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorizationRequest'
+        required: true
+      responses:
+        '200':
+          description: Authorization decision
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorizationResponse'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '401':
+          description: Unauthorized client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '403':
+          description: Forbidden access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+      security:
+      - bearer_auth: []
+components:
+  schemas:
+    ProblemDetail:
+      type: object
+      required:
+      - type
+      - status
+      properties:
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
+          minimum: 0
+        title:
+          type:
+          - string
+          - 'null'
+        type:
+          type: string
+      additionalProperties: {}
+    AuthorizationDecision:
+      type: string
+      enum:
+      - permit
+      - deny
+      - notApplicable
+    AuthorizationResponse:
+      type: object
+      required:
+      - decision
+      - decisionId
+      - timestamp
+      - matchedPolicies
+      - evaluationTimeMs
+      properties:
+        decision:
+          $ref: '#/components/schemas/AuthorizationDecision'
+        decisionId:
+          type: string
+        evaluationTimeMs:
+          type: integer
+          format: int64
+          minimum: 0
+        explanation:
+          type:
+          - string
+          - 'null'
+        matchedPolicies:
+          type: array
+          items:
+            type: string
+        timestamp:
+          type: integer
+          format: int64
+    AuthorizationRequest:
+      type: object
+      description: Authorization enforcement request parameters
+      required:
+      - subject
+      - resources
+      - actions
+      - resource_type
+      properties:
+        actions:
+          type: array
+          items:
+            type: string
+          description: Action being performed (maps to target.actions)
+        attributes:
+          type: array
+          items:
+            type: string
+          description: Resource attributes being accessed (maps to target.resource.attributes)
+        issuer:
+          type:
+          - string
+          - 'null'
+          description: Policy issuer (maps to policyIssuer)
+        license:
+          type:
+          - string
+          - 'null'
+          description: License context for policy set matching
+        resource_type:
+          type: string
+          description: Resource type (maps to target.resource.type) - e.g., "API", "API2"
+        resources:
+          type: array
+          items:
+            type: string
+          description: Resources being accessed (maps to target.resource.identifiers)
+        service_provider:
+          type:
+          - string
+          - 'null'
+          description: Service provider for environment constraints
+        subject:
+          type: string
+          description: Subject requesting access (maps to target.accessSubject)
+  securitySchemes:
+    bearer_auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT Bearer token obtained from /oauth/token endpoint

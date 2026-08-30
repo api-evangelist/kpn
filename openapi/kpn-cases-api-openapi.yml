@@ -1,0 +1,302 @@
+openapi: 3.2.0
+info:
+  contact:
+    email: api_developer@kpn.com
+    name: API Support
+    url: https://developer.kpn.com/support
+  description: "The SocialMediaWebcare API allows you to organise and manage your inbound and outbound social media channels traffic.\n\n### Key highlights\n\n  - **Security:**  HTTPS, Oauth, Rate limit\n\n  - **Versioning:**  supports version-less API, version tight. If no version\n  is provided (in header) it defaults to latest version. \n\n\n## Getting Started\n\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/SocialMediaWebcare-Tracebuzz/)<br/>\n  [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/SocialMediaWebcare-Tracebuzz/)\n\n---\n\n## [KPN Developer](https://developer.kpn.com/)<br/>\n[Getting Started](https://developer.kpn.com/getting-started)\n\n ---\n"
+  termsOfService: https://developer.kpn.com/legal
+  title: SocialMediaWebcare - Tracebuzz Cases API
+  version: 1.0.0
+servers:
+- url: https://api-prd.kpn.com/communication/tracebuzz/social-media-webcare
+  variables: {}
+tags:
+- name: Cases
+  description: All about case handling
+paths:
+  /searches/{searchId}/cases/{caseId}/close:
+    post:
+      deprecated: false
+      description: This method let's you close the case.
+      operationId: CloseCase
+      security:
+      - oauth2: []
+      parameters:
+      - description: The search id for that search profile.
+        explode: false
+        in: path
+        name: searchId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The case id for that case..
+        explode: false
+        in: path
+        name: caseId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          $ref: '#/components/responses/case_result'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+      summary: Closes case
+      tags:
+      - Cases
+  /searches/{searchId}/cases/{caseId}/close/handOverToHandler/{handlerId}:
+    post:
+      deprecated: false
+      description: This method let's you assign your case to another handler.
+      operationId: HandlerReleasesCaseToHandler
+      security:
+      - oauth2: []
+      parameters:
+      - description: ''
+        explode: false
+        in: path
+        name: searchId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: ''
+        explode: false
+        in: path
+        name: caseId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: ''
+        explode: false
+        in: path
+        name: handlerId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          $ref: '#/components/responses/case_result'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+      summary: Releases case to another handler
+      tags:
+      - Cases
+  /searches/{searchId}/cases/{caseId}/releaseHandler:
+    post:
+      deprecated: false
+      description: This method let's you release the case.
+      operationId: HandlerReleasesFromCase
+      security:
+      - oauth2: []
+      parameters:
+      - description: ''
+        explode: false
+        in: path
+        name: searchId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: ''
+        explode: false
+        in: path
+        name: caseId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          $ref: '#/components/responses/case_result'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+      summary: Releases handler from case
+      tags:
+      - Cases
+components:
+  responses:
+    precondition_failed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: precondition failed
+    forbidden:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: forbidden
+    not_found:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: not found
+    too_many:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: too many requests
+    bad_gateway:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: bad gateway
+    method_not_allowed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: method not allowed
+    bad_request:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: bad request
+    unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: unauthorized
+    case_result:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/case_result'
+    service_unavailable:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Service unavailable
+    server_error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: server error
+  schemas:
+    error:
+      properties:
+        info:
+          description: Additional information about error
+          title: Info
+          type: string
+        message:
+          description: Error message
+          title: Error message
+          type: string
+        name:
+          description: Error name
+          title: Error name
+          type: string
+        status:
+          description: Status
+          title: Status
+          type: string
+        transactionId:
+          description: transaction id of the the request
+          title: Transaction ID
+          type: string
+      type: object
+    case_result:
+      properties:
+        data:
+          type: object
+        messages:
+          type: array
+          default: []
+          items:
+            type: string
+        status:
+          type: string
+          default: SUCCES
+        metadata:
+          type: object
+          properties:
+            values:
+              type: object
+              properties:
+                url:
+                  type: integer
+            method:
+              type: string
+              default: post
+            duration:
+              type: integer
+  securitySchemes:
+    oauth2:
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+      type: oauth2
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

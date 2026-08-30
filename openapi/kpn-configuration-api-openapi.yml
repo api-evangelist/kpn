@@ -1,0 +1,306 @@
+openapi: 3.2.0
+info:
+  contact:
+    email: api_developer@kpn.com
+    name: API Support
+    url: https://developer.kpn.com/support
+  description: "The SocialMediaWebcare API allows you to organise and manage your inbound and outbound social media channels traffic.\n\n### Key highlights\n\n  - **Security:**  HTTPS, Oauth, Rate limit\n\n  - **Versioning:**  supports version-less API, version tight. If no version\n  is provided (in header) it defaults to latest version. \n\n\n## Getting Started\n\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/SocialMediaWebcare-Tracebuzz/)<br/>\n  [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/SocialMediaWebcare-Tracebuzz/)\n\n---\n\n## [KPN Developer](https://developer.kpn.com/)<br/>\n[Getting Started](https://developer.kpn.com/getting-started)\n\n ---\n"
+  termsOfService: https://developer.kpn.com/legal
+  title: SocialMediaWebcare - Tracebuzz Configuration API
+  version: 1.0.0
+servers:
+- url: https://api-prd.kpn.com/communication/tracebuzz/social-media-webcare
+  variables: {}
+tags:
+- name: Configuration
+  description: All about configuring Tracebuzz
+paths:
+  /configuration:
+    get:
+      deprecated: false
+      description: The configuration contains a lot of information about the current account. Available searches, social media connections, users, etc., and some default parameters that help you understand some of the integers we return.
+      operationId: Configuration
+      security:
+      - oauth2: []
+      parameters: []
+      responses:
+        200:
+          $ref: '#/components/responses/config_result'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+      summary: Configuration
+      tags:
+      - Configuration
+components:
+  responses:
+    precondition_failed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: precondition failed
+    forbidden:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: forbidden
+    config_result:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/config_result'
+    not_found:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: not found
+    too_many:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: too many requests
+    bad_gateway:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: bad gateway
+    method_not_allowed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: method not allowed
+    bad_request:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: bad request
+    unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: unauthorized
+    service_unavailable:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Service unavailable
+    server_error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: server error
+  schemas:
+    config_result:
+      properties:
+        data:
+          type: object
+        messages:
+          type: array
+          default: []
+          items:
+            type: string
+        status:
+          type: string
+          default: SUCCES
+        metadata:
+          type: object
+          properties:
+            values:
+              type: object
+              properties:
+                url:
+                  type: integer
+            method:
+              type: string
+              default: get
+            duration:
+              type: integer
+        configuration:
+          type: object
+          properties:
+            lastChange:
+              type: string
+              example: '1612430033'
+            globals:
+              type: object
+              properties:
+                sources:
+                  type: object
+                  example:
+                    irischat: 14
+                    facebook: 6
+                    twitter: 3
+                activities:
+                  type: object
+                  example:
+                    open: 1
+                    check: 2
+                    respond: 3
+                statusses:
+                  type: object
+                  example:
+                    open: 1
+                    closed: 2
+                    deleted: 5
+            format:
+              type: string
+              example: all
+            duration:
+              type: integer
+            account:
+              type: object
+              properties:
+                memberId:
+                  type: string
+                  example: '53453423'
+                company:
+                  type: string
+                  example: ABC
+                memberSince:
+                  type: string
+                  example: '2021-01-01'
+                standaardZoekopdracht:
+                  type: string
+                  example: '0'
+                users:
+                  type: object
+                searches:
+                  type: object
+                connections:
+                  type: object
+                categoriesAndLabels:
+                  type: object
+                knowledgeBase:
+                  type: array
+                  default: []
+                  items:
+                    type: string
+                currentUser:
+                  type: object
+                monitoring:
+                  type: string
+                  example: '1'
+                result:
+                  type: integer
+                  example: 1
+                analysis:
+                  type: string
+                  example: '1'
+                reports:
+                  type: string
+                  example: '1'
+                engagement:
+                  type: string
+                  example: '1'
+                tbmessenger:
+                  type: string
+                  example: '1'
+                presenter:
+                  type: string
+                  example: '1'
+                publisher:
+                  type: string
+                  example: '1'
+                qmModule:
+                  type: string
+                  example: '1'
+                fbInsights:
+                  type: string
+                  example: '1'
+                chatModule:
+                  type: string
+                  example: '0'
+                personView:
+                  type: string
+                  example: '0'
+                rss:
+                  type: string
+                  example: null
+                webcareTable:
+                  type: string
+                  example: null
+                iframe:
+                  type: string
+                  example: null
+                supportButton:
+                  type: string
+                  example: '1'
+                workflowModule:
+                  type: string
+                  example: '1'
+                webcareMagicModule:
+                  type: string
+                  example: '0'
+                qm:
+                  type: string
+                  example: null
+                timezone:
+                  type: string
+                  example: Europe/Amsterdam
+                defaultCountry:
+                  type: string
+                  example: nl-NL
+                disableAccount:
+                  type: boolean
+                  example: false
+    error:
+      properties:
+        info:
+          description: Additional information about error
+          title: Info
+          type: string
+        message:
+          description: Error message
+          title: Error message
+          type: string
+        name:
+          description: Error name
+          title: Error name
+          type: string
+        status:
+          description: Status
+          title: Status
+          type: string
+        transactionId:
+          description: transaction id of the the request
+          title: Transaction ID
+          type: string
+      type: object
+  securitySchemes:
+    oauth2:
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+      type: oauth2
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

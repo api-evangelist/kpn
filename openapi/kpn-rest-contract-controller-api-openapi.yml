@@ -1,0 +1,917 @@
+openapi: 3.2.0
+info:
+  description: "MobileServicesManagement APIs\n\n   ---\n     \n ## [Source view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)<br/>\n [Documentation view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)\n \n ---\n \n ## [KPN Developer](https://developer.kpn.com/)<br/>\n [Getting Started](https://developer.kpn.com/getting-started)\n \n\n ---"
+  version: v11
+  title: MobileServicesManagement-KPN Rest Contract Controller API
+  termsOfService: https://developer.kpn.com/legal
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+servers:
+- url: https://api-prd.kpn.com/mobile/kpn/mobileservices
+tags:
+- name: rest-contract-controller
+  description: Rest Contract Controller
+paths:
+  /contract/all:
+    get:
+      tags:
+      - rest-contract-controller
+      summary: Get all contracts.
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li></ul>
+      operationId: getContractsUsingGET
+      parameters:
+      - name: Content-Language
+        in: header
+        description: Content-Language
+        required: false
+        schema:
+          type: string
+      - name: category
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - MOBILE
+          - FIXED
+          - FIXED_MOBILE
+          - HARDWARE
+          - SKYPE_FOR_BUSINESS
+          - SOFTWARE
+          - OTHER
+      - name: filters
+        in: query
+        description: 'Possible columns: FIRSTNAME, LASTNAME, SURNAME_PREFIX, PRODUCT_NAME, PRODUCT_CATEGORY, MOBILE_NUMBER, FIXED_NUMBER, STATE, EXTENSION, SIM_CARD_NUMBER, IMEI. For example: FIRSTNAME: "aab", "aac"; LASTNAME: "aba", "abb"'
+        required: false
+        schema:
+          type: string
+      - name: from
+        in: query
+        description: Pagination parameter - start from (included). The elements are counted from 0. Default value is 0.
+        required: false
+        x-example: 0
+        schema:
+          type: integer
+          format: int32
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: patterns
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: sortBy
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - FIRSTNAME
+          - LASTNAME
+          - SURNAME_PREFIX
+          - PRODUCT_NAME
+          - PRODUCT_CATEGORY
+          - MOBILE_NUMBER
+          - FIXED_NUMBER
+          - STATE
+          - SIM_CARD_NUMBER
+          - EXTENSION
+          - SIP_ACCOUNT_NAME
+          - CATEGORY
+      - name: to
+        in: query
+        description: Pagination parameter - end element (exluded). Default value is 20.
+        required: false
+        x-example: 20
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PagedResult_Contract_'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /contract/id/{id}:
+    get:
+      tags:
+      - rest-contract-controller
+      summary: Get contract details.
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li></ul>
+      operationId: getContractUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ContractDetails'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /contract/id/{id}/items:
+    get:
+      tags:
+      - rest-contract-controller
+      summary: Get all contract items (in form of tree) for given contract.
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li></ul>
+      operationId: getContractItemsUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ContractItem'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /contract/id/{id}/vamo/fixed-numbers:
+    get:
+      tags:
+      - rest-contract-controller
+      summary: Get all possible fixed numbers for combining operation.
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li></ul>
+      operationId: getFixedNumbersForMergingUsingGET
+      parameters:
+      - name: filters
+        in: query
+        description: 'Possible columns: FIRSTNAME, LASTNAME, SURNAME_PREFIX, PRODUCT_NAME, PRODUCT_CATEGORY. MOBILE_NUMBER, STATE, EXTENSION, SIM_CARD_NUMBER. For example: FIRSTNAME: "aab", "aac"; LASTNAME: "aba", "abb"'
+        required: false
+        schema:
+          type: string
+      - name: from
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: patterns
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: sortBy
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - FIRSTNAME
+          - LASTNAME
+          - SURNAME_PREFIX
+          - PRODUCT_NAME
+          - PRODUCT_CATEGORY
+          - MOBILE_NUMBER
+          - FIXED_NUMBER
+          - STATE
+          - SIM_CARD_NUMBER
+          - EXTENSION
+          - SIP_ACCOUNT_NAME
+          - CATEGORY
+      - name: to
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PagedResult_ContractForOperation_'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /contract/id/{id}/vamo/mobile-numbers:
+    get:
+      tags:
+      - rest-contract-controller
+      summary: Get all possible mobile numbers for combining operation.
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li></ul>
+      operationId: getMobileNumbersForMergingUsingGET
+      parameters:
+      - name: filters
+        in: query
+        description: 'Possible columns: FIRSTNAME, LASTNAME, SURNAME_PREFIX, PRODUCT_NAME, PRODUCT_CATEGORY, FIXED_NUMBER, STATE, EXTENSION, SIM_CARD_NUMBER. For example: FIRSTNAME: "aab", "aac"; LASTNAME: "aba", "abb"'
+        required: false
+        schema:
+          type: string
+      - name: from
+        in: query
+        description: Pagination parameter - start from (included). The elements are counted from 0. Default value is 0.
+        required: false
+        x-example: 0
+        schema:
+          type: integer
+          format: int32
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: patterns
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: sortBy
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - FIRSTNAME
+          - LASTNAME
+          - SURNAME_PREFIX
+          - PRODUCT_NAME
+          - PRODUCT_CATEGORY
+          - MOBILE_NUMBER
+          - FIXED_NUMBER
+          - STATE
+          - SIM_CARD_NUMBER
+          - EXTENSION
+          - SIP_ACCOUNT_NAME
+          - CATEGORY
+      - name: to
+        in: query
+        description: Pagination parameter - end element (exluded). Default value is 20.
+        required: false
+        x-example: 20
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PagedResult_ContractForOperation_'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /contract/overview:
+    get:
+      tags:
+      - rest-contract-controller
+      summary: Get number of contracts grouped by contract type.
+      description: 'Return contracts statistics. Possible contract types (key values): mobile, fixed, fixed_mobile, hardware, other
+
+
+        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li></ul>'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int64
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    FixedNumberPresentation:
+      type: object
+      properties:
+        description:
+          type: string
+          enum:
+          - ORGANISATION
+          - FIXED_NUMBER
+          - HUNTGROUP
+          - CALL_CENTER
+        number:
+          type: string
+      title: FixedNumberPresentation
+    PagedResult_ContractForOperation_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/ContractForOperation'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_ContractForOperation_
+      description: Paged list of elements
+    BlockingOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        kpnReference:
+          type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
+          type: string
+          enum:
+          - CONTRACTING
+          - SERVICE_REQUEST
+      title: BlockingOrder
+    ContractItem:
+      type: object
+      properties:
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractItem'
+        citemBsId:
+          type: integer
+          format: int64
+        contractId:
+          type: integer
+          format: int64
+        id:
+          type: integer
+          format: int64
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        productBsId:
+          type: integer
+          format: int64
+        tariffPlanVariantBsId:
+          type: integer
+          format: int64
+      title: ContractItem
+    ContractForOperation:
+      type: object
+      properties:
+        firstName:
+          type: string
+        fixedNumber:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        mobileNumber:
+          type: string
+        namePrefix:
+          type: string
+        operation:
+          description: Information if combination is possible and eventualy reason why it is not
+          $ref: '#/components/schemas/OperationState'
+      title: ContractForOperation
+    Contract:
+      type: object
+      properties:
+        category:
+          type: string
+        extension:
+          type: string
+        firstName:
+          type: string
+        fixedNumber:
+          type: string
+        id:
+          type: integer
+          format: int64
+        imei:
+          type: string
+        lastName:
+          type: string
+        mobileNumber:
+          type: string
+        namePrefix:
+          type: string
+        product:
+          $ref: '#/components/schemas/LocalizedString'
+        productCategory:
+          type: string
+        simCardNumber:
+          type: string
+        sipAccount:
+          type: string
+        state:
+          type: string
+          enum:
+          - ACTIVE
+          - CLOSED
+          - ORDERED
+          - PENDING
+          - BLOCKED
+      title: Contract
+    PagedResult_Contract_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Contract'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Contract_
+      description: Paged list of elements
+    OperationState:
+      type: object
+      properties:
+        blocked:
+          type: boolean
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        reason:
+          type: string
+      title: OperationState
+    FlexibleNumberPresentation:
+      type: object
+      properties:
+        defaultNumber:
+          type: string
+        fixedNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/FixedNumberPresentation'
+        mobileNumberPresentation:
+          type: boolean
+      title: FlexibleNumberPresentation
+    ContractDetails:
+      type: object
+      properties:
+        activationDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        enterpriseId:
+          type: string
+        enterpriseName:
+          type: string
+        extension:
+          type: string
+        fixedMobilePbxId:
+          type: string
+        fixedMobilePbxName:
+          type: string
+        fixedNumber:
+          type: string
+        flexibleNumberPresentation:
+          $ref: '#/components/schemas/FlexibleNumberPresentation'
+        hierarchyPath:
+          type: array
+          description: Location of contract in company hierarchy
+          items:
+            $ref: '#/components/schemas/VirtualHierarchyItem'
+        id:
+          type: integer
+          format: int64
+        imei:
+          type: string
+        individualBundle:
+          type: boolean
+        lastStatusChangeDate:
+          type: string
+          format: date-time
+        multiplicity:
+          type: integer
+          format: int64
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        pbxName:
+          type: string
+        phoneNumber:
+          type: string
+        pin:
+          type: string
+        puk:
+          type: string
+        simCardNumber:
+          type: string
+        sipAccount:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          description: 'Possible values: A - active, C - closed, O - ordered, P - pending, S - blocked'
+        tariffPlan:
+          type: string
+        uiccid:
+          type: string
+        userGroupId:
+          type: string
+        userGroupName:
+          type: string
+        userId:
+          type: string
+        userPrincipalName:
+          type: string
+      title: ContractDetails
+    LocalizedString:
+      type: object
+      properties:
+        en:
+          type: string
+          description: English version
+        nl:
+          type: string
+          description: Dutch version
+      title: LocalizedString
+      description: Text with two language versions
+    VirtualHierarchyItem:
+      type: object
+      properties:
+        costCenterNumber:
+          type: string
+        email:
+          type: string
+        employeeNumber:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        name:
+          type: string
+        operation:
+          $ref: '#/components/schemas/OperationState'
+        path:
+          type: array
+          items:
+            $ref: '#/components/schemas/VirtualHierarchyItem'
+        prefix:
+          type: string
+        type:
+          type: string
+          enum:
+          - CUSTOMER
+          - DEBTOR
+          - SUBSCRIBER
+          - COST_CENTER
+          - CUSTOM_GROUP
+          - BUSINESS_LOCATION
+      title: VirtualHierarchyItem
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api-prd.kpn.com/oauth/grip/msm/accesstoken?grant_type=client_credentials

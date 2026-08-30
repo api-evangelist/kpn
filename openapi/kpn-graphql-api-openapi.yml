@@ -1,0 +1,158 @@
+openapi: 3.2.0
+info:
+  version: '1.0'
+  title: Knowledge Management – Polly.help Graphql API
+  description: "The Knowledge Management API allows you to organize your organization's information with knowledge management software.\n\n ### Key highlights\n\n - **Sandbox:** Full-fledged capabilities.\n\n - **Security:** HTTPS, OAuth, Rate limit.\n\n - **Versioning:** Supports version-less API, version tight. If no version\n is provided (in header) it defaults to latest version. \n\n\n ## [Source view](https://app.swaggerhub.com/apis/kpn/knowledge-management-polly.help/)<br/>\n [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/knowledge-management-polly.help/)\n \n ---\n \n ## [KPN Developer](https://developer.kpn.com/)<br/>\n [Getting Started](https://developer.kpn.com/getting-started)\n \n\n ---"
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- url: https://api-prd.kpn.com/data/pollyhelp/knowledgemanagement
+tags:
+- name: Graphql
+paths:
+  /graphql:
+    post:
+      description: Send request to get article, publication, search, analytics and submit suggestion.
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/api_version_query'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/graphql_payload'
+        required: true
+      responses:
+        '200':
+          description: Success
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'
+      tags:
+      - Graphql
+components:
+  schemas:
+    graphql_variables:
+      title: variables
+      type: object
+      properties:
+        publicationId:
+          type: string
+        api_token:
+          type: string
+    graphql_payload:
+      title: graphql
+      type: object
+      properties:
+        query:
+          type: string
+        variables:
+          $ref: '#/components/schemas/graphql_variables'
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+  responses:
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    bad_request:
+      description: bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+    api_version_query:
+      in: query
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

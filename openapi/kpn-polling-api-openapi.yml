@@ -1,0 +1,133 @@
+openapi: 3.2.0
+info:
+  title: Number Verify - KPN Polling API
+  description: "With KPN Number Verify, you can quickly check whether the mobile number someone provides is the same as their SIM card.\n**Important Notes:**\n- It is advised to use **Postman** for testing this API, as it involves a redirect call. SwaggerHub does not handle redirect flows well.\n- Please **download this Swagger file** and import it into your Postman client for best results.\n---\n**Testing the `/session` endpoint:** \n- Make sure that the call is made using your mobile client or via the hostspot.\n- In **Postman**, disable **automatic redirects** to ensure the `Location` header is visible in the response.\n\n- In **cURL**, avoid using the `--location` flag. A correct example request:\n\n  ```bash\n  curl -v GET https://api-prd.kpn.com/communication/kpn/numberverify/session/bc74adca8f761*******\n  ```\n---\n\n    \n## [Source view](https://app.swaggerhub.com/apis/kpn/match-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/match-kpn/)\n---\n## [KPN API Store](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+  version: 1.2.1
+servers:
+- url: https://api-prd.kpn.com/communication/kpn/numberverify
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/kpn/NumberVerify-KPN/1.2.1
+tags:
+- name: Polling
+paths:
+  /polling/{polling_id}:
+    get:
+      summary: Polling Request
+      description: Retrieve the polling information using the `polling_id` provided in the header.
+      parameters:
+      - name: polling_id
+        in: path
+        required: true
+        description: "- Enter the Polling Id you received in the response of `/insights/{msisdn}`, specifically located under the `device_match/polling_id` field. \n"
+        schema:
+          type: string
+          example: e46714d908600d8cf9f3abbf9f4056ff
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PollingResponse'
+              examples:
+                polling:
+                  summary: Polling Example
+                  value:
+                    msisdn: 316xxxxxxxx
+                    device_match: null
+                    remote_addr: xx.xx.x.xx
+                    user_agent: Mozilla/5.0...
+                    errors:
+                    - device_match: AVAILABLE or UNAVAILABLE
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - BearerAuth: []
+      tags:
+      - Polling
+components:
+  schemas:
+    PollingResponse:
+      type: object
+      properties:
+        msisdn:
+          type: string
+          example: '31620028461'
+        device_match:
+          type:
+          - string
+          - 'null'
+          example: null
+        remote_addr:
+          type: string
+          example: 199.103.8.50
+        user_agent:
+          type: string
+          example: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              device_match:
+                type: string
+                example: AVAILABLE
+    Error:
+      type: object
+      properties:
+        error_code:
+          type: integer
+          description: HTTP status code representing the error
+          example: 400
+          enum:
+          - 400
+          - 401
+          - 403
+          - 404
+          - 405
+          - 412
+          - 429
+          - 500
+          - 502
+          - 503
+        message:
+          type: string
+          description: A short description of the error
+          example: Bad Request
+          enum:
+          - Bad Request
+          - Unauthorized
+          - Forbidden
+          - Not Found
+          - Method Not Allowed
+          - Precondition Failed
+          - Too Many Requests
+          - Internal Server Error
+          - Bad Gateway
+          - Service Unavailable
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

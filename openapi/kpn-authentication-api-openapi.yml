@@ -1,0 +1,130 @@
+openapi: 3.2.0
+info:
+  title: FIAM-KPN Authentication API
+  description: A collection of crates for federated identity and access management
+  license:
+    name: ''
+  version: 0.1.1
+servers:
+- url: https://api-prd.kpn.com/fiam
+  description: Server
+tags:
+- name: Authentication
+  description: Authentication endpoints for token management
+paths:
+  /api/v1/oauth/token:
+    post:
+      tags:
+      - Authentication
+      operationId: access_token
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AccessTokenParams'
+        required: true
+      responses:
+        '200':
+          description: Access token successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessToken'
+        '400':
+          description: Invalid token request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '401':
+          description: Unauthorized client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+components:
+  schemas:
+    ProblemDetail:
+      type: object
+      required:
+      - type
+      - status
+      properties:
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
+          minimum: 0
+        title:
+          type:
+          - string
+          - 'null'
+        type:
+          type: string
+      additionalProperties: {}
+    AccessTokenParams:
+      type: object
+      description: struct for passing parameters to the method [`access_token`]
+      required:
+      - grant_type
+      - scope
+      - client_id
+      - client_assertion_type
+      - client_assertion
+      properties:
+        client_assertion:
+          type: string
+          description: Used for all client identification for OAuth/OpenID Connect. MUST contain JWT, signed by the client certificate.
+        client_assertion_type:
+          type: string
+          description: 'Used for all client identification for OAuth/OpenID Connect.
+
+            MUST contain “urn:ietf:params:oauth:client-assertion-type:jwt-bearer”'
+        client_id:
+          type: string
+          description: 'Used for all client identification  OAuth/OpenID Connect.
+
+            MUST contain a valid party identifier of the Service Consumer'
+        grant_type:
+          type: string
+          description: OAuth 2.0 grant type. MUST contain “client_credentials”
+        scope:
+          type: string
+          description: 'OAuth 2.0 scope. MUST contain DSH_FIAM scope value. Other values allow the Service Consumer to get tokens that do
+
+            not include all rights the Service Consumer has. According to RFC 6749, scopes are case-sensitive.'
+    AccessToken:
+      type: object
+      properties:
+        access_token:
+          type:
+          - string
+          - 'null'
+        expires_in:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        token_type:
+          type:
+          - string
+          - 'null'
+  securitySchemes:
+    bearer_auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT Bearer token obtained from /oauth/token endpoint

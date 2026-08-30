@@ -1,0 +1,163 @@
+openapi: 3.2.0
+info:
+  title: WeSeeDo Direct - WeSeeDo Autologin API
+  version: 1.0.0
+  description: 'WeSeeDo Direct API allows you to set up a video communication channel between people by sending an SMS with a link to the meeting.
+
+    ---
+
+    ## [Source view](https://app.swaggerhub.com/apis/kpn/weseedo-direct-weseedo/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/weseedo-direct-weseedo/)
+
+    ---
+
+    ## [KPN API Store](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)
+
+    ---'
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- description: SwaggerHub API URL
+  url: https://api-prd.kpn.com/communication/weseedo/weseedodirect
+tags:
+- name: Autologin
+paths:
+  /api/autologin:
+    get:
+      summary: Fetches the URL so that agent can login.
+      description: Fetches the URL so that agent is able to login directly to the portal without entering his username and password.
+      tags:
+      - Autologin
+      security:
+      - oauth2: []
+      parameters:
+      - in: header
+        name: user_email
+        description: Enter the email of user who wants to autologin.
+        schema:
+          type: string
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    example: https://sandbox-direct.weseedo.nl/login/token
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+components:
+  responses:
+    precondition_failed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Precondition failed
+    forbidden:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Forbidden
+    not_found:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Not found
+    too_many:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Too many requests
+    bad_gateway:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Bad gateway
+    method_not_allowed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Method not allowed
+    bad_request:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Bad request
+    unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Unauthorized
+    service_unavailable:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Service unavailable
+    server_error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Server error
+  schemas:
+    error:
+      properties:
+        info:
+          description: Additional information about error.
+          title: Info
+          type: string
+        message:
+          description: Error message
+          title: Error message
+          type: string
+        name:
+          description: Error name
+          title: Error name
+          type: string
+        status:
+          description: Status
+          title: Status
+          type: string
+        transactionId:
+          description: The `transaction_id` of the the request.
+          title: Transaction ID
+          type: string
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials

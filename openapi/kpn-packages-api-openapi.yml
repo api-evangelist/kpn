@@ -1,0 +1,275 @@
+openapi: 3.2.0
+info:
+  title: WeSeeDo Personal - WeSeeDo Packages API
+  version: v2.0.2
+  description: "The WeSeeDo Personal API allows video calling in the right way and distinguishes itself in human contact, ease of use and safety. \n### Key highlights\n- **Sandbox:** Full-fledged capabilities.\n- **Security:**  HTTPS, OAuth, Rate limit.\n- **Versioning:** Supports version-less API, version tight. If no version is provided (in header) it defaults to latest version.\n\n ---\n\n[Source view](https://app.swaggerhub.com/apis/kpn/weseedo-personal-weseedo/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/weseedo-personal-weseedo/)\n---\n[KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- url: https://api-prd.kpn.com/communication/weseedo/weseedopersonal
+tags:
+- name: Packages
+paths:
+  /management/packages:
+    get:
+      summary: Retrieves a list of available packages
+      description: Retrieves a list of packages. Only packages that you have access to will be returned. You need at least **dealer** or **reseller** privileges to use this endpoint.
+      tags:
+      - Packages
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      responses:
+        200:
+          $ref: '#/components/responses/PackageObjectArray'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+  /management/packages/{id}:
+    get:
+      summary: Retrieves a package
+      description: Retrieves information about a package. You need at least **dealer** or **reseller** privileges to use this endpoint.
+      tags:
+      - Packages
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/PackageIDParameter'
+      responses:
+        '200':
+          $ref: '#/components/responses/PackageObject'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+components:
+  schemas:
+    PackageResponse:
+      type: object
+      properties:
+        id:
+          description: Package ID
+          type: string
+        name:
+          description: Package name
+          type: string
+        features:
+          anyOf:
+          - type: string
+            description: agent_create_appointment
+          - type: string
+            description: button
+          - type: string
+            description: forward
+          - type: string
+            description: multiple_participants
+          - type: string
+            description: chat
+          - type: string
+            description: appointment
+          - type: string
+            description: send_file
+          - type: string
+            description: screenshot
+          - type: string
+            description: presentation_pdf
+          - type: string
+            description: presentation_powerpoint
+          - type: string
+            description: screensharing
+          - type: string
+            description: cobrowsing_simple
+          - type: string
+            description: convert_file
+          - type: string
+            description: waitingroom
+          - type: string
+            description: weseedo_direct
+          - type: string
+            description: agent_recording
+          - type: string
+            description: cobrowsing
+          - type: string
+            description: screenshot
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction ID of the the request.
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error.
+          title: Info
+  parameters:
+    PackageIDParameter:
+      name: id
+      description: A valid package ID
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 674a5rb3ca9d4f7e4f1da67a
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+  responses:
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    PackageObjectArray:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PackageResponse'
+          examples:
+            Example:
+              $ref: '#/components/examples/PackageResponseObjectArraySchema'
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    PackageObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: '#/components/schemas/PackageResponse'
+          examples:
+            Example:
+              $ref: '#/components/examples/PackageResponseObjectSchema'
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    bad_request:
+      description: Bad Reqst
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  examples:
+    PackageResponseObjectArraySchema:
+      summary: List of packages
+      value:
+        success: true
+        result:
+        - id: 674a5rb3ca9d4f7e4f1da67a
+          name: professional
+          features:
+          - agent_create_appointment
+          - send_file
+          - screenshot
+          - chat
+        - id: 674a5rb3ca9d4f7e4f1da68b
+          name: premium
+          features:
+          - agent_create_appointment
+          - send_file
+          - screenshot
+          - chat
+          - screensharing
+          - appointment
+    PackageResponseObjectSchema:
+      summary: Package
+      value:
+        success: true
+        result:
+          id: 674a5rb3ca9d4f7e4f1da67a
+          name: professional
+          features:
+          - agent_create_appointment
+          - send_file
+          - screenshot
+          - chat
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

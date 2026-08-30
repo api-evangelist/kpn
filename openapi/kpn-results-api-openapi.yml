@@ -1,0 +1,402 @@
+openapi: 3.2.0
+info:
+  contact:
+    email: api_developer@kpn.com
+    name: API Support
+    url: https://developer.kpn.com/support
+  description: "The SocialMediaWebcare API allows you to organise and manage your inbound and outbound social media channels traffic.\n\n### Key highlights\n\n  - **Security:**  HTTPS, Oauth, Rate limit\n\n  - **Versioning:**  supports version-less API, version tight. If no version\n  is provided (in header) it defaults to latest version. \n\n\n## Getting Started\n\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/SocialMediaWebcare-Tracebuzz/)<br/>\n  [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/SocialMediaWebcare-Tracebuzz/)\n\n---\n\n## [KPN Developer](https://developer.kpn.com/)<br/>\n[Getting Started](https://developer.kpn.com/getting-started)\n\n ---\n"
+  termsOfService: https://developer.kpn.com/legal
+  title: SocialMediaWebcare - Tracebuzz Results API
+  version: 1.0.0
+servers:
+- url: https://api-prd.kpn.com/communication/tracebuzz/social-media-webcare
+  variables: {}
+tags:
+- name: Results
+  description: All about managing results
+paths:
+  /results/{profilename}/source:{media}:
+    get:
+      deprecated: false
+      description: "Use filters to retrieve results. You need to add the `profilename` and the `media`. If you are in the Traceboard dashboard, you can find the string with filters in the URL. All filters can be used within the string.\n\nExample URL: `/test-profile/source:twitter/word:aloha/`\n\n**media**\n\n- twitter \n- facebook\n- instagram\n- google+plus\n- linkedin\n- whatsapp \n- blogs\n- forums\n- news\n- web\n- print\n- rtv\n- irischat\n"
+      operationId: Result
+      security:
+      - oauth2: []
+      parameters:
+      - description: 'Enter the profile name, for example: `/demo1`.'
+        explode: false
+        in: path
+        name: profilename
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Enter the media, for example`/source:twitter`
+        explode: false
+        in: path
+        name: media
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          $ref: '#/components/responses/fetch_result'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+      summary: Result
+      tags:
+      - Results
+  /results/{resultId}/noContext:
+    get:
+      deprecated: false
+      description: Retrieves information for 1 specific `resultId`. Retrieves all information for a result object.
+      operationId: ResultWithoutContext
+      security:
+      - oauth2: []
+      parameters:
+      - description: ''
+        explode: false
+        in: path
+        name: resultId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          $ref: '#/components/responses/fetch_result'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+      summary: Retrieves results without context
+      tags:
+      - Results
+  /results/{resultId}/replies:
+    post:
+      deprecated: false
+      description: This endpoint allows you to reply to a message
+      operationId: Reply
+      security:
+      - oauth2: []
+      parameters:
+      - description: Use `application/x-www-form-urlencoded`.
+        explode: false
+        in: header
+        name: Content-Type
+        required: true
+        schema:
+          example: application/x-www-form-urlencoded
+          type: string
+        style: simple
+      - description: Enter the unique `resultId`.
+        explode: false
+        in: path
+        name: resultId
+        required: true
+        schema:
+          example: 233
+          format: int32
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                connectionId:
+                  example: 1451
+                  format: int32
+                  type: integer
+                  description: ConnectionId
+                message:
+                  example: '@pranavsnazzy ok'
+                  type: string
+                  description: Message content
+                public:
+                  example: true
+                  type: boolean
+                  description: Set `public=false` if you want to reply private to a public message.
+              required:
+              - message
+              - connectionId
+              - public
+              type: object
+        required: false
+      responses:
+        200:
+          $ref: '#/components/responses/reply_result'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+      summary: Replies to a message
+      tags:
+      - Results
+  /results/{resultId}/event/{event}:
+    post:
+      deprecated: false
+      description: 'Start or stop typing on a message. Open or close a message.
+
+        '
+      operationId: Event
+      security:
+      - oauth2: []
+      parameters:
+      - description: Enter the `resultId`.
+        explode: false
+        in: path
+        name: resultId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: 'Possible events: `starttyping`, `stoptyping`, `closed`, `opened`.'
+        explode: false
+        in: path
+        name: event
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          $ref: '#/components/responses/result_event'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+      summary: Message events
+      tags:
+      - Results
+components:
+  responses:
+    precondition_failed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: precondition failed
+    forbidden:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: forbidden
+    not_found:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: not found
+    result_event:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/post_result'
+    reply_result:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/post_result'
+    bad_gateway:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: bad gateway
+    method_not_allowed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: method not allowed
+    too_many:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: too many requests
+    bad_request:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: bad request
+    service_unavailable:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Service unavailable
+    server_error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: server error
+    unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: unauthorized
+    fetch_result:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/get_result'
+  schemas:
+    post_result:
+      properties:
+        data:
+          type: object
+        messages:
+          type: array
+          default: []
+          items:
+            type: string
+        status:
+          type: string
+          default: SUCCES
+        metadata:
+          type: object
+          properties:
+            values:
+              type: object
+              properties:
+                url:
+                  type: integer
+            method:
+              type: string
+              default: post
+            duration:
+              type: integer
+    get_result:
+      properties:
+        data:
+          type: object
+        messages:
+          type: array
+          default: []
+          items:
+            type: string
+        status:
+          type: string
+          default: SUCCES
+        metadata:
+          type: object
+          properties:
+            values:
+              type: object
+              properties:
+                url:
+                  type: integer
+            method:
+              type: string
+              default: get
+            duration:
+              type: integer
+    error:
+      properties:
+        info:
+          description: Additional information about error
+          title: Info
+          type: string
+        message:
+          description: Error message
+          title: Error message
+          type: string
+        name:
+          description: Error name
+          title: Error name
+          type: string
+        status:
+          description: Status
+          title: Status
+          type: string
+        transactionId:
+          description: transaction id of the the request
+          title: Transaction ID
+          type: string
+      type: object
+  securitySchemes:
+    oauth2:
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+      type: oauth2
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

@@ -1,0 +1,1205 @@
+openapi: 3.2.0
+info:
+  title: Kpn Users API
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+  version: '1.0'
+  description: 'Operations tagged Users across 2 of this provider''s published API definitions: weseedo-direct-openapi.yml, weseedo-personal-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- description: SwaggerHub API URL
+  url: https://api-prd.kpn.com/communication/weseedo/weseedodirect
+- url: https://api-prd.kpn.com/communication/weseedo/weseedopersonal
+tags:
+- name: Users
+paths:
+  /api/users:
+    get:
+      summary: Retrieves a list of users.
+      description: Retrieves a list of users. Only users that you have access to will be returned.
+      tags:
+      - Users
+      security:
+      - oauth2: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users_GetResponse'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+    post:
+      summary: Creates a new user.
+      description: Creates a new user.
+      tags:
+      - Users
+      security:
+      - oauth2: []
+      parameters:
+      - in: header
+        name: company_email
+        description: Please use your company's email address. This is the email you were onboarded on apistore.
+        schema:
+          type: string
+      requestBody:
+        description: The user to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                password:
+                  type: string
+                role:
+                  type: string
+                  description: Either `admin` or `agent`.
+                email:
+                  type: string
+                locale:
+                  type: string
+                  description: Either `nl` or `en`.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users_POSTPUTResponse'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+    servers:
+    - description: SwaggerHub API URL
+      url: https://api-prd.kpn.com/communication/weseedo/weseedodirect
+  /api/users/{id}:
+    get:
+      summary: Retrieves a user.
+      description: "Retrieves a specific user. Enter the **{id}** of a user without the brackets. \n\nExample: 5fc0c29c70d9e4667019be99\n"
+      tags:
+      - Users
+      security:
+      - oauth2: []
+      parameters:
+      - name: id
+        in: path
+        description: 'User ID.
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users_GetUserByIdResponse'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+    put:
+      summary: Updates a user.
+      description: Updated a specific user, replace **{id}** with the **id** attribute of a user.
+      tags:
+      - Users
+      security:
+      - oauth2: []
+      parameters:
+      - name: id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: The user to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                locale:
+                  type: string
+                  description: Either `nl` or `en`.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users_POSTPUTResponse'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+    delete:
+      summary: Deletes a user.
+      description: Deletes a user, replace **{id}** with the **id** attribute of a user.
+      tags:
+      - Users
+      security:
+      - oauth2: []
+      parameters:
+      - name: id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  result:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 5a..82
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+    servers:
+    - description: SwaggerHub API URL
+      url: https://api-prd.kpn.com/communication/weseedo/weseedodirect
+  /management/users:
+    post:
+      summary: Creates a new user
+      description: Creates a new user. You need to provide the company ID that you received in the onboarding e-mail.
+      tags:
+      - Users
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/UserQueryUserStatusParameter'
+      requestBody:
+        $ref: '#/components/requestBodies/UserObjectPost'
+      responses:
+        '200':
+          $ref: '#/components/responses/UserObject'
+        400:
+          $ref: '#/components/responses/bad_request_2'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden_2'
+        404:
+          $ref: '#/components/responses/not_found_2'
+        429:
+          $ref: '#/components/responses/too_many_2'
+        500:
+          $ref: '#/components/responses/server_error_2'
+        503:
+          $ref: '#/components/responses/service_unavailable_2'
+    get:
+      summary: Retrieves a list of users
+      description: Retrieves a list of users. Only users that you have access to will be returned.
+      tags:
+      - Users
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/UserQueryUserStatusParameter'
+      - $ref: '#/components/parameters/UserQueryCompanyParameter'
+      - $ref: '#/components/parameters/UserQueryDealerParameter'
+      - $ref: '#/components/parameters/UserQueryResellerParameter'
+      responses:
+        '200':
+          $ref: '#/components/responses/UserObjectArray'
+        400:
+          $ref: '#/components/responses/bad_request_2'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden_2'
+        404:
+          $ref: '#/components/responses/not_found_2'
+        429:
+          $ref: '#/components/responses/too_many_2'
+        500:
+          $ref: '#/components/responses/server_error_2'
+        503:
+          $ref: '#/components/responses/service_unavailable_2'
+    servers:
+    - url: https://api-prd.kpn.com/communication/weseedo/weseedopersonal
+  /management/users/{id}:
+    get:
+      summary: Retrieves a user
+      description: Retrieves a specific user.
+      tags:
+      - Users
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/UserIDParameter'
+      - $ref: '#/components/parameters/UserQueryUserStatusParameter'
+      responses:
+        '200':
+          $ref: '#/components/responses/UserObject'
+        400:
+          $ref: '#/components/responses/bad_request_2'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden_2'
+        404:
+          $ref: '#/components/responses/not_found_2'
+        429:
+          $ref: '#/components/responses/too_many_2'
+        500:
+          $ref: '#/components/responses/server_error_2'
+        503:
+          $ref: '#/components/responses/service_unavailable_2'
+    put:
+      summary: Updates a user
+      description: Updates a specific user. Replace **{id}** with the **id** attribute of a user.
+      tags:
+      - Users
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/UserIDParameter'
+      - $ref: '#/components/parameters/UserQueryUserStatusParameter'
+      requestBody:
+        $ref: '#/components/requestBodies/UserObjectPut'
+      responses:
+        '200':
+          $ref: '#/components/responses/UserObject'
+        400:
+          $ref: '#/components/responses/bad_request_2'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden_2'
+        404:
+          $ref: '#/components/responses/not_found_2'
+        429:
+          $ref: '#/components/responses/too_many_2'
+        500:
+          $ref: '#/components/responses/server_error_2'
+        503:
+          $ref: '#/components/responses/service_unavailable_2'
+    patch:
+      summary: Updates a user
+      description: Updates a specific user. Replace **{id}** with the **id** attribute of a user.
+      tags:
+      - Users
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/UserIDParameter'
+      - $ref: '#/components/parameters/UserQueryUserStatusParameter'
+      requestBody:
+        $ref: '#/components/requestBodies/UserObjectPatch'
+      responses:
+        '200':
+          $ref: '#/components/responses/UserObject'
+        400:
+          $ref: '#/components/responses/bad_request_2'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden_2'
+        404:
+          $ref: '#/components/responses/not_found_2'
+        429:
+          $ref: '#/components/responses/too_many_2'
+        500:
+          $ref: '#/components/responses/server_error_2'
+        503:
+          $ref: '#/components/responses/service_unavailable_2'
+    delete:
+      summary: Deletes a user
+      description: Deletes a specific user. Replace **{id}** with the **id** attribute of a user.
+      tags:
+      - Users
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/UserIDParameter'
+      - $ref: '#/components/parameters/UserQueryUserStatusParameter'
+      responses:
+        '200':
+          $ref: '#/components/responses/UserDeletedObject'
+        400:
+          $ref: '#/components/responses/bad_request_2'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden_2'
+        404:
+          $ref: '#/components/responses/not_found_2'
+        429:
+          $ref: '#/components/responses/too_many_2'
+        500:
+          $ref: '#/components/responses/server_error_2'
+        503:
+          $ref: '#/components/responses/service_unavailable_2'
+    servers:
+    - url: https://api-prd.kpn.com/communication/weseedo/weseedopersonal
+components:
+  schemas:
+    Company:
+      properties:
+        id:
+          type: string
+          example: 58..82
+        name:
+          type: string
+          example: WeSeeDo B.V.
+      type: object
+    Users_POSTPUTResponse:
+      properties:
+        success:
+          type: boolean
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+      type: object
+    Users_GetResponse:
+      properties:
+        success:
+          type: boolean
+          example: true
+        result:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              email:
+                type: string
+              locale:
+                type: string
+              role:
+                type: string
+              company:
+                $ref: '#/components/schemas/Company'
+      type: object
+      example:
+      - id: 58..eb
+        name: Agent 1
+        email: agent1@weseedo.nl
+        locale: nl
+        role: agent
+        company:
+          id: 58..60
+          name: WeSeeDo B.V.
+      - id: 58..ec
+        name: Assistent 1
+        email: assistent1@weseedo.nl
+        locale: nl
+        role: assistent
+        company:
+          id: 58..60
+          name: WeSeeDo B.V.
+    User:
+      properties:
+        id:
+          type: string
+          example: 58..82
+        first_name:
+          type: string
+          example: Testfirstname
+        last_name:
+          type: string
+          example: Testlastname
+        name:
+          type: string
+          example: Testfirstname Testlastname
+        email:
+          type: string
+          example: agent1@weseedo.nl
+        locale:
+          type: string
+          example: nl
+        role:
+          type: string
+          example: agent
+        created_at:
+          type: string
+          example: '2017-11-17T12:07:56.308Z'
+        company:
+          $ref: '#/components/schemas/Company'
+      type: object
+    error:
+      properties:
+        info:
+          description: Additional information about error.
+          title: Info
+          type: string
+        message:
+          description: Error message
+          title: Error message
+          type: string
+        name:
+          description: Error name
+          title: Error name
+          type: string
+        status:
+          description: Status
+          title: Status
+          type: string
+        transactionId:
+          description: The `transaction_id` of the the request.
+          title: Transaction ID
+          type: string
+    Users_GetUserByIdResponse:
+      properties:
+        success:
+          type: boolean
+          example: true
+        result:
+          $ref: '#/components/schemas/Users_GetResponse'
+      type: object
+    UserResponse:
+      type: object
+      properties:
+        id:
+          description: User ID
+          type: string
+        first_name:
+          description: First name
+          type: string
+        last_name:
+          description: Last name
+          type: string
+        name:
+          description: Full name
+          type: string
+        email:
+          description: E-mail address
+          type: string
+        photo:
+          description: Base64 image
+          type: string
+        locale:
+          oneOf:
+          - type: string
+            description: Locale "nl"
+          - type: string
+            description: Locale "en"
+        role:
+          oneOf:
+          - type: string
+            description: Role "dealer"
+          - type: string
+            description: Role "reseller"
+          - type: string
+            description: Role "admin"
+          - type: string
+            description: Role "agent"
+          - type: string
+            description: Role "assistent"
+          - type: string
+            description: Role "assistent_video"
+        created_at:
+          description: Created date and time
+          type: string
+          format: date-time
+        sites:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountResponseShort'
+        entity:
+          oneOf:
+          - type: object
+            properties:
+              type:
+                description: Entity type dealer
+                type: string
+              id:
+                description: Dealer ID
+                type: string
+              name:
+                description: Dealer name
+                type: string
+          - type: object
+            properties:
+              type:
+                description: Entity type reseller
+                type: string
+              id:
+                description: Reseller ID
+                type: string
+              name:
+                description: Reseller name
+                type: string
+          - type: object
+            properties:
+              type:
+                description: Entity type company
+                type: string
+              id:
+                description: Company ID. You recived the Company ID in the onboarding e-mail.
+                type: string
+              name:
+                description: Company name
+                type: string
+              package:
+                $ref: '#/components/schemas/PackageResponse'
+        status:
+          description: Status online or offline. Only added when status=true in query
+          type: string
+        suspended:
+          description: Is suspended
+          type: boolean
+    error_2:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction ID of the the request.
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error.
+          title: Info
+    UserRequestBody:
+      type: object
+      properties:
+        first_name:
+          description: First name
+          type: string
+        last_name:
+          description: Last name
+          type: string
+        email:
+          description: E-mail address
+          type: string
+        photo:
+          description: Base64 image excluded mimetype (e.g. data:image/png;base64,)
+          type: string
+        password:
+          description: Password
+          type: string
+        locale:
+          oneOf:
+          - type: string
+            description: Locale "nl"
+          - type: string
+            description: Locale "en"
+    UserRequestBodyPut:
+      required:
+      - first_name
+      - last_name
+      - name
+      - locale
+      allOf:
+      - $ref: '#/components/schemas/UserRequestBody'
+      - type: object
+        properties:
+          suspended:
+            description: Is suspended
+            type: boolean
+    PackageResponse:
+      type: object
+      properties:
+        id:
+          description: Package ID
+          type: string
+        name:
+          description: Package name
+          type: string
+        features:
+          anyOf:
+          - type: string
+            description: agent_create_appointment
+          - type: string
+            description: button
+          - type: string
+            description: forward
+          - type: string
+            description: multiple_participants
+          - type: string
+            description: chat
+          - type: string
+            description: appointment
+          - type: string
+            description: send_file
+          - type: string
+            description: screenshot
+          - type: string
+            description: presentation_pdf
+          - type: string
+            description: presentation_powerpoint
+          - type: string
+            description: screensharing
+          - type: string
+            description: cobrowsing_simple
+          - type: string
+            description: convert_file
+          - type: string
+            description: waitingroom
+          - type: string
+            description: weseedo_direct
+          - type: string
+            description: agent_recording
+          - type: string
+            description: cobrowsing
+          - type: string
+            description: screenshot
+    UserRequestBodyPost:
+      required:
+      - first_name
+      - last_name
+      - name
+      - email
+      - locale
+      - role
+      allOf:
+      - $ref: '#/components/schemas/UserRequestBody'
+      - type: object
+        properties:
+          role:
+            oneOf:
+            - type: string
+              description: Role "dealer"
+            - type: string
+              description: Role "reseller"
+            - type: string
+              description: Role "admin"
+            - type: string
+              description: Role "agent"
+            - type: string
+              description: Role "assistent"
+            - type: string
+              description: Role "assistent_video"
+          entity:
+            oneOf:
+            - type: object
+              required:
+              - type
+              - id
+              properties:
+                type:
+                  description: Entity type dealer
+                  type: string
+                id:
+                  description: Dealer ID
+                  type: string
+            - type: object
+              required:
+              - type
+              - id
+              properties:
+                type:
+                  description: Entity type reseller
+                  type: string
+                id:
+                  description: Reseller ID
+                  type: string
+            - type: object
+              required:
+              - type
+              - id
+              properties:
+                type:
+                  description: Entity type company
+                  type: string
+                id:
+                  description: Company ID
+                  type: string
+    UserResponseDeleted:
+      type: object
+      properties:
+        id:
+          description: User ID
+          type: string
+    UserRequestBodyPatch:
+      allOf:
+      - $ref: '#/components/schemas/UserRequestBody'
+      - type: object
+        properties:
+          suspended:
+            description: Is suspended
+            type: boolean
+    AccountResponseShort:
+      type: object
+      properties:
+        id:
+          description: Site ID
+          type: string
+        name:
+          description: Site name
+          type: string
+  responses:
+    precondition_failed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Precondition failed
+    forbidden:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Forbidden
+    not_found:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Not found
+    too_many:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Too many requests
+    bad_gateway:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Bad gateway
+    method_not_allowed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Method not allowed
+    bad_request:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Bad request
+    unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Unauthorized
+    service_unavailable:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Service unavailable
+    server_error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Server error
+    UserObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: '#/components/schemas/UserResponse'
+          examples:
+            Example:
+              $ref: '#/components/examples/UserResponseObjectSchema'
+    bad_request_2:
+      description: Bad Reqst
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_2'
+    UserObjectArray:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponse'
+          examples:
+            Example:
+              $ref: '#/components/examples/UserResponseObjectArraySchema'
+    not_found_2:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_2'
+    too_many_2:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_2'
+    service_unavailable_2:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_2'
+    UserDeletedObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: '#/components/schemas/UserResponseDeleted'
+          examples:
+            Example:
+              $ref: '#/components/examples/UserResponseDeletedObjectSchema'
+    forbidden_2:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_2'
+    server_error_2:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_2'
+  examples:
+    UserRequestBodyObjectSchema:
+      summary: User
+      value:
+        first_name: Firstname
+        last_name: Lastname
+        email: agent1@weseedo.nl
+        photo: iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
+        password: StrongPassword123!
+        locale: nl
+        suspended: false
+    UserResponseObjectArraySchema:
+      summary: List of users
+      value:
+        success: true
+        result:
+        - id: 58f6ee406a2308a38ca39dec
+          first_name: Firstname
+          last_name: Lastname
+          name: Firstname Lastname
+          email: agent1@weseedo.nl
+          photo: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
+          locale: nl
+          role: agent
+          created_at: '2020-01-28T14:26:06.000Z'
+          sites:
+          - id: 47c6eedd1a14d3b20dd20771
+            name: Account 1
+          - id: 47c6eedd1a14d3b20dd20772
+            name: Account 2
+          entity:
+            type: company
+            id: 58h6aa8a0e14a4c24df20760
+            name: WeSeeDo B.V.
+            package:
+              id: 674a5rb3ca9d4f7e4f1da67a
+              name: professional
+              features:
+              - agent_create_appointment
+              - send_file
+              - screenshot
+              - chat
+          status: online
+          suspended: false
+        - id: 54c6ae2c7a4504a38ca39dea
+          first_name: Firstname
+          last_name: Lastname
+          name: Firstname Lastname
+          email: agent2@weseedo.nl
+          photo: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
+          locale: nl
+          role: agent
+          created_at: '2020-01-29T15:26:20.000Z'
+          sites:
+          - id: 47c6eedd1a14d3b20dd20771
+            name: Account 1
+          - id: 47c6eedd1a14d3b20dd20772
+            name: Account 2
+          entity:
+            type: company
+            id: 58h6aa8a0e14a4c24df20760
+            name: WeSeeDo B.V.
+            package:
+              id: 674a5rb3ca9d4f7e4f1da67a
+              name: professional
+              features:
+              - agent_create_appointment
+              - send_file
+              - screenshot
+              - chat
+          status: online
+          suspended: false
+    UserResponseDeletedObjectSchema:
+      summary: User ID
+      value:
+        success: true
+        result:
+          id: 58f6ee406a2308a38ca39dec
+    UserRequestBodyObjectSchemaPost:
+      summary: User
+      value:
+        first_name: Firstname
+        last_name: Lastname
+        email: agent1@weseedo.nl
+        photo: iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
+        password: StrongPassword123!
+        locale: nl
+        role: agent
+        entity:
+          type: company
+          id: 58h6aa8a0e14a4c24df20760
+    UserResponseObjectSchema:
+      summary: User
+      value:
+        success: true
+        result:
+          id: 58f6ee406a2308a38ca39dec
+          first_name: Firstname
+          last_name: Lastname
+          name: Firstname Lastname
+          email: agent1@weseedo.nl
+          photo: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
+          locale: nl
+          role: agent
+          created_at: '2020-01-29T15:26:20.000Z'
+          sites:
+          - id: 47c6eedd1a14d3b20dd20771
+            name: Account 1
+          - id: 47c6eedd1a14d3b20dd20772
+            name: Account 2
+          entity:
+            type: company
+            id: 58h6aa8a0e14a4c24df20760
+            name: WeSeeDo B.V.
+            package:
+              id: 674a5rb3ca9d4f7e4f1da67a
+              name: professional
+              features:
+              - agent_create_appointment
+              - send_file
+              - screenshot
+              - chat
+          status: online
+          suspended: false
+  parameters:
+    UserIDParameter:
+      name: id
+      description: A valid user ID
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 84c7ey417a4558a38ca39ded
+    UserQueryUserStatusParameter:
+      name: user_status
+      description: Add user status into response
+      in: query
+      schema:
+        type: boolean
+    UserQueryDealerParameter:
+      name: dealer
+      description: Only select users with given dealer ID
+      in: query
+      schema:
+        type: string
+        example: 45h6ac8a1e14a3c24ab20740
+    UserQueryCompanyParameter:
+      name: company
+      description: Only select users with given company ID
+      in: query
+      schema:
+        type: string
+        example: 784d061c0856dc4c97774da7
+    UserQueryResellerParameter:
+      name: reseller
+      description: Only select users with given reseller ID
+      in: query
+      schema:
+        type: string
+        example: 334d171d1854dd4c97874ba8
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+  requestBodies:
+    UserObjectPatch:
+      description: JSON user object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserRequestBodyPatch'
+          examples:
+            Example:
+              $ref: '#/components/examples/UserRequestBodyObjectSchema'
+    UserObjectPut:
+      description: JSON user object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserRequestBodyPut'
+          examples:
+            Example:
+              $ref: '#/components/examples/UserRequestBodyObjectSchema'
+    UserObjectPost:
+      description: JSON user object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserRequestBodyPost'
+          examples:
+            Example:
+              $ref: '#/components/examples/UserRequestBodyObjectSchemaPost'
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers
+x-refined-from:
+- weseedo-direct-openapi.yml
+- weseedo-personal-openapi.yml

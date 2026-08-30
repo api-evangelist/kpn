@@ -1,0 +1,104 @@
+openapi: 3.2.0
+info:
+  title: SMS-Vonage Webhook API
+  version: v1.1.1
+  termsOfService: https://developer.kpn.com/legal
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  description: "Vonage's SMS API allows you to send and receive text messages to users around the globe through simple RESTful APIs.\n  \n  * Programmatically send and receive high volume of SMS anywhere in the world.\n  * Build apps that scale with the web technologies that you are already using.\n  * Send SMS with low latency and high delivery rates.\n  * Receive SMS for free using SMS-enabled local numbers in countries around the world.\n  * Only pay for what you use, nothing more.\n\n  \n## [Source view](https://app.swaggerhub.com/apis/kpn/sms-nexmo/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/sms-nexmo/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n ---"
+servers:
+- url: https://api-prd.kpn.com/communication/nexmo/sms
+tags:
+- name: Webhook
+paths:
+  /https://example.com:webhooks/inbound-sms:
+    post:
+      summary: Inbound SMS
+      description: This is not an API call but it is to showcase how the schema of inbound SMS will look like. You can get inbound SMS by registering your webhook URL using `Register webhook` and then passing 'inbound' header value as 'yes' in 'Send SMS'.
+      tags:
+      - Webhook
+      responses:
+        '200':
+          description: Your server returns this code if it accepts the callback
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InboundMessage'
+        description: If you rent one or more virtual numbers from Vonage, inbound messages to that number are sent to your webhook endpoint. When you receive an inbound message, you must send a 2xx response. If you do not send a 2xx response Vonage will resend the inbound message for the next 24 hours.
+components:
+  schemas:
+    InboundMessage:
+      type: object
+      properties:
+        msisdn:
+          type: string
+          description: '`required` The phone number that this inbound message was sent from. Numbers are specified in E.164 format.'
+          example: '447700900001'
+        to:
+          type: string
+          description: '`required` The phone number the message was sent to. **This is your virtual number**. Numbers are specified in E.164 format.'
+          example: '447700900000'
+        messageId:
+          type: string
+          description: '`required` The ID of the message  (required)'
+          example: 0A0000000123ABCD1
+        text:
+          type: string
+          description: '`required` The message body for this inbound message.  (required)'
+          example: Hello world
+        type:
+          type: string
+          description: "Possible values are: >-\n  `required`\n  - `text` - standard text.\n  - `unicode` - URLencoded   unicode  . This is valid for standard GSM, Arabic, Chinese, double-encoded characters and so on.\n  - `binary` - a binary message.\n"
+          example: text
+        keyword:
+          type: string
+          description: '`required` The first word in the message body. This is typically used with short codes.'
+          example: Hello
+        message-timestamp:
+          description: '`required` The time when Vonage started to push this Delivery Receipt to your webhook endpoint.'
+          type: string
+          example: 2020-01-01 12:00:00
+        timestamp:
+          description: A unix timestamp representation of message-timestamp.
+          type: string
+          example: '1578787200'
+        nonce:
+          type: string
+          description: A random string that forms part of the signed set of parameters, it adds an extra element of unpredictability into the signature for the request. You use the nonce and timestamp parameters with your shared secret to calculate and validate the signature for inbound messages.
+          example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+        concat:
+          type: string
+          description: True - if this is a concatenated message.
+          example: 'true'
+        concat-ref:
+          type: string
+          description: The transaction reference. All parts of this message share this value.
+          example: '1'
+        concat-total:
+          type: string
+          description: The number of parts in this concatenated message.
+          example: '3'
+        concat-part:
+          type: string
+          description: The number of this part in the message. Counting starts at 1.
+          example: '2'
+        data:
+          type: string
+          format: binary
+          description: The content of this message, if type is binary.
+        udh:
+          type: string
+          description: The hex encoded User Data Header, if type is binary
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

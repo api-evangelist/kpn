@@ -1,0 +1,202 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: ServiceNow Customer Connect Task API
+  description: "This is Customer Connect API for KPN ServiceNow-Green Tickets. With this API KPN SN Green will be able to create new, or update existing tickets. This document provides the API specification. \n### Key highlights\n- **Security:**  HTTPS, OAuth, Rate limit\n- **Versioning:**  Supports version-less API, version tight. If no version is provided (in header) it defaults to latest version. \n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/servicenow-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/servicenow-kpn/)</br>\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n---"
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- url: https://api-prd.kpn.com/network/kpn/servicenow
+tags:
+- name: Task
+paths:
+  /Task:
+    patch:
+      tags:
+      - Task
+      description: This operation will update an existing task in KPN ServiceNow Green
+      operationId: task-patch
+      summary: Update an existing Task
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      requestBody:
+        description: update Request. Update existing Incident
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTask'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateTicket200Response'
+        400:
+          description: Bad Request. The body will contain details for the error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error, please try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+components:
+  schemas:
+    UpdateTask:
+      type: object
+      required:
+      - action
+      - customer_reference_number
+      - kpn_ticket_number
+      properties:
+        action:
+          type: string
+          enum:
+          - In Progress
+          - Comment
+          - Worknote
+          - On Hold
+          - Closed Complete
+          - Closed Incomplete
+          - Closed Skipped
+          - Response
+          description: Action to take on the task
+          example: Comment
+        comment:
+          type: string
+          description: Additional information, user visible, for action = Comment
+          example: New comment update
+        worknotes:
+          type: string
+          description: Additional information, not user visible, for action = Worknote & action = On Hold
+          example: New worknote update
+        close_notes:
+          type: string
+          description: Additional information on task closure, for action = Closed Complete/Closed Incomplete/Closed Skipped
+          example: close update
+        error_details:
+          type: string
+          description: Additional information for action = Response and status = Failure
+          example: error description
+        status:
+          type: string
+          enum:
+          - Success
+          - Failure
+          description: Status for the response
+          example: Success
+        transaction_id:
+          type: string
+          description: Transaction_id for the response. To be taken from the retrieved ticket update.
+          example: 29b2ffa5-f0a7-428f-a8d6-aff95c469deb
+        kpn_ticket_number:
+          type: string
+          example: INC#34567890
+          description: Ticket number in the KPN system
+        customer_reference_number:
+          type: string
+          description: Unique reference-number of the customer system
+          example: INC01234567
+        attachments:
+          type: array
+          items:
+            type: object
+            required:
+            - name
+            - content
+            properties:
+              name:
+                type: string
+                example: test.txt
+                description: Name of the file with file extension
+              content:
+                type: string
+                example: IQ0KZW5hYmxlIHNlY3JldCBjaXNjbw0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0KIQ0Kbm8gaXAgc291cmNlLXJvdXRlDQohDQohDQohDQohDQohDQohDQohDQohDQoNCg0KIQ0KaXAgd1ZXVlIDEwMCBvdCiBwZXJtaXQgdWQogdHJhbnNwb3J0IGlucHV0IHRlbG5ldA0KIQ0KZW5k
+                description: Base64 coded content of the attachment
+              content_type:
+                type: string
+                description: Content_type of the attachment
+                example: text/plain
+    UpdateTicket200Response:
+      type: object
+      properties:
+        code:
+          type: string
+          example: TechnicalEndpointSuccess
+        state:
+          type: string
+          example: updated
+        kpn_ticket_number:
+          type: string
+          example: INC#34567890
+        customer_reference_number:
+          type: string
+          example: INC01234567
+        note:
+          type: string
+          example: Incident INC#34567890 has been updated;
+    error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Code representing the error
+              example: '1234'
+            message:
+              type: string
+              description: Description of the error
+              example: Description of the error.
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

@@ -1,0 +1,953 @@
+openapi: 3.2.0
+info:
+  title: Kpn Applications API
+  version: v1.1.1
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+  description: 'Operations tagged applications across 2 of this provider''s published API definitions: vonage-messages-openapi.yml, vonage-voice-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api-prd.kpn.com/communication/nexmo
+  description: API Store Application
+- url: https://api-prd.kpn.com/communication/nexmo/
+  description: API Store Application
+tags:
+- name: applications
+  description: Application related resource management
+paths:
+  /applications/v2:
+    parameters:
+    - $ref: '#/components/parameters/api_version_header'
+    post:
+      security:
+      - oauth2: []
+      summary: Creates new application
+      description: "Creates a new application.\nThe basic body needs to include:\n - `name` with the name of the application.\n - `type` should be `messages`.\n - `status_url` Vonage sends Submitted, Delivered, Read and Rejected statuses for every message to this URL.\n - `inbound_url`to receive Inbound Messages.\n \nCreates a call and returns a JSON object with the call identifier (uuid), status of the call, conversation_uuid the call is attached to and the direction of the call.\n"
+      tags:
+      - applications
+      operationId: createApplication
+      requestBody:
+        description: Application Details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new_application'
+      responses:
+        '201':
+          $ref: '#/components/responses/app_created'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'
+    get:
+      security:
+      - oauth2: []
+      summary: Retrieves details of your applications.
+      description: "Retrieves details of your applications.\n\n > **Note:** This endpoint is not available for sandbox environments. To use it please apply for production."
+      tags:
+      - applications
+      operationId: getApplications
+      parameters:
+      - name: page_size
+        in: query
+        description: Set the number of items returned on each call to this endpoint
+        schema:
+          type: integer
+          default: 10
+        required: false
+      - name: page_index
+        in: query
+        description: Set the offset from the first page
+        schema:
+          type: integer
+          default: 0
+        required: false
+      responses:
+        '200':
+          $ref: '#/components/responses/app_list'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'
+    servers:
+    - url: https://api-prd.kpn.com/communication/nexmo
+      description: API Store Application
+  /applications/v2/{uuid}:
+    parameters:
+    - $ref: '#/components/parameters/api_version_header'
+    - $ref: '#/components/parameters/application_uuid'
+    get:
+      security:
+      - oauth2: []
+      summary: Retrieves details of a specific application.
+      description: Retrieves detailed information of a specific application.
+      tags:
+      - applications
+      operationId: getApplication
+      responses:
+        '200':
+          $ref: '#/components/responses/app_detail_ok'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'
+    delete:
+      security:
+      - oauth2: []
+      summary: Deletes application.
+      description: Deletes the existing application.
+      tags:
+      - applications
+      operationId: deleteApplication
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'
+    servers:
+    - url: https://api-prd.kpn.com/communication/nexmo
+      description: API Store Application
+  /applications:
+    parameters:
+    - $ref: '#/components/parameters/api_version_header_2'
+    post:
+      security:
+      - oauth2: []
+      summary: New Application
+      description: "Create a new application\nThe basic body needs to include:\n - `name` with the name of the application\n - `type` set to `voice`\n - `answer_url` the URL where your webhook delivers the NCCO that governs this call. As soon as your user answers a call Vonage makes a request to answer_url.\n - `event_url` the API sends event information asynchronously to this URL when status changes.\n\nCreates a call and returns a JSON object with the call identifier (uuid), status of the call, conversation_uuid the call is attached to and the direction of the call.\n"
+      tags:
+      - applications
+      operationId: createApplication
+      requestBody:
+        description: Application Details
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                type:
+                  type: string
+                  enum:
+                  - voice
+                  - message
+                  default: voice
+                answer_url:
+                  description: The webhook endpoint where you provide the Vonage Call Control Object that governs this call. As soon as your user answers a call Vonage makes a request to `answer_url`
+                  type: string
+                  x-nexmo-developer-collection-description-shown: true
+                  example: https://example.com/answer
+                answer_method:
+                  description: The HTTP method used to make the request to answer_url. The default value is `GET`
+                  type: string
+                  default: GET
+                  example: GET
+                  enum:
+                  - GET
+                  - POST
+                event_url:
+                  description: The webhook endpoint where call progress events are sent to. For more information about the values sent, see callback
+                  type: string
+                  example: https://example.com/event
+                  items:
+                    type: string
+                    format: uri
+                event_method:
+                  description: The HTTP method used to make the request to answer_url. The default value is `GET`
+                  type: string
+                  default: GET
+                  example: GET
+                  enum:
+                  - GET
+                  - POST
+              required:
+              - name
+              - type
+              - answer_url
+              - event_url
+      callbacks:
+        answer_url:
+          '{$request.body#/answer_url}':
+            get:
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        to:
+                          type: string
+                        from:
+                          type: string
+                        uuid:
+                          type: string
+                        conversation_uuid:
+                          type: string
+              responses:
+                '200':
+                  description: returns the corresponding NCCO
+                  content:
+                    application/json:
+                      schema:
+                        $ref: '#/components/schemas/NCCO'
+      responses:
+        '201':
+          $ref: '#/components/responses/app_created'
+        '401':
+          $ref: '#/components/responses/unauthorized_2'
+    get:
+      security:
+      - oauth2: []
+      summary: Details of your applications.
+      description: "Get details of your applications.\n\n This endpoint is not available for sandbox environments, in order to use it please apply for production."
+      tags:
+      - applications
+      operationId: getApplications
+      parameters:
+      - name: page_size
+        in: query
+        description: Set the number of items returned on each call to this endpoint
+        schema:
+          type: integer
+          default: 10
+        required: false
+      - name: page_index
+        in: query
+        description: Set the offset from the first page
+        schema:
+          type: integer
+          default: 0
+        required: false
+      responses:
+        '200':
+          $ref: '#/components/responses/app_list_2'
+        '401':
+          $ref: '#/components/responses/unauthorized_2'
+    servers:
+    - url: https://api-prd.kpn.com/communication/nexmo/
+      description: API Store Application
+  /applications/{uuid}:
+    parameters:
+    - $ref: '#/components/parameters/api_version_header_2'
+    - $ref: '#/components/parameters/application_uuid'
+    get:
+      security:
+      - oauth2: []
+      summary: Details of a specific application
+      description: Get detailed information of a specific application
+      tags:
+      - applications
+      operationId: getApplication
+      responses:
+        '200':
+          $ref: '#/components/responses/app_detail_ok_2'
+        '401':
+          $ref: '#/components/responses/unauthorized_2'
+    put:
+      security:
+      - oauth2: []
+      summary: Modify an existing application
+      description: Modify an existing application
+      tags:
+      - applications
+      operationId: updateApplication
+      parameters:
+      - name: name
+        in: query
+        description: The name of your application.
+        required: true
+        schema:
+          type: string
+          example: My App
+      - name: type
+        in: query
+        description: Products you access with this application
+        required: true
+        schema:
+          type: string
+          enum:
+          - voice
+          default: voice
+      - name: answer_url
+        in: query
+        description: The webhook endpoint where you provide the Vonage Call Control Object that governs this call.
+        required: true
+        schema:
+          type: string
+          example: https://example.com/answer
+      - name: answer_method
+        in: query
+        description: The HTTP method used to make the request to `answer_url`
+        schema:
+          type: string
+          default: GET
+          enum:
+          - GET
+          - POST
+          - PUT
+      - name: event_url
+        in: query
+        description: URL to send events when status updates
+        required: true
+        schema:
+          type: string
+          example: https://example.com/event
+      - name: event_method
+        in: query
+        description: The HTTP method used to make the request to `event_method`
+        schema:
+          type: string
+          default: GET
+          enum:
+          - GET
+          - POST
+          - PUT
+      responses:
+        '200':
+          $ref: '#/components/responses/app_detail_ok_2'
+        '401':
+          $ref: '#/components/responses/unauthorized_2'
+    delete:
+      security:
+      - oauth2: []
+      summary: Delete application
+      description: Deletes the existing application
+      tags:
+      - applications
+      operationId: deleteApplication
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    description: Description of the action taken
+                    type: string
+                    example: Stream stopped
+                  uuid:
+                    $ref: '#/components/schemas/fields_uuid'
+    servers:
+    - url: https://api-prd.kpn.com/communication/nexmo/
+      description: API Store Application
+components:
+  schemas:
+    application:
+      title: Application Created
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        keys:
+          type: object
+          properties:
+            private_key:
+              type: string
+            public_key:
+              type: string
+          required:
+          - private_key
+          - public_key
+        privacy:
+          type: object
+          properties:
+            improve_ai:
+              type: boolean
+          required:
+          - improve_ai
+        capabilities:
+          type: object
+          properties:
+            messages:
+              type: object
+              properties:
+                webhooks:
+                  type: object
+                  properties:
+                    inbound_url:
+                      type: object
+                      properties:
+                        address:
+                          type: string
+                        http_method:
+                          type: string
+                      required:
+                      - address
+                      - http_method
+                    status_url:
+                      type: object
+                      properties:
+                        address:
+                          type: string
+                        http_method:
+                          type: string
+                      required:
+                      - address
+                      - http_method
+                  required:
+                  - inbound_url
+                  - status_url
+                version:
+                  type: string
+                authenticate_inbound_media:
+                  type: boolean
+              required:
+              - webhooks
+              - version
+              - authenticate_inbound_media
+          required:
+          - messages
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+              required:
+              - href
+          required:
+          - self
+      required:
+      - id
+      - name
+      - keys
+      - privacy
+      - capabilities
+      - _links
+    application_detail_ok:
+      title: Get Application
+      type: object
+      properties:
+        count:
+          type: number
+        page_size:
+          type: number
+        page_index:
+          type: number
+        _embedded:
+          type: object
+          properties:
+            applications:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  messages:
+                    type: object
+                    properties:
+                      webhooks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            endpoint_type:
+                              type: string
+                            endpoint:
+                              type: string
+                            http_method:
+                              type: string
+                          required:
+                          - endpoint_type
+                          - endpoint
+                          - http_method
+                    required:
+                    - webhooks
+                  keys:
+                    type: object
+                    properties:
+                      public_key:
+                        type: string
+                    required:
+                    - public_key
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                        required:
+                        - href
+                    required:
+                    - self
+                  voice:
+                    type: object
+                    properties:
+                      webhooks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            endpoint_type:
+                              type: string
+                            endpoint:
+                              type: string
+                            http_method:
+                              type: string
+                          required:
+                          - endpoint_type
+                          - endpoint
+                          - http_method
+                    required:
+                    - webhooks
+                  rtc:
+                    type: object
+                    properties:
+                      webhooks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            endpoint_type:
+                              type: string
+                            endpoint:
+                              type: string
+                            http_method:
+                              type: string
+                          required:
+                          - endpoint_type
+                          - endpoint
+                          - http_method
+                    required:
+                    - webhooks
+                required:
+                - id
+                - name
+                - keys
+                - _links
+          required:
+          - applications
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+              required:
+              - href
+            first:
+              type: object
+              properties:
+                href:
+                  type: string
+              required:
+              - href
+            last:
+              type: object
+              properties:
+                href:
+                  type: string
+              required:
+              - href
+          required:
+          - self
+          - first
+          - last
+      required:
+      - count
+      - page_size
+      - page_index
+      - _embedded
+      - _links
+    new_application:
+      title: Application creation request
+      type: object
+      properties:
+        name:
+          type: string
+        keys:
+          type: object
+          properties:
+            public_key:
+              type: string
+        capabilities:
+          type: object
+          properties:
+            messages:
+              type: object
+              properties:
+                version:
+                  type: string
+                webhooks:
+                  type: object
+                  properties:
+                    inbound_url:
+                      type: object
+                      properties:
+                        address:
+                          type: string
+                        http_method:
+                          type: string
+                    status_url:
+                      type: object
+                      properties:
+                        address:
+                          type: string
+                        http_method:
+                          type: string
+      required:
+      - name
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    application_list_ok:
+      title: Get Application
+      type: object
+      properties:
+        count:
+          type: integer
+          title: The total number of records returned by your request.
+          example: 100
+        page_size:
+          type: integer
+          title: The amount of records returned in this response.
+          example: 10
+        record_index:
+          type: integer
+          title: The `record_index` used in your request.
+          example: 0
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  title: Link to the object
+                  example: /applications?page_size=10&record_index=20&order=asc
+        _embedded:
+          description: A list of application objects. See the [get details of a specific application](#getApplication) response fields for a description of the nested objects
+          type: object
+          properties:
+            applications:
+              type: array
+              items:
+                $ref: '#/components/schemas/application'
+    application_2:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        voice:
+          type: object
+          properties:
+            webhooks:
+              type: array
+              items:
+                type: object
+                properties:
+                  enpoint_type:
+                    type: string
+                    default: answer_url
+                  endpoint:
+                    type: string
+                    format: url
+                  http_method:
+                    type: string
+                    default: GET
+              example:
+              - endpoint_type: answer_url
+                endpoint: https://example.com/answer
+                http_method: GET
+              - endpoint_type: event_url
+                endpoint: https://example.com/event
+                http_method: POST
+        keys:
+          type: object
+          properties:
+            public_key:
+              type: string
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: /applications/aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+    fields_uuid:
+      type: string
+      format: uuid
+      title: The UUID of the call leg that the event relates to
+      example: 63f61863-4a51-4f6b-86e1-46edebcf9356
+      description: The unique identifier for this call leg. The UUID is created when your call request is accepted by Vonage. You use the UUID in all requests for individual live calls
+    error401:
+      type: object
+      properties:
+        type:
+          type: string
+          title: the unauthorized response
+          example: UNAUTHORIZED
+          description: Unauthorized type description
+        error_title:
+          type: string
+          title: the title of an unauthorized response
+          example: Unauthorized
+          description: Unauthorized title description
+      required:
+      - type
+      - error_title
+    NCCO:
+      type: object
+      properties:
+        action:
+          type: string
+        type:
+          type: string
+        option1:
+          type: string
+        option2:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              option1:
+                type: string
+              option2:
+                type: string
+            required:
+            - type
+            - option1
+      required:
+      - action
+  responses:
+    app_detail_ok:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/application_detail_ok'
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    app_list:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/application_list_ok'
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    bad_request:
+      description: bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    app_created:
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/application'
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    app_detail_ok_2:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/application_2'
+    app_list_2:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              count:
+                type: integer
+                title: The total number of records returned by your request.
+                example: 100
+              page_size:
+                type: integer
+                title: The amount of records returned in this response.
+                example: 10
+              record_index:
+                type: integer
+                title: The `record_index` used in your request.
+                example: 0
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        title: Link to the object
+                        example: /applications?page_size=10&record_index=20&order=asc
+              _embedded:
+                description: A list of application objects. See the [get details of a specific application](#getApplication) response fields for a description of the nested objects
+                type: object
+                properties:
+                  applications:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/application_2'
+    unauthorized_2:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error401'
+  parameters:
+    api_version_header:
+      in: header
+      name: api-version
+      schema:
+        type: string
+        default: v2
+      required: false
+      description: API-version to use. Not provided uses latest
+      example: null
+    application_uuid:
+      in: path
+      name: uuid
+      schema:
+        type: string
+      required: true
+      description: UUID of the application
+      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+    api_version_header_2:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      required: false
+      description: API-version to use. Not provided uses latest
+      example: v1
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+    JWTAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers
+x-refined-from:
+- vonage-messages-openapi.yml
+- vonage-voice-openapi.yml

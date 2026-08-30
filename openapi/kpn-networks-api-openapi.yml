@@ -1,0 +1,54 @@
+openapi: 3.2.0
+info:
+  version: 1.54.0
+  title: KPN SD-LAN SD-WAN Network View Networks API
+  description: "The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.\n    \nThe Network View API gives users read rights to retrieve information from the `Network View API` resources. \n    \n- **Note**: By default you have read only access but based on your requirements and contract you can be granted `Manager` access to this API which is more than read only. To request manager access, please contact us at api_developer@kpn.com.\n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/kpn-sd_lan_sd_wan_network_view_api/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/kpn-sd_lan_sd_wan_network_view_api/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)"
+servers:
+- url: https://api-prd.kpn.com/kpn/meraki
+security:
+- OAuth2ClientCredentials: []
+tags:
+- name: Networks
+paths:
+  /networks/{networkId}/clients:
+    get:
+      summary: List clients in a network
+      description: Retrieve the list of clients for a given network.
+      operationId: getNetworkClients
+      parameters:
+      - name: networkId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the network.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    mac:
+                      type: string
+                    description:
+                      type: string
+              example:
+              - id: C12345
+                mac: 00:11:22:33:44:55
+                description: Test Client
+      tags:
+      - Networks
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}

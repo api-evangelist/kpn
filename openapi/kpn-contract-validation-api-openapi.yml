@@ -1,0 +1,114 @@
+openapi: 3.2.0
+info:
+  title: FIAM-KPN Contract Validation API
+  description: A collection of crates for federated identity and access management
+  license:
+    name: ''
+  version: 0.1.1
+servers:
+- url: https://api-prd.kpn.com/fiam
+  description: Server
+tags:
+- name: Contract Validation
+  description: Contract access validation endpoints
+paths:
+  /api/v1/contracts/validate:
+    post:
+      tags:
+      - Contract Validation
+      operationId: validate_contract_access
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContractValidationRequest'
+        required: true
+      responses:
+        '200':
+          description: Validation result returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContractValidationResponse'
+        '400':
+          description: Invalid validation request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '401':
+          description: Unauthorized client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+      security:
+      - bearer_auth: []
+components:
+  schemas:
+    ProblemDetail:
+      type: object
+      required:
+      - type
+      - status
+      properties:
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
+          minimum: 0
+        title:
+          type:
+          - string
+          - 'null'
+        type:
+          type: string
+      additionalProperties: {}
+    ContractValidationRequest:
+      type: object
+      required:
+      - data_owner
+      - data_consumer_token
+      - resource_type
+      - resource_attribute
+      - resource
+      - action
+      properties:
+        action:
+          type: string
+        data_consumer_token:
+          type: string
+        data_owner:
+          type: string
+        resource:
+          type: string
+        resource_attribute:
+          type: string
+        resource_type:
+          type: string
+    ContractValidationResponse:
+      type: object
+      required:
+      - allowed
+      properties:
+        allowed:
+          type: boolean
+  securitySchemes:
+    bearer_auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT Bearer token obtained from /oauth/token endpoint

@@ -1,0 +1,298 @@
+openapi: 3.2.0
+info:
+  title: FIAM – Eneco Data Products Data Consumer API
+  description: Eneco DataShare APIs
+  contact:
+    name: Eneco Integration Team
+    url: https://developer.enecogroup.com
+    email: FM_BTO_Integration_Team@eneco.com
+  version: 1.0.1
+servers:
+- url: https://api-acc.enecogroup.com/
+- url: https://api.enecogroup.com/
+security:
+- apikey: []
+tags:
+- name: DataConsumer
+paths:
+  /datashare/v1/{businessUnit}/{label}/dataconsumer/{dataOwnerId}/{productType}/usages:
+    get:
+      tags:
+      - DataConsumer
+      summary: Get usages for data consumers
+      description: Get usages for data consumers by validating contract via KPN FIAM
+      operationId: Get usages for data consumers
+      parameters:
+      - name: businessUnit
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/BusinessUnitBinding'
+      - name: label
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/LabelBinding'
+      - name: dataOwnerId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: productType
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/ProductTypeBinding'
+      - name: endDate
+        in: query
+        explode: false
+        schema:
+          type: string
+          format: date-time
+      - name: x-request-id
+        in: header
+        description: Unique identifier of incoming call for tracing purposes
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsagesResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /datashare/v1/{businessUnit}/{label}/dataconsumer/{dataOwnerId}/{productType}/metadata:
+    get:
+      tags:
+      - DataConsumer
+      summary: Get metadata of data owner for data consumers
+      description: Get metadata of data owner for data consumers by validating contract via KPN
+      operationId: Get metadata of data owner for data consumers
+      parameters:
+      - name: businessUnit
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/BusinessUnitBinding'
+      - name: label
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/LabelBinding'
+      - name: dataOwnerId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: productType
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/ProductTypeBinding'
+      - name: x-request-id
+        in: header
+        description: Unique identifier of incoming call for tracing purposes
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsagesResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+    BusinessUnit:
+      enum:
+      - nl
+      - be
+      - uk
+    Units:
+      enum:
+      - Centigrade
+      - KiloWattHour
+      - CubicMeter
+    UsageChannel:
+      required:
+      - channelId
+      - unit
+      - usageRecords
+      type: object
+      properties:
+        channelId:
+          type: string
+        unit:
+          $ref: '#/components/schemas/Units'
+        usageRecords:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsageRecord'
+    LabelBinding:
+      enum:
+      - default
+      - eneco
+      - oxxio
+      - woonenergie
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/Label'
+    UsageRecord:
+      required:
+      - amount
+      - timestamp
+      type: object
+      properties:
+        amount:
+          pattern: ^-?(?:0|[1-9]\d*)(?:\.\d+)?$
+          format: double
+        timestamp:
+          type: string
+          format: date-time
+    ProductTypeBinding:
+      enum:
+      - heat
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/ProductType'
+    BusinessUnitBinding:
+      enum:
+      - nl
+      - be
+      - uk
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/BusinessUnit'
+    UsagesResponse:
+      required:
+      - startDate
+      - endDate
+      - usageChannels
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        usageChannels:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsageChannel'
+    ProductType:
+      enum:
+      - heat
+    Label:
+      enum:
+      - default
+      - eneco
+      - oxxio
+      - woonenergie
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+  securitySchemes:
+    apikey:
+      type: apiKey
+      description: Apigee API key
+      name: apikey
+      in: header

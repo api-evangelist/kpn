@@ -1,0 +1,1602 @@
+openapi: 3.2.0
+info:
+  version: 1.54.0
+  title: KPN SD-LAN SD-WAN Network View Switch.monitor API
+  description: "The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.\n    \nThe Network View API gives users read rights to retrieve information from the `Network View API` resources. \n    \n- **Note**: By default you have read only access but based on your requirements and contract you can be granted `Manager` access to this API which is more than read only. To request manager access, please contact us at api_developer@kpn.com.\n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/kpn-sd_lan_sd_wan_network_view_api/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/kpn-sd_lan_sd_wan_network_view_api/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)"
+servers:
+- url: https://api-prd.kpn.com/kpn/meraki
+security:
+- OAuth2ClientCredentials: []
+tags:
+- name: switch.monitor
+paths:
+  /devices/{serial}/switch/ports/cycle:
+    post:
+      description: Cycle a set of switch ports
+      operationId: cycleDeviceSwitchPorts
+      parameters:
+      - name: serial
+        in: path
+        description: Serial
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ports:
+                  type: array
+                  items:
+                    type: string
+                  description: List of switch ports
+              example:
+                ports:
+                - '1'
+                - 2-5
+                - 1_MA-MOD-8X10G_1
+                - 1_MA-MOD-8X10G_2-1_MA-MOD-8X10G_8
+              required:
+              - ports
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ports:
+                    type: array
+                    items:
+                      type: string
+                    description: List of switch ports
+              example:
+                ports:
+                - '1'
+                - 2-5
+                - 1_MA-MOD-8X10G_1
+                - 1_MA-MOD-8X10G_2-1_MA-MOD-8X10G_8
+      summary: Cycle a set of switch ports
+      tags:
+      - switch.monitor
+  /devices/{serial}/switch/ports/statuses:
+    get:
+      description: Return the status for all the ports of a switch
+      operationId: getDeviceSwitchPortsStatuses
+      parameters:
+      - name: serial
+        in: path
+        description: Serial
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameter t0. The value must be in seconds and be less than or equal to 31 days. The default is 1 day.
+        schema:
+          type: number
+          format: float
+          maximum: 2678400
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    portId:
+                      type: string
+                      description: The string identifier of this port on the switch. This is commonly just the port number but may contain additional identifying information such as the slot and module-type if the port is located on a port module.
+                    enabled:
+                      type: boolean
+                      description: Whether the port is configured to be enabled.
+                    status:
+                      type: string
+                      enum:
+                      - Connected
+                      - Disabled
+                      - Disconnected
+                      description: The current connection status of the port.
+                    isUplink:
+                      type: boolean
+                      description: Whether the port is the switch's uplink.
+                    errors:
+                      type: array
+                      items:
+                        type: string
+                      description: All errors present on the port.
+                    warnings:
+                      type: array
+                      items:
+                        type: string
+                      description: All warnings present on the port.
+                    speed:
+                      type: string
+                      enum:
+                      - ''
+                      - 1 Gbps
+                      - 10 Gbps
+                      - 10 Mbps
+                      - 100 Gbps
+                      - 100 Mbps
+                      - 2.5 Gbps
+                      - 20 Gbps
+                      - 25 Gbps
+                      - 40 Gbps
+                      - 5 Gbps
+                      - 50 Gbps
+                      description: The current data transfer rate which the port is operating at.
+                    duplex:
+                      type: string
+                      enum:
+                      - ''
+                      - full
+                      - half
+                      description: The current duplex of a connected port.
+                    spanningTree:
+                      type: object
+                      properties:
+                        statuses:
+                          type: array
+                          items:
+                            type: string
+                          description: The current Spanning Tree Protocol statuses of the port.
+                      description: The Spanning Tree Protocol (STP) information of the connected device.
+                    poe:
+                      type: object
+                      properties:
+                        isAllocated:
+                          type: boolean
+                          description: Whether the port is drawing power
+                      description: PoE status of the port.
+                    usageInKb:
+                      type: object
+                      properties:
+                        total:
+                          type: integer
+                          description: The total amount of data sent and received (in kilobytes).
+                        sent:
+                          type: integer
+                          description: The amount of data sent (in kilobytes).
+                        recv:
+                          type: integer
+                          description: The amount of data received (in kilobytes).
+                      description: A breakdown of how many kilobytes have passed through this port during the timespan.
+                    cdp:
+                      type: object
+                      properties:
+                        systemName:
+                          type: string
+                          description: The system name.
+                        platform:
+                          type: string
+                          description: Identifies the hardware platform of the device.
+                        deviceId:
+                          type: string
+                          description: Identifies the device name.
+                        portId:
+                          type: string
+                          description: Identifies the port from which the CDP packet was sent.
+                        nativeVlan:
+                          type: integer
+                          description: Indicates, per interface, the assumed VLAN for untagged packets on the interface.
+                        address:
+                          type: string
+                          description: Contains network addresses of both receiving and sending devices.
+                        managementAddress:
+                          type: string
+                          description: The device's management IP.
+                        version:
+                          type: string
+                          description: Contains the device software release information.
+                        vtpManagementDomain:
+                          type: string
+                          description: Advertises the configured VLAN Trunking Protocl (VTP)-management-domain name of the system.
+                        capabilities:
+                          type: string
+                          description: Identifies the device type, which indicates the functional capabilities of the device.
+                      description: The Cisco Discovery Protocol (CDP) information of the connected device.
+                    lldp:
+                      type: object
+                      properties:
+                        systemName:
+                          type: string
+                          description: The device's system name.
+                        systemDescription:
+                          type: string
+                          description: The device's system description.
+                        chassisId:
+                          type: string
+                          description: The device's chassis ID.
+                        portId:
+                          type: string
+                          description: Identifies the port from which the LLDP packet was sent
+                        managementVlan:
+                          type: integer
+                          description: The device's management VLAN.
+                        portVlan:
+                          type: integer
+                          description: The port's VLAN.
+                        managementAddress:
+                          type: string
+                          description: The device's management IP.
+                        portDescription:
+                          type: string
+                          description: Description of the port from which the LLDP packet was sent.
+                        systemCapabilities:
+                          type: string
+                          description: Identifies the device type, which indicates the functional capabilities of the device.
+                      description: The Link Layer Discovery Protocol (LLDP) information of the connected device.
+                    clientCount:
+                      type: integer
+                      description: The number of clients connected through this port.
+                    powerUsageInWh:
+                      type: number
+                      format: float
+                      description: How much power (in watt-hours) has been delivered by this port during the timespan.
+                    trafficInKbps:
+                      type: object
+                      properties:
+                        total:
+                          type: number
+                          format: float
+                          description: The average speed of the data sent and received (in kilobits-per-second).
+                        sent:
+                          type: number
+                          format: float
+                          description: The average speed of the data sent (in kilobits-per-second).
+                        recv:
+                          type: number
+                          format: float
+                          description: The average speed of the data received (in kilobits-per-second).
+                      description: A breakdown of the average speed of data that has passed through this port during the timespan.
+                    securePort:
+                      type: object
+                      properties:
+                        enabled:
+                          type: boolean
+                          description: Whether Secure Port is turned on for this port.
+                        active:
+                          type: boolean
+                          description: Whether Secure Port is currently active for this port.
+                        authenticationStatus:
+                          type: string
+                          enum:
+                          - Authentication failure
+                          - Authentication in progress
+                          - Authentication successful
+                          - Authentication timed out
+                          - Disabled
+                          - Enabled
+                          description: The current Secure Port status.
+                        configOverrides:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - access
+                              - stack
+                              - trunk
+                              description: The type of the  ('trunk', 'access' or 'stack').
+                            vlan:
+                              type: integer
+                              description: The VLAN of the . For a trunk port, this is the native VLAN. A null value will clear the value set for trunk ports.
+                            voiceVlan:
+                              type: integer
+                              description: The voice VLAN of the . Only applicable to access ports.
+                            allowedVlans:
+                              type: string
+                              description: The VLANs allowed on the . Only applicable to trunk ports.
+                          description: The configuration overrides applied to this port when Secure Port is active.
+                      description: The Secure Port status of the port.
+              example:
+              - portId: '1'
+                enabled: true
+                status: Connected
+                isUplink: false
+                errors:
+                - PoE overload
+                - Very high proportion of CRC errors
+                warnings:
+                - SecurePort authentication in progress
+                - PoE port was denied power
+                - High proportion of CRC errors
+                speed: 10 Gbps
+                duplex: full
+                spanningTree:
+                  statuses:
+                  - Learning
+                poe:
+                  isAllocated: false
+                usageInKb:
+                  total: 40867
+                  sent: 23008
+                  recv: 17859
+                cdp:
+                  systemName: ''
+                  platform: MS350-24X
+                  deviceId: 0c8ddbddee:ff
+                  portId: Port 20
+                  nativeVlan: 1
+                  address: 10.0,0.1
+                  managementAddress: 10.0.0.100
+                  version: '1'
+                  vtpManagementDomain: ''
+                  capabilities: Switch
+                lldp:
+                  systemName: MS350-24X - Test
+                  systemDescription: MS350-24X Cloud Managed PoE Switch
+                  chassisId: 0c:8d:db:dd:ee:ff
+                  portId: '20'
+                  managementVlan: 1
+                  portVlan: 1
+                  managementAddress: 10.0.0.100
+                  portDescription: Port 20
+                  systemCapabilities: switch
+                clientCount: 10
+                powerUsageInWh: 55.9
+                trafficInKbps:
+                  total: 2.2
+                  sent: 1.2
+                  recv: 1
+                securePort:
+                  enabled: true
+                  active: true
+                  authenticationStatus: Authentication in progress
+                  configOverrides:
+                    type: trunk
+                    vlan: 12
+                    voiceVlan: 34
+                    allowedVlans: all
+      summary: Return the status for all the ports of a switch
+      tags:
+      - switch.monitor
+  /devices/{serial}/switch/ports/statuses/packets:
+    get:
+      description: Return the packet counters for all the ports of a switch
+      operationId: getDeviceSwitchPortsStatusesPackets
+      parameters:
+      - name: serial
+        in: path
+        description: Serial
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 1 day from today.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameter t0. The value must be in seconds and be less than or equal to 1 day. The default is 1 day.
+        schema:
+          type: number
+          format: float
+          maximum: 86400
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    portId:
+                      type: string
+                      description: The string identifier of this port on the switch. This is commonly just the port number but may contain additional identifying information such as the slot and module-type if the port is located on a port module.
+                    packets:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          desc:
+                            type: string
+                            description: The type of packets being counted.
+                          total:
+                            type: integer
+                            description: The total count of sent and received packets.
+                          sent:
+                            type: integer
+                            description: The total count of packets sent by the switch during the timespan.
+                          recv:
+                            type: integer
+                            description: The total count of packets received by the switch during the timespan.
+                          ratePerSec:
+                            type: object
+                            properties:
+                              total:
+                                type: integer
+                                description: The rate of all packets sent and received during the timespan
+                              sent:
+                                type: integer
+                                description: The rate of packets sent during the timespan
+                              recv:
+                                type: integer
+                                description: The rate of packets received during the timespan
+                            description: Packet rates measured in packets per second.
+                      description: The packet counts on the switch.
+              example:
+              - portId: '1'
+                packets:
+                - desc: Total
+                  total: 112081
+                  sent: 104135
+                  recv: 7946
+                  ratePerSec:
+                    total: 1
+                    sent: 1
+                    recv: 0
+      summary: Return the packet counters for all the ports of a switch
+      tags:
+      - switch.monitor
+  /organizations/{organizationId}/summary/switch/power/history:
+    get:
+      description: Returns the total PoE power draw for all switch ports in the organization over the requested timespan (by default the last 24 hours). The returned array is a newest-first list of intervals. The time between intervals depends on the requested timespan with 20 minute intervals used for timespans up to 1 day, 4 hour intervals used for timespans up to 2 weeks, and 1 day intervals for timespans larger than 2 weeks.
+      operationId: getOrganizationSummarySwitchPowerHistory
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 186 days. The default is 1 day.
+        schema:
+          type: number
+          format: float
+          maximum: 16070400
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ts:
+                      type: string
+                      format: date-time
+                      description: Timestamp of the start of the interval.
+                    draw:
+                      type: number
+                      format: float
+                      description: The PoE power draw in watts for all switch ports in the organization for the given interval.
+              example:
+              - ts: '2021-06-20T01:00:00.000Z'
+                draw: 5.4321
+      summary: Returns the total PoE power draw for all switch ports in the organization over the requested timespan (by default the last 24 hours)
+      tags:
+      - switch.monitor
+  /organizations/{organizationId}/switch/ports/clients/overview/byDevice:
+    get:
+      description: List the number of clients for all switchports with at least one online client in an organization.
+      operationId: getOrganizationSwitchPortsClientsOverviewByDevice
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameter t0. The value must be in seconds and be less than or equal to 31 days. The default is 1 day.
+        schema:
+          type: number
+          format: float
+          maximum: 2678400
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 20. Default is 20.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: configurationUpdatedAfter
+        in: query
+        description: Optional parameter to filter items to switches where the configuration has been updated after the given timestamp.
+        schema:
+          type: string
+          format: date-time
+      - name: mac
+        in: query
+        description: Optional parameter to filter items to switches with MAC addresses that contain the search term or are an exact match.
+        schema:
+          type: string
+      - name: macs
+        in: query
+        description: Optional parameter to filter items to switches that have one of the provided MAC addresses.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: name
+        in: query
+        description: Optional parameter to filter items to switches with names that contain the search term or are an exact match.
+        schema:
+          type: string
+      - name: networkIds
+        in: query
+        description: Optional parameter to filter items to switches in one of the provided networks.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: portProfileIds
+        in: query
+        description: Optional parameter to filter items to switches that contain switchports belonging to one of the specified port profiles.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serial
+        in: query
+        description: Optional parameter to filter items to switches with serial number that contains the search term or are an exact match.
+        schema:
+          type: string
+      - name: serials
+        in: query
+        description: Optional parameter to filter items to switches that have one of the provided serials.
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the switch.
+                        serial:
+                          type: string
+                          description: The serial number of the switch.
+                        mac:
+                          type: string
+                          description: The MAC address of the switch.
+                        network:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              description: The name of the network.
+                            id:
+                              type: string
+                              description: The ID of the network.
+                          description: Identifying information of the switch's network.
+                        model:
+                          type: string
+                          description: The model of the switch.
+                        ports:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              portId:
+                                type: string
+                                description: The string identifier of this port on the switch. This is commonly just the port number but may contain additional identifying information such as the slot and module-type if the port is located on a port module.
+                              counts:
+                                type: object
+                                properties:
+                                  byStatus:
+                                    type: object
+                                    properties:
+                                      online:
+                                        type: integer
+                                        description: Active client count.
+                                    description: Associated client count on access point by status.
+                                description: Number of clients on the port in a given time.
+                          description: The number of online clients of the ports on the switch.
+                    description: Switches
+                  meta:
+                    type: object
+                    properties:
+                      counts:
+                        type: object
+                        properties:
+                          items:
+                            type: object
+                            properties:
+                              total:
+                                type: integer
+                                description: The total number of items in the dataset
+                              remaining:
+                                type: integer
+                                description: The number of items in the dataset that are available on subsequent pages
+                            description: Counts relating to the paginated items
+                        description: Counts relating to the paginated dataset
+                    description: Metadata relevant to the paginated dataset
+              example:
+                items:
+                - name: Example Switch
+                  serial: Q555-5555-5555
+                  mac: 01:23:45:67:ab:cd
+                  network:
+                    name: Example Network
+                    id: L_12345
+                  model: MS120-8
+                  ports:
+                  - portId: '1'
+                    counts:
+                      byStatus:
+                        online: 0
+                meta:
+                  counts:
+                    items:
+                      total: 1
+                      remaining: 0
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: List the number of clients for all switchports with at least one online client in an organization.
+      tags:
+      - switch.monitor
+  /organizations/{organizationId}/switch/ports/overview:
+    get:
+      description: Returns the counts of all active ports for the requested timespan, grouped by speed. An active port is a port that at any point during the timeframe is observed to be connected to a responsive device and isn't configured to be disabled. For a port that is observed at multiple speeds during the timeframe, it will be counted at the highest speed observed. The number of inactive ports, and the total number of ports are also provided. Only ports on switches online during the timeframe will be represented and a port is only guaranteed to be present if its switch was online for at least 6 hours of the timeframe.
+      operationId: getOrganizationSwitchPortsOverview
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 12 hours and be less than or equal to 186 days. The default is 1 day.
+        schema:
+          type: number
+          format: float
+          minimum: 43200
+          maximum: 16070400
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  counts:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                        description: The total number of ports
+                      byStatus:
+                        type: object
+                        properties:
+                          active:
+                            type: object
+                            properties:
+                              total:
+                                type: integer
+                                description: The total number of active ports
+                              byMediaAndLinkSpeed:
+                                type: object
+                                properties:
+                                  rj45:
+                                    type: object
+                                    properties:
+                                      '10':
+                                        type: integer
+                                        description: The number of active 10 Mbps RJ45 ports
+                                      '100':
+                                        type: integer
+                                        description: The number of active 100 Mbps RJ45 ports
+                                      '1000':
+                                        type: integer
+                                        description: The number of active 1 Gbps RJ45 ports
+                                      '2500':
+                                        type: integer
+                                        description: The number of active 2 Gbps RJ45 ports
+                                      '5000':
+                                        type: integer
+                                        description: The number of active 5 Gbps RJ45 ports
+                                      '10000':
+                                        type: integer
+                                        description: The number of active 10 Gbps RJ45 ports
+                                      total:
+                                        type: integer
+                                        description: The total number of active RJ45 ports
+                                    description: The count data for RJ45 ports, indexed by speed in Mb
+                                  sfp:
+                                    type: object
+                                    properties:
+                                      '100':
+                                        type: integer
+                                        description: The number of active 100 Mbps SFP ports
+                                      '1000':
+                                        type: integer
+                                        description: The number of active 1 Gbps SFP ports
+                                      '10000':
+                                        type: integer
+                                        description: The number of active 10 Gbps SFP ports
+                                      '20000':
+                                        type: integer
+                                        description: The number of active 20 Gbps SFP ports
+                                      '25000':
+                                        type: integer
+                                        description: The number of active 25 Gbps SFP ports
+                                      '40000':
+                                        type: integer
+                                        description: The number of active 40 Gbps SFP ports
+                                      '50000':
+                                        type: integer
+                                        description: The number of active 50 Gbps SFP ports
+                                      '100000':
+                                        type: integer
+                                        description: The number of active 100 Gbps SFP ports
+                                      total:
+                                        type: integer
+                                        description: The total number of active SFP ports
+                                    description: The count data for SFP ports, indexed by speed in Mb
+                                description: The active count data, indexed by media type (RJ45 or SFP)
+                            description: The count data for active ports
+                          inactive:
+                            type: object
+                            properties:
+                              total:
+                                type: integer
+                                description: The total number of inactive ports
+                              byMedia:
+                                type: object
+                                properties:
+                                  rj45:
+                                    type: object
+                                    properties:
+                                      total:
+                                        type: integer
+                                        description: The total number of inactive RJ45 ports
+                                    description: The count data for inactive RJ45 ports
+                                  sfp:
+                                    type: object
+                                    properties:
+                                      total:
+                                        type: integer
+                                        description: The total number of inactive SFP ports
+                                    description: The count data for inactive SFP ports
+                                description: The inactive count data, indexed by media type (RJ45 or SFP)
+                            description: The count data for inactive ports
+                        description: The count data, indexed by active or inactive status
+                    description: The count data of all ports
+              example:
+                counts:
+                  total: 120
+                  byStatus:
+                    active:
+                      total: 87
+                      byMediaAndLinkSpeed:
+                        rj45:
+                          '10': 0
+                          '100': 0
+                          '1000': 24
+                          '2500': 0
+                          '5000': 0
+                          '10000': 0
+                          total: 24
+                        sfp:
+                          '100': 8
+                          '1000': 40
+                          '10000': 10
+                          '20000': 0
+                          '25000': 0
+                          '40000': 1
+                          '50000': 0
+                          '100000': 0
+                          total: 63
+                    inactive:
+                      total: 33
+                      byMedia:
+                        rj45:
+                          total: 16
+                        sfp:
+                          total: 17
+      summary: Returns the counts of all active ports for the requested timespan, grouped by speed
+      tags:
+      - switch.monitor
+  /organizations/{organizationId}/switch/ports/statuses/bySwitch:
+    get:
+      description: List the switchports in an organization
+      operationId: getOrganizationSwitchPortsStatusesBySwitch
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 20. Default is 10.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: configurationUpdatedAfter
+        in: query
+        description: Optional parameter to filter items to switches where the configuration has been updated after the given timestamp.
+        schema:
+          type: string
+          format: date-time
+      - name: mac
+        in: query
+        description: Optional parameter to filter items to switches with MAC addresses that contain the search term or are an exact match.
+        schema:
+          type: string
+      - name: macs
+        in: query
+        description: Optional parameter to filter items to switches that have one of the provided MAC addresses.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: name
+        in: query
+        description: Optional parameter to filter items to switches with names that contain the search term or are an exact match.
+        schema:
+          type: string
+      - name: networkIds
+        in: query
+        description: Optional parameter to filter items to switches in one of the provided networks.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: portProfileIds
+        in: query
+        description: Optional parameter to filter items to switches that contain switchports belonging to one of the specified port profiles.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serial
+        in: query
+        description: Optional parameter to filter items to switches with serial number that contains the search term or are an exact match.
+        schema:
+          type: string
+      - name: serials
+        in: query
+        description: Optional parameter to filter items to switches that have one of the provided serials.
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the switch.
+                        serial:
+                          type: string
+                          description: The serial number of the switch.
+                        mac:
+                          type: string
+                          description: The MAC address of the switch.
+                        network:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              description: The name of the network.
+                            id:
+                              type: string
+                              description: The ID of the network.
+                          description: Identifying information of the switch's network.
+                        model:
+                          type: string
+                          description: The model of the switch.
+                        ports:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              portId:
+                                type: string
+                                description: The string identifier of this port on the switch. This is commonly just the port number but may contain additional identifying information such as the slot and module-type if the port is located on a port module.
+                              enabled:
+                                type: boolean
+                                description: Whether the port is configured to be enabled.
+                              status:
+                                type: string
+                                enum:
+                                - Connected
+                                - Disabled
+                                - Disconnected
+                                description: The current connection status of the port.
+                              isUplink:
+                                type: boolean
+                                description: Whether the port is the switch's uplink.
+                              errors:
+                                type: array
+                                items:
+                                  type: string
+                                description: All errors present on the port.
+                              warnings:
+                                type: array
+                                items:
+                                  type: string
+                                description: All warnings present on the port.
+                              speed:
+                                type: string
+                                enum:
+                                - ''
+                                - 1 Gbps
+                                - 10 Gbps
+                                - 10 Mbps
+                                - 100 Gbps
+                                - 100 Mbps
+                                - 2.5 Gbps
+                                - 20 Gbps
+                                - 25 Gbps
+                                - 40 Gbps
+                                - 5 Gbps
+                                - 50 Gbps
+                                description: The current data transfer rate which the port is operating at.
+                              duplex:
+                                type: string
+                                enum:
+                                - ''
+                                - full
+                                - half
+                                description: The current duplex of a connected port.
+                              spanningTree:
+                                type: object
+                                properties:
+                                  statuses:
+                                    type: array
+                                    items:
+                                      type: string
+                                    description: The current Spanning Tree Protocol statuses of the port.
+                                description: The Spanning Tree Protocol (STP) information of the connected device.
+                              poe:
+                                type: object
+                                properties:
+                                  isAllocated:
+                                    type: boolean
+                                    description: Whether the port is drawing power
+                                description: PoE status of the port.
+                              securePort:
+                                type: object
+                                properties:
+                                  active:
+                                    type: boolean
+                                    description: Whether Secure Port is currently active for this port.
+                                  authenticationStatus:
+                                    type: string
+                                    enum:
+                                    - Authentication failure
+                                    - Authentication in progress
+                                    - Authentication successful
+                                    - Authentication timed out
+                                    - Disabled
+                                    - Enabled
+                                    description: The current Secure Port status.
+                                description: The Secure Port status of the port.
+                          description: The statuses of the ports on the switch.
+                    description: Switches
+                  meta:
+                    type: object
+                    properties:
+                      counts:
+                        type: object
+                        properties:
+                          items:
+                            type: object
+                            properties:
+                              total:
+                                type: integer
+                                description: The total number of items in the dataset
+                              remaining:
+                                type: integer
+                                description: The number of items in the dataset that are available on subsequent pages
+                            description: Counts relating to the paginated items
+                        description: Counts relating to the paginated dataset
+                    description: Metadata relevant to the paginated dataset
+              example:
+                items:
+                - name: Example Switch
+                  serial: Q555-5555-5555
+                  mac: 01:23:45:67:ab:cd
+                  network:
+                    name: Example Network
+                    id: L_12345
+                  model: MS120-8
+                  ports:
+                  - portId: '1'
+                    enabled: true
+                    status: Connected
+                    isUplink: false
+                    errors:
+                    - PoE overload
+                    - Very high proportion of CRC errors
+                    warnings:
+                    - SecurePort authentication in progress
+                    - PoE port was denied power
+                    - High proportion of CRC errors
+                    speed: 10 Gbps
+                    duplex: full
+                    spanningTree:
+                      statuses:
+                      - Learning
+                    poe:
+                      isAllocated: false
+                    securePort:
+                      active: true
+                      authenticationStatus: Authentication in progress
+                meta:
+                  counts:
+                    items:
+                      total: 1
+                      remaining: 0
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: List the switchports in an organization
+      tags:
+      - switch.monitor
+  /organizations/{organizationId}/switch/ports/topology/discovery/byDevice:
+    get:
+      description: List most recently seen LLDP/CDP discovery and topology information per switch port in an organization.
+      operationId: getOrganizationSwitchPortsTopologyDiscoveryByDevice
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameter t0. The value must be in seconds and be less than or equal to 31 days. The default is 1 day.
+        schema:
+          type: number
+          format: float
+          maximum: 2678400
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 20. Default is 10.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: configurationUpdatedAfter
+        in: query
+        description: Optional parameter to filter items to switches where the configuration has been updated after the given timestamp.
+        schema:
+          type: string
+          format: date-time
+      - name: mac
+        in: query
+        description: Optional parameter to filter items to switches with MAC addresses that contain the search term or are an exact match.
+        schema:
+          type: string
+      - name: macs
+        in: query
+        description: Optional parameter to filter items to switches that have one of the provided MAC addresses.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: name
+        in: query
+        description: Optional parameter to filter items to switches with names that contain the search term or are an exact match.
+        schema:
+          type: string
+      - name: networkIds
+        in: query
+        description: Optional parameter to filter items to switches in one of the provided networks.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: portProfileIds
+        in: query
+        description: Optional parameter to filter items to switches that contain switchports belonging to one of the specified port profiles.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serial
+        in: query
+        description: Optional parameter to filter items to switches with serial number that contains the search term or are an exact match.
+        schema:
+          type: string
+      - name: serials
+        in: query
+        description: Optional parameter to filter items to switches that have one of the provided serials.
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the switch.
+                        serial:
+                          type: string
+                          description: The serial number of the switch.
+                        mac:
+                          type: string
+                          description: The MAC address of the switch.
+                        network:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              description: The name of the network.
+                            id:
+                              type: string
+                              description: The ID of the network.
+                          description: Identifying information of the switch's network.
+                        model:
+                          type: string
+                          description: The model of the switch.
+                        ports:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              portId:
+                                type: string
+                                description: The string identifier of this port on the switch. This is commonly just the port number but may contain additional identifying information such as the slot and module-type if the port is located on a port module.
+                              lastUpdatedAt:
+                                type: string
+                                description: Timestamp for most recent discovery info on this port.
+                              cdp:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    name:
+                                      type: string
+                                      description: CDP RFC/official name of TLV
+                                    value:
+                                      type: string
+                                      description: Value of the named TLV.
+                                description: The Cisco Discovery Protocol (CDP) information of the connected device.
+                              lldp:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    name:
+                                      type: string
+                                      description: LLDP RFC/official name of TLV
+                                    value:
+                                      type: string
+                                      description: Value of the named TLV.
+                                description: The Link Layer Discovery Protocol (LLDP) information of the connected device.
+                          description: Ports belonging to the switch with LLDP/CDP discovery info.
+                    description: Switches
+                  meta:
+                    type: object
+                    properties:
+                      counts:
+                        type: object
+                        properties:
+                          items:
+                            type: object
+                            properties:
+                              total:
+                                type: integer
+                                description: The total number of items in the dataset
+                              remaining:
+                                type: integer
+                                description: The number of items in the dataset that are available on subsequent pages
+                            description: Counts relating to the paginated items
+                        description: Counts relating to the paginated dataset
+                    description: Metadata relevant to the paginated dataset
+              example:
+                items:
+                - name: Example Switch
+                  serial: Q555-5555-5555
+                  mac: 01:23:45:67:ab:cd
+                  network:
+                    name: Example Network
+                    id: L_12345
+                  model: MS120-8
+                  ports:
+                  - portId: '1'
+                    lastUpdatedAt: ISO8061Z
+                    cdp:
+                    - name: System name
+                      value: MS350-24X - Test
+                    lldp:
+                    - name: System name
+                      value: MS350-24X - Test
+                meta:
+                  counts:
+                    items:
+                      total: 1
+                      remaining: 0
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: List most recently seen LLDP/CDP discovery and topology information per switch port in an organization.
+      tags:
+      - switch.monitor
+  /organizations/{organizationId}/switch/ports/usage/history/byDevice/byInterval:
+    get:
+      description: List the historical usage and traffic data of switchports in an organization.
+      operationId: getOrganizationSwitchPortsUsageHistoryByDeviceByInterval
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 1 day. If interval is provided, the timespan will be autocalculated.
+        schema:
+          type: number
+          format: float
+          maximum: 2678400
+      - name: interval
+        in: query
+        description: 'The time interval in seconds for returned data. The valid intervals are: 300, 1200, 14400, 86400. The default is 1200. Interval is calculated if time params are provided.'
+        schema:
+          type: integer
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 50. Default is 10.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: configurationUpdatedAfter
+        in: query
+        description: Optional parameter to filter items to switches where the configuration has been updated after the given timestamp.
+        schema:
+          type: string
+          format: date-time
+      - name: mac
+        in: query
+        description: Optional parameter to filter items to switches with MAC addresses that contain the search term or are an exact match.
+        schema:
+          type: string
+      - name: macs
+        in: query
+        description: Optional parameter to filter items to switches that have one of the provided MAC addresses.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: name
+        in: query
+        description: Optional parameter to filter items to switches with names that contain the search term or are an exact match.
+        schema:
+          type: string
+      - name: networkIds
+        in: query
+        description: Optional parameter to filter items to switches in one of the provided networks.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: portProfileIds
+        in: query
+        description: Optional parameter to filter items to switches that contain switchports belonging to one of the specified port profiles.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serial
+        in: query
+        description: Optional parameter to filter items to switches with serial number that contains the search term or are an exact match.
+        schema:
+          type: string
+      - name: serials
+        in: query
+        description: Optional parameter to filter items to switches that have one of the provided serials.
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the switch.
+                        serial:
+                          type: string
+                          description: The serial number of the switch.
+                        mac:
+                          type: string
+                          description: The MAC address of the switch.
+                        network:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              description: The name of the network.
+                            id:
+                              type: string
+                              description: The ID of the network.
+                          description: Identifying information of the switch's network.
+                        model:
+                          type: string
+                          description: The model of the switch.
+                        ports:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              portId:
+                                type: string
+                                description: The string identifier of this port on the switch. This is commonly just the port number but may contain additional identifying information such as the slot and module-type if the port is located on a port module.
+                              intervals:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    startTs:
+                                      type: string
+                                      format: date-time
+                                      description: The starting timestamp of the given interval.
+                                    endTs:
+                                      type: string
+                                      format: date-time
+                                      description: The end timestamp of the given interval.
+                                    data:
+                                      type: object
+                                      properties:
+                                        usage:
+                                          type: object
+                                          properties:
+                                            total:
+                                              type: integer
+                                              description: The total amount of data sent and received (in kilobytes).
+                                            upstream:
+                                              type: integer
+                                              description: The amount of data sent (in kilobytes).
+                                            downstream:
+                                              type: integer
+                                              description: The amount of data received (in kilobytes).
+                                          description: Usage data for the given interval.
+                                      description: A breakdown of how many kilobytes have passed through this port during the interval timespan.
+                                    bandwidth:
+                                      type: object
+                                      properties:
+                                        usage:
+                                          type: object
+                                          properties:
+                                            total:
+                                              type: number
+                                              format: float
+                                              description: The average speed of the data sent and received (in kilobits-per-second).
+                                            upstream:
+                                              type: number
+                                              format: float
+                                              description: The average speed of the data sent (in kilobits-per-second).
+                                            downstream:
+                                              type: number
+                                              format: float
+                                              description: The average speed of the data received (in kilobits-per-second).
+                                          description: Bandwidth usage data for the given interval.
+                                      description: A breakdown of the average speed of data that has passed through this port during the interval.
+                                    energy:
+                                      type: object
+                                      properties:
+                                        usage:
+                                          type: object
+                                          properties:
+                                            total:
+                                              type: number
+                                              format: float
+                                              description: The total energy in watt-hours delivered by this port during the interval
+                                          description: Energy data for the given interval.
+                                      description: How much energy (in watt-hours) has been delivered by this port during the interval.
+                                description: An array of intervals for a port with bandwidth, traffic, and power usage data.
+                          description: The number of ports on the switch with usage data.
+                    description: Switches
+                  meta:
+                    type: object
+                    properties:
+                      counts:
+                        type: object
+                        properties:
+                          items:
+                            type: object
+                            properties:
+                              total:
+                                type: integer
+                                description: The total number of items in the dataset
+                              remaining:
+                                type: integer
+                                description: The number of items in the dataset that are available on subsequent pages
+                            description: Counts relating to the paginated items
+                        description: Counts relating to the paginated dataset
+                    description: Metadata relevant to the paginated dataset
+              example:
+                items:
+                - name: Example Switch
+                  serial: Q555-5555-5555
+                  mac: 01:23:45:67:ab:cd
+                  network:
+                    name: Example Network
+                    id: L_12345
+                  model: MS120-8
+                  ports:
+                  - portId: '1'
+                    intervals:
+                    - startTs: '2024-02-11T00:00:00.090210Z'
+                      endTs: '2024-02-11T00:20:00.090210Z'
+                      data:
+                        usage:
+                          total: 40867
+                          upstream: 23008
+                          downstream: 17859
+                      bandwidth:
+                        usage:
+                          total: 2.2
+                          upstream: 1.2
+                          downstream: 1
+                      energy:
+                        usage:
+                          total: 2.2
+                meta:
+                  counts:
+                    items:
+                      total: 1
+                      remaining: 0
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: List the historical usage and traffic data of switchports in an organization.
+      tags:
+      - switch.monitor
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}

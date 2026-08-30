@@ -1,0 +1,338 @@
+openapi: 3.2.0
+info:
+  title: Kpn Token API
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+  version: '1.0'
+  description: 'Operations tagged Token across 3 of this provider''s published API definitions: kpn-match-openapi.yml, kpn-number-verify-openapi.yml, pollyhelp-knowledge-management-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/kpn/Match-KPN/1.1.1
+- url: https://api-prd.kpn.com/communication/kpn/match
+- url: https://api-prd.kpn.com/communication/kpn/numberverify
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/kpn/NumberVerify-KPN/1.2.1
+- url: https://api-prd.kpn.com/data/pollyhelp/knowledgemanagement
+tags:
+- name: Token
+paths:
+  /token:
+    post:
+      summary: Token Request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
+            examples:
+              grant_type_and_refresh_token:
+                summary: credentials
+                value:
+                  client_id: your_client_id
+                  client_secret: your_client_secret
+              grant_type_and_refresh_token_correlation_id:
+                summary: credentials + correlation_id
+                value:
+                  client_id: your_client_id
+                  client_secret: your_client_secret
+                  correlation_id: abcd1234
+              grant_type_refresh_token_scope:
+                summary: credentials + scopes
+                value:
+                  client_id: your_client_id
+                  client_secret: your_client_secret
+                  scopes:
+                  - mpm
+              grant_type_refresh_token_scope_correlation_id:
+                summary: credentials + scopes + correlation_id
+                value:
+                  client_id: your_client_id
+                  client_secret: your_client_secret
+                  scopes:
+                  - mpm
+                  correlation_id: abcd1234
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                error_response:
+                  summary: Example of Bad Request
+                  value:
+                    error_code: 400
+                    message: Bad Request
+                    correlation_id: abcd1234
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                error_response:
+                  summary: Example of Unauthorized
+                  value:
+                    error_code: 401
+                    message: Unauthorized
+                    correlation_id: abcd1234
+      tags:
+      - Token
+    get:
+      description: Retrieves polly.help token information.
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/api_version_query'
+      responses:
+        '200':
+          $ref: '#/components/responses/token_success'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'
+      tags:
+      - Token
+    servers:
+    - description: SwaggerHub API Auto Mocking
+      url: https://virtserver.swaggerhub.com/kpn/Match-KPN/1.1.1
+    - url: https://api-prd.kpn.com/communication/kpn/match
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error_code:
+          type: integer
+          description: HTTP status code representing the error
+          example: 400
+          enum:
+          - 400
+          - 401
+          - 403
+          - 404
+          - 405
+          - 412
+          - 429
+          - 500
+          - 502
+          - 503
+        message:
+          type: string
+          description: A short description of the error
+          example: Bad Request
+          enum:
+          - Bad Request
+          - Unauthorized
+          - Forbidden
+          - Not Found
+          - Method Not Allowed
+          - Precondition Failed
+          - Too Many Requests
+          - Internal Server Error
+          - Bad Gateway
+          - Service Unavailable
+        correlation_id:
+          type: string
+          description: Correlation ID for debugging purposes
+          example: abcd1234
+    TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+          example: ewuriwerewrew
+        token_type:
+          type: string
+          example: Bearer
+        expires_in:
+          type: integer
+          example: 3600
+    Error_2:
+      type: object
+      properties:
+        error_code:
+          type: integer
+          description: HTTP status code representing the error
+          example: 400
+          enum:
+          - 400
+          - 401
+          - 403
+          - 404
+          - 405
+          - 412
+          - 429
+          - 500
+          - 502
+          - 503
+        message:
+          type: string
+          description: A short description of the error
+          example: Bad Request
+          enum:
+          - Bad Request
+          - Unauthorized
+          - Forbidden
+          - Not Found
+          - Method Not Allowed
+          - Precondition Failed
+          - Too Many Requests
+          - Internal Server Error
+          - Bad Gateway
+          - Service Unavailable
+    token:
+      type: array
+      items:
+        $ref: '#/components/schemas/token_model'
+    token_model:
+      type: object
+      properties:
+        CustomerEmail:
+          type: string
+          description: Customer Email
+          title: CustomerEmail
+        Id:
+          type: string
+          description: Id
+          title: Id
+        IdType:
+          type: string
+          description: Id Type
+          title: IdType
+        Token:
+          type: string
+          description: Token
+          title: Token
+        DocName:
+          type: string
+          description: Doc Name
+          title: DocName
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+  responses:
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    bad_request:
+      description: bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    token_success:
+      description: polly.help token information
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/token'
+    unauthorized:
+      description: unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+    api_version_query:
+      in: query
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers
+x-refined-from:
+- kpn-match-openapi.yml
+- kpn-number-verify-openapi.yml
+- pollyhelp-knowledge-management-openapi.yml

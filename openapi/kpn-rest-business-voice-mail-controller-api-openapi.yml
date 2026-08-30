@@ -1,0 +1,314 @@
+openapi: 3.2.0
+info:
+  description: "MobileServicesManagement APIs\n\n   ---\n     \n ## [Source view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)<br/>\n [Documentation view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)\n \n ---\n \n ## [KPN Developer](https://developer.kpn.com/)<br/>\n [Getting Started](https://developer.kpn.com/getting-started)\n \n\n ---"
+  version: v11
+  title: MobileServicesManagement-KPN Rest Business Voice Mail Controller API
+  termsOfService: https://developer.kpn.com/legal
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+servers:
+- url: https://api-prd.kpn.com/mobile/kpn/mobileservices
+tags:
+- name: rest-business-voice-mail-controller
+  description: Rest Business Voice Mail Controller
+paths:
+  /contracting/bvm/availability:
+    get:
+      tags:
+      - rest-business-voice-mail-controller
+      summary: Business voicemail availability
+      description: 'Check if business voicemail service is availabe for current user.
+
+
+        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>'
+      operationId: getAvailabilityUsingGET
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OperationAvailability'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /contracting/bvm/order:
+    post:
+      tags:
+      - rest-business-voice-mail-controller
+      summary: Order Business voicemail
+      description: 'Order business voicemail. Subscriptions file validations:
+
+
+        | FILE ERROR CODE                    | CODE  | DESCRIPTION                                                                     |    ERRORS                           |
+
+        |------------------------------------|-------|-------------------------------------------------------------------------------  |-------------------------------------|
+
+        | `INVALID_BVM_FILE`                 | `400` | The file does not contain the .csv extension or it''s binary content is not .csv |                                     |
+
+        | `WRONG_COLUMN_SEPARATOR`           | `400` | Wrong column separator. Required is `;` character.                              |                                     |
+
+        | `MISSING_HEADER_IN_FILE`           | `400` | At least one of headers was not found in the file (`mobiel nummer`, `voornaam`,                                                `voornaam fonetisch`, `achternaam`, `achternaam fonetisch`, `geslacht`)         | List of missing headers             |
+
+        | `RECORDS_NOT_VALID_IN_FILE`        | `400` | At least one of fields was not correct. Required fields are `mobiel nummer`,                                                `voornaam`, `achternaam`, `geslacht`. Field `mobiel nummer` needs to                                                match pattern: 316[0-9]{8} and  `geslacht` needs to be `M` or `V`.              | List of incorrect rows              |
+
+        | `PHONE_NUMBERS_NOT_UNIQUE`         | `400` | Given list of phone numbers was given multiple times.                           | List if incorrect phone numbers     |
+
+        | `SUBSCRIPTIONS_NOT_FOUND`          | `400` | Not all given numbers are contracted for customer.                              |                                     |
+
+        | `MAXIMUM_AMOUNT_OF_ROWS_EXCEEDED`  | `400` | Maximum rows size (2000) exceeded.                                              |                                     |
+
+        | `KGG_NUMBERS_NOT_EQUAL`            | `400` | Not all contracts have the same KGG number                                                `These numbers are set for customers and debtors.                                               `Ordes should usually be filled for a single debtor.                            |                                     |
+
+        | `ORDERING_IS_BLOCKED_FOR_CUSTOMER` | `403` | Current customer is frozen and can not order anything                           |                                     |
+
+        |                                    | `413` | Request entity too large. Max file size is 128KB                                |                                     |
+
+
+        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>'
+      operationId: orderUsingPOST
+      parameters:
+      - name: companyName
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: companyNamePronunciation
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: customerReferenceNumber
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: voiceLanguage
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - EN
+          - NL
+      - name: voiceMailMessage
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: wishDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderSummary'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                subscriptionsFile:
+                  type: string
+                  description: subscriptionsFile
+                  format: binary
+              required:
+              - subscriptionsFile
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    OrderSummary:
+      type: object
+      properties:
+        contextName:
+          type: string
+        creationDate:
+          type: string
+        id:
+          type: integer
+          format: int64
+        operation:
+          type: string
+        referenceNumber:
+          type: string
+        status:
+          type: string
+          enum:
+          - Failed
+          - Aborted
+          - Finished
+          - Suspended
+          - InProgress
+          - Waiting
+          - Draft
+          - WaitingForAuthorization
+          - Authorized
+          - Restored
+          - Canceled
+          - Scheduled
+          - Initialized
+          - Rejected
+          - ExternalScheduled
+      title: OrderSummary
+    OperationAvailability:
+      type: object
+      properties:
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OperationAvailability
+    BlockingOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        kpnReference:
+          type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
+          type: string
+          enum:
+          - CONTRACTING
+          - SERVICE_REQUEST
+      title: BlockingOrder
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api-prd.kpn.com/oauth/grip/msm/accesstoken?grant_type=client_credentials

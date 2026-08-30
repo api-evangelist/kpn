@@ -1,0 +1,463 @@
+openapi: 3.2.0
+info:
+  description: "KPN’s Low Power Long Range (LoRa) network service compliments existing 2G, 3G, 4G and LTE-M networks. It is based on the LoRaWAN protocol for Internet of Things (IoT). \n### Key highlights\n- **Sandbox:** Full-fledged capabilities.\n- **Security:**  HTTPS, OAuth, Rate limiting.\n- **Versioning:**  Supports version-less API, version tight. If no version is provided (in the header) it defaults to latest version. \n\n ---\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/lora-device-management-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/lora-device-management-kpn/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+  version: v1.2
+  title: LoRa Device Management - KPN Routing API
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- url: https://api-prd.kpn.com/data/lora/thingpark
+tags:
+- name: Routing
+paths:
+  /routingProfiles:
+    get:
+      tags:
+      - Routing
+      summary: Retrieves routing profiles
+      description: Retrieves a list of existing routing profiles within authorized scopes.
+      operationId: Routingprofilesretrieval
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: routingProfileId
+        in: query
+        description: Id of the routing profile to search for.
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Routing profiles retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoutingProfile'
+                description: Routing profiles retrieved successfully.
+              example:
+              - x-regga-type: sniplet
+                id: routingprofile-getall-as-subscriber
+                title: Routing profiles retrieval example with a SUBSCRIBER scope
+                requestSniplet:
+                  headers:
+                    Authorization: Bearer <subscriber_token>
+                data: '[ { "id": "TWA_100001620.1087.dummy", "ref": "1087", "name": "NOAS", "default": true }, { "id": "TWA_100001620.1090", "ref": "1090", "name": "Storage RP", "default": true, "routes": [ { "sourcePorts": "*", "strategy": "SEQUENTIAL", "contentType": "XML", "addresses": [ "https://datastoragevendor.com/uplinks" ] } ] } ]'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      deprecated: false
+    post:
+      tags:
+      - Routing
+      summary: Creates routing profiles
+      description: Creates a new routing profile.
+      operationId: Routingprofilescreation
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      requestBody:
+        description: Contents of the routing profile to create.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoutingProfile'
+            example:
+              name: Storage RP
+              routes:
+              - addresses:
+                - https://datastoragevendor.com/uplinks
+        required: true
+      responses:
+        201:
+          description: Routing profile created successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutingProfile'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      deprecated: false
+  /routingProfiles/{routingProfileRef}:
+    get:
+      tags:
+      - Routing
+      summary: Retrieves specific routing profiles
+      description: Retrieves the routing profile corresponding to the provided routing `profile ref`, if that routing profile is within authorized scopes.
+      operationId: Routingprofileretrieval
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: routingProfileRef
+        in: path
+        description: Ref of the routing profile to retrieve.
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        200:
+          description: Routing profile retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutingProfile'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      deprecated: false
+    put:
+      tags:
+      - Routing
+      summary: Updates specific routing profiles
+      description: Updates the routing profile corresponding to the provided routing `profile ref`, if that routing profile is within authorized scopes. Note that the `default` attribute can only be updated from `false` to `true` (thus updating `default` attribute for the previous default routing profile from `true` to `false`).
+      operationId: Routingprofileupdate
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: routingProfileRef
+        in: path
+        description: Ref of the routing profile to update.
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        description: Contents of the routing profile to update.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoutingProfile'
+            example:
+              name: Storage RP updated
+        required: true
+      responses:
+        200:
+          description: Routing profile updated successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutingProfile'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      deprecated: false
+    delete:
+      tags:
+      - Routing
+      summary: Deletes routing profiles
+      description: Deletes the routing profile corresponding to the provided routing `profile ref`, if that routing profile is within authorized scopes.
+      operationId: Routingprofiledeletion
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: routingProfileRef
+        in: path
+        description: Ref of the routing profile to delete.
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        204:
+          description: Routing profile deleted successfully.
+          headers: {}
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      deprecated: false
+components:
+  schemas:
+    RoutingProfile:
+      title: RoutingProfile
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of the routing profile.
+        ref:
+          type: string
+          description: Ref of the routing profile.
+        name:
+          type: string
+          description: Name of the routing profile.
+        default:
+          type: boolean
+          description: Indicates if the routing profile should be used by default for new devices.
+        hsmGroupId:
+          type: string
+          description: Id of the HSM group used to generate the AS key.
+        rsaEncryptedASKey:
+          type: string
+          description: AS key generated by the the HSM and encrypted with the RSA public key. Only returned during AS key generation.
+        rsaPublicKey:
+          type: string
+          description: RSA public key used by the HSM to encrypt the AS key. RSA public key must be provided in PEM format.
+        routes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Route'
+          description: List of routes of the routing profile.
+      description: Resource representing a ThingPark routing profile. Not available in ThingPark Enterprise versions, which rely on direct routes.
+    ContentType:
+      title: ContentType
+      enum:
+      - XML
+      - JSON
+      type: string
+      description: Format of the routed payload. Possible values are 'XML' or 'JSON'. Default is 'XML' ('JSON' is supported starting from ThingPark 3.2).
+    Route:
+      title: Route
+      type: object
+      properties:
+        sourcePorts:
+          type: string
+          description: Source port(s) of the route. Use wildcard character '*' (default value) to accept all device LoRa ports as possible sources.
+        strategy:
+          $ref: '#/components/schemas/Strategy'
+        contentType:
+          $ref: '#/components/schemas/ContentType'
+        asId:
+          type: string
+          description: If set together with the 'asKey' attribute, enables Uplink/Downlink signing security. Indicates the id of the authorized application server.
+        asKey:
+          type: string
+          description: If set together with the 'asId' attribute, enables Uplink/Downlink signing security. Indicates the key to be used to generate the signing token.
+        maxDeviation:
+          type: integer
+          description: If Uplink/Downlink signing security is enabled, indicates the maximal accepted duration (in seconds) between message sending by the AS and message reception by the LRC.
+          format: int32
+        addresses:
+          type: array
+          items:
+            type: string
+          description: List of target HTTP addresses to which the payload should be routed.
+      description: Resource representing a route of a ThingPark routing profile.
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    Strategy:
+      title: Strategy
+      enum:
+      - SEQUENTIAL
+      - BLAST
+      type: string
+      description: Strategy to use for routing to target addresses. Possible values are 'SEQUENTIAL' (try each target one after the other, stop after first success) or 'BLAST' (try all targets at the same time). Default is 'SEQUENTIAL'.
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

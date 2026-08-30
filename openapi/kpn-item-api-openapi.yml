@@ -1,0 +1,250 @@
+openapi: 3.2.0
+info:
+  description: "\nThis API provides you different TV related content services. Currently there are 3 main calls with some of them have successive calls. The data provided consists of JSON formatted text mainly related to TV content metadata. This data can be used to enrich all sort of platforms with actual TV data.\n### Key highlights\n- **Sandbox:** full-fledged capabilities.\n- **Security:**  HTTPS, Oauth\n- **Versioning:**  supports version-less API, version tight. If no version is provided (in header) it defaults to latest version. \n## [Source view](https://app.swaggerhub.com/apis/kpn/tv-guide-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/tv-guide-kpn/)\n---\n## [KPN API Store](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+  version: '1.0'
+  title: TV Guide - KPN Item API
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- url: https://api-prd.kpn.com/media/kpn/itv
+tags:
+- name: Item
+  description: Detailed descriptions of the content
+paths:
+  /{channel}/kpn/CONTENT/DETAIL/{contentType}/{contentId}:
+    get:
+      tags:
+      - Item
+      summary: content details
+      description: Get's the detailed description of the content identified as contentId
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/path_channel'
+      - $ref: '#/components/parameters/path_contenttype'
+      - $ref: '#/components/parameters/path_contentid'
+      - $ref: '#/components/parameters/header_api_version'
+      - $ref: '#/components/parameters/query_api_version'
+      responses:
+        '200':
+          $ref: '#/components/responses/content_detail'
+        '302':
+          $ref: '#/components/responses/found'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many'
+        '500':
+          $ref: '#/components/responses/server_error'
+        '503':
+          $ref: '#/components/responses/service_unavailable'
+components:
+  parameters:
+    path_channel:
+      in: path
+      name: channel
+      description: Any valid platform
+      schema:
+        type: string
+        enum:
+        - pctv
+        - ios
+        - android
+        - stb
+        - chromecast
+        - smarttv
+      required: true
+    header_api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+    path_contentid:
+      in: path
+      name: contentId
+      description: The unique content identifier.
+      schema:
+        type: integer
+      required: true
+    path_contenttype:
+      in: path
+      name: contentType
+      description: Identifier of the content type.
+      schema:
+        type: string
+        enum:
+        - PROGRAM
+        - VOD
+      required: true
+    query_api_version:
+      in: query
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+  responses:
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    content_detail:
+      description: result object with all the content that satisfies the /CONTENT/DETAIL criteria
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              total:
+                type: integer
+              containers:
+                type: array
+                items:
+                  $ref: '#/components/schemas/container'
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    found:
+      description: Found
+      content:
+        application/json:
+          schema:
+            type: object
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    bad_request:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  schemas:
+    container:
+      type: object
+      description: A Container represents one of the objects returned by the AGL Nanoservice. This container is used to link together all the page composition information related to the object itself. The attribute "metadata" contains the original object attributes, while layout, actions and retrieveItems are the attributes needed to correctly render the object in the given Client App UI.
+      properties:
+        id:
+          type: string
+          description: unique id of a container
+        layout:
+          type: string
+          description: 'Layout template needed from a client to show this container data.
+
+            The layout templates list is shared between the client applications and the AGL. For a list of valid layout values please look at each specific NanoService page.'
+        proeprties:
+          description: multigeo properties.
+          type: object
+          properties:
+            propertyName:
+              type: string
+              description: Name for multigeo properties
+              example: UK
+        metadata:
+          type: object
+          description: generic object API dependent
+        actions:
+          description: list of actions to be executed client side when a certain event occurs
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                description: action key. Describes action type. Keys are API dependant and thus they are described on each api Interface Agreement page
+                type: string
+                example:
+                - onClick
+                - onFocus
+                - onPlay
+              url:
+                description: an URI relative to the AGL base path.
+                type: string
+                example: /CONTENT/DETAIL/VOD/500
+              targetType:
+                description: the target page to be opened when performing the action described on the "key" parameter. the "uri" will return the Container instance to be used to configure the new page.
+                type: string
+        retrieveItems:
+          type: object
+          description: object describing how to retrieve the subitems of this container in case it's needed (node content). This field is normally used by the PAGE/MENU api.
+          properties:
+            url:
+              type: string
+              description: 'An URI relative to the AGL base path. This uri has to be executed in order to retrieve this Container subitems.
+
+                REMOTE - items need to be retrieved remotly executing the given uri LOCAL - items need to be retrieved with a client local orchestration'
+            type:
+              type: string
+              description: specify the kind of orchestration to be performed client side
+              enum:
+              - REMOTE
+              - LOCAL
+        containers:
+          type: array
+          description: A node content may have its subitems loaded dynamically (retrieveItems field) or statically (containers field). If this field is valorized it will contain this content subitems.
+          items:
+            type: object
+            description: Container object
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials

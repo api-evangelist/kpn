@@ -1,0 +1,175 @@
+openapi: 3.2.0
+info:
+  version: 1.54.0
+  title: KPN SD-LAN SD-WAN Network View Cellular Gateway.monitor API
+  description: "The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.\n    \nThe Network View API gives users read rights to retrieve information from the `Network View API` resources. \n    \n- **Note**: By default you have read only access but based on your requirements and contract you can be granted `Manager` access to this API which is more than read only. To request manager access, please contact us at api_developer@kpn.com.\n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/kpn-sd_lan_sd_wan_network_view_api/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/kpn-sd_lan_sd_wan_network_view_api/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)"
+servers:
+- url: https://api-prd.kpn.com/kpn/meraki
+security:
+- OAuth2ClientCredentials: []
+tags:
+- name: cellularGateway.monitor
+paths:
+  /organizations/{organizationId}/cellularGateway/uplink/statuses:
+    get:
+      description: List the uplink status of every Meraki MG cellular gateway in the organization
+      operationId: getOrganizationCellularGatewayUplinkStatuses
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: networkIds
+        in: query
+        description: A list of network IDs. The returned devices will be filtered to only include these networks.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serials
+        in: query
+        description: A list of serial numbers. The returned devices will be filtered to only include these serials.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: iccids
+        in: query
+        description: A list of ICCIDs. The returned devices will be filtered to only include these ICCIDs.
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    networkId:
+                      type: string
+                      description: Network Id
+                    serial:
+                      type: string
+                      description: Serial number of the device
+                    model:
+                      type: string
+                      description: Device model
+                    lastReportedAt:
+                      type: string
+                      format: date-time
+                      description: Last reported time for the device
+                    uplinks:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          interface:
+                            type: string
+                            description: Uplink interface
+                          status:
+                            type: string
+                            description: Uplink status
+                          ip:
+                            type: string
+                            description: Uplink IP
+                          provider:
+                            type: string
+                            description: Network Provider
+                          publicIp:
+                            type: string
+                            description: Public IP
+                          model:
+                            type: string
+                            description: Uplink model
+                          signalStat:
+                            type: object
+                            properties:
+                              rsrp:
+                                type: string
+                                description: Reference Signal Received Power
+                              rsrq:
+                                type: string
+                                description: Reference Signal Received Quality
+                            description: Tower Signal Status
+                          connectionType:
+                            type: string
+                            description: Connection Type
+                          apn:
+                            type: string
+                            description: Access Point Name
+                          gateway:
+                            type: string
+                            description: Gateway IP
+                          dns1:
+                            type: string
+                            description: Primary DNS IP
+                          dns2:
+                            type: string
+                            description: Secondary DNS IP
+                          signalType:
+                            type: string
+                            description: Signal Type
+                          iccid:
+                            type: string
+                            description: Integrated Circuit Card Identification Number
+                      description: Uplinks info
+              example:
+              - networkId: N_24329156
+                serial: Q234-ABCD-5678
+                model: MG21
+                lastReportedAt: '2018-02-11T00:00:00Z'
+                uplinks:
+                - interface: cellular
+                  status: ready
+                  ip: 1.2.3.4
+                  provider: at&t
+                  publicIp: 123.123.123.1
+                  model: integrated
+                  signalStat:
+                    rsrp: '-120'
+                    rsrq: '-13'
+                  connectionType: 4g
+                  apn: internet
+                  gateway: 100.100.100.100
+                  dns1: 111.111.111.111
+                  dns2: 222.222.222.222
+                  signalType: 4G
+                  iccid: '123456789'
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: List the uplink status of every Meraki MG cellular gateway in the organization
+      tags:
+      - cellularGateway.monitor
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}

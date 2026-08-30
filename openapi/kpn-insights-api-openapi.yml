@@ -1,0 +1,246 @@
+openapi: 3.2.0
+info:
+  title: Kpn Insights API
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+  version: '1.0'
+  description: 'Operations tagged Insights across 2 of this provider''s published API definitions: kpn-match-openapi.yml, kpn-number-verify-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/kpn/Match-KPN/1.1.1
+- url: https://api-prd.kpn.com/communication/kpn/match
+- url: https://api-prd.kpn.com/communication/kpn/numberverify
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/kpn/NumberVerify-KPN/1.2.1
+tags:
+- name: Insights
+paths:
+  /insights/{msisdn}:
+    post:
+      summary: Insights Request
+      parameters:
+      - name: msisdn
+        in: path
+        required: true
+        schema:
+          type: string
+          example: '31630000001'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsightsRequest'
+            examples:
+              mpm:
+                summary: mpm
+                value:
+                  mpm:
+                    firstname: Jacques
+                    lastname: van ‘t Schip
+                    address1: 45 a
+                    postal_code: 3912 XB
+                    date_of_birth: '2002-11-25'
+              correlation_id_mpm:
+                summary: correlation_id + mpm
+                value:
+                  mpm:
+                    firstname: Jacques
+                    lastname: van ‘t Schip
+                    address1: 45 a
+                    postal_code: 3912 XB
+                    date_of_birth: '2002-11-25'
+                  correlation_id: 12345-abcde
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsightsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                error_response:
+                  summary: Example of Bad Request
+                  value:
+                    error_code: 400
+                    message: Bad Request
+                    correlation_id: abcd1234
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                error_response:
+                  summary: Example of Not Found
+                  value:
+                    error_code: 404
+                    message: Not Found
+                    correlation_id: abcd1234
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                error_response:
+                  summary: Example of Internal Server Error
+                  value:
+                    error_code: 500
+                    message: Internal Server Error
+                    correlation_id: abcd1234
+      security:
+      - BearerAuth: []
+      tags:
+      - Insights
+    servers:
+    - description: SwaggerHub API Auto Mocking
+      url: https://virtserver.swaggerhub.com/kpn/Match-KPN/1.1.1
+    - url: https://api-prd.kpn.com/communication/kpn/match
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error_code:
+          type: integer
+          description: HTTP status code representing the error
+          example: 400
+          enum:
+          - 400
+          - 401
+          - 403
+          - 404
+          - 405
+          - 412
+          - 429
+          - 500
+          - 502
+          - 503
+        message:
+          type: string
+          description: A short description of the error
+          example: Bad Request
+          enum:
+          - Bad Request
+          - Unauthorized
+          - Forbidden
+          - Not Found
+          - Method Not Allowed
+          - Precondition Failed
+          - Too Many Requests
+          - Internal Server Error
+          - Bad Gateway
+          - Service Unavailable
+        correlation_id:
+          type: string
+          description: Correlation ID for debugging purposes
+          example: abcd1234
+    InsightsResponseNotify:
+      type: object
+      properties:
+        device_match_notify:
+          type: object
+          properties:
+            session_uri:
+              type: string
+              example: http://server/v1/dm/session/5f563a0bbb61c93748f773b744bf19c6
+          description: To see the notification in the provided webhook, the session_uri must be accessed. Also, notification would work as expected only when the scopes have device_match_notify.
+        operator_lookup:
+          type: object
+          properties:
+            regionCode:
+              type: string
+              example: NL
+            operatorName:
+              type: string
+              example: KPN
+            mcc:
+              type:
+              - string
+              - 'null'
+              example: null
+    Error_2:
+      type: object
+      properties:
+        error_code:
+          type: integer
+          description: HTTP status code representing the error
+          example: 400
+          enum:
+          - 400
+          - 401
+          - 403
+          - 404
+          - 405
+          - 412
+          - 429
+          - 500
+          - 502
+          - 503
+        message:
+          type: string
+          description: A short description of the error
+          example: Bad Request
+          enum:
+          - Bad Request
+          - Unauthorized
+          - Forbidden
+          - Not Found
+          - Method Not Allowed
+          - Precondition Failed
+          - Too Many Requests
+          - Internal Server Error
+          - Bad Gateway
+          - Service Unavailable
+    InsightsResponse:
+      type: object
+      properties:
+        device_match:
+          type: object
+          properties:
+            session_uri:
+              type: string
+              example: http://server/v1/dm/session/e46714d908600d8cf9f3abbf9f4056ff
+            polling_uri:
+              type: string
+              example: https://server/v1/dm/polling/e46714d908600d8cf9f3abbf9f4056ff
+          description: Polling would only work when the /token flow has device_match in scopes, and notification would work as expected only when the scopes have device_match_notify. operator_lookup works in both examples.
+        operator_lookup:
+          type: object
+          properties:
+            regionCode:
+              type: string
+              example: NL
+            operatorName:
+              type: string
+              example: KPN
+            mcc:
+              type:
+              - string
+              - 'null'
+              example: null
+            mnc:
+              type:
+              - string
+              - 'null'
+              example: null
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- kpn-match-openapi.yml
+- kpn-number-verify-openapi.yml

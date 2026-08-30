@@ -1,0 +1,2104 @@
+openapi: 3.2.0
+info:
+  description: "MobileServicesManagement APIs\n\n   ---\n     \n ## [Source view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)<br/>\n [Documentation view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)\n \n ---\n \n ## [KPN Developer](https://developer.kpn.com/)<br/>\n [Getting Started](https://developer.kpn.com/getting-started)\n \n\n ---"
+  version: v11
+  title: MobileServicesManagement-KPN Rest Track And Trace Controller API
+  termsOfService: https://developer.kpn.com/legal
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+servers:
+- url: https://api-prd.kpn.com/mobile/kpn/mobileservices
+tags:
+- name: rest-track-and-trace-controller
+  description: Rest Track And Trace Controller
+paths:
+  /track-and-trace/orders:
+    get:
+      tags:
+      - rest-track-and-trace-controller
+      summary: Get order list
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      operationId: getOrdersUsingGET
+      parameters:
+      - name: currentUserOrdersOnly
+        in: query
+        required: false
+        x-example: false
+        schema:
+          type: boolean
+          default: false
+      - name: from
+        in: query
+        description: Pagination parameter - start from (included). The elements are counted from 0. Default value is 0.
+        required: false
+        x-example: 0
+        schema:
+          type: integer
+          format: int32
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: patterns
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: sortBy
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - CREATION_DATE
+          - STATUS
+          - KPN_REFERENCE
+          - ORDERED_FOR
+          - CUSTOMER_REFERENCE
+      - name: status
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - IN_PROGRESS
+            - UNAUTHORIZED
+            - NEW
+            - CLOSED
+            - CANCELED
+            - REJECTED
+            - DRAFT
+            - THIRD_PARTY
+            - HOLD_CUSTOMER
+            - WAITING
+      - name: to
+        in: query
+        description: Pagination parameter - end element (exluded). Default value is 20.
+        required: false
+        x-example: 20
+        schema:
+          type: integer
+          format: int32
+      - name: withRequiredActionFirst
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PagedResult_Order_'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /track-and-trace/orders/{id}:
+    get:
+      tags:
+      - rest-track-and-trace-controller
+      summary: Get order details
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      operationId: getOrderDetailsUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderDetails1'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /track-and-trace/orders/{id}/cancel:
+    post:
+      tags:
+      - rest-track-and-trace-controller
+      summary: Cancel order
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      operationId: cancelOrderUsingPOST
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: note
+        in: query
+        description: note
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /track-and-trace/orders/{id}/hardware:
+    get:
+      tags:
+      - rest-track-and-trace-controller
+      summary: Get list of hardware which was ordered in the order with the given id
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      operationId: getHardwareForOrderUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Hardware'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /track-and-trace/orders/{id}/porting-data:
+    post:
+      tags:
+      - rest-track-and-trace-controller
+      summary: Change port in date or customer number
+      description: "Endpoint allows to change both : customer number and wish date in one request or change only one parameter. \nThere are several possibility to set data:\n| newWishDate | asap | customerNumber | result                              |\n|-------------|--------|----------------|-------------------------------------|\n| date        | false  | null           | change only wish date               |\n| null        | true   | null           | change only wish date to ASAP       |\n| null        | true   | number         | change customer number and wishDate |\n| date        | false  | number         | change customer number and wishDate |\n| date        | true   |   *            | validation error                    |\n| null        | false  | null           | validation error                    |\n\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>"
+      operationId: changePortingDataUsingPOST
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePortingData'
+        description: data
+        required: true
+  /track-and-trace/orders/{id}/pretty:
+    get:
+      tags:
+      - rest-track-and-trace-controller
+      summary: Get order details in pretty form
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      operationId: getPrettyOrderDetailsUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PrettyOrderDetails'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /track-and-trace/overview:
+    get:
+      tags:
+      - rest-track-and-trace-controller
+      summary: Get number of orders grouped by orders type
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      operationId: getOverviewUsingGET
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int64
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /track-and-trace/returned-hardware-service-requests:
+    get:
+      tags:
+      - rest-track-and-trace-controller
+      summary: Get return hardware service requests list
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      operationId: getReturnedHardwareServiceRequestUsingGET
+      parameters:
+      - name: currentUserOrdersOnly
+        in: query
+        required: false
+        x-example: false
+        schema:
+          type: boolean
+          default: false
+      - name: from
+        in: query
+        description: Pagination parameter - start from (included). The elements are counted from 0. Default value is 0.
+        required: false
+        x-example: 0
+        schema:
+          type: integer
+          format: int32
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: patterns
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: status
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - IN_PROGRESS
+            - UNAUTHORIZED
+            - NEW
+            - CLOSED
+            - CANCELED
+            - REJECTED
+            - DRAFT
+            - THIRD_PARTY
+            - HOLD_CUSTOMER
+            - WAITING
+      - name: to
+        in: query
+        description: Pagination parameter - end element (exluded). Default value is 20.
+        required: false
+        x-example: 20
+        schema:
+          type: integer
+          format: int32
+      - name: withRequiredActionFirst
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PagedResult_ReturnedHardwareServiceRequests_'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /track-and-trace/service-requests:
+    get:
+      tags:
+      - rest-track-and-trace-controller
+      summary: Get service requests list
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      operationId: getServiceRequestsUsingGET
+      parameters:
+      - name: Content-Language
+        in: header
+        description: Content-Language
+        required: false
+        schema:
+          type: string
+      - name: currentUserOrdersOnly
+        in: query
+        required: false
+        x-example: false
+        schema:
+          type: boolean
+          default: false
+      - name: from
+        in: query
+        description: Pagination parameter - start from (included). The elements are counted from 0. Default value is 0.
+        required: false
+        x-example: 0
+        schema:
+          type: integer
+          format: int32
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: patterns
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: sortBy
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - CREATION_DATE
+          - STATUS
+          - KPN_REFERENCE
+          - REQUEST_BY
+          - REQUEST_FOR
+          - TYPE
+          - CUSTOMER_REFERENCE
+      - name: status
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - IN_PROGRESS
+            - UNAUTHORIZED
+            - NEW
+            - CLOSED
+            - CANCELED
+            - REJECTED
+            - DRAFT
+            - THIRD_PARTY
+            - HOLD_CUSTOMER
+            - WAITING
+      - name: to
+        in: query
+        description: Pagination parameter - end element (exluded). Default value is 20.
+        required: false
+        x-example: 20
+        schema:
+          type: integer
+          format: int32
+      - name: withRequiredActionFirst
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PagedResult_ServiceRequest_'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /track-and-trace/service-requests/{id}:
+    get:
+      tags:
+      - rest-track-and-trace-controller
+      summary: Get service requests details
+      description: "The possible keys of `attributes` map in response object:<div style='max-height: 400px; overflow: auto; width: 100%'>\n<dl>\n<dt><b>Attribute name</b></dt><dd><b>Meaning</b></dd>\n<dt>login</dt><dd>Login</dd>\n<dt>roles</dt><dd>Roles</dd>\n<dt>firstName</dt><dd>First name</dd>\n<dt>lastName</dt><dd>Last name</dd>\n<dt>surnamePrefix</dt><dd>Surname prefix</dd>\n<dt>email</dt><dd>E-mail</dd>\n<dt>dateOfBirth</dt><dd>Date of birth</dd>\n<dt>vip</dt><dd>VIP</dd>\n<dt>employeeNumber</dt><dd>Employee number</dd>\n<dt>gender</dt><dd>Gender</dd>\n<dt>salutation</dt><dd>Salutation</dd>\n<dt>preferredLanguage</dt><dd>Preferred language</dd>\n<dt>comments</dt><dd>Comments</dd>\n<dt>accesspointNameMSISDN</dt><dd>Mobile number</dd>\n<dt>accesspointNameSIM</dt><dd>SIM card number</dd>\n<dt>accesspointNameIMSI</dt><dd>IMSI</dd>\n<dt>IMEI</dt><dd>IMEI</dd>\n<dt>Hanset_IMEI_number</dt><dd>IMEI</dd>\n<dt>accesspointNameFixedNumber</dt><dd>Fixed Number</dd>\n<dt>activeTo</dt><dd>Active to</dd>\n<dt>contractName</dt><dd>Subscription or device name</dd>\n<dt>totalOnetimePrice</dt><dd>One time price</dd>\n<dt>totalRecurrentPrice</dt><dd>Recurring price</dd>\n<dt>deferredPrice</dt><dd>Deferred price</dd>\n<dt>newUiccId</dt><dd>New SIM card number</dd>\n<dt>movedGroupName</dt><dd>Moved account</dd>\n<dt>subscriberAccountId</dt><dd>Old location</dd>\n<dt>destinationAccount</dt><dd>New location</dd>\n<dt>selectedDuoUiccid</dt><dd>Selected Duo SIM card number</dd>\n<dt>projectId</dt><dd>Project ID</dd>\n<dt>new_fixed_number</dt><dd>New fixed number</dd>\n<dt>new_desk_number</dt><dd>New extension</dd>\n<dt>oldUserGroupName</dt><dd>Previous user group</dd>\n<dt>newUserGroupName</dt><dd>New user group</dd>\n<dt>vpnName</dt><dd>VPN name</dd>\n<dt>deskNumber</dt><dd>Extension</dd>\n<dt>accesspointNameDeskNumber</dt><dd>Extension</dd>\n<dt>mobileAddress</dt><dd>Mobile number</dd>\n<dt>enterpriseName</dt><dd>Enterprise name</dd>\n<dt>enterpriseID</dt><dd>Enterprise ID</dd>\n<dt>mobilityGroupName</dt><dd>Fixed-Mobile PBX name</dd>\n<dt>userGroupName</dt><dd>User group</dd>\n<dt>enterpriseUserGroup</dt><dd>User group</dd>\n<dt>initialUserPrincipalName</dt><dd>User Principal Name</dd>\n<dt>sipAccountName</dt><dd>SIP account name</dd>\n<dt>accessInstanceAttributeinitialUserPrincipalName</dt><dd>User Principal Name</dd>\n<dt>accesspointNameQueuePhoneNumber</dt><dd>Queue phone number</dd>\n<dt>accesspointNameSipAccountName</dt><dd>SIP account name</dd>\n<dt>subscriptionAmount</dt><dd>New subscription amount</dd>\n<dt>contract_contact_name</dt><dd>Contract contact person (name)</dd>\n<dt>contract_contact_phone</dt><dd>Contract contact person (phone)</dd>\n<dt>contract_contact_mail</dt><dd>Contract contact person (mail)</dd>\n<dt>financial_contact_name</dt><dd>Financial contact person (name)</dd>\n<dt>financial_contact_phone</dt><dd>Financial contact person (phone)</dd>\n<dt>financial_contact_mail</dt><dd>Financial contact person (mail)</dd>\n<dt>technical_contact_name</dt><dd>Technical contact Person (name)</dd>\n<dt>technical_contact_phone</dt><dd>Technical contact Person (phone)</dd>\n<dt>technical_contact_mail</dt><dd>Technical contact Person (mail)</dd>\n<dt>deviceOption</dt><dd>Device option</dd>\n<dt>deviceType_label</dt><dd>Device type</dd>\n<dt>macAddress</dt><dd>Mac address</dd>\n<dt>deviceName</dt><dd>Device name</dd>\n<dt>sacGroupAccountId_label</dt><dd>Location account</dd>\n<dt>groupId</dt><dd>Location</dd>\n<dt>vGroupMovingToID</dt><dd>New location</dd>\n<dt>pbxName</dt><dd>PBX</dd>\n<dt>groupCitemId_label</dt><dd>Group</dd>\n<dt>Fixed</dt><dd>Alternate fixed number</dd>\n<dt>DeskNumber</dt><dd>Alternate extension</dd>\n<dt>billing_retention_period</dt><dd>Financial data retention period (months)</dd>\n<dt>managedGroupName</dt><dd>Authorized for</dd>\n<dt>subscriptionType</dt><dd>Subscription type</dd>\n<dt>CurrentNetworkOperator</dt><dd>Current network operator</dd>\n<dt>CurrentServiceProvider</dt><dd>Current service provider</dd>\n<dt>Customer_name_at_current_provider</dt><dd>Customer name at current provider</dd>\n<dt>Current_contract_number</dt><dd>Customer number at current provider</dd>\n<dt>UIccId</dt><dd>Current SIM card number</dd>\n<dt>Initials</dt><dd>Initials</dd>\n<dt>FamilyNamePrefix</dt><dd>Family name prefix</dd>\n<dt>FamilyName</dt><dd>Family name</dd>\n<dt>delivery_TT_id</dt><dd>Delivery Track&trace ID</dd>\n<dt>IsAppleDEP</dt><dd>Apple DEP</dd>\n<dt>IsSamsungKNOX</dt><dd>Samsung KNOX</dd>\n<dt>keepCurrentSim</dt><dd>Keep existing SIM card</dd>\n<dt>Note</dt><dd>Note</dd>\n<dt>Porting_wish_date</dt><dd>Preferred transition date</dd>\n<dt>returnReason</dt><dd>Reason for return</dd>\n<dt>returnRemarks</dt><dd>Remarks</dd>\n<dt>companyName</dt><dd>Company name</dd>\n<dt>companyNamePronounciation</dt><dd>Comapny name pronounciation</dd>\n<dt>businessVoiceMailMessageText</dt><dd>Chosen business voicemail message</dd>\n</dl>\n<div>\n<style type=\"text/css\">  dl {\n    display: flex;\n    flex-flow: row wrap;\n  }\n  dt {\n    flex-basis: 20%;\n    text-align: right;\n  }\n  dd {\n    flex-basis: 70%;\n    flex-grow: 1;\n  }\n</style>\n\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>"
+      operationId: getServiceRequestDetailsUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ServiceRequestDetails'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /track-and-trace/service-requests/{id}/attachments/{attachmentId}:
+    get:
+      tags:
+      - rest-track-and-trace-controller
+      summary: Get attachment with given id and serviceRequestId
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      operationId: getAttachmentUsingGET
+      parameters:
+      - name: attachmentId
+        in: path
+        description: attachmentId
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Serializable'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /track-and-trace/service-requests/{id}/cancel:
+    post:
+      tags:
+      - rest-track-and-trace-controller
+      summary: Cancel service request
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      operationId: cancelServiceReqestUsingPOST
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: note
+        in: query
+        description: note
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+components:
+  schemas:
+    Hardware:
+      type: object
+      properties:
+        apple:
+          type: boolean
+        contractItem:
+          $ref: '#/components/schemas/ContractItem'
+        imei:
+          type: string
+        product:
+          $ref: '#/components/schemas/Product'
+        returned:
+          type: boolean
+        samsung:
+          type: boolean
+        serialNumber:
+          type: string
+      title: Hardware
+    FixedNumberPresentation:
+      type: object
+      properties:
+        description:
+          type: string
+          enum:
+          - ORGANISATION
+          - FIXED_NUMBER
+          - HUNTGROUP
+          - CALL_CENTER
+        number:
+          type: string
+      title: FixedNumberPresentation
+    BlockingOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        kpnReference:
+          type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
+          type: string
+          enum:
+          - CONTRACTING
+          - SERVICE_REQUEST
+      title: BlockingOrder
+    OrderAuthorizer1:
+      type: object
+      properties:
+        accountName:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        prefix:
+          type: string
+        spectatedBy:
+          type: string
+      title: OrderAuthorizer1
+    OperationAvailability:
+      type: object
+      properties:
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OperationAvailability
+    ReturnedHardware:
+      type: object
+      properties:
+        multiplicity:
+          type: integer
+          format: int32
+        product:
+          type: string
+      title: ReturnedHardware
+    ServiceRequestDetails:
+      type: object
+      properties:
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        attributes:
+          type: object
+        cancelOrder:
+          $ref: '#/components/schemas/OrderCancelStatus'
+        creationDate:
+          type: string
+          format: date-time
+        customerReference:
+          type: string
+        expectedDate:
+          type: string
+          format: date-time
+        finishDate:
+          type: string
+          format: date-time
+        flexibleNumberPresentation:
+          $ref: '#/components/schemas/FlexibleNumberPresentation'
+        hardwareItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/HardwareSuborder'
+        id:
+          type: integer
+          format: int64
+        invoiceAddress:
+          $ref: '#/components/schemas/Address'
+        kpnReference:
+          type: string
+        modifiedItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractServiceUpdate'
+        newSim:
+          type: string
+        personsInvolved:
+          $ref: '#/components/schemas/OrderParticipants'
+        reactivate:
+          $ref: '#/components/schemas/OperationAvailability'
+        requiredAction:
+          type: string
+          enum:
+          - AUTHORIZATION
+          - PORT_IN_DATA_CHANGE
+        sim:
+          type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        thresholds:
+          type: object
+          description: 'Possible keys: VOICE_NATIONAL_MIN, VOICE_ROAMING_EUR, DATA_NATIONAL_MB, DATA_ROAMING_MB'
+          additionalProperties:
+            $ref: '#/components/schemas/Threshold'
+        totalPriceInCents:
+          type: integer
+          format: int64
+        type:
+          $ref: '#/components/schemas/LocalizedString'
+        wishDate:
+          type: string
+          format: date-time
+      title: ServiceRequestDetails
+    Attachment:
+      type: object
+      properties:
+        fileName:
+          type: string
+        id:
+          type: integer
+          format: int64
+      title: Attachment
+    Threshold:
+      type: object
+      properties:
+        dailyValue:
+          type: number
+          format: float
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - DATA_NATIONAL_MB
+          - DATA_ROAMING_MB
+          - VOICE_NATIONAL_MIN
+          - VOICE_ROAMING_EUR
+      title: Threshold
+    OperationAvailability2:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OperationAvailability2
+    Serializable:
+      type: object
+      title: Serializable
+    Order:
+      type: object
+      properties:
+        contractItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractItem'
+        creationDate:
+          type: string
+        customerReference:
+          type: string
+        finishDate:
+          type: string
+        id:
+          type: integer
+          format: int64
+        isBeingCanceled:
+          type: boolean
+        kpnReference:
+          type: string
+        msisdn:
+          type: string
+        orderedBy:
+          $ref: '#/components/schemas/OrderParticipant'
+        orderedFor:
+          $ref: '#/components/schemas/OrderReceiver'
+        portingMessage:
+          type: string
+        requiredAction:
+          type: string
+          enum:
+          - AUTHORIZATION
+          - PORT_IN_DATA_CHANGE
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
+          $ref: '#/components/schemas/LocalizedString'
+      title: Order
+    OrderParticipants:
+      type: object
+      properties:
+        approvedBy:
+          $ref: '#/components/schemas/OrderAuthorizer'
+        orderedBy:
+          $ref: '#/components/schemas/OrderParticipant'
+        receivedBy:
+          $ref: '#/components/schemas/OrderReceiver'
+      title: OrderParticipants
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    OrderReceiver1:
+      type: object
+      properties:
+        accountName:
+          type: string
+        companyName:
+          type: string
+        employeeNumber:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        prefix:
+          type: string
+      title: OrderReceiver1
+    OrderCancelStatus1:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OrderCancelStatus1
+    OrderReceiver:
+      type: object
+      properties:
+        accountName:
+          type: string
+        companyName:
+          type: string
+        employeeNumber:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        prefix:
+          type: string
+      title: OrderReceiver
+    PrettyOrderDetails:
+      type: object
+      properties:
+        appleDepEnrollment:
+          $ref: '#/components/schemas/OperationAvailability'
+        appleDepId:
+          type: string
+        cancelOrder:
+          $ref: '#/components/schemas/OrderCancelStatus'
+        changePortingData:
+          $ref: '#/components/schemas/OperationAvailability'
+        changeWishDate:
+          $ref: '#/components/schemas/OperationAvailability'
+        creationDate:
+          type: string
+          format: date-time
+        customerReference:
+          type: string
+        deliveryAddress:
+          $ref: '#/components/schemas/Address'
+        deliveryId:
+          type: string
+        eSimConfirmationCode:
+          type: string
+        eSimEmail:
+          type: string
+        finishDate:
+          type: string
+          format: date-time
+        firstPossibleWishDate:
+          type: string
+          format: date-time
+        flexibleNumberPresentation:
+          $ref: '#/components/schemas/FlexibleNumberPresentation'
+        id:
+          type: integer
+          format: int64
+        invoiceAddress:
+          $ref: '#/components/schemas/Address'
+        items:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/PrettyContractingSuborder'
+        kpnReference:
+          type: string
+        msisdn:
+          type: string
+        oneTimeCostInCents:
+          type: integer
+          format: int32
+        personsInvolved:
+          $ref: '#/components/schemas/OrderParticipants'
+        portingCustomerNumber:
+          type: string
+        portingMessage:
+          type: string
+        recurringCostInCents:
+          type: integer
+          format: int32
+        registeredForAppleDep:
+          type: boolean
+        registeredForSamsungKnox:
+          type: boolean
+        requiredAction:
+          type: string
+          enum:
+          - AUTHORIZATION
+          - PORT_IN_DATA_CHANGE
+        returnHardware:
+          $ref: '#/components/schemas/OperationAvailability'
+        samsungKnoxEnrollment:
+          $ref: '#/components/schemas/OperationAvailability'
+        samsungKnoxId:
+          type: string
+        sim:
+          type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        thresholds:
+          type: object
+          description: 'Possible keys: VOICE_NATIONAL_MIN, VOICE_ROAMING_EUR, DATA_NATIONAL_MB, DATA_ROAMING_MB'
+          additionalProperties:
+            $ref: '#/components/schemas/Threshold'
+        type:
+          $ref: '#/components/schemas/LocalizedString'
+        wishDate:
+          type: string
+          format: date-time
+      title: PrettyOrderDetails
+    PagedResult_ServiceRequest_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/ServiceRequest'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_ServiceRequest_
+      description: Paged list of elements
+    OrderParticipant1:
+      type: object
+      properties:
+        accountName:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        prefix:
+          type: string
+      title: OrderParticipant1
+    FlexibleNumberPresentation:
+      type: object
+      properties:
+        defaultNumber:
+          type: string
+        fixedNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/FixedNumberPresentation'
+        mobileNumberPresentation:
+          type: boolean
+      title: FlexibleNumberPresentation
+    LocalizedString1:
+      type: object
+      properties:
+        en:
+          type: string
+          description: English version
+        nl:
+          type: string
+          description: Dutch version
+      title: LocalizedString1
+      description: Text with two language versions
+    ServiceRequest:
+      type: object
+      properties:
+        creationDate:
+          type: string
+        customerReference:
+          type: string
+        finishDate:
+          type: string
+          format: date-time
+        fixedNumber:
+          type: string
+        id:
+          type: integer
+          format: int64
+        isBeingCanceled:
+          type: boolean
+        kpnReference:
+          type: string
+        msisdn:
+          type: string
+        orderedBy:
+          $ref: '#/components/schemas/OrderParticipant'
+        orderedFor:
+          $ref: '#/components/schemas/OrderReceiver'
+        requiredAction:
+          type: string
+          enum:
+          - AUTHORIZATION
+          - PORT_IN_DATA_CHANGE
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
+          $ref: '#/components/schemas/LocalizedString'
+      title: ServiceRequest
+    PagedResult_Order_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Order'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Order_
+      description: Paged list of elements
+    LocalizedString:
+      type: object
+      properties:
+        en:
+          type: string
+          description: English version
+        nl:
+          type: string
+          description: Dutch version
+      title: LocalizedString
+      description: Text with two language versions
+    FlexibleNumberPresentation1:
+      type: object
+      properties:
+        defaultNumber:
+          type: string
+        fixedNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/FixedNumberPresentation'
+        mobileNumberPresentation:
+          type: boolean
+      title: FlexibleNumberPresentation1
+    ContractItem:
+      type: object
+      properties:
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractItem'
+        citemBsId:
+          type: integer
+          format: int64
+        contractId:
+          type: integer
+          format: int64
+        id:
+          type: integer
+          format: int64
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        productBsId:
+          type: integer
+          format: int64
+        tariffPlanVariantBsId:
+          type: integer
+          format: int64
+      title: ContractItem
+    Address2:
+      type: object
+      properties:
+        attention:
+          type: string
+        city:
+          type: string
+        companyName:
+          type: string
+        country:
+          type: string
+        floor:
+          type: string
+        houseNumber:
+          type: string
+        location:
+          type: string
+        postalCode:
+          type: string
+        provinceOrState:
+          type: string
+        room:
+          type: string
+        street:
+          type: string
+      title: Address2
+    PrettyContractingSuborder:
+      type: object
+      properties:
+        expectedDeliveryDate:
+          type: string
+        imeiNumbers:
+          type: array
+          items:
+            type: string
+        mobileNumbers:
+          type: array
+          items:
+            type: string
+        multiplicity:
+          type: integer
+          format: int64
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        oneTimePriceInCents:
+          type: integer
+          format: int64
+        privateCopyingLevyInCents:
+          type: integer
+          format: int64
+        serialNumbers:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+      title: PrettyContractingSuborder
+    OrderParticipants1:
+      type: object
+      properties:
+        approvedBy:
+          $ref: '#/components/schemas/OrderAuthorizer1'
+        orderedBy:
+          $ref: '#/components/schemas/OrderParticipant1'
+        receivedBy:
+          $ref: '#/components/schemas/OrderReceiver1'
+      title: OrderParticipants1
+    ReturnedHardwareServiceRequests:
+      type: object
+      properties:
+        creationDate:
+          type: string
+        id:
+          type: integer
+          format: int64
+        kpnReference:
+          type: string
+        parentOrderSymbol:
+          type: string
+        requestBy:
+          $ref: '#/components/schemas/OrderParticipant'
+        returnedHardware:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReturnedHardware'
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+      title: ReturnedHardwareServiceRequests
+    OrderDetails1:
+      type: object
+      properties:
+        appleDepEnrollment:
+          $ref: '#/components/schemas/OperationAvailability2'
+        appleDepId:
+          type: string
+        attributes:
+          type: object
+        cancelOrder:
+          $ref: '#/components/schemas/OrderCancelStatus1'
+        changePortingData:
+          $ref: '#/components/schemas/OperationAvailability2'
+        changeWishDate:
+          $ref: '#/components/schemas/OperationAvailability2'
+        contextAccountId:
+          type: integer
+          format: int64
+        contextCustomerId:
+          type: integer
+          format: int64
+        creationDate:
+          type: string
+          format: date-time
+        customerReference:
+          type: string
+        deliveryAddress:
+          $ref: '#/components/schemas/Address1'
+        deliveryId:
+          type: string
+        eSimConfirmationCode:
+          type: string
+        eSimEmail:
+          type: string
+        eid:
+          type: integer
+          format: int64
+        finishDate:
+          type: string
+          format: date-time
+        firstPossibleWishDate:
+          type: string
+          format: date-time
+        flexibleNumberPresentation:
+          $ref: '#/components/schemas/FlexibleNumberPresentation1'
+        id:
+          type: integer
+          format: int64
+        invoiceAddress:
+          $ref: '#/components/schemas/Address2'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractingSuborder1'
+        kpnReference:
+          type: string
+        msisdn:
+          type: string
+        oneTimeCostInCents:
+          type: integer
+          format: int32
+        personsInvolved:
+          $ref: '#/components/schemas/OrderParticipants1'
+        portingCustomerNumber:
+          type: string
+        portingMessage:
+          type: string
+        recurringCostInCents:
+          type: integer
+          format: int32
+        registeredForAppleDep:
+          type: boolean
+        registeredForSamsungKnox:
+          type: boolean
+        requiredAction:
+          type: string
+          enum:
+          - AUTHORIZATION
+          - PORT_IN_DATA_CHANGE
+        returnHardware:
+          $ref: '#/components/schemas/OperationAvailability2'
+        samsungKnoxEnrollment:
+          $ref: '#/components/schemas/OperationAvailability2'
+        samsungKnoxId:
+          type: string
+        sim:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - CANCELED
+          - CLOSED
+          - DRAFT
+          - HOLD_CUSTOMER
+          - IN_PROGRESS
+          - NEW
+          - REJECTED
+          - THIRD_PARTY
+          - UNAUTHORIZED
+          - WAITING
+        thresholds:
+          type: object
+          description: 'Possible keys: VOICE_NATIONAL_MIN, VOICE_ROAMING_EUR, DATA_NATIONAL_MB, DATA_ROAMING_MB'
+          additionalProperties:
+            $ref: '#/components/schemas/Threshold1'
+        type:
+          $ref: '#/components/schemas/LocalizedString1'
+        wishDate:
+          type: string
+          format: date-time
+      title: OrderDetails1
+    Product:
+      type: object
+      properties:
+        bsId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        oneTimePriceInCents:
+          type: integer
+          format: int64
+        privateCopyingLevyInCents:
+          type: integer
+          format: int64
+      title: Product
+    ContractingSuborder1:
+      type: object
+      properties:
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractingSuborder'
+        expectedDeliveryDate:
+          type: string
+        id:
+          type: string
+        imeiNumbers:
+          type: array
+          items:
+            type: string
+        mobileNumbers:
+          type: array
+          items:
+            type: string
+        multiplicity:
+          type: integer
+          format: int64
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        oneTimePriceInCents:
+          type: integer
+          format: int64
+        privateCopyingLevyInCents:
+          type: integer
+          format: int64
+        productName:
+          type: string
+        serialNumbers:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+      title: ContractingSuborder1
+    Threshold1:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      title: Threshold1
+    OrderCancelStatus:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OrderCancelStatus
+    OrderAuthorizer:
+      type: object
+      properties:
+        accountName:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        prefix:
+          type: string
+        spectatedBy:
+          type: string
+      title: OrderAuthorizer
+    ContractingSuborder:
+      type: object
+      properties:
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractingSuborder'
+        expectedDeliveryDate:
+          type: string
+        id:
+          type: string
+        imeiNumbers:
+          type: array
+          items:
+            type: string
+        mobileNumbers:
+          type: array
+          items:
+            type: string
+        multiplicity:
+          type: integer
+          format: int64
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        oneTimePriceInCents:
+          type: integer
+          format: int64
+        privateCopyingLevyInCents:
+          type: integer
+          format: int64
+        productName:
+          type: string
+        serialNumbers:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+      title: ContractingSuborder
+    PagedResult_ReturnedHardwareServiceRequests_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/ReturnedHardwareServiceRequests'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_ReturnedHardwareServiceRequests_
+      description: Paged list of elements
+    ContractServiceUpdate:
+      type: object
+      properties:
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractServiceUpdate'
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        newState:
+          type: string
+          enum:
+          - 'ON'
+          - 'OFF'
+        oldState:
+          type: string
+          enum:
+          - 'ON'
+          - 'OFF'
+      title: ContractServiceUpdate
+    ChangePortingData:
+      type: object
+      properties:
+        asap:
+          type: boolean
+        customerNumber:
+          type: string
+        newWishDate:
+          type: string
+          format: date-time
+      title: ChangePortingData
+    OrderParticipant:
+      type: object
+      properties:
+        accountName:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        prefix:
+          type: string
+      title: OrderParticipant
+    Address:
+      type: object
+      properties:
+        attention:
+          type: string
+        city:
+          type: string
+        companyName:
+          type: string
+        country:
+          type: string
+        floor:
+          type: string
+        houseNumber:
+          type: string
+        location:
+          type: string
+        postalCode:
+          type: string
+        provinceOrState:
+          type: string
+        room:
+          type: string
+        street:
+          type: string
+      title: Address
+    Address1:
+      type: object
+      properties:
+        attention:
+          type: string
+        city:
+          type: string
+        companyName:
+          type: string
+        country:
+          type: string
+        floor:
+          type: string
+        houseNumber:
+          type: string
+        location:
+          type: string
+        postalCode:
+          type: string
+        provinceOrState:
+          type: string
+        room:
+          type: string
+        street:
+          type: string
+      title: Address1
+    HardwareSuborder:
+      type: object
+      properties:
+        imeiNumber:
+          type: string
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        priceInCents:
+          type: integer
+          format: int64
+        serialNumber:
+          type: string
+      title: HardwareSuborder
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api-prd.kpn.com/oauth/grip/msm/accesstoken?grant_type=client_credentials

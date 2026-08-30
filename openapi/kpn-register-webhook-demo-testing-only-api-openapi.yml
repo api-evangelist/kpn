@@ -1,0 +1,129 @@
+openapi: 3.2.0
+info:
+  title: SMS-Vonage Register webhook - Demo testing ONLY API
+  version: v1.1.1
+  termsOfService: https://developer.kpn.com/legal
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  description: "Vonage's SMS API allows you to send and receive text messages to users around the globe through simple RESTful APIs.\n  \n  * Programmatically send and receive high volume of SMS anywhere in the world.\n  * Build apps that scale with the web technologies that you are already using.\n  * Send SMS with low latency and high delivery rates.\n  * Receive SMS for free using SMS-enabled local numbers in countries around the world.\n  * Only pay for what you use, nothing more.\n\n  \n## [Source view](https://app.swaggerhub.com/apis/kpn/sms-nexmo/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/sms-nexmo/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n ---"
+servers:
+- url: https://api-prd.kpn.com/communication/nexmo/sms
+tags:
+- name: Register webhook - Demo testing ONLY
+paths:
+  /register:
+    post:
+      summary: Register callback URL to webhook for incoming messages
+      description: "Handling inbound SMS with with API is easy. You just need to create a webhook endpoint and configure your number or account to point to the endpoint. \n- If you are a test user  try inbound messaging using below using 'Register Webhook endpoint'. \n- If you are production user,  use the `Phone Numbers API` to search, buy and manage your virtual number.\n"
+      tags:
+      - Register webhook - Demo testing ONLY
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterWebhookResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                to:
+                  type: string
+                  description: The phone number you use for testing, without buying a virtual number. This is not applicable if you are a premium user. Remember, this is only applicable if you are a demo user.
+                callback_url:
+                  type: string
+                  description: 'The callback URL for inbound SMS.           '
+              required:
+              - to
+              - callback_url
+components:
+  schemas:
+    RegisterWebhookResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: response message
+          example: Your callback url is registered.
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

@@ -1,0 +1,4036 @@
+openapi: 3.2.0
+info:
+  version: 1.54.0
+  title: KPN SD-LAN SD-WAN Network View Wireless.monitor API
+  description: "The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.\n    \nThe Network View API gives users read rights to retrieve information from the `Network View API` resources. \n    \n- **Note**: By default you have read only access but based on your requirements and contract you can be granted `Manager` access to this API which is more than read only. To request manager access, please contact us at api_developer@kpn.com.\n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/kpn-sd_lan_sd_wan_network_view_api/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/kpn-sd_lan_sd_wan_network_view_api/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)"
+servers:
+- url: https://api-prd.kpn.com/kpn/meraki
+security:
+- OAuth2ClientCredentials: []
+tags:
+- name: wireless.monitor
+paths:
+  /devices/{serial}/wireless/connectionStats:
+    get:
+      description: Aggregated connectivity info for a given AP on this network
+      operationId: getDeviceWirelessConnectionStats
+      parameters:
+      - name: serial
+        in: path
+        description: Serial
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 604800
+      - name: band
+        in: query
+        description: Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
+        schema:
+          type: string
+          enum:
+          - '2.4'
+          - '5'
+          - '6'
+      - name: ssid
+        in: query
+        description: Filter results by SSID
+        schema:
+          type: integer
+      - name: vlan
+        in: query
+        description: Filter results by VLAN
+        schema:
+          type: integer
+      - name: apTag
+        in: query
+        description: Filter results by AP Tag
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  serial:
+                    type: string
+                    description: The serial number for the device
+                  connectionStats:
+                    type: object
+                    properties:
+                      assoc:
+                        type: integer
+                        description: The number of failed association attempts
+                      auth:
+                        type: integer
+                        description: The number of failed authentication attempts
+                      dhcp:
+                        type: integer
+                        description: The number of failed DHCP attempts
+                      dns:
+                        type: integer
+                        description: The number of failed DNS attempts
+                      success:
+                        type: integer
+                        description: The number of successful connection attempts
+                    description: The connection stats of the device
+              example:
+                serial: Q234-ABCD-5678
+                connectionStats:
+                  assoc: 0
+                  auth: 1
+                  dhcp: 0
+                  dns: 0
+                  success: 43
+      summary: Aggregated connectivity info for a given AP on this network
+      tags:
+      - wireless.monitor
+  /devices/{serial}/wireless/latencyStats:
+    get:
+      description: Aggregated latency info for a given AP on this network
+      operationId: getDeviceWirelessLatencyStats
+      parameters:
+      - name: serial
+        in: path
+        description: Serial
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 604800
+      - name: band
+        in: query
+        description: Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
+        schema:
+          type: string
+          enum:
+          - '2.4'
+          - '5'
+          - '6'
+      - name: ssid
+        in: query
+        description: Filter results by SSID
+        schema:
+          type: integer
+      - name: vlan
+        in: query
+        description: Filter results by VLAN
+        schema:
+          type: integer
+      - name: apTag
+        in: query
+        description: Filter results by AP Tag
+        schema:
+          type: string
+      - name: fields
+        in: query
+        description: 'Partial selection: If present, this call will return only the selected fields of ["rawDistribution", "avg"]. All fields will be returned by default. Selected fields must be entered as a comma separated string.'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                serial: Q2JC-2MJM-FHRD
+                latencyStats:
+                  backgroundTraffic:
+                    rawDistribution:
+                      '0': 1234
+                      '1': 2345
+                      '2': 3456
+                      '4': 4567
+                      '8': 5678
+                      '16': 6789
+                      '32': 7890
+                      '64': 8901
+                      '128': 9012
+                      '256': 83
+                      '512': 1234
+                      '1024': 2345
+                      '2048': 9999
+                    avg: 606.52
+                  bestEffortTraffic: same shape as backgroundTraffic
+                  videoTraffic: same shape as backgroundTraffic
+                  voiceTraffic: same shape as backgroundTraffic
+      summary: Aggregated latency info for a given AP on this network
+      tags:
+      - wireless.monitor
+  /devices/{serial}/wireless/status:
+    get:
+      description: Return the SSID statuses of an access point
+      operationId: getDeviceWirelessStatus
+      parameters:
+      - name: serial
+        in: path
+        description: Serial
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  basicServiceSets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ssidName:
+                          type: string
+                          description: Name of wireless network
+                        ssidNumber:
+                          type: integer
+                          description: Unique identifier of wireless network
+                        enabled:
+                          type: boolean
+                          description: Status of wireless network
+                        band:
+                          type: string
+                          description: Frequency range used by wireless network
+                        bssid:
+                          type: string
+                          description: Unique identifier of wireless access point
+                        channel:
+                          type: integer
+                          description: Frequency channel used by wireless network
+                        channelWidth:
+                          type: string
+                          description: Width of frequency channel used by wireless network
+                        power:
+                          type: string
+                          description: Strength of wireless signal
+                        visible:
+                          type: boolean
+                          description: Whether the SSID is advertised or hidden
+                        broadcasting:
+                          type: boolean
+                          description: Whether the SSID is broadcasting based on an availability schedule
+                    description: SSID status list
+              example:
+                basicServiceSets:
+                - ssidName: My SSID
+                  ssidNumber: 0
+                  enabled: true
+                  band: 2.4 GHz
+                  bssid: 8A:15:04:00:00:00
+                  channel: 11
+                  channelWidth: 20 MHz
+                  power: 18 dBm
+                  visible: true
+                  broadcasting: true
+      summary: Return the SSID statuses of an access point
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/airMarshal:
+    get:
+      description: List Air Marshal scan results from a network
+      operationId: getNetworkWirelessAirMarshal
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameter t0. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 2678400
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              example:
+              - ssid: linksys
+                bssids:
+                - bssid: 00:11:22:33:44:55
+                  contained: false
+                  detectedBy:
+                  - device: Q234-ABCD-5678
+                    rssi: 17
+                channels:
+                - 36
+                - 40
+                firstSeen: 1518365681
+                lastSeen: 1526087474
+                wiredMacs:
+                - 00:11:22:33:44:55
+                wiredVlans:
+                - 0
+                - 108
+                wiredLastSeen: 1526087474
+      summary: List Air Marshal scan results from a network
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/channelUtilizationHistory:
+    get:
+      description: Return AP channel utilization over time for a device or network client
+      operationId: getNetworkWirelessChannelUtilizationHistory
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 2678400
+      - name: resolution
+        in: query
+        description: 'The time resolution in seconds for returned data. The valid resolutions are: 600, 1200, 3600, 14400, 86400. The default is 86400.'
+        schema:
+          type: integer
+      - name: autoResolution
+        in: query
+        description: Automatically select a data resolution based on the given timespan; this overrides the value specified by the 'resolution' parameter. The default setting is false.
+        schema:
+          type: boolean
+      - name: clientId
+        in: query
+        description: Filter results by network client to return per-device, per-band AP channel utilization metrics inner joined by the queried client's connection history.
+        schema:
+          type: string
+      - name: deviceSerial
+        in: query
+        description: Filter results by device to return AP channel utilization metrics for the queried device; either :band or :clientId must be jointly specified.
+        schema:
+          type: string
+      - name: apTag
+        in: query
+        description: Filter results by AP tag to return AP channel utilization metrics for devices labeled with the given tag; either :clientId or :deviceSerial must be jointly specified.
+        schema:
+          type: string
+      - name: band
+        in: query
+        description: Filter results by band (either '2.4', '5' or '6').
+        schema:
+          type: string
+          enum:
+          - '2.4'
+          - '5'
+          - '6'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    startTs:
+                      type: string
+                      format: date-time
+                      description: The start time of the query range
+                    endTs:
+                      type: string
+                      format: date-time
+                      description: The end time of the query range
+                    utilizationTotal:
+                      type: number
+                      format: float
+                      description: Total channel utilization
+                    utilization80211:
+                      type: number
+                      format: float
+                      description: Average wifi utilization
+                    utilizationNon80211:
+                      type: number
+                      format: float
+                      description: Average signal interference
+              example:
+              - startTs: '2020-01-01T00:00:00Z'
+                endTs: '2020-01-01T01:00:00Z'
+                utilizationTotal: 9.89
+                utilization80211: 7.22
+                utilizationNon80211: 2.67
+      summary: Return AP channel utilization over time for a device or network client
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/clientCountHistory:
+    get:
+      description: Return wireless client counts over time for a network, device, or network client
+      operationId: getNetworkWirelessClientCountHistory
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 2678400
+      - name: resolution
+        in: query
+        description: 'The time resolution in seconds for returned data. The valid resolutions are: 300, 600, 1200, 3600, 14400, 86400. The default is 86400.'
+        schema:
+          type: integer
+      - name: autoResolution
+        in: query
+        description: Automatically select a data resolution based on the given timespan; this overrides the value specified by the 'resolution' parameter. The default setting is false.
+        schema:
+          type: boolean
+      - name: clientId
+        in: query
+        description: Filter results by network client to return per-device client counts over time inner joined by the queried client's connection history.
+        schema:
+          type: string
+      - name: deviceSerial
+        in: query
+        description: Filter results by device.
+        schema:
+          type: string
+      - name: apTag
+        in: query
+        description: Filter results by AP tag.
+        schema:
+          type: string
+      - name: band
+        in: query
+        description: Filter results by band (either '2.4', '5' or '6').
+        schema:
+          type: string
+          enum:
+          - '2.4'
+          - '5'
+          - '6'
+      - name: ssid
+        in: query
+        description: Filter results by SSID number.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    startTs:
+                      type: string
+                      format: date-time
+                      description: The start time of the query range
+                    endTs:
+                      type: string
+                      format: date-time
+                      description: The end time of the query range
+                    clientCount:
+                      type: integer
+                      description: Number of connected clients
+              example:
+              - startTs: '2020-01-01T00:00:00Z'
+                endTs: '2020-01-01T01:00:00Z'
+                clientCount: 14
+      summary: Return wireless client counts over time for a network, device, or network client
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/clients/connectionStats:
+    get:
+      description: Aggregated connectivity info for this network, grouped by clients
+      operationId: getNetworkWirelessClientsConnectionStats
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 604800
+      - name: band
+        in: query
+        description: Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
+        schema:
+          type: string
+          enum:
+          - '2.4'
+          - '5'
+          - '6'
+      - name: ssid
+        in: query
+        description: Filter results by SSID
+        schema:
+          type: integer
+      - name: vlan
+        in: query
+        description: Filter results by VLAN
+        schema:
+          type: integer
+      - name: apTag
+        in: query
+        description: Filter results by AP Tag
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              example:
+              - mac: 00:61:71:c8:51:27
+                connectionStats:
+                  assoc: 0
+                  auth: 4
+                  dhcp: 0
+                  dns: 0
+                  success: 10
+              - mac: 1c:4d:70:7f:5e:5e
+                connectionStats:
+                  assoc: 0
+                  auth: 1
+                  dhcp: 0
+                  dns: 0
+                  success: 24
+              - mac: 1c:4d:70:81:8d:0a
+                connectionStats:
+                  assoc: 1
+                  auth: 0
+                  dhcp: 0
+                  dns: 0
+                  success: 16
+      summary: Aggregated connectivity info for this network, grouped by clients
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/clients/latencyStats:
+    get:
+      description: Aggregated latency info for this network, grouped by clients
+      operationId: getNetworkWirelessClientsLatencyStats
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 604800
+      - name: band
+        in: query
+        description: Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
+        schema:
+          type: string
+          enum:
+          - '2.4'
+          - '5'
+          - '6'
+      - name: ssid
+        in: query
+        description: Filter results by SSID
+        schema:
+          type: integer
+      - name: vlan
+        in: query
+        description: Filter results by VLAN
+        schema:
+          type: integer
+      - name: apTag
+        in: query
+        description: Filter results by AP Tag
+        schema:
+          type: string
+      - name: fields
+        in: query
+        description: 'Partial selection: If present, this call will return only the selected fields of ["rawDistribution", "avg"]. All fields will be returned by default. Selected fields must be entered as a comma separated string.'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              example:
+              - mac: 00:61:71:c8:51:27
+                latencyStats:
+                  backgroundTraffic:
+                    rawDistribution:
+                      '0': 1234
+                      '1': 2345
+                      '2': 3456
+                      '4': 4567
+                      '8': 5678
+                      '16': 6789
+                      '32': 7890
+                      '64': 8901
+                      '128': 9012
+                      '256': 83
+                      '512': 1234
+                      '1024': 2345
+                      '2048': 9999
+                    avg: 606.52
+                  bestEffortTraffic: same shape as backgroundTraffic
+                  videoTraffic: same shape as backgroundTraffic
+                  voiceTraffic: same shape as backgroundTraffic
+              - mac: 1c:4d:70:7f:5e:5e
+                latencyStats:
+                  backgroundTraffic:
+                    rawDistribution:
+                      '0': 1234
+                      '1': 2345
+                      '2': 3456
+                      '4': 4567
+                      '8': 5678
+                      '16': 6789
+                      '32': 7890
+                      '64': 8901
+                      '128': 9012
+                      '256': 83
+                      '512': 1234
+                      '1024': 2345
+                      '2048': 9999
+                    avg: 606.52
+                  bestEffortTraffic: same shape as backgroundTraffic
+                  videoTraffic: same shape as backgroundTraffic
+                  voiceTraffic: same shape as backgroundTraffic
+              - mac: 1c:4d:70:81:8d:0a
+                latencyStats:
+                  backgroundTraffic:
+                    rawDistribution:
+                      '0': 1234
+                      '1': 2345
+                      '2': 3456
+                      '4': 4567
+                      '8': 5678
+                      '16': 6789
+                      '32': 7890
+                      '64': 8901
+                      '128': 9012
+                      '256': 83
+                      '512': 1234
+                      '1024': 2345
+                      '2048': 9999
+                    avg: 606.52
+                  bestEffortTraffic: same shape as backgroundTraffic
+                  videoTraffic: same shape as backgroundTraffic
+                  voiceTraffic: same shape as backgroundTraffic
+      summary: Aggregated latency info for this network, grouped by clients
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/clients/{clientId}/connectionStats:
+    get:
+      description: Aggregated connectivity info for a given client on this network. Clients are identified by their MAC.
+      operationId: getNetworkWirelessClientConnectionStats
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: clientId
+        in: path
+        description: Client ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 604800
+      - name: band
+        in: query
+        description: Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
+        schema:
+          type: string
+          enum:
+          - '2.4'
+          - '5'
+          - '6'
+      - name: ssid
+        in: query
+        description: Filter results by SSID
+        schema:
+          type: integer
+      - name: vlan
+        in: query
+        description: Filter results by VLAN
+        schema:
+          type: integer
+      - name: apTag
+        in: query
+        description: Filter results by AP Tag
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mac:
+                    type: string
+                    description: MAC address of the client
+                  connectionStats:
+                    type: object
+                    properties:
+                      assoc:
+                        type: integer
+                        description: Association count
+                      auth:
+                        type: integer
+                        description: Authorization count
+                      dhcp:
+                        type: integer
+                        description: DHCP count
+                      success:
+                        type: integer
+                        description: successful count
+                    description: Connection stats
+              example:
+                mac: 00:11:22:33:44:55
+                connectionStats:
+                  assoc: 3
+                  auth: 4
+                  dhcp: 4
+                  success: 5
+      summary: Aggregated connectivity info for a given client on this network
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/clients/{clientId}/connectivityEvents:
+    get:
+      description: List the wireless connectivity events for a client within a network in the timespan.
+      operationId: getNetworkWirelessClientConnectivityEvents
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: clientId
+        in: path
+        description: Client ID
+        schema:
+          type: string
+        required: true
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 1000.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: sortOrder
+        in: query
+        description: Sorted order of entries. Order options are 'ascending' and 'descending'. Default is 'ascending'.
+        schema:
+          type: string
+          enum:
+          - ascending
+          - descending
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 1 day.
+        schema:
+          type: number
+          format: float
+          maximum: 2678400
+      - name: types
+        in: query
+        description: A list of event types to include. If not specified, events of all types will be returned. Valid types are 'assoc', 'disassoc', 'auth', 'deauth', 'dns', 'dhcp', 'roam', 'connection' and/or 'sticky'.
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - assoc
+            - auth
+            - connection
+            - deauth
+            - dhcp
+            - disassoc
+            - dns
+            - roam
+            - sticky
+      - name: band
+        in: query
+        description: Filter results by band. Valid bands are '2.4', '5' or '6'.
+        schema:
+          type: string
+          enum:
+          - '2.4'
+          - '5'
+          - '6'
+      - name: ssidNumber
+        in: query
+        description: Filter results by SSID. If not specified, events for all SSIDs will be returned.
+        schema:
+          type: integer
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+      - name: includedSeverities
+        in: query
+        description: A list of severities to include. If not specified, events of all severities will be returned. Valid severities are 'good', 'info', 'warn' and/or 'bad'.
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - bad
+            - good
+            - info
+            - warn
+      - name: deviceSerial
+        in: query
+        description: Filter results by an AP's serial number.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    occurredAt:
+                      type: string
+                      format: date-time
+                      description: Timestamp at which the event occurred
+                    band:
+                      type: string
+                      enum:
+                      - '2.4'
+                      - '5'
+                      - '6'
+                      description: Wireless band the event occurred on
+                    ssidNumber:
+                      type: integer
+                      enum:
+                      - 0
+                      - 1
+                      - 2
+                      - 3
+                      - 4
+                      - 5
+                      - 6
+                      - 7
+                      - 8
+                      - 9
+                      - 10
+                      - 11
+                      - 12
+                      - 13
+                      - 14
+                      description: Number of the SSID the event occurred in
+                    type:
+                      type: string
+                      enum:
+                      - assoc
+                      - auth
+                      - connection
+                      - deauth
+                      - dhcp
+                      - disassoc
+                      - dns
+                      - roam
+                      - sticky
+                      description: Event type
+                    subtype:
+                      type: string
+                      description: Event subtype
+                    severity:
+                      type: string
+                      description: Event severity
+                    durationMs:
+                      type: integer
+                      description: Duration of the event in milliseconds
+                    channel:
+                      type: integer
+                      description: Wireless channel the event occurred over
+                    rssi:
+                      type: integer
+                      description: RSSI recorded at the time of the event
+                    eventData:
+                      type: object
+                      additionalProperties: true
+                      description: Additional information relevant to the given event. Properties vary based on event type.
+                    deviceSerial:
+                      type: string
+                      description: Serial number of the device the event occurred for
+                    captureId:
+                      type: string
+                      description: Id of the packet capture triggered for the event, if any
+              example:
+              - occurredAt: '2018-02-11T00:00:00.090210Z'
+                band: '5'
+                ssidNumber: 1
+                type: auth
+                subtype: success
+                severity: bad
+                durationMs: 100
+                channel: 44
+                rssi: 80
+                deviceSerial: Q234-ABCD-5678
+                captureId: '123456'
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: List the wireless connectivity events for a client within a network in the timespan.
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/clients/{clientId}/latencyHistory:
+    get:
+      description: 'Return the latency history for a client. Clients can be identified by a client key or either the MAC or IP depending on whether the network uses Track-by-IP. The latency data is from a sample of 2% of packets and is grouped into 4 traffic categories: background, best effort, video, voice. Within these categories the sampled packet counters are bucketed by latency in milliseconds.'
+      operationId: getNetworkWirelessClientLatencyHistory
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: clientId
+        in: path
+        description: Client ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 791 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 791 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 791 days. The default is 1 day.
+        schema:
+          type: number
+          format: float
+          maximum: 68342400
+      - name: resolution
+        in: query
+        description: 'The time resolution in seconds for returned data. The valid resolutions are: 86400. The default is 86400.'
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    t0:
+                      type: integer
+                      description: The latency history bucket start time in seconds
+                    t1:
+                      type: integer
+                      description: The latency history bucket end time in seconds
+                    latencyBinsByCategory:
+                      type: object
+                      properties:
+                        backgroundTraffic:
+                          type: object
+                          properties:
+                            '0.5':
+                              type: integer
+                              description: The latency bucket for background traffic in 0.5 seconds
+                            '1.0':
+                              type: integer
+                              description: The latency bucket for background traffic in 1.0 seconds
+                            '2.0':
+                              type: integer
+                              description: The latency bucket for background traffic in 2.0 seconds
+                            '4.0':
+                              type: integer
+                              description: The latency bucket for background traffic in 4.0 seconds
+                            '8.0':
+                              type: integer
+                              description: The latency bucket for background traffic in 8.0 seconds
+                            '16.0':
+                              type: integer
+                              description: The latency bucket for background traffic in 16.0 seconds
+                            '32.0':
+                              type: integer
+                              description: The latency bucket for background traffic in 32.0 seconds
+                            '64.0':
+                              type: integer
+                              description: The latency bucket for background traffic in 64.0 seconds
+                            '128.0':
+                              type: integer
+                              description: The latency bucket for background traffic in 128.0 seconds
+                            '256.0':
+                              type: integer
+                              description: The latency bucket for background traffic in 256.0 seconds
+                            '512.0':
+                              type: integer
+                              description: The latency bucket for background traffic in 512.0 seconds
+                            '1024.0':
+                              type: integer
+                              description: The latency bucket for background traffic in 1024.0 seconds
+                            '2048.0':
+                              type: integer
+                              description: The latency bucket for background traffic in 2048.0 seconds
+                          description: The time bucket's background traffic latency history
+                        bestEffortTraffic:
+                          type: object
+                          properties:
+                            '0.5':
+                              type: integer
+                              description: The latency bucket for best effort traffic in 0.5 seconds
+                            '1.0':
+                              type: integer
+                              description: The latency bucket for best effort traffic in 1.0 seconds
+                            '2.0':
+                              type: integer
+                              description: The latency bucket for best effort traffic in 2.0 seconds
+                            '4.0':
+                              type: integer
+                              description: The latency bucket for best effort traffic in 4.0 seconds
+                            '8.0':
+                              type: integer
+                              description: The latency bucket for best effort traffic in 8.0 seconds
+                            '16.0':
+                              type: integer
+                              description: The latency bucket for best effort traffic in 16.0 seconds
+                            '32.0':
+                              type: integer
+                              description: The latency bucket for best effort traffic in 32.0 seconds
+                            '64.0':
+                              type: integer
+                              description: The latency bucket for best effort traffic in 64.0 seconds
+                            '128.0':
+                              type: integer
+                              description: The latency bucket for best effort traffic in 128.0 seconds
+                            '256.0':
+                              type: integer
+                              description: The latency bucket for best effort traffic in 256.0 seconds
+                            '512.0':
+                              type: integer
+                              description: The latency bucket for best effort traffic in 512.0 seconds
+                            '1024.0':
+                              type: integer
+                              description: The latency bucket for best effort traffic in 1024.0 seconds
+                            '2048.0':
+                              type: integer
+                              description: The latency bucket for best effort traffic in 2048.0 seconds
+                          description: The time bucket's best effort traffic latency history
+                        videoTraffic:
+                          type: object
+                          properties:
+                            '0.5':
+                              type: integer
+                              description: The latency bucket for video traffic in 0.5 seconds
+                            '1.0':
+                              type: integer
+                              description: The latency bucket for video traffic in 1.0 seconds
+                            '2.0':
+                              type: integer
+                              description: The latency bucket for video traffic in 2.0 seconds
+                            '4.0':
+                              type: integer
+                              description: The latency bucket for video traffic in 4.0 seconds
+                            '8.0':
+                              type: integer
+                              description: The latency bucket for video traffic in 8.0 seconds
+                            '16.0':
+                              type: integer
+                              description: The latency bucket for video traffic in 16.0 seconds
+                            '32.0':
+                              type: integer
+                              description: The latency bucket for video traffic in 32.0 seconds
+                            '64.0':
+                              type: integer
+                              description: The latency bucket for video traffic in 64.0 seconds
+                            '128.0':
+                              type: integer
+                              description: The latency bucket for video traffic in 128.0 seconds
+                            '256.0':
+                              type: integer
+                              description: The latency bucket for video traffic in 256.0 seconds
+                            '512.0':
+                              type: integer
+                              description: The latency bucket for video traffic in 512.0 seconds
+                            '1024.0':
+                              type: integer
+                              description: The latency bucket for video traffic in 1024.0 seconds
+                            '2048.0':
+                              type: integer
+                              description: The latency bucket for video traffic in 2048.0 seconds
+                          description: The time bucket's video traffic latency history
+                        voiceTraffic:
+                          type: object
+                          properties:
+                            '0.5':
+                              type: integer
+                              description: The latency bucket for voice traffic in 0.5 seconds
+                            '1.0':
+                              type: integer
+                              description: The latency bucket for voice traffic in 1.0 seconds
+                            '2.0':
+                              type: integer
+                              description: The latency bucket for voice traffic in 2.0 seconds
+                            '4.0':
+                              type: integer
+                              description: The latency bucket for voice traffic in 4.0 seconds
+                            '8.0':
+                              type: integer
+                              description: The latency bucket for voice traffic in 8.0 seconds
+                            '16.0':
+                              type: integer
+                              description: The latency bucket for voice traffic in 16.0 seconds
+                            '32.0':
+                              type: integer
+                              description: The latency bucket for voice traffic in 32.0 seconds
+                            '64.0':
+                              type: integer
+                              description: The latency bucket for voice traffic in 64.0 seconds
+                            '128.0':
+                              type: integer
+                              description: The latency bucket for voice traffic in 128.0 seconds
+                            '256.0':
+                              type: integer
+                              description: The latency bucket for voice traffic in 256.0 seconds
+                            '512.0':
+                              type: integer
+                              description: The latency bucket for voice traffic in 512.0 seconds
+                            '1024.0':
+                              type: integer
+                              description: The latency bucket for voice traffic in 1024.0 seconds
+                            '2048.0':
+                              type: integer
+                              description: The latency bucket for voice traffic in 2048.0 seconds
+                          description: The time bucket's voice traffic latency history
+                      description: The latency buckets by category
+              example:
+              - t0: 1550534400
+                t1: 1550620800
+                latencyBinsByCategory:
+                  backgroundTraffic:
+                    '0.5': 41750
+                    '1.0': 21552
+                    '2.0': 59940
+                    '4.0': 146622
+                    '8.0': 57354
+                    '16.0': 0
+                    '32.0': 9954
+                    '64.0': 0
+                    '128.0': 0
+                    '256.0': 1896
+                    '512.0': 0
+                    '1024.0': 0
+                    '2048.0': 0
+                  bestEffortTraffic:
+                    '0.5': 1840899
+                    '1.0': 1644506
+                    '2.0': 629958
+                    '4.0': 449564
+                    '8.0': 2009658
+                    '16.0': 1329568
+                    '32.0': 282168
+                    '64.0': 97573
+                    '128.0': 191977
+                    '256.0': 30560
+                    '512.0': 26032
+                    '1024.0': 4943
+                    '2048.0': 12072
+                  videoTraffic:
+                    '0.5': 0
+                    '1.0': 0
+                    '2.0': 0
+                    '4.0': 0
+                    '8.0': 0
+                    '16.0': 0
+                    '32.0': 0
+                    '64.0': 0
+                    '128.0': 0
+                    '256.0': 0
+                    '512.0': 0
+                    '1024.0': 0
+                    '2048.0': 0
+                  voiceTraffic:
+                    '0.5': 716
+                    '1.0': 948
+                    '2.0': 474
+                    '4.0': 78
+                    '8.0': 0
+                    '16.0': 0
+                    '32.0': 0
+                    '64.0': 0
+                    '128.0': 0
+                    '256.0': 0
+                    '512.0': 0
+                    '1024.0': 0
+                    '2048.0': 0
+      summary: Return the latency history for a client
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/clients/{clientId}/latencyStats:
+    get:
+      description: Aggregated latency info for a given client on this network. Clients are identified by their MAC.
+      operationId: getNetworkWirelessClientLatencyStats
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: clientId
+        in: path
+        description: Client ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 604800
+      - name: band
+        in: query
+        description: Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
+        schema:
+          type: string
+          enum:
+          - '2.4'
+          - '5'
+          - '6'
+      - name: ssid
+        in: query
+        description: Filter results by SSID
+        schema:
+          type: integer
+      - name: vlan
+        in: query
+        description: Filter results by VLAN
+        schema:
+          type: integer
+      - name: apTag
+        in: query
+        description: Filter results by AP Tag
+        schema:
+          type: string
+      - name: fields
+        in: query
+        description: 'Partial selection: If present, this call will return only the selected fields of ["rawDistribution", "avg"]. All fields will be returned by default. Selected fields must be entered as a comma separated string.'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                mac: 00:61:71:c8:51:27
+                latencyStats:
+                  backgroundTraffic:
+                    rawDistribution:
+                      '0': 1234
+                      '1': 2345
+                      '2': 3456
+                      '4': 4567
+                      '8': 5678
+                      '16': 6789
+                      '32': 7890
+                      '64': 8901
+                      '128': 9012
+                      '256': 83
+                      '512': 1234
+                      '1024': 2345
+                      '2048': 9999
+                    avg: 606.52
+                  bestEffortTraffic: same shape as backgroundTraffic
+                  videoTraffic: same shape as backgroundTraffic
+                  voiceTraffic: same shape as backgroundTraffic
+      summary: Aggregated latency info for a given client on this network
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/connectionStats:
+    get:
+      description: Aggregated connectivity info for this network
+      operationId: getNetworkWirelessConnectionStats
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 604800
+      - name: band
+        in: query
+        description: Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
+        schema:
+          type: string
+          enum:
+          - '2.4'
+          - '5'
+          - '6'
+      - name: ssid
+        in: query
+        description: Filter results by SSID
+        schema:
+          type: integer
+      - name: vlan
+        in: query
+        description: Filter results by VLAN
+        schema:
+          type: integer
+      - name: apTag
+        in: query
+        description: Filter results by AP Tag
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  assoc:
+                    type: integer
+                    description: The number of failed association attempts
+                  auth:
+                    type: integer
+                    description: The number of failed authentication attempts
+                  dhcp:
+                    type: integer
+                    description: The number of failed DHCP attempts
+                  dns:
+                    type: integer
+                    description: The number of failed DNS attempts
+                  success:
+                    type: integer
+                    description: The number of successful connection attempts
+              example:
+                assoc: 1
+                auth: 5
+                dhcp: 0
+                dns: 0
+                success: 51
+      summary: Aggregated connectivity info for this network
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/dataRateHistory:
+    get:
+      description: Return PHY data rates over time for a network, device, or network client
+      operationId: getNetworkWirelessDataRateHistory
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 2678400
+      - name: resolution
+        in: query
+        description: 'The time resolution in seconds for returned data. The valid resolutions are: 300, 600, 1200, 3600, 14400, 86400. The default is 86400.'
+        schema:
+          type: integer
+      - name: autoResolution
+        in: query
+        description: Automatically select a data resolution based on the given timespan; this overrides the value specified by the 'resolution' parameter. The default setting is false.
+        schema:
+          type: boolean
+      - name: clientId
+        in: query
+        description: Filter results by network client.
+        schema:
+          type: string
+      - name: deviceSerial
+        in: query
+        description: Filter results by device.
+        schema:
+          type: string
+      - name: apTag
+        in: query
+        description: Filter results by AP tag.
+        schema:
+          type: string
+      - name: band
+        in: query
+        description: Filter results by band (either '2.4', '5' or '6').
+        schema:
+          type: string
+          enum:
+          - '2.4'
+          - '5'
+          - '6'
+      - name: ssid
+        in: query
+        description: Filter results by SSID number.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    startTs:
+                      type: string
+                      format: date-time
+                      description: The start time of the query range
+                    endTs:
+                      type: string
+                      format: date-time
+                      description: The end time of the query range
+                    averageKbps:
+                      type: integer
+                      description: Average data rate in kilobytes-per-second
+                    downloadKbps:
+                      type: integer
+                      description: Download rate in kilobytes-per-second
+                    uploadKbps:
+                      type: integer
+                      description: Upload rate in kilobytes-per-second
+              example:
+              - startTs: '2020-01-01T00:00:00Z'
+                endTs: '2020-01-01T01:00:00Z'
+                averageKbps: 151806
+                downloadKbps: 144839
+                uploadKbps: 158837
+      summary: Return PHY data rates over time for a network, device, or network client
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/devices/connectionStats:
+    get:
+      description: Aggregated connectivity info for this network, grouped by node
+      operationId: getNetworkWirelessDevicesConnectionStats
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 604800
+      - name: band
+        in: query
+        description: Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
+        schema:
+          type: string
+          enum:
+          - '2.4'
+          - '5'
+          - '6'
+      - name: ssid
+        in: query
+        description: Filter results by SSID
+        schema:
+          type: integer
+      - name: vlan
+        in: query
+        description: Filter results by VLAN
+        schema:
+          type: integer
+      - name: apTag
+        in: query
+        description: Filter results by AP Tag
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    serial:
+                      type: string
+                      description: The serial number for the device
+                    connectionStats:
+                      type: object
+                      properties:
+                        assoc:
+                          type: integer
+                          description: The number of failed association attempts
+                        auth:
+                          type: integer
+                          description: The number of failed authentication attempts
+                        dhcp:
+                          type: integer
+                          description: The number of failed DHCP attempts
+                        dns:
+                          type: integer
+                          description: The number of failed DNS attempts
+                        success:
+                          type: integer
+                          description: The number of successful connection attempts
+                      description: The connection stats of the device
+              example:
+              - serial: Q234-ABCD-5678
+                connectionStats:
+                  assoc: 0
+                  auth: 1
+                  dhcp: 0
+                  dns: 0
+                  success: 43
+      summary: Aggregated connectivity info for this network, grouped by node
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/devices/latencyStats:
+    get:
+      description: Aggregated latency info for this network, grouped by node
+      operationId: getNetworkWirelessDevicesLatencyStats
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 604800
+      - name: band
+        in: query
+        description: Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
+        schema:
+          type: string
+          enum:
+          - '2.4'
+          - '5'
+          - '6'
+      - name: ssid
+        in: query
+        description: Filter results by SSID
+        schema:
+          type: integer
+      - name: vlan
+        in: query
+        description: Filter results by VLAN
+        schema:
+          type: integer
+      - name: apTag
+        in: query
+        description: Filter results by AP Tag
+        schema:
+          type: string
+      - name: fields
+        in: query
+        description: 'Partial selection: If present, this call will return only the selected fields of ["rawDistribution", "avg"]. All fields will be returned by default. Selected fields must be entered as a comma separated string.'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              example:
+              - serial: Q2JC-2MJM-FHRD
+                latencyStats:
+                  backgroundTraffic:
+                    rawDistribution:
+                      '0': 1234
+                      '1': 2345
+                      '2': 3456
+                      '4': 4567
+                      '8': 5678
+                      '16': 6789
+                      '32': 7890
+                      '64': 8901
+                      '128': 9012
+                      '256': 83
+                      '512': 1234
+                      '1024': 2345
+                      '2048': 9999
+                    avg: 606.52
+                  bestEffortTraffic: same shape as backgroundTraffic
+                  videoTraffic: same shape as backgroundTraffic
+                  voiceTraffic: same shape as backgroundTraffic
+              - serial: Q2FJ-3SHB-Y2K2
+                latencyStats:
+                  backgroundTraffic:
+                    rawDistribution:
+                      '0': 1234
+                      '1': 2345
+                      '2': 3456
+                      '4': 4567
+                      '8': 5678
+                      '16': 6789
+                      '32': 7890
+                      '64': 8901
+                      '128': 9012
+                      '256': 83
+                      '512': 1234
+                      '1024': 2345
+                      '2048': 9999
+                    avg: 606.52
+                  bestEffortTraffic: same shape as backgroundTraffic
+                  videoTraffic: same shape as backgroundTraffic
+                  voiceTraffic: same shape as backgroundTraffic
+      summary: Aggregated latency info for this network, grouped by node
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/failedConnections:
+    get:
+      description: List of all failed client connection events on this network in a given time range
+      operationId: getNetworkWirelessFailedConnections
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 604800
+      - name: band
+        in: query
+        description: Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
+        schema:
+          type: string
+          enum:
+          - '2.4'
+          - '5'
+          - '6'
+      - name: ssid
+        in: query
+        description: Filter results by SSID
+        schema:
+          type: integer
+      - name: vlan
+        in: query
+        description: Filter results by VLAN
+        schema:
+          type: integer
+      - name: apTag
+        in: query
+        description: Filter results by AP Tag
+        schema:
+          type: string
+      - name: serial
+        in: query
+        description: Filter by AP
+        schema:
+          type: string
+      - name: clientId
+        in: query
+        description: Filter by client MAC
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ssidNumber:
+                      type: integer
+                      description: SSID Number
+                    vlan:
+                      type: integer
+                      description: LAN
+                    clientMac:
+                      type: string
+                      description: Client Mac
+                    serial:
+                      type: string
+                      description: Serial Number
+                    failureStep:
+                      type: string
+                      description: 'The failed onboarding step. One of: assoc, auth, dhcp, dns.'
+                    type:
+                      type: string
+                      description: The failure type in the onboarding step
+                    ts:
+                      type: string
+                      format: date-time
+                      description: The timestamp when the client mac failed
+              example:
+              - ssidNumber: 1
+                vlan: 100
+                clientMac: 22:33:44:55:66:77
+                serial: Q234-ABCD-5678
+                failureStep: dns
+                type: 802.1X auth fail
+                ts: '2018-02-11T00:00:00.090210Z'
+      summary: List of all failed client connection events on this network in a given time range
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/latencyHistory:
+    get:
+      description: Return average wireless latency over time for a network, device, or network client
+      operationId: getNetworkWirelessLatencyHistory
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 2678400
+      - name: resolution
+        in: query
+        description: 'The time resolution in seconds for returned data. The valid resolutions are: 300, 600, 1200, 3600, 14400, 86400. The default is 86400.'
+        schema:
+          type: integer
+      - name: autoResolution
+        in: query
+        description: Automatically select a data resolution based on the given timespan; this overrides the value specified by the 'resolution' parameter. The default setting is false.
+        schema:
+          type: boolean
+      - name: clientId
+        in: query
+        description: Filter results by network client.
+        schema:
+          type: string
+      - name: deviceSerial
+        in: query
+        description: Filter results by device.
+        schema:
+          type: string
+      - name: apTag
+        in: query
+        description: Filter results by AP tag.
+        schema:
+          type: string
+      - name: band
+        in: query
+        description: Filter results by band (either '2.4', '5' or '6').
+        schema:
+          type: string
+          enum:
+          - '2.4'
+          - '5'
+          - '6'
+      - name: ssid
+        in: query
+        description: Filter results by SSID number.
+        schema:
+          type: integer
+      - name: accessCategory
+        in: query
+        description: Filter by access category.
+        schema:
+          type: string
+          enum:
+          - backgroundTraffic
+          - bestEffortTraffic
+          - videoTraffic
+          - voiceTraffic
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    startTs:
+                      type: string
+                      format: date-time
+                      description: The start time of the query range
+                    endTs:
+                      type: string
+                      format: date-time
+                      description: The end time of the query range
+                    avgLatencyMs:
+                      type: integer
+                      description: Average latency in milliseconds
+              example:
+              - startTs: '2020-01-01T00:00:00Z'
+                endTs: '2020-01-01T01:00:00Z'
+                avgLatencyMs: 29
+      summary: Return average wireless latency over time for a network, device, or network client
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/latencyStats:
+    get:
+      description: Aggregated latency info for this network
+      operationId: getNetworkWirelessLatencyStats
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 604800
+      - name: band
+        in: query
+        description: Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
+        schema:
+          type: string
+          enum:
+          - '2.4'
+          - '5'
+          - '6'
+      - name: ssid
+        in: query
+        description: Filter results by SSID
+        schema:
+          type: integer
+      - name: vlan
+        in: query
+        description: Filter results by VLAN
+        schema:
+          type: integer
+      - name: apTag
+        in: query
+        description: Filter results by AP Tag
+        schema:
+          type: string
+      - name: fields
+        in: query
+        description: 'Partial selection: If present, this call will return only the selected fields of ["rawDistribution", "avg"]. All fields will be returned by default. Selected fields must be entered as a comma separated string.'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                backgroundTraffic:
+                  rawDistribution:
+                    '0': 1234
+                    '1': 2345
+                    '2': 3456
+                    '4': 4567
+                    '8': 5678
+                    '16': 6789
+                    '32': 7890
+                    '64': 8901
+                    '128': 9012
+                    '256': 83
+                    '512': 1234
+                    '1024': 2345
+                    '2048': 9999
+                  avg: 606.52
+                bestEffortTraffic: same shape as backgroundTraffic
+                videoTraffic: same shape as backgroundTraffic
+                voiceTraffic: same shape as backgroundTraffic
+      summary: Aggregated latency info for this network
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/meshStatuses:
+    get:
+      description: List wireless mesh statuses for repeaters
+      operationId: getNetworkWirelessMeshStatuses
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 500. Default is 50.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    serial:
+                      type: string
+                      description: The serial number for the device.
+                    meshRoute:
+                      type: array
+                      items:
+                        type: string
+                      description: List of device serials that make up the mesh.
+                    latestMeshPerformance:
+                      type: object
+                      properties:
+                        mbps:
+                          type: integer
+                          description: Average Mbps.
+                        metric:
+                          type: integer
+                          description: Represents the quality of the entire route from the repeater access point to its gateway access point.
+                        usagePercentage:
+                          type: string
+                          description: Mesh utilization as a percentage.
+                      description: Current metrics on how the mesh is performing.
+              example:
+              - serial: Q234-ABCD-5678
+                meshRoute:
+                - Q234-ABCD-5678
+                - QWEY-SKTD-ST01
+                - QWEY-SKTD-ST02
+                latestMeshPerformance:
+                  mbps: 43
+                  metric: 12345
+                  usagePercentage: 100%
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: List wireless mesh statuses for repeaters
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/signalQualityHistory:
+    get:
+      description: Return signal quality (SNR/RSSI) over time for a device or network client
+      operationId: getNetworkWirelessSignalQualityHistory
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 2678400
+      - name: resolution
+        in: query
+        description: 'The time resolution in seconds for returned data. The valid resolutions are: 300, 600, 1200, 3600, 14400, 86400. The default is 86400.'
+        schema:
+          type: integer
+      - name: autoResolution
+        in: query
+        description: Automatically select a data resolution based on the given timespan; this overrides the value specified by the 'resolution' parameter. The default setting is false.
+        schema:
+          type: boolean
+      - name: clientId
+        in: query
+        description: Filter results by network client.
+        schema:
+          type: string
+      - name: deviceSerial
+        in: query
+        description: Filter results by device.
+        schema:
+          type: string
+      - name: apTag
+        in: query
+        description: Filter results by AP tag; either :clientId or :deviceSerial must be jointly specified.
+        schema:
+          type: string
+      - name: band
+        in: query
+        description: Filter results by band (either '2.4', '5' or '6').
+        schema:
+          type: string
+          enum:
+          - '2.4'
+          - '5'
+          - '6'
+      - name: ssid
+        in: query
+        description: Filter results by SSID number.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    startTs:
+                      type: string
+                      format: date-time
+                      description: The start time of the query range
+                    endTs:
+                      type: string
+                      format: date-time
+                      description: The end time of the query range
+                    snr:
+                      type: integer
+                      description: Signal to noise ratio
+                    rssi:
+                      type: integer
+                      description: Received signal strength indicator
+              example:
+              - startTs: '2020-01-01T00:00:00Z'
+                endTs: '2020-01-01T01:00:00Z'
+                snr: 27
+                rssi: -77
+      summary: Return signal quality (SNR/RSSI) over time for a device or network client
+      tags:
+      - wireless.monitor
+  /networks/{networkId}/wireless/usageHistory:
+    get:
+      description: Return AP usage over time for a device or network client
+      operationId: getNetworkWirelessUsageHistory
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 2678400
+      - name: resolution
+        in: query
+        description: 'The time resolution in seconds for returned data. The valid resolutions are: 300, 600, 1200, 3600, 14400, 86400. The default is 86400.'
+        schema:
+          type: integer
+      - name: autoResolution
+        in: query
+        description: Automatically select a data resolution based on the given timespan; this overrides the value specified by the 'resolution' parameter. The default setting is false.
+        schema:
+          type: boolean
+      - name: clientId
+        in: query
+        description: Filter results by network client to return per-device AP usage over time inner joined by the queried client's connection history.
+        schema:
+          type: string
+      - name: deviceSerial
+        in: query
+        description: Filter results by device. Requires :band.
+        schema:
+          type: string
+      - name: apTag
+        in: query
+        description: Filter results by AP tag; either :clientId or :deviceSerial must be jointly specified.
+        schema:
+          type: string
+      - name: band
+        in: query
+        description: Filter results by band (either '2.4', '5' or '6').
+        schema:
+          type: string
+          enum:
+          - '2.4'
+          - '5'
+          - '6'
+      - name: ssid
+        in: query
+        description: Filter results by SSID number.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    startTs:
+                      type: string
+                      format: date-time
+                      description: The start time of the query range
+                    endTs:
+                      type: string
+                      format: date-time
+                      description: The end time of the query range
+                    totalKbps:
+                      type: integer
+                      description: Total usage in kilobytes-per-second
+                    sentKbps:
+                      type: integer
+                      description: Sent kilobytes-per-second
+                    receivedKbps:
+                      type: integer
+                      description: Received kilobytes-per-second
+              example:
+              - startTs: '2020-01-01T00:00:00Z'
+                endTs: '2020-01-01T01:00:00Z'
+                totalKbps: 2590
+                sentKbps: 159
+                receivedKbps: 2431
+      summary: Return AP usage over time for a device or network client
+      tags:
+      - wireless.monitor
+  /organizations/{organizationId}/wireless/clients/overview/byDevice:
+    get:
+      description: List access point client count at the moment in an organization
+      operationId: getOrganizationWirelessClientsOverviewByDevice
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: networkIds
+        in: query
+        description: Optional parameter to filter access points client counts by network ID. This filter uses multiple exact matches.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serials
+        in: query
+        description: Optional parameter to filter access points client counts by its serial numbers. This filter uses multiple exact matches.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: campusGatewayClusterIds
+        in: query
+        description: Optional parameter to filter access points client counts by MCG cluster IDs. This filter uses multiple exact matches.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        network:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              description: Access point network ID
+                          description: Access point network
+                        serial:
+                          type: string
+                          description: Access point Serial number
+                        counts:
+                          type: object
+                          properties:
+                            byStatus:
+                              type: object
+                              properties:
+                                online:
+                                  type: integer
+                                  description: Active client count
+                              description: Associated client count on access point by status
+                          description: Associated client count on access point
+                    description: Access point client count
+                  meta:
+                    type: object
+                    properties:
+                      counts:
+                        type: object
+                        properties:
+                          items:
+                            type: object
+                            properties:
+                              total:
+                                type: integer
+                                description: The total number of items in the dataset
+                              remaining:
+                                type: integer
+                                description: The number of items in the dataset that are available on subsequent pages
+                            description: Counts relating to the paginated items
+                        description: Counts relating to the paginated dataset
+                    description: Metadata relevant to the paginated dataset
+              example:
+                items:
+                - network:
+                    id: N_24329156
+                  serial: Q234-ABCD-5678
+                  counts:
+                    byStatus:
+                      online: 1
+                meta:
+                  counts:
+                    items:
+                      total: 10
+                      remaining: 0
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: List access point client count at the moment in an organization
+      tags:
+      - wireless.monitor
+  /organizations/{organizationId}/wireless/devices/channelUtilization/byDevice:
+    get:
+      description: Get average channel utilization for all bands in a network, split by AP
+      operationId: getOrganizationWirelessDevicesChannelUtilizationByDevice
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: networkIds
+        in: query
+        description: Filter results by network.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serials
+        in: query
+        description: Filter results by device.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 90 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 90 days. The default is 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 7776000
+      - name: interval
+        in: query
+        description: 'The time interval in seconds for returned data. The valid intervals are: 300, 600, 3600, 7200, 14400, 21600. The default is 3600.'
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    serial:
+                      type: string
+                      description: The serial number for the device.
+                    mac:
+                      type: string
+                      description: The MAC address of the device.
+                    network:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Network ID of the given utilization metrics.
+                      description: Network for the given utilization metrics.
+                    byBand:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          band:
+                            type: string
+                            description: The band for the given metrics.
+                          wifi:
+                            type: object
+                            properties:
+                              percentage:
+                                type: number
+                                format: float
+                                description: Percentage of wifi channel utiliation for the given band.
+                            description: An object containing wifi utilization.
+                          nonWifi:
+                            type: object
+                            properties:
+                              percentage:
+                                type: number
+                                format: float
+                                description: Percentage of non-wifi channel utiliation for the given band.
+                            description: An object containing non-wifi utilization.
+                          total:
+                            type: object
+                            properties:
+                              percentage:
+                                type: number
+                                format: float
+                                description: Percentage of total channel utiliation for the given band.
+                            description: An object containing total channel utilization.
+                      description: Channel utilization broken down by band.
+              example:
+              - serial: Q234-ABCD-5678
+                mac: 00:11:22:33:44:55
+                network:
+                  id: N_24329156
+                byBand:
+                - band: '5'
+                  wifi:
+                    percentage: 33.12
+                  nonWifi:
+                    percentage: 1.84
+                  total:
+                    percentage: 34.96
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: Get average channel utilization for all bands in a network, split by AP
+      tags:
+      - wireless.monitor
+  /organizations/{organizationId}/wireless/devices/channelUtilization/byNetwork:
+    get:
+      description: Get average channel utilization across all bands for all networks in the organization
+      operationId: getOrganizationWirelessDevicesChannelUtilizationByNetwork
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: networkIds
+        in: query
+        description: Filter results by network.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serials
+        in: query
+        description: Filter results by device.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 90 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 90 days. The default is 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 7776000
+      - name: interval
+        in: query
+        description: 'The time interval in seconds for returned data. The valid intervals are: 300, 600, 3600, 7200, 14400, 21600. The default is 3600.'
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    network:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Network ID of the given utilization metrics.
+                      description: Network for the given utilization metrics.
+                    byBand:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          band:
+                            type: string
+                            description: The band for the given metrics.
+                          wifi:
+                            type: object
+                            properties:
+                              percentage:
+                                type: number
+                                format: float
+                                description: Percentage of wifi channel utiliation for the given band.
+                            description: An object containing wifi utilization.
+                          nonWifi:
+                            type: object
+                            properties:
+                              percentage:
+                                type: number
+                                format: float
+                                description: Percentage of non-wifi channel utiliation for the given band.
+                            description: An object containing non-wifi utilization.
+                          total:
+                            type: object
+                            properties:
+                              percentage:
+                                type: number
+                                format: float
+                                description: Percentage of total channel utiliation for the given band.
+                            description: An object containing total channel utilization.
+                      description: Channel utilization broken down by band.
+              example:
+              - network:
+                  id: N_24329156
+                byBand:
+                - band: '5'
+                  wifi:
+                    percentage: 33.12
+                  nonWifi:
+                    percentage: 1.84
+                  total:
+                    percentage: 34.96
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: Get average channel utilization across all bands for all networks in the organization
+      tags:
+      - wireless.monitor
+  /organizations/{organizationId}/wireless/devices/channelUtilization/history/byDevice/byInterval:
+    get:
+      description: Get a time-series of average channel utilization for all bands, segmented by device.
+      operationId: getOrganizationWirelessDevicesChannelUtilizationHistoryByDeviceByInterval
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: networkIds
+        in: query
+        description: Filter results by network.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serials
+        in: query
+        description: Filter results by device.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 2678400
+      - name: interval
+        in: query
+        description: 'The time interval in seconds for returned data. The valid intervals are: 300, 600, 3600, 7200, 14400, 21600. The default is 3600.'
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    startTs:
+                      type: string
+                      format: date-time
+                      description: The start time of the channel utilization interval.
+                    endTs:
+                      type: string
+                      format: date-time
+                      description: The end time of the channel utilization interval.
+                    serial:
+                      type: string
+                      description: The serial number for the device.
+                    mac:
+                      type: string
+                      description: The MAC address of the device.
+                    network:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Network ID of the given utilization metrics.
+                      description: Network for the given utilization metrics.
+                    byBand:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          band:
+                            type: string
+                            description: The band for the given metrics.
+                          wifi:
+                            type: object
+                            properties:
+                              percentage:
+                                type: number
+                                format: float
+                                description: Percentage of wifi channel utiliation for the given band.
+                            description: An object containing wifi utilization.
+                          nonWifi:
+                            type: object
+                            properties:
+                              percentage:
+                                type: number
+                                format: float
+                                description: Percentage of non-wifi channel utiliation for the given band.
+                            description: An object containing non-wifi utilization.
+                          total:
+                            type: object
+                            properties:
+                              percentage:
+                                type: number
+                                format: float
+                                description: Percentage of total channel utiliation for the given band.
+                            description: An object containing total channel utilization.
+                      description: Channel utilization broken down by band.
+              example:
+              - startTs: '2018-02-11T00:00:00Z'
+                endTs: '2018-05-12T00:00:00Z'
+                serial: Q234-ABCD-5678
+                mac: 00:11:22:33:44:55
+                network:
+                  id: N_24329156
+                byBand:
+                - band: '5'
+                  wifi:
+                    percentage: 33.12
+                  nonWifi:
+                    percentage: 1.84
+                  total:
+                    percentage: 34.96
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: Get a time-series of average channel utilization for all bands, segmented by device.
+      tags:
+      - wireless.monitor
+  /organizations/{organizationId}/wireless/devices/channelUtilization/history/byNetwork/byInterval:
+    get:
+      description: Get a time-series of average channel utilization for all bands
+      operationId: getOrganizationWirelessDevicesChannelUtilizationHistoryByNetworkByInterval
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: networkIds
+        in: query
+        description: Filter results by network.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serials
+        in: query
+        description: Filter results by device.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
+        schema:
+          type: number
+          format: float
+          maximum: 2678400
+      - name: interval
+        in: query
+        description: 'The time interval in seconds for returned data. The valid intervals are: 300, 600, 3600, 7200, 14400, 21600. The default is 3600.'
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    startTs:
+                      type: string
+                      format: date-time
+                      description: The start time of the channel utilization interval.
+                    endTs:
+                      type: string
+                      format: date-time
+                      description: The end time of the channel utilization interval.
+                    network:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Network ID of the given utilization metrics.
+                      description: Network for the given utilization metrics.
+                    byBand:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          band:
+                            type: string
+                            description: The band for the given metrics.
+                          wifi:
+                            type: object
+                            properties:
+                              percentage:
+                                type: number
+                                format: float
+                                description: Percentage of wifi channel utiliation for the given band.
+                            description: An object containing wifi utilization.
+                          nonWifi:
+                            type: object
+                            properties:
+                              percentage:
+                                type: number
+                                format: float
+                                description: Percentage of non-wifi channel utiliation for the given band.
+                            description: An object containing non-wifi utilization.
+                          total:
+                            type: object
+                            properties:
+                              percentage:
+                                type: number
+                                format: float
+                                description: Percentage of total channel utiliation for the given band.
+                            description: An object containing total channel utilization.
+                      description: Channel utilization broken down by band.
+              example:
+              - startTs: '2018-02-11T00:00:00Z'
+                endTs: '2018-05-12T00:00:00Z'
+                network:
+                  id: N_24329156
+                byBand:
+                - band: '5'
+                  wifi:
+                    percentage: 33.12
+                  nonWifi:
+                    percentage: 1.84
+                  total:
+                    percentage: 34.96
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: Get a time-series of average channel utilization for all bands
+      tags:
+      - wireless.monitor
+  /organizations/{organizationId}/wireless/devices/ethernet/statuses:
+    get:
+      description: List the most recent Ethernet link speed, duplex, aggregation and power mode and status information for wireless devices.
+      operationId: getOrganizationWirelessDevicesEthernetStatuses
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 1000. Default is 100.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: networkIds
+        in: query
+        description: 'A list of Meraki network IDs to filter results to contain only specified networks. E.g.: networkIds[]=N_12345678&networkIds[]=L_3456'
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    serial:
+                      type: string
+                      description: The serial number of the AP
+                    name:
+                      type: string
+                      description: The name of the AP
+                    network:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: The network ID the AP is associated to
+                      description: Network details object
+                    power:
+                      type: object
+                      properties:
+                        mode:
+                          type: string
+                          description: The PoE power mode for the AP. Can be 'full' or 'low'
+                        ac:
+                          type: object
+                          properties:
+                            isConnected:
+                              type: boolean
+                              description: AC power connected
+                          description: AC power details object
+                        poe:
+                          type: object
+                          properties:
+                            isConnected:
+                              type: boolean
+                              description: PoE power connected
+                          description: PoE power details object
+                      description: Power details object
+                    ports:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            description: Label of the port
+                          poe:
+                            type: object
+                            properties:
+                              standard:
+                                type: string
+                                description: The PoE Standard for the port. Can be '802.3at', '802.3af', '802.3bt', or null
+                            description: PoE details object for the port
+                          linkNegotiation:
+                            type: object
+                            properties:
+                              duplex:
+                                type: string
+                                description: The duplex mode of the port. Can be 'full' or 'half' will return null on Catalyst devices
+                              speed:
+                                type: integer
+                                description: Show the speed of the port. The port speed will return null on Catalyst devices
+                            description: Link negotiation details object for the port
+                      description: List of port details
+                    aggregation:
+                      type: object
+                      properties:
+                        enabled:
+                          type: boolean
+                          description: Link Aggregation enabled flag will return null on Catalyst devices
+                        speed:
+                          type: integer
+                          description: Link Aggregation speed will return null on Catalyst devices
+                      description: Aggregation details object
+              example:
+              - serial: Q234-ABCD-5678
+                name: My appliance
+                network:
+                  id: N_24329156
+                power:
+                  mode: full
+                  ac:
+                    isConnected: false
+                  poe:
+                    isConnected: true
+                ports:
+                - name: Ethernet 0
+                  poe:
+                    standard: 802.3at
+                  linkNegotiation:
+                    duplex: full
+                    speed: 5000
+                aggregation:
+                  enabled: true
+                  speed: 10000
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: List the most recent Ethernet link speed, duplex, aggregation and power mode and status information for wireless devices.
+      tags:
+      - wireless.monitor
+  /organizations/{organizationId}/wireless/devices/packetLoss/byClient:
+    get:
+      description: Get average packet loss for the given timespan for all clients in the organization.
+      operationId: getOrganizationWirelessDevicesPacketLossByClient
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: networkIds
+        in: query
+        description: Filter results by network.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: ssids
+        in: query
+        description: Filter results by SSID number.
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: bands
+        in: query
+        description: 'Filter results by band. Valid bands are: 2.4, 5, and 6.'
+        schema:
+          type: array
+          items:
+            type: string
+      - name: macs
+        in: query
+        description: Filter results by client mac address(es).
+        schema:
+          type: array
+          items:
+            type: string
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 90 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 5 minutes and be less than or equal to 90 days. The default is 7 days.
+        schema:
+          type: number
+          format: float
+          minimum: 300
+          maximum: 7776000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    downstream:
+                      type: object
+                      properties:
+                        total:
+                          type: integer
+                          description: Total packets received by a client.
+                        lost:
+                          type: integer
+                          description: Total packets sent by an AP that did not reach the client.
+                        lossPercentage:
+                          type: number
+                          format: float
+                          description: Percentage of lost packets.
+                      description: Packets sent from an AP to a client.
+                    upstream:
+                      type: object
+                      properties:
+                        total:
+                          type: integer
+                          description: Total packets sent by a client to an AP.
+                        lost:
+                          type: integer
+                          description: Total packets sent by a client and did not reach the AP.
+                        lossPercentage:
+                          type: number
+                          format: float
+                          description: Percentage of lost packets.
+                      description: Packets sent from a client to an AP.
+                    client:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Client ID.
+                        mac:
+                          type: string
+                          description: MAC address.
+                      description: Client.
+                    network:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Network ID.
+                        name:
+                          type: string
+                          description: Name of the network.
+                      description: Network.
+              example:
+              - downstream:
+                  total: 1000
+                  lost: 10
+                  lossPercentage: 1
+                upstream:
+                  total: 1200
+                  lost: 15
+                  lossPercentage: 1.3
+                client:
+                  id: k74272e
+                  mac: 22:33:44:55:66:77
+                network:
+                  id: N_24329156
+                  name: Main Office
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: Get average packet loss for the given timespan for all clients in the organization.
+      tags:
+      - wireless.monitor
+  /organizations/{organizationId}/wireless/devices/packetLoss/byDevice:
+    get:
+      description: Get average packet loss for the given timespan for all devices in the organization. Does not include device's own traffic.
+      operationId: getOrganizationWirelessDevicesPacketLossByDevice
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: networkIds
+        in: query
+        description: Filter results by network.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serials
+        in: query
+        description: Filter results by device.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: ssids
+        in: query
+        description: Filter results by SSID number.
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: bands
+        in: query
+        description: 'Filter results by band. Valid bands are: 2.4, 5, and 6.'
+        schema:
+          type: array
+          items:
+            type: string
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 90 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 5 minutes and be less than or equal to 90 days. The default is 7 days.
+        schema:
+          type: number
+          format: float
+          minimum: 300
+          maximum: 7776000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    downstream:
+                      type: object
+                      properties:
+                        total:
+                          type: integer
+                          description: Total packets received by a client.
+                        lost:
+                          type: integer
+                          description: Total packets sent by an AP that did not reach the client.
+                        lossPercentage:
+                          type: number
+                          format: float
+                          description: Percentage of lost packets.
+                      description: Packets sent from an AP to a client.
+                    upstream:
+                      type: object
+                      properties:
+                        total:
+                          type: integer
+                          description: Total packets sent by a client to an AP.
+                        lost:
+                          type: integer
+                          description: Total packets sent by a client and did not reach the AP.
+                        lossPercentage:
+                          type: number
+                          format: float
+                          description: Percentage of lost packets.
+                      description: Packets sent from a client to an AP.
+                    network:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Network ID.
+                        name:
+                          type: string
+                          description: Name of the network.
+                      description: Network.
+                    device:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Name
+                        serial:
+                          type: string
+                          description: Serial Number
+                        mac:
+                          type: string
+                          description: MAC address
+                      description: Device.
+              example:
+              - downstream:
+                  total: 1000
+                  lost: 10
+                  lossPercentage: 1
+                upstream:
+                  total: 1200
+                  lost: 15
+                  lossPercentage: 1.3
+                network:
+                  id: N_24329156
+                  name: Main Office
+                device:
+                  name: My AP
+                  serial: Q234-ABCD-5678
+                  mac: 00:11:22:33:44:55
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: Get average packet loss for the given timespan for all devices in the organization
+      tags:
+      - wireless.monitor
+  /organizations/{organizationId}/wireless/devices/packetLoss/byNetwork:
+    get:
+      description: Get average packet loss for the given timespan for all networks in the organization.
+      operationId: getOrganizationWirelessDevicesPacketLossByNetwork
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: networkIds
+        in: query
+        description: Filter results by network.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serials
+        in: query
+        description: Filter results by device.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: ssids
+        in: query
+        description: Filter results by SSID number.
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: bands
+        in: query
+        description: 'Filter results by band. Valid bands are: 2.4, 5, and 6.'
+        schema:
+          type: array
+          items:
+            type: string
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 90 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 5 minutes and be less than or equal to 90 days. The default is 7 days.
+        schema:
+          type: number
+          format: float
+          minimum: 300
+          maximum: 7776000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    downstream:
+                      type: object
+                      properties:
+                        total:
+                          type: integer
+                          description: Total packets received by a client.
+                        lost:
+                          type: integer
+                          description: Total packets sent by an AP that did not reach the client.
+                        lossPercentage:
+                          type: number
+                          format: float
+                          description: Percentage of lost packets.
+                      description: Packets sent from an AP to a client.
+                    upstream:
+                      type: object
+                      properties:
+                        total:
+                          type: integer
+                          description: Total packets sent by a client to an AP.
+                        lost:
+                          type: integer
+                          description: Total packets sent by a client and did not reach the AP.
+                        lossPercentage:
+                          type: number
+                          format: float
+                          description: Percentage of lost packets.
+                      description: Packets sent from a client to an AP.
+                    network:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Network ID.
+                        name:
+                          type: string
+                          description: Name of the network.
+                      description: Network.
+              example:
+              - downstream:
+                  total: 1000
+                  lost: 10
+                  lossPercentage: 1
+                upstream:
+                  total: 1200
+                  lost: 15
+                  lossPercentage: 1.3
+                network:
+                  id: N_24329156
+                  name: Main Office
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: Get average packet loss for the given timespan for all networks in the organization.
+      tags:
+      - wireless.monitor
+  /organizations/{organizationId}/wireless/devices/wirelessControllers/byDevice:
+    get:
+      description: List of Catalyst access points information
+      operationId: getOrganizationWirelessDevicesWirelessControllersByDevice
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: networkIds
+        in: query
+        description: Optional parameter to filter access points by network ID. This filter uses multiple exact matches.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serials
+        in: query
+        description: Optional parameter to filter access points by its cloud ID. This filter uses multiple exact matches.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: controllerSerials
+        in: query
+        description: Optional parameter to filter access points by its wireless LAN controller cloud ID. This filter uses multiple exact matches.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 1000. Default is 100.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        network:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              description: Catalyst access point network ID
+                          description: Catalyst access point network
+                        serial:
+                          type: string
+                          description: AP cloud ID
+                        controller:
+                          type: object
+                          properties:
+                            serial:
+                              type: string
+                              description: Associated wireless controller cloud ID
+                          description: Associated wireless controller
+                        joinedAt:
+                          type: string
+                          description: The time when AP joins wireless controller
+                        model:
+                          type: string
+                          description: AP model
+                        tags:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              policy:
+                                type: string
+                                description: Policy tag
+                              site:
+                                type: string
+                                description: Site tag
+                              rf:
+                                type: string
+                                description: RF tag
+                          description: The tags of the catalyst access point
+                        mode:
+                          type: string
+                          description: AP mode (local, flex, etc.)
+                        countryCode:
+                          type: string
+                          description: Country code (2 characters)
+                        details:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                                description: Item name
+                              value:
+                                type: string
+                                description: Item value
+                          description: Catalyst access point details
+                    description: List of Catalyst access points information
+                  meta:
+                    type: object
+                    properties:
+                      counts:
+                        type: object
+                        properties:
+                          items:
+                            type: object
+                            properties:
+                              total:
+                                type: integer
+                                description: The total number of items in the dataset
+                              remaining:
+                                type: integer
+                                description: The number of items in the dataset that are available on subsequent pages
+                            description: Counts relating to the paginated items
+                        description: Counts relating to the paginated dataset
+                    description: Metadata relevant to the paginated dataset
+              example:
+                items:
+                - network:
+                    id: N_24329156
+                  serial: Q234-ABCD-5678
+                  controller:
+                    serial: Q234-ABCD-5678
+                  joinedAt: '2020-01-01T00:00:00Z'
+                  model: C9115AXI-H
+                  tags:
+                  - policy: 4F
+                    site: default-site-tag
+                    rf: default-rf-tag
+                  mode: local
+                  countryCode: CA
+                  details:
+                  - name: catalyst serial
+                    value: FGL2446L7QQ
+                meta:
+                  counts:
+                    items:
+                      total: 10
+                      remaining: 0
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: List of Catalyst access points information
+      tags:
+      - wireless.monitor
+  /organizations/{organizationId}/wireless/ssids/statuses/byDevice:
+    get:
+      description: List status information of all BSSIDs in your organization
+      operationId: getOrganizationWirelessSsidsStatusesByDevice
+      parameters:
+      - name: organizationId
+        in: path
+        description: Organization ID
+        schema:
+          type: string
+        required: true
+      - name: networkIds
+        in: query
+        description: Optional parameter to filter the result set by the included set of network IDs
+        schema:
+          type: array
+          items:
+            type: string
+      - name: serials
+        in: query
+        description: A list of serial numbers. The returned devices will be filtered to only include these serials.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: bssids
+        in: query
+        description: A list of BSSIDs. The returned devices will be filtered to only include these BSSIDs.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: hideDisabled
+        in: query
+        description: 'If true, the returned devices will not include disabled SSIDs. (default: true)'
+        schema:
+          type: boolean
+      - name: perPage
+        in: query
+        description: The number of entries per page returned. Acceptable range is 3 - 500. Default is 100.
+        schema:
+          type: integer
+      - name: startingAfter
+        in: query
+        description: A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        description: A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        serial:
+                          type: string
+                          description: Unique serial number for device.
+                        name:
+                          type: string
+                          description: Name of device.
+                        network:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              description: Unique identifier for network.
+                            name:
+                              type: string
+                              description: Name of network.
+                          description: Group of devices and settings.
+                        basicServiceSets:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              bssid:
+                                type: string
+                                description: Unique identifier for wireless access point.
+                              ssid:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                                    description: Name of wireless network.
+                                  number:
+                                    type: integer
+                                    description: Unique identifier for wireless network.
+                                  enabled:
+                                    type: boolean
+                                    description: Status of wireless network.
+                                  advertised:
+                                    type: boolean
+                                    description: Availability of wireless network for devices to connect to.
+                                description: Wireless access point and network identifier.
+                              radio:
+                                type: object
+                                properties:
+                                  band:
+                                    type: string
+                                    enum:
+                                    - '2.4'
+                                    - '5'
+                                    - '6'
+                                    description: Frequency range used for wireless communication.
+                                  channel:
+                                    type: integer
+                                    description: Frequency channel used for wireless communication.
+                                  channelWidth:
+                                    type: integer
+                                    description: Width of frequency channel used for wireless communication.
+                                  power:
+                                    type: integer
+                                    description: Strength of wireless signal.
+                                  isBroadcasting:
+                                    type: boolean
+                                    description: Indicates whether or not this radio is currently broadcasting.
+                                  index:
+                                    type: string
+                                    description: The radio index.
+                                description: Wireless access point radio identifier.
+                          description: Status information for wireless access points.
+                    description: The top-level propery containing all status data.
+                  meta:
+                    type: object
+                    properties:
+                      counts:
+                        type: object
+                        properties:
+                          items:
+                            type: object
+                            properties:
+                              total:
+                                type: integer
+                                description: The total number of items.
+                              remaining:
+                                type: integer
+                                description: The number of items remaining based on current pagination location within the dataset.
+                            description: The count metadata.
+                        description: Count metadata related to this result set.
+                    description: Other metadata related to this result set.
+              example:
+                items:
+                - serial: QQ3A-QHWY-DQ2Z
+                  name: My AP
+                  network:
+                    id: N_24329156
+                    name: Main Office
+                  basicServiceSets:
+                  - bssid: 8A:15:04:00:00:00
+                    ssid:
+                      name: My SSID
+                      number: 0
+                      enabled: true
+                      advertised: true
+                    radio:
+                      band: '2.4'
+                      channel: 11
+                      channelWidth: 20
+                      power: 18
+                      isBroadcasting: true
+                      index: '0'
+                meta:
+                  counts:
+                    items:
+                      total: 1738
+                      remaining: 1238
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
+      summary: List status information of all BSSIDs in your organization
+      tags:
+      - wireless.monitor
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}

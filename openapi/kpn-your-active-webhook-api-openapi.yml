@@ -1,0 +1,68 @@
+openapi: 3.2.0
+info:
+  version: 1.0.0
+  title: Inbound SMS - KPN Your Active Webhook API
+  description: 'This API is designed to inform users about the response schema they will receive on their webhook when an SMS message is sent to their virtual number. The API provides details of the message format that includes sender, recipient, message ID, content, timestamp, and type of the SMS.
+
+    ---
+
+    ## Documentation and Support For more details on setting up your webhook to receive SMS, please visit our support and documentation pages.
+
+    ---'
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/kpn/SMS-Inbound/1.0.0
+- description: SwaggerHub
+  url: https://api-prd.kpn.com
+tags:
+- name: Your Active Webhook
+paths:
+  /your-active-webhook:
+    post:
+      summary: Receive an Inbound SMS on your active HTTP Webhook Endpoint
+      description: This is your configured webhook endpoint. You will receive inbound SMS here when a user sends a message to your virtual number. Please note that this endpoint is for receiving messages only and cannot be used to send requests. It serves as a reference for understanding how responses are delivered to your webhook.
+      responses:
+        '200':
+          description: Webhook payload with inbound SMS details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InboundSms'
+      tags:
+      - Your Active Webhook
+components:
+  schemas:
+    InboundSms:
+      type: object
+      required:
+      - sender
+      - recipient
+      - message_id
+      - content
+      - timestamp_utc
+      - type
+      properties:
+        sender:
+          type: string
+          example: '31600000000'
+        recipient:
+          type: string
+          example: '3197000000000'
+        message_id:
+          type: string
+          example: 6W0000001G7BB999.3197000000000
+        content:
+          type: string
+          example: Hey this is an inbound response.
+        timestamp_utc:
+          type: string
+          format: date-time
+          example: '2024-04-30T14:37:42.218159'
+        type:
+          type: string
+          example: text/unicode/*

@@ -1,0 +1,405 @@
+openapi: 3.2.0
+info:
+  description: "### Key highlights\n- **Sandbox:** Full-fledged capabilities.\n- **Security:**  HTTPS, OAuth, Rate limit\n- **Versioning:**  supports version-less API, version tight. If no version is provided (in header) it defaults to latest version. \n\n## [Source view](https://app.swaggerhub.com/apis/kpn/ise-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/ise-kpn)\n---\n## [KPN API Store](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n\n ---"
+  version: v1
+  title: ISE - KPN Endpoint API
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- url: https://api-prd.kpn.com/kpn/ise
+tags:
+- name: endpoint
+paths:
+  /endpoint/:
+    get:
+      tags:
+      - endpoint
+      description: Get endpoints within group using the endpointgroup id.
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/filter'
+      responses:
+        200:
+          $ref: '#/components/responses/endpointgroup'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /endpoint/name/{name}:
+    get:
+      tags:
+      - endpoint
+      description: Get endpoints within group using the endpointgroup id.
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/name'
+      responses:
+        200:
+          $ref: '#/components/responses/endpointgroup'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /endpoint:
+    post:
+      tags:
+      - endpoint
+      description: Get endpoints within group using the endpointgroup id.
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      requestBody:
+        $ref: '#/components/requestBodies/ERSEndPoint'
+      responses:
+        201:
+          description: Created
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /endpoint/{id}:
+    put:
+      tags:
+      - endpoint
+      description: Get endpoints within group using the endpointgroup id.
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/id'
+      requestBody:
+        $ref: '#/components/requestBodies/ERSEndPoint'
+      responses:
+        200:
+          $ref: '#/components/responses/UpdatedFieldsList'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+    delete:
+      tags:
+      - endpoint
+      description: Get endpoints within group using the endpointgroup id.
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/id'
+      responses:
+        204:
+          description: No Content
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+components:
+  responses:
+    endpointgroup:
+      description: A successful delivery
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              SearchResult:
+                type: object
+                properties:
+                  total:
+                    type: number
+                  resources:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/resources'
+    UpdatedFieldsList:
+      description: A successful delivery
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              UpdatedFieldsList:
+                type: object
+                properties:
+                  updatedField:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/updatefield'
+  parameters:
+    id:
+      in: path
+      name: id
+      schema:
+        type: string
+      description: info
+      required: true
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+    filter:
+      in: query
+      name: filter
+      schema:
+        type: string
+      description: info
+      required: false
+    name:
+      in: path
+      name: name
+      schema:
+        type: string
+      description: info
+      required: true
+  schemas:
+    resources:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    updatefield:
+      type: object
+      properties:
+        field:
+          type: string
+        oldValue:
+          type: string
+        newValue:
+          type: string
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    ERSEndPoint:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        mac:
+          type: string
+        profileId:
+          type: string
+        staticProfileAssignment:
+          type: string
+        groupId:
+          type: string
+        staticGroupAssignment:
+          type: string
+        portalUser:
+          type: string
+        identityStore:
+          type: string
+        identityStoreId:
+          type: string
+  requestBodies:
+    ERSEndPoint:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ERSEndPoint:
+                $ref: '#/components/schemas/ERSEndPoint'
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials

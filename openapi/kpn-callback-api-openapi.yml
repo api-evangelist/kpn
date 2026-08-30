@@ -1,0 +1,89 @@
+openapi: 3.2.0
+info:
+  title: SMS-Vonage Callback API
+  version: v1.1.1
+  termsOfService: https://developer.kpn.com/legal
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  description: "Vonage's SMS API allows you to send and receive text messages to users around the globe through simple RESTful APIs.\n  \n  * Programmatically send and receive high volume of SMS anywhere in the world.\n  * Build apps that scale with the web technologies that you are already using.\n  * Send SMS with low latency and high delivery rates.\n  * Receive SMS for free using SMS-enabled local numbers in countries around the world.\n  * Only pay for what you use, nothing more.\n\n  \n## [Source view](https://app.swaggerhub.com/apis/kpn/sms-nexmo/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/sms-nexmo/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n ---"
+servers:
+- url: https://api-prd.kpn.com/communication/nexmo/sms
+tags:
+- name: Callback
+paths:
+  /https://example.com:webhooks/delivery-receipt:
+    post:
+      summary: Delivery Receipt
+      description: This is not an API call but it is to showcase how the schema of delivery receipt will look like. You can get delivery receipt by using `status-report-req` and `callback` parameters of 'Send SMS' request body.
+      tags:
+      - Callback
+      responses:
+        '200':
+          description: Your server returns this code if it accepts the callback
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeliveryReceipt'
+        description: The following are parameters sent in as a delivery receipt callback. You can subscribe to webhooks to receive notification when the delivery status of an SMS that you have sent with Vonage changes.
+components:
+  schemas:
+    DeliveryReceipt:
+      type: object
+      properties:
+        msisdn:
+          type: string
+          description: The number the message was sent to. Numbers are specified in E.164 format.
+          example: '447700900000'
+        to:
+          type: string
+          description: The SenderID you set in `from` in your request.
+          example: AcmeInc
+        network-code:
+          type: string
+          description: The Mobile Country Code Mobile Network Code (MCCMNC) of the carrier this phone number is registered with.
+          example: '12345'
+        messageId:
+          type: string
+          description: The Vonage ID for this message.
+          example: 0A0000001234567B
+        price:
+          type: string
+          description: The cost of the message
+          example: '0.03330000'
+        status:
+          type: string
+          description: A code that explains where the message is in the delivery process.
+          example: delivered
+          x-possible-values:
+          - delivered
+          - expired
+          - failed
+          - rejected
+          - accepted
+          - buffered
+          - unknown
+        scts:
+          type: string
+          description: When the DLR was recieved from the carrier in the following format `YYMMDDHHMM`. For example, `2001011400` is at `2020-01-01 14:00`
+          example: '2001011400'
+        err-code:
+          type: string
+          description: The status of the request. Will be a non `0` value if there has been an error. See the [SMS error reference](/api-errors/sms) for more details
+          example: '0'
+        message-timestamp:
+          description: The time when Vonage started to push this Delivery Receipt to your webhook endpoint.
+          type: string
+          example: 2020-01-01 12:00:00
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

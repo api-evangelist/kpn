@@ -1,0 +1,1423 @@
+openapi: 3.2.0
+info:
+  description: "MobileServicesManagement APIs\n\n   ---\n     \n ## [Source view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)<br/>\n [Documentation view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)\n \n ---\n \n ## [KPN Developer](https://developer.kpn.com/)<br/>\n [Getting Started](https://developer.kpn.com/getting-started)\n \n\n ---"
+  version: v11
+  title: MobileServicesManagement-KPN Rest Contracting Controller API
+  termsOfService: https://developer.kpn.com/legal
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+servers:
+- url: https://api-prd.kpn.com/mobile/kpn/mobileservices
+tags:
+- name: rest-contracting-controller
+  description: Rest Contracting Controller
+paths:
+  /contracting/basket:
+    get:
+      tags:
+      - rest-contracting-controller
+      summary: Get basket content with products tree and prices
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>
+      operationId: getBasketUsingGET
+      parameters:
+      - name: sessionId
+        in: query
+        description: sessionId
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BasketSnapshot'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+    post:
+      tags:
+      - rest-contracting-controller
+      summary: Modify state of current basket
+      description: "<div style='max-height: 400px; overflow: auto; width: 100%'>This is a central enpoint for contracting or modifing products. Depending on `change` object passed to this method you can initialize basket, mark product to be contracted, mark product to be terminated, set some parameter for contracting process and so on. Below you will find example scenarios of using basket. \n\n# Modify contract\n\n1. Find contract to modify using: `GET /contract/all`\n2. Check if contract modification is possible for selected contract using:  `GET /order/operations`. Check flags for `modify` in response   (`visible` and `enabled` are set to true).\n3. Initialize basket using selected contract: `POST /contracting/basket`\n   ```\n   {\n       \"contractId\": [id of contract to be modified]\n   }\n   ```\n4. Get basket content (including products tree): `GET /contracting/basket`\n5. Now you can select and deselect products (you can send more than one - every change will be proceeded one after another) using: `POST /contracting/basket`\n   ```\n   {\n     \"productActions\": [{\n       \"productId\": [id field from tree],\n       \"amount\": [optional number of products to be put - important only for PUT action, min 1, max 100, default 1],\n       \"type\": [\"PUT\" | \"REMOVE\"]\n     }]\n   }\n   ```\n   Sending multiply changes should be used mainly if you are sure all changes can be applied (i.e. one action won't exclude following ones). \n   Step 4 and 5 can be repeated multiply times.\n6. You can create order with introduced changes via `POST /contracting/basket/order`\n   ```\n   {\n     \"referenceNumber\": [reference number],\n     \"wishDate\": [date when the order is going to be started]\n   }\n   ```\n\n# Create new contract\n\n1. Find subscriber for whom you want to create new contract, e.g. `GET /hierarchy/subscribers`\n2. Initialize basket using selected account (subscriber): `POST /contracting/basket`\n   ```\n   {\n     \"accountGroupId\": [subscriber id found in previous step]\n   }\n   ```\n3. Get basket content (including products tree): `GET /contracting/basket`\n4. Select and deselect products - in the same way as during contract modification\n5. Right now you can fill in some characteristic values. Characteristics are all values which are needed to fully configured\n   the future contract. The set of characteristics depends on previously selected products (for example you will receive\n   different values for mobile subscription and for fixed one). What is more, it is possible that setting some characteristics\n   can enable another ones. So after every such action you should check basket content. Let's assume you've selected in the previous\n   step `IP Centrex`. In such situation you will get in your basket something like this:\n   ```\n   (...)\n     \"characteristics\": {\n       \"firstName\": {\n         \"name\": \"firstName\",\n         \"value\": \"Jan\",\n         \"possibleValues\": [{\"value\": \"Jan\"}]\n       },\n       \"lastName\": {\n         \"name\": \"lastName\",\n         \"value\": \"Kowalski\",\n         \"possibleValues\": [{\"value\": \"Kowalski\"}]\n       },\n       \"loginExtension\": {\n         \"name\": \"loginExtension\"\n       },\n       \"loginExtensionPrefix\": {\n         \"name\": \"loginExtensionPrefix\",\n         \"value\": \"\",\n         \"possibleValues\": [{\"value\": \"\"}]\n       },\n       \"deviceOption\": {\n         \"name\": \"deviceOption\",\n         \"possibleValues\": [\n           {\n             \"value\": \"Off-The-Shelf\",\n             \"caption\": {\"en\": \"Off-The-Shelf\", \"nl\": \"Off-The-Shelf\"}\n           },\n           {\n             \"value\": \"Deviceless\",\n             \"caption\": {\"en\": \"Deviceless\", \"nl\": \"Deviceless\"}\n           },\n           {\n             \"value\": \"Existing Shared\",\n             \"caption\": {\"en\": \"Existing Shared\", \"nl\": \"Existing Shared\"}\n           }\n         ]\n       },\n       \"fixedNumber\": {\n         \"name\": \"fixedNumber\"\n       },\n       \"email\": {\n         \"name\": \"email\",\n         \"value\": \"jan.kowalski@comarch.com\",\n         \"possibleValues\": [{\"value\": \"jan.kowalski@comarch.com\"}]\n       },\n       \"group\": {\n         \"name\": \"group\",\n         \"possibleValues\": [\n           {\n             \"value\": \"166715563\",\n             \"caption\": {\"en\": \"Codemaster Group 1\", \"nl\": \"Codemaster Group 1\"}\n           },\n           {\n             \"value\": \"166715564\",\n             \"caption\": {\"en\": \"Codemaster Group 2\", \"nl\": \"Codemaster Group 2\"}\n           }\n         ]\n       }\n     }\n   (...)\n   ```\n   Some of these characteristics are read-only as they have only one possible value which is prefilled and can't be changed    to anything else (for example `firstName`, `lastName`). They are included in the response for informational purpose    and can be presented on a front-end. The rest of characteristics should be entered:\n   * `loginExtension`,\n   * `deviceOption`,\n   * `fixedNumber`,\n   * `group`.\n   Setting characteristic value is done through the same `POST /contracting/basket` endpoint, but now we are going to use `characteristicActions` key, for example:\n   ```\n   {\n     \"characteristicActions\": [{\n       \"name\": \"deviceOption\",\n       \"value\": \"Off-The-Shelf\"\n     }]\n   }\n   ```\n   After `deviceOption` is set to `Off-The-Shelf` you will receive additionally `deviceType` characteristic to set.\n   Theoretically, you can merge many characteristic requests into one request by passing a list of actions instead   of single one. But please be aware, that in such case they are proceeded sequentially one-by-one, so their order   may be important (for example you need set ` deviceOption` characteristic before `deviceType`). Or you can just    make separated request for each individual value. It's up to you.\n   The process of consulting basket content and setting characteristics value should be repeated until all required values are set.6. Next, if you decide to give a new sim card (possible only when you haven't ordered a new one), you should `POST /basket` the following object:\n   ```\n   {\"simCardNumber\": <short uiccid>}\n   ```\n7. You can create order with introduced changes via `POST /contracting/basket/order`\n   ```\n   {\n     \"referenceNumber\": [reference number],\n     \"wishDate\": [date when the order is going to be started]\n   }\n   ```\n   Please note that if you selected some order you have to extend this object with address section.\n\n# Create new contract (by template)\n\n1. Find subscriber for whom you want to create new contract, e.g. `GET /hierarchy/subscribers`\n2. Initialize basket using selected account (subscriber): `POST /contracting/basket`\n   ```\n   {\n     \"accountGroupId\": [subscriber id found in previous step]\n   }\n   ```\n3. From now you can get template list using `GET /contracing/basket/templates`\n4. You can use one of those templates (select it) using `POST /contracting/basket`:\n   ```\n   {\n     \"templateId\": [template id]\n   }\n   ```\n5. Get basket content (including products tree): `GET /contracting/basket`\n\nThe rest of steps is analogous to standard way of creating contract.\n\n# Reactivate contract\n\n1. Find subscriber for whom you want to create new contract, e.g. `GET /hierarchy/subscribers`\n2. Find service request in which contract was terminated, e.g. `GET /track-and-trace/service-requests`\n3. Initialize basket using selected account (subscriber) and contract: `POST /contracting/basket`\n   ```\n   {\n     \"accountGroupId\": [subscriber id found in previous step],\n     \"orderId\": [termination order id found in previous step]\n   }\n   ```\n4. A read-only characteristic `previousPhoneNumber` is initialized. You can use it to get the previous phone number and present it to an end user.\n\nThe rest of steps is analogous to standard way of creating contract.\n\n# Port in number\n\nInitials steps are the same as for creating a new contract. After configuring products tree (by hand or by template) you should be able to set porting characteristics. Please note that this characteristic will be only available if you select mobile product. You can check possible list of characteristics to be set using: `GET /basket` or `GET /basket/characteristics`. Example response after selecting mobile product (fragment of `GET /basket` response):\n\n```\n(...)\n\n  \"characteristics\": {\n    \"porting\": {\n      \"name\": \"porting\",\n      \"value\": \"false\",\n      \"possibleValues\": [\n        {\n          \"value\": \"false\",\n          \"caption\": {\n            \"en\": \"false\",\n            \"nl\": \"false\"\n          }\n        },\n        {\n          \"value\": \"true\",\n          \"caption\": {\n            \"en\": \"true\",\n            \"nl\": \"true\"\n          }\n        }\n      ]\n    }\n  }\n\n(...)\n```\n\nThe response says that:\n  * you can set `porting` characteristic (field `name`),\n  * current value is `false` (field `value`),\n  * it can take one of two values: `true` or `false` (field `possibleValues`).\n\nTo switch porting value to `true`, you have to make the following request:\n\n```\n{\n  \"characteristicActions\": [{\n    \"name\": \"porting\",\n    \"value\": \"true\"\n  }]\n}\n```\n\nAfter setting porting to `true` there will be possibility to set few more porting-specific parameters (you can get new list of characteristics again using `GET /basket`):\n  * `phoneNumber` - required, regex: `316\\d{8} | 3197\\d{9}`\n  * `customerNumber` - required, length <= 70\n  * `customerName`, lenght <= 20\n  * `keepExistingSimCard` - default `false`\n  * `note` - length <= 60\n\nTheoretically, you can merge characteristic requests into one request by passing a list of actions instead of single action. But please be aware, that in such case they are proceeded sequentially one-by-one, so their order may be important (for example you need set `porting` characteristic before `phoneNumber`). Or you can just make separated request for each individual value. It's up to you.\n\nTurning on `porting` flag additionally disable possibility to get more main products and contract additional main products such as handsets, sim cards etc. During porting contracting such products is not possible.\n\nIf sent characteristic value does not met validation criteria an error is raised (`400 Bad Request`) with possible code values:\n  * `INVALID_CUSTOMER_NAME`,\n  * `INVALID_CUSTOMER_NUMBER`,\n  * `INVALID_NOTE`,\n  * `BASKET_INVALID`,\n  * `INVALID_MSISDN_ALREADY_EXISTS_FOR_A_CUSTOMER`,\n  * `INVALID_MSISDN_IS_BLOCKED`,\n  * `INVALID_MSISDN_FORMAT_NOT_VALID`,\n  * `INVALID_MSISDN_LENGTH_FOR_THIS_PRODUCT`,\n  * `INVALID_MSISDN_FOR_CUSTOMER_OFFER`,\n\nNext, if you decide to give a new sim card (possible only when `keepExistingSimCard` = `false`), you should `POST /basket` the following object:\n\n```\n{\n  \"simCardNumber\": <short uiccid>\n}\n```\n\nto pass short UICCD of ported number.\n\nKeeping existing sim card is only possible for phone number registered currently in KPN (internal porting).\n\nStart a new order is possible via 'POST /basket/order'. You can pass:\n  * `wishDate` - preferred date of porting (null is treated as ASAP),\n  * `referenceNumber`.\n\nWe do not pass address to backend.\n\nPossible error codes (for `400 Bad Request` response):\n  * `BASKET_INVALID` - not all parameters have been set, or product tree is in error state,\n  * `INVALID_WISH_DATE` - as wish date should be <= current date + 90, and can not be set on holiday.\n\n# Combine fixed and mobile contract\n\n1. Find first contract to combine using: `GET /contract/all`\n2. Check if contract combination is possible for selected contract using:  `GET /order/operations`. Check flags for `combineFixedMobile` in response   (`visible` and `enabled` are set to true).\n3. Depending on previous contract type find second contract using `GET /contracting/id/{id}/vamo/fixed-numbers` or `GET /contracting/id/{id}/vamo/mobile-numbers`\n4. Initialize basket using selected contracts: `POST /contracting/basket`\n   ```\n   {\n       \"fixedContractId\": [id of fixed contract],\n       \"mobileContractId\": [id of mobile contract],\n   }\n   ```\n5. Get list of possible characterists to bet set (for example pbx groups, service types, combine types). The response contains also current value    of every characteristics: `GET /contracting/basket/characteristics\n6. Set selected characteristics using modify basket (you can send more than one - every change will be proceeded one after another)\n   ```\n   {\n     \"characteristicActions\": [{\n       \"name\": [characteristic name],\n       \"value\": [characteristic value]\n     }]\n   }\n   Step 5 and 6 can be repeated multiply times.\n7. Get products tree: `GET /contracting/basket/products`\n\nThe rest of steps are still not implemented.\n# Modify existing template\n1. Find valid template to modify using: `GET /contracting/templates`\n2. Initialize basket using selected template: `POST /contracting/basket`\n   ```\n   {\n       \"templatedIdToModify\": [id of template to be modified]\n   }\n   ```\n3. You can preview and modify basket state the same way as during create new subscrition or dduring contract modification\n4. When the basket is in valid state you can save all change using `POST /contracting/basket/modify-template`\n</div>\n\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>"
+      operationId: modifyBasketUsingPOST
+      parameters:
+      - name: sessionId
+        in: query
+        description: sessionId
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BasketChange'
+        description: change
+        required: true
+  /contracting/basket/characteristics:
+    get:
+      tags:
+      - rest-contracting-controller
+      summary: Get characteristics grouped by its names
+      description: 'Example characteristics names: `pbxGroup`, `serviceType`, `combineType`
+
+
+        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>'
+      operationId: getCharacteristicsUsingGET
+      parameters:
+      - name: sessionId
+        in: query
+        description: sessionId
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Characteristic'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /contracting/basket/main-products:
+    get:
+      tags:
+      - rest-contracting-controller
+      summary: Get list of main products to order
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>
+      operationId: getMainProductsUsingGET
+      parameters:
+      - name: Content-Language
+        in: header
+        description: Content-Language
+        required: false
+        schema:
+          type: string
+      - name: category
+        in: query
+        description: 'Possible values: MOBILE, SIM CARDS, FIXED, HARDWARE, SOFTWARE, OTHER'
+        required: false
+        schema:
+          type: string
+      - name: filters
+        in: query
+        description: 'Possible columns: PRODUCT_NAME, PRICE_IN_CENTS, PRIVATE_COPYING_LEVY_IN_CENTS. For example: STATUS: "a", "b"; PRICE_IN_CENTS: "1", "2"'
+        required: false
+        schema:
+          type: string
+      - name: from
+        in: query
+        description: Pagination parameter - start from (included). The elements are counted from 0. Default value is 0.
+        required: false
+        x-example: 0
+        schema:
+          type: integer
+          format: int32
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: patterns
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: sessionId
+        in: query
+        description: sessionId
+        required: false
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - PRODUCT_NAME
+          - CATEGORY
+          - FOLDER_NAME
+          - PRICE_IN_CENTS
+          - PRIVATE_COPYING_LEVY_IN_CENTS
+      - name: to
+        in: query
+        description: Pagination parameter - end element (exluded). Default value is 20.
+        required: false
+        x-example: 20
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PagedResult_Product_1'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /contracting/basket/modify-template:
+    post:
+      tags:
+      - rest-contracting-controller
+      summary: Modify template
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul><strong>and</strong>:</strong><ul><li>privileges_portfolio_and_profiles_management</li></ul>
+      operationId: modifyTemplateUsingPOST
+      parameters:
+      - name: sessionId
+        in: query
+        description: sessionId
+        required: false
+        schema:
+          type: string
+      - name: spectatedUserId
+        in: query
+        description: spectatedUserId
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /contracting/basket/order:
+    post:
+      tags:
+      - rest-contracting-controller
+      summary: Create order applying changes introduced to basket staring from initializing
+      description: 'Possible errors:
+
+        | HTTP code                          | Error code          | Description                                              |
+
+        |------------------------------------|---------------------|----------------------------------------------------------|
+
+        | `ORDERING_IS_BLOCKED_FOR_CUSTOMER` | `403`               | Current customer is frozen and can not order anything    |
+
+        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>'
+      operationId: orderUsingPOST_1
+      parameters:
+      - name: sessionId
+        in: query
+        description: sessionId
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderConfirmation'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+        description: request
+        required: true
+  /contracting/basket/products:
+    get:
+      tags:
+      - rest-contracting-controller
+      summary: Get products tree
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>
+      operationId: getProductsTreeUsingGET
+      parameters:
+      - name: sessionId
+        in: query
+        description: sessionId
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductTreeItem'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /contracting/basket/reset:
+    post:
+      tags:
+      - rest-contracting-controller
+      summary: Reset basket
+      description: 'Some of the methods are stateful and depend on basket state. Due to this it is sometimes helpful to reinitialize basket.
+
+
+        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>'
+      operationId: resetBasketUsingPOST
+      parameters:
+      - name: sessionId
+        in: query
+        description: sessionId
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /contracting/basket/resources:
+    get:
+      tags:
+      - rest-contracting-controller
+      summary: Get resources
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>
+      operationId: getResourcesUsingGET
+      parameters:
+      - name: limit
+        in: query
+        description: limit
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: prefix
+        in: query
+        description: prefix
+        required: true
+        schema:
+          type: string
+      - name: sessionId
+        in: query
+        description: sessionId
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Resource'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /contracting/basket/save-as-template:
+    post:
+      tags:
+      - rest-contracting-controller
+      summary: Save as template
+      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul><strong>and</strong>:</strong><ul><li>privileges_portfolio_and_profiles_management</li></ul>
+      operationId: saveAsTemplateUsingPOST
+      parameters:
+      - name: sessionId
+        in: query
+        description: sessionId
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SaveAsTemplateResponse'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveAsTemplateRequest'
+        description: request
+        required: true
+  /contracting/basket/templates:
+    get:
+      tags:
+      - rest-contracting-controller
+      summary: Get templates
+      description: 'List of templates can be limited by main product category (if null given all templates will be returned).
+
+
+        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>'
+      operationId: getTemplatesUsingGET
+      parameters:
+      - name: from
+        in: query
+        description: Pagination parameter - start from (included). The elements are counted from 0. Default value is 0.
+        required: false
+        x-example: 0
+        schema:
+          type: integer
+          format: int32
+      - name: mainProductCategory
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - HARDWARE
+          - FIXED
+          - MOBILE
+          - SOFTWARE
+          - FIXED_MOBILE
+          - SKYPE_FOR_BUSINESS
+          - CENTREX
+          - OTHER
+      - name: pattern
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sessionId
+        in: query
+        description: sessionId
+        required: false
+        schema:
+          type: string
+      - name: to
+        in: query
+        description: Pagination parameter - end element (exluded). Default value is 20.
+        required: false
+        x-example: 20
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PagedResult_Template_'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /contracting/categories:
+    get:
+      tags:
+      - rest-contracting-controller
+      summary: Get available product categories to be contracted for currently logged user
+      description: 'Possible values: mobile, fixed, hardware, other, software
+
+
+        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>'
+      operationId: getAvailableCategoriesUsingGET
+      parameters:
+      - name: sessionId
+        in: query
+        description: sessionId
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /contracting/hardware/categories:
+    get:
+      tags:
+      - rest-contracting-controller
+      summary: Get available hardware categories
+      description: 'Possible values: `handsets`, `additional mobile hardware`, `sim cards`
+
+
+        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>'
+      operationId: getHardwareCategoriesUsingGET
+      parameters:
+      - name: sessionId
+        in: query
+        description: sessionId
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+components:
+  schemas:
+    Product1:
+      type: object
+      properties:
+        category:
+          type: string
+          enum:
+          - CENTREX
+          - FIXED
+          - FIXED_MOBILE
+          - HARDWARE
+          - MOBILE
+          - OTHER
+          - SKYPE_FOR_BUSINESS
+          - SOFTWARE
+        id:
+          type: string
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        priceInCents:
+          type: number
+        privateCopyingLevyInCents:
+          type: number
+        subcategory:
+          type: string
+      title: Product1
+    CharacteristicAction:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+      title: CharacteristicAction
+    DeliveryAddressRequest:
+      type: object
+      required:
+      - city
+      - companyName
+      - country
+      - houseNumber
+      - postalCode
+      - street
+      properties:
+        addressName:
+          type: string
+        attention:
+          type: string
+          minLength: 0
+          maxLength: 35
+        city:
+          type: string
+          minLength: 1
+          maxLength: 30
+        companyName:
+          type: string
+          minLength: 1
+          maxLength: 35
+        country:
+          type: string
+          description: Only "NL" value is supported
+        floor:
+          type: string
+          minLength: 0
+          maxLength: 21
+        houseNumber:
+          type: string
+          minLength: 1
+          maxLength: 5
+        location:
+          type: string
+          minLength: 0
+          maxLength: 21
+        postalCode:
+          type: string
+          example: 1234AB
+          description: should contain 4 digits first and then 2 letters
+        room:
+          type: string
+          minLength: 0
+          maxLength: 20
+        street:
+          type: string
+          minLength: 1
+          maxLength: 24
+      title: DeliveryAddressRequest
+    Template:
+      type: object
+      properties:
+        customerLevel:
+          type: boolean
+        id:
+          type: string
+        name:
+          type: string
+        product:
+          $ref: '#/components/schemas/Product'
+        reason:
+          type: string
+          enum:
+          - INVALID_PRODUCT_CONFIGURATION
+          - HARDWARE_IN_TEMPLATE
+          - NOT_SUPPORTED_PRODUCT
+        templateDefinitionId:
+          type: integer
+          format: int64
+        valid:
+          type: boolean
+      title: Template
+    PagedResult_Product_1:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Product1'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Product_1
+      description: Paged list of elements
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    SaveAsTemplateResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+      title: SaveAsTemplateResponse
+    OrderRequest:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/DeliveryAddressRequest'
+        addressId:
+          type: integer
+          format: int64
+        referenceNumber:
+          type: string
+        wishDate:
+          type: string
+          format: date-time
+      title: OrderRequest
+    LocalizedString:
+      type: object
+      properties:
+        en:
+          type: string
+          description: English version
+        nl:
+          type: string
+          description: Dutch version
+      title: LocalizedString
+      description: Text with two language versions
+    BasketSnapshot:
+      type: object
+      properties:
+        characteristics:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Characteristic'
+        oldPrice:
+          $ref: '#/components/schemas/Price'
+        productTree:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductTreeItem'
+        totalPrice:
+          $ref: '#/components/schemas/Price'
+      title: BasketSnapshot
+    Price:
+      type: object
+      properties:
+        oneTime:
+          $ref: '#/components/schemas/OneTimePrice'
+        recurring:
+          $ref: '#/components/schemas/RecurringPrice'
+      title: Price
+    SaveAsTemplateRequest:
+      type: object
+      properties:
+        groupId:
+          type: integer
+          format: int64
+        name:
+          type: string
+      title: SaveAsTemplateRequest
+    Error:
+      type: object
+      properties:
+        hint:
+          $ref: '#/components/schemas/LocalizedString'
+        message:
+          $ref: '#/components/schemas/LocalizedString'
+      title: Error
+    Product:
+      type: object
+      properties:
+        bsId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        oneTimePriceInCents:
+          type: integer
+          format: int64
+        privateCopyingLevyInCents:
+          type: integer
+          format: int64
+      title: Product
+    CharacteristicRestriction:
+      type: object
+      properties:
+        caption:
+          $ref: '#/components/schemas/LocalizedString'
+        value:
+          type: string
+      title: CharacteristicRestriction
+    Characteristic:
+      type: object
+      properties:
+        name:
+          type: string
+        possibleValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/CharacteristicRestriction'
+        value:
+          type: string
+      title: Characteristic
+    BasketChange:
+      type: object
+      properties:
+        accountGroupId:
+          type: integer
+          format: int64
+          description: Account group for which new contract is to be created (usually it is subscriber)
+        characteristicActions:
+          type: array
+          items:
+            $ref: '#/components/schemas/CharacteristicAction'
+        contractId:
+          type: integer
+          format: int64
+        fixedContractId:
+          type: integer
+          format: int64
+        mobileContractId:
+          type: integer
+          format: int64
+        orderId:
+          type: integer
+          format: int64
+          description: Termination order (use this field to initialize reactivation in conjuction with accountGroupId)
+        productActions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductAction'
+        simCardNumber:
+          type: string
+        templateId:
+          type: string
+        templateIdToModify:
+          type: integer
+          format: int64
+      title: BasketChange
+    OneTimePrice:
+      type: object
+      properties:
+        activationFeeInCents:
+          type: number
+        hardwareFeeInCents:
+          type: number
+        privateCopyingLevyInCents:
+          type: number
+      title: OneTimePrice
+    ProductAction:
+      type: object
+      properties:
+        amount:
+          type: integer
+          format: int32
+        productId:
+          type: string
+        type:
+          type: string
+          enum:
+          - PUT
+          - REMOVE
+      title: ProductAction
+    Resource:
+      type: object
+      properties:
+        address:
+          type: string
+        id:
+          type: integer
+          format: int64
+      title: Resource
+    RecurringPrice:
+      type: object
+      properties:
+        monthlyFeeInCents:
+          type: number
+      title: RecurringPrice
+    ProductTreeItem:
+      type: object
+      properties:
+        amount:
+          type: integer
+          format: int32
+        canOrderMoreThanOne:
+          type: boolean
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductTreeItem'
+        childrenSelectionStrategy:
+          type: string
+          description: Information how many children of this item can be selected
+          enum:
+          - SELECT_ONE
+          - SELECT_MANY
+          - NONE
+        contracted:
+          type: boolean
+          description: Is already contracted (important during contract modification)?
+        disabled:
+          type: boolean
+          description: Can be select / deselect?
+        error:
+          $ref: '#/components/schemas/Error'
+        id:
+          type: string
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        price:
+          $ref: '#/components/schemas/Price'
+        selected:
+          type: boolean
+          description: Is currently selected?
+        visible:
+          type: boolean
+          description: Should be presented to end user?
+      title: ProductTreeItem
+    OrderConfirmation:
+      type: object
+      properties:
+        orderId:
+          type: integer
+          format: int64
+      title: OrderConfirmation
+    PagedResult_Template_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Template'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Template_
+      description: Paged list of elements
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api-prd.kpn.com/oauth/grip/msm/accesstoken?grant_type=client_credentials

@@ -1,0 +1,105 @@
+openapi: 3.2.0
+info:
+  version: v1.1.1
+  title: Voice-Vonage JWT API
+  description: "The Voice API lets you create outboud calls, control in progress calls\n  and get information about current and historical calls.\n\n\nThe API is divided in 2 big resources blocks:\n\n - Application: Manage application level options\n - Call: Manage call level options\n\n## Call Guidelines\n\n 1. Create an application\n 2. Make a call\n\n\n## Guidelines to create an application\nIn order to create an application, we need to provide 3 values: \n - name\n - type (voice)\n - answer_url\n - event_url\n\nFor more information regarding the meaning of each field, refer to the <samp>POST /application</samp> endpoint.\nAmong the return values of this call, there is the application identifier (<samp>uuid</samp>). It is needed to make calls or to operate with the application.\n## Guidelines to make a call\nIn order to make a call, we must include the identifier of the application in the **header** and fill the basic fields from the **request body**:\n - to\n - from\n - answer_url\n \nMore information about the meaning of the fields and optional parameters can be found in POST /calls endpoint description.\nThis call will return, among other fields, the <samp>conversation_uuid</samp> where the call is attached to and the identifier (<samp>uuid</samp>) of the call itself.\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/voice-nexmo/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/voice-nexmo/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n  ---"
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- url: https://api-prd.kpn.com/communication/nexmo/
+  description: API Store Application
+tags:
+- name: JWT
+  description: Call to generate JWT.
+paths:
+  /jwt:
+    parameters:
+    - $ref: '#/components/parameters/api_version_header'
+    - $ref: '#/components/parameters/call_application_id_header'
+    get:
+      security:
+      - oauth2: []
+      summary: Generate JWT Call
+      description: Create a JWT to access the recording URL
+      tags:
+      - JWT
+      operationId: createJWT
+      responses:
+        '200':
+          $ref: '#/components/responses/jwt_created'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+components:
+  responses:
+    jwt_created:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/jwt_created'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error401'
+  schemas:
+    jwt_created:
+      type: object
+      properties:
+        app_level:
+          type: string
+        application_Id:
+          type: string
+        JWT_token:
+          type: string
+      required:
+      - app_level
+      - application_Id
+      - JWT_token
+    error401:
+      type: object
+      properties:
+        type:
+          type: string
+          title: the unauthorized response
+          example: UNAUTHORIZED
+          description: Unauthorized type description
+        error_title:
+          type: string
+          title: the title of an unauthorized response
+          example: Unauthorized
+          description: Unauthorized title description
+      required:
+      - type
+      - error_title
+  parameters:
+    api_version_header:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      required: false
+      description: API-version to use. Not provided uses latest
+      example: v1
+    call_application_id_header:
+      in: header
+      name: ApplicationId
+      schema:
+        type: string
+      required: true
+      description: UUID of the application
+      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

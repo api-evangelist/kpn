@@ -1,0 +1,191 @@
+openapi: 3.2.0
+info:
+  description: "This API offers three functionalities: \n- User management\n- Emailing\n\nUser management can be used to add, get and modify user information. This can be done be a user with customer admin rights, without 2FA.Emailing can be used without authorization. The mail functionality can be used to sent registered emails with attachment without 2FA. Mail management, XML, can be seen by webservice users. It can be used to retrieve ticket information once the ticket id is known.\n\n### Key highlights\n\n- **Sandbox:** Full-fledged capabilities.\n\n- **Security:**  HTTPS, OAuth, Rate limit\n\n- **Versioning:** Supports version-less API, version tight. If no version\nis provided (in header) it defaults to latest version. \n\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/registeredemail-registeredemail/)<br/>\n[Documentation view](https://app.swaggerhub.com/apis-docs/kpn/registeredemail-registeredemail/)\n\n---\n\n## [KPN API Store](https://developer.kpn.com/)<br/>\n[Getting Started](https://developer.kpn.com/getting-started)\n\n ---\n"
+  version: v.1.1.1
+  title: Registered E-mail - Registered E-mail Emailing API
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/kpn/registeredemail-registeredemail/v.1.1.1
+- url: https://api-prd.kpn.com/data/registeredemail/registeredemail
+tags:
+- name: Emailing
+paths:
+  /webservice/mailsender/send:
+    post:
+      tags:
+      - Emailing
+      description: With this endpoint a user can send registered emails.
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      requestBody:
+        $ref: '#/components/requestBodies/SentEmail'
+      responses:
+        200:
+          $ref: '#/components/responses/SentEmailResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+components:
+  schemas:
+    attachment:
+      type: object
+      description: The attachment is Base64 encoded, the MIME type should be corresponding with the format of the actual file and the name should be correct.
+      properties:
+        attachment:
+          type: string
+          example: BAse64E=
+        attachment_name:
+          type: string
+          example: attachment.pdf
+        attachment_type:
+          type: string
+          example: application/pdf
+      required:
+      - attachment
+      - attachment_name
+      - attachment_type
+    email:
+      type: object
+      properties:
+        message_body:
+          type: string
+          example: this is the email body
+        sender_email:
+          type: string
+          example: sender@email.com
+        sender_real_name:
+          type: string
+          example: Jane Doe
+        subject:
+          type: string
+          example: this is the subject
+        x-own-id:
+          type: string
+          example: id
+        x-own-guid:
+          type: string
+          example: guid
+        x-own-campaign:
+          type: string
+          example: campaign
+        recipient_email:
+          type: string
+          example: recipient@email.com
+        recipient_language:
+          type: string
+          example: en
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/attachment'
+      required:
+      - message_body
+      - sender_email
+      - sender_real_name
+      - subject
+      - recipient_email
+      - attachments
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+  requestBodies:
+    SentEmail:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/email'
+  responses:
+    SentEmailResponse:
+      description: A successful delivery
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ticket_token:
+                type: string
+                example: K.SF1m-w
+              ticket_url:
+                type: string
+                example: https://environment.aangetekendmailen.nl/webservice/dashboard/?ticket_token=K.SF1m-w&action=ticket_html&lang=nl
+              message:
+                type: string
+                example: OK
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

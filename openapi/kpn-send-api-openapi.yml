@@ -1,0 +1,175 @@
+openapi: 3.2.0
+info:
+  version: 1.0.6
+  title: SMS - KPN Send API
+  description: "Send SMS through the KPN network.\n---\n    \n## [Source view](https://app.swaggerhub.com/apis/kpn/sms-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/sms-kpn/)\n---\n## [KPN API Store](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n---"
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- url: https://api-prd.kpn.com/communication/kpn/sms
+tags:
+- name: Send
+paths:
+  /send:
+    post:
+      summary: Sends one or more SMS to one or more recipients.
+      description: "Following features are supported- \n * One SMS can be sent to one recipient. \n * One SMS can be sent to multiple recipients, with comma separated list of phone numbers. `Bulk function` \n * Multiple SMS can be sent to single or multiple recipients. Add json object(s) inside messages array to add content for different SMS and mobile_number for single or multiple recipients. Add comma separated list of phone numbers for multiple recipients `Bulk function` \n \n * Delivery receipts (DLRs) for the SMS. DLRs can be received for one or more SMS on one or more webhook URLs. \n \nFollowing number formats are supported- \n * `06`, `+316`, `0031`, `097` \n * messages can be sent globally to mobile phones"
+      operationId: Sends single or bulk SMS
+      parameters:
+      - in: header
+        name: SubAccount
+        description: Leave it blank if not applicable.
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmsKpnSendResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        500:
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmsKpn'
+        description: Enter a mobile number in the form of `+31612312312` or `0612312312`.
+        required: true
+      tags:
+      - Send
+components:
+  schemas:
+    SmsKpnSendResponse:
+      type: object
+      properties:
+        document_id:
+          type: string
+          example: b4e905d4-774c-4c83-8360-01427e17a33a
+          description: Unique tracking ID for this message.
+          title: Document Id
+        status:
+          type: string
+          example: OK
+          description: If document id is present in the response, then the request succeeded else there was an issue.
+          title: Status
+      example:
+        document_id: b4e905d4-774c-4c83-8360-01427e17a33a
+        status: OK
+    SmsKpn:
+      type: object
+      properties:
+        messages:
+          type: array
+          description: There can be one or more items in the messages array. Bulk messaging is supported.
+          items:
+            $ref: '#/components/schemas/SmsKpn_messages'
+          maxItems: 5000
+          minItems: 1
+        sender:
+          type: string
+          example: KPN API
+          description: Default value will be KPN. Sender name or short code is allowed. This string can have a maximum length of 11 characters.
+          title: Sender
+          default: KPN
+        webhook_url:
+          type: string
+          example: https://webhookhostname/webhookpath/1234
+          description: "Specify the URL where you want to receive delivery receipts (DLRs) for your messages.\n### DLR Retry Policy: We attempt to deliver the DLR up to four times:\n  • 1st attempt — Immediately after receiving the DLR.  \n  • 2nd attempt — 60 seconds after the first failure.  \n  • 3rd attempt — 120 seconds after the second failure.  \n  • 4th (final) attempt — 240 seconds after the third failure.\n\nThe delivery status in the DLR includes a `StatusDateTime` field, which is always represented in **epoch format**.\n"
+          title: webhook_url
+        expirein:
+          type: string
+          example: '10'
+          description: The expirein field sets a time limit, in seconds, for how long the message can be delivered before it expires and is no longer sent. This is an optional field. Remove it if you are not sure about it.
+          title: expirein
+      example:
+        sender: KPN API
+        webhook_url: http URL where you want the DLR to be delivered
+        expirein: '10'
+        messages:
+        - mobile_number: 'one number or a comma separated list of numbers. example1: +316xxxxxxxx or 06xxxxxxxx example2: 06xxxxxxxx,06xxxxxxxx,06xxxxxxxx'
+          content: Hi from KPN!
+    SmsKpn_messages:
+      required:
+      - content
+      - mobile_number
+      properties:
+        content:
+          type: string
+          example: Hi from KPN!
+          description: Content to be send to the recipient.
+          title: Content
+        mobile_number:
+          type: string
+          example: 06xxxxxxxx or +316xxxxxxxx
+          description: 'Only valid NL phone numbers are allowed and in any valid NL format. Also 097 range is allowed. Note: 060xxxxxxx, 067xxxxxxx and 069xxxxxxx are not valid mobile number ranges. Comma separated numbers for the bulk functionality.'
+          title: Mobile number
+      example:
+        mobile_number: 06xxxxxxxx or +316xxxxxxxx
+        content: Hi from KPN!
+    ApiErrorResponse_errorResponse:
+      properties:
+        code:
+          type: string
+          example: Status codes possible 401, 403, 404, 500
+          description: Status Code
+          title: Code
+        message:
+          type: string
+          example: eq. internal server error
+          description: Message describing the error
+          title: Error Message
+        info:
+          type: string
+          example: eq. for additional information look at https://developer.kpn.com
+          description: Additional information about error
+          title: Info
+    ApiErrorResponse:
+      type: object
+      properties:
+        errorResponse:
+          $ref: '#/components/schemas/ApiErrorResponse_errorResponse'
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

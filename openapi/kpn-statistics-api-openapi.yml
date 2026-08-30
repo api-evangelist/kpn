@@ -1,0 +1,306 @@
+openapi: 3.2.0
+info:
+  description: "KPN’s Low Power Long Range (LoRa) network service compliments existing 2G, 3G, 4G and LTE-M networks. It is based on the LoRaWAN protocol for Internet of Things (IoT). \n### Key highlights\n- **Sandbox:** Full-fledged capabilities.\n- **Security:**  HTTPS, OAuth, Rate limiting.\n- **Versioning:**  Supports version-less API, version tight. If no version is provided (in the header) it defaults to latest version. \n\n ---\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/lora-device-management-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/lora-device-management-kpn/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+  version: v1.2
+  title: LoRa Device Management - KPN Statistics API
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- url: https://api-prd.kpn.com/data/lora/thingpark
+tags:
+- name: Statistics
+paths:
+  /deviceFrameStatistics:
+    get:
+      tags:
+      - Statistics
+      summary: Retrieves frame statistics
+      description: Retrieves frame statistics of the devices corresponding to the provided parameters, if those devices are within authorized scopes.
+      operationId: Framestatisticsretrieval
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: deviceEUIList
+        in: query
+        description: List of device EUIs for which device statistics should be retrieved.
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: baseStationId
+        in: query
+        description: Id of the base station which received the frame.
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: startDate
+        in: query
+        description: Start date in ISO 8601 format of the period for which frame statistics should be retrieved. By default, only the last frame statistics resource is retrieved.
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: duration
+        in: query
+        description: Period (number of days) for which frame statistics should be retrieved. By default, the default duration is 7 days.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      - name: aggregationStep
+        in: query
+        description: Number of hours (between 1 and 24) used for aggregating the frame statistics. By default, all frame statistics are returned (no aggregation).
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Frame statistics retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FrameStatistics'
+                description: Frame statistics retrieved successfully.
+              example:
+              - x-regga-type: sniplet
+                id: deviceframestatistics-retrieval-as-subscriber
+                title: Device frame statistics retrieval example with a SUBSCRIBER scope
+                requestSniplet:
+                  headers:
+                    Authorization: Bearer <subscriber_token>
+                  uri: /deviceFrameStatistics?deviceEUIList=0018A20000000345&startDate=2017-09-25T10%3A00%3A00Z&duration=3&aggregationStep=24
+                data: '[ { "type": "UPLINK", "date": "2017-09-25T12:00:00.000+00:00", "frameCount": 173, "payloadSize": 2428, "baseStationRSSI": -29.696531, "baseStationSNR": 4.6098266, "payloadReceivedOnTime": 173, "payloadReceivedLate": 0, "payloadReceivedOnTimeSize": 2428, "payloadReceivedLateSize": 0, "averagePER": 0 }, { "type": "DOWNLINK", "date": "2017-09-25T12:00:00.000+00:00", "frameCount": 173, "payloadSize": 0, "payloadSentWithSuccess": 173, "payloadSentWithSuccessSize": 0, "payloadSentWithFailure": 0, "payloadSentWithFailureSize": 0 } ]'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      deprecated: false
+  /deviceHealthStatistics:
+    get:
+      tags:
+      - Statistics
+      summary: Retrieves health statistics
+      description: Retrieves health statistics for all devices within authorized scopes.
+      operationId: Healthstatisticsretrieval
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      responses:
+        200:
+          description: Health statistics retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceHealthStatistics'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      deprecated: false
+components:
+  schemas:
+    DeviceHealthStatistics:
+      title: DeviceHealthStatistics
+      type: object
+      properties:
+        initCount:
+          type: integer
+          description: Number of devices with the 'healthState' attribute set to 'INIT'.
+          format: int32
+        activeCount:
+          type: integer
+          description: Number of devices with the 'healthState' attribute set to 'ACTIVE'.
+          format: int32
+        rfConnectionErrorCount:
+          type: integer
+          description: Number of devices with the 'healthState' attribute set to 'RF_CNX_ERROR'.
+          format: int32
+        totalCount:
+          type: integer
+          description: Total number of devices in authorized scopes.
+          format: int32
+      description: Resource representing read-only statistics about health states for devices.
+    FrameStatistics:
+      title: FrameStatistics
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/Type'
+        date:
+          type: string
+          description: ISO 8601 time of the frame emission/reception, or time of the aggregated time slot.
+        frameCount:
+          type: integer
+          description: Number of uplink/downlink frames received or sent for this aggregated time slot.
+          format: int32
+        payloadSize:
+          type: integer
+          description: Size of the frame payload, or average size of payload associated to this aggregated time slot.
+          format: int32
+        baseStationRSSI:
+          type: number
+          description: Received Signal Strength Indication for the base station that receives the frame. Only available in case of an uplink.
+        baseStationSNR:
+          type: number
+          description: Signal Noise Ratio Indication for the base station that receives the frame.
+        payloadReceivedOnTime:
+          type: integer
+          description: Number of uplinks sent with no delay by the base station. Only available in case of an uplink.
+          format: int32
+        payloadReceivedLate:
+          type: integer
+          description: Number of uplinks queued in the base station and sent with a delay. Only available in case of an uplink.
+          format: int32
+        payloadReceivedOnTimeSize:
+          type: integer
+          description: Size of the cumulated uplink payloads sent with no delay by the base station. Only available in case of an uplink.
+          format: int32
+        payloadReceivedLateSize:
+          type: integer
+          description: Size of the cumulated uplink payloads queued in the base station and sent with a delay. Only available in case of an uplink.
+          format: int32
+        payloadSentWithSuccess:
+          type: integer
+          description: Number of downlinks sent successfully. Only available in case of a downlink.
+          format: int32
+        payloadSentWithSuccessSize:
+          type: integer
+          description: Size of the cumulated downlink payloads sent successfully. Only available in case of a downlink.
+          format: int32
+        payloadSentWithFailure:
+          type: integer
+          description: Number of downlinks which failed to be sent. Only available in case of a downlink.
+          format: int32
+        payloadSentWithFailureSize:
+          type: integer
+          description: Size of the cumulated downlink payloads sent successfully. Only available in case of a downlink.
+          format: int32
+        averagePER:
+          type: number
+          description: Average Packet Error Rate Indication for the base station that receives the frame.
+      description: Resource representing read-only statistics about radio frames for a device or a base station.
+    Type:
+      title: Type
+      enum:
+      - UPLINK
+      - DOWNLINK
+      type: string
+      description: Type of frame. Possible values are 'UPLINK' or 'DOWNLINK'.
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

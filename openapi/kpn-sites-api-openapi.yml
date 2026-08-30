@@ -1,0 +1,617 @@
+openapi: 3.2.0
+info:
+  title: WeSeeDo Personal - WeSeeDo Sites API
+  version: v2.0.2
+  description: "The WeSeeDo Personal API allows video calling in the right way and distinguishes itself in human contact, ease of use and safety. \n### Key highlights\n- **Sandbox:** Full-fledged capabilities.\n- **Security:**  HTTPS, OAuth, Rate limit.\n- **Versioning:** Supports version-less API, version tight. If no version is provided (in header) it defaults to latest version.\n\n ---\n\n[Source view](https://app.swaggerhub.com/apis/kpn/weseedo-personal-weseedo/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/weseedo-personal-weseedo/)\n---\n[KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- url: https://api-prd.kpn.com/communication/weseedo/weseedopersonal
+tags:
+- name: Sites
+paths:
+  /management/sites:
+    post:
+      summary: Creates a new site
+      description: Creates a new site. You need at least **company admin** privileges to use this endpoint.
+      tags:
+      - Sites
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/AccountQueryUserStatusParameter'
+      requestBody:
+        $ref: '#/components/requestBodies/AccountObjectPost'
+      responses:
+        '200':
+          $ref: '#/components/responses/AccountObject'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+    get:
+      summary: Retrieves a list of sites
+      description: Retrieves a list of sites. Only sites that you have access to will be returned.
+      tags:
+      - Sites
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/AccountQueryUserStatusParameter'
+      - $ref: '#/components/parameters/AccountQueryCompanyParameter'
+      responses:
+        '200':
+          $ref: '#/components/responses/AccountObjectArray'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+components:
+  responses:
+    AccountObjectArray:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountResponse'
+          examples:
+            Example:
+              $ref: '#/components/examples/AccountResponseObjectArraySchema'
+    bad_request:
+      description: Bad Reqst
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    AccountObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: '#/components/schemas/AccountResponse'
+          examples:
+            Example:
+              $ref: '#/components/examples/AccountResponseObjectSchema'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  schemas:
+    UserResponse:
+      type: object
+      properties:
+        id:
+          description: User ID
+          type: string
+        first_name:
+          description: First name
+          type: string
+        last_name:
+          description: Last name
+          type: string
+        name:
+          description: Full name
+          type: string
+        email:
+          description: E-mail address
+          type: string
+        photo:
+          description: Base64 image
+          type: string
+        locale:
+          oneOf:
+          - type: string
+            description: Locale "nl"
+          - type: string
+            description: Locale "en"
+        role:
+          oneOf:
+          - type: string
+            description: Role "dealer"
+          - type: string
+            description: Role "reseller"
+          - type: string
+            description: Role "admin"
+          - type: string
+            description: Role "agent"
+          - type: string
+            description: Role "assistent"
+          - type: string
+            description: Role "assistent_video"
+        created_at:
+          description: Created date and time
+          type: string
+          format: date-time
+        sites:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountResponseShort'
+        entity:
+          oneOf:
+          - type: object
+            properties:
+              type:
+                description: Entity type dealer
+                type: string
+              id:
+                description: Dealer ID
+                type: string
+              name:
+                description: Dealer name
+                type: string
+          - type: object
+            properties:
+              type:
+                description: Entity type reseller
+                type: string
+              id:
+                description: Reseller ID
+                type: string
+              name:
+                description: Reseller name
+                type: string
+          - type: object
+            properties:
+              type:
+                description: Entity type company
+                type: string
+              id:
+                description: Company ID. You recived the Company ID in the onboarding e-mail.
+                type: string
+              name:
+                description: Company name
+                type: string
+              package:
+                $ref: '#/components/schemas/PackageResponse'
+        status:
+          description: Status online or offline. Only added when status=true in query
+          type: string
+        suspended:
+          description: Is suspended
+          type: boolean
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction ID of the the request.
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error.
+          title: Info
+    AccountRequestBody:
+      type: object
+      properties:
+        name:
+          description: Site name
+          type: string
+        logo:
+          description: Base64 image excluded mimetype (e.g. data:image/png;base64,)
+          type: string
+        users:
+          type: array
+          items:
+            type: string
+            description: List of User IDs
+        videochat_font_type:
+          description: Chat font type.
+          enum:
+          - Roboto
+          - Helvetica
+          - Arial
+          type: string
+        videochat_font_color:
+          description: Chat font color. Valid hex-formatted color code (#000000 to FFFFFF).
+          type: string
+    AccountRequestBodyPost:
+      required:
+      - name
+      allOf:
+      - $ref: '#/components/schemas/AccountRequestBody'
+      - type: object
+        properties:
+          company:
+            description: Company ID
+            type: string
+    PackageResponse:
+      type: object
+      properties:
+        id:
+          description: Package ID
+          type: string
+        name:
+          description: Package name
+          type: string
+        features:
+          anyOf:
+          - type: string
+            description: agent_create_appointment
+          - type: string
+            description: button
+          - type: string
+            description: forward
+          - type: string
+            description: multiple_participants
+          - type: string
+            description: chat
+          - type: string
+            description: appointment
+          - type: string
+            description: send_file
+          - type: string
+            description: screenshot
+          - type: string
+            description: presentation_pdf
+          - type: string
+            description: presentation_powerpoint
+          - type: string
+            description: screensharing
+          - type: string
+            description: cobrowsing_simple
+          - type: string
+            description: convert_file
+          - type: string
+            description: waitingroom
+          - type: string
+            description: weseedo_direct
+          - type: string
+            description: agent_recording
+          - type: string
+            description: cobrowsing
+          - type: string
+            description: screenshot
+    CompanyResponseShort:
+      type: object
+      properties:
+        id:
+          description: Company ID
+          type: string
+        name:
+          description: Company name
+          type: string
+        contact:
+          $ref: '#/components/schemas/ContactResponse'
+        suspended:
+          description: Is suspended
+          type: boolean
+    ContactResponse:
+      type: object
+      properties:
+        id:
+          description: Contact ID
+          type: string
+        first_name:
+          description: First name
+          type: string
+        last_name:
+          description: Last name
+          type: string
+        email:
+          description: E-mail address
+          type: string
+        phone:
+          description: Phone number
+          type: string
+        language:
+          description: Language code (e.g. nl, en, etc.)
+          type: string
+    AccountResponseShort:
+      type: object
+      properties:
+        id:
+          description: Site ID
+          type: string
+        name:
+          description: Site name
+          type: string
+    AccountResponse:
+      type: object
+      properties:
+        id:
+          description: Site ID
+          type: string
+        name:
+          description: Site name
+          type: string
+        company:
+          $ref: '#/components/schemas/CompanyResponseShort'
+        logo:
+          description: Base64 image
+          type: string
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserResponse'
+        videochat_font_type:
+          description: Chat font type
+          type: string
+        videochat_font_color:
+          description: Chat font color. Valid hex-formatted color code (#000000 to FFFFFF).
+          type: string
+  requestBodies:
+    AccountObjectPost:
+      description: JSON site object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccountRequestBodyPost'
+          examples:
+            Example:
+              $ref: '#/components/examples/AccountRequestBodyObjectSchemaPost'
+  parameters:
+    AccountQueryUserStatusParameter:
+      name: user_status
+      description: Add user status into users response
+      in: query
+      schema:
+        type: boolean
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+    AccountQueryCompanyParameter:
+      name: company
+      description: Only select sites with given company ID
+      in: query
+      schema:
+        type: string
+        example: 784d061c0856dc4c97774da7
+  examples:
+    AccountResponseObjectArraySchema:
+      summary: List of sites
+      value:
+        success: true
+        result:
+        - id: 35h64d8a0e14e4c24ac20f42
+          name: Site 1
+          logo: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
+          company:
+            id: 58h6aa8a0e14a4c24df20760
+            name: Company 1
+            contact:
+              id: 784d061c0856dc4c97774da7
+              first_name: Firstname
+              last_name: Lastname
+              email: contact1@weseedo.nl
+              phone: '+31612345678'
+              language: nl
+            suspended: false
+          users:
+          - id: 58f6ee406a2308a38ca39dec
+            first_name: Firstname
+            last_name: Lastname
+            name: Firstname Lastname
+            email: agent1@weseedo.nl
+            locale: nl
+            role: agent
+            created_at: '2020-01-29T15:26:20.000Z'
+            entity:
+              type: company
+              id: 58h6aa8a0e14a4c24df20760
+              name: WeSeeDo B.V.
+            suspended: false
+          - id: 54c6ae2c7a4504a38ca39dea
+            first_name: Firstname
+            last_name: Lastname
+            name: Firstname Lastname
+            email: agent1@weseedo.nl
+            locale: nl
+            role: agent
+            created_at: '2020-01-29T15:26:20.000Z'
+            entity:
+              type: company
+              id: 58h6aa8a0e14a4c24df20760
+              name: WeSeeDo B.V.
+            suspended: false
+          videochat_font_type: Roboto
+          videochat_text_color: '#000000'
+          email_invite_text: Hereby I send you the confirmation for our online video call. On the specified date and time you can click the link in this email. The video call will appear on your screen and we can start the conversation. See you soon!
+          email_cancel_text: In case of a rescheduled appointment you will receive a new invitation by email. In this case you can discard the email regarding the old invitation.
+          email_hardwaretest_text: Using the link below you can test if your hardware is suitable for using WeSeeDo.
+          email_enable_hardwaretest: false
+        - id: 35h64d8a0e14e4c24ac20f43
+          name: Site 2
+          logo: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
+          company:
+            id: 58h6aa8a0e14a4c24df20760
+            name: Company 1
+            contact:
+              id: 784d061c0856dc4c97774da7
+              first_name: Firstname
+              last_name: Lastname
+              email: contact1@weseedo.nl
+              phone: '+31612345678'
+              language: nl
+            suspended: false
+          users:
+          - id: 58f6ee406a2308a38ca39dec
+            first_name: Firstname
+            last_name: Lastname
+            name: Firstname Lastname
+            email: agent1@weseedo.nl
+            locale: nl
+            role: agent
+            created_at: '2020-01-29T15:26:20.000Z'
+            entity:
+              type: company
+              id: 58h6aa8a0e14a4c24df20760
+              name: WeSeeDo B.V.
+            suspended: false
+          - id: 54c6ae2c7a4504a38ca39dea
+            first_name: Firstname
+            last_name: Lastname
+            name: Firstname Lastname
+            email: agent1@weseedo.nl
+            locale: nl
+            role: agent
+            created_at: '2020-01-29T15:26:20.000Z'
+            entity:
+              type: company
+              id: 58h6aa8a0e14a4c24df20760
+              name: WeSeeDo B.V.
+            suspended: false
+          videochat_font_type: Roboto
+          videochat_text_color: '#000000'
+          email_invite_text: Hereby I send you the confirmation for our online video call. On the specified date and time you can click the link in this email. The video call will appear on your screen and we can start the conversation. See you soon!
+          email_cancel_text: In case of a rescheduled appointment you will receive a new invitation by email. In this case you can discard the email regarding the old invitation.
+          email_hardwaretest_text: Using the link below you can test if your hardware is suitable for using WeSeeDo.
+          email_enable_hardwaretest: false
+    AccountRequestBodyObjectSchemaPost:
+      summary: Site
+      value:
+        name: Site 1
+        logo: iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
+        users:
+        - 58f6ee406a2308a38ca39dec
+        - 54c6ae2c7a4504a38ca39dea
+        videochat_font_type: Roboto
+        videochat_text_color: '#000000'
+        company: 58h6aa8a0e14a4c24df20760
+    AccountResponseObjectSchema:
+      summary: Site
+      value:
+        success: true
+        result:
+          id: 35h64d8a0e14e4c24ac20f42
+          name: Site 1
+          logo: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
+          company:
+            id: 58h6aa8a0e14a4c24df20760
+            name: Company 1
+            contact:
+              id: 784d061c0856dc4c97774da7
+              first_name: Firstname
+              last_name: Lastname
+              email: contact1@weseedo.nl
+              phone: '+31612345678'
+              language: nl
+            suspended: false
+          users:
+          - id: 58f6ee406a2308a38ca39dec
+            first_name: Firstname
+            last_name: Lastname
+            name: Firstname Lastname
+            email: agent1@weseedo.nl
+            locale: nl
+            role: agent
+            created_at: '2020-01-29T15:26:20.000Z'
+            entity:
+              type: company
+              id: 58h6aa8a0e14a4c24df20760
+              name: WeSeeDo B.V.
+            suspended: false
+          - id: 54c6ae2c7a4504a38ca39dea
+            first_name: Firstname
+            last_name: Lastname
+            name: Firstname Lastname
+            email: agent1@weseedo.nl
+            locale: nl
+            role: agent
+            created_at: '2020-01-29T15:26:20.000Z'
+            entity:
+              type: company
+              id: 58h6aa8a0e14a4c24df20760
+              name: WeSeeDo B.V.
+            suspended: false
+          videochat_font_type: Roboto
+          videochat_text_color: '#000000'
+          email_invite_text: Hereby I send you the confirmation for our online video call. On the specified date and time you can click the link in this email. The video call will appear on your screen and we can start the conversation. See you soon!
+          email_cancel_text: In case of a rescheduled appointment you will receive a new invitation by email. In this case you can discard the email regarding the old invitation.
+          email_hardwaretest_text: Using the link below you can test if your hardware is suitable for using WeSeeDo.
+          email_enable_hardwaretest: false
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

@@ -1,0 +1,302 @@
+openapi: 3.2.0
+info:
+  title: WeSeeDo Direct - WeSeeDo Meetings API
+  version: 1.0.0
+  description: 'WeSeeDo Direct API allows you to set up a video communication channel between people by sending an SMS with a link to the meeting.
+
+    ---
+
+    ## [Source view](https://app.swaggerhub.com/apis/kpn/weseedo-direct-weseedo/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/weseedo-direct-weseedo/)
+
+    ---
+
+    ## [KPN API Store](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)
+
+    ---'
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- description: SwaggerHub API URL
+  url: https://api-prd.kpn.com/communication/weseedo/weseedodirect
+tags:
+- name: Meetings
+paths:
+  /api/sms:
+    post:
+      summary: Sends an SMS to a participant.
+      description: Sends an SMS to a participant.
+      tags:
+      - Meetings
+      security:
+      - oauth2: []
+      parameters:
+      - in: header
+        name: user_email
+        description: Enter the e-mail of the user.
+        schema:
+          type: string
+        required: true
+      requestBody:
+        description: The meeting to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                participant:
+                  type: string
+                  example: a8..48
+                  description: Use the `id` of the participant that was returned when creating the meeting
+                body:
+                  type: string
+                  example: Click on the link and click `Allow`. https://login-direct.weseedo.nl/client.html?id=**REPLACE_WITH_PARTICIPANT_HASH**
+                  description: The body of the SMS that is being sent to the participant. Make sure to include the secure URL, use the `hash` of the participant that was returned when creating the meeting."
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+  /api/meeting:
+    post:
+      summary: Creates a new meeting.
+      description: Creates a new meeting.
+      tags:
+      - Meetings
+      security:
+      - oauth2: []
+      parameters:
+      - in: header
+        name: user_email
+        description: Enter the e-mail of the agent user to send the SMS.
+        schema:
+          type: string
+        required: true
+      requestBody:
+        description: Enter the hone number of the participant. You can use any valid international phone number. For example `+31612312312`. `0612312312` or `12312312` are converted to `+31612312312`.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                participant:
+                  type: string
+                  description: Phone number of the participant, either in the form of +31612312312, 0612312312, 12312312 (is converted to +31612312312), or any other valid international phone number.
+                  example: '+3112312312'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeetingResponse'
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        403:
+          $ref: '#/components/responses/forbidden'
+        404:
+          $ref: '#/components/responses/not_found'
+        405:
+          $ref: '#/components/responses/method_not_allowed'
+        412:
+          $ref: '#/components/responses/precondition_failed'
+        429:
+          $ref: '#/components/responses/too_many'
+        500:
+          $ref: '#/components/responses/server_error'
+        502:
+          $ref: '#/components/responses/bad_gateway'
+        503:
+          $ref: '#/components/responses/service_unavailable'
+components:
+  responses:
+    precondition_failed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Precondition failed
+    forbidden:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Forbidden
+    not_found:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Not found
+    too_many:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Too many requests
+    bad_gateway:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Bad gateway
+    method_not_allowed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Method not allowed
+    bad_request:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Bad request
+    unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Unauthorized
+    service_unavailable:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Service unavailable
+    server_error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Server error
+  schemas:
+    MeetingResponse:
+      properties:
+        success:
+          type: boolean
+        result:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: 5c...78
+                description: The generated ID for this meeting
+              room_id:
+                type: string
+                example: DA..At
+                description: The `room_id` that is being used for this meeting, you generally do not need to use this information.
+              room_password:
+                type: string
+                example: Mp..Op
+                description: The `room_password` that is being used for this meeting, you generally do not need to use this information.
+              duration:
+                type: integer
+                example: 0
+                description: Duration of the meeting in seconds
+              room_available_from:
+                type: integer
+                example: 1551971073
+                description: Timestamp that described from when the room will be available.
+              room_available_till:
+                type: integer
+                example: 1552575873
+                description: Timestamp that described until when the room will be available. If the conversation is still active at this time, it will NOT be automatically terminated!
+              participants:
+                type: array
+                required:
+                - id
+                - name
+                - username
+                items:
+                  type: object
+                  properties:
+                    username:
+                      type: string
+                      description: Automatically generated username for a participant, for an agent this username has a fixed value that is generated upon agent creation.
+                    name:
+                      type: string
+                      description: Contains the name of the agent when the participant is an agent, or the phone number of the participant when it is a participant.
+                    id:
+                      type: string
+                      description: The generated ID of an agent or participant
+                    user:
+                      type: string
+                      description: Only returned for agents
+                    email:
+                      type: string
+                      description: Only returned for agents
+                    hash:
+                      type: string
+                      description: Only returned for participants (not agents). This value should be sent along in the secure link that will be sent to the participant, it authenticates the participants.
+                example:
+                - username: agent.58eb.....
+                  name: Agent 1
+                  id: 5c..7a
+                  user: 58..eb"
+                  email: agent1@weseedo.nl
+                - username: visitor.Cxo9uuYVYFAJDW47
+                  name: '+3112312312'
+                  id: 5d..70
+                  hash: SI..wO (use this value when sending a text message to the recipient)
+    error:
+      properties:
+        info:
+          description: Additional information about error.
+          title: Info
+          type: string
+        message:
+          description: Error message
+          title: Error message
+          type: string
+        name:
+          description: Error name
+          title: Error name
+          type: string
+        status:
+          description: Status
+          title: Status
+          type: string
+        transactionId:
+          description: The `transaction_id` of the the request.
+          title: Transaction ID
+          type: string
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials

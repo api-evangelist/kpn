@@ -1,0 +1,163 @@
+openapi: 3.2.0
+info:
+  description: "KPN’s Low Power Long Range (LoRa) network service compliments existing 2G, 3G, 4G and LTE-M networks. It is based on the LoRaWAN protocol for Internet of Things (IoT). \n### Key highlights\n- **Sandbox:** Full-fledged capabilities.\n- **Security:**  HTTPS, OAuth, Rate limiting.\n- **Versioning:**  Supports version-less API, version tight. If no version is provided (in the header) it defaults to latest version. \n\n ---\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/lora-device-management-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/lora-device-management-kpn/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+  version: v1.2
+  title: LoRa Device Management - KPN Subscription API
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- url: https://api-prd.kpn.com/data/lora/thingpark
+tags:
+- name: Subscription
+paths:
+  /connectivityPlans:
+    get:
+      tags:
+      - Subscription
+      summary: Retrieves connectivity plans
+      description: Retrieves a list of connectivity plans existing within authorized scopes.
+      operationId: Connectivityplansretrieval
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      responses:
+        200:
+          description: Connectivity plans retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConnectivityPlan'
+                description: Connectivity plans retrieved successfully.
+              example:
+              - x-regga-type: sniplet
+                id: connectivityplan-getall-as-vendor
+                title: Connectivity plans retrieval example with a VENDOR scope
+                requestSniplet:
+                  headers:
+                    Authorization: Bearer <vendor_token>
+                data: '[ { "id": "lpwa-cs/testing", "ref": "413", "name": "Lpwa testing random", "grantedConnections": 10, "usedConnections": 0 }, { "id": "lpwa-cs/plan20", "ref": "414", "name": "Lpwa 20 dummy license plan", "grantedConnections": 20, "usedConnections": 3 } ]'
+              - x-regga-type: sniplet
+                id: connectivityplan-getall-as-subscriber
+                title: Connectivity plans retrieval example with a SUBSCRIBER scope
+                requestSniplet:
+                  headers:
+                    Authorization: Bearer <subscriber_token>
+                data: '[ { "id": "lpwa-cs/testing", "ref": "413", "name": "Lpwa testing random", "grantedConnections": 10, "usedConnections": 0 }, { "id": "lpwa-cs/plan20", "ref": "414", "name": "Lpwa 20 dummy license plan", "grantedConnections": 20, "usedConnections": 3 } ]'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      deprecated: false
+components:
+  schemas:
+    CommunicationType:
+      title: CommunicationType
+      enum:
+      - UNICAST
+      - MULTICAST
+      type: string
+      description: 'Communication type of Connectivity Plan : UNICAST, MULTICAST .'
+    ConnectivityPlan:
+      title: ConnectivityPlan
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of the connectivity plan.
+        ref:
+          type: string
+          description: Ref of the connectivity plan.
+        name:
+          type: string
+          description: Name of the connectivity plan.
+        grantedConnections:
+          type: integer
+          description: Number of granted connections of the connectivity plan.
+          format: int32
+        usedConnections:
+          type: integer
+          description: Number of used connections of the connectivity plan.
+          format: int32
+        communicationType:
+          $ref: '#/components/schemas/CommunicationType'
+      description: Resource representing a ThingPark connectivity plan.
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

@@ -1,0 +1,152 @@
+openapi: 3.2.0
+info:
+  version: v1.1.1
+  title: Phone Numbers - Vonage Account API
+  description: "The Numbers API lets you manage your numbers and buy new virtual numbers for use with Vonage's APIs.\n## Prerequirement:\nYour project has to be in the production environment in order to use of this API.\nFor any questions, please contact our support team.\n## [Source view](https://app.swaggerhub.com/apis/kpn/phone-numbers-nexmo/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/phone-numbers-nexmo/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n\n   ---"
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- url: https://api-prd.kpn.com/communication/nexmo/phone-numbers
+tags:
+- name: account
+  description: number management from accounts
+paths:
+  /account/numbers:
+    parameters:
+    - $ref: '#/components/parameters/index_query_param'
+    - $ref: '#/components/parameters/size_query_param'
+    - $ref: '#/components/parameters/pattern_query_param'
+    - $ref: '#/components/parameters/search_pattern_query_param'
+    get:
+      security:
+      - oauth2: []
+      summary: List owned numbers
+      description: Retrieve all the inbound numbers associated with your Vonage account.
+      tags:
+      - account
+      operationId: getNumbers
+      responses:
+        '200':
+          $ref: '#/components/responses/number_list'
+components:
+  schemas:
+    feature_field:
+      type: array
+      description: Available features are SMS and VOICE. For both features, use a comma-separated value SMS,VOICE.
+      items:
+        type: string
+        enum:
+        - VOICE
+        - SMS
+      example:
+      - VOICE
+      - SMS
+    country_field:
+      type: string
+      description: The two character country code in ISO 3166-1 alpha-2 format.
+      example: NL
+    voiceCallbackType_field:
+      type: string
+      example: app
+      description: The voice webhook type. To be used together with `voiceCallbackValue`
+      enum:
+      - sip
+      - tel
+      - app
+    msisdn_field:
+      type: string
+      format: number
+      description: An available inbound virtual number.
+      example: '31612345789'
+    moHttpUrl_field:
+      type: string
+      format: url
+      example: https://example.com/mo
+      description: An URL encoded URI to the webhook endpoint that handles inbound messages. Your webhook endpoint must be active before you make this request, Vonage makes a `GET` request to your endpoint and checks that it returns a `200 OK` response. Set to empty string to clear.
+    voiceCallbackValue_field:
+      type: string
+      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+      description: A SIP URI, telephone number or Application ID. To be used together with `voiceCallbackType`
+    number:
+      type: object
+      properties:
+        country:
+          $ref: '#/components/schemas/country_field'
+        msisdn:
+          $ref: '#/components/schemas/msisdn_field'
+        moHttpUrl:
+          $ref: '#/components/schemas/moHttpUrl_field'
+        type:
+          type: string
+          example: mobile-lvn
+        features:
+          $ref: '#/components/schemas/feature_field'
+        voiceCallbackType:
+          $ref: '#/components/schemas/voiceCallbackType_field'
+        voiceCallbackValue:
+          $ref: '#/components/schemas/voiceCallbackValue_field'
+      required:
+      - country
+      - msisdn
+      - type
+      - features
+  parameters:
+    index_query_param:
+      name: index
+      in: query
+      schema:
+        type: integer
+        example: 0
+        default: 1
+      description: Page index
+    search_pattern_query_param:
+      name: search_pattern
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+        maximum: 2
+      description: 'Strategy for matching pattern. Expected values: 0 (starts with, default), 1 (anywhere), 2 (ends with).'
+    size_query_param:
+      name: size
+      in: query
+      schema:
+        type: integer
+        default: 10
+        maximum: 100
+      description: Page size
+    pattern_query_param:
+      name: pattern
+      in: query
+      schema:
+        type: string
+      description: A number pattern to search for.
+  responses:
+    number_list:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              count:
+                type: integer
+                description: The total amount of numbers that satisfies the requirements.
+              numbers:
+                type: array
+                description: A paginated array of available numbers and their details.
+                items:
+                  $ref: '#/components/schemas/number'
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

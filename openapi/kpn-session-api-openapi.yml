@@ -1,0 +1,105 @@
+openapi: 3.2.0
+info:
+  title: Number Verify - KPN Session API
+  description: "With KPN Number Verify, you can quickly check whether the mobile number someone provides is the same as their SIM card.\n**Important Notes:**\n- It is advised to use **Postman** for testing this API, as it involves a redirect call. SwaggerHub does not handle redirect flows well.\n- Please **download this Swagger file** and import it into your Postman client for best results.\n---\n**Testing the `/session` endpoint:** \n- Make sure that the call is made using your mobile client or via the hostspot.\n- In **Postman**, disable **automatic redirects** to ensure the `Location` header is visible in the response.\n\n- In **cURL**, avoid using the `--location` flag. A correct example request:\n\n  ```bash\n  curl -v GET https://api-prd.kpn.com/communication/kpn/numberverify/session/bc74adca8f761*******\n  ```\n---\n\n    \n## [Source view](https://app.swaggerhub.com/apis/kpn/match-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/match-kpn/)\n---\n## [KPN API Store](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+  version: 1.2.1
+servers:
+- url: https://api-prd.kpn.com/communication/kpn/numberverify
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/kpn/NumberVerify-KPN/1.2.1
+tags:
+- name: Session
+paths:
+  /session/{session_id}:
+    get:
+      summary: Session Request
+      description: 'Invoke the session using the session ID returned from the `/insights/{msisdn}` endpoint, specifically under the `device_match.session_id`. This endpoint returns a `302 Found` response with a `Location` header that the client must follow to continue the process.
+
+        '
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        description: 'The session ID extracted from the URI provided in the `/insights/{msisdn}` response.
+
+          Example: `de32343b3fe474515429d487f6989628`
+
+          '
+        schema:
+          type: string
+          example: de32343b3fe474515429d487f6989628
+      responses:
+        '302':
+          description: Found — The session was successfully initiated. The client must follow the `Location` header to continue.
+          headers:
+            Location:
+              description: URL to follow to continue the session or retrieve further information.
+              schema:
+                type: string
+                format: uri
+                example: https://server/v1/dm/session/next-step
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+      - Session
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error_code:
+          type: integer
+          description: HTTP status code representing the error
+          example: 400
+          enum:
+          - 400
+          - 401
+          - 403
+          - 404
+          - 405
+          - 412
+          - 429
+          - 500
+          - 502
+          - 503
+        message:
+          type: string
+          description: A short description of the error
+          example: Bad Request
+          enum:
+          - Bad Request
+          - Unauthorized
+          - Forbidden
+          - Not Found
+          - Method Not Allowed
+          - Precondition Failed
+          - Too Many Requests
+          - Internal Server Error
+          - Bad Gateway
+          - Service Unavailable
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

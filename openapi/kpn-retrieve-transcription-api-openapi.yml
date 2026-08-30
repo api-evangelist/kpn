@@ -1,0 +1,169 @@
+openapi: 3.2.0
+info:
+  title: Speech To Text - Xdroid Retrieve transcription API
+  version: 1.0.0
+  description: "Xdroid Speech To Text API provides a seamless audio transcription service. \n\n### Key highlights\n\n- **Sandbox:** Full-fledged capabilities.\n\n- **Security:** HTTPS, OAuth, Rate limit.\n\n- **Versioning:** Supports version-less API, version tight. If no version is provided (in header) it defaults to latest version. \n\n---\n\n[Source view](https://app.swaggerhub.com/apis/kpn/speech-to-text-Xdroid)<br/>\n[Documentation view](https://app.swaggerhub.com/apis-docs/kpn/speech-to-text-Xdroid/)\n  \n---\n    \n[KPN Developer](https://developer.kpn.com/)<br/>\n[Getting Started](https://developer.kpn.com/getting-started)\n    \n---\n"
+  contact:
+    name: API Support Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- url: https://api-prd.kpn.com/data/kpn/voiceanalytics
+security:
+- oauth2: []
+tags:
+- name: Retrieve transcription
+  description: "To retrieve transcritions, check the processing status with your unique **job_id**. \n\nPlease do not use intervals that are shorter than 10 seconds to check status to avoid a throttle penalty.\n"
+paths:
+  /job/{job_id}:
+    get:
+      tags:
+      - Retrieve transcription
+      summary: Retrieves JSON transcript of a finished transcription job.
+      description: "Retrieves JSON file with the transcript of a previously uploaded audio file.\n "
+      parameters:
+      - name: job_id
+        in: path
+        description: ID of job to fetch.
+        required: true
+        schema:
+          $ref: '#/components/parameters/job_id'
+      responses:
+        200:
+          description: Success response if job is found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      job_id:
+                        type: integer
+                        description: Job ID
+                        example: 17424
+                      created_at:
+                        type: string
+                        description: Job creation timestamp
+                        example: '2020-11-19 15:26:06'
+                      audio_file:
+                        type: string
+                        description: Uploaded audio file name
+                        example: 0036550e-720f-1239-0b99-eecf4973.wav
+                      status:
+                        type: string
+                        description: Waiting | PROCESSING | Analyzed
+                        enum:
+                        - queued
+                        - processing
+                        - parsing
+                        - analyzed
+                  results:
+                    type: object
+                    properties:
+                      data_type:
+                        type: string
+                        example: TRANSCRIPT
+                      data_channel:
+                        type: integer
+                        description: 0 = first speaker, 1 = second speaker
+                        example: 1
+                      data_detect_start:
+                        type: integer
+                        description: block start in millisec
+                        example: 8820
+                      data_detect_end:
+                        type: integer
+                        description: block end in millisec
+                        example: 9070
+                      data_length:
+                        type: integer
+                        description: block length in millisec
+                        example: 250
+                      data_probability:
+                        type: integer
+                        description: probability of result
+                        example: 0.83
+        400:
+          $ref: '#/components/responses/bad_request'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        404:
+          $ref: '#/components/responses/not_found'
+        413:
+          $ref: '#/components/responses/request_entity_too_large'
+        500:
+          $ref: '#/components/responses/server_error'
+components:
+  responses:
+    not_found:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    bad_request:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    request_entity_too_large:
+      description: Request entity too large
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: Server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  schemas:
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction ID of the the request.
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error.
+          title: Info
+  parameters:
+    job_id:
+      in: path
+      name: Job ID
+      schema:
+        type: string
+      required: true
+      description: ID of job to show
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}

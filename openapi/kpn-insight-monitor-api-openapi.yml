@@ -1,0 +1,127 @@
+openapi: 3.2.0
+info:
+  version: 1.54.0
+  title: KPN SD-LAN SD-WAN Network View Insight.monitor API
+  description: "The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.\n    \nThe Network View API gives users read rights to retrieve information from the `Network View API` resources. \n    \n- **Note**: By default you have read only access but based on your requirements and contract you can be granted `Manager` access to this API which is more than read only. To request manager access, please contact us at api_developer@kpn.com.\n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/kpn-sd_lan_sd_wan_network_view_api/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/kpn-sd_lan_sd_wan_network_view_api/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)"
+servers:
+- url: https://api-prd.kpn.com/kpn/meraki
+security:
+- OAuth2ClientCredentials: []
+tags:
+- name: insight.monitor
+paths:
+  /networks/{networkId}/insight/applications/{applicationId}/healthByTime:
+    get:
+      description: Get application health by time
+      operationId: getNetworkInsightApplicationHealthByTime
+      parameters:
+      - name: networkId
+        in: path
+        description: Network ID
+        schema:
+          type: string
+        required: true
+      - name: applicationId
+        in: path
+        description: Application ID
+        schema:
+          type: string
+        required: true
+      - name: t0
+        in: query
+        description: The beginning of the timespan for the data. The maximum lookback period is 7 days from today.
+        schema:
+          type: string
+      - name: t1
+        in: query
+        description: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+        schema:
+          type: string
+      - name: timespan
+        in: query
+        description: The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days. The default is 2 hours.
+        schema:
+          type: number
+          format: float
+          maximum: 604800
+      - name: resolution
+        in: query
+        description: 'The time resolution in seconds for returned data. The valid resolutions are: 60, 300, 3600, 86400. The default is 300.'
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    startTs:
+                      type: string
+                      format: date-time
+                      description: The start time of the query range
+                    endTs:
+                      type: string
+                      format: date-time
+                      description: The end time of the query range
+                    wanGoodput:
+                      type: integer
+                      description: WAN goodput (Number of useful information bits delivered over a WAN per unit of time)
+                    lanGoodput:
+                      type: integer
+                      description: LAN goodput (Number of useful information bits delivered over a LAN per unit of time)
+                    wanLatencyMs:
+                      type: number
+                      format: float
+                      description: WAN latency in milliseconds
+                    lanLatencyMs:
+                      type: number
+                      format: float
+                      description: LAN latency in milliseconds
+                    wanLossPercent:
+                      type: number
+                      format: float
+                      description: WAN loss percentage
+                    lanLossPercent:
+                      type: number
+                      format: float
+                      description: LAN loss percentage
+                    responseDuration:
+                      type: integer
+                      description: Duration of the response, in milliseconds
+                    sent:
+                      type: integer
+                      description: Sent kilobytes-per-second
+                    recv:
+                      type: integer
+                      description: Received kilobytes-per-second
+                    numClients:
+                      type: integer
+                      description: Number of clients
+              example:
+              - startTs: '2018-02-11T00:00:00Z'
+                endTs: '2018-05-12T00:00:00Z'
+                wanGoodput: 20000000
+                lanGoodput: 100000000
+                wanLatencyMs: 10.1
+                lanLatencyMs: 3.2
+                wanLossPercent: 0.2
+                lanLossPercent: 0
+                responseDuration: 210
+                sent: 1000
+                recv: 5000
+                numClients: 2
+      summary: Get application health by time
+      tags:
+      - insight.monitor
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}

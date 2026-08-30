@@ -1,0 +1,517 @@
+openapi: 3.2.0
+info:
+  title: Webhook Signing Keys - KPN Organization Keys API
+  description: 'When KPN delivers a webhook to your endpoint, signing keys are to know the request genuinely
+
+    came from KPN and wasn''t tampered with in transit.
+
+
+    KPN signs every outbound webhook payload using HMAC-SHA256 and includes the signature
+
+    in a header. You store a shared secret on your side, compute the
+
+    expected signature over the incoming request body, and compare it to the header value.
+
+    If they match, the payload is genuine. This API lets you create and manage those
+
+    shared secrets.
+
+
+    **How signing keys work**
+
+
+    You can set a signing key at three levels — Organization, Team, or Application. When
+
+    KPN delivers a webhook, it picks the active key starting at the most specific level
+
+    (Application), falling back to Team, then Organization. KPN automatically provisions
+
+    an organization-level key on your first webhook delivery if you haven''t created one.
+
+
+    Each key moves through a simple lifecycle:
+
+
+    - **staged** — created but not yet in use. Lets you set up your receiver before switching over.
+
+    - **active** — the key currently used to sign all outgoing webhook deliveries.
+
+    - **retiring** — being phased out after a newer key was activated. Kept alive long enough for any already-sent webhooks to be verified.
+
+    - **retired** — fully decommissioned. Safe to delete.
+
+
+    **Rotating keys without downtime**
+
+
+    You can switch to a new signing key at any time without missing a delivery:
+
+
+    1. Create a new key with `staged: true` — your current active key keeps signing.
+
+    2. Call `/reveal` to get the new key''s plaintext secret and configure your receiver to accept both keys.
+
+    3. Activate the new key — the previously active key moves to retiring automatically.
+
+    4. Once you''re confident all in-flight deliveries have been verified, retire then delete the old key.
+
+
+    **Verifying payloads on your end**
+
+
+    When a webhook arrives, check the header. It contains an HMAC-SHA256
+
+    hex digest of the raw request body, signed with your active key secret. On your side,
+
+    recompute that digest over the raw body bytes using your stored secret and compare the
+
+    two values with a constant-time comparison — this prevents timing attacks. If the values
+
+    don''t match, reject the request.
+
+
+    **Authentication**
+
+
+    You need an OAuth 2.0 Bearer token to call these endpoints. You must add **WebhookConfigs-SigningKeys-KPN** product to your project. Exchange your **Client ID**
+
+    and **Client Secret** (available in the [KPN API Store](https://developer.kpn.com)) for
+
+    an access token, then pass it as `Authorization: Bearer <token>` on every request.
+
+    Tokens expire, so build in a refresh before expiry.
+
+
+    **Need help?**
+
+
+    - [KPN Developer Portal](https://developer.kpn.com)
+
+    - [Getting Started with KPN APIs](https://developer.kpn.com/getting-started)
+
+    - [API Support](https://developer.kpn.com/support)
+
+    '
+  version: 4.0.0
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/kpn/webhook-signing-key-management-kpn/4.0.0
+- url: https://api-prd.kpn.com/webhookconfigs-kpn
+  description: Production
+security:
+- OAuth2: []
+tags:
+- name: Organization Keys
+  description: 'Signing keys at organization scope. Applied to all webhook deliveries in your
+
+    organization unless a team or application key overrides them. KPN auto-provisions
+
+    an organization key on first delivery if none exists. In the next version scopes will be included for Organization level.
+
+    '
+paths:
+  /organizations/keys:
+    post:
+      operationId: createOrgSigningKey
+      tags:
+      - Organization Keys
+      summary: Create organization signing key
+      description: "Creates a new signing key at organization scope.\n\n- `staged: false` (default) — key becomes **active** immediately; any previously\n  active org key is moved to **retiring** automatically.\n- `staged: true` — key is created as **staged**; activate it later via\n  `POST /organizations/keys/{key_id}/activate`.\n"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SigningKeyCreateRequest'
+            examples:
+              activeKey:
+                summary: Create and immediately activate
+                value:
+                  secret: my-shared-secret-at-least-32-chars-long
+              stagedKey:
+                summary: Create in staged state (activate later)
+                value:
+                  secret: my-shared-secret-at-least-32-chars-long
+                  staged: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SigningKeyResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    get:
+      operationId: listOrgSigningKeys
+      tags:
+      - Organization Keys
+      summary: List organization signing keys
+      description: Lists all signing keys at organization scope. Secrets are never included — use `/reveal` for the active key's plaintext.
+      parameters:
+      - $ref: '#/components/parameters/StatusFilter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SigningKeyResponse'
+              example:
+              - key_id: wk_2C6EDCDFDFD944F3A75D0D36
+                status: active
+                created_at: '2026-06-10T11:56:04.136Z'
+                updated_at: '2026-06-10T11:56:04.361Z'
+              - key_id: wk_1A3BCDEFFE2311E0B94E0A25
+                status: retiring
+                created_at: '2026-05-01T08:00:00.000Z'
+                updated_at: '2026-06-10T11:56:04.361Z'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /organizations/keys/reveal:
+    get:
+      operationId: revealOrgSigningKeySecret
+      tags:
+      - Organization Keys
+      summary: Reveal active org signing key secret
+      description: 'Returns the **decrypted plaintext secret** for the currently active
+
+        organization signing key.
+
+
+        Use this to configure your webhook receiver for HMAC-SHA256 signature
+
+        verification. Treat this value like a password — never log or expose it.
+
+        '
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SigningKeyRevealResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: No active signing key found for your organization.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /organizations/keys/{key_id}/activate:
+    post:
+      operationId: activateOrgSigningKey
+      tags:
+      - Organization Keys
+      summary: Activate a staged org signing key
+      description: 'Transitions the key from `staged` to `active`.
+
+        Any currently `active` org key is automatically moved to `retiring`.
+
+
+        Only keys in `staged` state can be activated.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/KeyId'
+      responses:
+        '200':
+          description: Activated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SigningKeyResponse'
+        '400':
+          description: Key is not in staged state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /organizations/keys/{key_id}/retire:
+    post:
+      operationId: retireOrgSigningKey
+      tags:
+      - Organization Keys
+      summary: Retire a retiring org signing key
+      description: 'Transitions the key from `retiring` to `retired`.
+
+
+        Wait until all in-flight webhook deliveries signed with this key have been
+
+        verified before retiring it. Retiring keys can still be used for verification
+
+        but will not sign new deliveries.
+
+
+        Only keys in `retiring` state can be retired.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/KeyId'
+      responses:
+        '200':
+          description: Retired
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SigningKeyResponse'
+        '400':
+          description: Key is not in retiring state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /organizations/keys/{key_id}:
+    delete:
+      operationId: deleteOrgSigningKey
+      tags:
+      - Organization Keys
+      summary: Delete a retired org signing key
+      description: 'Permanently deletes the signing key record.
+
+        Only keys in `retired` state can be deleted.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/KeyId'
+      responses:
+        '204':
+          description: Deleted
+        '400':
+          description: Key is not in retired state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    BadRequest:
+      description: Bad request — check your request body for missing or invalid fields.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '400'
+              message: Bad Request
+              info: https://developer.kpn.com/documentation-webhook-signing-keys
+    NotFound:
+      description: Not found — the requested key does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '404'
+              message: Not Found
+              info: https://developer.kpn.com/documentation-webhook-signing-keys
+    InternalServerError:
+      description: Internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '500'
+              message: Internal Server Error
+              info: https://developer.kpn.com/support
+    Unauthorized:
+      description: Unauthorized — missing or invalid Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '401'
+              message: Unauthorized
+              info: https://developer.kpn.com/getting-started
+    Forbidden:
+      description: Forbidden — your token does not have permission to access this resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '403'
+              message: Forbidden
+              info: https://developer.kpn.com/support
+  schemas:
+    SigningKeyCreateRequest:
+      type: object
+      required:
+      - secret
+      properties:
+        key_id:
+          type: string
+          maxLength: 128
+          description: 'Optional custom identifier for this key. If omitted, a `wk_`-prefixed ID is
+
+            generated automatically (e.g. `wk_2C6EDCDFDFD944F3A75D0D36`).
+
+            '
+        secret:
+          type: string
+          minLength: 1
+          maxLength: 4096
+          description: 'The shared secret used for HMAC-SHA256 signing of outbound webhook payloads.
+
+            Configure your webhook receiver with this value to verify incoming signatures.
+
+            **This value is never returned after creation** — use the `/reveal` endpoint
+
+            to retrieve it for the currently active key.
+
+            '
+        staged:
+          type: boolean
+          default: false
+          description: '`false` (default) — key becomes active immediately; any previously active key
+
+            at the same scope is moved to retiring automatically.
+
+
+            `true` — key is created in staged state. Use this for zero-downtime rotation:
+
+            update your receiver first, then activate the key.
+
+            '
+    SigningKeyResponse:
+      type: object
+      description: Signing key metadata. Does not include the secret value.
+      properties:
+        key_id:
+          type: string
+          example: wk_2C6EDCDFDFD944F3A75D0D36
+        status:
+          type: string
+          enum:
+          - staged
+          - active
+          - retiring
+          - retired
+          description: Current lifecycle state of the key.
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    SigningKeyRevealResponse:
+      type: object
+      description: 'Contains the decrypted plaintext secret for the active signing key.
+
+        **Treat this like a password** — do not log or expose it.
+
+        '
+      properties:
+        key_id:
+          type: string
+          example: wk_2C6EDCDFDFD944F3A75D0D36
+        secret:
+          type: string
+          description: Plaintext HMAC-SHA256 shared secret. Configure your receiver with this value.
+        status:
+          type: string
+          enum:
+          - active
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    ApiErrorResponse:
+      type: object
+      properties:
+        errorResponse:
+          type: object
+          properties:
+            code:
+              type: string
+              description: HTTP status code as a string.
+              example: '400'
+            message:
+              type: string
+              description: Human-readable error message.
+            info:
+              type: string
+              description: URL to relevant documentation or support page.
+  parameters:
+    StatusFilter:
+      in: query
+      name: status
+      required: false
+      description: Filter keys by lifecycle status.
+      schema:
+        type: string
+        enum:
+        - STAGED
+        - ACTIVE
+        - RETIRING
+        - RETIRED
+    KeyId:
+      in: path
+      name: key_id
+      required: true
+      schema:
+        type: string
+      description: The `key_id` returned by the create or list endpoint.
+      example: wk_2C6EDCDFDFD944F3A75D0D36
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}

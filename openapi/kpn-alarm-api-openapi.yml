@@ -1,0 +1,292 @@
+openapi: 3.2.0
+info:
+  description: "KPN’s Low Power Long Range (LoRa) network service compliments existing 2G, 3G, 4G and LTE-M networks. It is based on the LoRaWAN protocol for Internet of Things (IoT). \n### Key highlights\n- **Sandbox:** Full-fledged capabilities.\n- **Security:**  HTTPS, OAuth, Rate limiting.\n- **Versioning:**  Supports version-less API, version tight. If no version is provided (in the header) it defaults to latest version. \n\n ---\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/lora-device-management-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/lora-device-management-kpn/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+  version: v1.2
+  title: LoRa Device Management - KPN Alarm API
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- url: https://api-prd.kpn.com/data/lora/thingpark
+tags:
+- name: Alarm
+  description: Alarm operations provide the ability to retrieve and acknowledge ThingPark device and base station alarms.
+paths:
+  /deviceAlarms:
+    get:
+      tags:
+      - Alarm
+      summary: Retrieves device alarms
+      description: Retrieves a list of device alarms existing within authorized scopes.
+      operationId: Devicealarmsretrieval
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: deviceEUI
+        in: query
+        description: EUI of the device to search alarms for.
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: pageIndex
+        in: query
+        description: If set, enables pagination and returns only the 100 device alarms of the specified page. First available page index is 1. Note that device alarm pagination is only supported in case of a SUBSCRIBER scope AND if a deviceEUI is specified.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Device alarms retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeviceAlarm'
+                description: Device alarms retrieved successfully.
+              example:
+              - x-regga-type: sniplet
+                id: devicealarm-getall-as-subscriber
+                title: Device alarms retrieval example with a SUBSCRIBER scope
+                requestSniplet:
+                  headers:
+                    Authorization: Bearer <subscriber_token>
+                data: '[ { "ref": "57e928bd0cf24491ef03cde5", "alarmState": "CLEARED", "occurrence": 63, "acked": true, "creationTime": "2016-09-26T13:55:09.617+00:00", "lastUpdateTime": "2017-03-08T11:20:11.692+00:00", "lastAckTime": "2016-11-23T16:32:35.996+00:00", "additionalInfo1": "33%", "ackAuthor": "Janet Blink", "deviceRef": "209", "deviceAlarmTypeId": 1 }, { "ref": "578ffe0b0cf24491ee9b0257", "alarmState": "MAJOR", "occurrence": 100, "creationTime": "2016-07-20T22:41:15.828+00:00", "lastUpdateTime": "2016-08-16T00:55:11.758+00:00", "additionalInfo1": "SF12", "additionalInfo2": "SF7", "additionalInfo3": "7.250000dB", "additionalInfo4": "-7.500000dB", "deviceRef": "239", "deviceAlarmTypeId": 6 } ]'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      deprecated: false
+  /deviceAlarms/{deviceAlarmRef}:
+    get:
+      tags:
+      - Alarm
+      summary: Retrieves specific device alarm
+      description: Retrieves the device alarm corresponding to the provided device alarm ref, if that device alarm is within authorized scopes.
+      operationId: Devicealarmretrieval
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: deviceAlarmRef
+        in: path
+        description: Ref of the device alarm to retrieve.
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        200:
+          description: Device alarm retrieved successfully.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceAlarm'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      deprecated: false
+  /deviceAlarms/{deviceAlarmRef}/acks:
+    post:
+      tags:
+      - Alarm
+      summary: Acknowledges device alarm
+      description: Acknowledges a device alarm.
+      operationId: Devicealarmacknowledgement
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - name: deviceAlarmRef
+        in: path
+        description: Ref of the device alarm to acknowledge.
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        201:
+          description: Device alarm acknowledged successfully.
+          headers: {}
+      deprecated: false
+components:
+  schemas:
+    AlarmState:
+      title: AlarmState
+      enum:
+      - CLEARED
+      - UNCLEARED
+      - WARNING
+      - MINOR
+      - MAJOR
+      - CRITICAL
+      type: string
+      description: State of the alarm. Possible values are, by ascending order of criticity, 'CLEARED', 'UNCLEARED', 'WARNING', 'MINOR', 'MAJOR' and 'CRITICAL'.
+    DeviceAlarm:
+      title: DeviceAlarm
+      type: object
+      properties:
+        ref:
+          type: string
+          description: Ref of the alarm.
+        alarmState:
+          $ref: '#/components/schemas/AlarmState'
+        occurrence:
+          type: integer
+          description: Number of occurrences of the alarm.
+          format: int32
+        acked:
+          type: boolean
+          description: Indicates if the alarm has been acknowledged.
+        creationTime:
+          type: string
+          description: ISO 8601 time of the alarm creation.
+        lastUpdateTime:
+          type: string
+          description: ISO 8601 time of the last alarm update.
+        lastAckTime:
+          type: string
+          description: ISO 8601 time of the last alarm acknowledgement.
+        additionalInfo1:
+          type: string
+          description: First additional information related to the alarm creation.
+        additionalInfo2:
+          type: string
+          description: Second additional information related to the alarm creation.
+        additionalInfo3:
+          type: string
+          description: Third additional information related to the alarm creation.
+        additionalInfo4:
+          type: string
+          description: Fourth additional information related to the alarm creation.
+        additionalInfo5:
+          type: string
+          description: Fifth additional information related to the alarm creation.
+        ackAuthor:
+          type: string
+          description: Author of the alarm acknowledgement.
+        deviceRef:
+          type: string
+          description: Ref of the device related to the alarm.
+        deviceAlarmTypeId:
+          type: integer
+          description: Id of the device alarm type. Refer to the list of ThingPark device alarm types to get the corresponding label.
+          format: int32
+        deviceAlarmObjectId:
+          type: string
+          description: Id of the device alarm object. Refer to the list of ThingPark device alarm objects to get the corresponding label.
+      description: Resource representing a device alarm.
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

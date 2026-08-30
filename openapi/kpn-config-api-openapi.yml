@@ -1,0 +1,416 @@
+openapi: 3.2.0
+info:
+  title: Chat and Messaging - Parley Config API
+  version: v1
+  description: 'This API enables a secure communication between your agent/bot desktop and the client website/mobile app.
+
+
+    ## [Source view](https://app.swaggerhub.com/apis/kpn/secure-messenger-parley/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/secure-messenger-parley/)
+
+    ---
+
+    ## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)
+
+    ---'
+  termsOfService: https://developer.kpn.com/legal
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+servers:
+- url: https://api-prd.kpn.com/communication/parley/secure-messenger
+  description: Production server
+tags:
+- name: Config
+paths:
+  /config:
+    get:
+      tags:
+      - Config
+      summary: Get Config
+      description: Request the configuration for the identified account.<br /> This contains settings and display settings of the account.<br /> All colors are RGB colors saved in hexadecimals.
+      operationId: GetConfig
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/device_id'
+      - $ref: '#/components/parameters/auth_string'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/GetConfigResult/allOf/0/properties/data'
+                  required:
+                  - data
+                - $ref: '#/components/schemas/GetConfigResult/allOf/1'
+              examples:
+                success:
+                  summary: success
+                  value:
+                    data:
+                      name: string
+                      telephone: string
+                      font: 0
+                      allowImage: true
+                      backgroundColor: string
+                      backgroundImage: string
+                      iOSStatusBarTextColor: 0
+                      navBackgroundColor: string
+                      navTextColor: string
+                      navHideCloseButton: string
+                      dateColor: string
+                      dateBorder: true
+                      iOSInputContainerBackgroundColor: string
+                      inputFieldBackgroundColor: string
+                      inputFieldTextColor: string
+                      inputFieldPlaceholderColor: string
+                      inputBackgroundColor: string
+                      inputTextColor: string
+                      balloonStyle: 0
+                      userBackgroundColor: string
+                      userTextColor: string
+                      userTextLinkColor: string
+                      userTimeColor: string
+                      userSentColor: string
+                      accountBackgroundColor: string
+                      accountTextColor: string
+                      accountTextLinkColor: string
+                      accountTimeColor: string
+                      infoTextBackgroundColor: string
+                      infoTextBorder: 0
+                      infoTextColor: string
+                      infoText: string
+                      infoText2: string
+                      genericPushMessage: string
+                    notifications: []
+                    status: SUCCESS
+                    metadata:
+                      values:
+                        url: config
+                      method: get
+                      duration: 0.01
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConfigResult/allOf/1'
+              examples:
+                error:
+                  summary: invalid api key
+                  value:
+                    notifications:
+                    - type: error
+                      message: api_key_not_valid
+                    status: ERROR
+                    metadata:
+                      values:
+                        url: string
+                      method: string
+                      duration: 0.01
+components:
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+    auth_string:
+      in: header
+      name: authString
+      schema:
+        type: string
+      description: The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)
+      required: false
+    device_id:
+      in: header
+      name: uniqueAppDeviceId
+      schema:
+        type: string
+      description: You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.
+      required: true
+  schemas:
+    GetConfigResult:
+      allOf:
+      - type: object
+        properties:
+          data:
+            properties:
+              name:
+                type: string
+                description: 'The name of the authenticated application '
+              telephone:
+                type: string
+                description: 'The telephone number of the helpdesk '
+              font:
+                type: integer
+                minimum: 1
+                maximum: 5
+                description: "The font for all the text <ol>\n  - San serif\n  - Serif\n  - Monospace\n  - Open Sans\n  - PT Sans\n</ol>"
+              allowImage:
+                type: boolean
+                description: 'If it is possible to send images to the api '
+              backgroundColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The main background color, behind the messages from the user and account. This (and all other colors) is defined as RGB , e.g. FF0000 for bright red'
+              backgroundImage:
+                type: string
+                description: The image used as main background. This overrules the main background color but the color should be used in case this image doesn&#39;t load.
+              iOSStatusBarTextColor:
+                type: integer
+                minimum: 0
+                maximum: 1
+                description: "The text color for the status bar in iOs <ol start='0'>\n  - White\n  - Black\n</ol>"
+              navBackgroundColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: 'The background color of the main navigation. '
+              navTextColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: 'The color of the text (and images) used in the main navigation '
+              navHideCloseButton:
+                type: boolean
+                description: 'If the Close / back button must be hidden '
+              dateColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The color of the date text and border that separates the messages send on different dates.
+              dateBorder:
+                type: boolean
+                description: This indicates whether or not to show a border around the date element in the chat.
+              iOSInputContainerBackgroundColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The color of the bottom bar on iOS which contains the text field and the send &amp; picture buttons
+              inputFieldBackgroundColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The background color of the element containing the message that the user is typing/sending.
+              inputFieldTextColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: 'The color of the text that the user is typing '
+              inputFieldPlaceholderColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: When there is no text in the input field we show a placeholder (type your message..), this is the color of that placeholder. Usually it is a bit of a lighter than the regular text color.
+              inputBackgroundColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The background color of the button that sends the typed message, or the color of that button when the button only has 1 color
+              inputTextColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The front color of the send button this is usualy an icon on top of the inputBackgroundColor and might nog be used when the send button doesn&#39;t have two color tones.
+              balloonStyle:
+                type: integer
+                minimum: 1
+                maximum: 2
+                description: This is a choice between the different styles of the balloons containing user or account messages.
+              userBackgroundColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The background color of the balloon containing a message that the user sends
+              userTextColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: 'The color of the message that the user sends '
+              userTextLinkColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: 'When the user sends a link, this is the color it will appear in. '
+              userTimeColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: 'The color of the time shown in the balloon of a user message '
+              userSentColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The color of the element that shows if the message is successfully sent (or not)
+              accountBackgroundColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The background color of the balloon containing a message that the account sends back
+              accountTextColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: 'The color of the message that the account sends back '
+              accountTextLinkColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: A linked that is shared by the account will highlight in this color to show you can click on it.
+              accountTimeColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The color of the time shown in the balloon of a message from the account
+              infoTextBackgroundColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The background color of the info messages. This could contain an empty string, to indicate that the background should be transparant.
+              infoTextBorder:
+                type: integer
+                minimum: 0
+                maximum: 2
+                description: "This indicates the type of border to show around the infoText element. <ol start='0'>\n  - No border\n  - Top and bottom border\n  - All borders\n</ol>"
+              infoTextColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The color of the info messages that are shown before or between message balloons
+              infoText:
+                type: string
+                description: The welcome text that is shown when a user opens the messages view for the first time. This message wil always be on top of all the messages send between a user and account.
+              infoText2:
+                type: string
+                description: The welcome text that is shown when a user opens the messages view for the first time. But the user hasn&#39;t granted push notification rights. It displays instead of infoText
+              genericPushMessage:
+                type: string
+                description: The generic text that should be used when showing a push notification message
+            required:
+            - name
+            - telephone
+            - font
+            - allowImage
+            - backgroundColor
+            - backgroundImage
+            - iOSStatusBarTextColor
+            - navBackgroundColor
+            - navTextColor
+            - navHideCloseButton
+            - dateColor
+            - dateBorder
+            - iOSInputContainerBackgroundColor
+            - inputFieldBackgroundColor
+            - inputFieldTextColor
+            - inputFieldPlaceholderColor
+            - inputBackgroundColor
+            - inputTextColor
+            - balloonStyle
+            - userBackgroundColor
+            - userTextColor
+            - userTextLinkColor
+            - userTimeColor
+            - userSentColor
+            - accountBackgroundColor
+            - accountTextColor
+            - accountTextLinkColor
+            - accountTimeColor
+            - infoTextBackgroundColor
+            - infoTextBorder
+            - infoTextColor
+            - infoText
+            - infoText2
+            - genericPushMessage
+        required:
+        - data
+      - description: Object that will always be returned with every call.
+        properties:
+          notifications:
+            type: array
+            description: 'The error or success notifications returned by the api call '
+            items:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - success
+                  - warning
+                  - error
+                  description: The type of notifications on a success call
+                message:
+                  type: string
+                  description: The description of what went right or what caused the notification
+              required:
+              - type
+              - message
+          status:
+            type: string
+            enum:
+            - SUCCESS
+            - ERROR
+            description: Indicates if a call succeeded or failed
+          metadata:
+            type: object
+            description: Metadata about the API call as we received it
+            properties:
+              values:
+                type: object
+                description: 'The parameters that you specified in this api call '
+              method:
+                type: string
+                description: 'The HTTP method of this call '
+              duration:
+                type: number
+                format: float
+                description: 'The duration of this call on our servers. '
+            required:
+            - values
+            - method
+            - duration
+        required:
+        - notifications
+        - status
+        - metadata
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+externalDocs:
+  description: Response headers
+  url: https://developer.kpn.com/documentation-response-headers

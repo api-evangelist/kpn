@@ -1,0 +1,1776 @@
+openapi: 3.2.0
+info:
+  title: Kpn Messages API
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+  version: '1.0'
+  description: 'Operations tagged Messages across 2 of this provider''s published API definitions: parley-secure-messenger-openapi.yml, vonage-messages-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api-prd.kpn.com/communication/parley/secure-messenger
+  description: Production server
+- url: https://api-prd.kpn.com/communication/nexmo
+  description: API Store Application
+tags:
+- name: Messages
+paths:
+  /messages/{id}:
+    get:
+      tags:
+      - Messages
+      summary: Single message
+      description: Retrieve a message for a particular user by the message ID.
+      operationId: GetMessagesById
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/device_id'
+      - $ref: '#/components/parameters/auth_string'
+      - $ref: '#/components/parameters/id'
+      security:
+      - oauth2: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/GetMessageResult/allOf/0/properties/data'
+                  required:
+                  - data
+                - $ref: '#/components/schemas/GetConfigResult/allOf/1'
+              examples:
+                success:
+                  summary: success
+                  value:
+                    data:
+                      id: 10737
+                      time: 1536739259
+                      message: hi!
+                      image: null
+                      typeId: 2
+                      agent:
+                        id: '1'
+                        name: John Doe
+                        avatar: https://beta.tracebuzz.com//V002//img//avatar.php?i=JD&c=ff0000
+                    notifications: []
+                    status: SUCCESS
+                    metadata:
+                      values:
+                        url: messages/10737
+                      method: get
+                      duration: 0
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConfigResult/allOf/1'
+              examples:
+                authentication_required:
+                  $ref: '#/paths/~1messages/get/responses/400/content/application~1json/examples/authentication_required'
+                authentication_not_valid:
+                  $ref: '#/paths/~1messages/get/responses/400/content/application~1json/examples/authentication_not_valid'
+                authentication_expired:
+                  $ref: '#/paths/~1messages/get/responses/400/content/application~1json/examples/authentication_expired'
+                error:
+                  summary: message_not_found
+                  description: The message with specified id doesn't exist.
+                  value:
+                    notifications:
+                    - type: error
+                      message: message_not_found
+                    status: ERROR
+                    metadata:
+                      values:
+                        url: messages/999
+                      method: get
+                      duration: 0.01
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConfigResult/allOf/1'
+              examples:
+                error:
+                  $ref: '#/paths/~1config/get/responses/401/content/application~1json/examples/error'
+    servers:
+    - url: https://api-prd.kpn.com/communication/parley/secure-messenger
+      description: Production server
+  /messages:
+    get:
+      tags:
+      - Messages
+      summary: Latest messages
+      description: Get the latest 50 messages from and to a particular user.<br /> The order is by time and descending (from new to old)
+      operationId: GetMessages
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/device_id'
+      - $ref: '#/components/parameters/auth_string'
+      security:
+      - oauth2: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - type: object
+                  properties:
+                    data:
+                      type: array
+                      description: The messages for this user
+                      items:
+                        $ref: '#/components/schemas/GetMessageResult/allOf/0/properties/data'
+                  required:
+                  - data
+                - type: object
+                  properties:
+                    agent:
+                      allOf:
+                      - type: object
+                        description: Object that contains information about the agent that is currently handling the conversation
+                        properties:
+                          isTyping:
+                            type: integer
+                            description: 'Timestamp when the agent started typing or 0 if he is not typing '
+                        required:
+                        - isTyping
+                      - $ref: '#/components/schemas/Message/properties/agent'
+                  required:
+                  - agent
+                - type: object
+                  properties:
+                    paging:
+                      type: object
+                      description: A helper to let you determine which paging endpoint to use to 'walk through' all the messages of this user
+                      properties:
+                        before:
+                          type: string
+                          description: 'The endpoint you need to call to get the previous 50 messages. '
+                        after:
+                          type: string
+                          description: The endpoint to call if you want to poll for newer messages since this call
+                      required:
+                      - before
+                      - after
+                  required:
+                  - paging
+                - $ref: '#/components/schemas/GetConfigResult/allOf/1'
+              examples:
+                success:
+                  summary: messages_returned
+                  value:
+                    data:
+                    - id: 10737
+                      time: 1536739259
+                      message: hi!
+                      image: null
+                      typeId: 2
+                      agent:
+                        id: '2'
+                        name: Gerben
+                        avatar: https://beta.tracebuzz.com/images/avatars/1912991618/6033.jpg
+                    - id: 10736
+                      time: 1536739157
+                      message: Hello, i have a question
+                      image: null
+                      typeId: 1
+                      agent: null
+                    agent:
+                      id: '2'
+                      name: Gerben
+                      avatar: https://beta.tracebuzz.com/images/avatars/1912991618/6033.jpg
+                      isTyping: 0
+                    paging:
+                      before: ''
+                      after: /messages/after:10737
+                    notifications: []
+                    status: SUCCESS
+                    metadata:
+                      values:
+                        url: messages
+                      method: get
+                      duration: 0.01
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConfigResult/allOf/1'
+              examples:
+                authentication_required:
+                  summary: authentication_required
+                  value:
+                    notifications:
+                    - type: error
+                      message: authentication_required
+                    status: ERROR
+                    metadata:
+                      values:
+                        url: devices
+                      method: post
+                      duration: 0.01
+                authentication_not_valid:
+                  summary: authentication_not_valid
+                  value:
+                    notifications:
+                    - type: error
+                      message: authentication_not_valid
+                    status: ERROR
+                    metadata:
+                      values:
+                        url: devices
+                      method: post
+                      duration: 0.01
+                authentication_expired:
+                  summary: authentication_expired
+                  value:
+                    notifications:
+                    - type: error
+                      message: authentication_expired
+                    status: ERROR
+                    metadata:
+                      values:
+                        url: devices
+                      method: post
+                      duration: 0.01
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConfigResult/allOf/1'
+              examples:
+                error:
+                  $ref: '#/paths/~1config/get/responses/401/content/application~1json/examples/error'
+    post:
+      tags:
+      - Messages
+      summary: Send message
+      description: Post a message to the API where the 'sender' is a particular user.<br><br> **Important**<br> You can choose to send a text message or an message with an image. For the textual message you send a 'regular' POST request with the parameters described in 'Query parameters'. To send an image in a message you need to send a POST as multipart/form-data with the attributes from 'Request Body schema'
+      operationId: PostMessages
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/device_id'
+      - $ref: '#/components/parameters/auth_string'
+      - name: message
+        required: true
+        in: query
+        schema:
+          type: string
+        description: The message from the user to the accountIt is required to set either message or image
+      - name: typeId
+        required: false
+        in: query
+        schema:
+          type: integer
+          enum:
+          - 1
+          - 4
+        description: "The type of the message. Can be one of the following: \n  - Message from the user `default`\n  - Automated/system message from the user"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: "The image contents. The image should have one of the following mime-types:\n  - image/jpeg\n  - image/png\n  - image/gif"
+                typeId:
+                  type: integer
+                  enum:
+                  - 1
+                  - 4
+                  description: "The type of the message. Can be one of the following:\n  - Message from the user <code>default</code>\n  - Automated/system message from the user"
+            encoding:
+              image:
+                contentType: image/jpeg, image/png, image/gif
+      security:
+      - oauth2: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - type: object
+                  properties:
+                    data:
+                      type: object
+                      description: The success data
+                      properties:
+                        messageId:
+                          type: string
+                          format: integer
+                          description: The id of the message we just created
+                - $ref: '#/components/schemas/GetConfigResult/allOf/1'
+                required:
+                - data
+              examples:
+                success:
+                  summary: post_message
+                  value:
+                    data:
+                      messageId: '10743'
+                    notifications: []
+                    status: SUCCESS
+                    metadata:
+                      values:
+                        url: messages
+                        message: test
+                      method: post
+                      duration: 0.01
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConfigResult/allOf/1'
+              examples:
+                authentication_required:
+                  $ref: '#/paths/~1messages/get/responses/400/content/application~1json/examples/authentication_required'
+                authentication_not_valid:
+                  $ref: '#/paths/~1messages/get/responses/400/content/application~1json/examples/authentication_not_valid'
+                authentication_expired:
+                  $ref: '#/paths/~1messages/get/responses/400/content/application~1json/examples/authentication_expired'
+                missing_message_or_image:
+                  summary: missing_message_or_image
+                  value:
+                    notifications:
+                    - type: error
+                      message: missing_message_or_image
+                    status: ERROR
+                    metadata:
+                      values:
+                        url: messages
+                      method: post
+                      duration: 0.01
+                image_too_large:
+                  summary: image_too_large
+                  value:
+                    notifications:
+                    - type: error
+                      message: image_too_large
+                    status: ERROR
+                    metadata:
+                      values:
+                        url: messages
+                      method: post
+                      duration: 0.01
+                image_not_uploaded:
+                  summary: image_not_uploaded
+                  value:
+                    notifications:
+                    - type: error
+                      message: image_not_uploaded
+                    status: ERROR
+                    metadata:
+                      values:
+                        url: messages
+                      method: post
+                      duration: 0.01
+                invalid_image:
+                  summary: invalid_image
+                  value:
+                    notifications:
+                    - type: error
+                      message: invalid_image
+                    status: ERROR
+                    metadata:
+                      values:
+                        url: messages
+                      method: post
+                      duration: 0.01
+                could_not_save_message:
+                  summary: could_not_save_message
+                  value:
+                    notifications:
+                    - type: error
+                      message: could_not_save_message
+                    status: ERROR
+                    metadata:
+                      values:
+                        url: messages
+                      method: post
+                      duration: 0.01
+                invalid_message_type:
+                  summary: invalid_message_type
+                  description: The supplied message type is not one of  1. User message 4. User system message
+                  value:
+                    notifications:
+                    - type: error
+                      message: invalid_message_type
+                    status: ERROR
+                    metadata:
+                      values:
+                        url: messages
+                      method: post
+                      duration: 0.01
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConfigResult/allOf/1'
+              examples:
+                error:
+                  $ref: '#/paths/~1config/get/responses/401/content/application~1json/examples/error'
+    parameters:
+    - $ref: '#/components/parameters/message_application_id_header'
+    servers:
+    - url: https://api-prd.kpn.com/communication/parley/secure-messenger
+      description: Production server
+  /messages/{paging}:{id}:
+    get:
+      tags:
+      - Messages
+      summary: Get older/newer messages
+      description: Retrieve messages for a particular user by a paginator, defined as 'before:messageID' or 'after:messagedID'.
+      operationId: GetMessagesByPaging
+      parameters:
+      - name: paging
+        in: path
+        required: true
+        description: The paging endpoint is the easiest when you follow the direction in the `paging` parameter you get returned on each call to get a list of messages (latest & paging). This parameter will describe exactly what you need to use this endpoint.<br> <br> But you can create the paging parameter yourself as well, you can use `before` or `after` to get message before or after a specific message you have retrieved before.
+        schema:
+          type: string
+          enum:
+          - before
+          - after
+      - $ref: '#/components/parameters/id'
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/device_id'
+      - $ref: '#/components/parameters/auth_string'
+      security:
+      - oauth2: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1messages/get/responses/200/content/application~1json/schema'
+              examples:
+                success:
+                  summary: messages_returned
+                  value:
+                    data:
+                    - id: 10737
+                      time: 1536739259
+                      message: hi!
+                      image: null
+                      typeId: 2
+                      agent:
+                        id: '2'
+                        name: Gerben
+                        avatar: https://beta.tracebuzz.com/images/avatars/1912991618/6033.jpg
+                    agent:
+                      id: '2'
+                      name: Gerben
+                      avatar: https://beta.tracebuzz.com/images/avatars/1912991618/6033.jpg
+                      isTyping: 0
+                    paging:
+                      before: /messages/before:10737
+                      after: /messages/after:10737
+                    notifications: []
+                    status: SUCCESS
+                    metadata:
+                      values:
+                        url: messages/after:10736
+                      method: get
+                      duration: 0.01
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConfigResult/allOf/1'
+              examples:
+                authentication_required:
+                  $ref: '#/paths/~1messages/get/responses/400/content/application~1json/examples/authentication_required'
+                authentication_not_valid:
+                  $ref: '#/paths/~1messages/get/responses/400/content/application~1json/examples/authentication_not_valid'
+                authentication_expired:
+                  $ref: '#/paths/~1messages/get/responses/400/content/application~1json/examples/authentication_expired'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConfigResult/allOf/1'
+              examples:
+                error:
+                  $ref: '#/paths/~1config/get/responses/401/content/application~1json/examples/error'
+    servers:
+    - url: https://api-prd.kpn.com/communication/parley/secure-messenger
+      description: Production server
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      description: 'The identifier of the message you want '
+      schema:
+        type: integer
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+    auth_string:
+      in: header
+      name: authString
+      schema:
+        type: string
+      description: The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)
+      required: false
+    device_id:
+      in: header
+      name: uniqueAppDeviceId
+      schema:
+        type: string
+      description: You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.
+      required: true
+    message_application_id_header:
+      in: header
+      name: ApplicationId
+      schema:
+        type: string
+      required: true
+      description: UUID of the application
+      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+  schemas:
+    Message:
+      description: Object that contains all the information about a specific message
+      properties:
+        id:
+          type: integer
+          description: The id of the specific message.
+        time:
+          type: integer
+          format: Unix Timestamp
+          description: A Unix Timestamp of the time this message was created
+        message:
+          type: string
+          description: The message that is send
+        image:
+          type: string
+          description: "The url of the image. When an image is send message will always be empty.The image can have one of the following mime-types: <ul>\n  - image/jpeg\n  - image/png\n  - image/gif\n</ul> To retrieve an image you need to provide the same headers as you used to retrieve this message."
+        typeId:
+          type: integer
+          minimum: 1
+          maximum: 5
+          description: "The type of the specific message. <ol>\n  - Message from the user\n  - Message from the account\n  - Info message\n  - Automated/system message from the user\n  - Automated/system message from the account\n</ol>"
+        agent:
+          type: object
+          description: Object that contains information about the agent that has send this message. Is only filled when the message type is 2 or 5.
+          properties:
+            avatar:
+              type: string
+              description: 'The url to the avatar the Agent uses '
+            id:
+              type: integer
+              description: 'The id of the Agent '
+            name:
+              type: string
+              description: 'The name of the Agent '
+          required:
+          - avatar
+          - id
+          - isTyping
+          - name
+      required:
+      - id
+      - time
+      - typeId
+      - message
+    GetMessageResult:
+      allOf:
+      - type: object
+        properties:
+          data:
+            description: Object that contains all the information about a specific message
+            properties:
+              id:
+                type: integer
+                description: The id of the specific message.
+              time:
+                type: integer
+                format: Unix Timestamp
+                description: A Unix Timestamp of the time this message was created
+              message:
+                type: string
+                description: The message that is send
+              image:
+                type: string
+                description: "The url of the image. When an image is send message will always be empty.The image can have one of the following mime-types: <ul>\n  - image/jpeg\n  - image/png\n  - image/gif\n</ul> To retrieve an image you need to provide the same headers as you used to retrieve this message."
+              typeId:
+                type: integer
+                minimum: 1
+                maximum: 5
+                description: "The type of the specific message. <ol>\n  - Message from the user\n  - Message from the account\n  - Info message\n  - Automated/system message from the user\n  - Automated/system message from the account\n</ol>"
+              agent:
+                $ref: '#/components/schemas/Message/properties/agent'
+            required:
+            - id
+            - time
+            - typeId
+            - message
+        required:
+        - data
+      - $ref: '#/components/schemas/GetConfigResult/allOf/1'
+    GetConfigResult:
+      allOf:
+      - type: object
+        properties:
+          data:
+            properties:
+              name:
+                type: string
+                description: 'The name of the authenticated application '
+              telephone:
+                type: string
+                description: 'The telephone number of the helpdesk '
+              font:
+                type: integer
+                minimum: 1
+                maximum: 5
+                description: "The font for all the text <ol>\n  - San serif\n  - Serif\n  - Monospace\n  - Open Sans\n  - PT Sans\n</ol>"
+              allowImage:
+                type: boolean
+                description: 'If it is possible to send images to the api '
+              backgroundColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The main background color, behind the messages from the user and account. This (and all other colors) is defined as RGB , e.g. FF0000 for bright red'
+              backgroundImage:
+                type: string
+                description: The image used as main background. This overrules the main background color but the color should be used in case this image doesn&#39;t load.
+              iOSStatusBarTextColor:
+                type: integer
+                minimum: 0
+                maximum: 1
+                description: "The text color for the status bar in iOs <ol start='0'>\n  - White\n  - Black\n</ol>"
+              navBackgroundColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: 'The background color of the main navigation. '
+              navTextColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: 'The color of the text (and images) used in the main navigation '
+              navHideCloseButton:
+                type: boolean
+                description: 'If the Close / back button must be hidden '
+              dateColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The color of the date text and border that separates the messages send on different dates.
+              dateBorder:
+                type: boolean
+                description: This indicates whether or not to show a border around the date element in the chat.
+              iOSInputContainerBackgroundColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The color of the bottom bar on iOS which contains the text field and the send &amp; picture buttons
+              inputFieldBackgroundColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The background color of the element containing the message that the user is typing/sending.
+              inputFieldTextColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: 'The color of the text that the user is typing '
+              inputFieldPlaceholderColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: When there is no text in the input field we show a placeholder (type your message..), this is the color of that placeholder. Usually it is a bit of a lighter than the regular text color.
+              inputBackgroundColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The background color of the button that sends the typed message, or the color of that button when the button only has 1 color
+              inputTextColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The front color of the send button this is usualy an icon on top of the inputBackgroundColor and might nog be used when the send button doesn&#39;t have two color tones.
+              balloonStyle:
+                type: integer
+                minimum: 1
+                maximum: 2
+                description: This is a choice between the different styles of the balloons containing user or account messages.
+              userBackgroundColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The background color of the balloon containing a message that the user sends
+              userTextColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: 'The color of the message that the user sends '
+              userTextLinkColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: 'When the user sends a link, this is the color it will appear in. '
+              userTimeColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: 'The color of the time shown in the balloon of a user message '
+              userSentColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The color of the element that shows if the message is successfully sent (or not)
+              accountBackgroundColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The background color of the balloon containing a message that the account sends back
+              accountTextColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: 'The color of the message that the account sends back '
+              accountTextLinkColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: A linked that is shared by the account will highlight in this color to show you can click on it.
+              accountTimeColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The color of the time shown in the balloon of a message from the account
+              infoTextBackgroundColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The background color of the info messages. This could contain an empty string, to indicate that the background should be transparant.
+              infoTextBorder:
+                type: integer
+                minimum: 0
+                maximum: 2
+                description: "This indicates the type of border to show around the infoText element. <ol start='0'>\n  - No border\n  - Top and bottom border\n  - All borders\n</ol>"
+              infoTextColor:
+                type: string
+                format: hexadecimal
+                minLength: 6
+                maxLength: 6
+                description: The color of the info messages that are shown before or between message balloons
+              infoText:
+                type: string
+                description: The welcome text that is shown when a user opens the messages view for the first time. This message wil always be on top of all the messages send between a user and account.
+              infoText2:
+                type: string
+                description: The welcome text that is shown when a user opens the messages view for the first time. But the user hasn&#39;t granted push notification rights. It displays instead of infoText
+              genericPushMessage:
+                type: string
+                description: The generic text that should be used when showing a push notification message
+            required:
+            - name
+            - telephone
+            - font
+            - allowImage
+            - backgroundColor
+            - backgroundImage
+            - iOSStatusBarTextColor
+            - navBackgroundColor
+            - navTextColor
+            - navHideCloseButton
+            - dateColor
+            - dateBorder
+            - iOSInputContainerBackgroundColor
+            - inputFieldBackgroundColor
+            - inputFieldTextColor
+            - inputFieldPlaceholderColor
+            - inputBackgroundColor
+            - inputTextColor
+            - balloonStyle
+            - userBackgroundColor
+            - userTextColor
+            - userTextLinkColor
+            - userTimeColor
+            - userSentColor
+            - accountBackgroundColor
+            - accountTextColor
+            - accountTextLinkColor
+            - accountTimeColor
+            - infoTextBackgroundColor
+            - infoTextBorder
+            - infoTextColor
+            - infoText
+            - infoText2
+            - genericPushMessage
+        required:
+        - data
+      - description: Object that will always be returned with every call.
+        properties:
+          notifications:
+            type: array
+            description: 'The error or success notifications returned by the api call '
+            items:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - success
+                  - warning
+                  - error
+                  description: The type of notifications on a success call
+                message:
+                  type: string
+                  description: The description of what went right or what caused the notification
+              required:
+              - type
+              - message
+          status:
+            type: string
+            enum:
+            - SUCCESS
+            - ERROR
+            description: Indicates if a call succeeded or failed
+          metadata:
+            type: object
+            description: Metadata about the API call as we received it
+            properties:
+              values:
+                type: object
+                description: 'The parameters that you specified in this api call '
+              method:
+                type: string
+                description: 'The HTTP method of this call '
+              duration:
+                type: number
+                format: float
+                description: 'The duration of this call on our servers. '
+            required:
+            - values
+            - method
+            - duration
+        required:
+        - notifications
+        - status
+        - metadata
+    Destination:
+      type: object
+      properties:
+        network_code:
+          type: string
+          description: Code indicating the terminating network for the number to which the message was sent. May not always be included in the message status data.
+          example: '12345'
+    messageStatusSMS:
+      allOf:
+      - $ref: '#/components/schemas/messageStatusBase'
+      - title: SMS
+        x-tab-id: SMS
+        description: SMS
+        properties:
+          channel:
+            type: string
+            description: The channel sending to.
+            example: sms
+            enum:
+            - sms
+          destination:
+            $ref: '#/components/schemas/Destination'
+          sms:
+            description: Channel specific metadata for SMS
+            type: object
+            properties:
+              count_total:
+                type: string
+                example: '2'
+                description: The number of SMS messages concatenated together to comprise the submitted message. SMS messages are 160 characters, if a submitted message exceeds that size it is sent as multiple SMS messages. This number indicates how many SMS messages are required.
+    channelOptionsWhatsapp:
+      type: object
+      properties:
+        to:
+          $ref: '#/components/schemas/ToNumber'
+        from:
+          $ref: '#/components/schemas/FromNumber'
+        channel:
+          description: The channel to send to. You must provide `whatsapp` in this field
+          type: string
+          example: whatsapp
+          enum:
+          - whatsapp
+        context:
+          description: "An optional context used for quoting/replying to a specific meesage in a conversation. When used, the WhatsApp UI will display the new message \nalong with a contextual bubble that displays the quoted/replied to message's content.\n"
+          type: object
+          required:
+          - message_uuid
+          properties:
+            message_uuid:
+              description: The UUID of the message being replied to/quoted.
+              type: string
+              example: a1b2c3d4a1b2c3d4
+    Sticker:
+      allOf:
+      - $ref: '#/components/schemas/baseMessageType'
+      - title: Sticker
+        x-tab-id: Sticker
+        required:
+        - sticker
+        properties:
+          message_type:
+            type: string
+            enum:
+            - sticker
+            example: sticker
+            description: The type of message to send. You must provide `sticker` in this field
+          sticker:
+            type: object
+            description: 'Object with details of the sticker to send. Must contain either a URL or an ID, but not both.
+
+              See the [documentation](/messages/guides/whatsapp-stickers) for more
+
+              information on sending stickers.
+
+              '
+            oneOf:
+            - $ref: '#/components/schemas/StickerWithURL'
+            - $ref: '#/components/schemas/StickerWithID'
+    ToId:
+      type: string
+      minLength: 1
+      maxLength: 50
+      example: 0123456789
+      description: 'The ID of the message recipient
+
+        '
+    Template:
+      allOf:
+      - $ref: '#/components/schemas/baseMessageType'
+      - title: Template
+        x-tab-id: Template
+        type: object
+        required:
+        - template
+        properties:
+          message_type:
+            type: string
+            enum:
+            - template
+            example: template
+            description: The type of message to send. You must provide `template` in this field
+          template:
+            required:
+            - name
+            type: object
+            properties:
+              name:
+                type: string
+                example: 9b6b4fcb_da19_4a26_8fe8_78074a91b584:verify
+                description: 'The name of the template. For WhatsApp use your WhatsApp namespace (available via Facebook Business Manager), followed by a colon : and the name of the template to use.'
+              parameters:
+                $ref: '#/components/schemas/TemplateParameters'
+    Video:
+      allOf:
+      - $ref: '#/components/schemas/baseMessageType'
+      - title: Video
+        x-tab-id: Video
+        type: object
+        required:
+        - video
+        properties:
+          message_type:
+            type: string
+            enum:
+            - video
+            example: video
+            description: The type of message to send. You must provide `video` in this field
+          video:
+            type: object
+            required:
+            - url
+            properties:
+              url:
+                type: string
+                description: 'Publicly accessible URL of the video attachment. Supports file types .mp4 and .3gpp
+
+                  > Note: Only supports video codec H.264 and audio codec AAC
+
+                  '
+                format: url
+                example: https://example.com/video.mp4
+    Response:
+      required:
+      - message_uuid
+      properties:
+        message_uuid:
+          type: string
+          description: The UUID of the message.
+          example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    Audio:
+      allOf:
+      - $ref: '#/components/schemas/baseMessageType'
+      - title: Audio
+        x-tab-id: Audio
+        type: object
+        required:
+        - audio
+        properties:
+          message_type:
+            type: string
+            enum:
+            - audio
+            example: audio
+            description: The type of message to send. You must provide `audio` in this field
+          audio:
+            type: object
+            required:
+            - url
+            properties:
+              url:
+                type: string
+                format: url
+                example: https://example.com/audio.mp3
+    StickerWithID:
+      description: Sticker with ID
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          description: 'The id of the sticker in relation to a specific WhatsApp deployment. See the
+
+            [documentation](/messages/guides/whatsapp-stickers) for more
+
+            information on sending stickers.
+
+            '
+          example: aabb7a31-1d1f-4755-a574-2971d831cd5b
+          type: string
+    ToNumber:
+      type: string
+      minLength: 7
+      maxLength: 15
+      example: '447700900000'
+      description: 'The phone number of the message **recipient** in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don''t use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.
+
+        '
+    messageStatusWhatsApp:
+      allOf:
+      - $ref: '#/components/schemas/messageStatusBase'
+      - title: WhatsApp
+        x-tab-id: WhatsApp
+        description: WhatsApp
+        properties:
+          channel:
+            type: string
+            description: The channel sending to.
+            example: whatsapp
+            enum:
+            - whatsapp
+          status:
+            example: read
+            enum:
+            - submitted
+            - delivered
+            - rejected
+            - undeliverable
+            - read
+          usage:
+            type: object
+            properties:
+              currency:
+                type: string
+                example: EUR
+                description: The charge currency in ISO 4217 format.
+                enum:
+                - EUR
+              price:
+                type: string
+                example: '0.0333'
+                description: The charge amount as a stringified number. For WhatsApp this is the default Vonage charge per conversation.
+          whatsapp:
+            type: object
+            description: An object contining meta-data related to the WhatsApp message that triggered this callback. Only present for callbacks with a `status` of `delivered`.
+            properties:
+              conversation:
+                type: object
+                description: An object contining data for the conversation to which the message relates.
+                properties:
+                  id:
+                    type: string
+                    example: '1234567890'
+                    description: The id of the conversation.
+                  origin:
+                    type: object
+                    description: An object contining data related to the origin of the conversation.
+                    properties:
+                      type:
+                        type: string
+                        example: user_initiated
+                        description: The conversation type.
+                        enum:
+                        - marketing
+                        - utility
+                        - authentication
+                        - referral_conversion
+                        - service
+    Custom:
+      allOf:
+      - $ref: '#/components/schemas/baseMessageType'
+      - title: Custom
+        x-tab-id: Custom
+        type: object
+        properties:
+          message_type:
+            type: string
+            enum:
+            - custom
+            example: custom
+            description: The type of message to send. You must provide `custom` in this field
+          custom:
+            type: object
+            description: A custom payload, which is passed directly to WhatsApp for certain features such as templates and interactive messages. The schema of a custom object can vary widely. [Read more about Custom Objects](https://developer.vonage.com/messages/concepts/custom-objects).
+            additionalProperties: true
+    Image:
+      allOf:
+      - $ref: '#/components/schemas/baseMessageType'
+      - title: Image
+        x-tab-id: Image
+        type: object
+        required:
+        - image
+        properties:
+          message_type:
+            type: string
+            enum:
+            - image
+            example: image
+            description: The type of message to send. You must provide `image` in this field
+          image:
+            type: object
+            required:
+            - url
+            properties:
+              url:
+                format: url
+                description: The publicly accessible URL of the image attachment. The image file is available for 48 hours after it is created. Supported types are .jpg, .jpeg, and .png
+                example: https://example.com/image.jpg
+                type: string
+    messageStatusViber:
+      allOf:
+      - $ref: '#/components/schemas/messageStatusBase'
+      - title: Viber
+        x-tab-id: Viber
+        description: Viber
+        properties:
+          channel:
+            type: string
+            description: The channel sending to.
+            example: viber_service
+            enum:
+            - viber_service
+          status:
+            example: read
+            enum:
+            - submitted
+            - delivered
+            - rejected
+            - undeliverable
+            - read
+    channelOptionsViberVideo:
+      type: object
+      required:
+      - viber_service
+      properties:
+        to:
+          $ref: '#/components/schemas/ToNumber'
+        from:
+          $ref: '#/components/schemas/FromId'
+        channel:
+          description: The channel to send to. You must provide `viber_service` in this field
+          type: string
+          example: viber_service
+          enum:
+          - viber_service
+        viber_service:
+          type: object
+          required:
+          - duration
+          - file_size
+          properties:
+            category:
+              type: string
+              description: The use of different category tags enables the business to send messages for different use cases. For Viber Business Messages the first message sent from a business to a user must be personal, informative & a targeted message - not promotional. By default Vonage sends the `transaction` category to Viber Business Messages.
+              enum:
+              - transaction
+              - promotion
+            duration:
+              type: string
+              minimum: 1
+              maximum: 600
+              description: The duration of the video in seconds.
+              example: '123'
+            file_size:
+              type: string
+              minimum: 1
+              maximum: 200
+              description: The file size of the video in MB.
+              example: '1'
+            ttl:
+              minimum: 30
+              maximum: 259200
+              description: Set the time-to-live of message to be delivered in seconds. i.e. if the message is not delivered in 600 seconds then delete the message.
+              example: 600
+              type: integer
+            type:
+              description: Viber-specific type definition. To use "template", please contact your Vonage Account Manager to setup your templates. To find out more please visit the [product page](https://www.vonage.com/communications-apis/messages/)
+              type: string
+    channelOptionsMessenger:
+      type: object
+      properties:
+        to:
+          $ref: '#/components/schemas/ToId'
+        from:
+          $ref: '#/components/schemas/FromId'
+        channel:
+          description: The channel to send to. You must provide `messenger` in this field
+          type: string
+          example: messenger
+          enum:
+          - messenger
+        messenger:
+          type: object
+          properties:
+            category:
+              type: string
+              example: response
+              description: The use of different category tags enables the business to send messages for different use cases. For Facebook Messenger they need to comply with their [Messaging Types policy](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types). Vonage maps our `category` to their `messaging_type`. If `message_tag` is used, then an additional `tag` for that type is mandatory. By default Vonage sends the `response` category to Facebook Messenger.
+              enum:
+              - response
+              - update
+              - message_tag
+            tag:
+              description: A tag describing the type and relevance of the 1:1 communication between your app and the end user. A full list of available tags is available [here](https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags)
+              example: CONFIRMED_EVENT_UPDATE
+              type: string
+    messageStatusMMS:
+      allOf:
+      - $ref: '#/components/schemas/messageStatusBase'
+      - title: MMS
+        x-tab-id: MMS
+        description: MMS
+        properties:
+          channel:
+            type: string
+            description: The channel sending to.
+            example: mms
+            enum:
+            - mms
+          destination:
+            $ref: '#/components/schemas/Destination'
+    channelOptionsSms:
+      type: object
+      properties:
+        to:
+          $ref: '#/components/schemas/ToNumber'
+        from:
+          $ref: '#/components/schemas/FromNumber'
+        channel:
+          type: string
+          description: The channel to send to. You must provide `sms` in this field
+          example: sms
+          enum:
+          - sms
+        ttl:
+          type: integer
+          description: 'The duration in seconds the delivery of an SMS will be attempted. By default Vonage attempts delivery
+
+            for 72 hours, however the maximum effective value depends on the operator and is typically 24 - 48 hours.
+
+            We recommend this value should be kept at its default or at least 30 minutes.
+
+            '
+          example: 90000
+        sms:
+          type: object
+          description: An object of optional settings for the SMS message.
+          properties:
+            encoding_type:
+              type: string
+              description: 'The encoding type to use for the message. If set to either `text` or `unicode` the specified type will be used.
+
+                If set to `auto` (the default), the Messages API will automatically set the type based on the content of `text`;
+
+                i.e. if unicode characters are detected in `text`, then the message will be encoded as unicode, and otherwise as text.
+
+                '
+              example: text
+              enum:
+              - text
+              - unicode
+              - auto
+            content_id:
+              description: 'A string parameter that satisfies regulatory requirements when sending an SMS to specific countries.
+
+                For more information please refer to the [Country-Specific Outbound SMS Features](https://api.support.vonage.com/hc/en-us/sections/200622473-Country-Specific-Features-and-Restrictions)"
+
+                '
+              type: string
+              example: '1107457532145798767'
+            entity_id:
+              description: 'A string parameter that satisfies regulatory requirements when sending an SMS to specific countries.
+
+                For more information please refer to the [Country-Specific Outbound SMS Features](https://api.support.vonage.com/hc/en-us/sections/200622473-Country-Specific-Features-and-Restrictions)
+
+                '
+              type: string
+              example: '1101456324675322134'
+    messageStatusBase:
+      type: object
+      properties:
+        message_uuid:
+          $ref: '#/components/schemas/MessageUuid'
+        to:
+          $ref: '#/components/schemas/ToNumber'
+        from:
+          $ref: '#/components/schemas/FromNumber'
+        timestamp:
+          type: string
+          description: The datetime of when the event occurred, in `ISO 8601` format.
+          example: 2020-01-01 14:00:00+00:00
+        status:
+          type: string
+          description: The status of the message.
+          example: submitted
+          enum:
+          - submitted
+          - delivered
+          - rejected
+          - undeliverable
+        error:
+          type: object
+          description: If the message encountered a problem a descriptive error will be supplied in this object.
+          properties:
+            type:
+              type: string
+              format: url
+              description: The type of error encountered, follow URL for more details
+              example: https://developer.vonage.com/api-errors/messages#1000
+            title:
+              type: string
+              example: 1000
+              description: The error code encountered when sending the message. See [our errors list](/api-errors/messages) for a list of possible errors
+            detail:
+              type: string
+              example: Throttled - You have exceeded the submission capacity allowed on this account. Please wait and retry
+              description: Text describing the error. See [our errors list](/api-errors/messages) for a list of possible errors
+            instance:
+              type: string
+              example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+              description: The record id of this error's occurrence.
+        usage:
+          type: object
+          properties:
+            currency:
+              type: string
+              example: EUR
+              description: The charge currency in ISO 4217 format.
+              enum:
+              - EUR
+            price:
+              type: string
+              example: '0.0333'
+              description: The charge amount as a stringified number.
+        client_ref:
+          type: string
+          description: Client reference of up to 100 characters. The reference will be present in every message status.
+      required:
+      - message_uuid
+      - channel
+      - to
+      - from
+      - timestamp
+      - status
+    baseMessageType:
+      type: object
+      required:
+      - to
+      - from
+      - message_type
+      - channel
+    StickerWithURL:
+      description: Sticker with URL
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          format: url
+          description: 'The publicly accessible URL of the sticker image. Supported types are: .webp. See the
+
+            [documentation](/messages/guides/whatsapp-stickers) for more
+
+            information on sending stickers.
+
+            '
+          example: https://example.com/image.webp
+          type: string
+    MessageUuid:
+      type: string
+      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+      description: The UUID of the message
+    messageStatusMessenger:
+      allOf:
+      - $ref: '#/components/schemas/messageStatusBase'
+      - title: Messenger
+        x-tab-id: Messenger
+        description: Messenger
+        properties:
+          channel:
+            type: string
+            description: The channel sending to.
+            example: messenger
+            enum:
+            - messenger
+          status:
+            example: read
+            enum:
+            - submitted
+            - delivered
+            - rejected
+            - undeliverable
+            - read
+          to:
+            $ref: '#/components/schemas/ToId'
+          from:
+            $ref: '#/components/schemas/FromId'
+    channelOptionsMms:
+      type: object
+      properties:
+        to:
+          $ref: '#/components/schemas/ToNumber'
+        from:
+          $ref: '#/components/schemas/FromNumber'
+        channel:
+          type: string
+          description: The channel to send to. You must provide `mms` in this field
+          example: mms
+          enum:
+          - mms
+    File:
+      allOf:
+      - $ref: '#/components/schemas/baseMessageType'
+      - title: File
+        x-tab-id: File
+        type: object
+        required:
+        - file
+        properties:
+          message_type:
+            type: string
+            enum:
+            - file
+            example: file
+            description: The type of message to send. You must provide `file` in this field
+          file:
+            type: object
+            required:
+            - url
+            properties:
+              url:
+                type: string
+                example: https://example.com/file.pdf
+    outboundMessageCommon:
+      type: object
+      properties:
+        client_ref:
+          type: string
+          description: Client reference of up to 100 characters. The reference will be present in every message status.
+        webhook_url:
+          type: string
+          description: 'Specifies the URL to which Status Webhook messages will be sent *for this particular message*.
+
+            Over-rides account-level and application-level Status Webhook url settings on a per-message basis.
+
+            '
+          example: https://example.com/status
+        webhook_version:
+          type: string
+          description: 'Specifies which version of the Messages API will be used to send Status Webhook messages *for this particular message*.
+
+            For example, if `v0.1` is set, then the JSON body of Status Webhook messages for this message will be sent in Messages v0.1 format.
+
+            Over-rides account-level and application-level API version settings on a per-message basis.
+
+            '
+          example: v1
+          enum:
+          - v0.1
+          - v1
+    TemplateParameters:
+      type: array
+      description: The parameters are an array of strings, with the first string being used for `{{1}}` in the template, with the second being `{{2}}` etc. Only required if the template specified by `name` contains parameters.
+      example:
+      - Verification
+      - '2526'
+      - '5'
+      items:
+        type: string
+    channelOptionsViber:
+      type: object
+      properties:
+        to:
+          $ref: '#/components/schemas/ToNumber'
+        from:
+          $ref: '#/components/schemas/FromId'
+        channel:
+          description: The channel to send to. You must provide `viber_service` in this field
+          type: string
+          example: viber_service
+          enum:
+          - viber_service
+        viber_service:
+          type: object
+          properties:
+            category:
+              type: string
+              description: The use of different category tags enables the business to send messages for different use cases. For Viber Business Messages the first message sent from a business to a user must be personal, informative & a targeted message - not promotional. By default Vonage sends the `transaction` category to Viber Business Messages.
+              enum:
+              - transaction
+              - promotion
+            ttl:
+              minimum: 30
+              maximum: 259200
+              description: Set the time-to-live of message to be delivered in seconds. i.e. if the message is not delivered in 600 seconds then delete the message.
+              example: 600
+              type: integer
+            type:
+              description: Viber-specific type definition. To use "template", please contact your Vonage Account Manager to setup your templates. To find out more please visit the [product page](https://www.vonage.com/communications-apis/messages/)
+              type: string
+    FromNumber:
+      type: string
+      example: '447700900001'
+      description: 'The phone number of the message **sender** in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don''t use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000. For SMS in certain localities alpha-numeric sender id''s will work as well, see [Global Messaging](https://developer.nexmo.com/messaging/sms/guides/country-specific-features#country-specific-features) for more details
+
+        '
+    vCard:
+      allOf:
+      - $ref: '#/components/schemas/baseMessageType'
+      - title: vCard
+        x-tab-id: vCard
+        type: object
+        required:
+        - vcard
+        properties:
+          message_type:
+            type: string
+            enum:
+            - vcard
+            example: vcard
+            description: The type of message to send. You must provide `vcard` in this field
+          vcard:
+            type: object
+            required:
+            - url
+            properties:
+              url:
+                format: url
+                description: The publicly accessible URL of the vCard attachment. Supported types are .vcf only
+                example: https://example.com/conatact.vcf
+                type: string
+    Text:
+      allOf:
+      - $ref: '#/components/schemas/baseMessageType'
+      - title: Text
+        x-tab-id: Text
+        description: The text of message to send.
+        required:
+        - text
+        properties:
+          message_type:
+            type: string
+            enum:
+            - text
+            example: text
+            description: The type of message to send. You must provide `text` in this field
+          text:
+            type: string
+            example: 'Nexmo Verification code: 12345.<br />Valid for 10 minutes.'
+    FromId:
+      type: string
+      minLength: 1
+      maxLength: 50
+      example: '9876543210'
+      description: 'The ID of the message sender
+
+        '
+    channelOptionsViberWithButton:
+      type: object
+      properties:
+        to:
+          $ref: '#/components/schemas/ToNumber'
+        from:
+          $ref: '#/components/schemas/FromId'
+        channel:
+          description: The channel to send to. You must provide `viber_service` in this field
+          type: string
+          example: viber_service
+          enum:
+          - viber_service
+        viber_service:
+          type: object
+          properties:
+            category:
+              type: string
+              description: The use of different category tags enables the business to send messages for different use cases. For Viber Business Messages the first message sent from a business to a user must be personal, informative & a targeted message - not promotional. By default Vonage sends the `transaction` category to Viber Business Messages.
+              enum:
+              - transaction
+              - promotion
+            ttl:
+              minimum: 30
+              maximum: 259200
+              description: Set the time-to-live of message to be delivered in seconds. i.e. if the message is not delivered in 600 seconds then delete the message.
+              example: 600
+              type: integer
+            type:
+              description: Viber-specific type definition. To use "template", please contact your Vonage Account Manager to setup your templates. To find out more please visit the [product page](https://www.vonage.com/communications-apis/messages/)
+              type: string
+            action:
+              description: Node for Viber action buttons.
+              type: object
+              required:
+              - url
+              - text
+              properties:
+                url:
+                  description: A URL which is requested when the action button is clicked.
+                  type: string
+                  example: https://example.com/page1.html
+                text:
+                  description: Text which is rendered on the action button.
+                  type: string
+                  maxLength: 30
+                  example: Find out more
+  responses:
+    bad_request:
+      description: bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+    JWTAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- parley-secure-messenger-openapi.yml
+- vonage-messages-openapi.yml

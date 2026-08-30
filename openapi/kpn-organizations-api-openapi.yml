@@ -1,0 +1,85 @@
+openapi: 3.2.0
+info:
+  version: 1.54.0
+  title: KPN SD-LAN SD-WAN Network View Organizations API
+  description: "The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.\n    \nThe Network View API gives users read rights to retrieve information from the `Network View API` resources. \n    \n- **Note**: By default you have read only access but based on your requirements and contract you can be granted `Manager` access to this API which is more than read only. To request manager access, please contact us at api_developer@kpn.com.\n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/kpn-sd_lan_sd_wan_network_view_api/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/kpn-sd_lan_sd_wan_network_view_api/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)"
+servers:
+- url: https://api-prd.kpn.com/kpn/meraki
+security:
+- OAuth2ClientCredentials: []
+tags:
+- name: Organizations
+paths:
+  /organizations/{organizationId}/networks:
+    get:
+      summary: List networks in an organization
+      description: Retrieve the list of networks for a given organization.
+      operationId: getOrganizationNetworks
+      parameters:
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the organization.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+              example:
+              - id: N_12345
+                name: Test Network
+      tags:
+      - Organizations
+  /organizations/{organizationId}/devices:
+    get:
+      summary: List devices in an organization
+      description: Retrieve the list of devices for a given organization.
+      operationId: getOrganizationDevices
+      parameters:
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The ID of the organization.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    serial:
+                      type: string
+                    model:
+                      type: string
+                    name:
+                      type: string
+              example:
+              - serial: Q234-ABCD-5678
+                model: MX67
+                name: Main Office MX
+      tags:
+      - Organizations
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}

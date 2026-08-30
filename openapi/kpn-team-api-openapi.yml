@@ -1,0 +1,381 @@
+openapi: 3.2.0
+info:
+  title: Webhook Privacy Configuration - KPN Team API
+  description: 'KPN delivers outbound webhook notifications — such as SMS delivery reports — to the
+
+    endpoints you configure. This API lets you control two things about those deliveries:
+
+    the URL they are sent to, and which fields are included in the payload.
+
+
+    **How configuration scopes work**
+
+
+    You can configure webhooks at three levels — Organization, Team, or Application. Settings
+
+    resolve from the most specific level to the broadest: an Application config overrides a
+
+    Team config, which overrides the Organization config. This lets you set sensible defaults
+
+    at org or team level and override them only where a specific application needs it.
+
+
+    **Controlling payload fields (privacy)**
+
+
+    `privacy_config.excluded_fields` maps a service name to the list of fields to omit from
+
+    that service''s outbound payloads. Any field not listed is included; an empty or absent
+
+    map means every field is sent. Exclusion rules resolve along the same
+
+    Application → Team → Organization cascade.
+
+
+    For example, to hide the recipient phone number and message body from SMS delivery
+
+    reports:
+
+
+    ```json
+
+    { "privacy_config": { "excluded_fields": { "sms_dlr": ["RecipientPhonenumber", "Message"] } } }
+
+    ```
+
+
+    **Signing keys are managed separately**
+
+
+    The `signing` block returned by these endpoints is read-only. To create and rotate the
+
+    keys used to sign outbound payloads, use the Webhook Signing Keys API.
+
+
+    **Authentication**
+
+
+    You need an OAuth 2.0 Bearer token to call these endpoints. Exchange your **Client ID**
+
+    and **Client Secret** (available in the [KPN API Store](https://developer.kpn.com)) for
+
+    an access token, then pass it as `Authorization: Bearer <token>` on every request.
+
+    Tokens expire, so build in a refresh before expiry.
+
+
+    **Need help?**
+
+
+    - [KPN Developer Portal](https://developer.kpn.com)
+
+    - [Getting Started with KPN APIs](https://developer.kpn.com/getting-started)
+
+    - [API Support](https://developer.kpn.com/support)
+
+    '
+  version: 3.0.0
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/kpn/webhook-config-management-kpn/2.0.0
+- url: https://api-prd.kpn.com/webhookconfigs-kpn
+  description: Production
+security:
+- OAuth2: []
+tags:
+- name: Team
+  description: 'Team-scope webhook configuration — webhook URL and field exclusions. Overrides the
+
+    organization config for all applications in your team unless an application config is set.
+
+    '
+paths:
+  /teams:
+    post:
+      operationId: createTeamWebhookConfig
+      tags:
+      - Team
+      summary: Create team webhook config
+      description: 'Creates the webhook configuration for your team, including the URL
+
+        where KPN will deliver outbound webhook notifications and any
+
+        field exclusion rules.
+
+        '
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamWebhookConfigRequest'
+            examples:
+              basic:
+                summary: Webhook URL only
+                value:
+                  webhook_url: https://webhook.example.com/kpn/dlr
+              withPrivacy:
+                summary: With field exclusions
+                value:
+                  webhook_url: https://webhook.example.com/kpn/dlr
+                  privacy_config:
+                    excluded_fields:
+                      sms_dlr:
+                      - RecipientPhonenumber
+                      - Message
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookConfigResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    get:
+      operationId: getTeamWebhookConfig
+      tags:
+      - Team
+      summary: Get team webhook config
+      description: Returns the current webhook configuration for your team.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookConfigResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      operationId: updateTeamWebhookConfig
+      tags:
+      - Team
+      summary: Update team webhook config
+      description: Updates the webhook URL and/or field exclusion settings for your team.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamWebhookConfigRequest'
+            examples:
+              updateUrl:
+                summary: Change webhook URL
+                value:
+                  webhook_url: https://webhook.example.com/kpn/dlr-v2
+              updatePrivacy:
+                summary: Update exclusions
+                value:
+                  webhook_url: https://webhook.example.com/kpn/dlr-v2
+                  privacy_config:
+                    excluded_fields:
+                      sms_dlr:
+                      - DLRID
+                      - MessageType
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookConfigResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      operationId: deleteTeamWebhookConfig
+      tags:
+      - Team
+      summary: Delete team webhook config
+      description: 'Permanently removes the team webhook configuration. Webhook deliveries
+
+        will fall back to any configured org-level settings.
+
+        '
+      responses:
+        '204':
+          description: Deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    BadRequest:
+      description: Bad request — check your request body for missing or invalid fields.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '400'
+              message: Bad Request
+              info: https://developer.kpn.com/documentation-webhook-config
+    NotFound:
+      description: Not found — the requested configuration does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '404'
+              message: Not Found
+              info: https://developer.kpn.com/documentation-webhook-config
+    InternalServerError:
+      description: Internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '500'
+              message: Internal Server Error
+              info: https://developer.kpn.com/support
+    Unauthorized:
+      description: Unauthorized — missing or invalid Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '401'
+              message: Unauthorized
+              info: https://developer.kpn.com/getting-started
+    Forbidden:
+      description: Forbidden — your token does not have permission to access this resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '403'
+              message: Forbidden
+              info: https://developer.kpn.com/support
+  schemas:
+    WebhookConfigResponse:
+      type: object
+      properties:
+        scope_type:
+          type: string
+          enum:
+          - CUSTOMER
+          - APPLICATION
+          description: '`CUSTOMER` for team-scoped configs; `APPLICATION` for app-scoped configs.'
+        webhook_url:
+          type: string
+          format: uri
+          description: The URL KPN delivers webhook notifications to.
+        privacy_config:
+          $ref: '#/components/schemas/PrivacyConfig'
+        signing:
+          type: object
+          description: Read-only signing key status.
+          properties:
+            active_key_id:
+              type:
+              - string
+              - 'null'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    TeamWebhookConfigRequest:
+      type: object
+      required:
+      - webhook_url
+      properties:
+        webhook_url:
+          type: string
+          format: uri
+          maxLength: 2048
+          description: HTTPS URL where KPN will POST outbound webhook notifications.
+          example: https://webhook.example.com/kpn/dlr
+        privacy_config:
+          $ref: '#/components/schemas/PrivacyConfig'
+    PrivacyConfig:
+      type: object
+      description: 'Service-scoped field exclusion map.
+
+
+        Keys are KPN service identifiers (e.g. `sms_dlr`); values are lists of
+
+        field names to omit from outbound webhook payloads for that service.
+
+        Any field not listed is included in the payload.
+
+        An empty or absent map means **include all fields**.
+
+        '
+      properties:
+        excluded_fields:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+            maxItems: 50
+          example:
+            sms_dlr:
+            - RecipientPhonenumber
+            - Message
+    ApiErrorResponse:
+      type: object
+      properties:
+        errorResponse:
+          type: object
+          properties:
+            code:
+              type: string
+              description: HTTP status code as a string.
+              example: '400'
+            message:
+              type: string
+              description: Human-readable error message.
+              example: Bad Request
+            info:
+              type: string
+              description: URL to relevant documentation or support page.
+              example: https://developer.kpn.com/documentation-webhook-config
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}

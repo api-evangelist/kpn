@@ -1,0 +1,303 @@
+openapi: 3.2.0
+info:
+  title: Number Insight - Vonage Request API
+  version: v1.1.1
+  termsOfService: https://developer.kpn.com/legal
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  description: "Vonage's Number Insight API provides details about the validity, reachability and roaming status of a phone number, as well as giving you details on how to format the number properly in your application. There are three levels of the Number Insight API available:\n   - Basic\n   - Standard\n   - Advanced\n   \n  The advanced API is available asynchronously as well as synchronously.\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/number-insight-nexmo/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/number-insight-nexmo/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+servers:
+- url: https://api-prd.kpn.com/communication/nexmo/number-insight
+tags:
+- name: Request
+paths:
+  /{level}:
+    post:
+      summary: Synchronously get information about a phone number
+      operationId: NumberInsight
+      tags:
+      - Request
+      description: "**Number Insight Basic**\nYou can use Vonage's Number Insight Basic API to retrieve local and international representations of a phone number by doing semantic checks on the number you submit. This can help you normalise and consistently print numbers in your user interface and gives you information to help you decide if a phone number accept the phone number entered by your user, or ask them to check and correct it.\n\n  Number Insight Basic API is a free synchronous, easy-to-use RESTful web service. For any phone number you can\n  \n   - Retrieve the international and local format.\n   - Know the country where the number is registered.\n \n### Example\n  \n  Request:\n  \n  ```\n  curl -X POST \\\n    https://api-prd.kpn.com/communication/nexmo/number-insight/basic \\\n    -H 'authorization: Bearer ZvV84AtjcXoHU48hA6b5AZljegdy' \\\n    -H 'content-type: application/x-www-form-urlencoded' \\\n    -d 'number=447700900000'\n\n  ```\n  \n  Response:\n  \n  ```\n  {\n      \"status\": 0,\n      \"status_message\": \"Success\",\n      \"request_id\": \"fcb1e9a2-db9c-4ea2-84be-4e60da45e187\",\n      \"international_format_number\": \"447700900000\",\n      \"national_format_number\": \"07700 900000\",\n      \"country_code\": \"GB\",\n      \"country_code_iso3\": \"GBR\",\n      \"country_name\": \"United Kingdom\",\n      \"country_prefix\": \"44\"\n  }\n  \n  ```"
+      parameters:
+      - in: path
+        name: level
+        description: The level of request you wish to make.
+        required: true
+        schema:
+          type: string
+          enum:
+          - basic
+          - standard
+          - advanced
+      responses:
+        '200':
+          description: OK
+          content:
+            application:
+              schema:
+                $ref: '#/components/schemas/niResponseBasic'
+        '400':
+          description: Bad Request
+          content:
+            application:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            application:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                number:
+                  type: string
+                  pattern: ^[0-9-+\(\)\s]*$
+                  description: "The single phone number that you need insight about in national or international format.\n    example: 447700900000"
+                country:
+                  type: string
+                  pattern: '[A-Z]{2}'
+                  description: "If a number does not have a country code or is uncertain, set the two-character country code. This code must be in ISO 3166-1 alpha-2 format and in upper case. For example, GB or US. If you set country and number is already in [E.164](https://en.wikipedia.org/wiki/E.164) format, country must match the country code in number.\n  example: GB"
+                cnam:
+                  type: boolean
+                  description: "Indicates if the name of the person who owns the phone number should be looked up and returned in the response. Set to true to receive phone number owner name in the response. This features is available for US numbers only and incurs an additional charge.\n  example: true"
+                ip:
+                  type: string
+                  description: "The IP address of the user. If supplied, we will compare this to the country the user's phone is located in and return an error if it does not match.\n  example: 123.0.0.255"
+              required:
+              - number
+  /advanced/async:
+    post:
+      summary: Asynchronously get information about a phone number
+      tags:
+      - Request
+      description: "**Number Insight Advanced Async**\nYou can use Vonage's Number Insight Async API to retrieve a user's landline or mobile number, including checking to see that it is registered to an operator. This can help you verify that a phone number is real and give you information on how to format the number.\n\nNumber Insight Advanced Async API is an asynchronous web service that returns data to a webhook. For any phone number you can\n\n- Retrieve the international and local format.\n- Know the country where the number is registered.\n- Line type detection (mobile/landline/virtual number/premium/toll-free)\n- Detect mobile country code (MCC) and mobile network code (MNC)\n- Detect if number is ported\n- Identify caller name (USA only)\n- Identify network when roaming\n- Confirm user's IP address is in same location as their mobile phone\n\nUsers are advised that the Advanced API does not give any information about landlines that is not already given by the Standard API. For number insights about landlines, you should use the Standard API.\n\n ### Example\n  \n  Request:\n  \n  ```\n  curl -X POST \\\n    https://api-prd.kpn.com/communication/nexmo/number-insight/advanced/async \\\n    -H 'authorization: Bearer ZvV84AtjcXoHU48hA6b5AZljegdy' \\\n    -H 'content-type: application/x-www-form-urlencoded' \\\n    -d 'number=31620028461'\n    -d 'callback=https://example.com/callback'\n  \n  ```\n  \n  Response:\n  \n  ```\n  {\n      \"request_id\": \"c510011c-d782-4f49-bfa9-38a2254884e4\",\n      \"number\": \"447700900000\",\n      \"remaining_balance\": \"10.000000\",\n      \"request_price\": \"0.03000000\",\n      \"status\": 0\n  }\n  ```        "
+      responses:
+        '200':
+          description: OK
+          content:
+            application:
+              schema:
+                $ref: '#/components/schemas/niResponseAsync'
+        '400':
+          description: Bad Request
+          content:
+            application:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            application:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                number:
+                  type: string
+                  pattern: ^[0-9-+\(\)\s]*$
+                  description: "The single phone number that you need insight about in national or international format.\n    example: 447700900000"
+                callback:
+                  type: string
+                  description: "The callback URL\n  example: https://example.com/callback"
+                country:
+                  type: string
+                  pattern: '[A-Z]{2}'
+                  description: "If a number does not have a country code or is uncertain, set the two-character country code. This code must be in ISO 3166-1 alpha-2 format and in upper case. For example, GB or US. If you set country and number is already in [E.164](https://en.wikipedia.org/wiki/E.164) format, country must match the country code in number.\n  example: GB"
+                cnam:
+                  type: boolean
+                  description: "Indicates if the name of the person who owns the phone number should be looked up and returned in the response. Set to true to receive phone number owner name in the response. This features is available for US numbers only and incurs an additional charge.\n  example: true"
+                ip:
+                  type: string
+                  description: "The IP address of the user. If supplied, we will compare this to the country the user's phone is located in and return an error if it does not match.\n  example: 123.0.0.255"
+              required:
+              - number
+              - callback
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    niResponseAsync:
+      type: object
+      properties:
+        request_id:
+          type: string
+          description: The unique identifier for your request. This is a alphanumeric string up to 40 characters.
+          example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+          maxLength: 40
+        number:
+          type: string
+          description: The `number` in your request
+          example: '447700900000'
+        remaining_balance:
+          type: string
+          description: Your account balance in EUR after this request. Not returned with Number Insight Advanced Async API.
+          example: '1.23456789'
+        request_price:
+          type: number
+          description: If there is an internal lookup error, the `refund_price` will reflect the lookup price. If `cnam` is requested for a non-US number the `refund_price` will reflect the `cnam` price. If both of these conditions occur, `refund_price` is the sum of the lookup price and `cnam` price.
+          example: '0.01500000'
+        status:
+          $ref: '#/components/schemas/niStatus'
+    niStatus:
+      type: integer
+      example: 0
+      enum:
+      - 0
+      - 1
+      - 3
+      - 4
+      - 5
+      - 9
+      - 19
+      - 43
+      - 44
+      - 45
+      - 999
+      description: "Code | Text\n-- | --\n0 | Success - request accepted for delivery by Vonage.\n1 | Busy - you have made more requests in the last second than are permitted by your Vonage account. Please retry.\n3 | Invalid - your request is incomplete and missing some mandatory parameters.\n4 | Invalid credentials - the _api_key_ or _api_secret_ you supplied is either not valid or has been disabled.\n5 | Internal Error - the format of the recipient address is not valid.\n9 | Partner quota exceeded - your Vonage account does not have sufficient credit to process this request.\n\n#### Standard and Advanced only\n\nCode | Text\n-- | --\n19 | Facility Not Allowed - your request makes use of a facility that is not enabled on your account.\n43, 44, 45 | Live mobile lookup not returned. Not all return parameters are available.\n999 | Request unparseable. \n"
+    niResponseBasic:
+      type: object
+      description: Basic
+      properties:
+        status:
+          $ref: '#/components/schemas/niStatus'
+        status_message:
+          type: string
+          description: The status description of your request.
+          example: Success
+        request_id:
+          type: string
+          description: The unique identifier for your request. This is a alphanumeric string up to 40 characters.
+          example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+          maxLength: 40
+        international_format_number:
+          type: string
+          description: The `number` in your request in international format.
+          example: '447700900000'
+        national_format_number:
+          type: string
+          description: The `number` in your request in the format used by the country the number belongs to.
+          example: 07700 900000
+        country_code:
+          type: string
+          description: Two character country code for `number`. This is in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
+          example: GB
+          pattern: '[A-Z]{2}'
+        country_code_iso3:
+          type: string
+          description: Three character country code for `number`. This is in [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) format.
+          example: GBR
+          pattern: '[A-Z]{3}'
+        country_name:
+          type: string
+          description: The full name of the country that `number` is registered in.
+          example: United Kingdom
+        country_prefix:
+          type: string
+          description: The numeric prefix for the country that `number` is registered in.
+          example: '44'
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

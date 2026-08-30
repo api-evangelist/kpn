@@ -1,0 +1,126 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: ServiceNow Customer Connect Attachment API
+  description: "This is Customer Connect API for KPN ServiceNow-Green Tickets. With this API KPN SN Green will be able to create new, or update existing tickets. This document provides the API specification. \n### Key highlights\n- **Security:**  HTTPS, OAuth, Rate limit\n- **Versioning:**  Supports version-less API, version tight. If no version is provided (in header) it defaults to latest version. \n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/servicenow-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/servicenow-kpn/)</br>\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n---"
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+  termsOfService: https://developer.kpn.com/legal
+servers:
+- url: https://api-prd.kpn.com/network/kpn/servicenow
+tags:
+- name: Attachment
+paths:
+  /GetAttachment/{attachment_id}:
+    get:
+      description: Get attachment
+      operationId: get-attachment
+      summary: Get Attachment
+      tags:
+      - Attachment
+      security:
+      - oauth2: []
+      parameters:
+      - $ref: '#/components/parameters/api_version'
+      - $ref: '#/components/parameters/attachment_id'
+      responses:
+        200:
+          description: Successful operation. The body will contain the attachment details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAttachment200Response'
+        400:
+          description: Bad Request. The body will contain details for the error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        429:
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        500:
+          description: Server error, please try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+components:
+  schemas:
+    GetAttachment200Response:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the file with file extension
+          example: sample.txt
+        content:
+          type: string
+          description: Base64 coded content of the attachment
+          example: VGVzdA==
+        content_type:
+          type: string
+          description: Content_type of the attachment
+          example: text/plain
+    error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Code representing the error
+              example: '1234'
+            message:
+              type: string
+              description: Description of the error
+              example: Description of the error.
+  parameters:
+    attachment_id:
+      in: path
+      name: attachment_id
+      schema:
+        type: string
+      description: attachment_id to get the attachment.
+      required: true
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials
+          scopes: {}
+externalDocs:
+  description: HTTP response headers
+  url: https://developer.kpn.com/documentation-response-headers

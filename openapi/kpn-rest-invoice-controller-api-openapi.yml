@@ -1,0 +1,534 @@
+openapi: 3.2.0
+info:
+  description: "MobileServicesManagement APIs\n\n   ---\n     \n ## [Source view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)<br/>\n [Documentation view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)\n \n ---\n \n ## [KPN Developer](https://developer.kpn.com/)<br/>\n [Getting Started](https://developer.kpn.com/getting-started)\n \n\n ---"
+  version: v11
+  title: MobileServicesManagement-KPN Rest Invoice Controller API
+  termsOfService: https://developer.kpn.com/legal
+  contact:
+    name: API Support
+    email: api_developer@kpn.com
+    url: https://developer.kpn.com/support
+servers:
+- url: https://api-prd.kpn.com/mobile/kpn/mobileservices
+tags:
+- name: rest-invoice-controller
+  description: Rest Invoice Controller
+paths:
+  /finances/billing-period:
+    post:
+      tags:
+      - rest-invoice-controller
+      summary: Change billing period for current customer
+      description: 'Start service request of changing billing period for current customer.
+
+        Possible errors:
+
+        | HTTP code | Error code                         | Description                                                                      |
+
+        |-----------|------------------------------------|----------------------------------------------------------------------------------|
+
+        | `403`     | `ORDERING_IS_BLOCKED_FOR_CUSTOMER` | Current customer is frozen and can not order anything                           .|
+
+        | `404`     | `OPERATION_BLOCKED`                | Given operation is blocked. Operation availability shows blocked and not visible.|
+
+
+        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul> <strong>and:</strong><ul> <li>privileges_billing_retention_portlet</li></ul>'
+      operationId: changeBillingPeriodUsingPOST
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderSummary'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeBillingPeriodRequestParams'
+        description: params
+        required: true
+  /finances/billing-period/availability:
+    get:
+      tags:
+      - rest-invoice-controller
+      summary: Get billing period changing availability
+      description: 'Get availability of changing billing period.
+
+
+        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul> <strong>and:</strong><ul> <li>privileges_billing_retention_portlet</li></ul>'
+      operationId: getBillingPeriodChangingAvailabilityUsingGET
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OperationAvailability'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /finances/invoices:
+    get:
+      tags:
+      - rest-invoice-controller
+      summary: Get list of invoices for given debtor
+      description: 'Possible errors:
+
+        | HTTP code | Error code         | Description                                                  |
+
+        |-----------|--------------------|--------------------------------------------------------------|
+
+        | `404`     | `DEBTOR_NOT_FOUND` | Given debtor does not exist or user don''t have access to him |
+
+
+        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_financial_documents_view</li></ul>'
+      operationId: getInvoicesUsingGET
+      parameters:
+      - name: debtorId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: from
+        in: query
+        description: Pagination parameter - start from (included). The elements are counted from 0. Default value is 0.
+        required: false
+        x-example: 0
+        schema:
+          type: integer
+          format: int32
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: pattern
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: searchFrom
+        in: query
+        description: Start date to search from in ISO format (YYYY-MM-DD)
+        required: false
+        x-example: '2000-10-31'
+        schema:
+          type: string
+          format: date-time
+      - name: searchTo
+        in: query
+        description: End date to search to in ISO format (YYYY-MM-DD)
+        required: false
+        x-example: '2020-10-31'
+        schema:
+          type: string
+          format: date-time
+      - name: sortBy
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - NUMBER
+          - DEBTOR_NAME
+          - TYPE
+          - DATE
+          - PAY_BEFORE_DATE
+          - TOTAL_AMOUNT
+      - name: to
+        in: query
+        description: Pagination parameter - end element (exluded). Default value is 20.
+        required: false
+        x-example: 20
+        schema:
+          type: integer
+          format: int32
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - CREDIT_NOTE
+          - HARDWARE_ADJUSTMENT
+          - HARDWARE_INVOICE
+          - HARDWARE_INVOICE_ADJUSTMENT
+          - SERVICE_ADJUSTMENT
+          - SERVICE_INVOICE
+          - SERVICE_INVOICE_ADJUSTMENT
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PagedResult_Invoice_'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+  /finances/invoices/{id}:
+    get:
+      tags:
+      - rest-invoice-controller
+      summary: Download the invoice as pdf file
+      description: 'Possible errors:
+
+        | HTTP code | Error code          | Description                       |
+
+        |-----------|---------------------|-----------------------------------|
+
+        | `404`     | `INVOICE_NOT_FOUND` | Invoice with given id not found   |
+
+
+        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_financial_documents_view</li></ul>'
+      operationId: downloadInvoiceUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: byte
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - OAuth2: []
+components:
+  schemas:
+    PagedResult_Invoice_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Invoice'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Invoice_
+      description: Paged list of elements
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    OrderSummary:
+      type: object
+      properties:
+        contextName:
+          type: string
+        creationDate:
+          type: string
+        id:
+          type: integer
+          format: int64
+        operation:
+          type: string
+        referenceNumber:
+          type: string
+        status:
+          type: string
+          enum:
+          - Failed
+          - Aborted
+          - Finished
+          - Suspended
+          - InProgress
+          - Waiting
+          - Draft
+          - WaitingForAuthorization
+          - Authorized
+          - Restored
+          - Canceled
+          - Scheduled
+          - Initialized
+          - Rejected
+          - ExternalScheduled
+      title: OrderSummary
+    BlockingOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        kpnReference:
+          type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
+          type: string
+          enum:
+          - CONTRACTING
+          - SERVICE_REQUEST
+      title: BlockingOrder
+    ChangeBillingPeriodRequestParams:
+      type: object
+      properties:
+        period:
+          type: string
+          enum:
+          - '6'
+          - '25'
+        referenceNumber:
+          type: string
+      title: ChangeBillingPeriodRequestParams
+    OperationAvailability:
+      type: object
+      properties:
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OperationAvailability
+    Invoice:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        debtorName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        number:
+          type: string
+        payBeforeDate:
+          type: string
+          format: date-time
+        totalAmountToPayInCents:
+          type: integer
+          format: int32
+        type:
+          type: string
+          enum:
+          - CREDIT_NOTE
+          - HARDWARE_ADJUSTMENT
+          - HARDWARE_INVOICE
+          - HARDWARE_INVOICE_ADJUSTMENT
+          - SERVICE_ADJUSTMENT
+          - SERVICE_INVOICE
+          - SERVICE_INVOICE_ADJUSTMENT
+      title: Invoice
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api-prd.kpn.com/oauth/grip/msm/accesstoken?grant_type=client_credentials
