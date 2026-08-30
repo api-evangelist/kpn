@@ -130,6 +130,8 @@ apis:
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
   tags:
+  - Account
+  tags_raw:
   - account
   properties:
   - type: OpenAPI
@@ -665,7 +667,8 @@ apis:
   description: The appliance.configure API from KPN — 51 operation(s) for appliance.configure.
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
-  tags:
+  tags: []
+  tags_raw:
   - appliance.configure
   properties:
   - type: OpenAPI
@@ -843,7 +846,8 @@ apis:
   description: The appliance.monitor API from KPN — 13 operation(s) for appliance.monitor.
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
-  tags:
+  tags: []
+  tags_raw:
   - appliance.monitor
   properties:
   - type: OpenAPI
@@ -1384,6 +1388,8 @@ apis:
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
   tags:
+  - Application
+  tags_raw:
   - applications
   properties:
   - type: OpenAPI
@@ -2808,7 +2814,8 @@ apis:
     The cellularGateway.configure API from KPN — 15 operation(s) for cellulargateway.configure.
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
-  tags:
+  tags: []
+  tags_raw:
   - cellularGateway.configure
   properties:
   - type: OpenAPI
@@ -2986,7 +2993,8 @@ apis:
   description: The cellularGateway.monitor API from KPN — 1 operation(s) for cellulargateway.monitor.
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
-  tags:
+  tags: []
+  tags_raw:
   - cellularGateway.monitor
   properties:
   - type: OpenAPI
@@ -4054,7 +4062,8 @@ apis:
   description: The default API from KPN — 6 operation(s) for default.
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
-  tags:
+  tags: []
+  tags_raw:
   - default
   properties:
   - type: OpenAPI
@@ -4593,6 +4602,8 @@ apis:
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
   tags:
+  - Device Security
+  tags_raw:
   - DeviceSecurity
   properties:
   - type: OpenAPI
@@ -4948,7 +4959,8 @@ apis:
   description: The endpoint API from KPN — 4 operation(s) for endpoint.
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
-  tags:
+  tags: []
+  tags_raw:
   - endpoint
   properties:
   - type: OpenAPI
@@ -5127,6 +5139,8 @@ apis:
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
   tags:
+  - Endpoint Group
+  tags_raw:
   - endpointgroup
   properties:
   - type: OpenAPI
@@ -5305,6 +5319,8 @@ apis:
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -5483,6 +5499,8 @@ apis:
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
   tags:
+  - GraphQL
+  tags_raw:
   - Graphql
   properties:
   - type: OpenAPI
@@ -5838,7 +5856,8 @@ apis:
   description: The insight.configure API from KPN — 3 operation(s) for insight.configure.
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
-  tags:
+  tags: []
+  tags_raw:
   - insight.configure
   properties:
   - type: OpenAPI
@@ -6016,7 +6035,8 @@ apis:
   description: The insight.monitor API from KPN — 1 operation(s) for insight.monitor.
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
-  tags:
+  tags: []
+  tags_raw:
   - insight.monitor
   properties:
   - type: OpenAPI
@@ -7085,6 +7105,8 @@ apis:
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
   tags:
+  - Message
+  tags_raw:
   - Messages
   properties:
   - type: OpenAPI
@@ -7441,6 +7463,8 @@ apis:
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
   tags:
+  - Number
+  tags_raw:
   - number
   properties:
   - type: OpenAPI
@@ -7984,6 +8008,8 @@ apis:
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
   tags:
+  - Organization
+  tags_raw:
   - Organizations
   properties:
   - type: OpenAPI
@@ -14751,7 +14777,8 @@ apis:
   description: The switch.configure API from KPN — 47 operation(s) for switch.configure.
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
-  tags:
+  tags: []
+  tags_raw:
   - switch.configure
   properties:
   - type: OpenAPI
@@ -14929,7 +14956,8 @@ apis:
   description: The switch.monitor API from KPN — 9 operation(s) for switch.monitor.
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
-  tags:
+  tags: []
+  tags_raw:
   - switch.monitor
   properties:
   - type: OpenAPI
@@ -16360,6 +16388,8 @@ apis:
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -16716,6 +16746,8 @@ apis:
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
   tags:
+  - Voice
+  tags_raw:
   - voice
   properties:
   - type: OpenAPI
@@ -17249,7 +17281,8 @@ apis:
   description: The wireless.configure API from KPN — 37 operation(s) for wireless.configure.
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
-  tags:
+  tags: []
+  tags_raw:
   - wireless.configure
   properties:
   - type: OpenAPI
@@ -17427,7 +17460,8 @@ apis:
   description: The wireless.monitor API from KPN — 33 operation(s) for wireless.monitor.
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
-  tags:
+  tags: []
+  tags_raw:
   - wireless.monitor
   properties:
   - type: OpenAPI
