@@ -13365,6 +13365,8 @@ apis:
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
   tags:
+  - Sessions
+  tags_raw:
   - Session
   properties:
   - type: OpenAPI
@@ -15331,6 +15333,8 @@ apis:
   humanURL: https://developer.kpn.com/products/kpn-number-verify
   baseURL: https://api-prd.kpn.com/communication/kpn/numberverify
   tags:
+  - Tokens
+  tags_raw:
   - Token
   properties:
   - type: OpenAPI
@@ -17651,6 +17655,8 @@ apis:
   humanURL: https://developer.kpn.com/products/kpn-grip-api
   baseURL: https://api.grip-on-it.com/users/
   tags:
+  - GraphQL
+  tags_raw:
   - Graph QL
   properties:
   - type: OpenAPI
