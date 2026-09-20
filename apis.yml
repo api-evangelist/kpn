@@ -17830,6 +17830,8 @@ apis:
   - type: APIReference
     url: https://app.swaggerhub.com/apis-docs/kpn/registeredemail-registeredemail
 common:
+- type: Plans
+  url: plans/kpn-plans-pricing.yml
 - type: CapabilityMap
   url: capabilities/kpn-capability-edges.yml
   name: KPN Business Capability Map
