@@ -1,0 +1,232 @@
+slug: kpn
+provider: KPN
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Telecommunications
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 20
+edges:
+- tag: appliance.configure
+  spec_file: kpn-appliance-configure-api-openapi.yml
+  capability_id: BC-2600.20
+  capability_id_l1: BC-2600
+  capability_name: Network Configuration Management
+  confidence: 0.87
+  evidence: '"Update the radio settings of an appliance"; "Update the uplink settings for an MX appliance";
+    "Update the cellular firewall rules of an MX network"; "Update the content filtering settings for
+    an MX network"'
+  reason: The operations read and write configuration settings (radio, uplink, firewall, content filtering,
+    DHCP) on managed SD-WAN network elements — controlled definition and deployment of network element
+    configuration.
+- tag: Start engineering job
+  spec_file: kpn-start-engineering-job-api-openapi.yml
+  capability_id: BC-2610
+  capability_id_l1: BC-2610
+  capability_name: Telecom Network Planning Management
+  confidence: 0.85
+  evidence: The High-Level Design FTTx API supports Fiber to the Home (FTTH) engineering jobs. It allows
+    you to calculate the required work and cost for Fiber rollout in a provided region
+  reason: Operations submit an engineering job that dimensions and costs fibre rollout for a geographic
+    region — long-range network design/dimensioning, i.e. telecom network planning. Evidence does not
+    clearly single out coverage vs site vs capacity planning, so only the L1 is asserted.
+- tag: cellularGateway.configure
+  spec_file: kpn-cellulargateway-configure-api-openapi.yml
+  capability_id: BC-2600.20
+  capability_id_l1: BC-2600
+  capability_name: Network Configuration Management
+  confidence: 0.85
+  evidence: '"Update the LAN Settings for a single MG"; "Updates the port forwarding rules for a single
+    MG"; "Update common DHCP settings of MGs"; "Updates the uplink settings for your MG network"'
+  reason: Read/write of LAN, DHCP, port-forwarding, subnet-pool and uplink settings on cellular gateway
+    network elements is configuration management of live network equipment.
+- tag: Alarm
+  spec_file: kpn-alarm-api-openapi.yml
+  capability_id: BC-2600.10
+  capability_id_l1: BC-2600
+  capability_name: Network Fault Management
+  confidence: 0.8
+  evidence: GET /deviceAlarms  Retrieves device alarms; POST /deviceAlarms/{deviceAlarmRef}/acks  Acknowledges
+    device alarm; schemas AlarmState, DeviceAlarm
+  reason: Retrieval and acknowledgement of alarms raised by LoRa network devices is classic fault management
+    on the operator's network — detection and handling of faults/alarms from network elements.
+- tag: rest-block-sim-controller
+  spec_file: kpn-rest-block-sim-controller-api-openapi.yml
+  capability_id: BC-2640.20
+  capability_id_l1: BC-2640
+  capability_name: SIM & eSIM Lifecycle Management
+  confidence: 0.8
+  evidence: '"Block sim for given contract"; "Unblock sim for given contract"; schemas `BlockSimRequest`,
+    `UnblockSimRequest`'
+  reason: Blocking and unblocking of SIM cards against a mobile contract is a SIM lifecycle operation
+    (loss/theft suspension and reinstatement) in the subscriber domain.
+- tag: rest-invoice-controller
+  spec_file: kpn-rest-invoice-controller-api-openapi.yml
+  capability_id: BC-2660.40
+  capability_id_l1: BC-2660
+  capability_name: Bill Presentment & Inquiry Management
+  confidence: 0.8
+  evidence: GET /finances/invoices 'Get list of invoices for given debtor'; GET /finances/invoices/{id}
+    'Download the invoice as pdf file'
+  reason: Exposes invoice retrieval/presentment to the telecom customer plus billing-period change, which
+    is telecom bill presentment and inquiry within Billing & Revenue Management.
+- tag: switch.configure
+  spec_file: kpn-switch-configure-api-openapi.yml
+  capability_id: BC-2600.20
+  capability_id_l1: BC-2600
+  capability_name: Network Configuration Management
+  confidence: 0.8
+  evidence: PUT /devices/{serial}/switch/ports/{portId} 'Update a switch port'; POST /devices/{serial}/switch/routing/staticRoutes
+    'Create a layer 3 static route for a switch'
+  reason: Read and write operations on live network element configuration (switch ports, L3 interfaces,
+    DHCP, static routes) in KPN's managed SD-LAN/SD-WAN estate — network configuration management. Slight
+    ambiguity versus generic IT infrastructure management, but the operator context favours the telecom
+    network capability.
+- tag: account
+  spec_file: kpn-account-api-openapi.yml
+  capability_id: BC-2640.30
+  capability_id_l1: BC-2640
+  capability_name: Numbering Resource Management
+  confidence: 0.78
+  evidence: GET /account/numbers  getNumbers  "List owned numbers"; "The Numbers API lets you manage your
+    numbers and buy new virtual numbers"; schema msisdn_field
+  reason: Despite the generic tag 'account', the operation lists the MSISDNs/virtual numbers owned by
+    the account, and the document scope is managing and acquiring telephone numbers — stewardship and
+    assignment of numbering resources. Slight discount because the tag exposes only one read operation.
+- tag: Cases
+  spec_file: kpn-cases-api-openapi.yml
+  capability_id: BC-430.10
+  capability_id_l1: BC-430
+  capability_name: Customer Inquiry Management
+  confidence: 0.75
+  evidence: POST /searches/{searchId}/cases/{caseId}/close  CloseCase  Closes case; HandlerReleasesCaseToHandler  Releases
+    case to another handler
+  reason: Social media webcare case handling — closing cases and reassigning them between handlers — is
+    inbound customer contact handling and routing, i.e. customer service inquiry management.
+- tag: Retrieve job result
+  spec_file: kpn-retrieve-job-result-api-openapi.yml
+  capability_id: BC-2610
+  capability_id_l1: BC-2610
+  capability_name: Telecom Network Planning Management
+  confidence: 0.75
+  evidence: '"supports Fiber to the Home (FTTH) engineering jobs. It allows you to calculate the required
+    work and cost for Fiber rollout in a provided region"; schemas Trench, Splitter, DistributionPoint,
+    Pop'
+  reason: High-level design/dimensioning of fibre rollout in a region (trenches, splitters, distribution
+    points, POPs) is network planning, not operations. Kept at L1 because the evidence spans coverage,
+    capacity and site/rollout planning without naming one.
+- tag: number
+  spec_file: kpn-number-api-openapi.yml
+  capability_id: BC-2640.30
+  capability_id_l1: BC-2640
+  capability_name: Numbering Resource Management
+  confidence: 0.75
+  evidence: '"Search available numbers", "Buy a number", "Cancel a number"; schemas `msisdn_field`, `country_field`'
+  reason: 'Virtual telephone number inventory: searching, acquiring, releasing and updating MSISDNs. This
+    is stewardship and assignment of numbering resources to services.'
+- tag: rest-contracting-controller
+  spec_file: kpn-rest-contracting-controller-api-openapi.yml
+  capability_id: BC-2620.10
+  capability_id_l1: BC-2620
+  capability_name: Service Order Capture
+  confidence: 0.75
+  evidence: GET /contracting/basket 'Get basket content with products tree and prices'; POST /contracting/basket/order
+    'Create order applying changes introduced to basket'
+  reason: Operations build a basket of mobile products with prices and submit it as an order — capture
+    of telecom service orders through a self-service channel, i.e. Service Order Capture. Product tree/characteristics
+    are read-only inputs to ordering rather than catalogue design.
+- tag: wireless.configure
+  spec_file: kpn-wireless-configure-api-openapi.yml
+  capability_id: BC-2600.20
+  capability_id_l1: BC-2600
+  capability_name: Network Configuration Management
+  confidence: 0.72
+  evidence: '"Update the radio settings of a device"; "Updates Air Marshal settings."; "createNetworkWirelessAirMarshalRule
+    Creates a new rule"'
+  reason: Operations write configuration to wireless network elements — radio settings, management interfaces,
+    Air Marshal rules — which is definition and controlled deployment of network element configuration.
+    Some overlap with optimisation/security settings keeps confidence below 0.8.
+- tag: Results
+  spec_file: kpn-results-api-openapi.yml
+  capability_id: BC-430.10
+  capability_id_l1: BC-430
+  capability_name: Customer Inquiry Management
+  confidence: 0.7
+  evidence: '"The SocialMediaWebcare API allows you to organise and manage your inbound and outbound social
+    media channels traffic"; POST /results/{resultId}/replies "Replies to a message"'
+  reason: '''Results'' here are inbound social-media messages fetched per profile/source with reply and
+    event operations — social webcare, i.e. handling inbound customer contacts and responding. Maps to
+    Customer Inquiry Management; some chance it is read as digital-marketing social engagement, hence
+    0.7.'
+- tag: Session
+  spec_file: kpn-session-api-openapi.yml
+  capability_id: BC-2640.60
+  capability_id_l1: BC-2640
+  capability_name: Subscriber Authentication & Authorisation
+  confidence: 0.7
+  evidence: '"With KPN Number Verify, you can quickly check whether the mobile number someone provides
+    is the same as their SIM card"; GET /session/{session_id} "Session Request"'
+  reason: Network-based number verification session — the mobile network authenticates that the claimed
+    MSISDN matches the SIM on the connection. That is subscriber authentication/authorisation exposed
+    as an API.
+- tag: appliance.monitor
+  spec_file: kpn-appliance-monitor-api-openapi.yml
+  capability_id: BC-2600.30
+  capability_id_l1: BC-2600
+  capability_name: Network Performance Management
+  confidence: 0.7
+  evidence: '"Return the performance score for a single MX"; "Get the sent and received bytes for each
+    uplink of a network"; "Returns an overview of uplink statuses"'
+  reason: Read-only telemetry on appliance performance scores, uplink utilisation and VPN stats is network
+    performance monitoring. Some operations are security-event listings (BC-2600.60) and status/availability
+    (fault), so the sub-capability split is not clean — hence 0.7.
+- tag: rest-contract-terminate-controller
+  spec_file: kpn-rest-contract-terminate-controller-api-openapi.yml
+  capability_id: BC-4240.60
+  capability_id_l1: BC-4240
+  capability_name: Cancellation & Termination
+  confidence: 0.7
+  evidence: '"Terminate contract"; "Get termination fee for giver contract and termination date"; schema
+    `TerminateContractRequest`, `TerminationFee`'
+  reason: Customer-initiated termination of a mobile subscription contract including earliest free termination
+    date and early-termination fee — cancellation and termination of a subscription.
+- tag: rest-subscriber-controller
+  spec_file: kpn-rest-subscriber-controller-api-openapi.yml
+  capability_id: BC-2640.10
+  capability_id_l1: BC-2640
+  capability_name: Subscriber Identity Management
+  confidence: 0.7
+  evidence: POST /hierarchy/subscribers 'Create subscriber (with or without user)'; GET /hierarchy/subscribers/{subscriberId}/contracts
+    'Find all contracts belonging to subscriber'
+  reason: CRUD lifecycle over subscriber records and their linkage to contracts within the operator's
+    estate — subscriber identity/profile management. Some ambiguity because 'subscriber' here is also
+    a portal user entity, hence 0.7.
+- tag: rest-user-controller
+  spec_file: kpn-rest-user-controller-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: GET /hierarchy/subscribers/roles/{roleId}/privileges 'Get privileges for given role'; POST
+    /hierarchy/subscribers/{subscriberId}/roles 'Edit roles assigned for given subscriber user'; POST
+    /hierarchy/subscribers/link 'Link existing subscriber to grip identity'
+  reason: Roles, privileges, identity linking and delegation of managed hierarchy entities to portal users
+    — access administration, mapping to Identity & Access Management rather than any telecom-specific
+    capability.
+- tag: wireless.monitor
+  spec_file: kpn-wireless-monitor-api-openapi.yml
+  capability_id: BC-2600.30
+  capability_id_l1: BC-2600
+  capability_name: Network Performance Management
+  confidence: 0.7
+  evidence: '"Aggregated latency info for a given AP on this network"; "Return AP channel utilization
+    over time for a device or network client"'
+  reason: Read-only telemetry on connection stats, latency history and channel utilisation is capture
+    and analysis of network performance KPIs to detect degradation. Ambiguity with service performance
+    monitoring (customer experience) keeps confidence moderate.
