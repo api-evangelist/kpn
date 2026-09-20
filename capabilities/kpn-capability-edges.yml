@@ -11,7 +11,7 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 20
+edge_count: 27
 edges:
 - tag: appliance.configure
   spec_file: kpn-appliance-configure-api-openapi.yml
@@ -36,6 +36,17 @@ edges:
   reason: Operations submit an engineering job that dimensions and costs fibre rollout for a geographic
     region — long-range network design/dimensioning, i.e. telecom network planning. Evidence does not
     clearly single out coverage vs site vs capacity planning, so only the L1 is asserted.
+- tag: Ticket
+  spec_file: kpn-ticket-api-openapi.yml
+  capability_id: BC-600.30
+  capability_id_l1: BC-600
+  capability_name: IT Service Management
+  confidence: 0.85
+  evidence: POST /Ticket  ticket-post  Create a new Ticket ... GET /ListOpenTickets ... KPN ServiceNow-Green
+    Tickets
+  reason: Create/update/list/track service tickets in ServiceNow — an incident and service-request management
+    surface, the classic ITSM capability.
+  recovered_from: sweep-20260828T235257Z-edges.json
 - tag: cellularGateway.configure
   spec_file: kpn-cellulargateway-configure-api-openapi.yml
   capability_id: BC-2600.20
@@ -46,6 +57,17 @@ edges:
     MG"; "Update common DHCP settings of MGs"; "Updates the uplink settings for your MG network"'
   reason: Read/write of LAN, DHCP, port-forwarding, subnet-pool and uplink settings on cellular gateway
     network elements is configuration management of live network equipment.
+- tag: Task
+  spec_file: kpn-task-api-openapi.yml
+  capability_id: BC-600.30
+  capability_id_l1: BC-600
+  capability_name: IT Service Management
+  confidence: 0.82
+  evidence: PATCH /Task  task-patch  Update an existing Task ... Customer Connect API for KPN ServiceNow-Green
+    Tickets
+  reason: Task here is a ServiceNow ticket-work record updated through a ticketing integration, which
+    is squarely ITSM incident/request handling rather than any project or workforce task concept.
+  recovered_from: sweep-20260828T235257Z-edges.json
 - tag: Alarm
   spec_file: kpn-alarm-api-openapi.yml
   capability_id: BC-2600.10
@@ -56,6 +78,19 @@ edges:
     device alarm; schemas AlarmState, DeviceAlarm
   reason: Retrieval and acknowledgement of alarms raised by LoRa network devices is classic fault management
     on the operator's network — detection and handling of faults/alarms from network elements.
+- tag: Application
+  spec_file: kpn-application-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.8
+  evidence: POST /applications 'Create application webhook config'; 'KPN delivers outbound webhook notifications
+    — such as SMS delivery reports — to the endpoints you configure. This API lets you control ... the
+    URL they are sent to, and which fields are included in the payload'
+  reason: The tag 'Application' here is the scope level of an outbound webhook configuration, not an application
+    portfolio. Operations manage webhook endpoint URLs and payload field inclusion, which is webhook/event
+    subscription lifecycle management on a developer platform.
+  recovered_from: sweep-20260828T235257Z-edges.json
 - tag: rest-block-sim-controller
   spec_file: kpn-rest-block-sim-controller-api-openapi.yml
   capability_id: BC-2640.20
@@ -88,6 +123,18 @@ edges:
     DHCP, static routes) in KPN's managed SD-LAN/SD-WAN estate — network configuration management. Slight
     ambiguity versus generic IT infrastructure management, but the operator context favours the telecom
     network capability.
+- tag: Team
+  spec_file: kpn-team-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.78
+  evidence: POST /teams  createTeamWebhookConfig  Create team webhook config ... KPN delivers outbound
+    webhook notifications — such as SMS delivery reports — to the endpoints you configure
+  reason: Despite the business-sounding tag, the operations only manage webhook delivery configuration
+    (target URL and payload field exclusions) scoped at team level — outbound webhook/event subscription
+    management, not team or HR administration.
+  recovered_from: sweep-20260828T235257Z-edges.json
 - tag: account
   spec_file: kpn-account-api-openapi.yml
   capability_id: BC-2640.30
@@ -99,6 +146,18 @@ edges:
   reason: Despite the generic tag 'account', the operation lists the MSISDNs/virtual numbers owned by
     the account, and the document scope is managing and acquiring telephone numbers — stewardship and
     assignment of numbering resources. Slight discount because the tag exposes only one read operation.
+- tag: Parties
+  spec_file: kpn-parties-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.76
+  evidence: '"A collection of crates for federated identity and access management"; schemas Party, PartyAdherence,
+    Certificate, Role, AuthRegistry, Dataspace'
+  reason: A participant/party registry for a federated dataspace with roles, certificates and authorisation
+    registries — identity and access management (federation), not customer or supplier master data. Sub-capability
+    chosen on the explicit 'federated identity and access management' wording.
+  recovered_from: sweep-20260828T235257Z-edges.json
 - tag: Cases
   spec_file: kpn-cases-api-openapi.yml
   capability_id: BC-430.10
@@ -141,6 +200,18 @@ edges:
   reason: Operations build a basket of mobile products with prices and submit it as an order — capture
     of telecom service orders through a self-service channel, i.e. Service Order Capture. Product tree/characteristics
     are read-only inputs to ordering rather than catalogue design.
+- tag: Networks
+  spec_file: kpn-networks-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.72
+  evidence: GET /networks/{networkId}/clients getNetworkClients List clients in a network — "The SD-LAN
+    SD-WAN Network View API ... gives users read rights to retrieve information"
+  reason: Read-only visibility over SD-LAN/SD-WAN network resources and attached clients is network infrastructure
+    management, i.e. IT Infrastructure Management. Confidence held below 0.8 because the surface is a
+    single read operation.
+  recovered_from: sweep-20260828T235257Z-edges.json
 - tag: wireless.configure
   spec_file: kpn-wireless-configure-api-openapi.yml
   capability_id: BC-2600.20
@@ -152,6 +223,17 @@ edges:
   reason: Operations write configuration to wireless network elements — radio settings, management interfaces,
     Air Marshal rules — which is definition and controlled deployment of network element configuration.
     Some overlap with optimisation/security settings keeps confidence below 0.8.
+- tag: Organizations
+  spec_file: kpn-organizations-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.7
+  evidence: getOrganizationNetworks List networks in an organization; getOrganizationDevices List devices
+    in an organization
+  reason: SD-WAN inventory of networks and devices scoped to an organisation — network/device infrastructure
+    visibility, not organisational governance. The 'Organizations' tag is merely the path root.
+  recovered_from: sweep-20260828T235257Z-edges.json
 - tag: Results
   spec_file: kpn-results-api-openapi.yml
   capability_id: BC-430.10
