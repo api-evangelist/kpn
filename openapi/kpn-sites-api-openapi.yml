@@ -2,7 +2,31 @@ openapi: 3.2.0
 info:
   title: WeSeeDo Personal - WeSeeDo Sites API
   version: v2.0.2
-  description: "The WeSeeDo Personal API allows video calling in the right way and distinguishes itself in human contact, ease of use and safety. \n### Key highlights\n- **Sandbox:** Full-fledged capabilities.\n- **Security:**  HTTPS, OAuth, Rate limit.\n- **Versioning:** Supports version-less API, version tight. If no version is provided (in header) it defaults to latest version.\n\n ---\n\n[Source view](https://app.swaggerhub.com/apis/kpn/weseedo-personal-weseedo/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/weseedo-personal-weseedo/)\n---\n[KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+  description: 'The WeSeeDo Personal API allows video calling in the right way and distinguishes itself in human contact, ease of use and safety.
+
+    ### Key highlights
+
+    - **Sandbox:** Full-fledged capabilities.
+
+    - **Security:** HTTPS, OAuth, Rate limit.
+
+    - **Versioning:** Supports version-less API, version tight. If no version is provided (in header) it defaults to latest version.
+
+
+    ---
+
+
+    Source view
+
+    Documentation view
+
+    ---
+
+    KPN Developer
+
+    Getting Started
+
+    ---'
   contact:
     name: API Support
     email: api_developer@kpn.com
@@ -43,6 +67,8 @@ paths:
           $ref: '#/components/responses/server_error'
         503:
           $ref: '#/components/responses/service_unavailable'
+      operationId: postManagementSites
+      x-operation-id-source: derived
     get:
       summary: Retrieves a list of sites
       description: Retrieves a list of sites. Only sites that you have access to will be returned.
@@ -71,81 +97,58 @@ paths:
           $ref: '#/components/responses/server_error'
         503:
           $ref: '#/components/responses/service_unavailable'
+      operationId: getManagementSites
+      x-operation-id-source: derived
 components:
-  responses:
-    AccountObjectArray:
-      description: Succesful operation.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-              result:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AccountResponse'
-          examples:
-            Example:
-              $ref: '#/components/examples/AccountResponseObjectArraySchema'
-    bad_request:
-      description: Bad Reqst
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    AccountObject:
-      description: Succesful operation.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-              result:
-                $ref: '#/components/schemas/AccountResponse'
-          examples:
-            Example:
-              $ref: '#/components/examples/AccountResponseObjectSchema'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    server_error:
-      description: server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    not_found:
-      description: not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    too_many:
-      description: too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    service_unavailable:
-      description: service unavailable
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    forbidden:
-      description: forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
   schemas:
+    CompanyResponseShort:
+      type: object
+      properties:
+        id:
+          description: Company ID
+          type: string
+        name:
+          description: Company name
+          type: string
+        contact:
+          $ref: '#/components/schemas/ContactResponse'
+        suspended:
+          description: Is suspended
+          type: boolean
+    AccountRequestBody:
+      type: object
+      properties:
+        name:
+          description: Site name
+          type: string
+        logo:
+          description: Base64 image excluded mimetype (e.g. data:image/png;base64,)
+          type: string
+        users:
+          type: array
+          items:
+            type: string
+            description: List of User IDs
+        videochat_font_type:
+          description: Chat font type.
+          enum:
+          - Roboto
+          - Helvetica
+          - Arial
+          type: string
+        videochat_font_color:
+          description: Chat font color. Valid hex-formatted color code (#000000 to FFFFFF).
+          type: string
+    AccountRequestBodyPost:
+      required:
+      - name
+      allOf:
+      - $ref: '#/components/schemas/AccountRequestBody'
+      - type: object
+        properties:
+          company:
+            description: Company ID
+            type: string
     UserResponse:
       type: object
       properties:
@@ -261,40 +264,60 @@ components:
           type: string
           description: Additional information about error.
           title: Info
-    AccountRequestBody:
+    AccountResponse:
       type: object
       properties:
+        id:
+          description: Site ID
+          type: string
         name:
           description: Site name
           type: string
+        company:
+          $ref: '#/components/schemas/CompanyResponseShort'
         logo:
-          description: Base64 image excluded mimetype (e.g. data:image/png;base64,)
+          description: Base64 image
           type: string
         users:
           type: array
           items:
-            type: string
-            description: List of User IDs
+            $ref: '#/components/schemas/UserResponse'
         videochat_font_type:
-          description: Chat font type.
-          enum:
-          - Roboto
-          - Helvetica
-          - Arial
+          description: Chat font type
           type: string
         videochat_font_color:
           description: Chat font color. Valid hex-formatted color code (#000000 to FFFFFF).
           type: string
-    AccountRequestBodyPost:
-      required:
-      - name
-      allOf:
-      - $ref: '#/components/schemas/AccountRequestBody'
-      - type: object
-        properties:
-          company:
-            description: Company ID
-            type: string
+    ContactResponse:
+      type: object
+      properties:
+        id:
+          description: Contact ID
+          type: string
+        first_name:
+          description: First name
+          type: string
+        last_name:
+          description: Last name
+          type: string
+        email:
+          description: E-mail address
+          type: string
+        phone:
+          description: Phone number
+          type: string
+        language:
+          description: Language code (e.g. nl, en, etc.)
+          type: string
+    AccountResponseShort:
+      type: object
+      properties:
+        id:
+          description: Site ID
+          type: string
+        name:
+          description: Site name
+          type: string
     PackageResponse:
       type: object
       properties:
@@ -342,74 +365,100 @@ components:
             description: cobrowsing
           - type: string
             description: screenshot
-    CompanyResponseShort:
-      type: object
-      properties:
-        id:
-          description: Company ID
-          type: string
-        name:
-          description: Company name
-          type: string
-        contact:
-          $ref: '#/components/schemas/ContactResponse'
-        suspended:
-          description: Is suspended
-          type: boolean
-    ContactResponse:
-      type: object
-      properties:
-        id:
-          description: Contact ID
-          type: string
-        first_name:
-          description: First name
-          type: string
-        last_name:
-          description: Last name
-          type: string
-        email:
-          description: E-mail address
-          type: string
-        phone:
-          description: Phone number
-          type: string
-        language:
-          description: Language code (e.g. nl, en, etc.)
-          type: string
-    AccountResponseShort:
-      type: object
-      properties:
-        id:
-          description: Site ID
-          type: string
-        name:
-          description: Site name
-          type: string
-    AccountResponse:
-      type: object
-      properties:
-        id:
-          description: Site ID
-          type: string
-        name:
-          description: Site name
-          type: string
-        company:
-          $ref: '#/components/schemas/CompanyResponseShort'
-        logo:
-          description: Base64 image
-          type: string
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserResponse'
-        videochat_font_type:
-          description: Chat font type
-          type: string
-        videochat_font_color:
-          description: Chat font color. Valid hex-formatted color code (#000000 to FFFFFF).
-          type: string
+  parameters:
+    AccountQueryCompanyParameter:
+      name: company
+      description: Only select sites with given company ID
+      in: query
+      schema:
+        type: string
+        example: 784d061c0856dc4c97774da7
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+    AccountQueryUserStatusParameter:
+      name: user_status
+      description: Add user status into users response
+      in: query
+      schema:
+        type: boolean
+  responses:
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    AccountObjectArray:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountResponse'
+          examples:
+            Example:
+              $ref: '#/components/examples/AccountResponseObjectArraySchema'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    AccountObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: '#/components/schemas/AccountResponse'
+          examples:
+            Example:
+              $ref: '#/components/examples/AccountResponseObjectSchema'
+    bad_request:
+      description: Bad Reqst
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
   requestBodies:
     AccountObjectPost:
       description: JSON site object
@@ -421,28 +470,59 @@ components:
           examples:
             Example:
               $ref: '#/components/examples/AccountRequestBodyObjectSchemaPost'
-  parameters:
-    AccountQueryUserStatusParameter:
-      name: user_status
-      description: Add user status into users response
-      in: query
-      schema:
-        type: boolean
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
-    AccountQueryCompanyParameter:
-      name: company
-      description: Only select sites with given company ID
-      in: query
-      schema:
-        type: string
-        example: 784d061c0856dc4c97774da7
   examples:
+    AccountResponseObjectSchema:
+      summary: Site
+      value:
+        success: true
+        result:
+          id: 35h64d8a0e14e4c24ac20f42
+          name: Site 1
+          logo: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
+          company:
+            id: 58h6aa8a0e14a4c24df20760
+            name: Company 1
+            contact:
+              id: 784d061c0856dc4c97774da7
+              first_name: Firstname
+              last_name: Lastname
+              email: contact1@weseedo.nl
+              phone: '+31612345678'
+              language: nl
+            suspended: false
+          users:
+          - id: 58f6ee406a2308a38ca39dec
+            first_name: Firstname
+            last_name: Lastname
+            name: Firstname Lastname
+            email: agent1@weseedo.nl
+            locale: nl
+            role: agent
+            created_at: '2020-01-29T15:26:20.000Z'
+            entity:
+              type: company
+              id: 58h6aa8a0e14a4c24df20760
+              name: WeSeeDo B.V.
+            suspended: false
+          - id: 54c6ae2c7a4504a38ca39dea
+            first_name: Firstname
+            last_name: Lastname
+            name: Firstname Lastname
+            email: agent1@weseedo.nl
+            locale: nl
+            role: agent
+            created_at: '2020-01-29T15:26:20.000Z'
+            entity:
+              type: company
+              id: 58h6aa8a0e14a4c24df20760
+              name: WeSeeDo B.V.
+            suspended: false
+          videochat_font_type: Roboto
+          videochat_text_color: '#000000'
+          email_invite_text: Hereby I send you the confirmation for our online video call. On the specified date and time you can click the link in this email. The video call will appear on your screen and we can start the conversation. See you soon!
+          email_cancel_text: In case of a rescheduled appointment you will receive a new invitation by email. In this case you can discard the email regarding the old invitation.
+          email_hardwaretest_text: Using the link below you can test if your hardware is suitable for using WeSeeDo.
+          email_enable_hardwaretest: false
     AccountResponseObjectArraySchema:
       summary: List of sites
       value:
@@ -553,58 +633,6 @@ components:
         videochat_font_type: Roboto
         videochat_text_color: '#000000'
         company: 58h6aa8a0e14a4c24df20760
-    AccountResponseObjectSchema:
-      summary: Site
-      value:
-        success: true
-        result:
-          id: 35h64d8a0e14e4c24ac20f42
-          name: Site 1
-          logo: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
-          company:
-            id: 58h6aa8a0e14a4c24df20760
-            name: Company 1
-            contact:
-              id: 784d061c0856dc4c97774da7
-              first_name: Firstname
-              last_name: Lastname
-              email: contact1@weseedo.nl
-              phone: '+31612345678'
-              language: nl
-            suspended: false
-          users:
-          - id: 58f6ee406a2308a38ca39dec
-            first_name: Firstname
-            last_name: Lastname
-            name: Firstname Lastname
-            email: agent1@weseedo.nl
-            locale: nl
-            role: agent
-            created_at: '2020-01-29T15:26:20.000Z'
-            entity:
-              type: company
-              id: 58h6aa8a0e14a4c24df20760
-              name: WeSeeDo B.V.
-            suspended: false
-          - id: 54c6ae2c7a4504a38ca39dea
-            first_name: Firstname
-            last_name: Lastname
-            name: Firstname Lastname
-            email: agent1@weseedo.nl
-            locale: nl
-            role: agent
-            created_at: '2020-01-29T15:26:20.000Z'
-            entity:
-              type: company
-              id: 58h6aa8a0e14a4c24df20760
-              name: WeSeeDo B.V.
-            suspended: false
-          videochat_font_type: Roboto
-          videochat_text_color: '#000000'
-          email_invite_text: Hereby I send you the confirmation for our online video call. On the specified date and time you can click the link in this email. The video call will appear on your screen and we can start the conversation. See you soon!
-          email_cancel_text: In case of a rescheduled appointment you will receive a new invitation by email. In this case you can discard the email regarding the old invitation.
-          email_hardwaretest_text: Using the link below you can test if your hardware is suitable for using WeSeeDo.
-          email_enable_hardwaretest: false
   securitySchemes:
     oauth2:
       type: oauth2

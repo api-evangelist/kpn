@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   version: 1.54.0
   title: KPN SD-LAN SD-WAN Network View Insight.monitor API
-  description: "The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.\n    \nThe Network View API gives users read rights to retrieve information from the `Network View API` resources. \n    \n- **Note**: By default you have read only access but based on your requirements and contract you can be granted `Manager` access to this API which is more than read only. To request manager access, please contact us at api_developer@kpn.com.\n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/kpn-sd_lan_sd_wan_network_view_api/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/kpn-sd_lan_sd_wan_network_view_api/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)"
+  description: The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.
 servers:
 - url: https://api-prd.kpn.com/kpn/meraki
 security:
@@ -12,7 +12,6 @@ tags:
 paths:
   /networks/{networkId}/insight/applications/{applicationId}/healthByTime:
     get:
-      description: Get application health by time
       operationId: getNetworkInsightApplicationHealthByTime
       parameters:
       - name: networkId

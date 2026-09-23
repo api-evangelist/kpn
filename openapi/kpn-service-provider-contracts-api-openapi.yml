@@ -66,6 +66,8 @@ paths:
                 $ref: '#/components/schemas/ProblemDetail'
       security:
       - bearer_auth: []
+      summary: List contracts sp
+      x-summary-source: derived
     post:
       tags:
       - Service Provider Contracts
@@ -109,6 +111,8 @@ paths:
                 $ref: '#/components/schemas/ProblemDetail'
       security:
       - bearer_auth: []
+      summary: Create contract sp
+      x-summary-source: derived
   /api/v1/service-providers/contracts/{contract_id}:
     get:
       tags:
@@ -154,6 +158,8 @@ paths:
                 $ref: '#/components/schemas/ProblemDetail'
       security:
       - bearer_auth: []
+      summary: Get contract sp
+      x-summary-source: derived
     put:
       tags:
       - Service Provider Contracts
@@ -210,6 +216,8 @@ paths:
                 $ref: '#/components/schemas/ProblemDetail'
       security:
       - bearer_auth: []
+      summary: Update contract sp
+      x-summary-source: derived
     delete:
       tags:
       - Service Provider Contracts
@@ -250,8 +258,108 @@ paths:
                 $ref: '#/components/schemas/ProblemDetail'
       security:
       - bearer_auth: []
+      summary: Delete contract sp
+      x-summary-source: derived
 components:
   schemas:
+    Contract:
+      type: object
+      required:
+      - id
+      - service_provider
+      - service_consumer
+      - data_owner
+      - start_date
+      - end_date
+      - resource_type
+      - resource
+      - resource_attribute
+      - action
+      properties:
+        action:
+          type: string
+        data_owner:
+          type: string
+        end_date:
+          type: string
+          format: date-time
+        id:
+          type: string
+        resource:
+          type: string
+        resource_attribute:
+          type: string
+        resource_type:
+          type: string
+        service_consumer:
+          type: string
+        service_provider:
+          type: string
+        start_date:
+          type: string
+          format: date-time
+    NewContract:
+      type: object
+      required:
+      - data_owner
+      - service_consumer
+      - start_date
+      - end_date
+      - resource_type
+      - resource
+      - action
+      properties:
+        action:
+          type: string
+          description: Actions permitted (e.g., "GET", "POST", "READ", "WRITE")
+        data_owner:
+          type: string
+          description: Identifier data_provider (policy issuer)
+        end_date:
+          type: string
+          format: date-time
+          description: End date for access
+        resource:
+          type: string
+          description: Resource identifier this contract applies to
+        resource_attribute:
+          type: string
+          description: Resource attributes this contract applies to
+        resource_type:
+          type: string
+          description: Resource type (e.g., "data", "service", "api")
+        service_consumer:
+          type: string
+          description: Identifier of the data consumer (access subject)
+        start_date:
+          type: string
+          format: date-time
+          description: Start date for access
+    ProblemDetail:
+      type: object
+      required:
+      - type
+      - status
+      properties:
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
+          minimum: 0
+        title:
+          type:
+          - string
+          - 'null'
+        type:
+          type: string
+      additionalProperties: {}
     Paged_Contract:
       type: object
       required:
@@ -316,68 +424,6 @@ components:
           type: integer
           format: int32
           minimum: 0
-    NewContract:
-      type: object
-      required:
-      - data_owner
-      - service_consumer
-      - start_date
-      - end_date
-      - resource_type
-      - resource
-      - action
-      properties:
-        action:
-          type: string
-          description: Actions permitted (e.g., "GET", "POST", "READ", "WRITE")
-        data_owner:
-          type: string
-          description: Identifier data_provider (policy issuer)
-        end_date:
-          type: string
-          format: date-time
-          description: End date for access
-        resource:
-          type: string
-          description: Resource identifier this contract applies to
-        resource_attribute:
-          type: string
-          description: Resource attributes this contract applies to
-        resource_type:
-          type: string
-          description: Resource type (e.g., "data", "service", "api")
-        service_consumer:
-          type: string
-          description: Identifier of the data consumer (access subject)
-        start_date:
-          type: string
-          format: date-time
-          description: Start date for access
-    ProblemDetail:
-      type: object
-      required:
-      - type
-      - status
-      properties:
-        detail:
-          type:
-          - string
-          - 'null'
-        instance:
-          type:
-          - string
-          - 'null'
-        status:
-          type: integer
-          format: int32
-          minimum: 0
-        title:
-          type:
-          - string
-          - 'null'
-        type:
-          type: string
-      additionalProperties: {}
     UpdateContract:
       type: object
       required:
@@ -415,42 +461,6 @@ components:
           type: string
           format: date-time
           description: Start date for access
-    Contract:
-      type: object
-      required:
-      - id
-      - service_provider
-      - service_consumer
-      - data_owner
-      - start_date
-      - end_date
-      - resource_type
-      - resource
-      - resource_attribute
-      - action
-      properties:
-        action:
-          type: string
-        data_owner:
-          type: string
-        end_date:
-          type: string
-          format: date-time
-        id:
-          type: string
-        resource:
-          type: string
-        resource_attribute:
-          type: string
-        resource_type:
-          type: string
-        service_consumer:
-          type: string
-        service_provider:
-          type: string
-        start_date:
-          type: string
-          format: date-time
   securitySchemes:
     bearer_auth:
       type: http

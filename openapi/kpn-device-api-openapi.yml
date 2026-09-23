@@ -1,6 +1,30 @@
 openapi: 3.2.0
 info:
-  description: "KPN’s Low Power Long Range (LoRa) network service compliments existing 2G, 3G, 4G and LTE-M networks. It is based on the LoRaWAN protocol for Internet of Things (IoT). \n### Key highlights\n- **Sandbox:** Full-fledged capabilities.\n- **Security:**  HTTPS, OAuth, Rate limiting.\n- **Versioning:**  Supports version-less API, version tight. If no version is provided (in the header) it defaults to latest version. \n\n ---\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/lora-device-management-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/lora-device-management-kpn/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+  description: 'KPN’s Low Power Long Range (LoRa) network service compliments existing 2G, 3G, 4G and LTE-M networks. It is based on the LoRaWAN protocol for Internet of Things (IoT).
+
+    ### Key highlights
+
+    - **Sandbox:** Full-fledged capabilities.
+
+    - **Security:** HTTPS, OAuth, Rate limiting.
+
+    - **Versioning:** Supports version-less API, version tight. If no version is provided (in the header) it defaults to latest version.
+
+
+    ---
+
+
+    ## Source view
+
+    Documentation view
+
+    ---
+
+    ## KPN Developer
+
+    Getting Started
+
+    ---'
   version: v1.2
   title: LoRa Management - KPN Device API
   contact:
@@ -505,6 +529,64 @@ paths:
       deprecated: false
 components:
   schemas:
+    healthState1:
+      title: healthState1
+      enum:
+      - RF_CNX_ERROR
+      - INIT
+      - ACTIVE
+      type: string
+    ClassBState:
+      title: ClassBState
+      enum:
+      - ACTIVE
+      - INACTIVE
+      type: string
+      description: Define the state of classB for the device. Possible values are 'ACTIVE' (Ready to be used) or 'INACTIVE' (Class B disable or not yet configured).
+    ProcessingStrategyId:
+      title: ProcessingStrategyId
+      enum:
+      - DATAFLOW
+      - IOT_FLOW
+      - NOAS
+      - DEFAULTRP
+      type: string
+      description: Id of a pre-defined data processing strategy. If set, it automatically configures relevant routing information for this device (and overrides existing routing profiles if necessary). Current possible values are 'DATAFLOW' (uplink messages will be processed through a ThingPark X Dataflow - thus requiring additional configuration using the DX Dataflow API), 'IOT_FLOW' (uplink messages will be processed through TPX Iot-Flow - DATAFLOW is now deprecated and replaced by IOT_FLOW), 'NOAS' (no processing, messages will be dropped using an empty routing profile) or 'DEFAULTRP' (messages will be processed based on the default routing profile).
+    ActivationType:
+      title: ActivationType
+      enum:
+      - OTAA
+      type: string
+      description: Activation type of the device. Possible value is 'OTAA' (Over The Air Activation). 'ABP' (Activation By Personalization) is no longer possible in interface version 1.2.
+    CommissioningState:
+      title: CommissioningState
+      enum:
+      - PERSONALIZED
+      - COMMISSIONED
+      - ACTIVATED
+      type: string
+      description: Commissioning state of the device. Possible values are 'PERSONALIZED' (prepared but not yet registered on the network), 'COMMISSIONED' (prepared and registered on the network) or 'ACTIVATED' (active on the network).
+    ApplicationSessionKeyRule:
+      title: ApplicationSessionKeyRule
+      required:
+      - sourcePorts
+      type: object
+      properties:
+        applicationSessionKey:
+          type: string
+          description: Application session key to use.
+        sourcePorts:
+          type: string
+          description: LoRa port(s) which should use this application session key. Wildcard '*' indicates to use this application session key for all LoRa ports used by the device.
+      description: Resource representing a rule to indicate which application session key to use for each LoRa source port.
+    LoraClass:
+      title: LoraClass
+      enum:
+      - A
+      - B
+      - C
+      type: string
+      description: LoRaWan class of the device.
     DeviceStatistics:
       title: DeviceStatistics
       type: object
@@ -575,41 +657,6 @@ components:
           type: string
           description: ISO 8601 time of the last update of the device.
       description: Resource representing read-only statistics for devices.
-    DeviceClass:
-      title: DeviceClass
-      enum:
-      - A
-      - B
-      - C
-      type: string
-      description: 'Define the class type of the device.  A: Class A (Bi-directional end-devices with RIT), B: Class B (Bi-directional end-devices with synchronized receive slots), C: Class C (Bi-directional end-devices with maximal receive slots)'
-    ClassBState:
-      title: ClassBState
-      enum:
-      - ACTIVE
-      - INACTIVE
-      type: string
-      description: Define the state of classB for the device. Possible values are 'ACTIVE' (Ready to be used) or 'INACTIVE' (Class B disable or not yet configured).
-    CommissioningState:
-      title: CommissioningState
-      enum:
-      - PERSONALIZED
-      - COMMISSIONED
-      - ACTIVATED
-      type: string
-      description: Commissioning state of the device. Possible values are 'PERSONALIZED' (prepared but not yet registered on the network), 'COMMISSIONED' (prepared and registered on the network) or 'ACTIVATED' (active on the network).
-    AlarmThreshold:
-      title: AlarmThreshold
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          description: Indicates if the alarm is active.
-        durationOfInactivity:
-          $ref: '#/components/schemas/DurationOfInactivity'
-        level:
-          $ref: '#/components/schemas/Level'
-      description: Resource representing a generic ThingPark alarm threshold.
     error:
       type: object
       properties:
@@ -633,133 +680,6 @@ components:
           type: string
           description: Additional information about error
           title: Info
-    LoraClass:
-      title: LoraClass
-      enum:
-      - A
-      - B
-      - C
-      type: string
-      description: LoRaWan class of the device.
-    MotionIndicator:
-      title: MotionIndicator
-      enum:
-      - NEAR_STATIC
-      - WALKING_SPEED
-      - VEHICLE_SPEED
-      - RANDOM
-      type: string
-      description: 'Motion indicator configured for the device. Possible values are: ''NEAR_STATIC'', ''WALKING_SPEED'', ''VEHICLE_SPEED'' or ''RANDOM''.'
-    ApplicationSessionKeyRule:
-      title: ApplicationSessionKeyRule
-      required:
-      - sourcePorts
-      type: object
-      properties:
-        applicationSessionKey:
-          type: string
-          description: Application session key to use.
-        sourcePorts:
-          type: string
-          description: LoRa port(s) which should use this application session key. Wildcard '*' indicates to use this application session key for all LoRa ports used by the device.
-      description: Resource representing a rule to indicate which application session key to use for each LoRa source port.
-    ProcessingStrategyId:
-      title: ProcessingStrategyId
-      enum:
-      - DATAFLOW
-      - IOT_FLOW
-      - NOAS
-      - DEFAULTRP
-      type: string
-      description: Id of a pre-defined data processing strategy. If set, it automatically configures relevant routing information for this device (and overrides existing routing profiles if necessary). Current possible values are 'DATAFLOW' (uplink messages will be processed through a ThingPark X Dataflow - thus requiring additional configuration using the DX Dataflow API), 'IOT_FLOW' (uplink messages will be processed through TPX Iot-Flow - DATAFLOW is now deprecated and replaced by IOT_FLOW), 'NOAS' (no processing, messages will be dropped using an empty routing profile) or 'DEFAULTRP' (messages will be processed based on the default routing profile).
-    CommercialDetails:
-      title: CommercialDetails
-      type: object
-      properties:
-        image:
-          type: string
-          description: Image of the device.
-        manufacturerName:
-          type: string
-          description: Name of the device manufacturer.
-        manufacturerLogo:
-          type: string
-          description: Commercial logo of the device manufacturer.
-      description: Resource representing read-only commercial information about a device.
-    Level:
-      title: Level
-      enum:
-      - ALL
-      - WARNING
-      - MINOR
-      - MAJOR
-      - CRITICAL
-      type: string
-      description: Level of the alarm. Possible values are, by ascending order of criticity, 'ALL', 'WARNING', 'MINOR', 'MAJOR' and 'CRITICAL'.
-    ActivationType:
-      title: ActivationType
-      enum:
-      - OTAA
-      type: string
-      description: Activation type of the device. Possible value is 'OTAA' (Over The Air Activation). 'ABP' (Activation By Personalization) is no longer possible in interface version 1.2.
-    HealthState:
-      title: HealthState
-      enum:
-      - RF_CNX_ERROR
-      - INIT
-      - ACTIVE
-      type: string
-      description: Health state of the device. Possible values are 'INIT', 'ACTIVE' or 'RF_CNX_ERROR'.
-    AlarmStatistics:
-      title: AlarmStatistics
-      type: object
-      properties:
-        nonAckedClearedCount:
-          type: integer
-          description: Number of non-acked alarms with the CLEARED state.
-          format: int32
-        nonAckedUnclearedCount:
-          type: integer
-          description: Number of non-acked alarms with the UNCLEARED state.
-          format: int32
-        nonAckedWarningCount:
-          type: integer
-          description: Number of non-acked alarms with the WARNING state.
-          format: int32
-        nonAckedMinorCount:
-          type: integer
-          description: Number of non-acked alarms with the MINOR state.
-          format: int32
-        nonAckedMajorCount:
-          type: integer
-          description: Number of non-acked alarms with the MAJOR state.
-          format: int32
-        nonAckedCriticalCount:
-          type: integer
-          description: Number of non-acked alarms with the CRITICAL state.
-          format: int32
-      description: Resource representing a set of statistics related to alarms.
-    DeviceProfile:
-      title: DeviceProfile
-      type: object
-      properties:
-        id:
-          type: string
-          description: Id of the device profile.
-        name:
-          type: string
-          description: Name of the device profile.
-        typeMAC:
-          type: string
-          description: MAC type of the device profile.
-      description: Resource representing a ThingPark device profile.
-    healthState1:
-      title: healthState1
-      enum:
-      - RF_CNX_ERROR
-      - INIT
-      - ACTIVE
-      type: string
     DurationOfInactivity:
       title: DurationOfInactivity
       enum:
@@ -774,6 +694,22 @@ components:
       - 15_DAYS
       type: string
       description: Duration of inactivity after which the alarm is raised. Possible values are  '1_HOUR', '2_HOURS', '5_HOURS', '10_HOURS', '1_DAY', '2_DAYS', '4_DAYS', '7_DAYS' and '15_DAYS'.
+    HealthState:
+      title: HealthState
+      enum:
+      - RF_CNX_ERROR
+      - INIT
+      - ACTIVE
+      type: string
+      description: Health state of the device. Possible values are 'INIT', 'ACTIVE' or 'RF_CNX_ERROR'.
+    DeviceClass:
+      title: DeviceClass
+      enum:
+      - A
+      - B
+      - C
+      type: string
+      description: 'Define the class type of the device.  A: Class A (Bi-directional end-devices with RIT), B: Class B (Bi-directional end-devices with synchronized receive slots), C: Class C (Bi-directional end-devices with maximal receive slots)'
     Device:
       title: Device
       type: object
@@ -864,6 +800,94 @@ components:
         commercialDetails:
           $ref: '#/components/schemas/CommercialDetails'
       description: Resource representing a device created by a ThingPark subscriber.
+    AlarmThreshold:
+      title: AlarmThreshold
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Indicates if the alarm is active.
+        durationOfInactivity:
+          $ref: '#/components/schemas/DurationOfInactivity'
+        level:
+          $ref: '#/components/schemas/Level'
+      description: Resource representing a generic ThingPark alarm threshold.
+    MotionIndicator:
+      title: MotionIndicator
+      enum:
+      - NEAR_STATIC
+      - WALKING_SPEED
+      - VEHICLE_SPEED
+      - RANDOM
+      type: string
+      description: 'Motion indicator configured for the device. Possible values are: ''NEAR_STATIC'', ''WALKING_SPEED'', ''VEHICLE_SPEED'' or ''RANDOM''.'
+    AlarmStatistics:
+      title: AlarmStatistics
+      type: object
+      properties:
+        nonAckedClearedCount:
+          type: integer
+          description: Number of non-acked alarms with the CLEARED state.
+          format: int32
+        nonAckedUnclearedCount:
+          type: integer
+          description: Number of non-acked alarms with the UNCLEARED state.
+          format: int32
+        nonAckedWarningCount:
+          type: integer
+          description: Number of non-acked alarms with the WARNING state.
+          format: int32
+        nonAckedMinorCount:
+          type: integer
+          description: Number of non-acked alarms with the MINOR state.
+          format: int32
+        nonAckedMajorCount:
+          type: integer
+          description: Number of non-acked alarms with the MAJOR state.
+          format: int32
+        nonAckedCriticalCount:
+          type: integer
+          description: Number of non-acked alarms with the CRITICAL state.
+          format: int32
+      description: Resource representing a set of statistics related to alarms.
+    DeviceProfile:
+      title: DeviceProfile
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of the device profile.
+        name:
+          type: string
+          description: Name of the device profile.
+        typeMAC:
+          type: string
+          description: MAC type of the device profile.
+      description: Resource representing a ThingPark device profile.
+    Level:
+      title: Level
+      enum:
+      - ALL
+      - WARNING
+      - MINOR
+      - MAJOR
+      - CRITICAL
+      type: string
+      description: Level of the alarm. Possible values are, by ascending order of criticity, 'ALL', 'WARNING', 'MINOR', 'MAJOR' and 'CRITICAL'.
+    CommercialDetails:
+      title: CommercialDetails
+      type: object
+      properties:
+        image:
+          type: string
+          description: Image of the device.
+        manufacturerName:
+          type: string
+          description: Name of the device manufacturer.
+        manufacturerLogo:
+          type: string
+          description: Commercial logo of the device manufacturer.
+      description: Resource representing read-only commercial information about a device.
   parameters:
     api_version:
       in: header

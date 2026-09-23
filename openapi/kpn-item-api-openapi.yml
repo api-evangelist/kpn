@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  description: "\nThis API provides you different TV related content services. Currently there are 3 main calls with some of them have successive calls. The data provided consists of JSON formatted text mainly related to TV content metadata. This data can be used to enrich all sort of platforms with actual TV data.\n### Key highlights\n- **Sandbox:** full-fledged capabilities.\n- **Security:**  HTTPS, Oauth\n- **Versioning:**  supports version-less API, version tight. If no version is provided (in header) it defaults to latest version. \n## [Source view](https://app.swaggerhub.com/apis/kpn/tv-guide-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/tv-guide-kpn/)\n---\n## [KPN API Store](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+  description: This API provides you different TV related content services.
   version: '1.0'
   title: TV Guide - KPN Item API
   contact:
@@ -47,52 +47,40 @@ paths:
           $ref: '#/components/responses/server_error'
         '503':
           $ref: '#/components/responses/service_unavailable'
+      operationId: getByChannelKpnCONTENTDETAILByContentTypeByContentId
+      x-operation-id-source: derived
 components:
-  parameters:
-    path_channel:
-      in: path
-      name: channel
-      description: Any valid platform
-      schema:
-        type: string
-        enum:
-        - pctv
-        - ios
-        - android
-        - stb
-        - chromecast
-        - smarttv
-      required: true
-    header_api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-    path_contentid:
-      in: path
-      name: contentId
-      description: The unique content identifier.
-      schema:
-        type: integer
-      required: true
-    path_contenttype:
-      in: path
-      name: contentType
-      description: Identifier of the content type.
-      schema:
-        type: string
-        enum:
-        - PROGRAM
-        - VOD
-      required: true
-    query_api_version:
-      in: query
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
   responses:
+    bad_request:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    found:
+      description: Found
+      content:
+        application/json:
+          schema:
+            type: object
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
     forbidden:
       description: forbidden
       content:
@@ -112,38 +100,8 @@ components:
                 type: array
                 items:
                   $ref: '#/components/schemas/container'
-    not_found:
-      description: not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    found:
-      description: Found
-      content:
-        application/json:
-          schema:
-            type: object
-    too_many:
-      description: too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    bad_request:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     unauthorized:
       description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    service_unavailable:
-      description: service unavailable
       content:
         application/json:
           schema:
@@ -154,7 +112,74 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
+  parameters:
+    path_channel:
+      in: path
+      name: channel
+      description: Any valid platform
+      schema:
+        type: string
+        enum:
+        - pctv
+        - ios
+        - android
+        - stb
+        - chromecast
+        - smarttv
+      required: true
+    path_contentid:
+      in: path
+      name: contentId
+      description: The unique content identifier.
+      schema:
+        type: integer
+      required: true
+    query_api_version:
+      in: query
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+    header_api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+    path_contenttype:
+      in: path
+      name: contentType
+      description: Identifier of the content type.
+      schema:
+        type: string
+        enum:
+        - PROGRAM
+        - VOD
+      required: true
   schemas:
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
     container:
       type: object
       description: A Container represents one of the objects returned by the AGL Nanoservice. This container is used to link together all the page composition information related to the object itself. The attribute "metadata" contains the original object attributes, while layout, actions and retrieveItems are the attributes needed to correctly render the object in the given Client App UI.
@@ -219,29 +244,6 @@ components:
           items:
             type: object
             description: Container object
-    error:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
   securitySchemes:
     oauth2:
       type: oauth2

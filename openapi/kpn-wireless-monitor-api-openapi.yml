@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   version: 1.54.0
   title: KPN SD-LAN SD-WAN Network View Wireless.monitor API
-  description: "The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.\n    \nThe Network View API gives users read rights to retrieve information from the `Network View API` resources. \n    \n- **Note**: By default you have read only access but based on your requirements and contract you can be granted `Manager` access to this API which is more than read only. To request manager access, please contact us at api_developer@kpn.com.\n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/kpn-sd_lan_sd_wan_network_view_api/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/kpn-sd_lan_sd_wan_network_view_api/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)"
+  description: The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.
 servers:
 - url: https://api-prd.kpn.com/kpn/meraki
 security:
@@ -12,7 +12,6 @@ tags:
 paths:
   /devices/{serial}/wireless/connectionStats:
     get:
-      description: Aggregated connectivity info for a given AP on this network
       operationId: getDeviceWirelessConnectionStats
       parameters:
       - name: serial
@@ -105,7 +104,6 @@ paths:
       - wireless.monitor
   /devices/{serial}/wireless/latencyStats:
     get:
-      description: Aggregated latency info for a given AP on this network
       operationId: getDeviceWirelessLatencyStats
       parameters:
       - name: serial
@@ -194,7 +192,6 @@ paths:
       - wireless.monitor
   /devices/{serial}/wireless/status:
     get:
-      description: Return the SSID statuses of an access point
       operationId: getDeviceWirelessStatus
       parameters:
       - name: serial
@@ -264,7 +261,6 @@ paths:
       - wireless.monitor
   /networks/{networkId}/wireless/airMarshal:
     get:
-      description: List Air Marshal scan results from a network
       operationId: getNetworkWirelessAirMarshal
       parameters:
       - name: networkId
@@ -318,7 +314,6 @@ paths:
       - wireless.monitor
   /networks/{networkId}/wireless/channelUtilizationHistory:
     get:
-      description: Return AP channel utilization over time for a device or network client
       operationId: getNetworkWirelessChannelUtilizationHistory
       parameters:
       - name: networkId
@@ -419,7 +414,6 @@ paths:
       - wireless.monitor
   /networks/{networkId}/wireless/clientCountHistory:
     get:
-      description: Return wireless client counts over time for a network, device, or network client
       operationId: getNetworkWirelessClientCountHistory
       parameters:
       - name: networkId
@@ -514,7 +508,6 @@ paths:
       - wireless.monitor
   /networks/{networkId}/wireless/clients/connectionStats:
     get:
-      description: Aggregated connectivity info for this network, grouped by clients
       operationId: getNetworkWirelessClientsConnectionStats
       parameters:
       - name: networkId
@@ -600,7 +593,6 @@ paths:
       - wireless.monitor
   /networks/{networkId}/wireless/clients/latencyStats:
     get:
-      description: Aggregated latency info for this network, grouped by clients
       operationId: getNetworkWirelessClientsLatencyStats
       parameters:
       - name: networkId
@@ -1042,7 +1034,7 @@ paths:
               schema:
                 type: string
               description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
-      summary: List the wireless connectivity events for a client within a network in the timespan.
+      summary: List the wireless connectivity events for a client within a network in the…
       tags:
       - wireless.monitor
   /networks/{networkId}/wireless/clients/{clientId}/latencyHistory:
@@ -1436,7 +1428,6 @@ paths:
       - wireless.monitor
   /networks/{networkId}/wireless/connectionStats:
     get:
-      description: Aggregated connectivity info for this network
       operationId: getNetworkWirelessConnectionStats
       parameters:
       - name: networkId
@@ -1520,7 +1511,6 @@ paths:
       - wireless.monitor
   /networks/{networkId}/wireless/dataRateHistory:
     get:
-      description: Return PHY data rates over time for a network, device, or network client
       operationId: getNetworkWirelessDataRateHistory
       parameters:
       - name: networkId
@@ -1623,7 +1613,6 @@ paths:
       - wireless.monitor
   /networks/{networkId}/wireless/devices/connectionStats:
     get:
-      description: Aggregated connectivity info for this network, grouped by node
       operationId: getNetworkWirelessDevicesConnectionStats
       parameters:
       - name: networkId
@@ -1718,7 +1707,6 @@ paths:
       - wireless.monitor
   /networks/{networkId}/wireless/devices/latencyStats:
     get:
-      description: Aggregated latency info for this network, grouped by node
       operationId: getNetworkWirelessDevicesLatencyStats
       parameters:
       - name: networkId
@@ -1930,7 +1918,7 @@ paths:
                 failureStep: dns
                 type: 802.1X auth fail
                 ts: '2018-02-11T00:00:00.090210Z'
-      summary: List of all failed client connection events on this network in a given time range
+      summary: List of all failed client connection events on this network in a given time…
       tags:
       - wireless.monitor
   /networks/{networkId}/wireless/latencyHistory:
@@ -2035,12 +2023,11 @@ paths:
               - startTs: '2020-01-01T00:00:00Z'
                 endTs: '2020-01-01T01:00:00Z'
                 avgLatencyMs: 29
-      summary: Return average wireless latency over time for a network, device, or network client
+      summary: Return average wireless latency over time for a network, device, or network…
       tags:
       - wireless.monitor
   /networks/{networkId}/wireless/latencyStats:
     get:
-      description: Aggregated latency info for this network
       operationId: getNetworkWirelessLatencyStats
       parameters:
       - name: networkId
@@ -2127,7 +2114,6 @@ paths:
       - wireless.monitor
   /networks/{networkId}/wireless/meshStatuses:
     get:
-      description: List wireless mesh statuses for repeaters
       operationId: getNetworkWirelessMeshStatuses
       parameters:
       - name: networkId
@@ -2202,7 +2188,6 @@ paths:
       - wireless.monitor
   /networks/{networkId}/wireless/signalQualityHistory:
     get:
-      description: Return signal quality (SNR/RSSI) over time for a device or network client
       operationId: getNetworkWirelessSignalQualityHistory
       parameters:
       - name: networkId
@@ -2301,7 +2286,6 @@ paths:
       - wireless.monitor
   /networks/{networkId}/wireless/usageHistory:
     get:
-      description: Return AP usage over time for a device or network client
       operationId: getNetworkWirelessUsageHistory
       parameters:
       - name: networkId
@@ -2404,7 +2388,6 @@ paths:
       - wireless.monitor
   /organizations/{organizationId}/wireless/clients/overview/byDevice:
     get:
-      description: List access point client count at the moment in an organization
       operationId: getOrganizationWirelessClientsOverviewByDevice
       parameters:
       - name: organizationId
@@ -2525,7 +2508,6 @@ paths:
       - wireless.monitor
   /organizations/{organizationId}/wireless/devices/channelUtilization/byDevice:
     get:
-      description: Get average channel utilization for all bands in a network, split by AP
       operationId: getOrganizationWirelessDevicesChannelUtilizationByDevice
       parameters:
       - name: organizationId
@@ -2790,7 +2772,7 @@ paths:
               schema:
                 type: string
               description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
-      summary: Get average channel utilization across all bands for all networks in the organization
+      summary: Get average channel utilization across all bands for all networks in the…
       tags:
       - wireless.monitor
   /organizations/{organizationId}/wireless/devices/channelUtilization/history/byDevice/byInterval:
@@ -2939,12 +2921,11 @@ paths:
               schema:
                 type: string
               description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
-      summary: Get a time-series of average channel utilization for all bands, segmented by device.
+      summary: Get a time-series of average channel utilization for all bands, segmented by…
       tags:
       - wireless.monitor
   /organizations/{organizationId}/wireless/devices/channelUtilization/history/byNetwork/byInterval:
     get:
-      description: Get a time-series of average channel utilization for all bands
       operationId: getOrganizationWirelessDevicesChannelUtilizationHistoryByNetworkByInterval
       parameters:
       - name: organizationId
@@ -3222,7 +3203,7 @@ paths:
               schema:
                 type: string
               description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
-      summary: List the most recent Ethernet link speed, duplex, aggregation and power mode and status information for wireless devices.
+      summary: List the most recent Ethernet link speed, duplex, aggregation and power mode…
       tags:
       - wireless.monitor
   /organizations/{organizationId}/wireless/devices/packetLoss/byClient:
@@ -3375,7 +3356,7 @@ paths:
               schema:
                 type: string
               description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
-      summary: Get average packet loss for the given timespan for all clients in the organization.
+      summary: Get average packet loss for the given timespan for all clients in the…
       tags:
       - wireless.monitor
   /organizations/{organizationId}/wireless/devices/packetLoss/byDevice:
@@ -3532,7 +3513,7 @@ paths:
               schema:
                 type: string
               description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
-      summary: Get average packet loss for the given timespan for all devices in the organization
+      summary: Get average packet loss for the given timespan for all devices in the…
       tags:
       - wireless.monitor
   /organizations/{organizationId}/wireless/devices/packetLoss/byNetwork:
@@ -3672,12 +3653,11 @@ paths:
               schema:
                 type: string
               description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
-      summary: Get average packet loss for the given timespan for all networks in the organization.
+      summary: Get average packet loss for the given timespan for all networks in the…
       tags:
       - wireless.monitor
   /organizations/{organizationId}/wireless/devices/wirelessControllers/byDevice:
     get:
-      description: List of Catalyst access points information
       operationId: getOrganizationWirelessDevicesWirelessControllersByDevice
       parameters:
       - name: organizationId
@@ -3843,7 +3823,6 @@ paths:
       - wireless.monitor
   /organizations/{organizationId}/wireless/ssids/statuses/byDevice:
     get:
-      description: List status information of all BSSIDs in your organization
       operationId: getOrganizationWirelessSsidsStatusesByDevice
       parameters:
       - name: organizationId

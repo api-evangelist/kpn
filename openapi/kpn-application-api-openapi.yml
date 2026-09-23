@@ -3,77 +3,7 @@ info:
   title: Webhook Privacy Configuration - KPN Application API
   description: 'KPN delivers outbound webhook notifications — such as SMS delivery reports — to the
 
-    endpoints you configure. This API lets you control two things about those deliveries:
-
-    the URL they are sent to, and which fields are included in the payload.
-
-
-    **How configuration scopes work**
-
-
-    You can configure webhooks at three levels — Organization, Team, or Application. Settings
-
-    resolve from the most specific level to the broadest: an Application config overrides a
-
-    Team config, which overrides the Organization config. This lets you set sensible defaults
-
-    at org or team level and override them only where a specific application needs it.
-
-
-    **Controlling payload fields (privacy)**
-
-
-    `privacy_config.excluded_fields` maps a service name to the list of fields to omit from
-
-    that service''s outbound payloads. Any field not listed is included; an empty or absent
-
-    map means every field is sent. Exclusion rules resolve along the same
-
-    Application → Team → Organization cascade.
-
-
-    For example, to hide the recipient phone number and message body from SMS delivery
-
-    reports:
-
-
-    ```json
-
-    { "privacy_config": { "excluded_fields": { "sms_dlr": ["RecipientPhonenumber", "Message"] } } }
-
-    ```
-
-
-    **Signing keys are managed separately**
-
-
-    The `signing` block returned by these endpoints is read-only. To create and rotate the
-
-    keys used to sign outbound payloads, use the Webhook Signing Keys API.
-
-
-    **Authentication**
-
-
-    You need an OAuth 2.0 Bearer token to call these endpoints. Exchange your **Client ID**
-
-    and **Client Secret** (available in the [KPN API Store](https://developer.kpn.com)) for
-
-    an access token, then pass it as `Authorization: Bearer <token>` on every request.
-
-    Tokens expire, so build in a refresh before expiry.
-
-
-    **Need help?**
-
-
-    - [KPN Developer Portal](https://developer.kpn.com)
-
-    - [Getting Started with KPN APIs](https://developer.kpn.com/getting-started)
-
-    - [API Support](https://developer.kpn.com/support)
-
-    '
+    endpoints you configure.'
   version: 3.0.0
   contact:
     name: API Support
@@ -91,9 +21,7 @@ tags:
 - name: Application
   description: 'Application-scope webhook configuration — webhook URL and field exclusions. Highest
 
-    precedence — overrides both team and organization config for this specific application.
-
-    '
+    precedence — overrides both team and organization config for this specific application.'
 paths:
   /applications:
     post:
@@ -105,9 +33,7 @@ paths:
 
         team. Application settings take highest precedence and override team
 
-        and org settings.
-
-        '
+        and org settings.'
       parameters:
       - $ref: '#/components/parameters/ApplicationName'
       requestBody:
@@ -215,9 +141,7 @@ paths:
       summary: Delete application webhook config
       description: 'Permanently removes the application webhook configuration. Webhook
 
-        deliveries for this application will fall back to team-level settings.
-
-        '
+        deliveries for this application will fall back to team-level settings.'
       responses:
         '204':
           description: Deleted
@@ -231,17 +155,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
-    BadRequest:
-      description: Bad request — check your request body for missing or invalid fields.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '400'
-              message: Bad Request
-              info: https://developer.kpn.com/documentation-webhook-config
     NotFound:
       description: Not found — the requested configuration does not exist.
       content:
@@ -253,17 +166,6 @@ components:
               code: '404'
               message: Not Found
               info: https://developer.kpn.com/documentation-webhook-config
-    InternalServerError:
-      description: Internal server error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '500'
-              message: Internal Server Error
-              info: https://developer.kpn.com/support
     Unauthorized:
       description: Unauthorized — missing or invalid Bearer token.
       content:
@@ -286,44 +188,29 @@ components:
               code: '403'
               message: Forbidden
               info: https://developer.kpn.com/support
-  parameters:
-    ApplicationName:
-      in: header
-      name: x-application-name
-      required: false
-      schema:
-        type: string
-      description: Human-readable name for your application. Optional; used for display purposes only.
+    BadRequest:
+      description: Bad request — check your request body for missing or invalid fields.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '400'
+              message: Bad Request
+              info: https://developer.kpn.com/documentation-webhook-config
+    InternalServerError:
+      description: Internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '500'
+              message: Internal Server Error
+              info: https://developer.kpn.com/support
   schemas:
-    WebhookConfigResponse:
-      type: object
-      properties:
-        scope_type:
-          type: string
-          enum:
-          - CUSTOMER
-          - APPLICATION
-          description: '`CUSTOMER` for team-scoped configs; `APPLICATION` for app-scoped configs.'
-        webhook_url:
-          type: string
-          format: uri
-          description: The URL KPN delivers webhook notifications to.
-        privacy_config:
-          $ref: '#/components/schemas/PrivacyConfig'
-        signing:
-          type: object
-          description: Read-only signing key status.
-          properties:
-            active_key_id:
-              type:
-              - string
-              - 'null'
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
     AppWebhookConfigRequest:
       type: object
       required:
@@ -363,6 +250,35 @@ components:
             sms_dlr:
             - RecipientPhonenumber
             - Message
+    WebhookConfigResponse:
+      type: object
+      properties:
+        scope_type:
+          type: string
+          enum:
+          - CUSTOMER
+          - APPLICATION
+          description: '`CUSTOMER` for team-scoped configs; `APPLICATION` for app-scoped configs.'
+        webhook_url:
+          type: string
+          format: uri
+          description: The URL KPN delivers webhook notifications to.
+        privacy_config:
+          $ref: '#/components/schemas/PrivacyConfig'
+        signing:
+          type: object
+          description: Read-only signing key status.
+          properties:
+            active_key_id:
+              type:
+              - string
+              - 'null'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
     ApiErrorResponse:
       type: object
       properties:
@@ -381,6 +297,14 @@ components:
               type: string
               description: URL to relevant documentation or support page.
               example: https://developer.kpn.com/documentation-webhook-config
+  parameters:
+    ApplicationName:
+      in: header
+      name: x-application-name
+      required: false
+      schema:
+        type: string
+      description: Human-readable name for your application. Optional; used for display purposes only.
   securitySchemes:
     OAuth2:
       type: oauth2

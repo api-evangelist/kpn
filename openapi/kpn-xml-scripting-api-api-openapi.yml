@@ -7,7 +7,7 @@ info:
     name: API Support
     email: api_developer@kpn.com
     url: https://developer.kpn.com/support
-  description: "This REST API exposes actions that help your apps to interact with APIdaze’s Telco platform in mulitples ways. You can set the URL from where Apidaze fetchs XML instructions to run on Apidaze platform. You can write your various scripts there using the [Script Reference doc](https://developer.kpn.com/script-reference-documentation), and test them. You can manage your phone numbers, connect directly with other SIP carriers (inbound and outbound), manage your SIP accounts, voicemail boxes and messages, provision your hardphones.\n## [Source view](https://app.swaggerhub.com/apis/kpn/apidaze-voice-voip-innovations/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/apidaze-voice-voip-innovations/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---\n "
+  description: This REST API exposes actions that help your apps to interact with APIdaze’s Telco platform in mulitples ways.
 servers:
 - url: https://api-prd.kpn.com/communication/apidaze/cpaas
 tags:
@@ -70,6 +70,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
       - OAuth2: []
+      operationId: getExternalscripts
+      x-operation-id-source: derived
     post:
       summary: External Script Create
       tags:
@@ -140,6 +142,8 @@ paths:
                   description: URL of the external script. This URL is fetched when a calls is placed to one of your numbers
               required:
               - url
+      operationId: postExternalscripts
+      x-operation-id-source: derived
   /externalscripts/{id}:
     get:
       summary: External Script Read
@@ -204,6 +208,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
       - OAuth2: []
+      operationId: getExternalscriptsById
+      x-operation-id-source: derived
     put:
       summary: External Script Update
       tags:
@@ -281,6 +287,8 @@ paths:
                   description: URL of the external script. This URL is fetched when a calls is placed to one of your numbers
               required:
               - url
+      operationId: putExternalscriptsById
+      x-operation-id-source: derived
     delete:
       summary: External Script Delete
       tags:
@@ -340,6 +348,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
       - OAuth2: []
+      operationId: deleteExternalscriptsById
+      x-operation-id-source: derived
   /externalscripts/test:
     get:
       summary: External Script Test
@@ -408,31 +418,10 @@ paths:
                   description: URL of your External Script if empty.
               required:
               - url
+      operationId: getExternalscriptsTest
+      x-operation-id-source: derived
 components:
   schemas:
-    XMLScriptingObject:
-      type: object
-      properties:
-        id:
-          type: string
-          description: id of the external script
-          title: id
-        name:
-          type: string
-          description: name of the external script
-          title: name
-        url:
-          type: string
-          description: url of the external script
-          title: url
-        created_at:
-          type: string
-          description: creation date of the external script
-          title: created_at
-        updated_at:
-          type: string
-          description: updation date of the external script
-          title: updated_at
     ErrorResponse:
       type: object
       properties:
@@ -456,6 +445,29 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    XMLScriptingObject:
+      type: object
+      properties:
+        id:
+          type: string
+          description: id of the external script
+          title: id
+        name:
+          type: string
+          description: name of the external script
+          title: name
+        url:
+          type: string
+          description: url of the external script
+          title: url
+        created_at:
+          type: string
+          description: creation date of the external script
+          title: created_at
+        updated_at:
+          type: string
+          description: updation date of the external script
+          title: updated_at
     XMLScriptingResponse:
       type: array
       items:

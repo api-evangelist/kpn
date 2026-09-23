@@ -1,17 +1,14 @@
 openapi: 3.2.0
 info:
-  title: Kpn Insights API
+  title: Number Verify - KPN Insights API
+  description: With KPN Number Verify, you can quickly check whether the mobile number someone provides is the same as their SIM card.
   contact:
     name: API Support
     email: api_developer@kpn.com
     url: https://developer.kpn.com/support
   termsOfService: https://developer.kpn.com/legal
-  version: '1.0'
-  description: 'Operations tagged Insights across 2 of this provider''s published API definitions: kpn-match-openapi.yml, kpn-number-verify-openapi.yml. Each path carries the servers of the definition it was published in.'
+  version: 1.2.1
 servers:
-- description: SwaggerHub API Auto Mocking
-  url: https://virtserver.swaggerhub.com/kpn/Match-KPN/1.1.1
-- url: https://api-prd.kpn.com/communication/kpn/match
 - url: https://api-prd.kpn.com/communication/kpn/numberverify
 - description: SwaggerHub API Auto Mocking
   url: https://virtserver.swaggerhub.com/kpn/NumberVerify-KPN/1.2.1
@@ -32,121 +29,84 @@ paths:
         required: true
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/InsightsRequest'
             examples:
-              mpm:
-                summary: mpm
+              polling:
+                summary: Polling Example
+                description: Body can be empty for polling
+                value: {}
+              notification:
+                summary: Notification Example
+                description: '- You will need to pass the “notification_token” which is used as the “bearer” token when posting the results to “notification_uri.”
+
+                  - To see the notification in the provided webhook, the session_uri must be accessed.
+
+                  '
                 value:
-                  mpm:
-                    firstname: Jacques
-                    lastname: van ‘t Schip
-                    address1: 45 a
-                    postal_code: 3912 XB
-                    date_of_birth: '2002-11-25'
-              correlation_id_mpm:
-                summary: correlation_id + mpm
-                value:
-                  mpm:
-                    firstname: Jacques
-                    lastname: van ‘t Schip
-                    address1: 45 a
-                    postal_code: 3912 XB
-                    date_of_birth: '2002-11-25'
-                  correlation_id: 12345-abcde
+                  device_match_notify:
+                    notification_token: abcd1234
+                    notification_uri: https://your_webhook_url/
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InsightsResponse'
+                oneOf:
+                - $ref: '#/components/schemas/InsightsResponse'
+                - $ref: '#/components/schemas/InsightsResponseNotify'
+              examples:
+                polling:
+                  summary: Polling Example
+                  value:
+                    device_match:
+                      session_id: e46714d908600d8cf9f3abbf9f4056ff
+                      polling_id: e46714d908600d8cf9f3abbf9f4056ff
+                    operator_lookup:
+                      regionCode: NL
+                      operatorName: KPN
+                      mcc: null
+                      mnc: null
+                notification:
+                  summary: Notification Example
+                  description: '- You will need to pass the “notification_token” which is used as the “bearer” token when posting the results to “notification_uri.”
+
+                    - To see the notification in the provided webhook, the session_uri must be accessed.
+
+                    '
+                  value:
+                    device_match_notify:
+                      session_uri: http://server/v1/dm/session/5f563a0bbb61c93748f773b744bf19c6
+                    operator_lookup:
+                      regionCode: NL
+                      operatorName: KPN
+                      mcc: null
+                      mnc: null
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples:
-                error_response:
-                  summary: Example of Bad Request
-                  value:
-                    error_code: 400
-                    message: Bad Request
-                    correlation_id: abcd1234
         '404':
           description: Not Found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples:
-                error_response:
-                  summary: Example of Not Found
-                  value:
-                    error_code: 404
-                    message: Not Found
-                    correlation_id: abcd1234
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples:
-                error_response:
-                  summary: Example of Internal Server Error
-                  value:
-                    error_code: 500
-                    message: Internal Server Error
-                    correlation_id: abcd1234
       security:
       - BearerAuth: []
       tags:
       - Insights
-    servers:
-    - description: SwaggerHub API Auto Mocking
-      url: https://virtserver.swaggerhub.com/kpn/Match-KPN/1.1.1
-    - url: https://api-prd.kpn.com/communication/kpn/match
+      operationId: postInsightsByMsisdn
+      x-operation-id-source: derived
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        error_code:
-          type: integer
-          description: HTTP status code representing the error
-          example: 400
-          enum:
-          - 400
-          - 401
-          - 403
-          - 404
-          - 405
-          - 412
-          - 429
-          - 500
-          - 502
-          - 503
-        message:
-          type: string
-          description: A short description of the error
-          example: Bad Request
-          enum:
-          - Bad Request
-          - Unauthorized
-          - Forbidden
-          - Not Found
-          - Method Not Allowed
-          - Precondition Failed
-          - Too Many Requests
-          - Internal Server Error
-          - Bad Gateway
-          - Service Unavailable
-        correlation_id:
-          type: string
-          description: Correlation ID for debugging purposes
-          example: abcd1234
     InsightsResponseNotify:
       type: object
       properties:
@@ -171,7 +131,7 @@ components:
               - string
               - 'null'
               example: null
-    Error_2:
+    Error:
       type: object
       properties:
         error_code:
@@ -241,6 +201,3 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-x-refined-from:
-- kpn-match-openapi.yml
-- kpn-number-verify-openapi.yml

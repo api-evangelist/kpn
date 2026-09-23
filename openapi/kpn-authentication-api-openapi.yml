@@ -48,33 +48,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
+      summary: Access token
+      x-summary-source: derived
 components:
   schemas:
-    ProblemDetail:
-      type: object
-      required:
-      - type
-      - status
-      properties:
-        detail:
-          type:
-          - string
-          - 'null'
-        instance:
-          type:
-          - string
-          - 'null'
-        status:
-          type: integer
-          format: int32
-          minimum: 0
-        title:
-          type:
-          - string
-          - 'null'
-        type:
-          type: string
-      additionalProperties: {}
     AccessTokenParams:
       type: object
       description: struct for passing parameters to the method [`access_token`]
@@ -106,6 +83,31 @@ components:
           description: 'OAuth 2.0 scope. MUST contain DSH_FIAM scope value. Other values allow the Service Consumer to get tokens that do
 
             not include all rights the Service Consumer has. According to RFC 6749, scopes are case-sensitive.'
+    ProblemDetail:
+      type: object
+      required:
+      - type
+      - status
+      properties:
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
+          minimum: 0
+        title:
+          type:
+          - string
+          - 'null'
+        type:
+          type: string
+      additionalProperties: {}
     AccessToken:
       type: object
       properties:

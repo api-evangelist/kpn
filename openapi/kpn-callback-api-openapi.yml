@@ -7,7 +7,7 @@ info:
     name: API Support
     email: api_developer@kpn.com
     url: https://developer.kpn.com/support
-  description: "Vonage's SMS API allows you to send and receive text messages to users around the globe through simple RESTful APIs.\n  \n  * Programmatically send and receive high volume of SMS anywhere in the world.\n  * Build apps that scale with the web technologies that you are already using.\n  * Send SMS with low latency and high delivery rates.\n  * Receive SMS for free using SMS-enabled local numbers in countries around the world.\n  * Only pay for what you use, nothing more.\n\n  \n## [Source view](https://app.swaggerhub.com/apis/kpn/sms-nexmo/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/sms-nexmo/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n ---"
+  description: Vonage's SMS API allows you to send and receive text messages to users around the globe through simple RESTful APIs.
 servers:
 - url: https://api-prd.kpn.com/communication/nexmo/sms
 tags:
@@ -28,6 +28,8 @@ paths:
             schema:
               $ref: '#/components/schemas/DeliveryReceipt'
         description: The following are parameters sent in as a delivery receipt callback. You can subscribe to webhooks to receive notification when the delivery status of an SMS that you have sent with Vonage changes.
+      operationId: postHttps:ExampleCom:webhooksDeliveryReceipt
+      x-operation-id-source: derived
 components:
   schemas:
     DeliveryReceipt:

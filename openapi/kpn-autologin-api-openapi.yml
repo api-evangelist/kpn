@@ -6,11 +6,15 @@ info:
 
     ---
 
-    ## [Source view](https://app.swaggerhub.com/apis/kpn/weseedo-direct-weseedo/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/weseedo-direct-weseedo/)
+    ## Source view
+
+    Documentation view
 
     ---
 
-    ## [KPN API Store](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)
+    ## KPN API Store
+
+    Getting Started
 
     ---'
   contact:
@@ -26,7 +30,7 @@ tags:
 paths:
   /api/autologin:
     get:
-      summary: Fetches the URL so that agent can login.
+      summary: Fetches the URL so that agent can login
       description: Fetches the URL so that agent is able to login directly to the portal without entering his username and password.
       tags:
       - Autologin
@@ -70,20 +74,16 @@ paths:
           $ref: '#/components/responses/bad_gateway'
         503:
           $ref: '#/components/responses/service_unavailable'
+      operationId: getApiAutologin
+      x-operation-id-source: derived
 components:
   responses:
-    precondition_failed:
+    bad_request:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-      description: Precondition failed
-    forbidden:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Forbidden
+      description: Bad request
     not_found:
       content:
         application/json:
@@ -96,42 +96,48 @@ components:
           schema:
             $ref: '#/components/schemas/error'
       description: Too many requests
-    bad_gateway:
+    precondition_failed:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-      description: Bad gateway
+      description: Precondition failed
     method_not_allowed:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: Method not allowed
-    bad_request:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Bad request
-    unauthorized:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Unauthorized
     service_unavailable:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: Service unavailable
+    forbidden:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Forbidden
+    unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Unauthorized
     server_error:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: Server error
+    bad_gateway:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Bad gateway
   schemas:
     error:
       properties:

@@ -1,6 +1,27 @@
 openapi: 3.2.0
 info:
-  description: "MobileServicesManagement APIs\n\n   ---\n     \n ## [Source view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)<br/>\n [Documentation view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)\n \n ---\n \n ## [KPN Developer](https://developer.kpn.com/)<br/>\n [Getting Started](https://developer.kpn.com/getting-started)\n \n\n ---"
+  description: 'MobileServicesManagement APIs
+
+
+    ---
+
+
+    ## Source view
+
+
+    Documentation view
+
+
+    ---
+
+
+    ## KPN Developer
+
+
+    Getting Started
+
+
+    ---'
   version: v11
   title: MobileServicesManagement-KPN Rest Threshold Controller API
   termsOfService: https://developer.kpn.com/legal
@@ -22,7 +43,16 @@ paths:
       description: 'Return list of thresholds for current user.
 
 
-        <strong>Required privileges</strong> (one of the following):<ul><li>privileges_threshold_management</li><li>privileges_orders_authorization</li><li>privileges_un-authorized_orders_creation</li></ul>'
+        Required privileges (one of the following):
+
+
+        privileges_threshold_management
+
+
+        privileges_orders_authorization
+
+
+        privileges_un-authorized_orders_creation'
       operationId: getThresholdsUsingGET
       responses:
         '200':
@@ -81,7 +111,22 @@ paths:
       tags:
       - rest-threshold-controller
       summary: Create new threshold
-      description: "Creates new threshold. Name must be unique in context of customer.\n\n<br>The request is validated. Possible validation errors: \n| HTTP code | Error code               | Description                                           |\n|-----------|--------------------------|-------------------------------------------------------|\n| `400`     | `VALUE_NOT_UNIQUE`       | `name` must be unique in context of customer          |\n\n<strong>Required privilege</strong>:<ul><li>privileges_threshold_management</li></ul>"
+      description: 'Creates new threshold. Name must be unique in context of customer.
+
+
+        The request is validated. Possible validation errors:
+
+        | HTTP code | Error code | Description |
+
+        |-----------|--------------------------|-------------------------------------------------------|
+
+        | `400` | `VALUE_NOT_UNIQUE` | `name` must be unique in context of customer |
+
+
+        Required privilege:
+
+
+        privileges_threshold_management'
       operationId: createNewThresholdUsingPOST
       responses:
         '200':
@@ -145,7 +190,16 @@ paths:
       description: 'Return if user should have access to thresholds.
 
 
-        <strong>Required privileges</strong> (one of the following):<ul><li>privileges_threshold_management</li><li>privileges_orders_authorization</li><li>privileges_un-authorized_orders_creation</li></ul>'
+        Required privileges (one of the following):
+
+
+        privileges_threshold_management
+
+
+        privileges_orders_authorization
+
+
+        privileges_un-authorized_orders_creation'
       operationId: getThresholdsAvailabilityUsingGET
       responses:
         '200':
@@ -203,7 +257,23 @@ paths:
       tags:
       - rest-threshold-controller
       summary: Remove thresholds
-      description: "If at least one item cannot be deleted, none of the items will be deleted.\n\n<br>The request is validated. Possible validation errors: \n| HTTP code | Error code                 | Description                                         |\n|-----------|----------------------------|-----------------------------------------------------|\n| `404`     | `REMOVING_BLOCKED`         | Cannot remove at least one of threshold             |\n| `404`     | `THRESHOLD_NOT_FOUND`      | Not an existing threshold was given in list         |\n<strong>Required privilege</strong>:<ul><li>privileges_threshold_management</li></ul>"
+      description: 'If at least one item cannot be deleted, none of the items will be deleted.
+
+
+        The request is validated. Possible validation errors:
+
+        | HTTP code | Error code | Description |
+
+        |-----------|----------------------------|-----------------------------------------------------|
+
+        | `404` | `REMOVING_BLOCKED` | Cannot remove at least one of threshold |
+
+        | `404` | `THRESHOLD_NOT_FOUND` | Not an existing threshold was given in list |
+
+        Required privilege:
+
+
+        privileges_threshold_management'
       operationId: removeThresholdUsingPOST
       responses:
         '200':
@@ -264,7 +334,13 @@ paths:
       tags:
       - rest-threshold-controller
       summary: Get threshold with information about operation availability
-      description: "Returns a single threshold by `id` with additional information about possibility to modify and delete subscription.Accessible only if user has priviliges to perform these operations at all. \n\n<strong>Required privilege</strong>:<ul><li>privileges_threshold_management</li></ul>"
+      description: 'Returns a single threshold by `id` with additional information about possibility to modify and delete subscription.Accessible only if user has priviliges to perform these operations at all.
+
+
+        Required privilege:
+
+
+        privileges_threshold_management'
       operationId: getThresholdUsingGET
       parameters:
       - name: id
@@ -329,7 +405,26 @@ paths:
       tags:
       - rest-threshold-controller
       summary: Modify existing threshold
-      description: "Modifies existing threshold. Name must be unique in context of customer or the same as before.\n\n<br>The request is validated. Possible validation errors: \n| HTTP code | Error code                 | Description                                                          |\n|-----------|----------------------------|----------------------------------------------------------------------|\n| `400`     | `VALUE_NOT_UNIQUE  `       | `name` must be unique in context of customer or the same as before   |\n| `400`     | `TYPE_CHANGE_NOT_ALLOWED`  | For chosen threshold change of type is not allowed                   |\n| `404`     | `THRESHOLD_NOT_FOUND`      | Not exisiting threshold was selected                                 |\n\n<strong>Required privilege</strong>:<ul><li>privileges_threshold_management</li></ul>"
+      description: 'Modifies existing threshold. Name must be unique in context of customer or the same as before.
+
+
+        The request is validated. Possible validation errors:
+
+        | HTTP code | Error code | Description |
+
+        |-----------|----------------------------|----------------------------------------------------------------------|
+
+        | `400` | `VALUE_NOT_UNIQUE ` | `name` must be unique in context of customer or the same as before |
+
+        | `400` | `TYPE_CHANGE_NOT_ALLOWED` | For chosen threshold change of type is not allowed |
+
+        | `404` | `THRESHOLD_NOT_FOUND` | Not exisiting threshold was selected |
+
+
+        Required privilege:
+
+
+        privileges_threshold_management'
       operationId: updateThresholdUsingPOST
       parameters:
       - name: id
@@ -398,7 +493,36 @@ paths:
       tags:
       - rest-threshold-controller
       summary: Allows to assign list of contracts to given threshold
-      description: "Assigne list of contracts to threshold.\n\nThe request is validated. Possible validation errors: \n\n| HTTP code | Error code                                | Description                                                      |\n|-----------|-------------------------------------------|------------------------------------------------------------------|\n| `400`     | `CONTRACTS_ALREADY_ASSIGNED_TO_GIVEN_TYPE`| At least one contract is already assigned to this threshold type |\n| `400`     | `NOT_VALID_PRODUCT_FOR_GIVEN_THRESHOLD`   | At least one contract has not valid product for this threshold   |\n| `403`     | `FORBIDDEN_FOR_USER`                      | Thresholds are not available for loggin in user                  |\n| `404`     | `CONTRACT_NOT_FOUND`                      | At least one contract is not visible for user or doesn't exist   |\n| `404`     | `THRESHOLD_NOT_FOUND`                     | Not exisiting threshold was selected                             |\n<strong>Required privileges</strong> (one of the following):<ul><li>privileges_threshold_management</li><li>privileges_orders_authorization</li><li>privileges_un-authorized_orders_creation</li></ul>"
+      description: 'Assigne list of contracts to threshold.
+
+
+        The request is validated. Possible validation errors:
+
+
+        | HTTP code | Error code | Description |
+
+        |-----------|-------------------------------------------|------------------------------------------------------------------|
+
+        | `400` | `CONTRACTS_ALREADY_ASSIGNED_TO_GIVEN_TYPE`| At least one contract is already assigned to this threshold type |
+
+        | `400` | `NOT_VALID_PRODUCT_FOR_GIVEN_THRESHOLD` | At least one contract has not valid product for this threshold |
+
+        | `403` | `FORBIDDEN_FOR_USER` | Thresholds are not available for loggin in user |
+
+        | `404` | `CONTRACT_NOT_FOUND` | At least one contract is not visible for user or doesn''t exist |
+
+        | `404` | `THRESHOLD_NOT_FOUND` | Not exisiting threshold was selected |
+
+        Required privileges (one of the following):
+
+
+        privileges_threshold_management
+
+
+        privileges_orders_authorization
+
+
+        privileges_un-authorized_orders_creation'
       operationId: assignContractsUsingPOST
       parameters:
       - name: id
@@ -467,7 +591,31 @@ paths:
       tags:
       - rest-threshold-controller
       summary: Allows to unassign contracts from given threshold
-      description: "Unassigns the given list of contracts from the given threshold.\n<br>The request is validated. Possible validation errors: \n| HTTP code | Error code                 | Description                                                                             |\n|-----------|----------------------------|-----------------------------------------------------------------------------------------|\n| `403`     | `FORBIDDEN_FOR_USER`       | Thresholds are not available for loggin in user                                         |\n| `404`     | `THRESHOLD_NOT_FOUND`      | Threshold with the given `id` was not found                                             |\n| `404`     | `CONTRACT_NOT_FOUND`       | At least one of the given contracts does not exists or is not assigned to the threshold |\n<strong>Required privileges</strong> (one of the following):<ul><li>privileges_threshold_management</li><li>privileges_orders_authorization</li><li>privileges_un-authorized_orders_creation</li></ul>"
+      description: 'Unassigns the given list of contracts from the given threshold.
+
+
+        The request is validated. Possible validation errors:
+
+        | HTTP code | Error code | Description |
+
+        |-----------|----------------------------|-----------------------------------------------------------------------------------------|
+
+        | `403` | `FORBIDDEN_FOR_USER` | Thresholds are not available for loggin in user |
+
+        | `404` | `THRESHOLD_NOT_FOUND` | Threshold with the given `id` was not found |
+
+        | `404` | `CONTRACT_NOT_FOUND` | At least one of the given contracts does not exists or is not assigned to the threshold |
+
+        Required privileges (one of the following):
+
+
+        privileges_threshold_management
+
+
+        privileges_orders_authorization
+
+
+        privileges_un-authorized_orders_creation'
       operationId: unassignContractsUsingPOST
       parameters:
       - name: id
@@ -536,7 +684,27 @@ paths:
       tags:
       - rest-threshold-controller
       summary: Get contracts assigned to threshold
-      description: "Possible validation errors: \n| HTTP code | Error code                 | Description                                        |\n|-----------|----------------------------|----------------------------------------------------|\n| `404`     | `THRESHOLD_NOT_FOUND`      | Not an existing threshold was given in list        |\n| `403`     | `FORBIDDEN_FOR_USER`       | Operation not allowed for current user             |\n\n<strong>Required privileges</strong> (one of the following):<ul><li>privileges_threshold_management</li><li>privileges_orders_authorization</li><li>privileges_un-authorized_orders_creation</li></ul>"
+      description: 'Possible validation errors:
+
+        | HTTP code | Error code | Description |
+
+        |-----------|----------------------------|----------------------------------------------------|
+
+        | `404` | `THRESHOLD_NOT_FOUND` | Not an existing threshold was given in list |
+
+        | `403` | `FORBIDDEN_FOR_USER` | Operation not allowed for current user |
+
+
+        Required privileges (one of the following):
+
+
+        privileges_threshold_management
+
+
+        privileges_orders_authorization
+
+
+        privileges_un-authorized_orders_creation'
       operationId: getContractsUsingGET_1
       parameters:
       - name: Content-Language
@@ -677,8 +845,28 @@ paths:
     get:
       tags:
       - rest-threshold-controller
-      summary: Get a list of contracts which can be later assigned to given threshold.
-      description: "Possible validation errors: \n| HTTP code | Error code                 | Description                                         |\n|-----------|----------------------------|-----------------------------------------------------|\n| `403`     | `FORBIDDEN_FOR_USER`       | Operation not allowed for current user              |\n| `404`     | `THRESHOLD_NOT_FOUND`      | Given threshold can not be found                    |\n\n<strong>Required privileges</strong> (one of the following):<ul><li>privileges_threshold_management</li><li>privileges_orders_authorization</li><li>privileges_un-authorized_orders_creation</li></ul>"
+      summary: Get a list of contracts which can be later assigned to given threshold
+      description: 'Possible validation errors:
+
+        | HTTP code | Error code | Description |
+
+        |-----------|----------------------------|-----------------------------------------------------|
+
+        | `403` | `FORBIDDEN_FOR_USER` | Operation not allowed for current user |
+
+        | `404` | `THRESHOLD_NOT_FOUND` | Given threshold can not be found |
+
+
+        Required privileges (one of the following):
+
+
+        privileges_threshold_management
+
+
+        privileges_orders_authorization
+
+
+        privileges_un-authorized_orders_creation'
       operationId: getContractsToAssignUsingGET
       parameters:
       - name: Content-Language
@@ -817,56 +1005,6 @@ paths:
       - OAuth2: []
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
-    BlockingOrder:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        kpnReference:
-          type: string
-        status:
-          type: string
-          enum:
-          - IN_PROGRESS
-          - UNAUTHORIZED
-          - NEW
-          - CLOSED
-          - CANCELED
-          - REJECTED
-          - DRAFT
-          - THIRD_PARTY
-          - HOLD_CUSTOMER
-          - WAITING
-        type:
-          type: string
-          enum:
-          - CONTRACTING
-          - SERVICE_REQUEST
-      title: BlockingOrder
     OperationAvailability1:
       type: object
       properties:
@@ -895,76 +1033,6 @@ components:
           - DATA_NATIONAL_MB
           - DATA_ROAMING_MB
       title: ThresholdRequestParams
-    AssignContractsToThresholdRequestParams:
-      type: object
-      properties:
-        contractsIds:
-          type: array
-          items:
-            type: integer
-            format: int64
-      title: AssignContractsToThresholdRequestParams
-    UnassignContractsFromThresholdRequestParams:
-      type: object
-      properties:
-        contractsIds:
-          type: array
-          items:
-            type: integer
-            format: int64
-      title: UnassignContractsFromThresholdRequestParams
-    PagedResult_Contract_:
-      type: object
-      properties:
-        result:
-          type: array
-          description: One page of result
-          items:
-            $ref: '#/components/schemas/Contract'
-        total:
-          type: integer
-          format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_Contract_
-      description: Paged list of elements
-    RemoveThresholdParams:
-      type: object
-      properties:
-        thresholdIds:
-          type: array
-          items:
-            type: integer
-            format: int64
-      title: RemoveThresholdParams
-    Threshold:
-      type: object
-      properties:
-        dailyValue:
-          type: number
-          format: float
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        type:
-          type: string
-          enum:
-          - DATA_NATIONAL_MB
-          - DATA_ROAMING_MB
-          - VOICE_NATIONAL_MIN
-          - VOICE_ROAMING_EUR
-      title: Threshold
-    OperationEnabled:
-      type: object
-      properties:
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        enabled:
-          type: boolean
-      title: OperationEnabled
     Contract:
       type: object
       properties:
@@ -1004,6 +1072,39 @@ components:
           - PENDING
           - BLOCKED
       title: Contract
+    OperationEnabled:
+      type: object
+      properties:
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        enabled:
+          type: boolean
+      title: OperationEnabled
+    AssignContractsToThresholdRequestParams:
+      type: object
+      properties:
+        contractsIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+      title: AssignContractsToThresholdRequestParams
+    PagedResult_Contract_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Contract'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Contract_
+      description: Paged list of elements
     ThresholdDetails:
       type: object
       properties:
@@ -1014,6 +1115,93 @@ components:
         threshold:
           $ref: '#/components/schemas/Threshold'
       title: ThresholdDetails
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    UnassignContractsFromThresholdRequestParams:
+      type: object
+      properties:
+        contractsIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+      title: UnassignContractsFromThresholdRequestParams
+    Threshold:
+      type: object
+      properties:
+        dailyValue:
+          type: number
+          format: float
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - DATA_NATIONAL_MB
+          - DATA_ROAMING_MB
+          - VOICE_NATIONAL_MIN
+          - VOICE_ROAMING_EUR
+      title: Threshold
+    BlockingOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        kpnReference:
+          type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
+          type: string
+          enum:
+          - CONTRACTING
+          - SERVICE_REQUEST
+      title: BlockingOrder
+    RemoveThresholdParams:
+      type: object
+      properties:
+        thresholdIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+      title: RemoveThresholdParams
     LocalizedString:
       type: object
       properties:

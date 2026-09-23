@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Number Verify - KPN Polling API
-  description: "With KPN Number Verify, you can quickly check whether the mobile number someone provides is the same as their SIM card.\n**Important Notes:**\n- It is advised to use **Postman** for testing this API, as it involves a redirect call. SwaggerHub does not handle redirect flows well.\n- Please **download this Swagger file** and import it into your Postman client for best results.\n---\n**Testing the `/session` endpoint:** \n- Make sure that the call is made using your mobile client or via the hostspot.\n- In **Postman**, disable **automatic redirects** to ensure the `Location` header is visible in the response.\n\n- In **cURL**, avoid using the `--location` flag. A correct example request:\n\n  ```bash\n  curl -v GET https://api-prd.kpn.com/communication/kpn/numberverify/session/bc74adca8f761*******\n  ```\n---\n\n    \n## [Source view](https://app.swaggerhub.com/apis/kpn/match-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/match-kpn/)\n---\n## [KPN API Store](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+  description: With KPN Number Verify, you can quickly check whether the mobile number someone provides is the same as their SIM card.
   contact:
     name: API Support
     email: api_developer@kpn.com
@@ -66,33 +66,10 @@ paths:
       - BearerAuth: []
       tags:
       - Polling
+      operationId: getPollingByPollingId
+      x-operation-id-source: derived
 components:
   schemas:
-    PollingResponse:
-      type: object
-      properties:
-        msisdn:
-          type: string
-          example: '31620028461'
-        device_match:
-          type:
-          - string
-          - 'null'
-          example: null
-        remote_addr:
-          type: string
-          example: 199.103.8.50
-        user_agent:
-          type: string
-          example: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              device_match:
-                type: string
-                example: AVAILABLE
     Error:
       type: object
       properties:
@@ -126,6 +103,31 @@ components:
           - Internal Server Error
           - Bad Gateway
           - Service Unavailable
+    PollingResponse:
+      type: object
+      properties:
+        msisdn:
+          type: string
+          example: '31620028461'
+        device_match:
+          type:
+          - string
+          - 'null'
+          example: null
+        remote_addr:
+          type: string
+          example: 199.103.8.50
+        user_agent:
+          type: string
+          example: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              device_match:
+                type: string
+                example: AVAILABLE
   securitySchemes:
     BearerAuth:
       type: http

@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   version: 1.54.0
   title: KPN SD-LAN SD-WAN Network View Switch.configure API
-  description: "The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.\n    \nThe Network View API gives users read rights to retrieve information from the `Network View API` resources. \n    \n- **Note**: By default you have read only access but based on your requirements and contract you can be granted `Manager` access to this API which is more than read only. To request manager access, please contact us at api_developer@kpn.com.\n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/kpn-sd_lan_sd_wan_network_view_api/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/kpn-sd_lan_sd_wan_network_view_api/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)"
+  description: The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.
 servers:
 - url: https://api-prd.kpn.com/kpn/meraki
 security:
@@ -12,7 +12,6 @@ tags:
 paths:
   /devices/{serial}/switch/ports:
     get:
-      description: List the switch ports for a switch
       operationId: getDeviceSwitchPorts
       parameters:
       - name: serial
@@ -261,7 +260,6 @@ paths:
       - switch.configure
   /devices/{serial}/switch/ports/{portId}:
     get:
-      description: Return a switch port
       operationId: getDeviceSwitchPort
       parameters:
       - name: serial
@@ -513,7 +511,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update a switch port
       operationId: updateDeviceSwitchPort
       parameters:
       - name: serial
@@ -1032,7 +1029,6 @@ paths:
       tags:
       - switch.configure
     post:
-      description: Create a layer 3 interface for a switch
       operationId: createDeviceSwitchRoutingInterface
       parameters:
       - name: serial
@@ -1212,7 +1208,6 @@ paths:
       - switch.configure
   /devices/{serial}/switch/routing/interfaces/{interfaceId}:
     get:
-      description: Return a layer 3 interface for a switch
       operationId: getDeviceSwitchRoutingInterface
       parameters:
       - name: serial
@@ -1323,7 +1318,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update a layer 3 interface for a switch
       operationId: updateDeviceSwitchRoutingInterface
       parameters:
       - name: serial
@@ -1508,7 +1502,6 @@ paths:
       tags:
       - switch.configure
     delete:
-      description: Delete a layer 3 interface from the switch
       operationId: deleteDeviceSwitchRoutingInterface
       parameters:
       - name: serial
@@ -1531,7 +1524,6 @@ paths:
       - switch.configure
   /devices/{serial}/switch/routing/interfaces/{interfaceId}/dhcp:
     get:
-      description: Return a layer 3 interface DHCP configuration for a switch
       operationId: getDeviceSwitchRoutingInterfaceDhcp
       parameters:
       - name: serial
@@ -1654,7 +1646,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update a layer 3 interface DHCP configuration for a switch
       operationId: updateDeviceSwitchRoutingInterfaceDhcp
       parameters:
       - name: serial
@@ -1912,7 +1903,6 @@ paths:
       - switch.configure
   /devices/{serial}/switch/routing/staticRoutes:
     get:
-      description: List layer 3 static routes for a switch
       operationId: getDeviceSwitchRoutingStaticRoutes
       parameters:
       - name: serial
@@ -1967,7 +1957,6 @@ paths:
       tags:
       - switch.configure
     post:
-      description: Create a layer 3 static route for a switch
       operationId: createDeviceSwitchRoutingStaticRoute
       parameters:
       - name: serial
@@ -2052,7 +2041,6 @@ paths:
       - switch.configure
   /devices/{serial}/switch/routing/staticRoutes/{staticRouteId}:
     get:
-      description: Return a layer 3 static route for a switch
       operationId: getDeviceSwitchRoutingStaticRoute
       parameters:
       - name: serial
@@ -2111,7 +2099,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update a layer 3 static route for a switch
       operationId: updateDeviceSwitchRoutingStaticRoute
       parameters:
       - name: serial
@@ -2202,7 +2189,6 @@ paths:
       tags:
       - switch.configure
     delete:
-      description: Delete a layer 3 static route for a switch
       operationId: deleteDeviceSwitchRoutingStaticRoute
       parameters:
       - name: serial
@@ -2225,7 +2211,6 @@ paths:
       - switch.configure
   /devices/{serial}/switch/warmSpare:
     get:
-      description: Return warm spare configuration for a switch
       operationId: getDeviceSwitchWarmSpare
       parameters:
       - name: serial
@@ -2312,7 +2297,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/accessControlLists:
     get:
-      description: Return the access control lists for a MS network
       operationId: getNetworkSwitchAccessControlLists
       parameters:
       - name: networkId
@@ -2388,7 +2372,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update the access control lists for a MS network
       operationId: updateNetworkSwitchAccessControlLists
       parameters:
       - name: networkId
@@ -3120,7 +3103,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/accessPolicies/{accessPolicyNumber}:
     get:
-      description: Return a specific access policy for a switch network
       operationId: getNetworkSwitchAccessPolicy
       parameters:
       - name: networkId
@@ -3715,7 +3697,6 @@ paths:
       tags:
       - switch.configure
     delete:
-      description: Delete an access policy for a switch network
       operationId: deleteNetworkSwitchAccessPolicy
       parameters:
       - name: networkId
@@ -3738,7 +3719,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/alternateManagementInterface:
     get:
-      description: Return the switch alternate management interface for the network
       operationId: getNetworkSwitchAlternateManagementInterface
       parameters:
       - name: networkId
@@ -3800,7 +3780,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update the switch alternate management interface for the network
       operationId: updateNetworkSwitchAlternateManagementInterface
       parameters:
       - name: networkId
@@ -4284,7 +4263,7 @@ paths:
               schema:
                 type: string
               description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
-      summary: Return the network's DHCPv4 servers seen within the selected timeframe (default 1 day)
+      summary: Return the network's DHCPv4 servers seen within the selected timeframe (default…
       tags:
       - switch.configure
   /networks/{networkId}/switch/dhcpServerPolicy:
@@ -4561,7 +4540,6 @@ paths:
       tags:
       - switch.configure
     post:
-      description: Add a server to be trusted by Dynamic ARP Inspection on this network
       operationId: createNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer
       parameters:
       - name: networkId
@@ -4634,7 +4612,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trustedServerId}:
     put:
-      description: Update a server that is trusted by Dynamic ARP Inspection on this network
       operationId: updateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer
       parameters:
       - name: networkId
@@ -4708,7 +4685,6 @@ paths:
       tags:
       - switch.configure
     delete:
-      description: Remove a server from being trusted by Dynamic ARP Inspection on this network
       operationId: deleteNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer
       parameters:
       - name: networkId
@@ -4731,7 +4707,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/dhcpServerPolicy/arpInspection/warnings/byDevice:
     get:
-      description: Return the devices that have a Dynamic ARP Inspection warning and their warnings
       operationId: getNetworkSwitchDhcpServerPolicyArpInspectionWarningsByDevice
       parameters:
       - name: networkId
@@ -4796,7 +4771,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/dscpToCosMappings:
     get:
-      description: Return the DSCP to CoS mappings
       operationId: getNetworkSwitchDscpToCosMappings
       parameters:
       - name: networkId
@@ -4837,7 +4811,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update the DSCP to CoS mappings
       operationId: updateNetworkSwitchDscpToCosMappings
       parameters:
       - name: networkId
@@ -4911,7 +4884,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/linkAggregations:
     get:
-      description: List link aggregation groups
       operationId: getNetworkSwitchLinkAggregations
       parameters:
       - name: networkId
@@ -4954,7 +4926,6 @@ paths:
       tags:
       - switch.configure
     post:
-      description: Create a link aggregation group
       operationId: createNetworkSwitchLinkAggregation
       parameters:
       - name: networkId
@@ -5040,7 +5011,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/linkAggregations/{linkAggregationId}:
     put:
-      description: Update a link aggregation group
       operationId: updateNetworkSwitchLinkAggregation
       parameters:
       - name: networkId
@@ -5131,7 +5101,6 @@ paths:
       tags:
       - switch.configure
     delete:
-      description: Split a link aggregation group into separate ports
       operationId: deleteNetworkSwitchLinkAggregation
       parameters:
       - name: networkId
@@ -5154,7 +5123,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/mtu:
     get:
-      description: Return the MTU configuration
       operationId: getNetworkSwitchMtu
       parameters:
       - name: networkId
@@ -5210,7 +5178,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update the MTU configuration
       operationId: updateNetworkSwitchMtu
       parameters:
       - name: networkId
@@ -5309,7 +5276,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/portSchedules:
     get:
-      description: List switch port schedules
       operationId: getNetworkSwitchPortSchedules
       parameters:
       - name: networkId
@@ -5469,7 +5435,6 @@ paths:
       tags:
       - switch.configure
     post:
-      description: Add a switch port schedule
       operationId: createNetworkSwitchPortSchedule
       parameters:
       - name: networkId
@@ -5766,7 +5731,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/portSchedules/{portScheduleId}:
     delete:
-      description: Delete a switch port schedule
       operationId: deleteNetworkSwitchPortSchedule
       parameters:
       - name: networkId
@@ -5788,7 +5752,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update a switch port schedule
       operationId: updateNetworkSwitchPortSchedule
       parameters:
       - name: networkId
@@ -6089,7 +6052,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/qosRules:
     get:
-      description: List quality of service rules
       operationId: getNetworkSwitchQosRules
       parameters:
       - name: networkId
@@ -6145,7 +6107,6 @@ paths:
       tags:
       - switch.configure
     post:
-      description: Add a quality of service rule
       operationId: createNetworkSwitchQosRule
       parameters:
       - name: networkId
@@ -6268,11 +6229,10 @@ paths:
                 ruleIds:
                 - '1284392014819'
                 - '2983092129865'
-      summary: Return the quality of service rule IDs by order in which they will be processed by the switch
+      summary: Return the quality of service rule IDs by order in which they will be processed…
       tags:
       - switch.configure
     put:
-      description: Update the order in which the rules should be processed by the switch
       operationId: updateNetworkSwitchQosRulesOrder
       parameters:
       - name: networkId
@@ -6321,7 +6281,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/qosRules/{qosRuleId}:
     get:
-      description: Return a quality of service rule
       operationId: getNetworkSwitchQosRule
       parameters:
       - name: networkId
@@ -6381,7 +6340,6 @@ paths:
       tags:
       - switch.configure
     delete:
-      description: Delete a quality of service rule
       operationId: deleteNetworkSwitchQosRule
       parameters:
       - name: networkId
@@ -6403,7 +6361,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update a quality of service rule
       operationId: updateNetworkSwitchQosRule
       parameters:
       - name: networkId
@@ -6504,7 +6461,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/routing/multicast:
     get:
-      description: Return multicast settings for a network
       operationId: getNetworkSwitchRoutingMulticast
       parameters:
       - name: networkId
@@ -6580,7 +6536,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update multicast settings for a network
       operationId: updateNetworkSwitchRoutingMulticast
       parameters:
       - name: networkId
@@ -6722,7 +6677,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/routing/multicast/rendezvousPoints:
     get:
-      description: List multicast rendezvous points
       operationId: getNetworkSwitchRoutingMulticastRendezvousPoints
       parameters:
       - name: networkId
@@ -6766,7 +6720,6 @@ paths:
       tags:
       - switch.configure
     post:
-      description: Create a multicast rendezvous point
       operationId: createNetworkSwitchRoutingMulticastRendezvousPoint
       parameters:
       - name: networkId
@@ -6828,7 +6781,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/routing/multicast/rendezvousPoints/{rendezvousPointId}:
     get:
-      description: Return a multicast rendezvous point
       operationId: getNetworkSwitchRoutingMulticastRendezvousPoint
       parameters:
       - name: networkId
@@ -6876,7 +6828,6 @@ paths:
       tags:
       - switch.configure
     delete:
-      description: Delete a multicast rendezvous point
       operationId: deleteNetworkSwitchRoutingMulticastRendezvousPoint
       parameters:
       - name: networkId
@@ -6898,7 +6849,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update a multicast rendezvous point
       operationId: updateNetworkSwitchRoutingMulticastRendezvousPoint
       parameters:
       - name: networkId
@@ -6966,7 +6916,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/routing/ospf:
     get:
-      description: Return layer 3 OSPF routing configuration
       operationId: getNetworkSwitchRoutingOspf
       parameters:
       - name: networkId
@@ -7080,7 +7029,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update layer 3 OSPF routing configuration
       operationId: updateNetworkSwitchRoutingOspf
       parameters:
       - name: networkId
@@ -7303,7 +7251,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/settings:
     get:
-      description: Returns the switch network settings
       operationId: getNetworkSwitchSettings
       parameters:
       - name: networkId
@@ -7370,7 +7317,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update switch network settings
       operationId: updateNetworkSwitchSettings
       parameters:
       - name: networkId
@@ -7485,7 +7431,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/stacks:
     get:
-      description: List the switch stacks in a network
       operationId: getNetworkSwitchStacks
       parameters:
       - name: networkId
@@ -7560,7 +7505,6 @@ paths:
       tags:
       - switch.configure
     post:
-      description: Create a switch stack
       operationId: createNetworkSwitchStack
       parameters:
       - name: networkId
@@ -7657,7 +7601,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/stacks/{switchStackId}:
     get:
-      description: Show a switch stack
       operationId: getNetworkSwitchStack
       parameters:
       - name: networkId
@@ -7736,7 +7679,6 @@ paths:
       tags:
       - switch.configure
     delete:
-      description: Delete a stack
       operationId: deleteNetworkSwitchStack
       parameters:
       - name: networkId
@@ -7759,7 +7701,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/stacks/{switchStackId}/add:
     post:
-      description: Add a switch to a stack
       operationId: addNetworkSwitchStack
       parameters:
       - name: networkId
@@ -7853,7 +7794,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/stacks/{switchStackId}/remove:
     post:
-      description: Remove a switch from a stack
       operationId: removeNetworkSwitchStack
       parameters:
       - name: networkId
@@ -7947,7 +7887,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces:
     get:
-      description: List layer 3 interfaces for a switch stack
       operationId: getNetworkSwitchStackRoutingInterfaces
       parameters:
       - name: networkId
@@ -8060,7 +7999,6 @@ paths:
       tags:
       - switch.configure
     post:
-      description: Create a layer 3 interface for a switch stack
       operationId: createNetworkSwitchStackRoutingInterface
       parameters:
       - name: networkId
@@ -8249,7 +8187,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}:
     get:
-      description: Return a layer 3 interface from a switch stack
       operationId: getNetworkSwitchStackRoutingInterface
       parameters:
       - name: networkId
@@ -8366,7 +8303,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update a layer 3 interface for a switch stack
       operationId: updateNetworkSwitchStackRoutingInterface
       parameters:
       - name: networkId
@@ -8553,7 +8489,6 @@ paths:
       tags:
       - switch.configure
     delete:
-      description: Delete a layer 3 interface from a switch stack
       operationId: deleteNetworkSwitchStackRoutingInterface
       parameters:
       - name: networkId
@@ -8582,7 +8517,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}/dhcp:
     get:
-      description: Return a layer 3 interface DHCP configuration for a switch stack
       operationId: getNetworkSwitchStackRoutingInterfaceDhcp
       parameters:
       - name: networkId
@@ -8711,7 +8645,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update a layer 3 interface DHCP configuration for a switch stack
       operationId: updateNetworkSwitchStackRoutingInterfaceDhcp
       parameters:
       - name: networkId
@@ -8975,7 +8908,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/stacks/{switchStackId}/routing/staticRoutes:
     get:
-      description: List layer 3 static routes for a switch stack
       operationId: getNetworkSwitchStackRoutingStaticRoutes
       parameters:
       - name: networkId
@@ -9036,7 +8968,6 @@ paths:
       tags:
       - switch.configure
     post:
-      description: Create a layer 3 static route for a switch stack
       operationId: createNetworkSwitchStackRoutingStaticRoute
       parameters:
       - name: networkId
@@ -9127,7 +9058,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/stacks/{switchStackId}/routing/staticRoutes/{staticRouteId}:
     get:
-      description: Return a layer 3 static route for a switch stack
       operationId: getNetworkSwitchStackRoutingStaticRoute
       parameters:
       - name: networkId
@@ -9192,7 +9122,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update a layer 3 static route for a switch stack
       operationId: updateNetworkSwitchStackRoutingStaticRoute
       parameters:
       - name: networkId
@@ -9289,7 +9218,6 @@ paths:
       tags:
       - switch.configure
     delete:
-      description: Delete a layer 3 static route for a switch stack
       operationId: deleteNetworkSwitchStackRoutingStaticRoute
       parameters:
       - name: networkId
@@ -9318,7 +9246,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/stormControl:
     get:
-      description: Return the storm control configuration for a switch network
       operationId: getNetworkSwitchStormControl
       parameters:
       - name: networkId
@@ -9360,7 +9287,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update the storm control configuration for a switch network
       operationId: updateNetworkSwitchStormControl
       parameters:
       - name: networkId
@@ -9431,7 +9357,6 @@ paths:
       - switch.configure
   /networks/{networkId}/switch/stp:
     get:
-      description: Returns STP settings
       operationId: getNetworkSwitchStp
       parameters:
       - name: networkId
@@ -9495,7 +9420,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Updates STP settings
       operationId: updateNetworkSwitchStp
       parameters:
       - name: networkId
@@ -9612,7 +9536,6 @@ paths:
       - switch.configure
   /organizations/{organizationId}/configTemplates/{configTemplateId}/switch/profiles:
     get:
-      description: List the switch templates for your switch template configuration
       operationId: getOrganizationConfigTemplateSwitchProfiles
       parameters:
       - name: organizationId
@@ -9655,7 +9578,6 @@ paths:
       - switch.configure
   /organizations/{organizationId}/configTemplates/{configTemplateId}/switch/profiles/{profileId}/ports:
     get:
-      description: Return all the ports of a switch template
       operationId: getOrganizationConfigTemplateSwitchProfilePorts
       parameters:
       - name: organizationId
@@ -9895,7 +9817,6 @@ paths:
       - switch.configure
   /organizations/{organizationId}/configTemplates/{configTemplateId}/switch/profiles/{profileId}/ports/{portId}:
     get:
-      description: Return a switch template port
       operationId: getOrganizationConfigTemplateSwitchProfilePort
       parameters:
       - name: organizationId
@@ -10138,7 +10059,6 @@ paths:
       tags:
       - switch.configure
     put:
-      description: Update a switch template port
       operationId: updateOrganizationConfigTemplateSwitchProfilePort
       parameters:
       - name: organizationId
@@ -10588,12 +10508,11 @@ paths:
                 - Q234-ABCD-0001
                 - Q234-ABCD-0002
                 - Q234-ABCD-0003
-      summary: Clone port-level and some switch-level configuration settings from a source switch to one or more target switches
+      summary: Clone port-level and some switch-level configuration settings from a source…
       tags:
       - switch.configure
   /organizations/{organizationId}/switch/ports/bySwitch:
     get:
-      description: List the switchports in an organization by switch
       operationId: getOrganizationSwitchPortsBySwitch
       parameters:
       - name: organizationId

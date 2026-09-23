@@ -35,6 +35,8 @@ paths:
                 $ref: '#/components/schemas/InboundSms'
       tags:
       - Your Active Webhook
+      operationId: postYourActiveWebhook
+      x-operation-id-source: derived
 components:
   schemas:
     InboundSms:

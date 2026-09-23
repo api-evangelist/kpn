@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   version: 1.0.0
   title: High-Level Design FTTx Retrieve job result API
-  description: "The High-Level Design FTTx API supports Fiber to the Home (FTTH) engineering jobs. It allows you to calculate the required work and cost for Fiber rollout in a provided region.\n\nRun the endpoints in this order:\n\n1. **POST /startJobS3** to retrieve a signed URL for Amazon S3 bucket. Send this URL using the following endpoint.\n2. **PUT /s3url_uploads/{jsonFileNameAndExtension}** to upload the job.\n3. **GET /jobStatus/{jobId}** to retrieve the status of the job.\n4. **GET / jobResultS3/{jobId}** to retrieve a signed URL for the Amazon Simple Storage Service (Amazon S3) bucket. Send this URL using the following endpoint.\n5. **GET /Output/{jsonFileNameAndExtension}** to retrieve the results of the engineering job.\n\n ### Key highlights\n\n - **Security:** HTTPS, OAuth, Rate limit\n - **Versioning:** Supports version-less API, version tight. If no version\n is provided (in header) it defaults to latest version. \n\n  [Source view](https://app.swaggerhub.com/apis/kpn/high-level_design_ftth)<br/>\n  [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/high-level_design_ftth)\n  \n  ---\n  \n  [KPN Developer](https://developer.kpn.com/)<br/>\n  [Getting Started](https://developer.kpn.com/getting-started)\n  \n"
+  description: The High-Level Design FTTx API supports Fiber to the Home (FTTH) engineering jobs.
 servers:
 - url: https://api-prd.kpn.com/network/kpn/ftth-engineering/
   variables: {}
@@ -46,11 +46,13 @@ paths:
           $ref: '#/components/responses/gateway_error'
         503:
           $ref: '#/components/responses/service_unavailable'
+      operationId: getJobStatusByJobId
+      x-operation-id-source: derived
   /jobResultS3/{jobId}:
     get:
       tags:
       - Retrieve job result
-      summary: Returns a signed URL where the results of an engineering job can be retrieved.
+      summary: Returns a signed URL where the results of an engineering job can be retrieved
       description: When an engineering job is finished. This endpoint should be called first to retrieve a signed URL for the Amazon Simple Storage Service (Amazon S3) bucket where the results are stored. More details on how to use this URL to retrieve the results are specified in the /Output endpoint.
       parameters:
       - in: path
@@ -83,11 +85,13 @@ paths:
           $ref: '#/components/responses/gateway_error'
         503:
           $ref: '#/components/responses/service_unavailable'
+      operationId: getJobResultS3ByJobId
+      x-operation-id-source: derived
   /Output/{jsonFileNameAndExtension}:
     get:
       tags:
       - Retrieve job result
-      summary: Retrieve the results of an engineering job.
+      summary: Retrieve the results of an engineering job
       description: Retrieves the results of the engineering job. Use the signed URL received from /jobResultS3/{jobId} for this.
       servers:
       - url: https://ftth-engineering-prod.s3.amazonaws.com
@@ -158,8 +162,178 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/jobResult'
+      operationId: getOutputByJsonFileNameAndExtension
+      x-operation-id-source: derived
 components:
   schemas:
+    amzCredential:
+      type: string
+      example: AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request
+      description: This parameter provides scope (AWS region and service) for which the signature is valid. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
+    Has:
+      type: object
+      description: Has geo properties
+      properties:
+        id:
+          type: string
+          example: HAS 1127PV189
+        x1:
+          type: number
+          format: double
+        y1:
+          type: number
+          format: double
+        x2:
+          type: number
+          format: double
+        y2:
+          type: number
+          format: double
+    signedOutputUrl:
+      type: object
+      properties:
+        signedUrl:
+          type: string
+          format: uri
+          example: https://ftth-engineering-prod.s3.amazonaws.com/Output/FTTx_AdamNorth_Input_Dec2020.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20201201T120000Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA&X-Amz-Signature=aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb
+    DistributionPoint:
+      type: object
+      properties:
+        id:
+          type: string
+        x:
+          type: number
+          format: double
+        y:
+          type: number
+          format: double
+        hhRoutes:
+          type: array
+          items:
+            $ref: '#/components/schemas/HHRoute'
+      required:
+      - id
+      - x
+      - y
+      - hhRoutes
+    jsonFileNameAndExtensionSchema:
+      type: string
+      pattern: ^.+\.(json)$
+      example: FTTx_AdamNorth_Input_Dec2020.json
+      description: "The `jobId` of the engineering job you defined in /startJobS3 or /jobResultS3 with added .json extension. \n"
+    jsonFileNameSchema:
+      type: string
+      example: FTTx_AdamNorth_Input_Dec2020
+    amzAlgorithm:
+      type: string
+      example: AWS4-HMAC-SHA256
+      description: Identifies the version of AWS Signature and the algorithm used to calculate the signature. Use the value provided as part of the signed URL response of `/startJobS3` or `/jobResultS3`.
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    Cable96V:
+      type: object
+      properties:
+        distributionPointId1:
+          type: string
+        distributionPointId2:
+          type: string
+        coreCableId:
+          type: integer
+          format: int64
+          example: 222
+        trenchIds:
+          type: array
+          items:
+            type: string
+    CoreCable:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 222
+        popId:
+          type: integer
+          format: int64
+          example: 333
+        trenchIds:
+          type: array
+          items:
+            type: string
+    amzSignedHeaders:
+      type: string
+      example: host
+      description: Lists the headers used to calculate the signature. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
+    amzDate:
+      type: string
+      example: 20201201T120000Z
+      description: The date when the signedUrl was generated. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
+    amzExpires:
+      type: string
+      example: '3600'
+      description: Provides the time period, in seconds, for which the generated presigned URL is valid. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
+    amzSecurityToken:
+      type: string
+      example: AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA
+      description: Additional credential parameter. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
+    Splitter:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 754
+        type:
+          type: string
+          example: Splitter
+        x:
+          type: number
+          format: double
+          example: 52.99187331
+        y:
+          type: number
+          format: double
+          example: 5.99117733
+    jobStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - queued
+          - accepted
+          - running
+          - done
+          - failed
+          - unknown
+    HHRoute:
+      type: object
+      properties:
+        trenchIds:
+          type: array
+          items:
+            type: string
     Pop:
       type: object
       properties:
@@ -184,21 +358,34 @@ components:
           type: number
           format: double
           example: 5.99117733
-    Cable96V:
+    Trench:
       type: object
+      description: Trench properties
       properties:
-        distributionPointId1:
+        id:
           type: string
-        distributionPointId2:
+          example: 1005_up_12800
+        x1:
+          type: number
+          format: double
+        y1:
+          type: number
+          format: double
+        x2:
+          type: number
+          format: double
+        y2:
+          type: number
+          format: double
+        length:
+          type: number
+          format: double
+        surfaceType:
           type: string
-        coreCableId:
-          type: integer
-          format: int64
-          example: 222
-        trenchIds:
-          type: array
-          items:
-            type: string
+          enum:
+          - premium_road
+          - road
+          example: road
     jobResult:
       type: object
       properties:
@@ -300,212 +487,25 @@ components:
             $ref: '#/components/schemas/Trench'
         message:
           type: string
-    amzSecurityToken:
-      type: string
-      example: AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA
-      description: Additional credential parameter. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
-    error:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
-    amzSignedHeaders:
-      type: string
-      example: host
-      description: Lists the headers used to calculate the signature. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
-    Splitter:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 754
-        type:
-          type: string
-          example: Splitter
-        x:
-          type: number
-          format: double
-          example: 52.99187331
-        y:
-          type: number
-          format: double
-          example: 5.99117733
-    jobStatus:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - queued
-          - accepted
-          - running
-          - done
-          - failed
-          - unknown
-    DistributionPoint:
-      type: object
-      properties:
-        id:
-          type: string
-        x:
-          type: number
-          format: double
-        y:
-          type: number
-          format: double
-        hhRoutes:
-          type: array
-          items:
-            $ref: '#/components/schemas/HHRoute'
-      required:
-      - id
-      - x
-      - y
-      - hhRoutes
-    HHRoute:
-      type: object
-      properties:
-        trenchIds:
-          type: array
-          items:
-            type: string
-    Has:
-      type: object
-      description: Has geo properties
-      properties:
-        id:
-          type: string
-          example: HAS 1127PV189
-        x1:
-          type: number
-          format: double
-        y1:
-          type: number
-          format: double
-        x2:
-          type: number
-          format: double
-        y2:
-          type: number
-          format: double
     amzSignature:
       type: string
       example: aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb
       description: The signature to authenticate your request. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
-    amzCredential:
-      type: string
-      example: AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request
-      description: This parameter provides scope (AWS region and service) for which the signature is valid. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
-    signedOutputUrl:
-      type: object
-      properties:
-        signedUrl:
-          type: string
-          format: uri
-          example: https://ftth-engineering-prod.s3.amazonaws.com/Output/FTTx_AdamNorth_Input_Dec2020.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20201201T120000Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA&X-Amz-Signature=aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb
-    jsonFileNameSchema:
-      type: string
-      example: FTTx_AdamNorth_Input_Dec2020
-    amzDate:
-      type: string
-      example: 20201201T120000Z
-      description: The date when the signedUrl was generated. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
-    amzExpires:
-      type: string
-      example: '3600'
-      description: Provides the time period, in seconds, for which the generated presigned URL is valid. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
-    jsonFileNameAndExtensionSchema:
-      type: string
-      pattern: ^.+\.(json)$
-      example: FTTx_AdamNorth_Input_Dec2020.json
-      description: "The `jobId` of the engineering job you defined in /startJobS3 or /jobResultS3 with added .json extension. \n"
-    Trench:
-      type: object
-      description: Trench properties
-      properties:
-        id:
-          type: string
-          example: 1005_up_12800
-        x1:
-          type: number
-          format: double
-        y1:
-          type: number
-          format: double
-        x2:
-          type: number
-          format: double
-        y2:
-          type: number
-          format: double
-        length:
-          type: number
-          format: double
-        surfaceType:
-          type: string
-          enum:
-          - premium_road
-          - road
-          example: road
-    amzAlgorithm:
-      type: string
-      example: AWS4-HMAC-SHA256
-      description: Identifies the version of AWS Signature and the algorithm used to calculate the signature. Use the value provided as part of the signed URL response of `/startJobS3` or `/jobResultS3`.
-    CoreCable:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 222
-        popId:
-          type: integer
-          format: int64
-          example: 333
-        trenchIds:
-          type: array
-          items:
-            type: string
   responses:
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
     bad_request:
       description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    gateway_error:
-      description: gateway_error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    not_found:
-      description: not found
       content:
         application/json:
           schema:
@@ -522,14 +522,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    forbidden:
-      description: forbidden
+    gateway_error:
+      description: gateway_error
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    server_error:
-      description: server error
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: Unauthorized
       content:
         application/json:
           schema:

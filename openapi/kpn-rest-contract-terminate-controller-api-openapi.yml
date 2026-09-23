@@ -1,8 +1,29 @@
 openapi: 3.2.0
 info:
-  description: "MobileServicesManagement APIs\n\n   ---\n     \n ## [Source view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)<br/>\n [Documentation view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)\n \n ---\n \n ## [KPN Developer](https://developer.kpn.com/)<br/>\n [Getting Started](https://developer.kpn.com/getting-started)\n \n\n ---"
+  description: 'MobileServicesManagement APIs
+
+
+    ---
+
+
+    ## Source view
+
+
+    Documentation view
+
+
+    ---
+
+
+    ## KPN Developer
+
+
+    Getting Started
+
+
+    ---'
   version: v11
-  title: MobileServicesManagement-KPN Rest Contract Terminate Controller API
+  title: MobileServicesManagement-KPN Rest Contract Terminate…
   termsOfService: https://developer.kpn.com/legal
   contact:
     name: API Support
@@ -19,7 +40,13 @@ paths:
       tags:
       - rest-contract-terminate-controller
       summary: Terminate contract
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization'
       operationId: terminateUsingPOST
       responses:
         '200':
@@ -84,7 +111,13 @@ paths:
       tags:
       - rest-contract-terminate-controller
       summary: Get termination fee for giver contract and termination date
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization'
       operationId: getTerminationFeeUsingGET
       parameters:
       - name: contractId
@@ -157,7 +190,13 @@ paths:
       tags:
       - rest-contract-terminate-controller
       summary: Get first possible termination date for given contract
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization'
       operationId: getMinFreeTerminationDateUsingGET
       parameters:
       - name: contractId
@@ -244,6 +283,25 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    TerminationFee:
+      type: object
+      properties:
+        terminationFeeInCents:
+          type: integer
+          format: int32
+      title: TerminationFee
+    TerminateContractRequest:
+      type: object
+      properties:
+        contractId:
+          type: integer
+          format: int64
+        referenceNumber:
+          type: string
+        wishDate:
+          type: string
+          format: date-time
+      title: TerminateContractRequest
     OrderSummary:
       type: object
       properties:
@@ -277,25 +335,6 @@ components:
           - Rejected
           - ExternalScheduled
       title: OrderSummary
-    TerminationFee:
-      type: object
-      properties:
-        terminationFeeInCents:
-          type: integer
-          format: int32
-      title: TerminationFee
-    TerminateContractRequest:
-      type: object
-      properties:
-        contractId:
-          type: integer
-          format: int64
-        referenceNumber:
-          type: string
-        wishDate:
-          type: string
-          format: date-time
-      title: TerminateContractRequest
   securitySchemes:
     OAuth2:
       type: oauth2

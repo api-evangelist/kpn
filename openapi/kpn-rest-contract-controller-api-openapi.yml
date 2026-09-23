@@ -1,6 +1,27 @@
 openapi: 3.2.0
 info:
-  description: "MobileServicesManagement APIs\n\n   ---\n     \n ## [Source view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)<br/>\n [Documentation view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)\n \n ---\n \n ## [KPN Developer](https://developer.kpn.com/)<br/>\n [Getting Started](https://developer.kpn.com/getting-started)\n \n\n ---"
+  description: 'MobileServicesManagement APIs
+
+
+    ---
+
+
+    ## Source view
+
+
+    Documentation view
+
+
+    ---
+
+
+    ## KPN Developer
+
+
+    Getting Started
+
+
+    ---'
   version: v11
   title: MobileServicesManagement-KPN Rest Contract Controller API
   termsOfService: https://developer.kpn.com/legal
@@ -18,8 +39,20 @@ paths:
     get:
       tags:
       - rest-contract-controller
-      summary: Get all contracts.
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li></ul>
+      summary: Get all contracts
+      description: 'Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization
+
+
+        privileges_virtual_hierarchy_view
+
+
+        privileges_virtual_hierarchy_management'
       operationId: getContractsUsingGET
       parameters:
       - name: Content-Language
@@ -153,8 +186,20 @@ paths:
     get:
       tags:
       - rest-contract-controller
-      summary: Get contract details.
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li></ul>
+      summary: Get contract details
+      description: 'Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization
+
+
+        privileges_virtual_hierarchy_view
+
+
+        privileges_virtual_hierarchy_management'
       operationId: getContractUsingGET
       parameters:
       - name: id
@@ -219,8 +264,20 @@ paths:
     get:
       tags:
       - rest-contract-controller
-      summary: Get all contract items (in form of tree) for given contract.
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li></ul>
+      summary: Get all contract items (in form of tree) for given contract
+      description: 'Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization
+
+
+        privileges_virtual_hierarchy_view
+
+
+        privileges_virtual_hierarchy_management'
       operationId: getContractItemsUsingGET
       parameters:
       - name: id
@@ -285,8 +342,20 @@ paths:
     get:
       tags:
       - rest-contract-controller
-      summary: Get all possible fixed numbers for combining operation.
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li></ul>
+      summary: Get all possible fixed numbers for combining operation
+      description: 'Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization
+
+
+        privileges_virtual_hierarchy_view
+
+
+        privileges_virtual_hierarchy_management'
       operationId: getFixedNumbersForMergingUsingGET
       parameters:
       - name: filters
@@ -404,8 +473,20 @@ paths:
     get:
       tags:
       - rest-contract-controller
-      summary: Get all possible mobile numbers for combining operation.
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li></ul>
+      summary: Get all possible mobile numbers for combining operation
+      description: 'Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization
+
+
+        privileges_virtual_hierarchy_view
+
+
+        privileges_virtual_hierarchy_management'
       operationId: getMobileNumbersForMergingUsingGET
       parameters:
       - name: filters
@@ -527,11 +608,23 @@ paths:
     get:
       tags:
       - rest-contract-controller
-      summary: Get number of contracts grouped by contract type.
+      summary: Get number of contracts grouped by contract type
       description: 'Return contracts statistics. Possible contract types (key values): mobile, fixed, fixed_mobile, hardware, other
 
 
-        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li></ul>'
+        Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization
+
+
+        privileges_virtual_hierarchy_view
+
+
+        privileges_virtual_hierarchy_management'
       responses:
         '200':
           description: OK
@@ -586,130 +679,10 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
       - OAuth2: []
+      operationId: getContractOverview
+      x-operation-id-source: derived
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
-    FixedNumberPresentation:
-      type: object
-      properties:
-        description:
-          type: string
-          enum:
-          - ORGANISATION
-          - FIXED_NUMBER
-          - HUNTGROUP
-          - CALL_CENTER
-        number:
-          type: string
-      title: FixedNumberPresentation
-    PagedResult_ContractForOperation_:
-      type: object
-      properties:
-        result:
-          type: array
-          description: One page of result
-          items:
-            $ref: '#/components/schemas/ContractForOperation'
-        total:
-          type: integer
-          format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_ContractForOperation_
-      description: Paged list of elements
-    BlockingOrder:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        kpnReference:
-          type: string
-        status:
-          type: string
-          enum:
-          - IN_PROGRESS
-          - UNAUTHORIZED
-          - NEW
-          - CLOSED
-          - CANCELED
-          - REJECTED
-          - DRAFT
-          - THIRD_PARTY
-          - HOLD_CUSTOMER
-          - WAITING
-        type:
-          type: string
-          enum:
-          - CONTRACTING
-          - SERVICE_REQUEST
-      title: BlockingOrder
-    ContractItem:
-      type: object
-      properties:
-        children:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractItem'
-        citemBsId:
-          type: integer
-          format: int64
-        contractId:
-          type: integer
-          format: int64
-        id:
-          type: integer
-          format: int64
-        name:
-          $ref: '#/components/schemas/LocalizedString'
-        productBsId:
-          type: integer
-          format: int64
-        tariffPlanVariantBsId:
-          type: integer
-          format: int64
-      title: ContractItem
-    ContractForOperation:
-      type: object
-      properties:
-        firstName:
-          type: string
-        fixedNumber:
-          type: string
-        id:
-          type: integer
-          format: int64
-        lastName:
-          type: string
-        mobileNumber:
-          type: string
-        namePrefix:
-          type: string
-        operation:
-          description: Information if combination is possible and eventualy reason why it is not
-          $ref: '#/components/schemas/OperationState'
-      title: ContractForOperation
     Contract:
       type: object
       properties:
@@ -763,30 +736,31 @@ components:
           description: Total number of all elements in collection
       title: PagedResult_Contract_
       description: Paged list of elements
-    OperationState:
+    ContractItem:
       type: object
       properties:
-        blocked:
-          type: boolean
-        blockingOrders:
+        children:
           type: array
           items:
-            $ref: '#/components/schemas/BlockingOrder'
-        reason:
-          type: string
-      title: OperationState
-    FlexibleNumberPresentation:
-      type: object
-      properties:
-        defaultNumber:
-          type: string
-        fixedNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/FixedNumberPresentation'
-        mobileNumberPresentation:
-          type: boolean
-      title: FlexibleNumberPresentation
+            $ref: '#/components/schemas/ContractItem'
+        citemBsId:
+          type: integer
+          format: int64
+        contractId:
+          type: integer
+          format: int64
+        id:
+          type: integer
+          format: int64
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        productBsId:
+          type: integer
+          format: int64
+        tariffPlanVariantBsId:
+          type: integer
+          format: int64
+      title: ContractItem
     ContractDetails:
       type: object
       properties:
@@ -861,17 +835,76 @@ components:
         userPrincipalName:
           type: string
       title: ContractDetails
-    LocalizedString:
+    ErrorResponse:
       type: object
       properties:
-        en:
+        transactionId:
           type: string
-          description: English version
-        nl:
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
           type: string
-          description: Dutch version
-      title: LocalizedString
-      description: Text with two language versions
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    BlockingOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        kpnReference:
+          type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
+          type: string
+          enum:
+          - CONTRACTING
+          - SERVICE_REQUEST
+      title: BlockingOrder
+    ContractForOperation:
+      type: object
+      properties:
+        firstName:
+          type: string
+        fixedNumber:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        mobileNumber:
+          type: string
+        namePrefix:
+          type: string
+        operation:
+          description: Information if combination is possible and eventualy reason why it is not
+          $ref: '#/components/schemas/OperationState'
+      title: ContractForOperation
     VirtualHierarchyItem:
       type: object
       properties:
@@ -908,6 +941,68 @@ components:
           - CUSTOM_GROUP
           - BUSINESS_LOCATION
       title: VirtualHierarchyItem
+    FixedNumberPresentation:
+      type: object
+      properties:
+        description:
+          type: string
+          enum:
+          - ORGANISATION
+          - FIXED_NUMBER
+          - HUNTGROUP
+          - CALL_CENTER
+        number:
+          type: string
+      title: FixedNumberPresentation
+    OperationState:
+      type: object
+      properties:
+        blocked:
+          type: boolean
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        reason:
+          type: string
+      title: OperationState
+    PagedResult_ContractForOperation_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/ContractForOperation'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_ContractForOperation_
+      description: Paged list of elements
+    LocalizedString:
+      type: object
+      properties:
+        en:
+          type: string
+          description: English version
+        nl:
+          type: string
+          description: Dutch version
+      title: LocalizedString
+      description: Text with two language versions
+    FlexibleNumberPresentation:
+      type: object
+      properties:
+        defaultNumber:
+          type: string
+        fixedNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/FixedNumberPresentation'
+        mobileNumberPresentation:
+          type: boolean
+      title: FlexibleNumberPresentation
   securitySchemes:
     OAuth2:
       type: oauth2

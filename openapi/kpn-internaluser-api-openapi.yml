@@ -1,6 +1,26 @@
 openapi: 3.2.0
 info:
-  description: "### Key highlights\n- **Sandbox:** Full-fledged capabilities.\n- **Security:**  HTTPS, OAuth, Rate limit\n- **Versioning:**  supports version-less API, version tight. If no version is provided (in header) it defaults to latest version. \n\n## [Source view](https://app.swaggerhub.com/apis/kpn/ise-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/ise-kpn)\n---\n## [KPN API Store](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n\n ---"
+  description: '### Key highlights
+
+    - **Sandbox:** Full-fledged capabilities.
+
+    - **Security:** HTTPS, OAuth, Rate limit
+
+    - **Versioning:** supports version-less API, version tight. If no version is provided (in header) it defaults to latest version.
+
+
+    ## Source view
+
+    Documentation view
+
+    ---
+
+    ## KPN API Store
+
+    Getting Started
+
+
+    ---'
   version: v1
   title: ISE - KPN Internaluser API
   contact:
@@ -62,6 +82,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+      summary: Get internaluser
+      x-summary-source: derived
+      operationId: getInternaluser
+      x-operation-id-source: derived
     post:
       tags:
       - internaluser
@@ -111,6 +135,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+      summary: Create internaluser
+      x-summary-source: derived
+      operationId: postInternaluser
+      x-operation-id-source: derived
     put:
       tags:
       - internaluser
@@ -161,6 +189,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+      summary: Replace internaluser
+      x-summary-source: derived
+      operationId: putInternaluser
+      x-operation-id-source: derived
     delete:
       tags:
       - internaluser
@@ -209,60 +241,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+      summary: Delete internaluser
+      x-summary-source: derived
+      operationId: deleteInternaluser
+      x-operation-id-source: derived
 components:
-  responses:
-    endpointgroup:
-      description: A successful delivery
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              SearchResult:
-                type: object
-                properties:
-                  total:
-                    type: number
-                  resources:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/resources'
-    UpdatedFieldsList:
-      description: A successful delivery
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              UpdatedFieldsList:
-                type: object
-                properties:
-                  updatedField:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/updatefield'
-  parameters:
-    id:
-      in: path
-      name: id
-      schema:
-        type: string
-      description: info
-      required: true
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
-    filter:
-      in: query
-      name: filter
-      schema:
-        type: string
-      description: info
-      required: false
   schemas:
     resources:
       type: object
@@ -282,6 +265,29 @@ components:
           type: string
         newValue:
           type: string
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
     internaluser:
       properties:
         name:
@@ -310,29 +316,59 @@ components:
           type: string
         passwordIDStore:
           type: string
-    error:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: Transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
+  responses:
+    UpdatedFieldsList:
+      description: A successful delivery
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              UpdatedFieldsList:
+                type: object
+                properties:
+                  updatedField:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/updatefield'
+    endpointgroup:
+      description: A successful delivery
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              SearchResult:
+                type: object
+                properties:
+                  total:
+                    type: number
+                  resources:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/resources'
+  parameters:
+    filter:
+      in: query
+      name: filter
+      schema:
+        type: string
+      description: info
+      required: false
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+    id:
+      in: path
+      name: id
+      schema:
+        type: string
+      description: info
+      required: true
   requestBodies:
     internaluser:
       required: true

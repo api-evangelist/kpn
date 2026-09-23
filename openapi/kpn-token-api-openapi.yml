@@ -7,11 +7,8 @@ info:
     url: https://developer.kpn.com/support
   termsOfService: https://developer.kpn.com/legal
   version: '1.0'
-  description: 'Operations tagged Token across 3 of this provider''s published API definitions: kpn-match-openapi.yml, kpn-number-verify-openapi.yml, pollyhelp-knowledge-management-openapi.yml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged Token across 2 of this provider''s published API definitions: kpn-number-verify-openapi.yml, pollyhelp-knowledge-management-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
-- description: SwaggerHub API Auto Mocking
-  url: https://virtserver.swaggerhub.com/kpn/Match-KPN/1.1.1
-- url: https://api-prd.kpn.com/communication/kpn/match
 - url: https://api-prd.kpn.com/communication/kpn/numberverify
 - description: SwaggerHub API Auto Mocking
   url: https://virtserver.swaggerhub.com/kpn/NumberVerify-KPN/1.2.1
@@ -25,36 +22,47 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/TokenRequest'
+              type: object
+              required:
+              - client_id
+              - client_secret
+              - scopes
+              properties:
+                client_id:
+                  type: string
+                  description: Your client ID
+                  example: your client id
+                client_secret:
+                  type: string
+                  description: Your client secret
+                  example: your client secret
+                scopes:
+                  type: string
+                  description: '- Scopes determine what the token can access. Valid scopes include `operator_lookup`, `device_match`, and `device_match_notify`.
+
+                    - device_match_notify scope should be used for *Notification* and device_match for *Polling*.
+
+                    - Choose either device_match or device_match_notify at a time
+
+                    - Enter the values in a comma-separated format.
+
+                    '
+                  example: operator_lookup,device_match
             examples:
-              grant_type_and_refresh_token:
+              credentials_scopes:
                 summary: credentials
                 value:
                   client_id: your_client_id
                   client_secret: your_client_secret
-              grant_type_and_refresh_token_correlation_id:
+                  scope: operator_lookup,device_match
+              credentials_scopes_notify:
                 summary: credentials + correlation_id
                 value:
                   client_id: your_client_id
                   client_secret: your_client_secret
-                  correlation_id: abcd1234
-              grant_type_refresh_token_scope:
-                summary: credentials + scopes
-                value:
-                  client_id: your_client_id
-                  client_secret: your_client_secret
-                  scopes:
-                  - mpm
-              grant_type_refresh_token_scope_correlation_id:
-                summary: credentials + scopes + correlation_id
-                value:
-                  client_id: your_client_id
-                  client_secret: your_client_secret
-                  scopes:
-                  - mpm
-                  correlation_id: abcd1234
+                  scope: operator_lookup,device_match_notify
       responses:
         '200':
           description: OK
@@ -68,28 +76,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples:
-                error_response:
-                  summary: Example of Bad Request
-                  value:
-                    error_code: 400
-                    message: Bad Request
-                    correlation_id: abcd1234
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples:
-                error_response:
-                  summary: Example of Unauthorized
-                  value:
-                    error_code: 401
-                    message: Unauthorized
-                    correlation_id: abcd1234
       tags:
       - Token
+      operationId: postToken
+      x-operation-id-source: derived
     get:
       description: Retrieves polly.help token information.
       security:
@@ -116,49 +112,16 @@ paths:
           $ref: '#/components/responses/service_unavailable'
       tags:
       - Token
+      summary: Get token
+      x-summary-source: derived
+      operationId: getToken
+      x-operation-id-source: derived
     servers:
+    - url: https://api-prd.kpn.com/communication/kpn/numberverify
     - description: SwaggerHub API Auto Mocking
-      url: https://virtserver.swaggerhub.com/kpn/Match-KPN/1.1.1
-    - url: https://api-prd.kpn.com/communication/kpn/match
+      url: https://virtserver.swaggerhub.com/kpn/NumberVerify-KPN/1.2.1
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        error_code:
-          type: integer
-          description: HTTP status code representing the error
-          example: 400
-          enum:
-          - 400
-          - 401
-          - 403
-          - 404
-          - 405
-          - 412
-          - 429
-          - 500
-          - 502
-          - 503
-        message:
-          type: string
-          description: A short description of the error
-          example: Bad Request
-          enum:
-          - Bad Request
-          - Unauthorized
-          - Forbidden
-          - Not Found
-          - Method Not Allowed
-          - Precondition Failed
-          - Too Many Requests
-          - Internal Server Error
-          - Bad Gateway
-          - Service Unavailable
-        correlation_id:
-          type: string
-          description: Correlation ID for debugging purposes
-          example: abcd1234
     TokenResponse:
       type: object
       properties:
@@ -171,7 +134,7 @@ components:
         expires_in:
           type: integer
           example: 3600
-    Error_2:
+    Error:
       type: object
       properties:
         error_code:
@@ -255,8 +218,8 @@ components:
           description: Additional information about error
           title: Info
   responses:
-    forbidden:
-      description: forbidden
+    bad_request:
+      description: bad request
       content:
         application/json:
           schema:
@@ -273,8 +236,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    bad_request:
-      description: bad request
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: unauthorized
       content:
         application/json:
           schema:
@@ -285,18 +260,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/token'
-    unauthorized:
-      description: unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    service_unavailable:
-      description: service unavailable
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     server_error:
       description: server error
       content:
@@ -333,6 +296,5 @@ externalDocs:
   description: HTTP response headers
   url: https://developer.kpn.com/documentation-response-headers
 x-refined-from:
-- kpn-match-openapi.yml
 - kpn-number-verify-openapi.yml
 - pollyhelp-knowledge-management-openapi.yml

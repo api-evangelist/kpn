@@ -7,7 +7,29 @@ info:
     name: API Support
     email: api_developer@kpn.com
     url: https://developer.kpn.com/support
-  description: "Vonage's Number Insight API provides details about the validity, reachability and roaming status of a phone number, as well as giving you details on how to format the number properly in your application. There are three levels of the Number Insight API available:\n   - Basic\n   - Standard\n   - Advanced\n   \n  The advanced API is available asynchronously as well as synchronously.\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/number-insight-nexmo/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/number-insight-nexmo/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+  description: 'Vonage''s Number Insight API provides details about the validity, reachability and roaming status of a phone number, as well as giving you details on how to format the number properly in your application. There are three levels of the Number Insight API available:
+
+    - Basic
+
+    - Standard
+
+    - Advanced
+
+
+    The advanced API is available asynchronously as well as synchronously.
+
+
+    ## Source view
+
+    Documentation view
+
+    ---
+
+    ## KPN Developer
+
+    Getting Started
+
+    ---'
 servers:
 - url: https://api-prd.kpn.com/communication/nexmo/number-insight
 tags:
@@ -19,7 +41,70 @@ paths:
       operationId: NumberInsight
       tags:
       - Request
-      description: "**Number Insight Basic**\nYou can use Vonage's Number Insight Basic API to retrieve local and international representations of a phone number by doing semantic checks on the number you submit. This can help you normalise and consistently print numbers in your user interface and gives you information to help you decide if a phone number accept the phone number entered by your user, or ask them to check and correct it.\n\n  Number Insight Basic API is a free synchronous, easy-to-use RESTful web service. For any phone number you can\n  \n   - Retrieve the international and local format.\n   - Know the country where the number is registered.\n \n### Example\n  \n  Request:\n  \n  ```\n  curl -X POST \\\n    https://api-prd.kpn.com/communication/nexmo/number-insight/basic \\\n    -H 'authorization: Bearer ZvV84AtjcXoHU48hA6b5AZljegdy' \\\n    -H 'content-type: application/x-www-form-urlencoded' \\\n    -d 'number=447700900000'\n\n  ```\n  \n  Response:\n  \n  ```\n  {\n      \"status\": 0,\n      \"status_message\": \"Success\",\n      \"request_id\": \"fcb1e9a2-db9c-4ea2-84be-4e60da45e187\",\n      \"international_format_number\": \"447700900000\",\n      \"national_format_number\": \"07700 900000\",\n      \"country_code\": \"GB\",\n      \"country_code_iso3\": \"GBR\",\n      \"country_name\": \"United Kingdom\",\n      \"country_prefix\": \"44\"\n  }\n  \n  ```"
+      description: '**Number Insight Basic**
+
+        You can use Vonage''s Number Insight Basic API to retrieve local and international representations of a phone number by doing semantic checks on the number you submit. This can help you normalise and consistently print numbers in your user interface and gives you information to help you decide if a phone number accept the phone number entered by your user, or ask them to check and correct it.
+
+
+        Number Insight Basic API is a free synchronous, easy-to-use RESTful web service. For any phone number you can
+
+
+        - Retrieve the international and local format.
+
+        - Know the country where the number is registered.
+
+
+        ### Example
+
+
+        Request:
+
+
+        ```
+
+        curl -X POST \
+
+        https://api-prd.kpn.com/communication/nexmo/number-insight/basic \
+
+        -H ''authorization: Bearer ZvV84AtjcXoHU48hA6b5AZljegdy'' \
+
+        -H ''content-type: application/x-www-form-urlencoded'' \
+
+        -d ''number=447700900000''
+
+
+        ```
+
+
+        Response:
+
+
+        ```
+
+        {
+
+        "status": 0,
+
+        "status_message": "Success",
+
+        "request_id": "fcb1e9a2-db9c-4ea2-84be-4e60da45e187",
+
+        "international_format_number": "447700900000",
+
+        "national_format_number": "07700 900000",
+
+        "country_code": "GB",
+
+        "country_code_iso3": "GBR",
+
+        "country_name": "United Kingdom",
+
+        "country_prefix": "44"
+
+        }
+
+
+        ```'
       parameters:
       - in: path
         name: level
@@ -109,7 +194,78 @@ paths:
       summary: Asynchronously get information about a phone number
       tags:
       - Request
-      description: "**Number Insight Advanced Async**\nYou can use Vonage's Number Insight Async API to retrieve a user's landline or mobile number, including checking to see that it is registered to an operator. This can help you verify that a phone number is real and give you information on how to format the number.\n\nNumber Insight Advanced Async API is an asynchronous web service that returns data to a webhook. For any phone number you can\n\n- Retrieve the international and local format.\n- Know the country where the number is registered.\n- Line type detection (mobile/landline/virtual number/premium/toll-free)\n- Detect mobile country code (MCC) and mobile network code (MNC)\n- Detect if number is ported\n- Identify caller name (USA only)\n- Identify network when roaming\n- Confirm user's IP address is in same location as their mobile phone\n\nUsers are advised that the Advanced API does not give any information about landlines that is not already given by the Standard API. For number insights about landlines, you should use the Standard API.\n\n ### Example\n  \n  Request:\n  \n  ```\n  curl -X POST \\\n    https://api-prd.kpn.com/communication/nexmo/number-insight/advanced/async \\\n    -H 'authorization: Bearer ZvV84AtjcXoHU48hA6b5AZljegdy' \\\n    -H 'content-type: application/x-www-form-urlencoded' \\\n    -d 'number=31620028461'\n    -d 'callback=https://example.com/callback'\n  \n  ```\n  \n  Response:\n  \n  ```\n  {\n      \"request_id\": \"c510011c-d782-4f49-bfa9-38a2254884e4\",\n      \"number\": \"447700900000\",\n      \"remaining_balance\": \"10.000000\",\n      \"request_price\": \"0.03000000\",\n      \"status\": 0\n  }\n  ```        "
+      description: '**Number Insight Advanced Async**
+
+        You can use Vonage''s Number Insight Async API to retrieve a user''s landline or mobile number, including checking to see that it is registered to an operator. This can help you verify that a phone number is real and give you information on how to format the number.
+
+
+        Number Insight Advanced Async API is an asynchronous web service that returns data to a webhook. For any phone number you can
+
+
+        - Retrieve the international and local format.
+
+        - Know the country where the number is registered.
+
+        - Line type detection (mobile/landline/virtual number/premium/toll-free)
+
+        - Detect mobile country code (MCC) and mobile network code (MNC)
+
+        - Detect if number is ported
+
+        - Identify caller name (USA only)
+
+        - Identify network when roaming
+
+        - Confirm user''s IP address is in same location as their mobile phone
+
+
+        Users are advised that the Advanced API does not give any information about landlines that is not already given by the Standard API. For number insights about landlines, you should use the Standard API.
+
+
+        ### Example
+
+
+        Request:
+
+
+        ```
+
+        curl -X POST \
+
+        https://api-prd.kpn.com/communication/nexmo/number-insight/advanced/async \
+
+        -H ''authorization: Bearer ZvV84AtjcXoHU48hA6b5AZljegdy'' \
+
+        -H ''content-type: application/x-www-form-urlencoded'' \
+
+        -d ''number=31620028461''
+
+        -d ''callback=https://example.com/callback''
+
+
+        ```
+
+
+        Response:
+
+
+        ```
+
+        {
+
+        "request_id": "c510011c-d782-4f49-bfa9-38a2254884e4",
+
+        "number": "447700900000",
+
+        "remaining_balance": "10.000000",
+
+        "request_price": "0.03000000",
+
+        "status": 0
+
+        }
+
+        ```'
       responses:
         '200':
           description: OK
@@ -187,6 +343,8 @@ paths:
               required:
               - number
               - callback
+      operationId: postAdvancedAsync
+      x-operation-id-source: derived
 components:
   schemas:
     ErrorResponse:
@@ -212,28 +370,6 @@ components:
           type: string
           description: Additional information about error
           title: Info
-    niResponseAsync:
-      type: object
-      properties:
-        request_id:
-          type: string
-          description: The unique identifier for your request. This is a alphanumeric string up to 40 characters.
-          example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
-          maxLength: 40
-        number:
-          type: string
-          description: The `number` in your request
-          example: '447700900000'
-        remaining_balance:
-          type: string
-          description: Your account balance in EUR after this request. Not returned with Number Insight Advanced Async API.
-          example: '1.23456789'
-        request_price:
-          type: number
-          description: If there is an internal lookup error, the `refund_price` will reflect the lookup price. If `cnam` is requested for a non-US number the `refund_price` will reflect the `cnam` price. If both of these conditions occur, `refund_price` is the sum of the lookup price and `cnam` price.
-          example: '0.01500000'
-        status:
-          $ref: '#/components/schemas/niStatus'
     niStatus:
       type: integer
       example: 0
@@ -291,6 +427,28 @@ components:
           type: string
           description: The numeric prefix for the country that `number` is registered in.
           example: '44'
+    niResponseAsync:
+      type: object
+      properties:
+        request_id:
+          type: string
+          description: The unique identifier for your request. This is a alphanumeric string up to 40 characters.
+          example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+          maxLength: 40
+        number:
+          type: string
+          description: The `number` in your request
+          example: '447700900000'
+        remaining_balance:
+          type: string
+          description: Your account balance in EUR after this request. Not returned with Number Insight Advanced Async API.
+          example: '1.23456789'
+        request_price:
+          type: number
+          description: If there is an internal lookup error, the `refund_price` will reflect the lookup price. If `cnam` is requested for a non-US number the `refund_price` will reflect the `cnam` price. If both of these conditions occur, `refund_price` is the sum of the lookup price and `cnam` price.
+          example: '0.01500000'
+        status:
+          $ref: '#/components/schemas/niStatus'
   securitySchemes:
     OAuth2:
       type: oauth2

@@ -1,6 +1,26 @@
 openapi: 3.2.0
 info:
-  description: "### Key highlights\n- **Sandbox:** Full-fledged capabilities.\n- **Security:**  HTTPS, OAuth, Rate limit\n- **Versioning:**  supports version-less API, version tight. If no version is provided (in header) it defaults to latest version. \n\n## [Source view](https://app.swaggerhub.com/apis/kpn/ise-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/ise-kpn)\n---\n## [KPN API Store](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n\n ---"
+  description: '### Key highlights
+
+    - **Sandbox:** Full-fledged capabilities.
+
+    - **Security:** HTTPS, OAuth, Rate limit
+
+    - **Versioning:** supports version-less API, version tight. If no version is provided (in header) it defaults to latest version.
+
+
+    ## Source view
+
+    Documentation view
+
+    ---
+
+    ## KPN API Store
+
+    Getting Started
+
+
+    ---'
   version: v1
   title: ISE - KPN Endpointgroup API
   contact:
@@ -11,12 +31,12 @@ info:
 servers:
 - url: https://api-prd.kpn.com/kpn/ise
 tags:
-- name: endpointgroup
+- name: Endpoint Group
 paths:
   /endpointgroup/:
     get:
       tags:
-      - endpointgroup
+      - Endpoint Group
       description: ''
       security:
       - oauth2: []
@@ -62,24 +82,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+      summary: Get endpointgroup
+      x-summary-source: derived
+      operationId: getEndpointgroup
+      x-operation-id-source: derived
 components:
-  responses:
-    endpointgroup:
-      description: A successful delivery
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              SearchResult:
-                type: object
-                properties:
-                  total:
-                    type: number
-                  resources:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/resources'
   schemas:
     resources:
       type: object
@@ -114,13 +121,6 @@ components:
           description: Additional information about error
           title: Info
   parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
     filter:
       in: query
       name: filter
@@ -128,6 +128,30 @@ components:
         type: string
       description: info
       required: false
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+  responses:
+    endpointgroup:
+      description: A successful delivery
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              SearchResult:
+                type: object
+                properties:
+                  total:
+                    type: number
+                  resources:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/resources'
   securitySchemes:
     oauth2:
       type: oauth2

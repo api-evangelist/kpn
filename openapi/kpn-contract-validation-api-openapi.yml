@@ -50,8 +50,32 @@ paths:
                 $ref: '#/components/schemas/ProblemDetail'
       security:
       - bearer_auth: []
+      summary: Validate contract access
+      x-summary-source: derived
 components:
   schemas:
+    ContractValidationRequest:
+      type: object
+      required:
+      - data_owner
+      - data_consumer_token
+      - resource_type
+      - resource_attribute
+      - resource
+      - action
+      properties:
+        action:
+          type: string
+        data_consumer_token:
+          type: string
+        data_owner:
+          type: string
+        resource:
+          type: string
+        resource_attribute:
+          type: string
+        resource_type:
+          type: string
     ProblemDetail:
       type: object
       required:
@@ -77,28 +101,6 @@ components:
         type:
           type: string
       additionalProperties: {}
-    ContractValidationRequest:
-      type: object
-      required:
-      - data_owner
-      - data_consumer_token
-      - resource_type
-      - resource_attribute
-      - resource
-      - action
-      properties:
-        action:
-          type: string
-        data_consumer_token:
-          type: string
-        data_owner:
-          type: string
-        resource:
-          type: string
-        resource_attribute:
-          type: string
-        resource_type:
-          type: string
     ContractValidationResponse:
       type: object
       required:

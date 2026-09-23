@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
   version: 1.54.0
-  title: KPN SD-LAN SD-WAN Network View Cellular Gateway.configure API
-  description: "The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.\n    \nThe Network View API gives users read rights to retrieve information from the `Network View API` resources. \n    \n- **Note**: By default you have read only access but based on your requirements and contract you can be granted `Manager` access to this API which is more than read only. To request manager access, please contact us at api_developer@kpn.com.\n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/kpn-sd_lan_sd_wan_network_view_api/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/kpn-sd_lan_sd_wan_network_view_api/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)"
+  title: KPN SD-LAN SD-WAN Network View Cellular Gateway.configure…
+  description: The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.
 servers:
 - url: https://api-prd.kpn.com/kpn/meraki
 security:
@@ -12,7 +12,6 @@ tags:
 paths:
   /devices/{serial}/cellularGateway/lan:
     get:
-      description: Show the LAN Settings of a MG
       operationId: getDeviceCellularGatewayLan
       parameters:
       - name: serial
@@ -205,7 +204,7 @@ paths:
                 - start: 192.168.1.0
                   end: 192.168.1.1
                   comment: A reserved IP range
-      summary: Update the LAN Settings for a single MG.
+      summary: Update the LAN Settings for a single MG
       tags:
       - cellularGateway.configure
   /devices/{serial}/cellularGateway/portForwardingRules:
@@ -267,7 +266,7 @@ paths:
                   - 10.10.10.11
                   protocol: tcp
                   access: any
-      summary: Returns the port forwarding rules for a single MG.
+      summary: Returns the port forwarding rules for a single MG
       tags:
       - cellularGateway.configure
     put:
@@ -381,12 +380,11 @@ paths:
                   - 10.10.10.11
                   protocol: tcp
                   access: any
-      summary: Updates the port forwarding rules for a single MG.
+      summary: Updates the port forwarding rules for a single MG
       tags:
       - cellularGateway.configure
   /networks/{networkId}/cellularGateway/connectivityMonitoringDestinations:
     get:
-      description: Return the connectivity testing destinations for an MG network
       operationId: getNetworkCellularGatewayConnectivityMonitoringDestinations
       parameters:
       - name: networkId
@@ -427,7 +425,6 @@ paths:
       tags:
       - cellularGateway.configure
     put:
-      description: Update the connectivity testing destinations for an MG network
       operationId: updateNetworkCellularGatewayConnectivityMonitoringDestinations
       parameters:
       - name: networkId
@@ -500,7 +497,6 @@ paths:
       - cellularGateway.configure
   /networks/{networkId}/cellularGateway/dhcp:
     get:
-      description: List common DHCP settings of MGs
       operationId: getNetworkCellularGatewayDhcp
       parameters:
       - name: networkId
@@ -550,7 +546,6 @@ paths:
       tags:
       - cellularGateway.configure
     put:
-      description: Update common DHCP settings of MGs
       operationId: updateNetworkCellularGatewayDhcp
       parameters:
       - name: networkId
@@ -678,7 +673,7 @@ paths:
                   name: my first MG
                   applianceIp: 192.168.0.1
                   subnet: 192.168.0.0/24
-      summary: Return the subnet pool and mask configured for MGs in the network.
+      summary: Return the subnet pool and mask configured for MGs in the network
       tags:
       - cellularGateway.configure
     put:
@@ -751,7 +746,7 @@ paths:
                   name: my first MG
                   applianceIp: 192.168.0.1
                   subnet: 192.168.0.0/24
-      summary: Update the subnet pool and mask configuration for MGs in the network.
+      summary: Update the subnet pool and mask configuration for MGs in the network
       tags:
       - cellularGateway.configure
   /networks/{networkId}/cellularGateway/uplink:
@@ -787,7 +782,7 @@ paths:
                 bandwidthLimits:
                   limitUp: 51200
                   limitDown: 51200
-      summary: Returns the uplink settings for your MG network.
+      summary: Returns the uplink settings for your MG network
       tags:
       - cellularGateway.configure
     put:
@@ -843,7 +838,7 @@ paths:
                 bandwidthLimits:
                   limitUp: 51200
                   limitDown: 51200
-      summary: Updates the uplink settings for your MG network.
+      summary: Updates the uplink settings for your MG network
       tags:
       - cellularGateway.configure
   /organizations/{organizationId}/cellularGateway/esims/inventory:
@@ -997,12 +992,11 @@ paths:
                     items:
                       total: 1
                       remaining: 0
-      summary: The eSIM inventory of a given organization.
+      summary: The eSIM inventory of a given organization
       tags:
       - cellularGateway.configure
   /organizations/{organizationId}/cellularGateway/esims/inventory/{id}:
     put:
-      description: Toggle the status of an eSIM
       operationId: updateOrganizationCellularGatewayEsimsInventory
       parameters:
       - name: organizationId
@@ -1213,7 +1207,7 @@ paths:
                     items:
                       total: 42
                       remaining: 0
-      summary: Service providers customers can add accounts for.
+      summary: Service providers customers can add accounts for
       tags:
       - cellularGateway.configure
   /organizations/{organizationId}/cellularGateway/esims/serviceProviders/accounts:
@@ -1309,7 +1303,7 @@ paths:
                     items:
                       total: 1
                       remaining: 0
-      summary: Inventory of service provider accounts tied to the organization.
+      summary: Inventory of service provider accounts tied to the organization
       tags:
       - cellularGateway.configure
     post:
@@ -1404,7 +1398,7 @@ paths:
                     url: serviceproviderlogo.url
                 title: My AT&T account
                 username: MerakiUser
-      summary: Add a service provider account.
+      summary: Add a service provider account
       tags:
       - cellularGateway.configure
   /organizations/{organizationId}/cellularGateway/esims/serviceProviders/accounts/communicationPlans:
@@ -1484,7 +1478,7 @@ paths:
                     items:
                       total: 2
                       remaining: 0
-      summary: The communication plans available for a given provider.
+      summary: The communication plans available for a given provider
       tags:
       - cellularGateway.configure
   /organizations/{organizationId}/cellularGateway/esims/serviceProviders/accounts/ratePlans:
@@ -1553,7 +1547,7 @@ paths:
                     items:
                       total: 2
                       remaining: 0
-      summary: The rate plans available for a given provider.
+      summary: The rate plans available for a given provider
       tags:
       - cellularGateway.configure
   /organizations/{organizationId}/cellularGateway/esims/serviceProviders/accounts/{accountId}:
@@ -1632,7 +1626,7 @@ paths:
                     url: serviceproviderlogo.url
                 title: My AT&T account
                 username: MerakiUser
-      summary: Edit service provider account info stored in Meraki's database.
+      summary: Edit service provider account info stored in Meraki's database
       tags:
       - cellularGateway.configure
     delete:
@@ -1654,7 +1648,7 @@ paths:
       responses:
         '204':
           description: Successful operation
-      summary: Remove a service provider account's integration with the Dashboard.
+      summary: Remove a service provider account's integration with the Dashboard
       tags:
       - cellularGateway.configure
   /organizations/{organizationId}/cellularGateway/esims/swap:
@@ -1741,7 +1735,7 @@ paths:
                 eid: '1234567890'
                 iccid: '9876543210'
                 status: Completed
-      summary: Swap which profile an eSIM uses.
+      summary: Swap which profile an eSIM uses
       tags:
       - cellularGateway.configure
   /organizations/{organizationId}/cellularGateway/esims/swap/{id}:
@@ -1790,7 +1784,7 @@ paths:
                 eid: '1234567890'
                 iccid: '9876543210'
                 status: Completed
-      summary: Get the status of a profile swap.
+      summary: Get the status of a profile swap
       tags:
       - cellularGateway.configure
 components:

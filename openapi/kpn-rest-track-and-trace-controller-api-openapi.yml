@@ -1,8 +1,29 @@
 openapi: 3.2.0
 info:
-  description: "MobileServicesManagement APIs\n\n   ---\n     \n ## [Source view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)<br/>\n [Documentation view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)\n \n ---\n \n ## [KPN Developer](https://developer.kpn.com/)<br/>\n [Getting Started](https://developer.kpn.com/getting-started)\n \n\n ---"
+  description: 'MobileServicesManagement APIs
+
+
+    ---
+
+
+    ## Source view
+
+
+    Documentation view
+
+
+    ---
+
+
+    ## KPN Developer
+
+
+    Getting Started
+
+
+    ---'
   version: v11
-  title: MobileServicesManagement-KPN Rest Track And Trace Controller API
+  title: MobileServicesManagement-KPN Rest Track And Trace…
   termsOfService: https://developer.kpn.com/legal
   contact:
     name: API Support
@@ -19,7 +40,13 @@ paths:
       tags:
       - rest-track-and-trace-controller
       summary: Get order list
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_orders_track_and_trace
+
+
+        privileges_orders_authorization'
       operationId: getOrdersUsingGET
       parameters:
       - name: currentUserOrdersOnly
@@ -155,7 +182,13 @@ paths:
       tags:
       - rest-track-and-trace-controller
       summary: Get order details
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_orders_track_and_trace
+
+
+        privileges_orders_authorization'
       operationId: getOrderDetailsUsingGET
       parameters:
       - name: id
@@ -221,7 +254,13 @@ paths:
       tags:
       - rest-track-and-trace-controller
       summary: Cancel order
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_orders_track_and_trace
+
+
+        privileges_orders_authorization'
       operationId: cancelOrderUsingPOST
       parameters:
       - name: id
@@ -289,7 +328,13 @@ paths:
       tags:
       - rest-track-and-trace-controller
       summary: Get list of hardware which was ordered in the order with the given id
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_orders_track_and_trace
+
+
+        privileges_orders_authorization'
       operationId: getHardwareForOrderUsingGET
       parameters:
       - name: id
@@ -357,7 +402,34 @@ paths:
       tags:
       - rest-track-and-trace-controller
       summary: Change port in date or customer number
-      description: "Endpoint allows to change both : customer number and wish date in one request or change only one parameter. \nThere are several possibility to set data:\n| newWishDate | asap | customerNumber | result                              |\n|-------------|--------|----------------|-------------------------------------|\n| date        | false  | null           | change only wish date               |\n| null        | true   | null           | change only wish date to ASAP       |\n| null        | true   | number         | change customer number and wishDate |\n| date        | false  | number         | change customer number and wishDate |\n| date        | true   |   *            | validation error                    |\n| null        | false  | null           | validation error                    |\n\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>"
+      description: 'Endpoint allows to change both : customer number and wish date in one request or change only one parameter.
+
+        There are several possibility to set data:
+
+        | newWishDate | asap | customerNumber | result |
+
+        |-------------|--------|----------------|-------------------------------------|
+
+        | date | false | null | change only wish date |
+
+        | null | true | null | change only wish date to ASAP |
+
+        | null | true | number | change customer number and wishDate |
+
+        | date | false | number | change customer number and wishDate |
+
+        | date | true | * | validation error |
+
+        | null | false | null | validation error |
+
+
+        Required privileges (one of the following):
+
+
+        privileges_orders_track_and_trace
+
+
+        privileges_orders_authorization'
       operationId: changePortingDataUsingPOST
       parameters:
       - name: id
@@ -426,7 +498,13 @@ paths:
       tags:
       - rest-track-and-trace-controller
       summary: Get order details in pretty form
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_orders_track_and_trace
+
+
+        privileges_orders_authorization'
       operationId: getPrettyOrderDetailsUsingGET
       parameters:
       - name: id
@@ -492,7 +570,13 @@ paths:
       tags:
       - rest-track-and-trace-controller
       summary: Get number of orders grouped by orders type
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_orders_track_and_trace
+
+
+        privileges_orders_authorization'
       operationId: getOverviewUsingGET
       responses:
         '200':
@@ -553,7 +637,13 @@ paths:
       tags:
       - rest-track-and-trace-controller
       summary: Get return hardware service requests list
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_orders_track_and_trace
+
+
+        privileges_orders_authorization'
       operationId: getReturnedHardwareServiceRequestUsingGET
       parameters:
       - name: currentUserOrdersOnly
@@ -678,7 +768,13 @@ paths:
       tags:
       - rest-track-and-trace-controller
       summary: Get service requests list
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_orders_track_and_trace
+
+
+        privileges_orders_authorization'
       operationId: getServiceRequestsUsingGET
       parameters:
       - name: Content-Language
@@ -822,7 +918,226 @@ paths:
       tags:
       - rest-track-and-trace-controller
       summary: Get service requests details
-      description: "The possible keys of `attributes` map in response object:<div style='max-height: 400px; overflow: auto; width: 100%'>\n<dl>\n<dt><b>Attribute name</b></dt><dd><b>Meaning</b></dd>\n<dt>login</dt><dd>Login</dd>\n<dt>roles</dt><dd>Roles</dd>\n<dt>firstName</dt><dd>First name</dd>\n<dt>lastName</dt><dd>Last name</dd>\n<dt>surnamePrefix</dt><dd>Surname prefix</dd>\n<dt>email</dt><dd>E-mail</dd>\n<dt>dateOfBirth</dt><dd>Date of birth</dd>\n<dt>vip</dt><dd>VIP</dd>\n<dt>employeeNumber</dt><dd>Employee number</dd>\n<dt>gender</dt><dd>Gender</dd>\n<dt>salutation</dt><dd>Salutation</dd>\n<dt>preferredLanguage</dt><dd>Preferred language</dd>\n<dt>comments</dt><dd>Comments</dd>\n<dt>accesspointNameMSISDN</dt><dd>Mobile number</dd>\n<dt>accesspointNameSIM</dt><dd>SIM card number</dd>\n<dt>accesspointNameIMSI</dt><dd>IMSI</dd>\n<dt>IMEI</dt><dd>IMEI</dd>\n<dt>Hanset_IMEI_number</dt><dd>IMEI</dd>\n<dt>accesspointNameFixedNumber</dt><dd>Fixed Number</dd>\n<dt>activeTo</dt><dd>Active to</dd>\n<dt>contractName</dt><dd>Subscription or device name</dd>\n<dt>totalOnetimePrice</dt><dd>One time price</dd>\n<dt>totalRecurrentPrice</dt><dd>Recurring price</dd>\n<dt>deferredPrice</dt><dd>Deferred price</dd>\n<dt>newUiccId</dt><dd>New SIM card number</dd>\n<dt>movedGroupName</dt><dd>Moved account</dd>\n<dt>subscriberAccountId</dt><dd>Old location</dd>\n<dt>destinationAccount</dt><dd>New location</dd>\n<dt>selectedDuoUiccid</dt><dd>Selected Duo SIM card number</dd>\n<dt>projectId</dt><dd>Project ID</dd>\n<dt>new_fixed_number</dt><dd>New fixed number</dd>\n<dt>new_desk_number</dt><dd>New extension</dd>\n<dt>oldUserGroupName</dt><dd>Previous user group</dd>\n<dt>newUserGroupName</dt><dd>New user group</dd>\n<dt>vpnName</dt><dd>VPN name</dd>\n<dt>deskNumber</dt><dd>Extension</dd>\n<dt>accesspointNameDeskNumber</dt><dd>Extension</dd>\n<dt>mobileAddress</dt><dd>Mobile number</dd>\n<dt>enterpriseName</dt><dd>Enterprise name</dd>\n<dt>enterpriseID</dt><dd>Enterprise ID</dd>\n<dt>mobilityGroupName</dt><dd>Fixed-Mobile PBX name</dd>\n<dt>userGroupName</dt><dd>User group</dd>\n<dt>enterpriseUserGroup</dt><dd>User group</dd>\n<dt>initialUserPrincipalName</dt><dd>User Principal Name</dd>\n<dt>sipAccountName</dt><dd>SIP account name</dd>\n<dt>accessInstanceAttributeinitialUserPrincipalName</dt><dd>User Principal Name</dd>\n<dt>accesspointNameQueuePhoneNumber</dt><dd>Queue phone number</dd>\n<dt>accesspointNameSipAccountName</dt><dd>SIP account name</dd>\n<dt>subscriptionAmount</dt><dd>New subscription amount</dd>\n<dt>contract_contact_name</dt><dd>Contract contact person (name)</dd>\n<dt>contract_contact_phone</dt><dd>Contract contact person (phone)</dd>\n<dt>contract_contact_mail</dt><dd>Contract contact person (mail)</dd>\n<dt>financial_contact_name</dt><dd>Financial contact person (name)</dd>\n<dt>financial_contact_phone</dt><dd>Financial contact person (phone)</dd>\n<dt>financial_contact_mail</dt><dd>Financial contact person (mail)</dd>\n<dt>technical_contact_name</dt><dd>Technical contact Person (name)</dd>\n<dt>technical_contact_phone</dt><dd>Technical contact Person (phone)</dd>\n<dt>technical_contact_mail</dt><dd>Technical contact Person (mail)</dd>\n<dt>deviceOption</dt><dd>Device option</dd>\n<dt>deviceType_label</dt><dd>Device type</dd>\n<dt>macAddress</dt><dd>Mac address</dd>\n<dt>deviceName</dt><dd>Device name</dd>\n<dt>sacGroupAccountId_label</dt><dd>Location account</dd>\n<dt>groupId</dt><dd>Location</dd>\n<dt>vGroupMovingToID</dt><dd>New location</dd>\n<dt>pbxName</dt><dd>PBX</dd>\n<dt>groupCitemId_label</dt><dd>Group</dd>\n<dt>Fixed</dt><dd>Alternate fixed number</dd>\n<dt>DeskNumber</dt><dd>Alternate extension</dd>\n<dt>billing_retention_period</dt><dd>Financial data retention period (months)</dd>\n<dt>managedGroupName</dt><dd>Authorized for</dd>\n<dt>subscriptionType</dt><dd>Subscription type</dd>\n<dt>CurrentNetworkOperator</dt><dd>Current network operator</dd>\n<dt>CurrentServiceProvider</dt><dd>Current service provider</dd>\n<dt>Customer_name_at_current_provider</dt><dd>Customer name at current provider</dd>\n<dt>Current_contract_number</dt><dd>Customer number at current provider</dd>\n<dt>UIccId</dt><dd>Current SIM card number</dd>\n<dt>Initials</dt><dd>Initials</dd>\n<dt>FamilyNamePrefix</dt><dd>Family name prefix</dd>\n<dt>FamilyName</dt><dd>Family name</dd>\n<dt>delivery_TT_id</dt><dd>Delivery Track&trace ID</dd>\n<dt>IsAppleDEP</dt><dd>Apple DEP</dd>\n<dt>IsSamsungKNOX</dt><dd>Samsung KNOX</dd>\n<dt>keepCurrentSim</dt><dd>Keep existing SIM card</dd>\n<dt>Note</dt><dd>Note</dd>\n<dt>Porting_wish_date</dt><dd>Preferred transition date</dd>\n<dt>returnReason</dt><dd>Reason for return</dd>\n<dt>returnRemarks</dt><dd>Remarks</dd>\n<dt>companyName</dt><dd>Company name</dd>\n<dt>companyNamePronounciation</dt><dd>Comapny name pronounciation</dd>\n<dt>businessVoiceMailMessageText</dt><dd>Chosen business voicemail message</dd>\n</dl>\n<div>\n<style type=\"text/css\">  dl {\n    display: flex;\n    flex-flow: row wrap;\n  }\n  dt {\n    flex-basis: 20%;\n    text-align: right;\n  }\n  dd {\n    flex-basis: 70%;\n    flex-grow: 1;\n  }\n</style>\n\n<strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>"
+      description: 'The possible keys of `attributes` map in response object:
+
+
+        Attribute nameMeaning
+
+        loginLogin
+
+        rolesRoles
+
+        firstNameFirst name
+
+        lastNameLast name
+
+        surnamePrefixSurname prefix
+
+        emailE-mail
+
+        dateOfBirthDate of birth
+
+        vipVIP
+
+        employeeNumberEmployee number
+
+        genderGender
+
+        salutationSalutation
+
+        preferredLanguagePreferred language
+
+        commentsComments
+
+        accesspointNameMSISDNMobile number
+
+        accesspointNameSIMSIM card number
+
+        accesspointNameIMSIIMSI
+
+        IMEIIMEI
+
+        Hanset_IMEI_numberIMEI
+
+        accesspointNameFixedNumberFixed Number
+
+        activeToActive to
+
+        contractNameSubscription or device name
+
+        totalOnetimePriceOne time price
+
+        totalRecurrentPriceRecurring price
+
+        deferredPriceDeferred price
+
+        newUiccIdNew SIM card number
+
+        movedGroupNameMoved account
+
+        subscriberAccountIdOld location
+
+        destinationAccountNew location
+
+        selectedDuoUiccidSelected Duo SIM card number
+
+        projectIdProject ID
+
+        new_fixed_numberNew fixed number
+
+        new_desk_numberNew extension
+
+        oldUserGroupNamePrevious user group
+
+        newUserGroupNameNew user group
+
+        vpnNameVPN name
+
+        deskNumberExtension
+
+        accesspointNameDeskNumberExtension
+
+        mobileAddressMobile number
+
+        enterpriseNameEnterprise name
+
+        enterpriseIDEnterprise ID
+
+        mobilityGroupNameFixed-Mobile PBX name
+
+        userGroupNameUser group
+
+        enterpriseUserGroupUser group
+
+        initialUserPrincipalNameUser Principal Name
+
+        sipAccountNameSIP account name
+
+        accessInstanceAttributeinitialUserPrincipalNameUser Principal Name
+
+        accesspointNameQueuePhoneNumberQueue phone number
+
+        accesspointNameSipAccountNameSIP account name
+
+        subscriptionAmountNew subscription amount
+
+        contract_contact_nameContract contact person (name)
+
+        contract_contact_phoneContract contact person (phone)
+
+        contract_contact_mailContract contact person (mail)
+
+        financial_contact_nameFinancial contact person (name)
+
+        financial_contact_phoneFinancial contact person (phone)
+
+        financial_contact_mailFinancial contact person (mail)
+
+        technical_contact_nameTechnical contact Person (name)
+
+        technical_contact_phoneTechnical contact Person (phone)
+
+        technical_contact_mailTechnical contact Person (mail)
+
+        deviceOptionDevice option
+
+        deviceType_labelDevice type
+
+        macAddressMac address
+
+        deviceNameDevice name
+
+        sacGroupAccountId_labelLocation account
+
+        groupIdLocation
+
+        vGroupMovingToIDNew location
+
+        pbxNamePBX
+
+        groupCitemId_labelGroup
+
+        FixedAlternate fixed number
+
+        DeskNumberAlternate extension
+
+        billing_retention_periodFinancial data retention period (months)
+
+        managedGroupNameAuthorized for
+
+        subscriptionTypeSubscription type
+
+        CurrentNetworkOperatorCurrent network operator
+
+        CurrentServiceProviderCurrent service provider
+
+        Customer_name_at_current_providerCustomer name at current provider
+
+        Current_contract_numberCustomer number at current provider
+
+        UIccIdCurrent SIM card number
+
+        InitialsInitials
+
+        FamilyNamePrefixFamily name prefix
+
+        FamilyNameFamily name
+
+        delivery_TT_idDelivery Track&trace ID
+
+        IsAppleDEPApple DEP
+
+        IsSamsungKNOXSamsung KNOX
+
+        keepCurrentSimKeep existing SIM card
+
+        NoteNote
+
+        Porting_wish_datePreferred transition date
+
+        returnReasonReason for return
+
+        returnRemarksRemarks
+
+        companyNameCompany name
+
+        companyNamePronounciationComapny name pronounciation
+
+        businessVoiceMailMessageTextChosen business voicemail message
+
+
+        dl {
+
+        display: flex;
+
+        flex-flow: row wrap;
+
+        }
+
+        dt {
+
+        flex-basis: 20%;
+
+        text-align: right;
+
+        }
+
+        dd {
+
+        flex-basis: 70%;
+
+        flex-grow: 1;
+
+        }
+
+
+        Required privileges (one of the following):
+
+
+        privileges_orders_track_and_trace
+
+
+        privileges_orders_authorization'
       operationId: getServiceRequestDetailsUsingGET
       parameters:
       - name: id
@@ -888,7 +1203,13 @@ paths:
       tags:
       - rest-track-and-trace-controller
       summary: Get attachment with given id and serviceRequestId
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_orders_track_and_trace
+
+
+        privileges_orders_authorization'
       operationId: getAttachmentUsingGET
       parameters:
       - name: attachmentId
@@ -961,7 +1282,13 @@ paths:
       tags:
       - rest-track-and-trace-controller
       summary: Cancel service request
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_track_and_trace</li><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_orders_track_and_trace
+
+
+        privileges_orders_authorization'
       operationId: cancelServiceReqestUsingPOST
       parameters:
       - name: id
@@ -1026,302 +1353,6 @@ paths:
       - OAuth2: []
 components:
   schemas:
-    Hardware:
-      type: object
-      properties:
-        apple:
-          type: boolean
-        contractItem:
-          $ref: '#/components/schemas/ContractItem'
-        imei:
-          type: string
-        product:
-          $ref: '#/components/schemas/Product'
-        returned:
-          type: boolean
-        samsung:
-          type: boolean
-        serialNumber:
-          type: string
-      title: Hardware
-    FixedNumberPresentation:
-      type: object
-      properties:
-        description:
-          type: string
-          enum:
-          - ORGANISATION
-          - FIXED_NUMBER
-          - HUNTGROUP
-          - CALL_CENTER
-        number:
-          type: string
-      title: FixedNumberPresentation
-    BlockingOrder:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        kpnReference:
-          type: string
-        status:
-          type: string
-          enum:
-          - IN_PROGRESS
-          - UNAUTHORIZED
-          - NEW
-          - CLOSED
-          - CANCELED
-          - REJECTED
-          - DRAFT
-          - THIRD_PARTY
-          - HOLD_CUSTOMER
-          - WAITING
-        type:
-          type: string
-          enum:
-          - CONTRACTING
-          - SERVICE_REQUEST
-      title: BlockingOrder
-    OrderAuthorizer1:
-      type: object
-      properties:
-        accountName:
-          type: string
-        firstName:
-          type: string
-        id:
-          type: integer
-          format: int64
-        lastName:
-          type: string
-        prefix:
-          type: string
-        spectatedBy:
-          type: string
-      title: OrderAuthorizer1
-    OperationAvailability:
-      type: object
-      properties:
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        enabled:
-          type: boolean
-        visible:
-          type: boolean
-      title: OperationAvailability
-    ReturnedHardware:
-      type: object
-      properties:
-        multiplicity:
-          type: integer
-          format: int32
-        product:
-          type: string
-      title: ReturnedHardware
-    ServiceRequestDetails:
-      type: object
-      properties:
-        attachments:
-          type: array
-          items:
-            $ref: '#/components/schemas/Attachment'
-        attributes:
-          type: object
-        cancelOrder:
-          $ref: '#/components/schemas/OrderCancelStatus'
-        creationDate:
-          type: string
-          format: date-time
-        customerReference:
-          type: string
-        expectedDate:
-          type: string
-          format: date-time
-        finishDate:
-          type: string
-          format: date-time
-        flexibleNumberPresentation:
-          $ref: '#/components/schemas/FlexibleNumberPresentation'
-        hardwareItems:
-          type: array
-          items:
-            $ref: '#/components/schemas/HardwareSuborder'
-        id:
-          type: integer
-          format: int64
-        invoiceAddress:
-          $ref: '#/components/schemas/Address'
-        kpnReference:
-          type: string
-        modifiedItems:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractServiceUpdate'
-        newSim:
-          type: string
-        personsInvolved:
-          $ref: '#/components/schemas/OrderParticipants'
-        reactivate:
-          $ref: '#/components/schemas/OperationAvailability'
-        requiredAction:
-          type: string
-          enum:
-          - AUTHORIZATION
-          - PORT_IN_DATA_CHANGE
-        sim:
-          type: string
-        status:
-          type: string
-          enum:
-          - IN_PROGRESS
-          - UNAUTHORIZED
-          - NEW
-          - CLOSED
-          - CANCELED
-          - REJECTED
-          - DRAFT
-          - THIRD_PARTY
-          - HOLD_CUSTOMER
-          - WAITING
-        thresholds:
-          type: object
-          description: 'Possible keys: VOICE_NATIONAL_MIN, VOICE_ROAMING_EUR, DATA_NATIONAL_MB, DATA_ROAMING_MB'
-          additionalProperties:
-            $ref: '#/components/schemas/Threshold'
-        totalPriceInCents:
-          type: integer
-          format: int64
-        type:
-          $ref: '#/components/schemas/LocalizedString'
-        wishDate:
-          type: string
-          format: date-time
-      title: ServiceRequestDetails
-    Attachment:
-      type: object
-      properties:
-        fileName:
-          type: string
-        id:
-          type: integer
-          format: int64
-      title: Attachment
-    Threshold:
-      type: object
-      properties:
-        dailyValue:
-          type: number
-          format: float
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        type:
-          type: string
-          enum:
-          - DATA_NATIONAL_MB
-          - DATA_ROAMING_MB
-          - VOICE_NATIONAL_MIN
-          - VOICE_ROAMING_EUR
-      title: Threshold
-    OperationAvailability2:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        visible:
-          type: boolean
-      title: OperationAvailability2
-    Serializable:
-      type: object
-      title: Serializable
-    Order:
-      type: object
-      properties:
-        contractItems:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractItem'
-        creationDate:
-          type: string
-        customerReference:
-          type: string
-        finishDate:
-          type: string
-        id:
-          type: integer
-          format: int64
-        isBeingCanceled:
-          type: boolean
-        kpnReference:
-          type: string
-        msisdn:
-          type: string
-        orderedBy:
-          $ref: '#/components/schemas/OrderParticipant'
-        orderedFor:
-          $ref: '#/components/schemas/OrderReceiver'
-        portingMessage:
-          type: string
-        requiredAction:
-          type: string
-          enum:
-          - AUTHORIZATION
-          - PORT_IN_DATA_CHANGE
-        status:
-          type: string
-          enum:
-          - IN_PROGRESS
-          - UNAUTHORIZED
-          - NEW
-          - CLOSED
-          - CANCELED
-          - REJECTED
-          - DRAFT
-          - THIRD_PARTY
-          - HOLD_CUSTOMER
-          - WAITING
-        type:
-          $ref: '#/components/schemas/LocalizedString'
-      title: Order
-    OrderParticipants:
-      type: object
-      properties:
-        approvedBy:
-          $ref: '#/components/schemas/OrderAuthorizer'
-        orderedBy:
-          $ref: '#/components/schemas/OrderParticipant'
-        receivedBy:
-          $ref: '#/components/schemas/OrderReceiver'
-      title: OrderParticipants
-    ErrorResponse:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
     OrderReceiver1:
       type: object
       properties:
@@ -1341,14 +1372,32 @@ components:
         prefix:
           type: string
       title: OrderReceiver1
-    OrderCancelStatus1:
+    Address2:
       type: object
       properties:
-        enabled:
-          type: boolean
-        visible:
-          type: boolean
-      title: OrderCancelStatus1
+        attention:
+          type: string
+        city:
+          type: string
+        companyName:
+          type: string
+        country:
+          type: string
+        floor:
+          type: string
+        houseNumber:
+          type: string
+        location:
+          type: string
+        postalCode:
+          type: string
+        provinceOrState:
+          type: string
+        room:
+          type: string
+        street:
+          type: string
+      title: Address2
     OrderReceiver:
       type: object
       properties:
@@ -1368,160 +1417,26 @@ components:
         prefix:
           type: string
       title: OrderReceiver
-    PrettyOrderDetails:
+    ContractServiceUpdate:
       type: object
       properties:
-        appleDepEnrollment:
-          $ref: '#/components/schemas/OperationAvailability'
-        appleDepId:
-          type: string
-        cancelOrder:
-          $ref: '#/components/schemas/OrderCancelStatus'
-        changePortingData:
-          $ref: '#/components/schemas/OperationAvailability'
-        changeWishDate:
-          $ref: '#/components/schemas/OperationAvailability'
-        creationDate:
-          type: string
-          format: date-time
-        customerReference:
-          type: string
-        deliveryAddress:
-          $ref: '#/components/schemas/Address'
-        deliveryId:
-          type: string
-        eSimConfirmationCode:
-          type: string
-        eSimEmail:
-          type: string
-        finishDate:
-          type: string
-          format: date-time
-        firstPossibleWishDate:
-          type: string
-          format: date-time
-        flexibleNumberPresentation:
-          $ref: '#/components/schemas/FlexibleNumberPresentation'
-        id:
-          type: integer
-          format: int64
-        invoiceAddress:
-          $ref: '#/components/schemas/Address'
-        items:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              $ref: '#/components/schemas/PrettyContractingSuborder'
-        kpnReference:
-          type: string
-        msisdn:
-          type: string
-        oneTimeCostInCents:
-          type: integer
-          format: int32
-        personsInvolved:
-          $ref: '#/components/schemas/OrderParticipants'
-        portingCustomerNumber:
-          type: string
-        portingMessage:
-          type: string
-        recurringCostInCents:
-          type: integer
-          format: int32
-        registeredForAppleDep:
-          type: boolean
-        registeredForSamsungKnox:
-          type: boolean
-        requiredAction:
-          type: string
-          enum:
-          - AUTHORIZATION
-          - PORT_IN_DATA_CHANGE
-        returnHardware:
-          $ref: '#/components/schemas/OperationAvailability'
-        samsungKnoxEnrollment:
-          $ref: '#/components/schemas/OperationAvailability'
-        samsungKnoxId:
-          type: string
-        sim:
-          type: string
-        status:
-          type: string
-          enum:
-          - IN_PROGRESS
-          - UNAUTHORIZED
-          - NEW
-          - CLOSED
-          - CANCELED
-          - REJECTED
-          - DRAFT
-          - THIRD_PARTY
-          - HOLD_CUSTOMER
-          - WAITING
-        thresholds:
-          type: object
-          description: 'Possible keys: VOICE_NATIONAL_MIN, VOICE_ROAMING_EUR, DATA_NATIONAL_MB, DATA_ROAMING_MB'
-          additionalProperties:
-            $ref: '#/components/schemas/Threshold'
-        type:
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractServiceUpdate'
+        name:
           $ref: '#/components/schemas/LocalizedString'
-        wishDate:
+        newState:
           type: string
-          format: date-time
-      title: PrettyOrderDetails
-    PagedResult_ServiceRequest_:
-      type: object
-      properties:
-        result:
-          type: array
-          description: One page of result
-          items:
-            $ref: '#/components/schemas/ServiceRequest'
-        total:
-          type: integer
-          format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_ServiceRequest_
-      description: Paged list of elements
-    OrderParticipant1:
-      type: object
-      properties:
-        accountName:
+          enum:
+          - 'ON'
+          - 'OFF'
+        oldState:
           type: string
-        firstName:
-          type: string
-        id:
-          type: integer
-          format: int64
-        lastName:
-          type: string
-        prefix:
-          type: string
-      title: OrderParticipant1
-    FlexibleNumberPresentation:
-      type: object
-      properties:
-        defaultNumber:
-          type: string
-        fixedNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/FixedNumberPresentation'
-        mobileNumberPresentation:
-          type: boolean
-      title: FlexibleNumberPresentation
-    LocalizedString1:
-      type: object
-      properties:
-        en:
-          type: string
-          description: English version
-        nl:
-          type: string
-          description: Dutch version
-      title: LocalizedString1
-      description: Text with two language versions
+          enum:
+          - 'ON'
+          - 'OFF'
+      title: ContractServiceUpdate
     ServiceRequest:
       type: object
       properties:
@@ -1568,98 +1483,16 @@ components:
         type:
           $ref: '#/components/schemas/LocalizedString'
       title: ServiceRequest
-    PagedResult_Order_:
-      type: object
-      properties:
-        result:
-          type: array
-          description: One page of result
-          items:
-            $ref: '#/components/schemas/Order'
-        total:
-          type: integer
-          format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_Order_
-      description: Paged list of elements
-    LocalizedString:
-      type: object
-      properties:
-        en:
-          type: string
-          description: English version
-        nl:
-          type: string
-          description: Dutch version
-      title: LocalizedString
-      description: Text with two language versions
-    FlexibleNumberPresentation1:
-      type: object
-      properties:
-        defaultNumber:
-          type: string
-        fixedNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/FixedNumberPresentation'
-        mobileNumberPresentation:
-          type: boolean
-      title: FlexibleNumberPresentation1
-    ContractItem:
+    ContractingSuborder1:
       type: object
       properties:
         children:
           type: array
           items:
-            $ref: '#/components/schemas/ContractItem'
-        citemBsId:
-          type: integer
-          format: int64
-        contractId:
-          type: integer
-          format: int64
-        id:
-          type: integer
-          format: int64
-        name:
-          $ref: '#/components/schemas/LocalizedString'
-        productBsId:
-          type: integer
-          format: int64
-        tariffPlanVariantBsId:
-          type: integer
-          format: int64
-      title: ContractItem
-    Address2:
-      type: object
-      properties:
-        attention:
-          type: string
-        city:
-          type: string
-        companyName:
-          type: string
-        country:
-          type: string
-        floor:
-          type: string
-        houseNumber:
-          type: string
-        location:
-          type: string
-        postalCode:
-          type: string
-        provinceOrState:
-          type: string
-        room:
-          type: string
-        street:
-          type: string
-      title: Address2
-    PrettyContractingSuborder:
-      type: object
-      properties:
+            $ref: '#/components/schemas/ContractingSuborder'
         expectedDeliveryDate:
+          type: string
+        id:
           type: string
         imeiNumbers:
           type: array
@@ -1680,55 +1513,63 @@ components:
         privateCopyingLevyInCents:
           type: integer
           format: int64
+        productName:
+          type: string
         serialNumbers:
           type: array
           items:
             type: string
         status:
           type: string
-      title: PrettyContractingSuborder
-    OrderParticipants1:
+      title: ContractingSuborder1
+    Threshold1:
       type: object
       properties:
-        approvedBy:
-          $ref: '#/components/schemas/OrderAuthorizer1'
-        orderedBy:
-          $ref: '#/components/schemas/OrderParticipant1'
-        receivedBy:
-          $ref: '#/components/schemas/OrderReceiver1'
-      title: OrderParticipants1
-    ReturnedHardwareServiceRequests:
-      type: object
-      properties:
-        creationDate:
-          type: string
         id:
           type: integer
           format: int64
-        kpnReference:
+        name:
           type: string
-        parentOrderSymbol:
-          type: string
-        requestBy:
-          $ref: '#/components/schemas/OrderParticipant'
-        returnedHardware:
+      title: Threshold1
+    ContractingSuborder:
+      type: object
+      properties:
+        children:
           type: array
           items:
-            $ref: '#/components/schemas/ReturnedHardware'
+            $ref: '#/components/schemas/ContractingSuborder'
+        expectedDeliveryDate:
+          type: string
+        id:
+          type: string
+        imeiNumbers:
+          type: array
+          items:
+            type: string
+        mobileNumbers:
+          type: array
+          items:
+            type: string
+        multiplicity:
+          type: integer
+          format: int64
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        oneTimePriceInCents:
+          type: integer
+          format: int64
+        privateCopyingLevyInCents:
+          type: integer
+          format: int64
+        productName:
+          type: string
+        serialNumbers:
+          type: array
+          items:
+            type: string
         status:
           type: string
-          enum:
-          - IN_PROGRESS
-          - UNAUTHORIZED
-          - NEW
-          - CLOSED
-          - CANCELED
-          - REJECTED
-          - DRAFT
-          - THIRD_PARTY
-          - HOLD_CUSTOMER
-          - WAITING
-      title: ReturnedHardwareServiceRequests
+      title: ContractingSuborder
     OrderDetails1:
       type: object
       properties:
@@ -1843,31 +1684,10 @@ components:
           type: string
           format: date-time
       title: OrderDetails1
-    Product:
+    PrettyContractingSuborder:
       type: object
       properties:
-        bsId:
-          type: integer
-          format: int64
-        name:
-          type: string
-        oneTimePriceInCents:
-          type: integer
-          format: int64
-        privateCopyingLevyInCents:
-          type: integer
-          format: int64
-      title: Product
-    ContractingSuborder1:
-      type: object
-      properties:
-        children:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractingSuborder'
         expectedDeliveryDate:
-          type: string
-        id:
           type: string
         imeiNumbers:
           type: array
@@ -1888,33 +1708,28 @@ components:
         privateCopyingLevyInCents:
           type: integer
           format: int64
-        productName:
-          type: string
         serialNumbers:
           type: array
           items:
             type: string
         status:
           type: string
-      title: ContractingSuborder1
-    Threshold1:
+      title: PrettyContractingSuborder
+    PagedResult_ServiceRequest_:
       type: object
       properties:
-        id:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/ServiceRequest'
+        total:
           type: integer
-          format: int64
-        name:
-          type: string
-      title: Threshold1
-    OrderCancelStatus:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        visible:
-          type: boolean
-      title: OrderCancelStatus
-    OrderAuthorizer:
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_ServiceRequest_
+      description: Paged list of elements
+    OrderParticipant1:
       type: object
       properties:
         accountName:
@@ -1928,93 +1743,144 @@ components:
           type: string
         prefix:
           type: string
-        spectatedBy:
-          type: string
-      title: OrderAuthorizer
-    ContractingSuborder:
+      title: OrderParticipant1
+    LocalizedString1:
       type: object
       properties:
-        children:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractingSuborder'
-        expectedDeliveryDate:
+        en:
+          type: string
+          description: English version
+        nl:
+          type: string
+          description: Dutch version
+      title: LocalizedString1
+      description: Text with two language versions
+    ReturnedHardwareServiceRequests:
+      type: object
+      properties:
+        creationDate:
           type: string
         id:
+          type: integer
+          format: int64
+        kpnReference:
           type: string
-        imeiNumbers:
-          type: array
-          items:
-            type: string
-        mobileNumbers:
-          type: array
-          items:
-            type: string
-        multiplicity:
-          type: integer
-          format: int64
-        name:
-          $ref: '#/components/schemas/LocalizedString'
-        oneTimePriceInCents:
-          type: integer
-          format: int64
-        privateCopyingLevyInCents:
-          type: integer
-          format: int64
-        productName:
+        parentOrderSymbol:
           type: string
-        serialNumbers:
+        requestBy:
+          $ref: '#/components/schemas/OrderParticipant'
+        returnedHardware:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/ReturnedHardware'
         status:
           type: string
-      title: ContractingSuborder
-    PagedResult_ReturnedHardwareServiceRequests_:
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+      title: ReturnedHardwareServiceRequests
+    ReturnedHardware:
       type: object
       properties:
-        result:
-          type: array
-          description: One page of result
-          items:
-            $ref: '#/components/schemas/ReturnedHardwareServiceRequests'
-        total:
+        multiplicity:
           type: integer
           format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_ReturnedHardwareServiceRequests_
-      description: Paged list of elements
-    ContractServiceUpdate:
+        product:
+          type: string
+      title: ReturnedHardware
+    Threshold:
       type: object
       properties:
-        children:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractServiceUpdate'
+        dailyValue:
+          type: number
+          format: float
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - DATA_NATIONAL_MB
+          - DATA_ROAMING_MB
+          - VOICE_NATIONAL_MIN
+          - VOICE_ROAMING_EUR
+      title: Threshold
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    Hardware:
+      type: object
+      properties:
+        apple:
+          type: boolean
+        contractItem:
+          $ref: '#/components/schemas/ContractItem'
+        imei:
+          type: string
+        product:
+          $ref: '#/components/schemas/Product'
+        returned:
+          type: boolean
+        samsung:
+          type: boolean
+        serialNumber:
+          type: string
+      title: Hardware
+    HardwareSuborder:
+      type: object
+      properties:
+        imeiNumber:
+          type: string
         name:
           $ref: '#/components/schemas/LocalizedString'
-        newState:
+        priceInCents:
+          type: integer
+          format: int64
+        serialNumber:
           type: string
-          enum:
-          - 'ON'
-          - 'OFF'
-        oldState:
-          type: string
-          enum:
-          - 'ON'
-          - 'OFF'
-      title: ContractServiceUpdate
-    ChangePortingData:
+      title: HardwareSuborder
+    OperationAvailability:
       type: object
       properties:
-        asap:
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        enabled:
           type: boolean
-        customerNumber:
-          type: string
-        newWishDate:
-          type: string
-          format: date-time
-      title: ChangePortingData
+        visible:
+          type: boolean
+      title: OperationAvailability
     OrderParticipant:
       type: object
       properties:
@@ -2030,32 +1896,6 @@ components:
         prefix:
           type: string
       title: OrderParticipant
-    Address:
-      type: object
-      properties:
-        attention:
-          type: string
-        city:
-          type: string
-        companyName:
-          type: string
-        country:
-          type: string
-        floor:
-          type: string
-        houseNumber:
-          type: string
-        location:
-          type: string
-        postalCode:
-          type: string
-        provinceOrState:
-          type: string
-        room:
-          type: string
-        street:
-          type: string
-      title: Address
     Address1:
       type: object
       properties:
@@ -2082,19 +1922,506 @@ components:
         street:
           type: string
       title: Address1
-    HardwareSuborder:
+    ContractItem:
       type: object
       properties:
-        imeiNumber:
-          type: string
-        name:
-          $ref: '#/components/schemas/LocalizedString'
-        priceInCents:
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractItem'
+        citemBsId:
           type: integer
           format: int64
-        serialNumber:
+        contractId:
+          type: integer
+          format: int64
+        id:
+          type: integer
+          format: int64
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        productBsId:
+          type: integer
+          format: int64
+        tariffPlanVariantBsId:
+          type: integer
+          format: int64
+      title: ContractItem
+    OrderParticipants1:
+      type: object
+      properties:
+        approvedBy:
+          $ref: '#/components/schemas/OrderAuthorizer1'
+        orderedBy:
+          $ref: '#/components/schemas/OrderParticipant1'
+        receivedBy:
+          $ref: '#/components/schemas/OrderReceiver1'
+      title: OrderParticipants1
+    ServiceRequestDetails:
+      type: object
+      properties:
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        attributes:
+          type: object
+        cancelOrder:
+          $ref: '#/components/schemas/OrderCancelStatus'
+        creationDate:
           type: string
-      title: HardwareSuborder
+          format: date-time
+        customerReference:
+          type: string
+        expectedDate:
+          type: string
+          format: date-time
+        finishDate:
+          type: string
+          format: date-time
+        flexibleNumberPresentation:
+          $ref: '#/components/schemas/FlexibleNumberPresentation'
+        hardwareItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/HardwareSuborder'
+        id:
+          type: integer
+          format: int64
+        invoiceAddress:
+          $ref: '#/components/schemas/Address'
+        kpnReference:
+          type: string
+        modifiedItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractServiceUpdate'
+        newSim:
+          type: string
+        personsInvolved:
+          $ref: '#/components/schemas/OrderParticipants'
+        reactivate:
+          $ref: '#/components/schemas/OperationAvailability'
+        requiredAction:
+          type: string
+          enum:
+          - AUTHORIZATION
+          - PORT_IN_DATA_CHANGE
+        sim:
+          type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        thresholds:
+          type: object
+          description: 'Possible keys: VOICE_NATIONAL_MIN, VOICE_ROAMING_EUR, DATA_NATIONAL_MB, DATA_ROAMING_MB'
+          additionalProperties:
+            $ref: '#/components/schemas/Threshold'
+        totalPriceInCents:
+          type: integer
+          format: int64
+        type:
+          $ref: '#/components/schemas/LocalizedString'
+        wishDate:
+          type: string
+          format: date-time
+      title: ServiceRequestDetails
+    OrderCancelStatus:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OrderCancelStatus
+    BlockingOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        kpnReference:
+          type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
+          type: string
+          enum:
+          - CONTRACTING
+          - SERVICE_REQUEST
+      title: BlockingOrder
+    Address:
+      type: object
+      properties:
+        attention:
+          type: string
+        city:
+          type: string
+        companyName:
+          type: string
+        country:
+          type: string
+        floor:
+          type: string
+        houseNumber:
+          type: string
+        location:
+          type: string
+        postalCode:
+          type: string
+        provinceOrState:
+          type: string
+        room:
+          type: string
+        street:
+          type: string
+      title: Address
+    PagedResult_Order_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Order'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Order_
+      description: Paged list of elements
+    PrettyOrderDetails:
+      type: object
+      properties:
+        appleDepEnrollment:
+          $ref: '#/components/schemas/OperationAvailability'
+        appleDepId:
+          type: string
+        cancelOrder:
+          $ref: '#/components/schemas/OrderCancelStatus'
+        changePortingData:
+          $ref: '#/components/schemas/OperationAvailability'
+        changeWishDate:
+          $ref: '#/components/schemas/OperationAvailability'
+        creationDate:
+          type: string
+          format: date-time
+        customerReference:
+          type: string
+        deliveryAddress:
+          $ref: '#/components/schemas/Address'
+        deliveryId:
+          type: string
+        eSimConfirmationCode:
+          type: string
+        eSimEmail:
+          type: string
+        finishDate:
+          type: string
+          format: date-time
+        firstPossibleWishDate:
+          type: string
+          format: date-time
+        flexibleNumberPresentation:
+          $ref: '#/components/schemas/FlexibleNumberPresentation'
+        id:
+          type: integer
+          format: int64
+        invoiceAddress:
+          $ref: '#/components/schemas/Address'
+        items:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/PrettyContractingSuborder'
+        kpnReference:
+          type: string
+        msisdn:
+          type: string
+        oneTimeCostInCents:
+          type: integer
+          format: int32
+        personsInvolved:
+          $ref: '#/components/schemas/OrderParticipants'
+        portingCustomerNumber:
+          type: string
+        portingMessage:
+          type: string
+        recurringCostInCents:
+          type: integer
+          format: int32
+        registeredForAppleDep:
+          type: boolean
+        registeredForSamsungKnox:
+          type: boolean
+        requiredAction:
+          type: string
+          enum:
+          - AUTHORIZATION
+          - PORT_IN_DATA_CHANGE
+        returnHardware:
+          $ref: '#/components/schemas/OperationAvailability'
+        samsungKnoxEnrollment:
+          $ref: '#/components/schemas/OperationAvailability'
+        samsungKnoxId:
+          type: string
+        sim:
+          type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        thresholds:
+          type: object
+          description: 'Possible keys: VOICE_NATIONAL_MIN, VOICE_ROAMING_EUR, DATA_NATIONAL_MB, DATA_ROAMING_MB'
+          additionalProperties:
+            $ref: '#/components/schemas/Threshold'
+        type:
+          $ref: '#/components/schemas/LocalizedString'
+        wishDate:
+          type: string
+          format: date-time
+      title: PrettyOrderDetails
+    OrderAuthorizer1:
+      type: object
+      properties:
+        accountName:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        prefix:
+          type: string
+        spectatedBy:
+          type: string
+      title: OrderAuthorizer1
+    FlexibleNumberPresentation:
+      type: object
+      properties:
+        defaultNumber:
+          type: string
+        fixedNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/FixedNumberPresentation'
+        mobileNumberPresentation:
+          type: boolean
+      title: FlexibleNumberPresentation
+    OrderParticipants:
+      type: object
+      properties:
+        approvedBy:
+          $ref: '#/components/schemas/OrderAuthorizer'
+        orderedBy:
+          $ref: '#/components/schemas/OrderParticipant'
+        receivedBy:
+          $ref: '#/components/schemas/OrderReceiver'
+      title: OrderParticipants
+    FlexibleNumberPresentation1:
+      type: object
+      properties:
+        defaultNumber:
+          type: string
+        fixedNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/FixedNumberPresentation'
+        mobileNumberPresentation:
+          type: boolean
+      title: FlexibleNumberPresentation1
+    Product:
+      type: object
+      properties:
+        bsId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        oneTimePriceInCents:
+          type: integer
+          format: int64
+        privateCopyingLevyInCents:
+          type: integer
+          format: int64
+      title: Product
+    OrderAuthorizer:
+      type: object
+      properties:
+        accountName:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        prefix:
+          type: string
+        spectatedBy:
+          type: string
+      title: OrderAuthorizer
+    Serializable:
+      type: object
+      title: Serializable
+    ChangePortingData:
+      type: object
+      properties:
+        asap:
+          type: boolean
+        customerNumber:
+          type: string
+        newWishDate:
+          type: string
+          format: date-time
+      title: ChangePortingData
+    Order:
+      type: object
+      properties:
+        contractItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractItem'
+        creationDate:
+          type: string
+        customerReference:
+          type: string
+        finishDate:
+          type: string
+        id:
+          type: integer
+          format: int64
+        isBeingCanceled:
+          type: boolean
+        kpnReference:
+          type: string
+        msisdn:
+          type: string
+        orderedBy:
+          $ref: '#/components/schemas/OrderParticipant'
+        orderedFor:
+          $ref: '#/components/schemas/OrderReceiver'
+        portingMessage:
+          type: string
+        requiredAction:
+          type: string
+          enum:
+          - AUTHORIZATION
+          - PORT_IN_DATA_CHANGE
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
+          $ref: '#/components/schemas/LocalizedString'
+      title: Order
+    Attachment:
+      type: object
+      properties:
+        fileName:
+          type: string
+        id:
+          type: integer
+          format: int64
+      title: Attachment
+    PagedResult_ReturnedHardwareServiceRequests_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/ReturnedHardwareServiceRequests'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_ReturnedHardwareServiceRequests_
+      description: Paged list of elements
+    OperationAvailability2:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OperationAvailability2
+    LocalizedString:
+      type: object
+      properties:
+        en:
+          type: string
+          description: English version
+        nl:
+          type: string
+          description: Dutch version
+      title: LocalizedString
+      description: Text with two language versions
+    OrderCancelStatus1:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OrderCancelStatus1
+    FixedNumberPresentation:
+      type: object
+      properties:
+        description:
+          type: string
+          enum:
+          - ORGANISATION
+          - FIXED_NUMBER
+          - HUNTGROUP
+          - CALL_CENTER
+        number:
+          type: string
+      title: FixedNumberPresentation
   securitySchemes:
     OAuth2:
       type: oauth2

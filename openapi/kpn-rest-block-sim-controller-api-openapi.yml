@@ -1,6 +1,27 @@
 openapi: 3.2.0
 info:
-  description: "MobileServicesManagement APIs\n\n   ---\n     \n ## [Source view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)<br/>\n [Documentation view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)\n \n ---\n \n ## [KPN Developer](https://developer.kpn.com/)<br/>\n [Getting Started](https://developer.kpn.com/getting-started)\n \n\n ---"
+  description: 'MobileServicesManagement APIs
+
+
+    ---
+
+
+    ## Source view
+
+
+    Documentation view
+
+
+    ---
+
+
+    ## KPN Developer
+
+
+    Getting Started
+
+
+    ---'
   version: v11
   title: MobileServicesManagement-KPN Rest Block Sim Controller API
   termsOfService: https://developer.kpn.com/legal
@@ -19,7 +40,13 @@ paths:
       tags:
       - rest-block-sim-controller
       summary: Block sim for given contract
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization'
       operationId: blockSimUsingPOST
       responses:
         '200':
@@ -84,7 +111,13 @@ paths:
       tags:
       - rest-block-sim-controller
       summary: Unblock sim for given contract
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization'
       operationId: unblockSimUsingPOST
       responses:
         '200':
@@ -169,6 +202,24 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    UnblockSimRequest:
+      type: object
+      properties:
+        contractId:
+          type: integer
+          format: int64
+        referenceNumber:
+          type: string
+      title: UnblockSimRequest
+    BlockSimRequest:
+      type: object
+      properties:
+        contractId:
+          type: integer
+          format: int64
+        referenceNumber:
+          type: string
+      title: BlockSimRequest
     OrderSummary:
       type: object
       properties:
@@ -202,24 +253,6 @@ components:
           - Rejected
           - ExternalScheduled
       title: OrderSummary
-    BlockSimRequest:
-      type: object
-      properties:
-        contractId:
-          type: integer
-          format: int64
-        referenceNumber:
-          type: string
-      title: BlockSimRequest
-    UnblockSimRequest:
-      type: object
-      properties:
-        contractId:
-          type: integer
-          format: int64
-        referenceNumber:
-          type: string
-      title: UnblockSimRequest
   securitySchemes:
     OAuth2:
       type: oauth2

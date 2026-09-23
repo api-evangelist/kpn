@@ -3,77 +3,7 @@ info:
   title: Webhook Privacy Configuration - KPN Organization API
   description: 'KPN delivers outbound webhook notifications — such as SMS delivery reports — to the
 
-    endpoints you configure. This API lets you control two things about those deliveries:
-
-    the URL they are sent to, and which fields are included in the payload.
-
-
-    **How configuration scopes work**
-
-
-    You can configure webhooks at three levels — Organization, Team, or Application. Settings
-
-    resolve from the most specific level to the broadest: an Application config overrides a
-
-    Team config, which overrides the Organization config. This lets you set sensible defaults
-
-    at org or team level and override them only where a specific application needs it.
-
-
-    **Controlling payload fields (privacy)**
-
-
-    `privacy_config.excluded_fields` maps a service name to the list of fields to omit from
-
-    that service''s outbound payloads. Any field not listed is included; an empty or absent
-
-    map means every field is sent. Exclusion rules resolve along the same
-
-    Application → Team → Organization cascade.
-
-
-    For example, to hide the recipient phone number and message body from SMS delivery
-
-    reports:
-
-
-    ```json
-
-    { "privacy_config": { "excluded_fields": { "sms_dlr": ["RecipientPhonenumber", "Message"] } } }
-
-    ```
-
-
-    **Signing keys are managed separately**
-
-
-    The `signing` block returned by these endpoints is read-only. To create and rotate the
-
-    keys used to sign outbound payloads, use the Webhook Signing Keys API.
-
-
-    **Authentication**
-
-
-    You need an OAuth 2.0 Bearer token to call these endpoints. Exchange your **Client ID**
-
-    and **Client Secret** (available in the [KPN API Store](https://developer.kpn.com)) for
-
-    an access token, then pass it as `Authorization: Bearer <token>` on every request.
-
-    Tokens expire, so build in a refresh before expiry.
-
-
-    **Need help?**
-
-
-    - [KPN Developer Portal](https://developer.kpn.com)
-
-    - [Getting Started with KPN APIs](https://developer.kpn.com/getting-started)
-
-    - [API Support](https://developer.kpn.com/support)
-
-    '
+    endpoints you configure.'
   version: 3.0.0
   contact:
     name: API Support
@@ -91,9 +21,7 @@ tags:
 - name: Organization
   description: 'Organization-scope webhook configuration. Applies to all teams and applications in
 
-    your organization unless a team or application config overrides it.
-
-    '
+    your organization unless a team or application config overrides it.'
 paths:
   /organizations:
     get:
@@ -110,9 +38,7 @@ paths:
 
         org-level signing key is provisioned or when the first webhook delivery
 
-        is processed for your organization.
-
-        '
+        is processed for your organization.'
       responses:
         '200':
           description: OK
@@ -149,9 +75,7 @@ paths:
         in your organization inherit these settings unless they define their own.
 
 
-        To manage signing keys, use the [Webhook Signing Keys API](#tag/Organization-Keys).
-
-        '
+        To manage signing keys, use the Webhook Signing Keys API.'
       requestBody:
         required: true
         content:
@@ -195,17 +119,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
-    BadRequest:
-      description: Bad request — check your request body for missing or invalid fields.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '400'
-              message: Bad Request
-              info: https://developer.kpn.com/documentation-webhook-config
     NotFound:
       description: Not found — the requested configuration does not exist.
       content:
@@ -217,17 +130,6 @@ components:
               code: '404'
               message: Not Found
               info: https://developer.kpn.com/documentation-webhook-config
-    InternalServerError:
-      description: Internal server error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '500'
-              message: Internal Server Error
-              info: https://developer.kpn.com/support
     Unauthorized:
       description: Unauthorized — missing or invalid Bearer token.
       content:
@@ -250,7 +152,60 @@ components:
               code: '403'
               message: Forbidden
               info: https://developer.kpn.com/support
+    BadRequest:
+      description: Bad request — check your request body for missing or invalid fields.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '400'
+              message: Bad Request
+              info: https://developer.kpn.com/documentation-webhook-config
+    InternalServerError:
+      description: Internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '500'
+              message: Internal Server Error
+              info: https://developer.kpn.com/support
   schemas:
+    PrivacyConfig:
+      type: object
+      description: 'Service-scoped field exclusion map.
+
+
+        Keys are KPN service identifiers (e.g. `sms_dlr`); values are lists of
+
+        field names to omit from outbound webhook payloads for that service.
+
+        Any field not listed is included in the payload.
+
+        An empty or absent map means **include all fields**.
+
+        '
+      properties:
+        excluded_fields:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+            maxItems: 50
+          example:
+            sms_dlr:
+            - RecipientPhonenumber
+            - Message
+    OrgWebhookConfigUpdate:
+      type: object
+      properties:
+        privacy_config:
+          $ref: '#/components/schemas/PrivacyConfig'
     OrgWebhookConfigResponse:
       type: object
       properties:
@@ -282,32 +237,6 @@ components:
           - string
           - 'null'
           format: date-time
-    PrivacyConfig:
-      type: object
-      description: 'Service-scoped field exclusion map.
-
-
-        Keys are KPN service identifiers (e.g. `sms_dlr`); values are lists of
-
-        field names to omit from outbound webhook payloads for that service.
-
-        Any field not listed is included in the payload.
-
-        An empty or absent map means **include all fields**.
-
-        '
-      properties:
-        excluded_fields:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-            maxItems: 50
-          example:
-            sms_dlr:
-            - RecipientPhonenumber
-            - Message
     ApiErrorResponse:
       type: object
       properties:
@@ -326,11 +255,6 @@ components:
               type: string
               description: URL to relevant documentation or support page.
               example: https://developer.kpn.com/documentation-webhook-config
-    OrgWebhookConfigUpdate:
-      type: object
-      properties:
-        privacy_config:
-          $ref: '#/components/schemas/PrivacyConfig'
   securitySchemes:
     OAuth2:
       type: oauth2

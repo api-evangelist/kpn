@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   version: 1.54.0
   title: KPN SD-LAN SD-WAN Network View Appliance.configure API
-  description: "The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.\n    \nThe Network View API gives users read rights to retrieve information from the `Network View API` resources. \n    \n- **Note**: By default you have read only access but based on your requirements and contract you can be granted `Manager` access to this API which is more than read only. To request manager access, please contact us at api_developer@kpn.com.\n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/kpn-sd_lan_sd_wan_network_view_api/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/kpn-sd_lan_sd_wan_network_view_api/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)"
+  description: The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.
 servers:
 - url: https://api-prd.kpn.com/kpn/meraki
 security:
@@ -12,7 +12,6 @@ tags:
 paths:
   /devices/{serial}/appliance/radio/settings:
     get:
-      description: Return the radio settings of an appliance
       operationId: getDeviceApplianceRadioSettings
       parameters:
       - name: serial
@@ -122,7 +121,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update the radio settings of an appliance
       operationId: updateDeviceApplianceRadioSettings
       parameters:
       - name: serial
@@ -325,7 +323,6 @@ paths:
       - appliance.configure
   /devices/{serial}/appliance/uplinks/settings:
     get:
-      description: Return the uplink settings for an MX appliance
       operationId: getDeviceApplianceUplinksSettings
       parameters:
       - name: serial
@@ -580,7 +577,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update the uplink settings for an MX appliance
       operationId: updateDeviceApplianceUplinksSettings
       parameters:
       - name: serial
@@ -1087,7 +1083,6 @@ paths:
       - appliance.configure
   /devices/{serial}/appliance/vmx/authenticationToken:
     post:
-      description: Generate a new vMX authentication token
       operationId: createDeviceApplianceVmxAuthenticationToken
       parameters:
       - name: serial
@@ -1118,7 +1113,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/connectivityMonitoringDestinations:
     get:
-      description: Return the connectivity testing destinations for an MX network
       operationId: getNetworkApplianceConnectivityMonitoringDestinations
       parameters:
       - name: networkId
@@ -1159,7 +1153,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update the connectivity testing destinations for an MX network
       operationId: updateNetworkApplianceConnectivityMonitoringDestinations
       parameters:
       - name: networkId
@@ -1230,7 +1223,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/contentFiltering:
     get:
-      description: Return the content filtering settings for an MX network
       operationId: getNetworkApplianceContentFiltering
       parameters:
       - name: networkId
@@ -1263,7 +1255,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update the content filtering settings for an MX network
       operationId: updateNetworkApplianceContentFiltering
       parameters:
       - name: networkId
@@ -1336,7 +1327,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/contentFiltering/categories:
     get:
-      description: List all available content filtering categories for an MX network
       operationId: getNetworkApplianceContentFilteringCategories
       parameters:
       - name: networkId
@@ -1366,7 +1356,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/firewall/cellularFirewallRules:
     get:
-      description: Return the cellular firewall rules for an MX network
       operationId: getNetworkApplianceFirewallCellularFirewallRules
       parameters:
       - name: networkId
@@ -1396,7 +1385,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update the cellular firewall rules of an MX network
       operationId: updateNetworkApplianceFirewallCellularFirewallRules
       parameters:
       - name: networkId
@@ -1488,7 +1476,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/firewall/firewalledServices:
     get:
-      description: List the appliance services and their accessibility rules
       operationId: getNetworkApplianceFirewallFirewalledServices
       parameters:
       - name: networkId
@@ -1567,7 +1554,7 @@ paths:
                 access: restricted
                 allowedIps:
                 - 123.123.123.1
-      summary: Return the accessibility settings of the given service ('ICMP', 'web', or 'SNMP')
+      summary: Return the accessibility settings of the given service ('ICMP', 'web', or…
       tags:
       - appliance.configure
     put:
@@ -1635,12 +1622,11 @@ paths:
                 access: restricted
                 allowedIps:
                 - 123.123.123.1
-      summary: Updates the accessibility settings for the given service ('ICMP', 'web', or 'SNMP')
+      summary: Updates the accessibility settings for the given service ('ICMP', 'web', or…
       tags:
       - appliance.configure
   /networks/{networkId}/appliance/firewall/inboundCellularFirewallRules:
     get:
-      description: Return the inbound cellular firewall rules for an MX network
       operationId: getNetworkApplianceFirewallInboundCellularFirewallRules
       parameters:
       - name: networkId
@@ -1701,7 +1687,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update the inbound cellular firewall rules of an MX network
       operationId: updateNetworkApplianceFirewallInboundCellularFirewallRules
       parameters:
       - name: networkId
@@ -1824,7 +1809,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/firewall/inboundFirewallRules:
     get:
-      description: Return the inbound firewall rules for an MX network
       operationId: getNetworkApplianceFirewallInboundFirewallRules
       parameters:
       - name: networkId
@@ -1889,7 +1873,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update the inbound firewall rules of an MX network
       operationId: updateNetworkApplianceFirewallInboundFirewallRules
       parameters:
       - name: networkId
@@ -2020,7 +2003,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/firewall/l3FirewallRules:
     get:
-      description: Return the L3 firewall rules for an MX network
       operationId: getNetworkApplianceFirewallL3FirewallRules
       parameters:
       - name: networkId
@@ -2050,7 +2032,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update the L3 firewall rules of an MX network
       operationId: updateNetworkApplianceFirewallL3FirewallRules
       parameters:
       - name: networkId
@@ -2145,7 +2126,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/firewall/l7FirewallRules:
     get:
-      description: List the MX L7 firewall rules for an MX network
       operationId: getNetworkApplianceFirewallL7FirewallRules
       parameters:
       - name: networkId
@@ -2179,7 +2159,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update the MX L7 firewall rules for an MX network
       operationId: updateNetworkApplianceFirewallL7FirewallRules
       parameters:
       - name: networkId
@@ -2306,12 +2285,11 @@ paths:
                   applications:
                   - id: meraki:layer7/application/5
                     name: Advertising.com
-      summary: Return the L7 firewall application categories and their associated applications for an MX network
+      summary: Return the L7 firewall application categories and their associated applications…
       tags:
       - appliance.configure
   /networks/{networkId}/appliance/firewall/oneToManyNatRules:
     get:
-      description: Return the 1:Many NAT mapping rules for an MX network
       operationId: getNetworkApplianceFirewallOneToManyNatRules
       parameters:
       - name: networkId
@@ -2351,7 +2329,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Set the 1:Many NAT mapping rules for an MX network
       operationId: updateNetworkApplianceFirewallOneToManyNatRules
       parameters:
       - name: networkId
@@ -2466,7 +2443,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/firewall/oneToOneNatRules:
     get:
-      description: Return the 1:1 NAT mapping rules for an MX network
       operationId: getNetworkApplianceFirewallOneToOneNatRules
       parameters:
       - name: networkId
@@ -2505,7 +2481,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Set the 1:1 NAT mapping rules for an MX network
       operationId: updateNetworkApplianceFirewallOneToOneNatRules
       parameters:
       - name: networkId
@@ -2617,7 +2592,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/firewall/portForwardingRules:
     get:
-      description: Return the port forwarding rules for an MX network
       operationId: getNetworkApplianceFirewallPortForwardingRules
       parameters:
       - name: networkId
@@ -2685,7 +2659,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update the port forwarding rules for an MX network
       operationId: updateNetworkApplianceFirewallPortForwardingRules
       parameters:
       - name: networkId
@@ -2816,7 +2789,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/firewall/settings:
     get:
-      description: Return the firewall settings for this network
       operationId: getNetworkApplianceFirewallSettings
       parameters:
       - name: networkId
@@ -2840,7 +2812,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update the firewall settings for this network
       operationId: updateNetworkApplianceFirewallSettings
       parameters:
       - name: networkId
@@ -2938,7 +2909,7 @@ paths:
                 vlan: 3
                 allowedVlans: all
                 accessPolicy: open
-      summary: List per-port VLAN settings for all ports of a MX.
+      summary: List per-port VLAN settings for all ports of a MX
       tags:
       - appliance.configure
   /networks/{networkId}/appliance/ports/{portId}:
@@ -2995,7 +2966,7 @@ paths:
                 vlan: 3
                 allowedVlans: all
                 accessPolicy: open
-      summary: Return per-port VLAN settings for a single MX port.
+      summary: Return per-port VLAN settings for a single MX port
       tags:
       - appliance.configure
     put:
@@ -3083,12 +3054,11 @@ paths:
                 vlan: 3
                 allowedVlans: all
                 accessPolicy: open
-      summary: Update the per-port VLAN settings for a single MX port.
+      summary: Update the per-port VLAN settings for a single MX port
       tags:
       - appliance.configure
   /networks/{networkId}/appliance/prefixes/delegated/statics:
     get:
-      description: List static delegated prefixes for a network
       operationId: getNetworkAppliancePrefixesDelegatedStatics
       parameters:
       - name: networkId
@@ -3150,7 +3120,6 @@ paths:
       tags:
       - appliance.configure
     post:
-      description: Add a static delegated prefix from a network
       operationId: createNetworkAppliancePrefixesDelegatedStatic
       parameters:
       - name: networkId
@@ -3219,7 +3188,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/prefixes/delegated/statics/{staticDelegatedPrefixId}:
     get:
-      description: Return a static delegated prefix from a network
       operationId: getNetworkAppliancePrefixesDelegatedStatic
       parameters:
       - name: networkId
@@ -3285,7 +3253,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update a static delegated prefix from a network
       operationId: updateNetworkAppliancePrefixesDelegatedStatic
       parameters:
       - name: networkId
@@ -3356,7 +3323,6 @@ paths:
       tags:
       - appliance.configure
     delete:
-      description: Delete a static delegated prefix from a network
       operationId: deleteNetworkAppliancePrefixesDelegatedStatic
       parameters:
       - name: networkId
@@ -3379,7 +3345,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/rfProfiles:
     get:
-      description: List the RF profiles for this network
       operationId: getNetworkApplianceRfProfiles
       parameters:
       - name: networkId
@@ -3504,7 +3469,6 @@ paths:
       tags:
       - appliance.configure
     post:
-      description: Creates new RF profile for this network
       operationId: createNetworkApplianceRfProfile
       parameters:
       - name: networkId
@@ -3745,7 +3709,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/rfProfiles/{rfProfileId}:
     put:
-      description: Updates specified RF profile for this network
       operationId: updateNetworkApplianceRfProfile
       parameters:
       - name: networkId
@@ -3989,7 +3952,6 @@ paths:
       tags:
       - appliance.configure
     delete:
-      description: Delete a RF Profile
       operationId: deleteNetworkApplianceRfProfile
       parameters:
       - name: networkId
@@ -4011,7 +3973,6 @@ paths:
       tags:
       - appliance.configure
     get:
-      description: Return a RF profile
       operationId: getNetworkApplianceRfProfile
       parameters:
       - name: networkId
@@ -4136,7 +4097,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/sdwan/internetPolicies:
     put:
-      description: Update SDWAN internet traffic preferences for an MX network
       operationId: updateNetworkApplianceSdwanInternetPolicies
       parameters:
       - name: networkId
@@ -4441,7 +4401,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/security/intrusion:
     get:
-      description: Returns all supported intrusion settings for an MX network
       operationId: getNetworkApplianceSecurityIntrusion
       parameters:
       - name: networkId
@@ -4498,7 +4457,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Set the supported intrusion settings for an MX network
       operationId: updateNetworkApplianceSecurityIntrusion
       parameters:
       - name: networkId
@@ -4607,7 +4565,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/security/malware:
     get:
-      description: Returns all supported malware settings for an MX network
       operationId: getNetworkApplianceSecurityMalware
       parameters:
       - name: networkId
@@ -4663,7 +4620,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Set the supported malware settings for an MX network
       operationId: updateNetworkApplianceSecurityMalware
       parameters:
       - name: networkId
@@ -4773,7 +4729,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/settings:
     get:
-      description: Return the appliance settings for a network
       operationId: getNetworkApplianceSettings
       parameters:
       - name: networkId
@@ -4827,7 +4782,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update the appliance settings for a network
       operationId: updateNetworkApplianceSettings
       parameters:
       - name: networkId
@@ -4918,7 +4872,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/singleLan:
     get:
-      description: Return single LAN configuration
       operationId: getNetworkApplianceSingleLan
       parameters:
       - name: networkId
@@ -5004,7 +4957,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update single LAN configuration
       operationId: updateNetworkApplianceSingleLan
       parameters:
       - name: networkId
@@ -5151,7 +5103,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/ssids:
     get:
-      description: List the MX SSIDs in a network
       operationId: getNetworkApplianceSsids
       parameters:
       - name: networkId
@@ -5223,7 +5174,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/ssids/{number}:
     get:
-      description: Return a single MX SSID
       operationId: getNetworkApplianceSsid
       parameters:
       - name: networkId
@@ -5298,7 +5248,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update the attributes of an MX SSID
       operationId: updateNetworkApplianceSsid
       parameters:
       - name: networkId
@@ -5468,7 +5417,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/staticRoutes:
     get:
-      description: List the static routes for an MX or teleworker network
       operationId: getNetworkApplianceStaticRoutes
       parameters:
       - name: networkId
@@ -5560,7 +5508,6 @@ paths:
       tags:
       - appliance.configure
     post:
-      description: Add a static route for an MX or teleworker network
       operationId: createNetworkApplianceStaticRoute
       parameters:
       - name: networkId
@@ -5679,7 +5626,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/staticRoutes/{staticRouteId}:
     get:
-      description: Return a static route for an MX or teleworker network
       operationId: getNetworkApplianceStaticRoute
       parameters:
       - name: networkId
@@ -5775,7 +5721,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update a static route for an MX or teleworker network
       operationId: updateNetworkApplianceStaticRoute
       parameters:
       - name: networkId
@@ -5939,7 +5884,6 @@ paths:
       tags:
       - appliance.configure
     delete:
-      description: Delete a static route from an MX or teleworker network
       operationId: deleteNetworkApplianceStaticRoute
       parameters:
       - name: networkId
@@ -5962,7 +5906,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/trafficShaping:
     get:
-      description: Display the traffic shaping settings for an MX network
       operationId: getNetworkApplianceTrafficShaping
       parameters:
       - name: networkId
@@ -5986,7 +5929,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update the traffic shaping settings for an MX network
       operationId: updateNetworkApplianceTrafficShaping
       parameters:
       - name: networkId
@@ -6032,7 +5974,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/trafficShaping/customPerformanceClasses:
     get:
-      description: List all custom performance classes for an MX network
       operationId: getNetworkApplianceTrafficShapingCustomPerformanceClasses
       parameters:
       - name: networkId
@@ -6076,7 +6017,6 @@ paths:
       tags:
       - appliance.configure
     post:
-      description: Add a custom performance class for an MX network
       operationId: createNetworkApplianceTrafficShapingCustomPerformanceClass
       parameters:
       - name: networkId
@@ -6145,7 +6085,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/trafficShaping/customPerformanceClasses/{customPerformanceClassId}:
     get:
-      description: Return a custom performance class for an MX network
       operationId: getNetworkApplianceTrafficShapingCustomPerformanceClass
       parameters:
       - name: networkId
@@ -6193,7 +6132,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update a custom performance class for an MX network
       operationId: updateNetworkApplianceTrafficShapingCustomPerformanceClass
       parameters:
       - name: networkId
@@ -6265,7 +6203,6 @@ paths:
       tags:
       - appliance.configure
     delete:
-      description: Delete a custom performance class from an MX network
       operationId: deleteNetworkApplianceTrafficShapingCustomPerformanceClass
       parameters:
       - name: networkId
@@ -6288,7 +6225,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/trafficShaping/rules:
     put:
-      description: Update the traffic shaping settings rules for an MX network
       operationId: updateNetworkApplianceTrafficShapingRules
       parameters:
       - name: networkId
@@ -6421,7 +6357,6 @@ paths:
       tags:
       - appliance.configure
     get:
-      description: Display the traffic shaping settings rules for an MX network
       operationId: getNetworkApplianceTrafficShapingRules
       parameters:
       - name: networkId
@@ -6465,7 +6400,7 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/trafficShaping/uplinkBandwidth:
     get:
-      description: Returns the uplink bandwidth limits for your MX network. This may not reflect the affected device's hardware capabilities.  For more information on your device's hardware capabilities, please consult our MX Family Datasheet - [https://meraki.cisco.com/product-collateral/mx-family-datasheet/?file]
+      description: Returns the uplink bandwidth limits for your MX network. This may not reflect the affected device's hardware capabilities. For more information on your device's hardware capabilities, please consult our MX Family Datasheet - [https://meraki.cisco.com/product-collateral/mx-family-datasheet/?file]
       operationId: getNetworkApplianceTrafficShapingUplinkBandwidth
       parameters:
       - name: networkId
@@ -6610,12 +6545,11 @@ paths:
                   cellular:
                     limitUp: 51200
                     limitDown: 51200
-      summary: Updates the uplink bandwidth settings for your MX network.
+      summary: Updates the uplink bandwidth settings for your MX network
       tags:
       - appliance.configure
   /networks/{networkId}/appliance/trafficShaping/uplinkSelection:
     get:
-      description: Show uplink selection settings for an MX network
       operationId: getNetworkApplianceTrafficShapingUplinkSelection
       parameters:
       - name: networkId
@@ -6913,7 +6847,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update uplink selection settings for an MX network
       operationId: updateNetworkApplianceTrafficShapingUplinkSelection
       parameters:
       - name: networkId
@@ -7635,12 +7568,11 @@ paths:
                 majorApplications:
                 - id: meraki:vpnExclusion/application/2
                   name: Office 365 Sharepoint
-      summary: Update VPN exclusion rules for an MX network.
+      summary: Update VPN exclusion rules for an MX network
       tags:
       - appliance.configure
   /networks/{networkId}/appliance/vlans:
     get:
-      description: List the VLANs for an MX network
       operationId: getNetworkApplianceVlans
       parameters:
       - name: networkId
@@ -7871,7 +7803,6 @@ paths:
       tags:
       - appliance.configure
     post:
-      description: Add a VLAN
       operationId: createNetworkApplianceVlan
       parameters:
       - name: networkId
@@ -8146,7 +8077,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/vlans/settings:
     get:
-      description: Returns the enabled status of VLANs for the network
       operationId: getNetworkApplianceVlansSettings
       parameters:
       - name: networkId
@@ -8172,7 +8102,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Enable/Disable VLANs for the given network
       operationId: updateNetworkApplianceVlansSettings
       parameters:
       - name: networkId
@@ -8211,7 +8140,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/vlans/{vlanId}:
     get:
-      description: Return a VLAN
       operationId: getNetworkApplianceVlan
       parameters:
       - name: networkId
@@ -8446,7 +8374,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update a VLAN
       operationId: updateNetworkApplianceVlan
       parameters:
       - name: networkId
@@ -8884,7 +8811,6 @@ paths:
       tags:
       - appliance.configure
     delete:
-      description: Delete a VLAN from a network
       operationId: deleteNetworkApplianceVlan
       parameters:
       - name: networkId
@@ -8907,7 +8833,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/vpn/bgp:
     get:
-      description: Return a Hub BGP Configuration
       operationId: getNetworkApplianceVpnBgp
       parameters:
       - name: networkId
@@ -9007,7 +8932,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update a Hub BGP Configuration
       operationId: updateNetworkApplianceVpnBgp
       parameters:
       - name: networkId
@@ -9367,7 +9291,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/warmSpare:
     get:
-      description: Return MX warm spare settings
       operationId: getNetworkApplianceWarmSpare
       parameters:
       - name: networkId
@@ -9431,7 +9354,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update MX warm spare settings
       operationId: updateNetworkApplianceWarmSpare
       parameters:
       - name: networkId
@@ -9526,7 +9448,6 @@ paths:
       - appliance.configure
   /networks/{networkId}/appliance/warmSpare/swap:
     post:
-      description: Swap MX primary and warm spare appliances
       operationId: swapNetworkApplianceWarmSpare
       parameters:
       - name: networkId
@@ -9591,7 +9512,6 @@ paths:
       - appliance.configure
   /organizations/{organizationId}/appliance/security/intrusion:
     get:
-      description: Returns all supported intrusion settings for an organization
       operationId: getOrganizationApplianceSecurityIntrusion
       parameters:
       - name: organizationId
@@ -9617,7 +9537,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Sets supported intrusion settings for an organization
       operationId: updateOrganizationApplianceSecurityIntrusion
       parameters:
       - name: organizationId
@@ -9799,12 +9718,11 @@ paths:
               schema:
                 type: string
               description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
-      summary: Display VPN exclusion rules for MX networks.
+      summary: Display VPN exclusion rules for MX networks
       tags:
       - appliance.configure
   /organizations/{organizationId}/appliance/vpn/thirdPartyVPNPeers:
     get:
-      description: Return the third party VPN peers for an organization
       operationId: getOrganizationApplianceVpnThirdPartyVPNPeers
       parameters:
       - name: organizationId
@@ -9968,7 +9886,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update the third party VPN peers for an organization
       operationId: updateOrganizationApplianceVpnThirdPartyVPNPeers
       parameters:
       - name: organizationId
@@ -10293,7 +10210,6 @@ paths:
       - appliance.configure
   /organizations/{organizationId}/appliance/vpn/vpnFirewallRules:
     get:
-      description: Return the firewall rules for an organization's site-to-site VPN
       operationId: getOrganizationApplianceVpnVpnFirewallRules
       parameters:
       - name: organizationId
@@ -10354,7 +10270,6 @@ paths:
       tags:
       - appliance.configure
     put:
-      description: Update the firewall rules of an organization's site-to-site VPN
       operationId: updateOrganizationApplianceVpnVpnFirewallRules
       parameters:
       - name: organizationId

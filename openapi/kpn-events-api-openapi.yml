@@ -5,11 +5,15 @@ info:
   description: 'This API enables a secure communication between your agent/bot desktop and the client website/mobile app.
 
 
-    ## [Source view](https://app.swaggerhub.com/apis/kpn/secure-messenger-parley/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/secure-messenger-parley/)
+    ## Source view
+
+    Documentation view
 
     ---
 
-    ## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)
+    ## KPN Developer
+
+    Getting Started
 
     ---'
   termsOfService: https://developer.kpn.com/legal
@@ -28,7 +32,7 @@ paths:
       tags:
       - Events
       summary: Send StartTyping event
-      description: 'Fires the StartTyping event and pushes data to the service '
+      description: Fires the StartTyping event and pushes data to the service
       operationId: PostEventStartTyping
       security:
       - oauth2: []
@@ -99,7 +103,7 @@ paths:
       tags:
       - Events
       summary: Send StopTyping event
-      description: 'Fires the StopTyping event and pushes data to the service '
+      description: Fires the StopTyping event and pushes data to the service
       operationId: PostEventStopTyping
       parameters:
       - $ref: '#/components/parameters/api_version'
@@ -175,19 +179,19 @@ paths:
                   $ref: '#/paths/~1config/get/responses/401/content/application~1json/examples/error'
 components:
   parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
     auth_string:
       in: header
       name: authString
       schema:
         type: string
       description: The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)
+      required: false
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
       required: false
   schemas:
     GetConfigResult:

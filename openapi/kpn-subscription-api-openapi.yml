@@ -1,6 +1,30 @@
 openapi: 3.2.0
 info:
-  description: "KPN’s Low Power Long Range (LoRa) network service compliments existing 2G, 3G, 4G and LTE-M networks. It is based on the LoRaWAN protocol for Internet of Things (IoT). \n### Key highlights\n- **Sandbox:** Full-fledged capabilities.\n- **Security:**  HTTPS, OAuth, Rate limiting.\n- **Versioning:**  Supports version-less API, version tight. If no version is provided (in the header) it defaults to latest version. \n\n ---\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/lora-device-management-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/lora-device-management-kpn/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+  description: 'KPN’s Low Power Long Range (LoRa) network service compliments existing 2G, 3G, 4G and LTE-M networks. It is based on the LoRaWAN protocol for Internet of Things (IoT).
+
+    ### Key highlights
+
+    - **Sandbox:** Full-fledged capabilities.
+
+    - **Security:** HTTPS, OAuth, Rate limiting.
+
+    - **Versioning:** Supports version-less API, version tight. If no version is provided (in the header) it defaults to latest version.
+
+
+    ---
+
+
+    ## Source view
+
+    Documentation view
+
+    ---
+
+    ## KPN Developer
+
+    Getting Started
+
+    ---'
   version: v1.2
   title: LoRa Device Management - KPN Subscription API
   contact:
@@ -89,13 +113,29 @@ paths:
       deprecated: false
 components:
   schemas:
-    CommunicationType:
-      title: CommunicationType
-      enum:
-      - UNICAST
-      - MULTICAST
-      type: string
-      description: 'Communication type of Connectivity Plan : UNICAST, MULTICAST .'
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
     ConnectivityPlan:
       title: ConnectivityPlan
       type: object
@@ -120,29 +160,13 @@ components:
         communicationType:
           $ref: '#/components/schemas/CommunicationType'
       description: Resource representing a ThingPark connectivity plan.
-    error:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: Transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
+    CommunicationType:
+      title: CommunicationType
+      enum:
+      - UNICAST
+      - MULTICAST
+      type: string
+      description: 'Communication type of Connectivity Plan : UNICAST, MULTICAST .'
   parameters:
     api_version:
       in: header

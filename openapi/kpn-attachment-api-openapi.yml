@@ -2,7 +2,30 @@ openapi: 3.2.0
 info:
   version: v1
   title: ServiceNow Customer Connect Attachment API
-  description: "This is Customer Connect API for KPN ServiceNow-Green Tickets. With this API KPN SN Green will be able to create new, or update existing tickets. This document provides the API specification. \n### Key highlights\n- **Security:**  HTTPS, OAuth, Rate limit\n- **Versioning:**  Supports version-less API, version tight. If no version is provided (in header) it defaults to latest version. \n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/servicenow-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/servicenow-kpn/)</br>\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n---"
+  description: 'This is Customer Connect API for KPN ServiceNow-Green Tickets. With this API KPN SN Green will be able to create new, or update existing tickets. This document provides the API specification.
+
+    ### Key highlights
+
+    - **Security:** HTTPS, OAuth, Rate limit
+
+    - **Versioning:** Supports version-less API, version tight. If no version is provided (in header) it defaults to latest version.
+
+
+    ---
+
+    ## Source view
+
+    Documentation view
+
+
+    ---
+
+    ## KPN Developer
+
+    Getting Started
+
+
+    ---'
   contact:
     name: API Support
     email: api_developer@kpn.com

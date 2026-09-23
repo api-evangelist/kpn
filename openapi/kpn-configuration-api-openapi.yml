@@ -4,7 +4,39 @@ info:
     email: api_developer@kpn.com
     name: API Support
     url: https://developer.kpn.com/support
-  description: "The SocialMediaWebcare API allows you to organise and manage your inbound and outbound social media channels traffic.\n\n### Key highlights\n\n  - **Security:**  HTTPS, Oauth, Rate limit\n\n  - **Versioning:**  supports version-less API, version tight. If no version\n  is provided (in header) it defaults to latest version. \n\n\n## Getting Started\n\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/SocialMediaWebcare-Tracebuzz/)<br/>\n  [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/SocialMediaWebcare-Tracebuzz/)\n\n---\n\n## [KPN Developer](https://developer.kpn.com/)<br/>\n[Getting Started](https://developer.kpn.com/getting-started)\n\n ---\n"
+  description: 'The SocialMediaWebcare API allows you to organise and manage your inbound and outbound social media channels traffic.
+
+
+    ### Key highlights
+
+
+    - **Security:** HTTPS, Oauth, Rate limit
+
+
+    - **Versioning:** supports version-less API, version tight. If no version
+
+    is provided (in header) it defaults to latest version.
+
+
+    ## Getting Started
+
+
+    ## Source view
+
+
+    Documentation view
+
+
+    ---
+
+
+    ## KPN Developer
+
+
+    Getting Started
+
+
+    ---'
   termsOfService: https://developer.kpn.com/legal
   title: SocialMediaWebcare - Tracebuzz Configuration API
   version: 1.0.0
@@ -51,24 +83,12 @@ paths:
       - Configuration
 components:
   responses:
-    precondition_failed:
+    bad_request:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-      description: precondition failed
-    forbidden:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: forbidden
-    config_result:
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/config_result'
+      description: bad request
     not_found:
       content:
         application/json:
@@ -81,42 +101,54 @@ components:
           schema:
             $ref: '#/components/schemas/error'
       description: too many requests
-    bad_gateway:
+    precondition_failed:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-      description: bad gateway
+      description: precondition failed
     method_not_allowed:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: method not allowed
-    bad_request:
+    config_result:
+      description: OK
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/error'
-      description: bad request
-    unauthorized:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: unauthorized
+            $ref: '#/components/schemas/config_result'
     service_unavailable:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: Service unavailable
+    forbidden:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: forbidden
+    unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: unauthorized
     server_error:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: server error
+    bad_gateway:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: bad gateway
   schemas:
     config_result:
       properties:

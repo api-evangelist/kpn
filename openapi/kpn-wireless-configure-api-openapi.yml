@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   version: 1.54.0
   title: KPN SD-LAN SD-WAN Network View Wireless.configure API
-  description: "The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.\n    \nThe Network View API gives users read rights to retrieve information from the `Network View API` resources. \n    \n- **Note**: By default you have read only access but based on your requirements and contract you can be granted `Manager` access to this API which is more than read only. To request manager access, please contact us at api_developer@kpn.com.\n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/kpn-sd_lan_sd_wan_network_view_api/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/kpn-sd_lan_sd_wan_network_view_api/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)"
+  description: The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.
 servers:
 - url: https://api-prd.kpn.com/kpn/meraki
 security:
@@ -12,7 +12,6 @@ tags:
 paths:
   /devices/{serial}/wireless/alternateManagementInterface/ipv6:
     put:
-      description: Update alternate management interface IPv6 address
       operationId: updateDeviceWirelessAlternateManagementInterfaceIpv6
       parameters:
       - name: serial
@@ -135,7 +134,6 @@ paths:
       - wireless.configure
   /devices/{serial}/wireless/bluetooth/settings:
     get:
-      description: Return the bluetooth settings for a wireless device
       operationId: getDeviceWirelessBluetoothSettings
       parameters:
       - name: serial
@@ -169,7 +167,6 @@ paths:
       tags:
       - wireless.configure
     put:
-      description: Update the bluetooth settings for a wireless device
       operationId: updateDeviceWirelessBluetoothSettings
       parameters:
       - name: serial
@@ -224,7 +221,6 @@ paths:
       - wireless.configure
   /devices/{serial}/wireless/electronicShelfLabel:
     get:
-      description: Return the ESL settings of a device
       operationId: getDeviceWirelessElectronicShelfLabel
       parameters:
       - name: serial
@@ -274,7 +270,6 @@ paths:
       tags:
       - wireless.configure
     put:
-      description: Update the ESL settings of a device
       operationId: updateDeviceWirelessElectronicShelfLabel
       parameters:
       - name: serial
@@ -341,7 +336,6 @@ paths:
       - wireless.configure
   /devices/{serial}/wireless/radio/settings:
     get:
-      description: Return the radio settings of a device
       operationId: getDeviceWirelessRadioSettings
       parameters:
       - name: serial
@@ -371,7 +365,6 @@ paths:
       tags:
       - wireless.configure
     put:
-      description: Update the radio settings of a device
       operationId: updateDeviceWirelessRadioSettings
       parameters:
       - name: serial
@@ -494,7 +487,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/airMarshal/rules:
     post:
-      description: Creates a new rule
       operationId: createNetworkWirelessAirMarshalRule
       parameters:
       - name: networkId
@@ -598,7 +590,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/airMarshal/rules/{ruleId}:
     put:
-      description: Update a rule
       operationId: updateNetworkWirelessAirMarshalRule
       parameters:
       - name: networkId
@@ -722,7 +713,7 @@ paths:
       responses:
         '204':
           description: Successful operation
-      summary: Delete an Air Marshal rule.
+      summary: Delete an Air Marshal rule
       tags:
       - wireless.configure
   /networks/{networkId}/wireless/airMarshal/settings:
@@ -770,12 +761,11 @@ paths:
               example:
                 networkId: N_12345
                 defaultPolicy: allow
-      summary: Updates Air Marshal settings.
+      summary: Updates Air Marshal settings
       tags:
       - wireless.configure
   /networks/{networkId}/wireless/alternateManagementInterface:
     get:
-      description: Return alternate management interface and devices with IP assigned
       operationId: getNetworkWirelessAlternateManagementInterface
       parameters:
       - name: networkId
@@ -810,7 +800,6 @@ paths:
       tags:
       - wireless.configure
     put:
-      description: Update alternate management interface and device static IP
       operationId: updateNetworkWirelessAlternateManagementInterface
       parameters:
       - name: networkId
@@ -911,7 +900,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/billing:
     get:
-      description: Return the billing settings of this network
       operationId: getNetworkWirelessBilling
       parameters:
       - name: networkId
@@ -970,7 +958,6 @@ paths:
       tags:
       - wireless.configure
     put:
-      description: Update the billing settings
       operationId: updateNetworkWirelessBilling
       parameters:
       - name: networkId
@@ -1084,7 +1071,7 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/bluetooth/settings:
     get:
-      description: Return the Bluetooth settings for a network. <a href="https://documentation.meraki.com/MR/Bluetooth/Bluetooth_Low_Energy_(BLE)">Bluetooth settings</a> must be enabled on the network.
+      description: Return the Bluetooth settings for a network. Bluetooth settings must be enabled on the network.
       operationId: getNetworkWirelessBluetoothSettings
       parameters:
       - name: networkId
@@ -1130,11 +1117,11 @@ paths:
                 major: 1
                 minor: 1
                 eslEnabled: true
-      summary: Return the Bluetooth settings for a network. <a href="https://documentation.meraki.com/MR/Bluetooth/Bluetooth_Low_Energy_(BLE)">Bluetooth settings</a> must be enabled on the network.
+      summary: Return the Bluetooth settings for a network.
       tags:
       - wireless.configure
     put:
-      description: Update the Bluetooth settings for a network. See the docs page for <a href="https://documentation.meraki.com/MR/Bluetooth/Bluetooth_Low_Energy_(BLE)">Bluetooth settings</a>.
+      description: Update the Bluetooth settings for a network. See the docs page for Bluetooth settings.
       operationId: updateNetworkWirelessBluetoothSettings
       parameters:
       - name: networkId
@@ -1220,7 +1207,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/electronicShelfLabel:
     get:
-      description: Return the ESL settings of a wireless network
       operationId: getNetworkWirelessElectronicShelfLabel
       parameters:
       - name: networkId
@@ -1250,7 +1236,6 @@ paths:
       tags:
       - wireless.configure
     put:
-      description: Update the ESL settings of a wireless network
       operationId: updateNetworkWirelessElectronicShelfLabel
       parameters:
       - name: networkId
@@ -1297,7 +1282,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/electronicShelfLabel/configuredDevices:
     get:
-      description: Get a list of all ESL eligible devices of a network
       operationId: getNetworkWirelessElectronicShelfLabelConfiguredDevices
       parameters:
       - name: networkId
@@ -1330,7 +1314,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/ethernet/ports/profiles:
     get:
-      description: List the AP port profiles for this network
       operationId: getNetworkWirelessEthernetPortsProfiles
       parameters:
       - name: networkId
@@ -1412,7 +1395,6 @@ paths:
       tags:
       - wireless.configure
     post:
-      description: Create an AP port profile
       operationId: createNetworkWirelessEthernetPortsProfile
       parameters:
       - name: networkId
@@ -1554,7 +1536,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/ethernet/ports/profiles/assign:
     post:
-      description: Assign AP port profile to list of APs
       operationId: assignNetworkWirelessEthernetPortsProfiles
       parameters:
       - name: networkId
@@ -1614,7 +1595,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/ethernet/ports/profiles/setDefault:
     post:
-      description: Set the AP port profile to be default for this network
       operationId: setNetworkWirelessEthernetPortsProfilesDefault
       parameters:
       - name: networkId
@@ -1655,7 +1635,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/ethernet/ports/profiles/{profileId}:
     get:
-      description: Show the AP port profile by ID for this network
       operationId: getNetworkWirelessEthernetPortsProfile
       parameters:
       - name: networkId
@@ -1741,7 +1720,6 @@ paths:
       tags:
       - wireless.configure
     put:
-      description: Update the AP port profile by ID for this network
       operationId: updateNetworkWirelessEthernetPortsProfile
       parameters:
       - name: networkId
@@ -1875,7 +1853,6 @@ paths:
       tags:
       - wireless.configure
     delete:
-      description: Delete an AP port profile
       operationId: deleteNetworkWirelessEthernetPortsProfile
       parameters:
       - name: networkId
@@ -1898,7 +1875,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/rfProfiles:
     get:
-      description: List RF profiles for this network
       operationId: getNetworkWirelessRfProfiles
       parameters:
       - name: networkId
@@ -2778,7 +2754,6 @@ paths:
       tags:
       - wireless.configure
     post:
-      description: Creates new RF profile for this network
       operationId: createNetworkWirelessRfProfile
       parameters:
       - name: networkId
@@ -6386,7 +6361,6 @@ paths:
       tags:
       - wireless.configure
     delete:
-      description: Delete a RF Profile
       operationId: deleteNetworkWirelessRfProfile
       parameters:
       - name: networkId
@@ -6408,7 +6382,6 @@ paths:
       tags:
       - wireless.configure
     get:
-      description: Return a RF profile
       operationId: getNetworkWirelessRfProfile
       parameters:
       - name: networkId
@@ -7290,7 +7263,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/settings:
     get:
-      description: Return the wireless settings for a network
       operationId: getNetworkWirelessSettings
       parameters:
       - name: networkId
@@ -7370,7 +7342,6 @@ paths:
       tags:
       - wireless.configure
     put:
-      description: Update the wireless settings for a network
       operationId: updateNetworkWirelessSettings
       parameters:
       - name: networkId
@@ -7500,7 +7471,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/ssids:
     get:
-      description: List the MR SSIDs in a network
       operationId: getNetworkWirelessSsids
       parameters:
       - name: networkId
@@ -7854,7 +7824,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/ssids/{number}:
     get:
-      description: Return a single MR SSID
       operationId: getNetworkWirelessSsid
       parameters:
       - name: networkId
@@ -8211,7 +8180,6 @@ paths:
       tags:
       - wireless.configure
     put:
-      description: Update the attributes of an MR SSID
       operationId: updateNetworkWirelessSsid
       parameters:
       - name: networkId
@@ -9389,7 +9357,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/ssids/{number}/bonjourForwarding:
     get:
-      description: List the Bonjour forwarding setting and rules for the SSID
       operationId: getNetworkWirelessSsidBonjourForwarding
       parameters:
       - name: networkId
@@ -9467,7 +9434,6 @@ paths:
       tags:
       - wireless.configure
     put:
-      description: Update the bonjour forwarding setting and rules for the SSID
       operationId: updateNetworkWirelessSsidBonjourForwarding
       parameters:
       - name: networkId
@@ -9607,7 +9573,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/ssids/{number}/deviceTypeGroupPolicies:
     get:
-      description: List the device type group policies for the SSID
       operationId: getNetworkWirelessSsidDeviceTypeGroupPolicies
       parameters:
       - name: networkId
@@ -9641,7 +9606,6 @@ paths:
       tags:
       - wireless.configure
     put:
-      description: Update the device type group policies for the SSID
       operationId: updateNetworkWirelessSsidDeviceTypeGroupPolicies
       parameters:
       - name: networkId
@@ -9728,7 +9692,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/ssids/{number}/eapOverride:
     get:
-      description: Return the EAP overridden parameters for an SSID
       operationId: getNetworkWirelessSsidEapOverride
       parameters:
       - name: networkId
@@ -9890,12 +9853,11 @@ paths:
                 eapolKey:
                   retries: 50
                   timeoutInMs: 5000
-      summary: Update the EAP overridden parameters for an SSID.
+      summary: Update the EAP overridden parameters for an SSID
       tags:
       - wireless.configure
   /networks/{networkId}/wireless/ssids/{number}/firewall/l3FirewallRules:
     get:
-      description: Return the L3 firewall rules for an SSID on an MR network
       operationId: getNetworkWirelessSsidFirewallL3FirewallRules
       parameters:
       - name: networkId
@@ -9967,7 +9929,6 @@ paths:
       tags:
       - wireless.configure
     put:
-      description: Update the L3 firewall rules of an SSID on an MR network
       operationId: updateNetworkWirelessSsidFirewallL3FirewallRules
       parameters:
       - name: networkId
@@ -10092,7 +10053,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/ssids/{number}/firewall/l7FirewallRules:
     get:
-      description: Return the L7 firewall rules for an SSID on an MR network
       operationId: getNetworkWirelessSsidFirewallL7FirewallRules
       parameters:
       - name: networkId
@@ -10147,7 +10107,6 @@ paths:
       tags:
       - wireless.configure
     put:
-      description: Update the L7 firewall rules of an SSID on an MR network
       operationId: updateNetworkWirelessSsidFirewallL7FirewallRules
       parameters:
       - name: networkId
@@ -10238,7 +10197,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/ssids/{number}/hotspot20:
     get:
-      description: Return the Hotspot 2.0 settings for an SSID
       operationId: getNetworkWirelessSsidHotspot20
       parameters:
       - name: networkId
@@ -10295,7 +10253,6 @@ paths:
       tags:
       - wireless.configure
     put:
-      description: Update the Hotspot 2.0 settings of an SSID
       operationId: updateNetworkWirelessSsidHotspot20
       parameters:
       - name: networkId
@@ -10539,7 +10496,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/ssids/{number}/identityPsks:
     get:
-      description: List all Identity PSKs in a wireless network
       operationId: getNetworkWirelessSsidIdentityPsks
       parameters:
       - name: networkId
@@ -10598,7 +10554,6 @@ paths:
       tags:
       - wireless.configure
     post:
-      description: Create an Identity PSK
       operationId: createNetworkWirelessSsidIdentityPsk
       parameters:
       - name: networkId
@@ -10684,7 +10639,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/ssids/{number}/identityPsks/{identityPskId}:
     get:
-      description: Return an Identity PSK
       operationId: getNetworkWirelessSsidIdentityPsk
       parameters:
       - name: networkId
@@ -10747,7 +10701,6 @@ paths:
       tags:
       - wireless.configure
     put:
-      description: Update an Identity PSK
       operationId: updateNetworkWirelessSsidIdentityPsk
       parameters:
       - name: networkId
@@ -10835,7 +10788,6 @@ paths:
       tags:
       - wireless.configure
     delete:
-      description: Delete an Identity PSK
       operationId: deleteNetworkWirelessSsidIdentityPsk
       parameters:
       - name: networkId
@@ -10864,7 +10816,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/ssids/{number}/schedules:
     get:
-      description: List the outage schedule for the SSID
       operationId: getNetworkWirelessSsidSchedules
       parameters:
       - name: networkId
@@ -10942,7 +10893,6 @@ paths:
       tags:
       - wireless.configure
     put:
-      description: Update the outage schedule for the SSID
       operationId: updateNetworkWirelessSsidSchedules
       parameters:
       - name: networkId
@@ -11079,7 +11029,6 @@ paths:
       - wireless.configure
   /networks/{networkId}/wireless/ssids/{number}/splash/settings:
     get:
-      description: Display the splash page settings for the given SSID
       operationId: getNetworkWirelessSsidSplashSettings
       parameters:
       - name: networkId
@@ -11296,7 +11245,6 @@ paths:
       tags:
       - wireless.configure
     put:
-      description: Modify the splash page settings for the given SSID
       operationId: updateNetworkWirelessSsidSplashSettings
       parameters:
       - name: networkId
@@ -11930,11 +11878,10 @@ paths:
                       limitDown: 1000000
                   dscpTagValue: 0
                   pcpTagValue: 0
-      summary: Update the traffic shaping rules for an SSID on an MR network.
+      summary: Update the traffic shaping rules for an SSID on an MR network
       tags:
       - wireless.configure
     get:
-      description: Display the traffic shaping settings for a SSID on an MR network
       operationId: getNetworkWirelessSsidTrafficShapingRules
       parameters:
       - name: networkId
@@ -12082,11 +12029,10 @@ paths:
                     destPort: any
                     policy: deny
                     comment: split tunnel rule 2
-      summary: List the VPN settings for the SSID.
+      summary: List the VPN settings for the SSID
       tags:
       - wireless.configure
     put:
-      description: Update the VPN settings for the SSID
       operationId: updateNetworkWirelessSsidVpn
       parameters:
       - name: networkId
@@ -12220,7 +12166,6 @@ paths:
       - wireless.configure
   /organizations/{organizationId}/wireless/airMarshal/rules:
     get:
-      description: Returns the current Air Marshal rules for this organization
       operationId: getOrganizationWirelessAirMarshalRules
       parameters:
       - name: organizationId
@@ -12340,7 +12285,6 @@ paths:
       - wireless.configure
   /organizations/{organizationId}/wireless/airMarshal/settings/byNetwork:
     get:
-      description: Returns the current Air Marshal settings for this network
       operationId: getOrganizationWirelessAirMarshalSettingsByNetwork
       parameters:
       - name: organizationId
@@ -12468,12 +12412,11 @@ paths:
                     description: Estimated time of completion.
               example:
                 estimatedCompletedAt: '2019-01-01T00:00:00Z'
-      summary: Recalculates automatically assigned channels for every AP within specified the specified network(s)
+      summary: Recalculates automatically assigned channels for every AP within specified the…
       tags:
       - wireless.configure
   /organizations/{organizationId}/wireless/rfProfiles/assignments/byDevice:
     get:
-      description: List the RF profiles of an organization by device
       operationId: getOrganizationWirelessRfProfilesAssignmentsByDevice
       parameters:
       - name: organizationId

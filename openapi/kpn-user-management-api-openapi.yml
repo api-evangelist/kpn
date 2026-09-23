@@ -1,6 +1,13 @@
 openapi: 3.2.0
 info:
-  description: "This API offers three functionalities: \n- User management\n- Emailing\n\nUser management can be used to add, get and modify user information. This can be done be a user with customer admin rights, without 2FA.Emailing can be used without authorization. The mail functionality can be used to sent registered emails with attachment without 2FA. Mail management, XML, can be seen by webservice users. It can be used to retrieve ticket information once the ticket id is known.\n\n### Key highlights\n\n- **Sandbox:** Full-fledged capabilities.\n\n- **Security:**  HTTPS, OAuth, Rate limit\n\n- **Versioning:** Supports version-less API, version tight. If no version\nis provided (in header) it defaults to latest version. \n\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/registeredemail-registeredemail/)<br/>\n[Documentation view](https://app.swaggerhub.com/apis-docs/kpn/registeredemail-registeredemail/)\n\n---\n\n## [KPN API Store](https://developer.kpn.com/)<br/>\n[Getting Started](https://developer.kpn.com/getting-started)\n\n ---\n"
+  description: 'This API offers three functionalities:
+
+    - User management
+
+    - Emailing
+
+
+    User management can be used to add, get and modify user information.'
   version: v.1.1.1
   title: Registered E-mail - Registered E-mail User Management API
   contact:
@@ -65,15 +72,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+      summary: Create api user
+      x-summary-source: derived
+      operationId: postApiUser
+      x-operation-id-source: derived
 components:
+  responses:
+    UserCreated:
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserInfo'
+  requestBodies:
+    CreateUser:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email_address:
+                type: string
+                format: email
+            required:
+            - email_address
   schemas:
-    UserInfo:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/id'
-      required:
-      - id
     id:
       type: integer
       example: 154
@@ -100,6 +124,13 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    UserInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/id'
+      required:
+      - id
   parameters:
     api_version:
       in: header
@@ -108,26 +139,6 @@ components:
         type: string
       description: API Version. If no version is provided it defaults to latest version.
       required: false
-  requestBodies:
-    CreateUser:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              email_address:
-                type: string
-                format: email
-            required:
-            - email_address
-  responses:
-    UserCreated:
-      description: Created
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UserInfo'
   securitySchemes:
     oauth2:
       type: oauth2

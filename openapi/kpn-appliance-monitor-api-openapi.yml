@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   version: 1.54.0
   title: KPN SD-LAN SD-WAN Network View Appliance.monitor API
-  description: "The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.\n    \nThe Network View API gives users read rights to retrieve information from the `Network View API` resources. \n    \n- **Note**: By default you have read only access but based on your requirements and contract you can be granted `Manager` access to this API which is more than read only. To request manager access, please contact us at api_developer@kpn.com.\n\n---\n## [Source view](https://app.swaggerhub.com/apis/kpn/kpn-sd_lan_sd_wan_network_view_api/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/kpn-sd_lan_sd_wan_network_view_api/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)"
+  description: The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification.
 servers:
 - url: https://api-prd.kpn.com/kpn/meraki
 security:
@@ -12,7 +12,6 @@ tags:
 paths:
   /devices/{serial}/appliance/dhcp/subnets:
     get:
-      description: Return the DHCP subnet information for an appliance
       operationId: getDeviceApplianceDhcpSubnets
       parameters:
       - name: serial
@@ -110,7 +109,7 @@ paths:
                 description: My ISP provider
                 isPreferred: true
                 expiresAt: '2018-05-12T00:00:00Z'
-      summary: Return current delegated IPv6 prefixes on an appliance.
+      summary: Return current delegated IPv6 prefixes on an appliance
       tags:
       - appliance.monitor
   /devices/{serial}/appliance/prefixes/delegated/vlanAssignments:
@@ -148,7 +147,7 @@ paths:
                     address: 2001:db8:3c4d:15::1
                   solicitedNodeMulticast:
                     address: 2001:db8:3c4d:15::1
-      summary: Return prefixes assigned to all IPv6 enabled VLANs on an appliance.
+      summary: Return prefixes assigned to all IPv6 enabled VLANs on an appliance
       tags:
       - appliance.monitor
   /networks/{networkId}/appliance/clients/{clientId}/security/events:
@@ -259,7 +258,6 @@ paths:
       - appliance.monitor
   /networks/{networkId}/appliance/security/events:
     get:
-      description: List the security events for a network
       operationId: getNetworkApplianceSecurityEvents
       parameters:
       - name: networkId
@@ -418,12 +416,11 @@ paths:
                 - interface: wan2
                   sent: 402850
                   received: 2981021
-      summary: Get the sent and received bytes for each uplink of a network.
+      summary: Get the sent and received bytes for each uplink of a network
       tags:
       - appliance.monitor
   /organizations/{organizationId}/appliance/security/events:
     get:
-      description: List the security events for an organization
       operationId: getOrganizationApplianceSecurityEvents
       parameters:
       - name: organizationId
@@ -664,12 +661,11 @@ paths:
               schema:
                 type: string
               description: A comma-separated list of first, last, prev, and next relative links used for subsequent paginated requests.
-      summary: List the uplink status of every Meraki MX and Z series appliances in the organization
+      summary: List the uplink status of every Meraki MX and Z series appliances in the…
       tags:
       - appliance.monitor
   /organizations/{organizationId}/appliance/uplinks/statuses/overview:
     get:
-      description: Returns an overview of uplink statuses
       operationId: getOrganizationApplianceUplinksStatusesOverview
       parameters:
       - name: organizationId
@@ -790,12 +786,11 @@ paths:
                   interface: wan1
                   sent: 200
                   received: 400
-      summary: Get the sent and received bytes for each uplink of all MX and Z networks within an organization
+      summary: Get the sent and received bytes for each uplink of all MX and Z networks within…
       tags:
       - appliance.monitor
   /organizations/{organizationId}/appliance/vpn/stats:
     get:
-      description: Show VPN history stat for networks in an organization
       operationId: getOrganizationApplianceVpnStats
       parameters:
       - name: organizationId
@@ -967,7 +962,6 @@ paths:
       - appliance.monitor
   /organizations/{organizationId}/appliance/vpn/statuses:
     get:
-      description: Show VPN status for networks in an organization
       operationId: getOrganizationApplianceVpnStatuses
       parameters:
       - name: organizationId

@@ -2,7 +2,40 @@ openapi: 3.2.0
 info:
   title: Speech To Text - Xdroid Retrieve transcription API
   version: 1.0.0
-  description: "Xdroid Speech To Text API provides a seamless audio transcription service. \n\n### Key highlights\n\n- **Sandbox:** Full-fledged capabilities.\n\n- **Security:** HTTPS, OAuth, Rate limit.\n\n- **Versioning:** Supports version-less API, version tight. If no version is provided (in header) it defaults to latest version. \n\n---\n\n[Source view](https://app.swaggerhub.com/apis/kpn/speech-to-text-Xdroid)<br/>\n[Documentation view](https://app.swaggerhub.com/apis-docs/kpn/speech-to-text-Xdroid/)\n  \n---\n    \n[KPN Developer](https://developer.kpn.com/)<br/>\n[Getting Started](https://developer.kpn.com/getting-started)\n    \n---\n"
+  description: 'Xdroid Speech To Text API provides a seamless audio transcription service.
+
+
+    ### Key highlights
+
+
+    - **Sandbox:** Full-fledged capabilities.
+
+
+    - **Security:** HTTPS, OAuth, Rate limit.
+
+
+    - **Versioning:** Supports version-less API, version tight. If no version is provided (in header) it defaults to latest version.
+
+
+    ---
+
+
+    Source view
+
+
+    Documentation view
+
+
+    ---
+
+
+    KPN Developer
+
+
+    Getting Started
+
+
+    ---'
   contact:
     name: API Support Support
     email: api_developer@kpn.com
@@ -14,14 +47,17 @@ security:
 - oauth2: []
 tags:
 - name: Retrieve transcription
-  description: "To retrieve transcritions, check the processing status with your unique **job_id**. \n\nPlease do not use intervals that are shorter than 10 seconds to check status to avoid a throttle penalty.\n"
+  description: 'To retrieve transcritions, check the processing status with your unique **job_id**.
+
+
+    Please do not use intervals that are shorter than 10 seconds to check status to avoid a throttle penalty.'
 paths:
   /job/{job_id}:
     get:
       tags:
       - Retrieve transcription
-      summary: Retrieves JSON transcript of a finished transcription job.
-      description: "Retrieves JSON file with the transcript of a previously uploaded audio file.\n "
+      summary: Retrieves JSON transcript of a finished transcription job
+      description: Retrieves JSON file with the transcript of a previously uploaded audio file.
       parameters:
       - name: job_id
         in: path
@@ -96,28 +132,30 @@ paths:
           $ref: '#/components/responses/request_entity_too_large'
         500:
           $ref: '#/components/responses/server_error'
+      operationId: getJobByJobId
+      x-operation-id-source: derived
 components:
   responses:
-    not_found:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     bad_request:
       description: Bad request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    unauthorized:
-      description: Unauthorized
+    not_found:
+      description: Not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
     request_entity_too_large:
       description: Request entity too large
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: Unauthorized
       content:
         application/json:
           schema:

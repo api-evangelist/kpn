@@ -1,8 +1,29 @@
 openapi: 3.2.0
 info:
-  description: "MobileServicesManagement APIs\n\n   ---\n     \n ## [Source view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)<br/>\n [Documentation view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)\n \n ---\n \n ## [KPN Developer](https://developer.kpn.com/)<br/>\n [Getting Started](https://developer.kpn.com/getting-started)\n \n\n ---"
+  description: 'MobileServicesManagement APIs
+
+
+    ---
+
+
+    ## Source view
+
+
+    Documentation view
+
+
+    ---
+
+
+    ## KPN Developer
+
+
+    Getting Started
+
+
+    ---'
   version: v11
-  title: MobileServicesManagement-KPN Rest Separate Fixed Mobile Controller API
+  title: MobileServicesManagement-KPN Rest Separate Fixed Mobile…
   termsOfService: https://developer.kpn.com/legal
   contact:
     name: API Support
@@ -21,13 +42,19 @@ paths:
       summary: Separate fixed-mobile subscription
       description: 'Possible errors:
 
-        | HTTP code                          | Error code          | Description                                              |
+        | HTTP code | Error code | Description |
 
         |------------------------------------|---------------------|----------------------------------------------------------|
 
-        | `ORDERING_IS_BLOCKED_FOR_CUSTOMER` | `403`               | Current customer is frozen and can not order anything    |
+        | `ORDERING_IS_BLOCKED_FOR_CUSTOMER` | `403` | Current customer is frozen and can not order anything |
 
-        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>'
+        Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization'
       operationId: separateFixedMobileUsingPOST
       responses:
         '200':
@@ -112,13 +139,6 @@ components:
           type: string
           description: Additional information about error
           title: Info
-    OrderConfirmation:
-      type: object
-      properties:
-        orderId:
-          type: integer
-          format: int64
-      title: OrderConfirmation
     SeparateFixedMobileRequest:
       type: object
       properties:
@@ -128,6 +148,13 @@ components:
         referenceNumber:
           type: string
       title: SeparateFixedMobileRequest
+    OrderConfirmation:
+      type: object
+      properties:
+        orderId:
+          type: integer
+          format: int64
+      title: OrderConfirmation
   securitySchemes:
     OAuth2:
       type: oauth2

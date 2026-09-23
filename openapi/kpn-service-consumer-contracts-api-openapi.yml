@@ -44,6 +44,8 @@ paths:
                 $ref: '#/components/schemas/ProblemDetail'
       security:
       - bearer_auth: []
+      summary: Get contracts sc
+      x-summary-source: derived
   /api/v1/service-consumers/contracts/{contract_id}:
     get:
       tags:
@@ -89,8 +91,46 @@ paths:
                 $ref: '#/components/schemas/ProblemDetail'
       security:
       - bearer_auth: []
+      summary: Get contract sc
+      x-summary-source: derived
 components:
   schemas:
+    Contract:
+      type: object
+      required:
+      - id
+      - service_provider
+      - service_consumer
+      - data_owner
+      - start_date
+      - end_date
+      - resource_type
+      - resource
+      - resource_attribute
+      - action
+      properties:
+        action:
+          type: string
+        data_owner:
+          type: string
+        end_date:
+          type: string
+          format: date-time
+        id:
+          type: string
+        resource:
+          type: string
+        resource_attribute:
+          type: string
+        resource_type:
+          type: string
+        service_consumer:
+          type: string
+        service_provider:
+          type: string
+        start_date:
+          type: string
+          format: date-time
     ProblemDetail:
       type: object
       required:
@@ -180,42 +220,6 @@ components:
           type: integer
           format: int32
           minimum: 0
-    Contract:
-      type: object
-      required:
-      - id
-      - service_provider
-      - service_consumer
-      - data_owner
-      - start_date
-      - end_date
-      - resource_type
-      - resource
-      - resource_attribute
-      - action
-      properties:
-        action:
-          type: string
-        data_owner:
-          type: string
-        end_date:
-          type: string
-          format: date-time
-        id:
-          type: string
-        resource:
-          type: string
-        resource_attribute:
-          type: string
-        resource_type:
-          type: string
-        service_consumer:
-          type: string
-        service_provider:
-          type: string
-        start_date:
-          type: string
-          format: date-time
   securitySchemes:
     bearer_auth:
       type: http

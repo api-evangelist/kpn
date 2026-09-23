@@ -65,76 +65,10 @@ paths:
                 $ref: '#/components/schemas/ProblemDetail'
       security:
       - bearer_auth: []
+      summary: Get service provider parties
+      x-summary-source: derived
 components:
   schemas:
-    ProblemDetail:
-      type: object
-      required:
-      - type
-      - status
-      properties:
-        detail:
-          type:
-          - string
-          - 'null'
-        instance:
-          type:
-          - string
-          - 'null'
-        status:
-          type: integer
-          format: int32
-          minimum: 0
-        title:
-          type:
-          - string
-          - 'null'
-        type:
-          type: string
-      additionalProperties: {}
-    PartyAdherenceStatus:
-      type: string
-      enum:
-      - Active
-      - Pending
-      - NotActive
-      - Revoked
-    Contract:
-      type: object
-      required:
-      - id
-      - service_provider
-      - service_consumer
-      - data_owner
-      - start_date
-      - end_date
-      - resource_type
-      - resource
-      - resource_attribute
-      - action
-      properties:
-        action:
-          type: string
-        data_owner:
-          type: string
-        end_date:
-          type: string
-          format: date-time
-        id:
-          type: string
-        resource:
-          type: string
-        resource_attribute:
-          type: string
-        resource_type:
-          type: string
-        service_consumer:
-          type: string
-        service_provider:
-          type: string
-        start_date:
-          type: string
-          format: date-time
     Paged_ServiceConsumerParty:
       type: object
       required:
@@ -203,6 +137,74 @@ components:
           type: integer
           format: int32
           minimum: 0
+    ProblemDetail:
+      type: object
+      required:
+      - type
+      - status
+      properties:
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
+          minimum: 0
+        title:
+          type:
+          - string
+          - 'null'
+        type:
+          type: string
+      additionalProperties: {}
+    Contract:
+      type: object
+      required:
+      - id
+      - service_provider
+      - service_consumer
+      - data_owner
+      - start_date
+      - end_date
+      - resource_type
+      - resource
+      - resource_attribute
+      - action
+      properties:
+        action:
+          type: string
+        data_owner:
+          type: string
+        end_date:
+          type: string
+          format: date-time
+        id:
+          type: string
+        resource:
+          type: string
+        resource_attribute:
+          type: string
+        resource_type:
+          type: string
+        service_consumer:
+          type: string
+        service_provider:
+          type: string
+        start_date:
+          type: string
+          format: date-time
+    PartyAdherenceStatus:
+      type: string
+      enum:
+      - Active
+      - Pending
+      - NotActive
+      - Revoked
   securitySchemes:
     bearer_auth:
       type: http

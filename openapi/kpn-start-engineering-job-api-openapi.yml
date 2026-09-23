@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   version: 1.0.0
   title: High-Level Design FTTx Start engineering job API
-  description: "The High-Level Design FTTx API supports Fiber to the Home (FTTH) engineering jobs. It allows you to calculate the required work and cost for Fiber rollout in a provided region.\n\nRun the endpoints in this order:\n\n1. **POST /startJobS3** to retrieve a signed URL for Amazon S3 bucket. Send this URL using the following endpoint.\n2. **PUT /s3url_uploads/{jsonFileNameAndExtension}** to upload the job.\n3. **GET /jobStatus/{jobId}** to retrieve the status of the job.\n4. **GET / jobResultS3/{jobId}** to retrieve a signed URL for the Amazon Simple Storage Service (Amazon S3) bucket. Send this URL using the following endpoint.\n5. **GET /Output/{jsonFileNameAndExtension}** to retrieve the results of the engineering job.\n\n ### Key highlights\n\n - **Security:** HTTPS, OAuth, Rate limit\n - **Versioning:** Supports version-less API, version tight. If no version\n is provided (in header) it defaults to latest version. \n\n  [Source view](https://app.swaggerhub.com/apis/kpn/high-level_design_ftth)<br/>\n  [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/high-level_design_ftth)\n  \n  ---\n  \n  [KPN Developer](https://developer.kpn.com/)<br/>\n  [Getting Started](https://developer.kpn.com/getting-started)\n  \n"
+  description: The High-Level Design FTTx API supports Fiber to the Home (FTTH) engineering jobs.
 servers:
 - url: https://api-prd.kpn.com/network/kpn/ftth-engineering/
   variables: {}
@@ -15,7 +15,7 @@ paths:
     post:
       tags:
       - Start engineering job
-      summary: Request a signed URL to start an FTTx engineering job.
+      summary: Request a signed URL to start an FTTx engineering job
       description: Submits a new engineering job identifier. The response is a signed URL for the Amazon Simple Storage Service (Amazon S3) bucket. The input data for the engineering job needs to be uploaded to the received the signed URL location. See **/s3url_uploads** endpoint.
       parameters:
       - in: header
@@ -47,11 +47,13 @@ paths:
           $ref: '#/components/responses/gateway_error'
         503:
           $ref: '#/components/responses/service_unavailable'
+      operationId: postStartJobS3
+      x-operation-id-source: derived
   /s3url_uploads/{jsonFileNameAndExtension}:
     put:
       tags:
       - Start engineering job
-      summary: Submit the input for the engineering job.
+      summary: Submit the input for the engineering job
       description: Uploads the data of the new engineering job for calculation. Use the signed URL received from **/startJobS3** for this. In the request body you need to specify an area for engineering. When the input has been submitted, this is detected and the calculation will start.
       servers:
       - url: https://ftth-engineering-prod.s3.amazonaws.com
@@ -123,39 +125,52 @@ paths:
       responses:
         200:
           description: Successful input data submission.
+      operationId: putS3urlUploadsByJsonFileNameAndExtension
+      x-operation-id-source: derived
 components:
   schemas:
-    amzSecurityToken:
-      type: string
-      example: AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA
-      description: Additional credential parameter. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
-    error:
+    address:
       type: object
       properties:
-        transactionId:
+        zipcode:
           type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
+          description: The postal code.
+        street:
           type: string
-          description: Status
-          title: Status
-        name:
+          description: The name of the street.
+        housenumber:
+          type: integer
+          description: The number of the property.
+        extension:
           type: string
-          description: Error name
-          title: Error name
-        message:
+          description: 'The extension of the house number, for example: `a-c`.
+
+            '
+        x:
+          type: number
+          format: double
+          description: x coordinates.
+        y:
+          type: number
+          format: double
+          description: x coordinates.
+        city:
           type: string
-          description: Error message
-          title: Error message
-        info:
+          description: The name of the city or town.
+        bagGeometryIdentificatie:
           type: string
-          description: Additional information about error
-          title: Info
-    amzSignedHeaders:
+          description: 'Can be a Pand (non-residential/non-office building) or an addressable object (Pand or Ligplaats) with an Addresses and Buildings key register (BAG) id. It represents a contour.
+
+            '
+        usagegoals:
+          type: array
+          items:
+            type: string
+          example: bijvoorbeeld "woonfunctie" of "logiesfunctie"
+    amzCredential:
       type: string
-      example: host
-      description: Lists the headers used to calculate the signature. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
+      example: AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request
+      description: This parameter provides scope (AWS region and service) for which the signature is valid. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
     Job:
       type: object
       description: The input data to be used for the engineering job, most importantly the addresses of the region for which to perform the engineering job. amongst.
@@ -282,78 +297,59 @@ components:
           type: string
           format: uri
           example: https://ftth-engineering-prod.s3.amazonaws.com/s3url_uploads/FTTx_AdamNorth_Input_Dec2020.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20201201T120000Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA&X-Amz-Signature=aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb
-    address:
-      type: object
-      properties:
-        zipcode:
-          type: string
-          description: The postal code.
-        street:
-          type: string
-          description: The name of the street.
-        housenumber:
-          type: integer
-          description: The number of the property.
-        extension:
-          type: string
-          description: 'The extension of the house number, for example: `a-c`.
-
-            '
-        x:
-          type: number
-          format: double
-          description: x coordinates.
-        y:
-          type: number
-          format: double
-          description: x coordinates.
-        city:
-          type: string
-          description: The name of the city or town.
-        bagGeometryIdentificatie:
-          type: string
-          description: 'Can be a Pand (non-residential/non-office building) or an addressable object (Pand or Ligplaats) with an Addresses and Buildings key register (BAG) id. It represents a contour.
-
-            '
-        usagegoals:
-          type: array
-          items:
-            type: string
-          example: bijvoorbeeld "woonfunctie" of "logiesfunctie"
-    amzSignature:
+    jsonFileNameAndExtensionSchema:
       type: string
-      example: aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb
-      description: The signature to authenticate your request. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
-    amzCredential:
-      type: string
-      example: AAAAAA%2F20201201%2Feu-west-1%2Fs3%2Faws4_request
-      description: This parameter provides scope (AWS region and service) for which the signature is valid. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
+      pattern: ^.+\.(json)$
+      example: FTTx_AdamNorth_Input_Dec2020.json
+      description: "The `jobId` of the engineering job you defined in /startJobS3 or /jobResultS3 with added .json extension. \n"
     jsonFileNameSchema:
       type: string
       example: FTTx_AdamNorth_Input_Dec2020
-    amzDate:
-      type: string
-      example: 20201201T120000Z
-      description: The date when the signedUrl was generated. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
     NetworkType:
       type: string
       description: P2P or PON to indicate what the FTTH model should do.
       enum:
       - P2P
       - PON
-    amzExpires:
-      type: string
-      example: '3600'
-      description: Provides the time period, in seconds, for which the generated presigned URL is valid. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
-    jsonFileNameAndExtensionSchema:
-      type: string
-      pattern: ^.+\.(json)$
-      example: FTTx_AdamNorth_Input_Dec2020.json
-      description: "The `jobId` of the engineering job you defined in /startJobS3 or /jobResultS3 with added .json extension. \n"
     amzAlgorithm:
       type: string
       example: AWS4-HMAC-SHA256
       description: Identifies the version of AWS Signature and the algorithm used to calculate the signature. Use the value provided as part of the signed URL response of `/startJobS3` or `/jobResultS3`.
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    amzSignedHeaders:
+      type: string
+      example: host
+      description: Lists the headers used to calculate the signature. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
+    amzDate:
+      type: string
+      example: 20201201T120000Z
+      description: The date when the signedUrl was generated. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
+    amzExpires:
+      type: string
+      example: '3600'
+      description: Provides the time period, in seconds, for which the generated presigned URL is valid. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
     Coordinate:
       type: object
       description: Location of a point on a two-dimensional plane.
@@ -366,27 +362,29 @@ components:
           type: number
           format: double
           description: y coordinates. National triangle coordinates (RD coordinates) in meters.
+    amzSecurityToken:
+      type: string
+      example: AAAAAAAAAAluX2VjEA0aCWV1LXdlc3QtMSJIMEYCIQDKnFBi14jhVzfJHKod%2FCpwTIFkAj3kttgcdNRSngk49gIhAK6DboCvbtAmjlWDG5pBgzaFV1lXC0yFZWelULkpV%2FNVKuUBCNb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjUyNDM0MTA2NTI4Igwfybzhyrjg3aq7hbMquQHE00Xe9PiL%2BS%2BSlhrzrpOKg2y%2F5qfjbR2BrGcPpxta3EiBwUpvmXR%2F%2BqkQBG7BuJifYKaDkdnOS%2B3OzxkV2WRHnKnlNwann1vCLTS9AWGdNRFLE72iJ2s%2BT3lwQp%2BR6bGMjcfqEDm84MR3gINTpSp84y9bt9hoxtxfXzF8SfGv5LVoN45K8Rf%2B%2BqF7%2BwF03JWV50Klauq4hneHRiyWsUgQY6pFMN14xj83Jn5fxKJi0L7qh%2BWBfMnDCTCW1%2Fv%2FBTrfAbwZuNzIkBmhmHsmDO9hS2dLEfqpH9GpPUl8YLY3vfjATqpjnz241WrrBdyTawUFbiTEbcKx05dUwbkUdLRP2i9CZVLAl%2Bqk0J6VYmIEhhU2RS54oHCZzinEVzsdo%2BS5eXRQ9BiAD8OCH2gP3a7bXDx9HOBxSdbGMv5mXMeP1wsdjC7e%2FkVsQlEtBTNgc62EiloUbQlPiQyb1OQEMMGZd%2BV5N%2FxdNq%2For1UraAbvxAAzGHUqQff4rmZCEDbO5uv2kwWDR1boarpQeEG8Q3j%2BxSNde%2FG%2BUjg425uIAAAAAAAAAA
+      description: Additional credential parameter. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
+    amzSignature:
+      type: string
+      example: aaaaaaaaaa09c013193ffd301019b60308a092c972b22fdfcb8424bbbbbbbbbb
+      description: The signature to authenticate your request. Use the value provided as part of the signed URL response of /startJobS3 or /jobResultS3.
   responses:
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
     bad_request:
       description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    gateway_error:
-      description: gateway_error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    not_found:
-      description: not found
       content:
         application/json:
           schema:
@@ -403,14 +401,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    forbidden:
-      description: forbidden
+    gateway_error:
+      description: gateway_error
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    server_error:
-      description: server error
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: Unauthorized
       content:
         application/json:
           schema:

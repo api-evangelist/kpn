@@ -2,69 +2,7 @@ openapi: 3.2.0
 info:
   title: Retrieve SIM swap date API
   version: 1.0.2
-  description: 'The SIM swap API provides a programmable interface for developers and other users (capabilities consumers) to request the last date of a SIM swap performed on the mobile line, or, to check whether a SIM swap has been performed during a past period.
-
-
-    # Introduction
-
-
-    The SIM Swap API performs real-time checks on the activation date of a SIM card on the mobile network. It reveals if an individual mobile phone number (MSISDN) has been ported to another SIM card.
-
-
-    The SIM Swap API is useful to prevent fraud by reducing the risk of account takeover fraud by strengthening SIM based authentication processes such as SMS One-time passwords. Fraudsters are using SIM swap techniques to intercept SMS messages and reset passwords or receive verification codes that allow them to access protected accounts.
-
-
-    This API is used by an application to get information about a mobile line latest SIM swap date. It can be easily integrated and used through this secured API and allows SPs (Service Provider) to get this information an easy & secured way. The API provides management of resource answering question:
-
-
-    * When did the last SIM swap occur?
-
-
-    Depending on the network provider implementation, legal enforcement, etc... either one or both resources could be implemented.
-
-
-    # Relevant terms and definitions
-
-
-    * **SIM swap**:
-
-    A SIM swap is a process in which a mobile phone user''s current SIM card is deactivated or replaced with a new one. This is typically done by contacting the user''s mobile service provider and requesting a new SIM card for various reasons, such as a lost or damaged SIM card, upgrading to a new phone, or changing phone numbers while keeping the same device.
-
-
-    # API functionality
-
-
-    The API provides 1 operation:
-
-
-    - POST retrieve-date : Provides timestamp of latest SIM swap, if any, for a given phone number.
-
-
-    # Further info and support
-
-
-    [GSMA Mobile Connect Account Takeover Protection specification](https://www.gsma.com/identity/wp-content/uploads/2022/12/IDY.24-Mobile-Connect-Account-Takeover-Protection-Definition-and-Technical-Requirements-v2.0.pdf) was used as source of input for this API. For more about Mobile Connect, please see [Mobile Connect website](https://mobileconnect.io/).
-
-
-    (FAQs will be added in a later version of the documentation)
-
-
-    ## [Source view](https://app.swaggerhub.com/apis/kpn/simswap/)<br/>
-
-    [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/simswap/)
-
-
-    ---
-
-
-    ## [KPN Developer](https://developer.kpn.com/)<br/>
-
-    [Getting Started](https://developer.kpn.com/getting-started)
-
-
-    ---
-
-    '
+  description: The SIM swap API provides a programmable interface for developers and other users (capabilities consumers) to request the last date of a SIM swap performed on the mobile line, or, to check whether a SIM swap has been performed during a past period.
   termsOfService: https://developer.kpn.com/legal
   contact:
     name: API Support
@@ -79,15 +17,15 @@ servers:
 - url: https://api-prd.kpn.com/kpn/sim-swap
   description: Production server
 tags:
-- name: Retrieve SIM swap date
+- name: Retrieve SIM Swap Date
 paths:
   /retrieve-date:
     post:
       security:
       - oauth2: []
       tags:
-      - Retrieve SIM swap date
-      description: Get timestamp of last MSISDN <-> IMSI pairing change for a mobile user account provided with MSIDN.
+      - Retrieve SIM Swap Date
+      description: Get timestamp of last MSISDN IMSI pairing change for a mobile user account provided with MSIDN.
       operationId: retrieveSimSwapDate
       requestBody:
         description: 'Create a SIM swap date request for a MSISDN identifier.
@@ -121,8 +59,103 @@ paths:
           $ref: '#/components/responses/Generic503'
         '504':
           $ref: '#/components/responses/Generic504'
+      summary: Retrieve sim swap date
+      x-summary-source: derived
 components:
+  responses:
+    Generic404:
+      description: Resource Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 404
+            code: SIM_SWAP.UNKNOWN_PHONE_NUMBER
+            message: SIM Swap can't be checked because the phone number is unknown
+    Generic403:
+      description: Client does not have sufficient permission
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          examples:
+            PermissionDenied:
+              value:
+                status: 403
+                code: PERMISSION_DENIED
+                message: Client does not have sufficient permissions to perform this action
+            InvalidTokenContext:
+              value:
+                status: 403
+                code: INVALID_TOKEN_CONTEXT
+                message: Phone number cannot be deducted from access token context
+    Generic504:
+      description: Request time exceeded. If it happens repeatedly, consider reducing the request complexity
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 504
+            code: TIMEOUT
+            message: Request timeout exceeded. Try later
+    Generic503:
+      description: Service unavailable. Typically the server is down
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 503
+            code: UNAVAILABLE
+            message: Service unavailable
+    Generic400:
+      description: Problem with the client request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 400
+            code: INVALID_ARGUMENT
+            message: Client specified an invalid argument, request body or query param
+    Generic409:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 409
+            code: CONFLICT
+            message: Another request is created for the same MSISDN
+    Generic401:
+      description: Authentication problem with the client request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 401
+            code: UNAUTHENTICATED
+            message: Request not authenticated due to missing, invalid, or expired credentials
+    Generic500:
+      description: Server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 500
+            code: INTERNAL
+            message: Server error
   schemas:
+    PhoneNumber:
+      type: string
+      pattern: ^\+[1-9][0-9]{4,14}$
+      example: '+31600000000'
+      description: A public identifier addressing a telephone subscription. In mobile networks it corresponds to the MSISDN (Mobile Station International Subscriber Directory Number). In order to be globally unique it has to be formatted in international format, according to E.164 standard, prefixed with '+'.
     ErrorInfo:
       type: object
       required:
@@ -151,99 +184,6 @@ components:
       properties:
         phoneNumber:
           $ref: '#/components/schemas/PhoneNumber'
-    PhoneNumber:
-      type: string
-      pattern: ^\+[1-9][0-9]{4,14}$
-      example: '+31600000000'
-      description: A public identifier addressing a telephone subscription. In mobile networks it corresponds to the MSISDN (Mobile Station International Subscriber Directory Number). In order to be globally unique it has to be formatted in international format, according to E.164 standard, prefixed with '+'.
-  responses:
-    Generic504:
-      description: Request time exceeded. If it happens repeatedly, consider reducing the request complexity
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 504
-            code: TIMEOUT
-            message: Request timeout exceeded. Try later
-    Generic500:
-      description: Server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 500
-            code: INTERNAL
-            message: Server error
-    Generic404:
-      description: Resource Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 404
-            code: SIM_SWAP.UNKNOWN_PHONE_NUMBER
-            message: SIM Swap can't be checked because the phone number is unknown
-    Generic403:
-      description: Client does not have sufficient permission
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          examples:
-            PermissionDenied:
-              value:
-                status: 403
-                code: PERMISSION_DENIED
-                message: Client does not have sufficient permissions to perform this action
-            InvalidTokenContext:
-              value:
-                status: 403
-                code: INVALID_TOKEN_CONTEXT
-                message: Phone number cannot be deducted from access token context
-    Generic400:
-      description: Problem with the client request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 400
-            code: INVALID_ARGUMENT
-            message: Client specified an invalid argument, request body or query param
-    Generic503:
-      description: Service unavailable. Typically the server is down
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 503
-            code: UNAVAILABLE
-            message: Service unavailable
-    Generic409:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 409
-            code: CONFLICT
-            message: Another request is created for the same MSISDN
-    Generic401:
-      description: Authentication problem with the client request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 401
-            code: UNAUTHENTICATED
-            message: Request not authenticated due to missing, invalid, or expired credentials
   securitySchemes:
     oauth2:
       type: oauth2

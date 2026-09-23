@@ -7,7 +7,7 @@ info:
     name: API Support
     email: api_developer@kpn.com
     url: https://developer.kpn.com/support
-  description: "This REST API exposes actions that help your apps to interact with APIdaze’s Telco platform in mulitples ways. You can set the URL from where Apidaze fetchs XML instructions to run on Apidaze platform. You can write your various scripts there using the [Script Reference doc](https://developer.kpn.com/script-reference-documentation), and test them. You can manage your phone numbers, connect directly with other SIP carriers (inbound and outbound), manage your SIP accounts, voicemail boxes and messages, provision your hardphones.\n## [Source view](https://app.swaggerhub.com/apis/kpn/apidaze-voice-voip-innovations/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/apidaze-voice-voip-innovations/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---\n "
+  description: This REST API exposes actions that help your apps to interact with APIdaze’s Telco platform in mulitples ways.
 servers:
 - url: https://api-prd.kpn.com/communication/apidaze/cpaas
 tags:
@@ -70,6 +70,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
       - OAuth2: []
+      operationId: getSipaccounts
+      x-operation-id-source: derived
     post:
       summary: SIP Account Create
       tags:
@@ -149,6 +151,8 @@ paths:
                   description: Message Waiting Indicator account of this SIP account. The Voicemail account this SIP account will be notified about when messages are left or deleted there.
               required:
               - username
+      operationId: postSipaccounts
+      x-operation-id-source: derived
   /sipaccounts/{id}:
     get:
       summary: SIP Account Read
@@ -213,6 +217,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
       - OAuth2: []
+      operationId: getSipaccountsById
+      x-operation-id-source: derived
     put:
       summary: SIP Account Update
       tags:
@@ -294,6 +300,8 @@ paths:
                 mwi_account:
                   type: string
                   description: Message Waiting Indicator account of this SIP account. The Voicemail account this SIP account will be notified about when messages are left or deleted there.
+      operationId: putSipaccountsById
+      x-operation-id-source: derived
     delete:
       summary: SIP Account Delete
       tags:
@@ -357,6 +365,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
       - OAuth2: []
+      operationId: deleteSipaccountsById
+      x-operation-id-source: derived
   /sipaccounts/{id}/status:
     get:
       summary: SIP Account Read
@@ -421,31 +431,15 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
       - OAuth2: []
+      operationId: getSipaccountsByIdStatus
+      x-operation-id-source: derived
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
+    SIPAccountResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/SIPAccountObject'
+      description: Response containing the list of the external scripts for your domain.
     Callerid:
       type: object
       properties:
@@ -465,22 +459,6 @@ components:
           type: string
           description: Number of this SIP account
           title: external_number
-    SIP:
-      type: object
-      properties:
-        username:
-          type: string
-          description: Username of this SIP account. This parameter is used to authenticate the SIP account.
-          title: username
-        password:
-          type: string
-          description: Password of this SIP account.
-          title: password
-    SIPAccountResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/SIPAccountObject'
-      description: Response containing the list of the external scripts for your domain.
     SIPAccountObject:
       type: object
       properties:
@@ -506,6 +484,29 @@ components:
           type: string
           description: updation date of SIP account
           title: updated_at
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
     Voicemail:
       type: object
       properties:
@@ -513,6 +514,17 @@ components:
           type: string
           description: Message Waiting Indicator account of this SIP account. The Voicemail account this SIP account will be notified about when messages are left or deleted there.
           title: mwi_account
+    SIP:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Username of this SIP account. This parameter is used to authenticate the SIP account.
+          title: username
+        password:
+          type: string
+          description: Password of this SIP account.
+          title: password
   securitySchemes:
     OAuth2:
       type: oauth2

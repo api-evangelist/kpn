@@ -2,7 +2,40 @@ openapi: 3.2.0
 info:
   title: Speech To Text - Xdroid Upload audio API
   version: 1.0.0
-  description: "Xdroid Speech To Text API provides a seamless audio transcription service. \n\n### Key highlights\n\n- **Sandbox:** Full-fledged capabilities.\n\n- **Security:** HTTPS, OAuth, Rate limit.\n\n- **Versioning:** Supports version-less API, version tight. If no version is provided (in header) it defaults to latest version. \n\n---\n\n[Source view](https://app.swaggerhub.com/apis/kpn/speech-to-text-Xdroid)<br/>\n[Documentation view](https://app.swaggerhub.com/apis-docs/kpn/speech-to-text-Xdroid/)\n  \n---\n    \n[KPN Developer](https://developer.kpn.com/)<br/>\n[Getting Started](https://developer.kpn.com/getting-started)\n    \n---\n"
+  description: 'Xdroid Speech To Text API provides a seamless audio transcription service.
+
+
+    ### Key highlights
+
+
+    - **Sandbox:** Full-fledged capabilities.
+
+
+    - **Security:** HTTPS, OAuth, Rate limit.
+
+
+    - **Versioning:** Supports version-less API, version tight. If no version is provided (in header) it defaults to latest version.
+
+
+    ---
+
+
+    Source view
+
+
+    Documentation view
+
+
+    ---
+
+
+    KPN Developer
+
+
+    Getting Started
+
+
+    ---'
   contact:
     name: API Support Support
     email: api_developer@kpn.com
@@ -14,16 +47,34 @@ security:
 - oauth2: []
 tags:
 - name: Upload audio
-  description: 'Uploads an audio file and start a new analytics job.
-
-    '
+  description: Uploads an audio file and start a new analytics job.
 paths:
   /job:
     post:
       tags:
       - Upload audio
-      summary: Submits audio files for analyis.
-      description: "To create a new transcript use the following recommendations: \n+ Accepted container formats:\n  - .wav\n  - .mp3 / .mp4\n  - .opus / .ogg\n  \n+ Preferred requirements:\n  - Bitrate: 64 Kbit/s per channel (stero recording is supported)\n  - Sample rate: 8 KHz\n  - Uncompressed files preferred\n\n+ Max audio file size: 150 MB."
+      summary: Submits audio files for analyis
+      description: 'To create a new transcript use the following recommendations:
+
+        + Accepted container formats:
+
+        - .wav
+
+        - .mp3 / .mp4
+
+        - .opus / .ogg
+
+
+        + Preferred requirements:
+
+        - Bitrate: 64 Kbit/s per channel (stero recording is supported)
+
+        - Sample rate: 8 KHz
+
+        - Uncompressed files preferred
+
+
+        + Max audio file size: 150 MB.'
       requestBody:
         content:
           multipart/form-data:
@@ -50,15 +101,47 @@ paths:
           $ref: '#/components/responses/request_entity_too_large'
         500:
           $ref: '#/components/responses/server_error'
+      operationId: postJob
+      x-operation-id-source: derived
 components:
+  responses:
+    bad_request:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    ok:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/job'
+    not_found:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    request_entity_too_large:
+      description: Request entity too large
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: Server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
   schemas:
-    job:
-      type: object
-      properties:
-        job_id:
-          type: integer
-          description: The job_id identifies your request, you should refer to this identifier later.
-          example: 17424
     error:
       type: object
       properties:
@@ -82,43 +165,13 @@ components:
           type: string
           description: Additional information about error.
           title: Info
-  responses:
-    ok:
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/job'
-    not_found:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    bad_request:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    request_entity_too_large:
-      description: Request entity too large
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    server_error:
-      description: Server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
+    job:
+      type: object
+      properties:
+        job_id:
+          type: integer
+          description: The job_id identifies your request, you should refer to this identifier later.
+          example: 17424
   securitySchemes:
     oauth2:
       type: oauth2

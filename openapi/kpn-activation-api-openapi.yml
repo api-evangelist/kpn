@@ -1,6 +1,30 @@
 openapi: 3.2.0
 info:
-  description: "KPN’s Low Power Long Range (LoRa) network service compliments existing 2G, 3G, 4G and LTE-M networks. It is based on the LoRaWAN protocol for Internet of Things (IoT). \n### Key highlights\n- **Sandbox:** Full-fledged capabilities.\n- **Security:**  HTTPS, OAuth, Rate limiting.\n- **Versioning:**  Supports version-less API, version tight. If no version is provided (in the header) it defaults to latest version. \n\n ---\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/lora-device-management-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/lora-device-management-kpn/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+  description: 'KPN’s Low Power Long Range (LoRa) network service compliments existing 2G, 3G, 4G and LTE-M networks. It is based on the LoRaWAN protocol for Internet of Things (IoT).
+
+    ### Key highlights
+
+    - **Sandbox:** Full-fledged capabilities.
+
+    - **Security:** HTTPS, OAuth, Rate limiting.
+
+    - **Versioning:** Supports version-less API, version tight. If no version is provided (in the header) it defaults to latest version.
+
+
+    ---
+
+
+    ## Source view
+
+    Documentation view
+
+    ---
+
+    ## KPN Developer
+
+    Getting Started
+
+    ---'
   version: v1.2
   title: LoRa Device Management - KPN Activation API
   contact:
@@ -81,24 +105,6 @@ paths:
       deprecated: false
 components:
   schemas:
-    ActivationReq:
-      title: ActivationResponse
-      type: object
-      properties:
-        thingpark_username:
-          type: string
-          description: Username.
-        thingpark_password:
-          type: string
-          description: Password
-      description: Thingpark Activation Credentials
-    ActivationResp:
-      title: ActivationRequest
-      type: object
-      properties:
-        status:
-          type: string
-          description: Activation Response
     error:
       type: object
       properties:
@@ -122,6 +128,24 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    ActivationReq:
+      title: ActivationResponse
+      type: object
+      properties:
+        thingpark_username:
+          type: string
+          description: Username.
+        thingpark_password:
+          type: string
+          description: Password
+      description: Thingpark Activation Credentials
+    ActivationResp:
+      title: ActivationRequest
+      type: object
+      properties:
+        status:
+          type: string
+          description: Activation Response
   parameters:
     api_version:
       in: header

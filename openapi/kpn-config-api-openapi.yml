@@ -5,11 +5,15 @@ info:
   description: 'This API enables a secure communication between your agent/bot desktop and the client website/mobile app.
 
 
-    ## [Source view](https://app.swaggerhub.com/apis/kpn/secure-messenger-parley/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/secure-messenger-parley/)
+    ## Source view
+
+    Documentation view
 
     ---
 
-    ## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)
+    ## KPN Developer
+
+    Getting Started
 
     ---'
   termsOfService: https://developer.kpn.com/legal
@@ -28,7 +32,11 @@ paths:
       tags:
       - Config
       summary: Get Config
-      description: Request the configuration for the identified account.<br /> This contains settings and display settings of the account.<br /> All colors are RGB colors saved in hexadecimals.
+      description: 'Request the configuration for the identified account.
+
+        This contains settings and display settings of the account.
+
+        All colors are RGB colors saved in hexadecimals.'
       operationId: GetConfig
       security:
       - oauth2: []
@@ -117,19 +125,19 @@ paths:
                       duration: 0.01
 components:
   parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
     auth_string:
       in: header
       name: authString
       schema:
         type: string
       description: The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)
+      required: false
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
       required: false
     device_id:
       in: header

@@ -1,6 +1,27 @@
 openapi: 3.2.0
 info:
-  description: "MobileServicesManagement APIs\n\n   ---\n     \n ## [Source view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)<br/>\n [Documentation view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)\n \n ---\n \n ## [KPN Developer](https://developer.kpn.com/)<br/>\n [Getting Started](https://developer.kpn.com/getting-started)\n \n\n ---"
+  description: 'MobileServicesManagement APIs
+
+
+    ---
+
+
+    ## Source view
+
+
+    Documentation view
+
+
+    ---
+
+
+    ## KPN Developer
+
+
+    Getting Started
+
+
+    ---'
   version: v11
   title: MobileServicesManagement-KPN Rest Invoice Controller API
   termsOfService: https://developer.kpn.com/legal
@@ -23,16 +44,37 @@ paths:
 
         Possible errors:
 
-        | HTTP code | Error code                         | Description                                                                      |
+        | HTTP code | Error code | Description |
 
         |-----------|------------------------------------|----------------------------------------------------------------------------------|
 
-        | `403`     | `ORDERING_IS_BLOCKED_FOR_CUSTOMER` | Current customer is frozen and can not order anything                           .|
+        | `403` | `ORDERING_IS_BLOCKED_FOR_CUSTOMER` | Current customer is frozen and can not order anything .|
 
-        | `404`     | `OPERATION_BLOCKED`                | Given operation is blocked. Operation availability shows blocked and not visible.|
+        | `404` | `OPERATION_BLOCKED` | Given operation is blocked. Operation availability shows blocked and not visible.|
 
 
-        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul> <strong>and:</strong><ul> <li>privileges_billing_retention_portlet</li></ul>'
+        Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization
+
+
+        privileges_virtual_hierarchy_view
+
+
+        privileges_virtual_hierarchy_management
+
+
+        privileges_bulk_upload_data_of_end_user
+
+
+        and:
+
+
+        privileges_billing_retention_portlet'
       operationId: changeBillingPeriodUsingPOST
       responses:
         '200':
@@ -100,7 +142,28 @@ paths:
       description: 'Get availability of changing billing period.
 
 
-        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li><li>privileges_virtual_hierarchy_view</li><li>privileges_virtual_hierarchy_management</li><li>privileges_bulk_upload_data_of_end_user</li></ul> <strong>and:</strong><ul> <li>privileges_billing_retention_portlet</li></ul>'
+        Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization
+
+
+        privileges_virtual_hierarchy_view
+
+
+        privileges_virtual_hierarchy_management
+
+
+        privileges_bulk_upload_data_of_end_user
+
+
+        and:
+
+
+        privileges_billing_retention_portlet'
       operationId: getBillingPeriodChangingAvailabilityUsingGET
       responses:
         '200':
@@ -160,14 +223,17 @@ paths:
       summary: Get list of invoices for given debtor
       description: 'Possible errors:
 
-        | HTTP code | Error code         | Description                                                  |
+        | HTTP code | Error code | Description |
 
         |-----------|--------------------|--------------------------------------------------------------|
 
-        | `404`     | `DEBTOR_NOT_FOUND` | Given debtor does not exist or user don''t have access to him |
+        | `404` | `DEBTOR_NOT_FOUND` | Given debtor does not exist or user don''t have access to him |
 
 
-        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_financial_documents_view</li></ul>'
+        Required privileges (one of the following):
+
+
+        privileges_financial_documents_view'
       operationId: getInvoicesUsingGET
       parameters:
       - name: debtorId
@@ -304,14 +370,17 @@ paths:
       summary: Download the invoice as pdf file
       description: 'Possible errors:
 
-        | HTTP code | Error code          | Description                       |
+        | HTTP code | Error code | Description |
 
         |-----------|---------------------|-----------------------------------|
 
-        | `404`     | `INVOICE_NOT_FOUND` | Invoice with given id not found   |
+        | `404` | `INVOICE_NOT_FOUND` | Invoice with given id not found |
 
 
-        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_financial_documents_view</li></ul>'
+        Required privileges (one of the following):
+
+
+        privileges_financial_documents_view'
       operationId: downloadInvoiceUsingGET
       parameters:
       - name: id
@@ -375,6 +444,36 @@ paths:
       - OAuth2: []
 components:
   schemas:
+    Invoice:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        debtorName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        number:
+          type: string
+        payBeforeDate:
+          type: string
+          format: date-time
+        totalAmountToPayInCents:
+          type: integer
+          format: int32
+        type:
+          type: string
+          enum:
+          - CREDIT_NOTE
+          - HARDWARE_ADJUSTMENT
+          - HARDWARE_INVOICE
+          - HARDWARE_INVOICE_ADJUSTMENT
+          - SERVICE_ADJUSTMENT
+          - SERVICE_INVOICE
+          - SERVICE_INVOICE_ADJUSTMENT
+      title: Invoice
     PagedResult_Invoice_:
       type: object
       properties:
@@ -389,6 +488,18 @@ components:
           description: Total number of all elements in collection
       title: PagedResult_Invoice_
       description: Paged list of elements
+    OperationAvailability:
+      type: object
+      properties:
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OperationAvailability
     ErrorResponse:
       type: object
       properties:
@@ -412,39 +523,6 @@ components:
           type: string
           description: Additional information about error
           title: Info
-    OrderSummary:
-      type: object
-      properties:
-        contextName:
-          type: string
-        creationDate:
-          type: string
-        id:
-          type: integer
-          format: int64
-        operation:
-          type: string
-        referenceNumber:
-          type: string
-        status:
-          type: string
-          enum:
-          - Failed
-          - Aborted
-          - Finished
-          - Suspended
-          - InProgress
-          - Waiting
-          - Draft
-          - WaitingForAuthorization
-          - Authorized
-          - Restored
-          - Canceled
-          - Scheduled
-          - Initialized
-          - Rejected
-          - ExternalScheduled
-      title: OrderSummary
     BlockingOrder:
       type: object
       properties:
@@ -483,48 +561,39 @@ components:
         referenceNumber:
           type: string
       title: ChangeBillingPeriodRequestParams
-    OperationAvailability:
+    OrderSummary:
       type: object
       properties:
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        enabled:
-          type: boolean
-        visible:
-          type: boolean
-      title: OperationAvailability
-    Invoice:
-      type: object
-      properties:
-        date:
+        contextName:
           type: string
-          format: date-time
-        debtorName:
+        creationDate:
           type: string
         id:
           type: integer
           format: int64
-        number:
+        operation:
           type: string
-        payBeforeDate:
+        referenceNumber:
           type: string
-          format: date-time
-        totalAmountToPayInCents:
-          type: integer
-          format: int32
-        type:
+        status:
           type: string
           enum:
-          - CREDIT_NOTE
-          - HARDWARE_ADJUSTMENT
-          - HARDWARE_INVOICE
-          - HARDWARE_INVOICE_ADJUSTMENT
-          - SERVICE_ADJUSTMENT
-          - SERVICE_INVOICE
-          - SERVICE_INVOICE_ADJUSTMENT
-      title: Invoice
+          - Failed
+          - Aborted
+          - Finished
+          - Suspended
+          - InProgress
+          - Waiting
+          - Draft
+          - WaitingForAuthorization
+          - Authorized
+          - Restored
+          - Canceled
+          - Scheduled
+          - Initialized
+          - Rejected
+          - ExternalScheduled
+      title: OrderSummary
   securitySchemes:
     OAuth2:
       type: oauth2

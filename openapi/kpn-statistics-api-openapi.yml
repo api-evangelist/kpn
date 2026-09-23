@@ -1,6 +1,30 @@
 openapi: 3.2.0
 info:
-  description: "KPN’s Low Power Long Range (LoRa) network service compliments existing 2G, 3G, 4G and LTE-M networks. It is based on the LoRaWAN protocol for Internet of Things (IoT). \n### Key highlights\n- **Sandbox:** Full-fledged capabilities.\n- **Security:**  HTTPS, OAuth, Rate limiting.\n- **Versioning:**  Supports version-less API, version tight. If no version is provided (in the header) it defaults to latest version. \n\n ---\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/lora-device-management-kpn/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/lora-device-management-kpn/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n---"
+  description: 'KPN’s Low Power Long Range (LoRa) network service compliments existing 2G, 3G, 4G and LTE-M networks. It is based on the LoRaWAN protocol for Internet of Things (IoT).
+
+    ### Key highlights
+
+    - **Sandbox:** Full-fledged capabilities.
+
+    - **Security:** HTTPS, OAuth, Rate limiting.
+
+    - **Versioning:** Supports version-less API, version tight. If no version is provided (in the header) it defaults to latest version.
+
+
+    ---
+
+
+    ## Source view
+
+    Documentation view
+
+    ---
+
+    ## KPN Developer
+
+    Getting Started
+
+    ---'
   version: v1.2
   title: LoRa Device Management - KPN Statistics API
   contact:
@@ -176,27 +200,13 @@ paths:
       deprecated: false
 components:
   schemas:
-    DeviceHealthStatistics:
-      title: DeviceHealthStatistics
-      type: object
-      properties:
-        initCount:
-          type: integer
-          description: Number of devices with the 'healthState' attribute set to 'INIT'.
-          format: int32
-        activeCount:
-          type: integer
-          description: Number of devices with the 'healthState' attribute set to 'ACTIVE'.
-          format: int32
-        rfConnectionErrorCount:
-          type: integer
-          description: Number of devices with the 'healthState' attribute set to 'RF_CNX_ERROR'.
-          format: int32
-        totalCount:
-          type: integer
-          description: Total number of devices in authorized scopes.
-          format: int32
-      description: Resource representing read-only statistics about health states for devices.
+    Type:
+      title: Type
+      enum:
+      - UPLINK
+      - DOWNLINK
+      type: string
+      description: Type of frame. Possible values are 'UPLINK' or 'DOWNLINK'.
     FrameStatistics:
       title: FrameStatistics
       type: object
@@ -256,13 +266,27 @@ components:
           type: number
           description: Average Packet Error Rate Indication for the base station that receives the frame.
       description: Resource representing read-only statistics about radio frames for a device or a base station.
-    Type:
-      title: Type
-      enum:
-      - UPLINK
-      - DOWNLINK
-      type: string
-      description: Type of frame. Possible values are 'UPLINK' or 'DOWNLINK'.
+    DeviceHealthStatistics:
+      title: DeviceHealthStatistics
+      type: object
+      properties:
+        initCount:
+          type: integer
+          description: Number of devices with the 'healthState' attribute set to 'INIT'.
+          format: int32
+        activeCount:
+          type: integer
+          description: Number of devices with the 'healthState' attribute set to 'ACTIVE'.
+          format: int32
+        rfConnectionErrorCount:
+          type: integer
+          description: Number of devices with the 'healthState' attribute set to 'RF_CNX_ERROR'.
+          format: int32
+        totalCount:
+          type: integer
+          description: Total number of devices in authorized scopes.
+          format: int32
+      description: Resource representing read-only statistics about health states for devices.
     error:
       type: object
       properties:

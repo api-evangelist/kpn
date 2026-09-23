@@ -2,7 +2,39 @@ openapi: 3.2.0
 info:
   version: '1.0'
   title: Knowledge Management – Polly.help Graphql API
-  description: "The Knowledge Management API allows you to organize your organization's information with knowledge management software.\n\n ### Key highlights\n\n - **Sandbox:** Full-fledged capabilities.\n\n - **Security:** HTTPS, OAuth, Rate limit.\n\n - **Versioning:** Supports version-less API, version tight. If no version\n is provided (in header) it defaults to latest version. \n\n\n ## [Source view](https://app.swaggerhub.com/apis/kpn/knowledge-management-polly.help/)<br/>\n [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/knowledge-management-polly.help/)\n \n ---\n \n ## [KPN Developer](https://developer.kpn.com/)<br/>\n [Getting Started](https://developer.kpn.com/getting-started)\n \n\n ---"
+  description: 'The Knowledge Management API allows you to organize your organization''s information with knowledge management software.
+
+
+    ### Key highlights
+
+
+    - **Sandbox:** Full-fledged capabilities.
+
+
+    - **Security:** HTTPS, OAuth, Rate limit.
+
+
+    - **Versioning:** Supports version-less API, version tight. If no version
+
+    is provided (in header) it defaults to latest version.
+
+
+    ## Source view
+
+
+    Documentation view
+
+
+    ---
+
+
+    ## KPN Developer
+
+
+    Getting Started
+
+
+    ---'
   contact:
     name: API Support
     email: api_developer@kpn.com
@@ -11,7 +43,7 @@ info:
 servers:
 - url: https://api-prd.kpn.com/data/pollyhelp/knowledgemanagement
 tags:
-- name: Graphql
+- name: Graph QL
 paths:
   /graphql:
     post:
@@ -46,51 +78,15 @@ paths:
         '503':
           $ref: '#/components/responses/service_unavailable'
       tags:
-      - Graphql
+      - Graph QL
+      summary: Create graphql
+      x-summary-source: derived
+      operationId: postGraphql
+      x-operation-id-source: derived
 components:
-  schemas:
-    graphql_variables:
-      title: variables
-      type: object
-      properties:
-        publicationId:
-          type: string
-        api_token:
-          type: string
-    graphql_payload:
-      title: graphql
-      type: object
-      properties:
-        query:
-          type: string
-        variables:
-          $ref: '#/components/schemas/graphql_variables'
-    error:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: Transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
   responses:
-    forbidden:
-      description: forbidden
+    bad_request:
+      description: bad request
       content:
         application/json:
           schema:
@@ -107,20 +103,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    bad_request:
-      description: bad request
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: forbidden
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
     unauthorized:
       description: unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    service_unavailable:
-      description: service unavailable
       content:
         application/json:
           schema:
@@ -146,6 +142,46 @@ components:
         type: string
       description: API Version. If no version is provided it defaults to latest version.
       required: false
+  schemas:
+    graphql_variables:
+      title: variables
+      type: object
+      properties:
+        publicationId:
+          type: string
+        api_token:
+          type: string
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    graphql_payload:
+      title: graphql
+      type: object
+      properties:
+        query:
+          type: string
+        variables:
+          $ref: '#/components/schemas/graphql_variables'
   securitySchemes:
     oauth2:
       type: oauth2

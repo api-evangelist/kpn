@@ -1,6 +1,27 @@
 openapi: 3.2.0
 info:
-  description: "MobileServicesManagement APIs\n\n   ---\n     \n ## [Source view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)<br/>\n [Documentation view](https://app.swaggerhub.com/apis/kpn/MobileServicesManagement-KPN/)\n \n ---\n \n ## [KPN Developer](https://developer.kpn.com/)<br/>\n [Getting Started](https://developer.kpn.com/getting-started)\n \n\n ---"
+  description: 'MobileServicesManagement APIs
+
+
+    ---
+
+
+    ## Source view
+
+
+    Documentation view
+
+
+    ---
+
+
+    ## KPN Developer
+
+
+    Getting Started
+
+
+    ---'
   version: v11
   title: MobileServicesManagement-KPN Rest Order Controller API
   termsOfService: https://developer.kpn.com/legal
@@ -19,7 +40,10 @@ paths:
       tags:
       - rest-order-controller
       summary: Authorize order
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_orders_authorization'
       operationId: authorizeUsingPOST
       responses:
         '200':
@@ -87,7 +111,13 @@ paths:
       description: 'Wish date should be empty, current or in the future. Reference number cannot exceed 25 character. When individualBundle field is set as true in ContractDetails, user is supposed to set moveAddonBundles to true or false.Otherwise it will be used as false by default. If individualBundle is false, the value of the field moveAddonBundles will not be used.
 
 
-        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>'
+        Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization'
       operationId: moveContractUsingPOST
       responses:
         '200':
@@ -151,8 +181,14 @@ paths:
     get:
       tags:
       - rest-order-controller
-      summary: Get information about operations available for given contract.
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>
+      summary: Get information about operations available for given contract
+      description: 'Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization'
       operationId: getAvailableOperationsUsingGET
       parameters:
       - name: contractId
@@ -218,7 +254,13 @@ paths:
       tags:
       - rest-order-controller
       summary: Port out contract
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization'
       operationId: portingOutUsingPOST
       responses:
         '200':
@@ -286,7 +328,13 @@ paths:
       description: 'If eSim is used email is mandatory.
 
 
-        <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>'
+        Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization'
       operationId: replaceSimUsingPOST
       responses:
         '200':
@@ -351,7 +399,13 @@ paths:
       tags:
       - rest-order-controller
       summary: Validate if sim card number can be used in replace sim operation
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization'
       operationId: validateUiccidUsingPOST
       responses:
         '200':
@@ -412,7 +466,13 @@ paths:
       tags:
       - rest-order-controller
       summary: Return hardware
-      description: <strong>Required privileges</strong> (one of the following):</strong><ul><li>privileges_un-authorized_orders_creation</li><li>privileges_orders_authorization</li></ul>
+      description: 'Required privileges (one of the following):
+
+
+        privileges_un-authorized_orders_creation
+
+
+        privileges_orders_authorization'
       operationId: returnHardwareUsingPOST
       responses:
         '200':
@@ -474,121 +534,6 @@ paths:
         required: true
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
-    OrderSummary:
-      type: object
-      properties:
-        contextName:
-          type: string
-        creationDate:
-          type: string
-        id:
-          type: integer
-          format: int64
-        operation:
-          type: string
-        referenceNumber:
-          type: string
-        status:
-          type: string
-          enum:
-          - Failed
-          - Aborted
-          - Finished
-          - Suspended
-          - InProgress
-          - Waiting
-          - Draft
-          - WaitingForAuthorization
-          - Authorized
-          - Restored
-          - Canceled
-          - Scheduled
-          - Initialized
-          - Rejected
-          - ExternalScheduled
-      title: OrderSummary
-    BlockingOrder:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        kpnReference:
-          type: string
-        status:
-          type: string
-          enum:
-          - IN_PROGRESS
-          - UNAUTHORIZED
-          - NEW
-          - CLOSED
-          - CANCELED
-          - REJECTED
-          - DRAFT
-          - THIRD_PARTY
-          - HOLD_CUSTOMER
-          - WAITING
-        type:
-          type: string
-          enum:
-          - CONTRACTING
-          - SERVICE_REQUEST
-      title: BlockingOrder
-    ReplaceSimRequest:
-      type: object
-      properties:
-        confirmationCode:
-          type: string
-        contractId:
-          type: integer
-          format: int64
-        email:
-          type: string
-        esim:
-          type: boolean
-        newSimCardNumber:
-          type: string
-        referenceNumber:
-          type: string
-        wishDate:
-          type: string
-          format: date-time
-      title: ReplaceSimRequest
-    PortingOutRequest:
-      type: object
-      properties:
-        contractId:
-          type: integer
-          format: int64
-        referenceNumber:
-          type: string
-        wishDate:
-          type: string
-          format: date-time
-      title: PortingOutRequest
     OperationAvailability:
       type: object
       properties:
@@ -601,6 +546,35 @@ components:
         visible:
           type: boolean
       title: OperationAvailability
+    PortingOutRequest:
+      type: object
+      properties:
+        contractId:
+          type: integer
+          format: int64
+        referenceNumber:
+          type: string
+        wishDate:
+          type: string
+          format: date-time
+      title: PortingOutRequest
+    MoveContractRequest:
+      type: object
+      properties:
+        contractId:
+          type: integer
+          format: int64
+        destinationGroupId:
+          type: integer
+          format: int64
+        moveAddonBundles:
+          type: boolean
+        referenceNumber:
+          type: string
+        wishDate:
+          type: string
+          format: date-time
+      title: MoveContractRequest
     ReturnHardwareRequest:
       type: object
       properties:
@@ -634,6 +608,56 @@ components:
           type: integer
           format: int64
       title: AuthorizeRequest
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    BlockingOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        kpnReference:
+          type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
+          type: string
+          enum:
+          - CONTRACTING
+          - SERVICE_REQUEST
+      title: BlockingOrder
     UiccidValidationData:
       type: object
       properties:
@@ -643,23 +667,26 @@ components:
         newSimCardNumber:
           type: string
       title: UiccidValidationData
-    MoveContractRequest:
+    ReplaceSimRequest:
       type: object
       properties:
+        confirmationCode:
+          type: string
         contractId:
           type: integer
           format: int64
-        destinationGroupId:
-          type: integer
-          format: int64
-        moveAddonBundles:
+        email:
+          type: string
+        esim:
           type: boolean
+        newSimCardNumber:
+          type: string
         referenceNumber:
           type: string
         wishDate:
           type: string
           format: date-time
-      title: MoveContractRequest
+      title: ReplaceSimRequest
     OperationsAvailability:
       type: object
       properties:
@@ -685,6 +712,39 @@ components:
         unblockSim:
           $ref: '#/components/schemas/OperationAvailability'
       title: OperationsAvailability
+    OrderSummary:
+      type: object
+      properties:
+        contextName:
+          type: string
+        creationDate:
+          type: string
+        id:
+          type: integer
+          format: int64
+        operation:
+          type: string
+        referenceNumber:
+          type: string
+        status:
+          type: string
+          enum:
+          - Failed
+          - Aborted
+          - Finished
+          - Suspended
+          - InProgress
+          - Waiting
+          - Draft
+          - WaitingForAuthorization
+          - Authorized
+          - Restored
+          - Canceled
+          - Scheduled
+          - Initialized
+          - Rejected
+          - ExternalScheduled
+      title: OrderSummary
   securitySchemes:
     OAuth2:
       type: oauth2

@@ -1,6 +1,13 @@
 openapi: 3.2.0
 info:
-  description: "This API offers three functionalities: \n- User management\n- Emailing\n\nUser management can be used to add, get and modify user information. This can be done be a user with customer admin rights, without 2FA.Emailing can be used without authorization. The mail functionality can be used to sent registered emails with attachment without 2FA. Mail management, XML, can be seen by webservice users. It can be used to retrieve ticket information once the ticket id is known.\n\n### Key highlights\n\n- **Sandbox:** Full-fledged capabilities.\n\n- **Security:**  HTTPS, OAuth, Rate limit\n\n- **Versioning:** Supports version-less API, version tight. If no version\nis provided (in header) it defaults to latest version. \n\n\n## [Source view](https://app.swaggerhub.com/apis/kpn/registeredemail-registeredemail/)<br/>\n[Documentation view](https://app.swaggerhub.com/apis-docs/kpn/registeredemail-registeredemail/)\n\n---\n\n## [KPN API Store](https://developer.kpn.com/)<br/>\n[Getting Started](https://developer.kpn.com/getting-started)\n\n ---\n"
+  description: 'This API offers three functionalities:
+
+    - User management
+
+    - Emailing
+
+
+    User management can be used to add, get and modify user information.'
   version: v.1.1.1
   title: Registered E-mail - Registered E-mail Emailing API
   contact:
@@ -65,25 +72,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+      summary: Create webservice mailsender send
+      x-summary-source: derived
+      operationId: postWebserviceMailsenderSend
+      x-operation-id-source: derived
 components:
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
   schemas:
-    attachment:
-      type: object
-      description: The attachment is Base64 encoded, the MIME type should be corresponding with the format of the actual file and the name should be correct.
-      properties:
-        attachment:
-          type: string
-          example: BAse64E=
-        attachment_name:
-          type: string
-          example: attachment.pdf
-        attachment_type:
-          type: string
-          example: application/pdf
-      required:
-      - attachment
-      - attachment_name
-      - attachment_type
     email:
       type: object
       properties:
@@ -148,14 +150,23 @@ components:
           type: string
           description: Additional information about error
           title: Info
-  parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
+    attachment:
+      type: object
+      description: The attachment is Base64 encoded, the MIME type should be corresponding with the format of the actual file and the name should be correct.
+      properties:
+        attachment:
+          type: string
+          example: BAse64E=
+        attachment_name:
+          type: string
+          example: attachment.pdf
+        attachment_type:
+          type: string
+          example: application/pdf
+      required:
+      - attachment
+      - attachment_name
+      - attachment_type
   requestBodies:
     SentEmail:
       required: true

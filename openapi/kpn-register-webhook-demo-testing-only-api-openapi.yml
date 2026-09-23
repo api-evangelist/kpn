@@ -7,7 +7,7 @@ info:
     name: API Support
     email: api_developer@kpn.com
     url: https://developer.kpn.com/support
-  description: "Vonage's SMS API allows you to send and receive text messages to users around the globe through simple RESTful APIs.\n  \n  * Programmatically send and receive high volume of SMS anywhere in the world.\n  * Build apps that scale with the web technologies that you are already using.\n  * Send SMS with low latency and high delivery rates.\n  * Receive SMS for free using SMS-enabled local numbers in countries around the world.\n  * Only pay for what you use, nothing more.\n\n  \n## [Source view](https://app.swaggerhub.com/apis/kpn/sms-nexmo/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/sms-nexmo/)\n---\n## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)\n\n ---"
+  description: Vonage's SMS API allows you to send and receive text messages to users around the globe through simple RESTful APIs.
 servers:
 - url: https://api-prd.kpn.com/communication/nexmo/sms
 tags:
@@ -16,7 +16,11 @@ paths:
   /register:
     post:
       summary: Register callback URL to webhook for incoming messages
-      description: "Handling inbound SMS with with API is easy. You just need to create a webhook endpoint and configure your number or account to point to the endpoint. \n- If you are a test user  try inbound messaging using below using 'Register Webhook endpoint'. \n- If you are production user,  use the `Phone Numbers API` to search, buy and manage your virtual number.\n"
+      description: 'Handling inbound SMS with with API is easy. You just need to create a webhook endpoint and configure your number or account to point to the endpoint.
+
+        - If you are a test user try inbound messaging using below using ''Register Webhook endpoint''.
+
+        - If you are production user, use the `Phone Numbers API` to search, buy and manage your virtual number.'
       tags:
       - Register webhook - Demo testing ONLY
       responses:
@@ -85,15 +89,10 @@ paths:
               required:
               - to
               - callback_url
+      operationId: postRegister
+      x-operation-id-source: derived
 components:
   schemas:
-    RegisterWebhookResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: response message
-          example: Your callback url is registered.
     ErrorResponse:
       type: object
       properties:
@@ -117,6 +116,13 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    RegisterWebhookResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: response message
+          example: Your callback url is registered.
   securitySchemes:
     OAuth2:
       type: oauth2

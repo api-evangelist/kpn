@@ -5,11 +5,15 @@ info:
   description: 'This API enables a secure communication between your agent/bot desktop and the client website/mobile app.
 
 
-    ## [Source view](https://app.swaggerhub.com/apis/kpn/secure-messenger-parley/)<br/> [Documentation view](https://app.swaggerhub.com/apis-docs/kpn/secure-messenger-parley/)
+    ## Source view
+
+    Documentation view
 
     ---
 
-    ## [KPN Developer](https://developer.kpn.com/)<br/> [Getting Started](https://developer.kpn.com/getting-started)
+    ## KPN Developer
+
+    Getting Started
 
     ---'
   termsOfService: https://developer.kpn.com/legal
@@ -28,7 +32,13 @@ paths:
       tags:
       - Devices
       summary: Subscribe device
-      description: You need to subscribe the device before you can send and get messages.<br /> When you do not subscribe, we can't tell who you are. It's that important.<br /> When you subscribe you will also want to setup the pushToken and pushType of your device to receive updates when a new event or message is available for this device.<br /> To make the different push types work for your application, you will need to contact <a href="http://parley.nu/contact" target="_blank">Parley</a> to configure one or multiple pushTypes.
+      description: 'You need to subscribe the device before you can send and get messages.
+
+        When you do not subscribe, we can''t tell who you are. It''s that important.
+
+        When you subscribe you will also want to setup the pushToken and pushType of your device to receive updates when a new event or message is available for this device.
+
+        To make the different push types work for your application, you will need to contact Parley to configure one or multiple pushTypes.'
       operationId: PostDevices
       parameters:
       - $ref: '#/components/parameters/api_version'
@@ -176,19 +186,19 @@ paths:
                   $ref: '#/paths/~1config/get/responses/401/content/application~1json/examples/error'
 components:
   parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
     auth_string:
       in: header
       name: authString
       schema:
         type: string
       description: The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)
+      required: false
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
       required: false
     device_id:
       in: header
