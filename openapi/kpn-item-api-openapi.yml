@@ -51,20 +51,26 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
     bad_request:
       description: Bad request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    not_found:
-      description: not found
+    forbidden:
+      description: forbidden
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    too_many:
-      description: too many requests
+    service_unavailable:
+      description: service unavailable
       content:
         application/json:
           schema:
@@ -75,14 +81,20 @@ components:
         application/json:
           schema:
             type: object
-    service_unavailable:
-      description: service unavailable
+    unauthorized:
+      description: Unauthorized
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    forbidden:
-      description: forbidden
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: not found
       content:
         application/json:
           schema:
@@ -100,62 +112,6 @@ components:
                 type: array
                 items:
                   $ref: '#/components/schemas/container'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    server_error:
-      description: server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-  parameters:
-    path_channel:
-      in: path
-      name: channel
-      description: Any valid platform
-      schema:
-        type: string
-        enum:
-        - pctv
-        - ios
-        - android
-        - stb
-        - chromecast
-        - smarttv
-      required: true
-    path_contentid:
-      in: path
-      name: contentId
-      description: The unique content identifier.
-      schema:
-        type: integer
-      required: true
-    query_api_version:
-      in: query
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-    header_api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-    path_contenttype:
-      in: path
-      name: contentType
-      description: Identifier of the content type.
-      schema:
-        type: string
-        enum:
-        - PROGRAM
-        - VOD
-      required: true
   schemas:
     error:
       type: object
@@ -244,6 +200,50 @@ components:
           items:
             type: object
             description: Container object
+  parameters:
+    path_contentid:
+      in: path
+      name: contentId
+      description: The unique content identifier.
+      schema:
+        type: integer
+      required: true
+    path_contenttype:
+      in: path
+      name: contentType
+      description: Identifier of the content type.
+      schema:
+        type: string
+        enum:
+        - PROGRAM
+        - VOD
+      required: true
+    header_api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+    path_channel:
+      in: path
+      name: channel
+      description: Any valid platform
+      schema:
+        type: string
+        enum:
+        - pctv
+        - ios
+        - android
+        - stb
+        - chromecast
+        - smarttv
+      required: true
+    query_api_version:
+      in: query
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
   securitySchemes:
     oauth2:
       type: oauth2

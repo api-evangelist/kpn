@@ -17655,8 +17655,6 @@ apis:
   humanURL: https://developer.kpn.com/products/kpn-grip-api
   baseURL: https://api.grip-on-it.com/users/
   tags:
-  - GraphQL
-  tags_raw:
   - Graph QL
   properties:
   - type: OpenAPI

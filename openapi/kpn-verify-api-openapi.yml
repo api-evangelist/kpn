@@ -538,29 +538,25 @@ components:
           type: string
           description: If status is not 0, this explains the error encountered.
           title: Error Text
-    ErrorResponse:
+    VerifyControlResponse:
       type: object
       properties:
-        transactionId:
+        request_id:
           type: string
-          description: transaction id of the the request
-          title: Transaction ID
+          description: The request_id you received in the Verify Request Response and used in the Verify Search request.
+          title: Request ID
+        account_id:
+          type: integer
+          description: The Account ID the request was for.
+          title: Account ID
         status:
           type: string
-          description: Status
-          title: Status
-        name:
+          description: The Verify Control Response code that explains how your request proceeded. Details of possible values are given in resource (/control) documentation.
+          title: ststus
+        command:
           type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
+          description: The cmd you sent in the request.
+          title: Command
     VerifySearchResponse:
       type: object
       properties:
@@ -607,25 +603,6 @@ components:
           type: string
           description: If status is not SUCCESS, this message explains the issue.
           title: Error text
-    VerifyControlResponse:
-      type: object
-      properties:
-        request_id:
-          type: string
-          description: The request_id you received in the Verify Request Response and used in the Verify Search request.
-          title: Request ID
-        account_id:
-          type: integer
-          description: The Account ID the request was for.
-          title: Account ID
-        status:
-          type: string
-          description: The Verify Control Response code that explains how your request proceeded. Details of possible values are given in resource (/control) documentation.
-          title: ststus
-        command:
-          type: string
-          description: The cmd you sent in the request.
-          title: Command
     VerifyCheckResponse:
       type: object
       properties:
@@ -641,6 +618,29 @@ components:
           type: string
           description: If status is not 0, this is brief explanation about the error.
           title: Error Text
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
   securitySchemes:
     OAuth2:
       type: oauth2

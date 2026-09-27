@@ -135,7 +135,9 @@
     "kpn-retrieve-transcription-api-openapi.yml",
     "kpn-upload-audio-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 2 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -237,7 +239,8 @@
     "tag 'Messages' spans 2 source specs (parley-secure-messenger-openapi.yml, vonage-messages-openapi.yml): per-path servers applied",
     "tag 'applications' spans 2 source specs (vonage-messages-openapi.yml, vonage-voice-openapi.yml): per-path servers applied",
     "tag 'Users' spans 2 source specs (weseedo-direct-openapi.yml, weseedo-personal-openapi.yml): per-path servers applied",
-    "apis.yml register: already-registered"
+    "superseded outputs removed: kpn-endpoint-group-api-openapi.yml, kpn-graph-ql-api-openapi.yml",
+    "apis.yml register: written (+2 apis, 103 total)"
   ],
   "skipped": [
     "_original/kpn-sms-openapi.yml: archived document superseded by a larger archived document",
@@ -270,9 +273,9 @@
     "kpn-devicesecurity-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "kpn-emailing-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "kpn-endpoint-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "kpn-endpointgroup-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kpn-endpoint-group-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "kpn-events-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "kpn-graphql-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kpn-graph-ql-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "kpn-identitygroup-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "kpn-insight-configure-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "kpn-insight-monitor-api-openapi.yml: previously refined output, superseded by openapi/_original/",

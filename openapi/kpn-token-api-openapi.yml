@@ -167,6 +167,29 @@ components:
           - Internal Server Error
           - Bad Gateway
           - Service Unavailable
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
     token:
       type: array
       items:
@@ -194,50 +217,15 @@ components:
           type: string
           description: Doc Name
           title: DocName
-    error:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: Transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
   responses:
-    bad_request:
-      description: bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    not_found:
-      description: not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     too_many:
       description: too many requests
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    service_unavailable:
-      description: service unavailable
+    bad_request:
+      description: bad request
       content:
         application/json:
           schema:
@@ -248,8 +236,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    unauthorized:
-      description: unauthorized
+    service_unavailable:
+      description: service unavailable
       content:
         application/json:
           schema:
@@ -260,8 +248,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/token'
+    unauthorized:
+      description: unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
     server_error:
       description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: not found
       content:
         application/json:
           schema:

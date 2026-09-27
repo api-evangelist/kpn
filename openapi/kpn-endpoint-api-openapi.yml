@@ -301,25 +301,36 @@ paths:
       operationId: deleteEndpointById
       x-operation-id-source: derived
 components:
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+    name:
+      in: path
+      name: name
+      schema:
+        type: string
+      description: info
+      required: true
+    filter:
+      in: query
+      name: filter
+      schema:
+        type: string
+      description: info
+      required: false
+    id:
+      in: path
+      name: id
+      schema:
+        type: string
+      description: info
+      required: true
   schemas:
-    resources:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-    updatefield:
-      type: object
-      properties:
-        field:
-          type: string
-        oldValue:
-          type: string
-        newValue:
-          type: string
     error:
       type: object
       properties:
@@ -367,21 +378,25 @@ components:
           type: string
         identityStoreId:
           type: string
+    resources:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    updatefield:
+      type: object
+      properties:
+        field:
+          type: string
+        oldValue:
+          type: string
+        newValue:
+          type: string
   responses:
-    UpdatedFieldsList:
-      description: A successful delivery
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              UpdatedFieldsList:
-                type: object
-                properties:
-                  updatedField:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/updatefield'
     endpointgroup:
       description: A successful delivery
       content:
@@ -398,35 +413,20 @@ components:
                     type: array
                     items:
                       $ref: '#/components/schemas/resources'
-  parameters:
-    filter:
-      in: query
-      name: filter
-      schema:
-        type: string
-      description: info
-      required: false
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
-    id:
-      in: path
-      name: id
-      schema:
-        type: string
-      description: info
-      required: true
-    name:
-      in: path
-      name: name
-      schema:
-        type: string
-      description: info
-      required: true
+    UpdatedFieldsList:
+      description: A successful delivery
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              UpdatedFieldsList:
+                type: object
+                properties:
+                  updatedField:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/updatefield'
   requestBodies:
     ERSEndPoint:
       required: true

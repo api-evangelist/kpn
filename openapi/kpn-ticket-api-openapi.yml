@@ -320,6 +320,52 @@ paths:
                 $ref: '#/components/schemas/error'
 components:
   schemas:
+    GetTicketUpdates200Response:
+      type: array
+      items:
+        type: object
+        properties:
+          transaction_id:
+            type: string
+            description: Unique transaction-message identifier
+            example: 9ac7901f-276e-4202-8a40-757af564cb30
+          message_datetime_utc:
+            type: string
+            description: Creation date-time of the update
+            example: '2024-10-03T11:08:32Z'
+          ticket_type:
+            type: string
+            description: Type of ticket
+            example: incident
+          action:
+            type: string
+            description: Action taken on the ticket
+            example: In Progress
+          kpn_ticket_number:
+            type: string
+            description: Ticket number in the KPN system
+            example: INC#34567890
+          customer_reference_number:
+            type: string
+            description: Unique reference-number of the customer system
+            example: INC01234567
+          ticket_attributes:
+            type: object
+            properties:
+              state:
+                type: string
+                description: State of the ticket in the KPN system
+                example: In Progress
+              comments:
+                type: string
+                description: Additional information
+                example: Some additional information from KPN
+        required:
+        - transaction_id
+        - message_datetime_utc
+        - ticket_type
+        - action
+        - kpn_ticket_number
     NewTicket:
       type: object
       required:
@@ -398,6 +444,38 @@ components:
                 type: string
                 description: Content_type of the attachment
                 example: text/plain
+    UpdateTicket200Response:
+      type: object
+      properties:
+        code:
+          type: string
+          example: TechnicalEndpointSuccess
+        state:
+          type: string
+          example: updated
+        kpn_ticket_number:
+          type: string
+          example: INC#34567890
+        customer_reference_number:
+          type: string
+          example: INC01234567
+        note:
+          type: string
+          example: Incident INC#34567890 has been updated;
+    error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Code representing the error
+              example: '1234'
+            message:
+              type: string
+              description: Description of the error
+              example: Description of the error.
     UpdateTicket:
       type: object
       required:
@@ -473,84 +551,6 @@ components:
         note:
           type: string
           example: Incident INC#34567890 has been created;
-    UpdateTicket200Response:
-      type: object
-      properties:
-        code:
-          type: string
-          example: TechnicalEndpointSuccess
-        state:
-          type: string
-          example: updated
-        kpn_ticket_number:
-          type: string
-          example: INC#34567890
-        customer_reference_number:
-          type: string
-          example: INC01234567
-        note:
-          type: string
-          example: Incident INC#34567890 has been updated;
-    error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Code representing the error
-              example: '1234'
-            message:
-              type: string
-              description: Description of the error
-              example: Description of the error.
-    GetTicketUpdates200Response:
-      type: array
-      items:
-        type: object
-        properties:
-          transaction_id:
-            type: string
-            description: Unique transaction-message identifier
-            example: 9ac7901f-276e-4202-8a40-757af564cb30
-          message_datetime_utc:
-            type: string
-            description: Creation date-time of the update
-            example: '2024-10-03T11:08:32Z'
-          ticket_type:
-            type: string
-            description: Type of ticket
-            example: incident
-          action:
-            type: string
-            description: Action taken on the ticket
-            example: In Progress
-          kpn_ticket_number:
-            type: string
-            description: Ticket number in the KPN system
-            example: INC#34567890
-          customer_reference_number:
-            type: string
-            description: Unique reference-number of the customer system
-            example: INC01234567
-          ticket_attributes:
-            type: object
-            properties:
-              state:
-                type: string
-                description: State of the ticket in the KPN system
-                example: In Progress
-              comments:
-                type: string
-                description: Additional information
-                example: Some additional information from KPN
-        required:
-        - transaction_id
-        - message_datetime_utc
-        - ticket_type
-        - action
-        - kpn_ticket_number
     GetTicket200Response:
       type: object
       properties:
@@ -590,19 +590,19 @@ components:
             - short_description
             - link
   parameters:
-    kpn_ticket_number:
-      in: query
-      name: kpn_ticket_number
-      schema:
-        type: string
-      description: KPN number of the ticket to get the details for. If not provided a list of open tickets will be returned.
-      required: false
     api_version:
       in: header
       name: api-version
       schema:
         type: string
       description: API Version. If no version is provided it defaults to latest version.
+      required: false
+    kpn_ticket_number:
+      in: query
+      name: kpn_ticket_number
+      schema:
+        type: string
+      description: KPN number of the ticket to get the details for. If not provided a list of open tickets will be returned.
       required: false
   securitySchemes:
     oauth2:

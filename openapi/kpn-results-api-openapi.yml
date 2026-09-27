@@ -301,60 +301,54 @@ paths:
       - Results
 components:
   responses:
-    bad_request:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: bad request
-    reply_result:
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/post_result'
-    not_found:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: not found
     too_many:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: too many requests
-    precondition_failed:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: precondition failed
-    method_not_allowed:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: method not allowed
     result_event:
       description: OK
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/post_result'
-    service_unavailable:
+    bad_request:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-      description: Service unavailable
+      description: bad request
     forbidden:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: forbidden
+    server_error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: server error
+    service_unavailable:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Service unavailable
+    method_not_allowed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: method not allowed
+    bad_gateway:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: bad gateway
     fetch_result:
       description: OK
       content:
@@ -367,44 +361,25 @@ components:
           schema:
             $ref: '#/components/schemas/error'
       description: unauthorized
-    server_error:
+    precondition_failed:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-      description: server error
-    bad_gateway:
+      description: precondition failed
+    not_found:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-      description: bad gateway
+      description: not found
+    reply_result:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/post_result'
   schemas:
-    get_result:
-      properties:
-        data:
-          type: object
-        messages:
-          type: array
-          default: []
-          items:
-            type: string
-        status:
-          type: string
-          default: SUCCES
-        metadata:
-          type: object
-          properties:
-            values:
-              type: object
-              properties:
-                url:
-                  type: integer
-            method:
-              type: string
-              default: get
-            duration:
-              type: integer
     post_result:
       properties:
         data:
@@ -453,6 +428,31 @@ components:
           title: Transaction ID
           type: string
       type: object
+    get_result:
+      properties:
+        data:
+          type: object
+        messages:
+          type: array
+          default: []
+          items:
+            type: string
+        status:
+          type: string
+          default: SUCCES
+        metadata:
+          type: object
+          properties:
+            values:
+              type: object
+              properties:
+                url:
+                  type: integer
+            method:
+              type: string
+              default: get
+            duration:
+              type: integer
   securitySchemes:
     oauth2:
       flows:

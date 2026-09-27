@@ -1005,7 +1005,7 @@ paths:
       - OAuth2: []
 components:
   schemas:
-    OperationAvailability1:
+    OperationEnabled:
       type: object
       properties:
         blockingOrders:
@@ -1014,25 +1014,34 @@ components:
             $ref: '#/components/schemas/BlockingOrder'
         enabled:
           type: boolean
-        visible:
-          type: boolean
-      title: OperationAvailability
-    ThresholdRequestParams:
+      title: OperationEnabled
+    BlockingOrder:
       type: object
       properties:
-        dailyValue:
-          type: number
-          format: float
-        name:
+        id:
+          type: integer
+          format: int64
+        kpnReference:
           type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
         type:
           type: string
           enum:
-          - VOICE_NATIONAL_MIN
-          - VOICE_ROAMING_EUR
-          - DATA_NATIONAL_MB
-          - DATA_ROAMING_MB
-      title: ThresholdRequestParams
+          - CONTRACTING
+          - SERVICE_REQUEST
+      title: BlockingOrder
     Contract:
       type: object
       properties:
@@ -1072,16 +1081,22 @@ components:
           - PENDING
           - BLOCKED
       title: Contract
-    OperationEnabled:
+    ThresholdRequestParams:
       type: object
       properties:
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        enabled:
-          type: boolean
-      title: OperationEnabled
+        dailyValue:
+          type: number
+          format: float
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - VOICE_NATIONAL_MIN
+          - VOICE_ROAMING_EUR
+          - DATA_NATIONAL_MB
+          - DATA_ROAMING_MB
+      title: ThresholdRequestParams
     AssignContractsToThresholdRequestParams:
       type: object
       properties:
@@ -1091,6 +1106,47 @@ components:
             type: integer
             format: int64
       title: AssignContractsToThresholdRequestParams
+    OperationAvailability1:
+      type: object
+      properties:
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OperationAvailability
+    LocalizedString:
+      type: object
+      properties:
+        en:
+          type: string
+          description: English version
+        nl:
+          type: string
+          description: Dutch version
+      title: LocalizedString
+      description: Text with two language versions
+    RemoveThresholdParams:
+      type: object
+      properties:
+        thresholdIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+      title: RemoveThresholdParams
+    UnassignContractsFromThresholdRequestParams:
+      type: object
+      properties:
+        contractsIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+      title: UnassignContractsFromThresholdRequestParams
     PagedResult_Contract_:
       type: object
       properties:
@@ -1138,15 +1194,6 @@ components:
           type: string
           description: Additional information about error
           title: Info
-    UnassignContractsFromThresholdRequestParams:
-      type: object
-      properties:
-        contractsIds:
-          type: array
-          items:
-            type: integer
-            format: int64
-      title: UnassignContractsFromThresholdRequestParams
     Threshold:
       type: object
       properties:
@@ -1166,53 +1213,6 @@ components:
           - VOICE_NATIONAL_MIN
           - VOICE_ROAMING_EUR
       title: Threshold
-    BlockingOrder:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        kpnReference:
-          type: string
-        status:
-          type: string
-          enum:
-          - IN_PROGRESS
-          - UNAUTHORIZED
-          - NEW
-          - CLOSED
-          - CANCELED
-          - REJECTED
-          - DRAFT
-          - THIRD_PARTY
-          - HOLD_CUSTOMER
-          - WAITING
-        type:
-          type: string
-          enum:
-          - CONTRACTING
-          - SERVICE_REQUEST
-      title: BlockingOrder
-    RemoveThresholdParams:
-      type: object
-      properties:
-        thresholdIds:
-          type: array
-          items:
-            type: integer
-            format: int64
-      title: RemoveThresholdParams
-    LocalizedString:
-      type: object
-      properties:
-        en:
-          type: string
-          description: English version
-        nl:
-          type: string
-          description: Dutch version
-      title: LocalizedString
-      description: Text with two language versions
   securitySchemes:
     OAuth2:
       type: oauth2

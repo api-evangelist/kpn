@@ -534,103 +534,6 @@ paths:
         required: true
 components:
   schemas:
-    OperationAvailability:
-      type: object
-      properties:
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        enabled:
-          type: boolean
-        visible:
-          type: boolean
-      title: OperationAvailability
-    PortingOutRequest:
-      type: object
-      properties:
-        contractId:
-          type: integer
-          format: int64
-        referenceNumber:
-          type: string
-        wishDate:
-          type: string
-          format: date-time
-      title: PortingOutRequest
-    MoveContractRequest:
-      type: object
-      properties:
-        contractId:
-          type: integer
-          format: int64
-        destinationGroupId:
-          type: integer
-          format: int64
-        moveAddonBundles:
-          type: boolean
-        referenceNumber:
-          type: string
-        wishDate:
-          type: string
-          format: date-time
-      title: MoveContractRequest
-    ReturnHardwareRequest:
-      type: object
-      properties:
-        email:
-          type: string
-        hardwareToReturn:
-          type: array
-          description: Contract items' ids which represent hardware (you can find them in track-and-trace-service/orders/{id}/hardware)
-          items:
-            type: integer
-            format: int64
-        orderId:
-          type: integer
-          format: int64
-          description: Id of order which hardware was ordered
-        reason:
-          type: string
-          enum:
-          - WRONG_DELIVERY
-          - DEFECTIVE_ON_ARRIVAL
-          - OTHER
-        referenceNumber:
-          type: string
-        remarks:
-          type: string
-      title: ReturnHardwareRequest
-    AuthorizeRequest:
-      type: object
-      properties:
-        orderId:
-          type: integer
-          format: int64
-      title: AuthorizeRequest
-    ErrorResponse:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
     BlockingOrder:
       type: object
       properties:
@@ -658,60 +561,23 @@ components:
           - CONTRACTING
           - SERVICE_REQUEST
       title: BlockingOrder
-    UiccidValidationData:
+    MoveContractRequest:
       type: object
       properties:
         contractId:
           type: integer
           format: int64
-        newSimCardNumber:
-          type: string
-      title: UiccidValidationData
-    ReplaceSimRequest:
-      type: object
-      properties:
-        confirmationCode:
-          type: string
-        contractId:
+        destinationGroupId:
           type: integer
           format: int64
-        email:
-          type: string
-        esim:
+        moveAddonBundles:
           type: boolean
-        newSimCardNumber:
-          type: string
         referenceNumber:
           type: string
         wishDate:
           type: string
           format: date-time
-      title: ReplaceSimRequest
-    OperationsAvailability:
-      type: object
-      properties:
-        blockSim:
-          $ref: '#/components/schemas/OperationAvailability'
-        combineFixedMobile:
-          $ref: '#/components/schemas/OperationAvailability'
-        contractId:
-          type: integer
-          format: int64
-        modify:
-          $ref: '#/components/schemas/OperationAvailability'
-        move:
-          $ref: '#/components/schemas/OperationAvailability'
-        portOut:
-          $ref: '#/components/schemas/OperationAvailability'
-        replaceSim:
-          $ref: '#/components/schemas/OperationAvailability'
-        separateFixedMobile:
-          $ref: '#/components/schemas/OperationAvailability'
-        terminate:
-          $ref: '#/components/schemas/OperationAvailability'
-        unblockSim:
-          $ref: '#/components/schemas/OperationAvailability'
-      title: OperationsAvailability
+      title: MoveContractRequest
     OrderSummary:
       type: object
       properties:
@@ -745,6 +611,140 @@ components:
           - Rejected
           - ExternalScheduled
       title: OrderSummary
+    PortingOutRequest:
+      type: object
+      properties:
+        contractId:
+          type: integer
+          format: int64
+        referenceNumber:
+          type: string
+        wishDate:
+          type: string
+          format: date-time
+      title: PortingOutRequest
+    OperationsAvailability:
+      type: object
+      properties:
+        blockSim:
+          $ref: '#/components/schemas/OperationAvailability'
+        combineFixedMobile:
+          $ref: '#/components/schemas/OperationAvailability'
+        contractId:
+          type: integer
+          format: int64
+        modify:
+          $ref: '#/components/schemas/OperationAvailability'
+        move:
+          $ref: '#/components/schemas/OperationAvailability'
+        portOut:
+          $ref: '#/components/schemas/OperationAvailability'
+        replaceSim:
+          $ref: '#/components/schemas/OperationAvailability'
+        separateFixedMobile:
+          $ref: '#/components/schemas/OperationAvailability'
+        terminate:
+          $ref: '#/components/schemas/OperationAvailability'
+        unblockSim:
+          $ref: '#/components/schemas/OperationAvailability'
+      title: OperationsAvailability
+    UiccidValidationData:
+      type: object
+      properties:
+        contractId:
+          type: integer
+          format: int64
+        newSimCardNumber:
+          type: string
+      title: UiccidValidationData
+    ReplaceSimRequest:
+      type: object
+      properties:
+        confirmationCode:
+          type: string
+        contractId:
+          type: integer
+          format: int64
+        email:
+          type: string
+        esim:
+          type: boolean
+        newSimCardNumber:
+          type: string
+        referenceNumber:
+          type: string
+        wishDate:
+          type: string
+          format: date-time
+      title: ReplaceSimRequest
+    AuthorizeRequest:
+      type: object
+      properties:
+        orderId:
+          type: integer
+          format: int64
+      title: AuthorizeRequest
+    OperationAvailability:
+      type: object
+      properties:
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OperationAvailability
+    ReturnHardwareRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        hardwareToReturn:
+          type: array
+          description: Contract items' ids which represent hardware (you can find them in track-and-trace-service/orders/{id}/hardware)
+          items:
+            type: integer
+            format: int64
+        orderId:
+          type: integer
+          format: int64
+          description: Id of order which hardware was ordered
+        reason:
+          type: string
+          enum:
+          - WRONG_DELIVERY
+          - DEFECTIVE_ON_ARRIVAL
+          - OTHER
+        referenceNumber:
+          type: string
+        remarks:
+          type: string
+      title: ReturnHardwareRequest
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
   securitySchemes:
     OAuth2:
       type: oauth2

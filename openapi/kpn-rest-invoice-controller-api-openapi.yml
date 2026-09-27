@@ -444,85 +444,17 @@ paths:
       - OAuth2: []
 components:
   schemas:
-    Invoice:
+    ChangeBillingPeriodRequestParams:
       type: object
       properties:
-        date:
-          type: string
-          format: date-time
-        debtorName:
-          type: string
-        id:
-          type: integer
-          format: int64
-        number:
-          type: string
-        payBeforeDate:
-          type: string
-          format: date-time
-        totalAmountToPayInCents:
-          type: integer
-          format: int32
-        type:
+        period:
           type: string
           enum:
-          - CREDIT_NOTE
-          - HARDWARE_ADJUSTMENT
-          - HARDWARE_INVOICE
-          - HARDWARE_INVOICE_ADJUSTMENT
-          - SERVICE_ADJUSTMENT
-          - SERVICE_INVOICE
-          - SERVICE_INVOICE_ADJUSTMENT
-      title: Invoice
-    PagedResult_Invoice_:
-      type: object
-      properties:
-        result:
-          type: array
-          description: One page of result
-          items:
-            $ref: '#/components/schemas/Invoice'
-        total:
-          type: integer
-          format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_Invoice_
-      description: Paged list of elements
-    OperationAvailability:
-      type: object
-      properties:
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        enabled:
-          type: boolean
-        visible:
-          type: boolean
-      title: OperationAvailability
-    ErrorResponse:
-      type: object
-      properties:
-        transactionId:
+          - '6'
+          - '25'
+        referenceNumber:
           type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
+      title: ChangeBillingPeriodRequestParams
     BlockingOrder:
       type: object
       properties:
@@ -550,17 +482,6 @@ components:
           - CONTRACTING
           - SERVICE_REQUEST
       title: BlockingOrder
-    ChangeBillingPeriodRequestParams:
-      type: object
-      properties:
-        period:
-          type: string
-          enum:
-          - '6'
-          - '25'
-        referenceNumber:
-          type: string
-      title: ChangeBillingPeriodRequestParams
     OrderSummary:
       type: object
       properties:
@@ -594,6 +515,85 @@ components:
           - Rejected
           - ExternalScheduled
       title: OrderSummary
+    Invoice:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        debtorName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        number:
+          type: string
+        payBeforeDate:
+          type: string
+          format: date-time
+        totalAmountToPayInCents:
+          type: integer
+          format: int32
+        type:
+          type: string
+          enum:
+          - CREDIT_NOTE
+          - HARDWARE_ADJUSTMENT
+          - HARDWARE_INVOICE
+          - HARDWARE_INVOICE_ADJUSTMENT
+          - SERVICE_ADJUSTMENT
+          - SERVICE_INVOICE
+          - SERVICE_INVOICE_ADJUSTMENT
+      title: Invoice
+    OperationAvailability:
+      type: object
+      properties:
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OperationAvailability
+    PagedResult_Invoice_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Invoice'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Invoice_
+      description: Paged list of elements
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
   securitySchemes:
     OAuth2:
       type: oauth2

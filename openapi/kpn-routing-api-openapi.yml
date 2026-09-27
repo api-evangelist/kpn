@@ -371,6 +371,14 @@ paths:
                 $ref: '#/components/schemas/error'
       deprecated: false
 components:
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
   schemas:
     ContentType:
       title: ContentType
@@ -379,6 +387,29 @@ components:
       - JSON
       type: string
       description: Format of the routed payload. Possible values are 'XML' or 'JSON'. Default is 'XML' ('JSON' is supported starting from ThingPark 3.2).
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
     RoutingProfile:
       title: RoutingProfile
       type: object
@@ -437,29 +468,6 @@ components:
             type: string
           description: List of target HTTP addresses to which the payload should be routed.
       description: Resource representing a route of a ThingPark routing profile.
-    error:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: Transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
     Strategy:
       title: Strategy
       enum:
@@ -467,14 +475,6 @@ components:
       - BLAST
       type: string
       description: Strategy to use for routing to target addresses. Possible values are 'SEQUENTIAL' (try each target one after the other, stop after first success) or 'BLAST' (try all targets at the same time). Default is 'SEQUENTIAL'.
-  parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
   securitySchemes:
     oauth2:
       type: oauth2

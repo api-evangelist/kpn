@@ -191,7 +191,7 @@ paths:
         Creates a call and returns a JSON object with the call identifier (uuid), status of the call, conversation_uuid the call is attached to and the direction of the call.'
       tags:
       - Applications
-      operationId: createApplication
+      operationId: postApplications
       requestBody:
         description: Application Details
         required: true
@@ -272,6 +272,8 @@ paths:
           $ref: '#/components/responses/app_created'
         '401':
           $ref: '#/components/responses/unauthorized_2'
+      x-operation-id-source: normalized
+      x-operation-id-original: createApplication
     get:
       security:
       - oauth2: []
@@ -317,12 +319,14 @@ paths:
       description: Get detailed information of a specific application
       tags:
       - Applications
-      operationId: getApplication
+      operationId: getApplicationsByUuid
       responses:
         '200':
           $ref: '#/components/responses/app_detail_ok_2'
         '401':
           $ref: '#/components/responses/unauthorized_2'
+      x-operation-id-source: normalized
+      x-operation-id-original: getApplication
     put:
       security:
       - oauth2: []
@@ -393,7 +397,7 @@ paths:
       description: Deletes the existing application
       tags:
       - Applications
-      operationId: deleteApplication
+      operationId: deleteApplicationsByUuid
       responses:
         '204':
           description: No Content
@@ -408,43 +412,27 @@ paths:
                     example: Stream stopped
                   uuid:
                     $ref: '#/components/schemas/fields_uuid'
+      x-operation-id-source: normalized
+      x-operation-id-original: deleteApplication
     servers:
     - url: https://api-prd.kpn.com/communication/nexmo/
       description: API Store Application
 components:
   responses:
-    app_detail_ok:
-      description: Ok
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/application_detail_ok'
-    bad_request:
-      description: bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    not_found:
-      description: not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    too_many:
-      description: too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     app_list:
       description: Ok
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/application_list_ok'
-    service_unavailable:
-      description: service unavailable
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    bad_request:
+      description: bad request
       content:
         application/json:
           schema:
@@ -455,30 +443,42 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    unauthorized:
-      description: unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     app_created:
       description: Created
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/application'
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
     server_error:
       description: server error
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    app_detail_ok_2:
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    app_detail_ok:
       description: Ok
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/application_2'
+            $ref: '#/components/schemas/application_detail_ok'
     app_list_2:
       description: Ok
       content:
@@ -522,94 +522,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error401'
-  parameters:
-    api_version_header:
-      in: header
-      name: api-version
-      schema:
-        type: string
-        default: v2
-      required: false
-      description: API-version to use. Not provided uses latest
-      example: null
-    application_uuid:
-      in: path
-      name: uuid
-      schema:
-        type: string
-      required: true
-      description: UUID of the application
-      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
-    api_version_header_2:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      required: false
-      description: API-version to use. Not provided uses latest
-      example: v1
+    app_detail_ok_2:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/application_2'
   schemas:
-    error:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: Transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
-    new_application:
-      title: Application creation request
-      type: object
-      properties:
-        name:
-          type: string
-        keys:
-          type: object
-          properties:
-            public_key:
-              type: string
-        capabilities:
-          type: object
-          properties:
-            messages:
-              type: object
-              properties:
-                version:
-                  type: string
-                webhooks:
-                  type: object
-                  properties:
-                    inbound_url:
-                      type: object
-                      properties:
-                        address:
-                          type: string
-                        http_method:
-                          type: string
-                    status_url:
-                      type: object
-                      properties:
-                        address:
-                          type: string
-                        http_method:
-                          type: string
-      required:
-      - name
     application_detail_ok:
       title: Get Application
       type: object
@@ -752,6 +671,67 @@ components:
       - page_index
       - _embedded
       - _links
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    new_application:
+      title: Application creation request
+      type: object
+      properties:
+        name:
+          type: string
+        keys:
+          type: object
+          properties:
+            public_key:
+              type: string
+        capabilities:
+          type: object
+          properties:
+            messages:
+              type: object
+              properties:
+                version:
+                  type: string
+                webhooks:
+                  type: object
+                  properties:
+                    inbound_url:
+                      type: object
+                      properties:
+                        address:
+                          type: string
+                        http_method:
+                          type: string
+                    status_url:
+                      type: object
+                      properties:
+                        address:
+                          type: string
+                        http_method:
+                          type: string
+      required:
+      - name
     application_list_ok:
       title: Get Application
       type: object
@@ -872,12 +852,6 @@ components:
       - privacy
       - capabilities
       - _links
-    fields_uuid:
-      type: string
-      format: uuid
-      title: The UUID of the call leg that the event relates to
-      example: 63f61863-4a51-4f6b-86e1-46edebcf9356
-      description: The unique identifier for this call leg. The UUID is created when your call request is accepted by Vonage. You use the UUID in all requests for individual live calls
     error401:
       type: object
       properties:
@@ -894,6 +868,12 @@ components:
       required:
       - type
       - error_title
+    fields_uuid:
+      type: string
+      format: uuid
+      title: The UUID of the call leg that the event relates to
+      example: 63f61863-4a51-4f6b-86e1-46edebcf9356
+      description: The unique identifier for this call leg. The UUID is created when your call request is accepted by Vonage. You use the UUID in all requests for individual live calls
     NCCO:
       type: object
       properties:
@@ -965,6 +945,32 @@ components:
                 href:
                   type: string
                   example: /applications/aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+  parameters:
+    application_uuid:
+      in: path
+      name: uuid
+      schema:
+        type: string
+      required: true
+      description: UUID of the application
+      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+    api_version_header:
+      in: header
+      name: api-version
+      schema:
+        type: string
+        default: v2
+      required: false
+      description: API-version to use. Not provided uses latest
+      example: null
+    api_version_header_2:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      required: false
+      description: API-version to use. Not provided uses latest
+      example: v1
   securitySchemes:
     oauth2:
       type: oauth2

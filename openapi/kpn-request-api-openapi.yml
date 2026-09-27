@@ -347,29 +347,28 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ErrorResponse:
+    niResponseAsync:
       type: object
       properties:
-        transactionId:
+        request_id:
           type: string
-          description: transaction id of the the request
-          title: Transaction ID
+          description: The unique identifier for your request. This is a alphanumeric string up to 40 characters.
+          example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+          maxLength: 40
+        number:
+          type: string
+          description: The `number` in your request
+          example: '447700900000'
+        remaining_balance:
+          type: string
+          description: Your account balance in EUR after this request. Not returned with Number Insight Advanced Async API.
+          example: '1.23456789'
+        request_price:
+          type: number
+          description: If there is an internal lookup error, the `refund_price` will reflect the lookup price. If `cnam` is requested for a non-US number the `refund_price` will reflect the `cnam` price. If both of these conditions occur, `refund_price` is the sum of the lookup price and `cnam` price.
+          example: '0.01500000'
         status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
+          $ref: '#/components/schemas/niStatus'
     niStatus:
       type: integer
       example: 0
@@ -427,28 +426,29 @@ components:
           type: string
           description: The numeric prefix for the country that `number` is registered in.
           example: '44'
-    niResponseAsync:
+    ErrorResponse:
       type: object
       properties:
-        request_id:
+        transactionId:
           type: string
-          description: The unique identifier for your request. This is a alphanumeric string up to 40 characters.
-          example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
-          maxLength: 40
-        number:
-          type: string
-          description: The `number` in your request
-          example: '447700900000'
-        remaining_balance:
-          type: string
-          description: Your account balance in EUR after this request. Not returned with Number Insight Advanced Async API.
-          example: '1.23456789'
-        request_price:
-          type: number
-          description: If there is an internal lookup error, the `refund_price` will reflect the lookup price. If `cnam` is requested for a non-US number the `refund_price` will reflect the `cnam` price. If both of these conditions occur, `refund_price` is the sum of the lookup price and `cnam` price.
-          example: '0.01500000'
+          description: transaction id of the the request
+          title: Transaction ID
         status:
-          $ref: '#/components/schemas/niStatus'
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
   securitySchemes:
     OAuth2:
       type: oauth2

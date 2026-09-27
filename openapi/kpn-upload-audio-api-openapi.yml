@@ -111,24 +111,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    ok:
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/job'
-    not_found:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     request_entity_too_large:
       description: Request entity too large
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
+    ok:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/job'
     unauthorized:
       description: Unauthorized
       content:
@@ -137,6 +131,12 @@ components:
             $ref: '#/components/schemas/error'
     server_error:
       description: Server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: Not found
       content:
         application/json:
           schema:

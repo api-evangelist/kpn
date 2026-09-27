@@ -950,12 +950,6 @@ paths:
       - OAuth2: []
 components:
   schemas:
-    CostCenterDetails:
-      type: object
-      properties:
-        number:
-          type: string
-      title: CostCenterDetails
     CreateVirtualGroupRequestParams:
       type: object
       properties:
@@ -965,24 +959,134 @@ components:
         name:
           type: string
       title: CreateVirtualGroupRequestParams
-    HierarchyItemDetails:
+    BusinessLocationDetails:
       type: object
       properties:
-        businessLocation:
-          $ref: '#/components/schemas/BusinessLocationDetails'
-        costCenter:
-          $ref: '#/components/schemas/CostCenterDetails'
-        customer:
-          $ref: '#/components/schemas/CustomerDetails'
-        debtor:
-          $ref: '#/components/schemas/DebtorDetails'
+        activeFrom:
+          type: string
+          format: date-time
+        activeTo:
+          type: string
+          format: date-time
+        contactEmail:
+          type: string
+        contactName:
+          type: string
+        contactPhoneNumber:
+          type: string
+        expectedNumberOfUsers:
+          type: integer
+          format: int64
+        externalAccountNumber:
+          type: string
+        primaryAddress:
+          $ref: '#/components/schemas/LocationAddress'
+      title: BusinessLocationDetails
+    HierarchyOperationsAvailability:
+      type: object
+      properties:
+        create:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+        edit:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+        move:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+        remove:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+        view:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+      title: HierarchyOperationsAvailability
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
         name:
           type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    UpdateChildRequestParams:
+      type: object
+      properties:
+        costCenterNumber:
+          type: string
+        name:
+          type: string
+      title: UpdateChildRequestParams
+    VirtualHierarchyItem:
+      type: object
+      properties:
+        costCenterNumber:
+          type: string
+        email:
+          type: string
+        employeeNumber:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        name:
+          type: string
+        operation:
+          $ref: '#/components/schemas/OperationState'
         path:
           type: array
           items:
             $ref: '#/components/schemas/VirtualHierarchyItem'
-      title: HierarchyItemDetails
+        prefix:
+          type: string
+        type:
+          type: string
+          enum:
+          - CUSTOMER
+          - DEBTOR
+          - SUBSCRIBER
+          - COST_CENTER
+          - CUSTOM_GROUP
+          - BUSINESS_LOCATION
+      title: VirtualHierarchyItem
+    PagedResult_VirtualHierarchyItem_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/VirtualHierarchyItem'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_VirtualHierarchyItem_
+      description: Paged list of elements
+    BulkOrderSummary:
+      type: object
+      properties:
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreatedOrder'
+        referenceNumber:
+          type: string
+      title: BulkOrderSummary
     DebtorDetails:
       type: object
       properties:
@@ -1020,145 +1124,6 @@ components:
         samsungKnoxId:
           type: string
       title: DebtorDetails
-    CreateCostCenterRequestParams:
-      type: object
-      properties:
-        costCenterNumber:
-          type: string
-        groupId:
-          type: integer
-          format: int64
-        name:
-          type: string
-      title: CreateCostCenterRequestParams
-    OperationState:
-      type: object
-      properties:
-        blocked:
-          type: boolean
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        reason:
-          type: string
-      title: OperationState
-    LocationAddress:
-      type: object
-      properties:
-        attention:
-          type: string
-        city:
-          type: string
-        country:
-          type: string
-        floor:
-          type: string
-        houseNumber:
-          type: string
-        location:
-          type: string
-        partyName:
-          type: string
-        poBoxNumber:
-          type: string
-        postalCode:
-          type: string
-        room:
-          type: string
-        street:
-          type: string
-      title: LocationAddress
-    BusinessLocationDetails:
-      type: object
-      properties:
-        activeFrom:
-          type: string
-          format: date-time
-        activeTo:
-          type: string
-          format: date-time
-        contactEmail:
-          type: string
-        contactName:
-          type: string
-        contactPhoneNumber:
-          type: string
-        expectedNumberOfUsers:
-          type: integer
-          format: int64
-        externalAccountNumber:
-          type: string
-        primaryAddress:
-          $ref: '#/components/schemas/LocationAddress'
-      title: BusinessLocationDetails
-    CreatedOrder:
-      type: object
-      properties:
-        contextName:
-          type: string
-        id:
-          type: integer
-          format: int64
-        operation:
-          type: string
-      title: CreatedOrder
-    ErrorResponse:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
-    HierarchyItemOperationsAvailability:
-      type: object
-      properties:
-        createCostCenter:
-          $ref: '#/components/schemas/HierarchyOperationEnabled'
-        createSubscriber:
-          $ref: '#/components/schemas/HierarchyOperationEnabled'
-        createVirtualGroup:
-          $ref: '#/components/schemas/HierarchyOperationEnabled'
-        move:
-          $ref: '#/components/schemas/HierarchyOperationEnabled'
-        remove:
-          $ref: '#/components/schemas/HierarchyOperationEnabled'
-        update:
-          $ref: '#/components/schemas/HierarchyOperationEnabled'
-      title: HierarchyItemOperationsAvailability
-    MoveGroupsParams:
-      type: object
-      properties:
-        destinationGroupId:
-          type: integer
-          format: int64
-        movedGroupIds:
-          type: array
-          items:
-            type: integer
-            format: int64
-        referenceNumber:
-          type: string
-        wishDate:
-          type: string
-          format: date-time
-      title: MoveGroupsParams
     BlockingOrder:
       type: object
       properties:
@@ -1186,38 +1151,17 @@ components:
           - CONTRACTING
           - SERVICE_REQUEST
       title: BlockingOrder
-    HierarchyOperationEnabled:
+    CreateCostCenterRequestParams:
       type: object
       properties:
-        enabled:
-          type: boolean
-        reason:
+        costCenterNumber:
           type: string
-      title: HierarchyOperationEnabled
-    BulkOrderSummary:
-      type: object
-      properties:
-        orders:
-          type: array
-          items:
-            $ref: '#/components/schemas/CreatedOrder'
-        referenceNumber:
-          type: string
-      title: BulkOrderSummary
-    PagedResult_VirtualHierarchyItem_:
-      type: object
-      properties:
-        result:
-          type: array
-          description: One page of result
-          items:
-            $ref: '#/components/schemas/VirtualHierarchyItem'
-        total:
+        groupId:
           type: integer
-          format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_VirtualHierarchyItem_
-      description: Paged list of elements
+          format: int64
+        name:
+          type: string
+      title: CreateCostCenterRequestParams
     CustomerDetails:
       type: object
       properties:
@@ -1241,64 +1185,59 @@ components:
           type: string
           format: date-time
       title: CustomerDetails
-    VirtualHierarchyItem:
+    HierarchyItemOperationsAvailability:
       type: object
       properties:
-        costCenterNumber:
-          type: string
-        email:
-          type: string
-        employeeNumber:
-          type: string
-        firstName:
-          type: string
-        id:
-          type: integer
-          format: int64
-        lastName:
-          type: string
-        name:
-          type: string
-        operation:
-          $ref: '#/components/schemas/OperationState'
-        path:
-          type: array
-          items:
-            $ref: '#/components/schemas/VirtualHierarchyItem'
-        prefix:
-          type: string
-        type:
-          type: string
-          enum:
-          - CUSTOMER
-          - DEBTOR
-          - SUBSCRIBER
-          - COST_CENTER
-          - CUSTOM_GROUP
-          - BUSINESS_LOCATION
-      title: VirtualHierarchyItem
-    UpdateChildRequestParams:
-      type: object
-      properties:
-        costCenterNumber:
-          type: string
-        name:
-          type: string
-      title: UpdateChildRequestParams
-    HierarchyOperationsAvailability:
-      type: object
-      properties:
-        create:
+        createCostCenter:
           $ref: '#/components/schemas/HierarchyOperationEnabled'
-        edit:
+        createSubscriber:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+        createVirtualGroup:
           $ref: '#/components/schemas/HierarchyOperationEnabled'
         move:
           $ref: '#/components/schemas/HierarchyOperationEnabled'
         remove:
           $ref: '#/components/schemas/HierarchyOperationEnabled'
-        view:
+        update:
           $ref: '#/components/schemas/HierarchyOperationEnabled'
-      title: HierarchyOperationsAvailability
+      title: HierarchyItemOperationsAvailability
+    HierarchyOperationEnabled:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        reason:
+          type: string
+      title: HierarchyOperationEnabled
+    MoveGroupsParams:
+      type: object
+      properties:
+        destinationGroupId:
+          type: integer
+          format: int64
+        movedGroupIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        referenceNumber:
+          type: string
+        wishDate:
+          type: string
+          format: date-time
+      title: MoveGroupsParams
+    OperationState:
+      type: object
+      properties:
+        blocked:
+          type: boolean
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        reason:
+          type: string
+      title: OperationState
     CreateGroupResponse:
       type: object
       properties:
@@ -1306,6 +1245,67 @@ components:
           type: integer
           format: int64
       title: CreateGroupResponse
+    CostCenterDetails:
+      type: object
+      properties:
+        number:
+          type: string
+      title: CostCenterDetails
+    CreatedOrder:
+      type: object
+      properties:
+        contextName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        operation:
+          type: string
+      title: CreatedOrder
+    LocationAddress:
+      type: object
+      properties:
+        attention:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        floor:
+          type: string
+        houseNumber:
+          type: string
+        location:
+          type: string
+        partyName:
+          type: string
+        poBoxNumber:
+          type: string
+        postalCode:
+          type: string
+        room:
+          type: string
+        street:
+          type: string
+      title: LocationAddress
+    HierarchyItemDetails:
+      type: object
+      properties:
+        businessLocation:
+          $ref: '#/components/schemas/BusinessLocationDetails'
+        costCenter:
+          $ref: '#/components/schemas/CostCenterDetails'
+        customer:
+          $ref: '#/components/schemas/CustomerDetails'
+        debtor:
+          $ref: '#/components/schemas/DebtorDetails'
+        name:
+          type: string
+        path:
+          type: array
+          items:
+            $ref: '#/components/schemas/VirtualHierarchyItem'
+      title: HierarchyItemDetails
   securitySchemes:
     OAuth2:
       type: oauth2

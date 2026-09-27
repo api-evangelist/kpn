@@ -98,8 +98,54 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
+    PackageObjectArray:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PackageResponse'
+          examples:
+            Example:
+              $ref: '#/components/examples/PackageResponseObjectArraySchema'
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
     bad_request:
       description: Bad Reqst
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
       content:
         application/json:
           schema:
@@ -124,53 +170,14 @@ components:
           examples:
             Example:
               $ref: '#/components/examples/PackageResponseObjectSchema'
-    too_many:
-      description: too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    service_unavailable:
-      description: service unavailable
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    forbidden:
-      description: forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    server_error:
-      description: server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    PackageObjectArray:
-      description: Succesful operation.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-              result:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PackageResponse'
-          examples:
-            Example:
-              $ref: '#/components/examples/PackageResponseObjectArraySchema'
   parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
     PackageIDParameter:
       name: id
       description: A valid package ID
@@ -179,14 +186,19 @@ components:
       schema:
         type: string
         example: 674a5rb3ca9d4f7e4f1da67a
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
   examples:
+    PackageResponseObjectSchema:
+      summary: Package
+      value:
+        success: true
+        result:
+          id: 674a5rb3ca9d4f7e4f1da67a
+          name: professional
+          features:
+          - agent_create_appointment
+          - send_file
+          - screenshot
+          - chat
     PackageResponseObjectArraySchema:
       summary: List of packages
       value:
@@ -208,19 +220,30 @@ components:
           - chat
           - screensharing
           - appointment
-    PackageResponseObjectSchema:
-      summary: Package
-      value:
-        success: true
-        result:
-          id: 674a5rb3ca9d4f7e4f1da67a
-          name: professional
-          features:
-          - agent_create_appointment
-          - send_file
-          - screenshot
-          - chat
   schemas:
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction ID of the the request.
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error.
+          title: Info
     PackageResponse:
       type: object
       properties:
@@ -268,29 +291,6 @@ components:
             description: cobrowsing
           - type: string
             description: screenshot
-    error:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: Transaction ID of the the request.
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error.
-          title: Info
   securitySchemes:
     oauth2:
       type: oauth2

@@ -207,73 +207,96 @@ paths:
       - Cases
 components:
   responses:
-    bad_request:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: bad request
-    not_found:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: not found
     too_many:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: too many requests
-    precondition_failed:
+    bad_request:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-      description: precondition failed
-    case_result:
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/case_result'
-    service_unavailable:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Service unavailable
+      description: bad request
     forbidden:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: forbidden
-    method_not_allowed:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: method not allowed
-    unauthorized:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: unauthorized
     server_error:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: server error
+    service_unavailable:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Service unavailable
+    method_not_allowed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: method not allowed
+    case_result:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/case_result'
     bad_gateway:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: bad gateway
+    unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: unauthorized
+    precondition_failed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: precondition failed
+    not_found:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: not found
   schemas:
+    error:
+      properties:
+        info:
+          description: Additional information about error
+          title: Info
+          type: string
+        message:
+          description: Error message
+          title: Error message
+          type: string
+        name:
+          description: Error name
+          title: Error name
+          type: string
+        status:
+          description: Status
+          title: Status
+          type: string
+        transactionId:
+          description: transaction id of the the request
+          title: Transaction ID
+          type: string
+      type: object
     case_result:
       properties:
         data:
@@ -299,29 +322,6 @@ components:
               default: post
             duration:
               type: integer
-    error:
-      properties:
-        info:
-          description: Additional information about error
-          title: Info
-          type: string
-        message:
-          description: Error message
-          title: Error message
-          type: string
-        name:
-          description: Error name
-          title: Error name
-          type: string
-        status:
-          description: Status
-          title: Status
-          type: string
-        transactionId:
-          description: transaction id of the the request
-          title: Transaction ID
-          type: string
-      type: object
   securitySchemes:
     oauth2:
       flows:

@@ -244,6 +244,45 @@ paths:
       - OAuth2: []
 components:
   schemas:
+    BlockingOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        kpnReference:
+          type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
+          type: string
+          enum:
+          - CONTRACTING
+          - SERVICE_REQUEST
+      title: BlockingOrder
+    OperationState:
+      type: object
+      properties:
+        blocked:
+          type: boolean
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        reason:
+          type: string
+      title: OperationState
     TemplateItem:
       type: object
       properties:
@@ -262,6 +301,66 @@ components:
         productName:
           $ref: '#/components/schemas/LocalizedString'
       title: TemplateItem
+    VirtualHierarchyItem:
+      type: object
+      properties:
+        costCenterNumber:
+          type: string
+        email:
+          type: string
+        employeeNumber:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        name:
+          type: string
+        operation:
+          $ref: '#/components/schemas/OperationState'
+        path:
+          type: array
+          items:
+            $ref: '#/components/schemas/VirtualHierarchyItem'
+        prefix:
+          type: string
+        type:
+          type: string
+          enum:
+          - CUSTOMER
+          - DEBTOR
+          - SUBSCRIBER
+          - COST_CENTER
+          - CUSTOM_GROUP
+          - BUSINESS_LOCATION
+      title: VirtualHierarchyItem
+    LocalizedString:
+      type: object
+      properties:
+        en:
+          type: string
+          description: English version
+        nl:
+          type: string
+          description: Dutch version
+      title: LocalizedString
+      description: Text with two language versions
+    TemplateOverview:
+      type: object
+      properties:
+        customerLevel:
+          type: boolean
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        valid:
+          type: boolean
+      title: TemplateOverview
     TemplateDetailsWithLocations:
       type: object
       properties:
@@ -308,105 +407,6 @@ components:
           type: string
           description: Additional information about error
           title: Info
-    VirtualHierarchyItem:
-      type: object
-      properties:
-        costCenterNumber:
-          type: string
-        email:
-          type: string
-        employeeNumber:
-          type: string
-        firstName:
-          type: string
-        id:
-          type: integer
-          format: int64
-        lastName:
-          type: string
-        name:
-          type: string
-        operation:
-          $ref: '#/components/schemas/OperationState'
-        path:
-          type: array
-          items:
-            $ref: '#/components/schemas/VirtualHierarchyItem'
-        prefix:
-          type: string
-        type:
-          type: string
-          enum:
-          - CUSTOMER
-          - DEBTOR
-          - SUBSCRIBER
-          - COST_CENTER
-          - CUSTOM_GROUP
-          - BUSINESS_LOCATION
-      title: VirtualHierarchyItem
-    BlockingOrder:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        kpnReference:
-          type: string
-        status:
-          type: string
-          enum:
-          - IN_PROGRESS
-          - UNAUTHORIZED
-          - NEW
-          - CLOSED
-          - CANCELED
-          - REJECTED
-          - DRAFT
-          - THIRD_PARTY
-          - HOLD_CUSTOMER
-          - WAITING
-        type:
-          type: string
-          enum:
-          - CONTRACTING
-          - SERVICE_REQUEST
-      title: BlockingOrder
-    OperationState:
-      type: object
-      properties:
-        blocked:
-          type: boolean
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        reason:
-          type: string
-      title: OperationState
-    TemplateOverview:
-      type: object
-      properties:
-        customerLevel:
-          type: boolean
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        valid:
-          type: boolean
-      title: TemplateOverview
-    LocalizedString:
-      type: object
-      properties:
-        en:
-          type: string
-          description: English version
-        nl:
-          type: string
-          description: Dutch version
-      title: LocalizedString
-      description: Text with two language versions
   securitySchemes:
     OAuth2:
       type: oauth2

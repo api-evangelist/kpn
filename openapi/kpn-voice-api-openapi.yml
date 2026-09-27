@@ -460,69 +460,7 @@ paths:
         '401':
           $ref: '#/components/responses/unauthorized'
 components:
-  responses:
-    call_detail_ok:
-      description: Ok
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/call'
-    call_list:
-      description: Ok
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              count:
-                type: integer
-                title: The total number of records returned by your request.
-                example: 100
-              page_size:
-                type: integer
-                title: The amount of records returned in this response.
-                example: 10
-              record_index:
-                type: integer
-                title: The `record_index` used in your request.
-                example: 0
-              _links:
-                $ref: '#/components/schemas/fields_call_link'
-              _embedded:
-                description: A list of call objects. See the [get details of a specific call](#getCall) response fields for a description of the nested objects
-                type: object
-                properties:
-                  calls:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/call'
-    call_created:
-      description: Created
-      content:
-        application/json:
-          schema:
-            properties:
-              uuid:
-                $ref: '#/components/schemas/fields_uuid'
-              status:
-                $ref: '#/components/schemas/fields_status'
-              direction:
-                $ref: '#/components/schemas/fields_direction'
-              conversation_uuid:
-                $ref: '#/components/schemas/fields_conversation_uuid'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error401'
   schemas:
-    fields_conversation_uuid:
-      type: string
-      format: uuid
-      title: The UUID of the Conversation
-      example: CON-f972836a-550f-45fa-956c-12a2ab5b7d22
-      description: The unique identifier for the conversation this call leg is part of.
     endpoints:
       type: object
       properties:
@@ -584,6 +522,28 @@ components:
               - sip
             uri:
               $ref: '#/components/schemas/addresses/properties/sipuri'
+    error401:
+      type: object
+      properties:
+        type:
+          type: string
+          title: the unauthorized response
+          example: UNAUTHORIZED
+          description: Unauthorized type description
+        error_title:
+          type: string
+          title: the title of an unauthorized response
+          example: Unauthorized
+          description: Unauthorized title description
+      required:
+      - type
+      - error_title
+    fields_uuid:
+      type: string
+      format: uuid
+      title: The UUID of the call leg that the event relates to
+      example: 63f61863-4a51-4f6b-86e1-46edebcf9356
+      description: The unique identifier for this call leg. The UUID is created when your call request is accepted by Vonage. You use the UUID in all requests for individual live calls
     fields_to:
       type: array
       description: The single or mixed collection of endpoint types you connected to
@@ -597,6 +557,27 @@ components:
           number:
             type: string
             title: The number of the endpoint called
+    addresses:
+      type: object
+      properties:
+        e164:
+          description: The phone number to connect to
+          type: string
+          minLength: 7
+          maxLength: 15
+          example: '14155550100'
+          pattern: \d{7,15}
+        sipuri:
+          description: The SIP URI to connect to
+          type: string
+          minLength: 1
+          maxLength: 50
+          example: rebekka@sip.example.com
+        wsurl:
+          type: string
+          minLength: 1
+          maxLength: 50
+          example: wss://example.com/socket
     voiceNames:
       type: string
       description: The voice & language to use
@@ -653,6 +634,51 @@ components:
       - Filiz
       - Mizuki
       - Seoyeon
+    fields_call_link:
+      type: object
+      properties:
+        self:
+          type: object
+          properties:
+            href:
+              type: string
+              title: Link to the object list
+              example: /calls?page_size=10&record_index=20&order=asc
+    fields_digits:
+      type: string
+      example: 1713
+      description: The digits to send
+    fields_start_time:
+      description: 'The time the call started in the following format: `YYYY-MM-DD HH:MM:SS`. For example, `2020-01-01 12:00:00`.'
+      type: string
+      format: timestamp
+      title: 'The Start Time of the call '
+      example: '2020-01-01 12:00:00'
+    fields_price:
+      description: The total price charged for this call. This is only sent if `status` is `completed`.
+      type: string
+      title: 'The total price of the call '
+      example: '23.40'
+    fields_duration:
+      description: The time elapsed for the call to take place in seconds. This is only sent if `status` is `completed`.
+      type: string
+      title: 'The Duration of the call '
+      example: '60'
+    fields_rate:
+      description: The price per minute for this call. This is only sent if `status` is `completed`.
+      type: string
+      title: The Price per minute of the called destination
+      example: '0.39'
+    fields_call_link_self:
+      type: object
+      properties:
+        self:
+          type: object
+          properties:
+            href:
+              type: string
+              title: Link to the object detail
+              example: /calls/63f61863-4a51-4f6b-86e1-46edebcf9356
     fields_from:
       type: array
       description: The endpoint you called from. Possible values are the same as `to`.
@@ -668,69 +694,12 @@ components:
             type: string
             title: The number that made the call
             example: '447700900001'
-    fields_uuid:
-      type: string
-      format: uuid
-      title: The UUID of the call leg that the event relates to
-      example: 63f61863-4a51-4f6b-86e1-46edebcf9356
-      description: The unique identifier for this call leg. The UUID is created when your call request is accepted by Vonage. You use the UUID in all requests for individual live calls
-    addresses:
-      type: object
-      properties:
-        e164:
-          description: The phone number to connect to
-          type: string
-          minLength: 7
-          maxLength: 15
-          example: '14155550100'
-          pattern: \d{7,15}
-        sipuri:
-          description: The SIP URI to connect to
-          type: string
-          minLength: 1
-          maxLength: 50
-          example: rebekka@sip.example.com
-        wsurl:
-          type: string
-          minLength: 1
-          maxLength: 50
-          example: wss://example.com/socket
     fields_end_time:
       description: 'The time the call started in the following format: `YYYY-MM-DD HH:MM:SS`. For example, `2020-01-01 12:00:00`. This is only sent if `status` is `completed`.'
       type: string
       format: timestamp
       title: 'The End Time of the call '
       example: '2020-01-01 12:00:00'
-    fields_call_link_self:
-      type: object
-      properties:
-        self:
-          type: object
-          properties:
-            href:
-              type: string
-              title: Link to the object detail
-              example: /calls/63f61863-4a51-4f6b-86e1-46edebcf9356
-    fields_price:
-      description: The total price charged for this call. This is only sent if `status` is `completed`.
-      type: string
-      title: 'The total price of the call '
-      example: '23.40'
-    fields_call_link:
-      type: object
-      properties:
-        self:
-          type: object
-          properties:
-            href:
-              type: string
-              title: Link to the object list
-              example: /calls?page_size=10&record_index=20&order=asc
-    fields_duration:
-      description: The time elapsed for the call to take place in seconds. This is only sent if `status` is `completed`.
-      type: string
-      title: 'The Duration of the call '
-      example: '60'
     call:
       type: object
       properties:
@@ -760,34 +729,17 @@ components:
           $ref: '#/components/schemas/fields_end_time'
         network:
           $ref: '#/components/schemas/fields_network'
-    fields_direction:
+    fields_conversation_uuid:
       type: string
-      description: Possible values are `outbound` or `inbound`
-      example: outbound
-      enum:
-      - outbound
-      - inbound
-    error401:
-      type: object
-      properties:
-        type:
-          type: string
-          title: the unauthorized response
-          example: UNAUTHORIZED
-          description: Unauthorized type description
-        error_title:
-          type: string
-          title: the title of an unauthorized response
-          example: Unauthorized
-          description: Unauthorized title description
-      required:
-      - type
-      - error_title
-    fields_rate:
-      description: The price per minute for this call. This is only sent if `status` is `completed`.
+      format: uuid
+      title: The UUID of the Conversation
+      example: CON-f972836a-550f-45fa-956c-12a2ab5b7d22
+      description: The unique identifier for the conversation this call leg is part of.
+    fields_network:
+      description: The Mobile Country Code Mobile Network Code  ([MCCMNC](https://en.wikipedia.org/wiki/Mobile_country_code)) for the carrier network used to make this call.
       type: string
-      title: The Price per minute of the called destination
-      example: '0.39'
+      title: 'The Network ID of the destination '
+      example: '65512'
     fields_status:
       type: string
       title: The State of the call
@@ -804,21 +756,13 @@ components:
       - rejected
       - cancelled
       - busy
-    fields_digits:
+    fields_direction:
       type: string
-      example: 1713
-      description: The digits to send
-    fields_start_time:
-      description: 'The time the call started in the following format: `YYYY-MM-DD HH:MM:SS`. For example, `2020-01-01 12:00:00`.'
-      type: string
-      format: timestamp
-      title: 'The Start Time of the call '
-      example: '2020-01-01 12:00:00'
-    fields_network:
-      description: The Mobile Country Code Mobile Network Code  ([MCCMNC](https://en.wikipedia.org/wiki/Mobile_country_code)) for the carrier network used to make this call.
-      type: string
-      title: 'The Network ID of the destination '
-      example: '65512'
+      description: Possible values are `outbound` or `inbound`
+      example: outbound
+      enum:
+      - outbound
+      - inbound
   parameters:
     call_application_id_header:
       in: header
@@ -844,6 +788,62 @@ components:
       required: false
       description: API-version to use. Not provided uses latest
       example: v1
+  responses:
+    call_list:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              count:
+                type: integer
+                title: The total number of records returned by your request.
+                example: 100
+              page_size:
+                type: integer
+                title: The amount of records returned in this response.
+                example: 10
+              record_index:
+                type: integer
+                title: The `record_index` used in your request.
+                example: 0
+              _links:
+                $ref: '#/components/schemas/fields_call_link'
+              _embedded:
+                description: A list of call objects. See the [get details of a specific call](#getCall) response fields for a description of the nested objects
+                type: object
+                properties:
+                  calls:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/call'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error401'
+    call_detail_ok:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/call'
+    call_created:
+      description: Created
+      content:
+        application/json:
+          schema:
+            properties:
+              uuid:
+                $ref: '#/components/schemas/fields_uuid'
+              status:
+                $ref: '#/components/schemas/fields_status'
+              direction:
+                $ref: '#/components/schemas/fields_direction'
+              conversation_uuid:
+                $ref: '#/components/schemas/fields_conversation_uuid'
   securitySchemes:
     oauth2:
       type: oauth2

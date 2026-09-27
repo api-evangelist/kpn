@@ -199,14 +199,38 @@ paths:
                 $ref: '#/components/schemas/error'
       deprecated: false
 components:
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
   schemas:
-    Type:
-      title: Type
-      enum:
-      - UPLINK
-      - DOWNLINK
-      type: string
-      description: Type of frame. Possible values are 'UPLINK' or 'DOWNLINK'.
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
     FrameStatistics:
       title: FrameStatistics
       type: object
@@ -266,6 +290,13 @@ components:
           type: number
           description: Average Packet Error Rate Indication for the base station that receives the frame.
       description: Resource representing read-only statistics about radio frames for a device or a base station.
+    Type:
+      title: Type
+      enum:
+      - UPLINK
+      - DOWNLINK
+      type: string
+      description: Type of frame. Possible values are 'UPLINK' or 'DOWNLINK'.
     DeviceHealthStatistics:
       title: DeviceHealthStatistics
       type: object
@@ -287,37 +318,6 @@ components:
           description: Total number of devices in authorized scopes.
           format: int32
       description: Resource representing read-only statistics about health states for devices.
-    error:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: Transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
-  parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
   securitySchemes:
     oauth2:
       type: oauth2

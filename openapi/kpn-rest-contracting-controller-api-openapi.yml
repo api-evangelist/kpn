@@ -1130,64 +1130,22 @@ paths:
       - OAuth2: []
 components:
   schemas:
-    DeliveryAddressRequest:
-      type: object
-      required:
-      - city
-      - companyName
-      - country
-      - houseNumber
-      - postalCode
-      - street
-      properties:
-        addressName:
-          type: string
-        attention:
-          type: string
-          minLength: 0
-          maxLength: 35
-        city:
-          type: string
-          minLength: 1
-          maxLength: 30
-        companyName:
-          type: string
-          minLength: 1
-          maxLength: 35
-        country:
-          type: string
-          description: Only "NL" value is supported
-        floor:
-          type: string
-          minLength: 0
-          maxLength: 21
-        houseNumber:
-          type: string
-          minLength: 1
-          maxLength: 5
-        location:
-          type: string
-          minLength: 0
-          maxLength: 21
-        postalCode:
-          type: string
-          example: 1234AB
-          description: should contain 4 digits first and then 2 letters
-        room:
-          type: string
-          minLength: 0
-          maxLength: 20
-        street:
-          type: string
-          minLength: 1
-          maxLength: 24
-      title: DeliveryAddressRequest
-    RecurringPrice:
+    BasketSnapshot:
       type: object
       properties:
-        monthlyFeeInCents:
-          type: number
-      title: RecurringPrice
+        characteristics:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Characteristic'
+        oldPrice:
+          $ref: '#/components/schemas/Price'
+        productTree:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductTreeItem'
+        totalPrice:
+          $ref: '#/components/schemas/Price'
+      title: BasketSnapshot
     Price:
       type: object
       properties:
@@ -1196,78 +1154,18 @@ components:
         recurring:
           $ref: '#/components/schemas/RecurringPrice'
       title: Price
-    OrderRequest:
-      type: object
-      properties:
-        address:
-          $ref: '#/components/schemas/DeliveryAddressRequest'
-        addressId:
-          type: integer
-          format: int64
-        referenceNumber:
-          type: string
-        wishDate:
-          type: string
-          format: date-time
-      title: OrderRequest
-    CharacteristicAction:
+    Characteristic:
       type: object
       properties:
         name:
           type: string
+        possibleValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/CharacteristicRestriction'
         value:
           type: string
-      title: CharacteristicAction
-    ProductAction:
-      type: object
-      properties:
-        amount:
-          type: integer
-          format: int32
-        productId:
-          type: string
-        type:
-          type: string
-          enum:
-          - PUT
-          - REMOVE
-      title: ProductAction
-    BasketChange:
-      type: object
-      properties:
-        accountGroupId:
-          type: integer
-          format: int64
-          description: Account group for which new contract is to be created (usually it is subscriber)
-        characteristicActions:
-          type: array
-          items:
-            $ref: '#/components/schemas/CharacteristicAction'
-        contractId:
-          type: integer
-          format: int64
-        fixedContractId:
-          type: integer
-          format: int64
-        mobileContractId:
-          type: integer
-          format: int64
-        orderId:
-          type: integer
-          format: int64
-          description: Termination order (use this field to initialize reactivation in conjuction with accountGroupId)
-        productActions:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductAction'
-        simCardNumber:
-          type: string
-        templateId:
-          type: string
-        templateIdToModify:
-          type: integer
-          format: int64
-      title: BasketChange
+      title: Characteristic
     ErrorResponse:
       type: object
       properties:
@@ -1331,96 +1229,6 @@ components:
           type: boolean
           description: Should be presented to end user?
       title: ProductTreeItem
-    Product1:
-      type: object
-      properties:
-        category:
-          type: string
-          enum:
-          - CENTREX
-          - FIXED
-          - FIXED_MOBILE
-          - HARDWARE
-          - MOBILE
-          - OTHER
-          - SKYPE_FOR_BUSINESS
-          - SOFTWARE
-        id:
-          type: string
-        name:
-          $ref: '#/components/schemas/LocalizedString'
-        priceInCents:
-          type: number
-        privateCopyingLevyInCents:
-          type: number
-        subcategory:
-          type: string
-      title: Product1
-    Characteristic:
-      type: object
-      properties:
-        name:
-          type: string
-        possibleValues:
-          type: array
-          items:
-            $ref: '#/components/schemas/CharacteristicRestriction'
-        value:
-          type: string
-      title: Characteristic
-    OrderConfirmation:
-      type: object
-      properties:
-        orderId:
-          type: integer
-          format: int64
-      title: OrderConfirmation
-    SaveAsTemplateRequest:
-      type: object
-      properties:
-        groupId:
-          type: integer
-          format: int64
-        name:
-          type: string
-      title: SaveAsTemplateRequest
-    PagedResult_Template_:
-      type: object
-      properties:
-        result:
-          type: array
-          description: One page of result
-          items:
-            $ref: '#/components/schemas/Template'
-        total:
-          type: integer
-          format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_Template_
-      description: Paged list of elements
-    BasketSnapshot:
-      type: object
-      properties:
-        characteristics:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/Characteristic'
-        oldPrice:
-          $ref: '#/components/schemas/Price'
-        productTree:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductTreeItem'
-        totalPrice:
-          $ref: '#/components/schemas/Price'
-      title: BasketSnapshot
-    SaveAsTemplateResponse:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-      title: SaveAsTemplateResponse
     Resource:
       type: object
       properties:
@@ -1430,30 +1238,6 @@ components:
           type: integer
           format: int64
       title: Resource
-    OneTimePrice:
-      type: object
-      properties:
-        activationFeeInCents:
-          type: number
-        hardwareFeeInCents:
-          type: number
-        privateCopyingLevyInCents:
-          type: number
-      title: OneTimePrice
-    PagedResult_Product_1:
-      type: object
-      properties:
-        result:
-          type: array
-          description: One page of result
-          items:
-            $ref: '#/components/schemas/Product1'
-        total:
-          type: integer
-          format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_Product_1
-      description: Paged list of elements
     Template:
       type: object
       properties:
@@ -1477,14 +1261,27 @@ components:
         valid:
           type: boolean
       title: Template
-    Error:
+    SaveAsTemplateResponse:
       type: object
       properties:
-        hint:
-          $ref: '#/components/schemas/LocalizedString'
-        message:
-          $ref: '#/components/schemas/LocalizedString'
-      title: Error
+        id:
+          type: integer
+          format: int64
+      title: SaveAsTemplateResponse
+    PagedResult_Product_1:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Product1'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Product_1
+      description: Paged list of elements
     CharacteristicRestriction:
       type: object
       properties:
@@ -1493,6 +1290,132 @@ components:
         value:
           type: string
       title: CharacteristicRestriction
+    OrderConfirmation:
+      type: object
+      properties:
+        orderId:
+          type: integer
+          format: int64
+      title: OrderConfirmation
+    OrderRequest:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/DeliveryAddressRequest'
+        addressId:
+          type: integer
+          format: int64
+        referenceNumber:
+          type: string
+        wishDate:
+          type: string
+          format: date-time
+      title: OrderRequest
+    OneTimePrice:
+      type: object
+      properties:
+        activationFeeInCents:
+          type: number
+        hardwareFeeInCents:
+          type: number
+        privateCopyingLevyInCents:
+          type: number
+      title: OneTimePrice
+    Error:
+      type: object
+      properties:
+        hint:
+          $ref: '#/components/schemas/LocalizedString'
+        message:
+          $ref: '#/components/schemas/LocalizedString'
+      title: Error
+    SaveAsTemplateRequest:
+      type: object
+      properties:
+        groupId:
+          type: integer
+          format: int64
+        name:
+          type: string
+      title: SaveAsTemplateRequest
+    ProductAction:
+      type: object
+      properties:
+        amount:
+          type: integer
+          format: int32
+        productId:
+          type: string
+        type:
+          type: string
+          enum:
+          - PUT
+          - REMOVE
+      title: ProductAction
+    BasketChange:
+      type: object
+      properties:
+        accountGroupId:
+          type: integer
+          format: int64
+          description: Account group for which new contract is to be created (usually it is subscriber)
+        characteristicActions:
+          type: array
+          items:
+            $ref: '#/components/schemas/CharacteristicAction'
+        contractId:
+          type: integer
+          format: int64
+        fixedContractId:
+          type: integer
+          format: int64
+        mobileContractId:
+          type: integer
+          format: int64
+        orderId:
+          type: integer
+          format: int64
+          description: Termination order (use this field to initialize reactivation in conjuction with accountGroupId)
+        productActions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductAction'
+        simCardNumber:
+          type: string
+        templateId:
+          type: string
+        templateIdToModify:
+          type: integer
+          format: int64
+      title: BasketChange
+    CharacteristicAction:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+      title: CharacteristicAction
+    PagedResult_Template_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Template'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Template_
+      description: Paged list of elements
+    RecurringPrice:
+      type: object
+      properties:
+        monthlyFeeInCents:
+          type: number
+      title: RecurringPrice
     Product:
       type: object
       properties:
@@ -1519,6 +1442,83 @@ components:
           description: Dutch version
       title: LocalizedString
       description: Text with two language versions
+    Product1:
+      type: object
+      properties:
+        category:
+          type: string
+          enum:
+          - CENTREX
+          - FIXED
+          - FIXED_MOBILE
+          - HARDWARE
+          - MOBILE
+          - OTHER
+          - SKYPE_FOR_BUSINESS
+          - SOFTWARE
+        id:
+          type: string
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        priceInCents:
+          type: number
+        privateCopyingLevyInCents:
+          type: number
+        subcategory:
+          type: string
+      title: Product1
+    DeliveryAddressRequest:
+      type: object
+      required:
+      - city
+      - companyName
+      - country
+      - houseNumber
+      - postalCode
+      - street
+      properties:
+        addressName:
+          type: string
+        attention:
+          type: string
+          minLength: 0
+          maxLength: 35
+        city:
+          type: string
+          minLength: 1
+          maxLength: 30
+        companyName:
+          type: string
+          minLength: 1
+          maxLength: 35
+        country:
+          type: string
+          description: Only "NL" value is supported
+        floor:
+          type: string
+          minLength: 0
+          maxLength: 21
+        houseNumber:
+          type: string
+          minLength: 1
+          maxLength: 5
+        location:
+          type: string
+          minLength: 0
+          maxLength: 21
+        postalCode:
+          type: string
+          example: 1234AB
+          description: should contain 4 digits first and then 2 letters
+        room:
+          type: string
+          minLength: 0
+          maxLength: 20
+        street:
+          type: string
+          minLength: 1
+          maxLength: 24
+      title: DeliveryAddressRequest
   securitySchemes:
     OAuth2:
       type: oauth2

@@ -208,6 +208,17 @@ paths:
       deprecated: false
 components:
   schemas:
+    AlarmState:
+      title: AlarmState
+      enum:
+      - CLEARED
+      - UNCLEARED
+      - WARNING
+      - MINOR
+      - MAJOR
+      - CRITICAL
+      type: string
+      description: State of the alarm. Possible values are, by ascending order of criticity, 'CLEARED', 'UNCLEARED', 'WARNING', 'MINOR', 'MAJOR' and 'CRITICAL'.
     error:
       type: object
       properties:
@@ -285,17 +296,6 @@ components:
           type: string
           description: Id of the device alarm object. Refer to the list of ThingPark device alarm objects to get the corresponding label.
       description: Resource representing a device alarm.
-    AlarmState:
-      title: AlarmState
-      enum:
-      - CLEARED
-      - UNCLEARED
-      - WARNING
-      - MINOR
-      - MAJOR
-      - CRITICAL
-      type: string
-      description: State of the alarm. Possible values are, by ascending order of criticity, 'CLEARED', 'UNCLEARED', 'WARNING', 'MINOR', 'MAJOR' and 'CRITICAL'.
   parameters:
     api_version:
       in: header

@@ -422,6 +422,11 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    XMLScriptingResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/XMLScriptingObject'
+      description: Response containing the list of the external scripts for your domain.
     ErrorResponse:
       type: object
       properties:
@@ -468,11 +473,6 @@ components:
           type: string
           description: updation date of the external script
           title: updated_at
-    XMLScriptingResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/XMLScriptingObject'
-      description: Response containing the list of the external scripts for your domain.
   securitySchemes:
     OAuth2:
       type: oauth2

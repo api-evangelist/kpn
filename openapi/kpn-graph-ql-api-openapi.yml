@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   version: '1.0'
-  title: Knowledge Management – Polly.help Graphql API
+  title: Knowledge Management – Polly.help GraphQL API
   description: 'The Knowledge Management API allows you to organize your organization''s information with knowledge management software.
 
 
@@ -85,32 +85,26 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
-    bad_request:
-      description: bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    not_found:
-      description: not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     too_many:
       description: too many requests
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    service_unavailable:
-      description: service unavailable
+    bad_request:
+      description: bad request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
     forbidden:
       description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    service_unavailable:
+      description: service unavailable
       content:
         application/json:
           schema:
@@ -123,6 +117,12 @@ components:
             $ref: '#/components/schemas/error'
     server_error:
       description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: not found
       content:
         application/json:
           schema:
@@ -143,6 +143,14 @@ components:
       description: API Version. If no version is provided it defaults to latest version.
       required: false
   schemas:
+    graphql_payload:
+      title: graphql
+      type: object
+      properties:
+        query:
+          type: string
+        variables:
+          $ref: '#/components/schemas/graphql_variables'
     graphql_variables:
       title: variables
       type: object
@@ -174,14 +182,6 @@ components:
           type: string
           description: Additional information about error
           title: Info
-    graphql_payload:
-      title: graphql
-      type: object
-      properties:
-        query:
-          type: string
-        variables:
-          $ref: '#/components/schemas/graphql_variables'
   securitySchemes:
     oauth2:
       type: oauth2

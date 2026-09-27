@@ -518,110 +518,6 @@ paths:
         required: true
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
-    DeliveryAddressRequest:
-      type: object
-      required:
-      - city
-      - companyName
-      - country
-      - houseNumber
-      - postalCode
-      - street
-      properties:
-        addressName:
-          type: string
-        attention:
-          type: string
-          minLength: 0
-          maxLength: 35
-        city:
-          type: string
-          minLength: 1
-          maxLength: 30
-        companyName:
-          type: string
-          minLength: 1
-          maxLength: 35
-        country:
-          type: string
-          description: Only "NL" value is supported
-        floor:
-          type: string
-          minLength: 0
-          maxLength: 21
-        houseNumber:
-          type: string
-          minLength: 1
-          maxLength: 5
-        location:
-          type: string
-          minLength: 0
-          maxLength: 21
-        postalCode:
-          type: string
-          example: 1234AB
-          description: should contain 4 digits first and then 2 letters
-        room:
-          type: string
-          minLength: 0
-          maxLength: 20
-        street:
-          type: string
-          minLength: 1
-          maxLength: 24
-      title: DeliveryAddressRequest
-    DeliveryAddress:
-      type: object
-      properties:
-        addressName:
-          type: string
-        attention:
-          type: string
-        city:
-          type: string
-        companyName:
-          type: string
-        country:
-          type: string
-        floor:
-          type: string
-        houseNumber:
-          type: string
-        id:
-          type: integer
-          format: int64
-        location:
-          type: string
-        postalCode:
-          type: string
-        room:
-          type: string
-        street:
-          type: string
-      title: DeliveryAddress
     DeliveryAddressRequest1:
       type: object
       required:
@@ -674,6 +570,110 @@ components:
           minLength: 1
           maxLength: 24
       title: DeliveryAddressRequest
+    DeliveryAddressRequest:
+      type: object
+      required:
+      - city
+      - companyName
+      - country
+      - houseNumber
+      - postalCode
+      - street
+      properties:
+        addressName:
+          type: string
+        attention:
+          type: string
+          minLength: 0
+          maxLength: 35
+        city:
+          type: string
+          minLength: 1
+          maxLength: 30
+        companyName:
+          type: string
+          minLength: 1
+          maxLength: 35
+        country:
+          type: string
+          description: Only "NL" value is supported
+        floor:
+          type: string
+          minLength: 0
+          maxLength: 21
+        houseNumber:
+          type: string
+          minLength: 1
+          maxLength: 5
+        location:
+          type: string
+          minLength: 0
+          maxLength: 21
+        postalCode:
+          type: string
+          example: 1234AB
+          description: should contain 4 digits first and then 2 letters
+        room:
+          type: string
+          minLength: 0
+          maxLength: 20
+        street:
+          type: string
+          minLength: 1
+          maxLength: 24
+      title: DeliveryAddressRequest
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    DeliveryAddress:
+      type: object
+      properties:
+        addressName:
+          type: string
+        attention:
+          type: string
+        city:
+          type: string
+        companyName:
+          type: string
+        country:
+          type: string
+        floor:
+          type: string
+        houseNumber:
+          type: string
+        id:
+          type: integer
+          format: int64
+        location:
+          type: string
+        postalCode:
+          type: string
+        room:
+          type: string
+        street:
+          type: string
+      title: DeliveryAddress
   securitySchemes:
     OAuth2:
       type: oauth2

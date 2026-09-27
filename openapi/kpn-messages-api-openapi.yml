@@ -524,123 +524,7 @@ paths:
     - url: https://api-prd.kpn.com/communication/parley/secure-messenger
       description: Production server
 components:
-  parameters:
-    auth_string:
-      in: header
-      name: authString
-      schema:
-        type: string
-      description: The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)
-      required: false
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
-    id:
-      name: id
-      in: path
-      required: true
-      description: 'The identifier of the message you want '
-      schema:
-        type: integer
-    device_id:
-      in: header
-      name: uniqueAppDeviceId
-      schema:
-        type: string
-      description: You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.
-      required: true
-    message_application_id_header:
-      in: header
-      name: ApplicationId
-      schema:
-        type: string
-      required: true
-      description: UUID of the application
-      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
   schemas:
-    GetMessageResult:
-      allOf:
-      - type: object
-        properties:
-          data:
-            description: Object that contains all the information about a specific message
-            properties:
-              id:
-                type: integer
-                description: The id of the specific message.
-              time:
-                type: integer
-                format: Unix Timestamp
-                description: A Unix Timestamp of the time this message was created
-              message:
-                type: string
-                description: The message that is send
-              image:
-                type: string
-                description: "The url of the image. When an image is send message will always be empty.The image can have one of the following mime-types: <ul>\n  - image/jpeg\n  - image/png\n  - image/gif\n</ul> To retrieve an image you need to provide the same headers as you used to retrieve this message."
-              typeId:
-                type: integer
-                minimum: 1
-                maximum: 5
-                description: "The type of the specific message. <ol>\n  - Message from the user\n  - Message from the account\n  - Info message\n  - Automated/system message from the user\n  - Automated/system message from the account\n</ol>"
-              agent:
-                $ref: '#/components/schemas/Message/properties/agent'
-            required:
-            - id
-            - time
-            - typeId
-            - message
-        required:
-        - data
-      - $ref: '#/components/schemas/GetConfigResult/allOf/1'
-    Message:
-      description: Object that contains all the information about a specific message
-      properties:
-        id:
-          type: integer
-          description: The id of the specific message.
-        time:
-          type: integer
-          format: Unix Timestamp
-          description: A Unix Timestamp of the time this message was created
-        message:
-          type: string
-          description: The message that is send
-        image:
-          type: string
-          description: "The url of the image. When an image is send message will always be empty.The image can have one of the following mime-types: <ul>\n  - image/jpeg\n  - image/png\n  - image/gif\n</ul> To retrieve an image you need to provide the same headers as you used to retrieve this message."
-        typeId:
-          type: integer
-          minimum: 1
-          maximum: 5
-          description: "The type of the specific message. <ol>\n  - Message from the user\n  - Message from the account\n  - Info message\n  - Automated/system message from the user\n  - Automated/system message from the account\n</ol>"
-        agent:
-          type: object
-          description: Object that contains information about the agent that has send this message. Is only filled when the message type is 2 or 5.
-          properties:
-            avatar:
-              type: string
-              description: 'The url to the avatar the Agent uses '
-            id:
-              type: integer
-              description: 'The id of the Agent '
-            name:
-              type: string
-              description: 'The name of the Agent '
-          required:
-          - avatar
-          - id
-          - isTyping
-          - name
-      required:
-      - id
-      - time
-      - typeId
-      - message
     GetConfigResult:
       allOf:
       - type: object
@@ -906,12 +790,194 @@ components:
         - notifications
         - status
         - metadata
-    FromNumber:
+    GetMessageResult:
+      allOf:
+      - type: object
+        properties:
+          data:
+            description: Object that contains all the information about a specific message
+            properties:
+              id:
+                type: integer
+                description: The id of the specific message.
+              time:
+                type: integer
+                format: Unix Timestamp
+                description: A Unix Timestamp of the time this message was created
+              message:
+                type: string
+                description: The message that is send
+              image:
+                type: string
+                description: "The url of the image. When an image is send message will always be empty.The image can have one of the following mime-types: <ul>\n  - image/jpeg\n  - image/png\n  - image/gif\n</ul> To retrieve an image you need to provide the same headers as you used to retrieve this message."
+              typeId:
+                type: integer
+                minimum: 1
+                maximum: 5
+                description: "The type of the specific message. <ol>\n  - Message from the user\n  - Message from the account\n  - Info message\n  - Automated/system message from the user\n  - Automated/system message from the account\n</ol>"
+              agent:
+                $ref: '#/components/schemas/Message/properties/agent'
+            required:
+            - id
+            - time
+            - typeId
+            - message
+        required:
+        - data
+      - $ref: '#/components/schemas/GetConfigResult/allOf/1'
+    Message:
+      description: Object that contains all the information about a specific message
+      properties:
+        id:
+          type: integer
+          description: The id of the specific message.
+        time:
+          type: integer
+          format: Unix Timestamp
+          description: A Unix Timestamp of the time this message was created
+        message:
+          type: string
+          description: The message that is send
+        image:
+          type: string
+          description: "The url of the image. When an image is send message will always be empty.The image can have one of the following mime-types: <ul>\n  - image/jpeg\n  - image/png\n  - image/gif\n</ul> To retrieve an image you need to provide the same headers as you used to retrieve this message."
+        typeId:
+          type: integer
+          minimum: 1
+          maximum: 5
+          description: "The type of the specific message. <ol>\n  - Message from the user\n  - Message from the account\n  - Info message\n  - Automated/system message from the user\n  - Automated/system message from the account\n</ol>"
+        agent:
+          type: object
+          description: Object that contains information about the agent that has send this message. Is only filled when the message type is 2 or 5.
+          properties:
+            avatar:
+              type: string
+              description: 'The url to the avatar the Agent uses '
+            id:
+              type: integer
+              description: 'The id of the Agent '
+            name:
+              type: string
+              description: 'The name of the Agent '
+          required:
+          - avatar
+          - id
+          - isTyping
+          - name
+      required:
+      - id
+      - time
+      - typeId
+      - message
+    TemplateParameters:
+      type: array
+      description: The parameters are an array of strings, with the first string being used for `{{1}}` in the template, with the second being `{{2}}` etc. Only required if the template specified by `name` contains parameters.
+      example:
+      - Verification
+      - '2526'
+      - '5'
+      items:
+        type: string
+    messageStatusViber:
+      allOf:
+      - $ref: '#/components/schemas/messageStatusBase'
+      - title: Viber
+        x-tab-id: Viber
+        description: Viber
+        properties:
+          channel:
+            type: string
+            description: The channel sending to.
+            example: viber_service
+            enum:
+            - viber_service
+          status:
+            example: read
+            enum:
+            - submitted
+            - delivered
+            - rejected
+            - undeliverable
+            - read
+    MessageUuid:
       type: string
-      example: '447700900001'
-      description: 'The phone number of the message **sender** in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don''t use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000. For SMS in certain localities alpha-numeric sender id''s will work as well, see [Global Messaging](https://developer.nexmo.com/messaging/sms/guides/country-specific-features#country-specific-features) for more details
+      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+      description: The UUID of the message
+    Text:
+      allOf:
+      - $ref: '#/components/schemas/baseMessageType'
+      - title: Text
+        x-tab-id: Text
+        description: The text of message to send.
+        required:
+        - text
+        properties:
+          message_type:
+            type: string
+            enum:
+            - text
+            example: text
+            description: The type of message to send. You must provide `text` in this field
+          text:
+            type: string
+            example: 'Nexmo Verification code: 12345.<br />Valid for 10 minutes.'
+    channelOptionsSms:
+      type: object
+      properties:
+        to:
+          $ref: '#/components/schemas/ToNumber'
+        from:
+          $ref: '#/components/schemas/FromNumber'
+        channel:
+          type: string
+          description: The channel to send to. You must provide `sms` in this field
+          example: sms
+          enum:
+          - sms
+        ttl:
+          type: integer
+          description: 'The duration in seconds the delivery of an SMS will be attempted. By default Vonage attempts delivery
 
-        '
+            for 72 hours, however the maximum effective value depends on the operator and is typically 24 - 48 hours.
+
+            We recommend this value should be kept at its default or at least 30 minutes.
+
+            '
+          example: 90000
+        sms:
+          type: object
+          description: An object of optional settings for the SMS message.
+          properties:
+            encoding_type:
+              type: string
+              description: 'The encoding type to use for the message. If set to either `text` or `unicode` the specified type will be used.
+
+                If set to `auto` (the default), the Messages API will automatically set the type based on the content of `text`;
+
+                i.e. if unicode characters are detected in `text`, then the message will be encoded as unicode, and otherwise as text.
+
+                '
+              example: text
+              enum:
+              - text
+              - unicode
+              - auto
+            content_id:
+              description: 'A string parameter that satisfies regulatory requirements when sending an SMS to specific countries.
+
+                For more information please refer to the [Country-Specific Outbound SMS Features](https://api.support.vonage.com/hc/en-us/sections/200622473-Country-Specific-Features-and-Restrictions)"
+
+                '
+              type: string
+              example: '1107457532145798767'
+            entity_id:
+              description: 'A string parameter that satisfies regulatory requirements when sending an SMS to specific countries.
+
+                For more information please refer to the [Country-Specific Outbound SMS Features](https://api.support.vonage.com/hc/en-us/sections/200622473-Country-Specific-Features-and-Restrictions)
+
+                '
+              type: string
+              example: '1101456324675322134'
     messageStatusBase:
       type: object
       properties:
@@ -978,6 +1044,29 @@ components:
       - from
       - timestamp
       - status
+    baseMessageType:
+      type: object
+      required:
+      - to
+      - from
+      - message_type
+      - channel
+    StickerWithID:
+      description: Sticker with ID
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          description: 'The id of the sticker in relation to a specific WhatsApp deployment. See the
+
+            [documentation](/messages/guides/whatsapp-stickers) for more
+
+            information on sending stickers.
+
+            '
+          example: aabb7a31-1d1f-4755-a574-2971d831cd5b
+          type: string
     channelOptionsViberWithButton:
       type: object
       properties:
@@ -1025,31 +1114,34 @@ components:
                   type: string
                   maxLength: 30
                   example: Find out more
-    vCard:
-      allOf:
-      - $ref: '#/components/schemas/baseMessageType'
-      - title: vCard
-        x-tab-id: vCard
-        type: object
-        required:
-        - vcard
-        properties:
-          message_type:
-            type: string
-            enum:
-            - vcard
-            example: vcard
-            description: The type of message to send. You must provide `vcard` in this field
-          vcard:
-            type: object
-            required:
-            - url
-            properties:
-              url:
-                format: url
-                description: The publicly accessible URL of the vCard attachment. Supported types are .vcf only
-                example: https://example.com/conatact.vcf
-                type: string
+    channelOptionsMessenger:
+      type: object
+      properties:
+        to:
+          $ref: '#/components/schemas/ToId'
+        from:
+          $ref: '#/components/schemas/FromId'
+        channel:
+          description: The channel to send to. You must provide `messenger` in this field
+          type: string
+          example: messenger
+          enum:
+          - messenger
+        messenger:
+          type: object
+          properties:
+            category:
+              type: string
+              example: response
+              description: The use of different category tags enables the business to send messages for different use cases. For Facebook Messenger they need to comply with their [Messaging Types policy](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types). Vonage maps our `category` to their `messaging_type`. If `message_tag` is used, then an additional `tag` for that type is mandatory. By default Vonage sends the `response` category to Facebook Messenger.
+              enum:
+              - response
+              - update
+              - message_tag
+            tag:
+              description: A tag describing the type and relevance of the 1:1 communication between your app and the end user. A full list of available tags is available [here](https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags)
+              example: CONFIRMED_EVENT_UPDATE
+              type: string
     messageStatusMessenger:
       allOf:
       - $ref: '#/components/schemas/messageStatusBase'
@@ -1075,155 +1167,37 @@ components:
             $ref: '#/components/schemas/ToId'
           from:
             $ref: '#/components/schemas/FromId'
-    Audio:
+    File:
       allOf:
       - $ref: '#/components/schemas/baseMessageType'
-      - title: Audio
-        x-tab-id: Audio
+      - title: File
+        x-tab-id: File
         type: object
         required:
-        - audio
+        - file
         properties:
           message_type:
             type: string
             enum:
-            - audio
-            example: audio
-            description: The type of message to send. You must provide `audio` in this field
-          audio:
+            - file
+            example: file
+            description: The type of message to send. You must provide `file` in this field
+          file:
             type: object
             required:
             - url
             properties:
               url:
                 type: string
-                format: url
-                example: https://example.com/audio.mp3
-    Response:
-      required:
-      - message_uuid
-      properties:
-        message_uuid:
-          type: string
-          description: The UUID of the message.
-          example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
-    ToNumber:
+                example: https://example.com/file.pdf
+    FromId:
       type: string
-      minLength: 7
-      maxLength: 15
-      example: '447700900000'
-      description: 'The phone number of the message **recipient** in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don''t use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.
+      minLength: 1
+      maxLength: 50
+      example: '9876543210'
+      description: 'The ID of the message sender
 
         '
-    baseMessageType:
-      type: object
-      required:
-      - to
-      - from
-      - message_type
-      - channel
-    StickerWithID:
-      description: Sticker with ID
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          description: 'The id of the sticker in relation to a specific WhatsApp deployment. See the
-
-            [documentation](/messages/guides/whatsapp-stickers) for more
-
-            information on sending stickers.
-
-            '
-          example: aabb7a31-1d1f-4755-a574-2971d831cd5b
-          type: string
-    channelOptionsViber:
-      type: object
-      properties:
-        to:
-          $ref: '#/components/schemas/ToNumber'
-        from:
-          $ref: '#/components/schemas/FromId'
-        channel:
-          description: The channel to send to. You must provide `viber_service` in this field
-          type: string
-          example: viber_service
-          enum:
-          - viber_service
-        viber_service:
-          type: object
-          properties:
-            category:
-              type: string
-              description: The use of different category tags enables the business to send messages for different use cases. For Viber Business Messages the first message sent from a business to a user must be personal, informative & a targeted message - not promotional. By default Vonage sends the `transaction` category to Viber Business Messages.
-              enum:
-              - transaction
-              - promotion
-            ttl:
-              minimum: 30
-              maximum: 259200
-              description: Set the time-to-live of message to be delivered in seconds. i.e. if the message is not delivered in 600 seconds then delete the message.
-              example: 600
-              type: integer
-            type:
-              description: Viber-specific type definition. To use "template", please contact your Vonage Account Manager to setup your templates. To find out more please visit the [product page](https://www.vonage.com/communications-apis/messages/)
-              type: string
-    StickerWithURL:
-      description: Sticker with URL
-      type: object
-      required:
-      - url
-      properties:
-        url:
-          format: url
-          description: 'The publicly accessible URL of the sticker image. Supported types are: .webp. See the
-
-            [documentation](/messages/guides/whatsapp-stickers) for more
-
-            information on sending stickers.
-
-            '
-          example: https://example.com/image.webp
-          type: string
-    messageStatusMMS:
-      allOf:
-      - $ref: '#/components/schemas/messageStatusBase'
-      - title: MMS
-        x-tab-id: MMS
-        description: MMS
-        properties:
-          channel:
-            type: string
-            description: The channel sending to.
-            example: mms
-            enum:
-            - mms
-          destination:
-            $ref: '#/components/schemas/Destination'
-    error:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: Transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
     Video:
       allOf:
       - $ref: '#/components/schemas/baseMessageType'
@@ -1253,235 +1227,21 @@ components:
                   '
                 format: url
                 example: https://example.com/video.mp4
-    messageStatusSMS:
+    messageStatusMMS:
       allOf:
       - $ref: '#/components/schemas/messageStatusBase'
-      - title: SMS
-        x-tab-id: SMS
-        description: SMS
+      - title: MMS
+        x-tab-id: MMS
+        description: MMS
         properties:
           channel:
             type: string
             description: The channel sending to.
-            example: sms
+            example: mms
             enum:
-            - sms
+            - mms
           destination:
             $ref: '#/components/schemas/Destination'
-          sms:
-            description: Channel specific metadata for SMS
-            type: object
-            properties:
-              count_total:
-                type: string
-                example: '2'
-                description: The number of SMS messages concatenated together to comprise the submitted message. SMS messages are 160 characters, if a submitted message exceeds that size it is sent as multiple SMS messages. This number indicates how many SMS messages are required.
-    messageStatusViber:
-      allOf:
-      - $ref: '#/components/schemas/messageStatusBase'
-      - title: Viber
-        x-tab-id: Viber
-        description: Viber
-        properties:
-          channel:
-            type: string
-            description: The channel sending to.
-            example: viber_service
-            enum:
-            - viber_service
-          status:
-            example: read
-            enum:
-            - submitted
-            - delivered
-            - rejected
-            - undeliverable
-            - read
-    FromId:
-      type: string
-      minLength: 1
-      maxLength: 50
-      example: '9876543210'
-      description: 'The ID of the message sender
-
-        '
-    Destination:
-      type: object
-      properties:
-        network_code:
-          type: string
-          description: Code indicating the terminating network for the number to which the message was sent. May not always be included in the message status data.
-          example: '12345'
-    Image:
-      allOf:
-      - $ref: '#/components/schemas/baseMessageType'
-      - title: Image
-        x-tab-id: Image
-        type: object
-        required:
-        - image
-        properties:
-          message_type:
-            type: string
-            enum:
-            - image
-            example: image
-            description: The type of message to send. You must provide `image` in this field
-          image:
-            type: object
-            required:
-            - url
-            properties:
-              url:
-                format: url
-                description: The publicly accessible URL of the image attachment. The image file is available for 48 hours after it is created. Supported types are .jpg, .jpeg, and .png
-                example: https://example.com/image.jpg
-                type: string
-    channelOptionsMms:
-      type: object
-      properties:
-        to:
-          $ref: '#/components/schemas/ToNumber'
-        from:
-          $ref: '#/components/schemas/FromNumber'
-        channel:
-          type: string
-          description: The channel to send to. You must provide `mms` in this field
-          example: mms
-          enum:
-          - mms
-    TemplateParameters:
-      type: array
-      description: The parameters are an array of strings, with the first string being used for `{{1}}` in the template, with the second being `{{2}}` etc. Only required if the template specified by `name` contains parameters.
-      example:
-      - Verification
-      - '2526'
-      - '5'
-      items:
-        type: string
-    ToId:
-      type: string
-      minLength: 1
-      maxLength: 50
-      example: 0123456789
-      description: 'The ID of the message recipient
-
-        '
-    channelOptionsMessenger:
-      type: object
-      properties:
-        to:
-          $ref: '#/components/schemas/ToId'
-        from:
-          $ref: '#/components/schemas/FromId'
-        channel:
-          description: The channel to send to. You must provide `messenger` in this field
-          type: string
-          example: messenger
-          enum:
-          - messenger
-        messenger:
-          type: object
-          properties:
-            category:
-              type: string
-              example: response
-              description: The use of different category tags enables the business to send messages for different use cases. For Facebook Messenger they need to comply with their [Messaging Types policy](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types). Vonage maps our `category` to their `messaging_type`. If `message_tag` is used, then an additional `tag` for that type is mandatory. By default Vonage sends the `response` category to Facebook Messenger.
-              enum:
-              - response
-              - update
-              - message_tag
-            tag:
-              description: A tag describing the type and relevance of the 1:1 communication between your app and the end user. A full list of available tags is available [here](https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags)
-              example: CONFIRMED_EVENT_UPDATE
-              type: string
-    Sticker:
-      allOf:
-      - $ref: '#/components/schemas/baseMessageType'
-      - title: Sticker
-        x-tab-id: Sticker
-        required:
-        - sticker
-        properties:
-          message_type:
-            type: string
-            enum:
-            - sticker
-            example: sticker
-            description: The type of message to send. You must provide `sticker` in this field
-          sticker:
-            type: object
-            description: 'Object with details of the sticker to send. Must contain either a URL or an ID, but not both.
-
-              See the [documentation](/messages/guides/whatsapp-stickers) for more
-
-              information on sending stickers.
-
-              '
-            oneOf:
-            - $ref: '#/components/schemas/StickerWithURL'
-            - $ref: '#/components/schemas/StickerWithID'
-    Text:
-      allOf:
-      - $ref: '#/components/schemas/baseMessageType'
-      - title: Text
-        x-tab-id: Text
-        description: The text of message to send.
-        required:
-        - text
-        properties:
-          message_type:
-            type: string
-            enum:
-            - text
-            example: text
-            description: The type of message to send. You must provide `text` in this field
-          text:
-            type: string
-            example: 'Nexmo Verification code: 12345.<br />Valid for 10 minutes.'
-    Custom:
-      allOf:
-      - $ref: '#/components/schemas/baseMessageType'
-      - title: Custom
-        x-tab-id: Custom
-        type: object
-        properties:
-          message_type:
-            type: string
-            enum:
-            - custom
-            example: custom
-            description: The type of message to send. You must provide `custom` in this field
-          custom:
-            type: object
-            description: A custom payload, which is passed directly to WhatsApp for certain features such as templates and interactive messages. The schema of a custom object can vary widely. [Read more about Custom Objects](https://developer.vonage.com/messages/concepts/custom-objects).
-            additionalProperties: true
-    Template:
-      allOf:
-      - $ref: '#/components/schemas/baseMessageType'
-      - title: Template
-        x-tab-id: Template
-        type: object
-        required:
-        - template
-        properties:
-          message_type:
-            type: string
-            enum:
-            - template
-            example: template
-            description: The type of message to send. You must provide `template` in this field
-          template:
-            required:
-            - name
-            type: object
-            properties:
-              name:
-                type: string
-                example: 9b6b4fcb_da19_4a26_8fe8_78074a91b584:verify
-                description: 'The name of the template. For WhatsApp use your WhatsApp namespace (available via Facebook Business Manager), followed by a colon : and the name of the template to use.'
-              parameters:
-                $ref: '#/components/schemas/TemplateParameters'
     outboundMessageCommon:
       type: object
       properties:
@@ -1509,161 +1269,38 @@ components:
           enum:
           - v0.1
           - v1
-    channelOptionsSms:
-      type: object
-      properties:
-        to:
-          $ref: '#/components/schemas/ToNumber'
-        from:
-          $ref: '#/components/schemas/FromNumber'
-        channel:
-          type: string
-          description: The channel to send to. You must provide `sms` in this field
-          example: sms
-          enum:
-          - sms
-        ttl:
-          type: integer
-          description: 'The duration in seconds the delivery of an SMS will be attempted. By default Vonage attempts delivery
-
-            for 72 hours, however the maximum effective value depends on the operator and is typically 24 - 48 hours.
-
-            We recommend this value should be kept at its default or at least 30 minutes.
-
-            '
-          example: 90000
-        sms:
-          type: object
-          description: An object of optional settings for the SMS message.
-          properties:
-            encoding_type:
-              type: string
-              description: 'The encoding type to use for the message. If set to either `text` or `unicode` the specified type will be used.
-
-                If set to `auto` (the default), the Messages API will automatically set the type based on the content of `text`;
-
-                i.e. if unicode characters are detected in `text`, then the message will be encoded as unicode, and otherwise as text.
-
-                '
-              example: text
-              enum:
-              - text
-              - unicode
-              - auto
-            content_id:
-              description: 'A string parameter that satisfies regulatory requirements when sending an SMS to specific countries.
-
-                For more information please refer to the [Country-Specific Outbound SMS Features](https://api.support.vonage.com/hc/en-us/sections/200622473-Country-Specific-Features-and-Restrictions)"
-
-                '
-              type: string
-              example: '1107457532145798767'
-            entity_id:
-              description: 'A string parameter that satisfies regulatory requirements when sending an SMS to specific countries.
-
-                For more information please refer to the [Country-Specific Outbound SMS Features](https://api.support.vonage.com/hc/en-us/sections/200622473-Country-Specific-Features-and-Restrictions)
-
-                '
-              type: string
-              example: '1101456324675322134'
-    channelOptionsWhatsapp:
-      type: object
-      properties:
-        to:
-          $ref: '#/components/schemas/ToNumber'
-        from:
-          $ref: '#/components/schemas/FromNumber'
-        channel:
-          description: The channel to send to. You must provide `whatsapp` in this field
-          type: string
-          example: whatsapp
-          enum:
-          - whatsapp
-        context:
-          description: "An optional context used for quoting/replying to a specific meesage in a conversation. When used, the WhatsApp UI will display the new message \nalong with a contextual bubble that displays the quoted/replied to message's content.\n"
-          type: object
-          required:
-          - message_uuid
-          properties:
-            message_uuid:
-              description: The UUID of the message being replied to/quoted.
-              type: string
-              example: a1b2c3d4a1b2c3d4
-    MessageUuid:
-      type: string
-      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
-      description: The UUID of the message
-    File:
+    Template:
       allOf:
       - $ref: '#/components/schemas/baseMessageType'
-      - title: File
-        x-tab-id: File
+      - title: Template
+        x-tab-id: Template
         type: object
         required:
-        - file
+        - template
         properties:
           message_type:
             type: string
             enum:
-            - file
-            example: file
-            description: The type of message to send. You must provide `file` in this field
-          file:
-            type: object
+            - template
+            example: template
+            description: The type of message to send. You must provide `template` in this field
+          template:
             required:
-            - url
+            - name
+            type: object
             properties:
-              url:
+              name:
                 type: string
-                example: https://example.com/file.pdf
-    channelOptionsViberVideo:
-      type: object
-      required:
-      - viber_service
-      properties:
-        to:
-          $ref: '#/components/schemas/ToNumber'
-        from:
-          $ref: '#/components/schemas/FromId'
-        channel:
-          description: The channel to send to. You must provide `viber_service` in this field
-          type: string
-          example: viber_service
-          enum:
-          - viber_service
-        viber_service:
-          type: object
-          required:
-          - duration
-          - file_size
-          properties:
-            category:
-              type: string
-              description: The use of different category tags enables the business to send messages for different use cases. For Viber Business Messages the first message sent from a business to a user must be personal, informative & a targeted message - not promotional. By default Vonage sends the `transaction` category to Viber Business Messages.
-              enum:
-              - transaction
-              - promotion
-            duration:
-              type: string
-              minimum: 1
-              maximum: 600
-              description: The duration of the video in seconds.
-              example: '123'
-            file_size:
-              type: string
-              minimum: 1
-              maximum: 200
-              description: The file size of the video in MB.
-              example: '1'
-            ttl:
-              minimum: 30
-              maximum: 259200
-              description: Set the time-to-live of message to be delivered in seconds. i.e. if the message is not delivered in 600 seconds then delete the message.
-              example: 600
-              type: integer
-            type:
-              description: Viber-specific type definition. To use "template", please contact your Vonage Account Manager to setup your templates. To find out more please visit the [product page](https://www.vonage.com/communications-apis/messages/)
-              type: string
+                example: 9b6b4fcb_da19_4a26_8fe8_78074a91b584:verify
+                description: 'The name of the template. For WhatsApp use your WhatsApp namespace (available via Facebook Business Manager), followed by a colon : and the name of the template to use.'
+              parameters:
+                $ref: '#/components/schemas/TemplateParameters'
+    FromNumber:
+      type: string
+      example: '447700900001'
+      description: 'The phone number of the message **sender** in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don''t use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000. For SMS in certain localities alpha-numeric sender id''s will work as well, see [Global Messaging](https://developer.nexmo.com/messaging/sms/guides/country-specific-features#country-specific-features) for more details
+
+        '
     messageStatusWhatsApp:
       allOf:
       - $ref: '#/components/schemas/messageStatusBase'
@@ -1724,21 +1361,372 @@ components:
                         - authentication
                         - referral_conversion
                         - service
+    Audio:
+      allOf:
+      - $ref: '#/components/schemas/baseMessageType'
+      - title: Audio
+        x-tab-id: Audio
+        type: object
+        required:
+        - audio
+        properties:
+          message_type:
+            type: string
+            enum:
+            - audio
+            example: audio
+            description: The type of message to send. You must provide `audio` in this field
+          audio:
+            type: object
+            required:
+            - url
+            properties:
+              url:
+                type: string
+                format: url
+                example: https://example.com/audio.mp3
+    Custom:
+      allOf:
+      - $ref: '#/components/schemas/baseMessageType'
+      - title: Custom
+        x-tab-id: Custom
+        type: object
+        properties:
+          message_type:
+            type: string
+            enum:
+            - custom
+            example: custom
+            description: The type of message to send. You must provide `custom` in this field
+          custom:
+            type: object
+            description: A custom payload, which is passed directly to WhatsApp for certain features such as templates and interactive messages. The schema of a custom object can vary widely. [Read more about Custom Objects](https://developer.vonage.com/messages/concepts/custom-objects).
+            additionalProperties: true
+    channelOptionsViber:
+      type: object
+      properties:
+        to:
+          $ref: '#/components/schemas/ToNumber'
+        from:
+          $ref: '#/components/schemas/FromId'
+        channel:
+          description: The channel to send to. You must provide `viber_service` in this field
+          type: string
+          example: viber_service
+          enum:
+          - viber_service
+        viber_service:
+          type: object
+          properties:
+            category:
+              type: string
+              description: The use of different category tags enables the business to send messages for different use cases. For Viber Business Messages the first message sent from a business to a user must be personal, informative & a targeted message - not promotional. By default Vonage sends the `transaction` category to Viber Business Messages.
+              enum:
+              - transaction
+              - promotion
+            ttl:
+              minimum: 30
+              maximum: 259200
+              description: Set the time-to-live of message to be delivered in seconds. i.e. if the message is not delivered in 600 seconds then delete the message.
+              example: 600
+              type: integer
+            type:
+              description: Viber-specific type definition. To use "template", please contact your Vonage Account Manager to setup your templates. To find out more please visit the [product page](https://www.vonage.com/communications-apis/messages/)
+              type: string
+    ToId:
+      type: string
+      minLength: 1
+      maxLength: 50
+      example: 0123456789
+      description: 'The ID of the message recipient
+
+        '
+    channelOptionsMms:
+      type: object
+      properties:
+        to:
+          $ref: '#/components/schemas/ToNumber'
+        from:
+          $ref: '#/components/schemas/FromNumber'
+        channel:
+          type: string
+          description: The channel to send to. You must provide `mms` in this field
+          example: mms
+          enum:
+          - mms
+    StickerWithURL:
+      description: Sticker with URL
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          format: url
+          description: 'The publicly accessible URL of the sticker image. Supported types are: .webp. See the
+
+            [documentation](/messages/guides/whatsapp-stickers) for more
+
+            information on sending stickers.
+
+            '
+          example: https://example.com/image.webp
+          type: string
+    Response:
+      required:
+      - message_uuid
+      properties:
+        message_uuid:
+          type: string
+          description: The UUID of the message.
+          example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+    Sticker:
+      allOf:
+      - $ref: '#/components/schemas/baseMessageType'
+      - title: Sticker
+        x-tab-id: Sticker
+        required:
+        - sticker
+        properties:
+          message_type:
+            type: string
+            enum:
+            - sticker
+            example: sticker
+            description: The type of message to send. You must provide `sticker` in this field
+          sticker:
+            type: object
+            description: 'Object with details of the sticker to send. Must contain either a URL or an ID, but not both.
+
+              See the [documentation](/messages/guides/whatsapp-stickers) for more
+
+              information on sending stickers.
+
+              '
+            oneOf:
+            - $ref: '#/components/schemas/StickerWithURL'
+            - $ref: '#/components/schemas/StickerWithID'
+    Destination:
+      type: object
+      properties:
+        network_code:
+          type: string
+          description: Code indicating the terminating network for the number to which the message was sent. May not always be included in the message status data.
+          example: '12345'
+    ToNumber:
+      type: string
+      minLength: 7
+      maxLength: 15
+      example: '447700900000'
+      description: 'The phone number of the message **recipient** in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don''t use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.
+
+        '
+    vCard:
+      allOf:
+      - $ref: '#/components/schemas/baseMessageType'
+      - title: vCard
+        x-tab-id: vCard
+        type: object
+        required:
+        - vcard
+        properties:
+          message_type:
+            type: string
+            enum:
+            - vcard
+            example: vcard
+            description: The type of message to send. You must provide `vcard` in this field
+          vcard:
+            type: object
+            required:
+            - url
+            properties:
+              url:
+                format: url
+                description: The publicly accessible URL of the vCard attachment. Supported types are .vcf only
+                example: https://example.com/conatact.vcf
+                type: string
+    messageStatusSMS:
+      allOf:
+      - $ref: '#/components/schemas/messageStatusBase'
+      - title: SMS
+        x-tab-id: SMS
+        description: SMS
+        properties:
+          channel:
+            type: string
+            description: The channel sending to.
+            example: sms
+            enum:
+            - sms
+          destination:
+            $ref: '#/components/schemas/Destination'
+          sms:
+            description: Channel specific metadata for SMS
+            type: object
+            properties:
+              count_total:
+                type: string
+                example: '2'
+                description: The number of SMS messages concatenated together to comprise the submitted message. SMS messages are 160 characters, if a submitted message exceeds that size it is sent as multiple SMS messages. This number indicates how many SMS messages are required.
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    channelOptionsViberVideo:
+      type: object
+      required:
+      - viber_service
+      properties:
+        to:
+          $ref: '#/components/schemas/ToNumber'
+        from:
+          $ref: '#/components/schemas/FromId'
+        channel:
+          description: The channel to send to. You must provide `viber_service` in this field
+          type: string
+          example: viber_service
+          enum:
+          - viber_service
+        viber_service:
+          type: object
+          required:
+          - duration
+          - file_size
+          properties:
+            category:
+              type: string
+              description: The use of different category tags enables the business to send messages for different use cases. For Viber Business Messages the first message sent from a business to a user must be personal, informative & a targeted message - not promotional. By default Vonage sends the `transaction` category to Viber Business Messages.
+              enum:
+              - transaction
+              - promotion
+            duration:
+              type: string
+              minimum: 1
+              maximum: 600
+              description: The duration of the video in seconds.
+              example: '123'
+            file_size:
+              type: string
+              minimum: 1
+              maximum: 200
+              description: The file size of the video in MB.
+              example: '1'
+            ttl:
+              minimum: 30
+              maximum: 259200
+              description: Set the time-to-live of message to be delivered in seconds. i.e. if the message is not delivered in 600 seconds then delete the message.
+              example: 600
+              type: integer
+            type:
+              description: Viber-specific type definition. To use "template", please contact your Vonage Account Manager to setup your templates. To find out more please visit the [product page](https://www.vonage.com/communications-apis/messages/)
+              type: string
+    Image:
+      allOf:
+      - $ref: '#/components/schemas/baseMessageType'
+      - title: Image
+        x-tab-id: Image
+        type: object
+        required:
+        - image
+        properties:
+          message_type:
+            type: string
+            enum:
+            - image
+            example: image
+            description: The type of message to send. You must provide `image` in this field
+          image:
+            type: object
+            required:
+            - url
+            properties:
+              url:
+                format: url
+                description: The publicly accessible URL of the image attachment. The image file is available for 48 hours after it is created. Supported types are .jpg, .jpeg, and .png
+                example: https://example.com/image.jpg
+                type: string
+    channelOptionsWhatsapp:
+      type: object
+      properties:
+        to:
+          $ref: '#/components/schemas/ToNumber'
+        from:
+          $ref: '#/components/schemas/FromNumber'
+        channel:
+          description: The channel to send to. You must provide `whatsapp` in this field
+          type: string
+          example: whatsapp
+          enum:
+          - whatsapp
+        context:
+          description: "An optional context used for quoting/replying to a specific meesage in a conversation. When used, the WhatsApp UI will display the new message \nalong with a contextual bubble that displays the quoted/replied to message's content.\n"
+          type: object
+          required:
+          - message_uuid
+          properties:
+            message_uuid:
+              description: The UUID of the message being replied to/quoted.
+              type: string
+              example: a1b2c3d4a1b2c3d4
+  parameters:
+    device_id:
+      in: header
+      name: uniqueAppDeviceId
+      schema:
+        type: string
+      description: You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.
+      required: true
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+    id:
+      name: id
+      in: path
+      required: true
+      description: 'The identifier of the message you want '
+      schema:
+        type: integer
+    auth_string:
+      in: header
+      name: authString
+      schema:
+        type: string
+      description: The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)
+      required: false
+    message_application_id_header:
+      in: header
+      name: ApplicationId
+      schema:
+        type: string
+      required: true
+      description: UUID of the application
+      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
   responses:
-    forbidden:
-      description: forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    server_error:
-      description: server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    bad_request:
-      description: bad request
+    not_found:
+      description: not found
       content:
         application/json:
           schema:
@@ -1749,20 +1737,32 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
+    bad_request:
+      description: bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
     service_unavailable:
       description: service unavailable
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    not_found:
-      description: not found
+    unauthorized:
+      description: unauthorized
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    unauthorized:
-      description: unauthorized
+    server_error:
+      description: server error
       content:
         application/json:
           schema:

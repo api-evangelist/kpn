@@ -855,163 +855,6 @@ paths:
       - OAuth2: []
 components:
   schemas:
-    UserAdditionalInfo:
-      type: object
-      properties:
-        gripEntityId:
-          type: integer
-          format: int64
-        managedEntities:
-          type: array
-          items:
-            type: integer
-            format: int64
-        roles:
-          type: array
-          items:
-            type: integer
-            format: int64
-      title: UserAdditionalInfo
-    OperationState:
-      type: object
-      properties:
-        blocked:
-          type: boolean
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        reason:
-          type: string
-      title: OperationState
-    SubscriberDetails:
-      type: object
-      properties:
-        comments:
-          type: string
-        email:
-          type: string
-        employeeNumber:
-          type: string
-        firstName:
-          type: string
-        fixedNumber:
-          type: string
-        gender:
-          type: string
-          enum:
-          - MALE
-          - FEMALE
-          - OTHER
-        gripUser:
-          type: boolean
-        id:
-          type: integer
-          format: int64
-        location:
-          type: array
-          items:
-            type: string
-        mobileNumber:
-          type: string
-        path:
-          type: array
-          items:
-            $ref: '#/components/schemas/VirtualHierarchyItem'
-        preferredLanguage:
-          type: string
-          enum:
-          - EN
-          - NL
-        surname:
-          type: string
-        surnamePrefix:
-          type: string
-        user:
-          type: boolean
-        vip:
-          type: boolean
-      title: SubscriberDetails
-    MoveSubscriberRequestParams:
-      type: object
-      properties:
-        destinationGroupId:
-          type: integer
-          format: int64
-        referenceNumber:
-          type: string
-        wishDate:
-          type: string
-          format: date-time
-      title: MoveSubscriberRequestParams
-    PagedResult_Contract_:
-      type: object
-      properties:
-        result:
-          type: array
-          description: One page of result
-          items:
-            $ref: '#/components/schemas/Contract'
-        total:
-          type: integer
-          format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_Contract_
-      description: Paged list of elements
-    DeleteSubscriberRequestParams:
-      type: object
-      properties:
-        referenceNumber:
-          type: string
-      title: DeleteSubscriberRequestParams
-    ErrorResponse:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
-    CreateSubscriberRequestParams:
-      type: object
-      properties:
-        groupId:
-          type: integer
-          format: int64
-        referenceNumber:
-          type: string
-        subscriber:
-          $ref: '#/components/schemas/SubscriberDetailsRequestParams'
-        userAdditionalInfo:
-          $ref: '#/components/schemas/UserAdditionalInfo'
-      title: CreateSubscriberRequestParams
-    SubscriberOperationsAvailability:
-      type: object
-      properties:
-        editable:
-          $ref: '#/components/schemas/OperationEnabled'
-        movable:
-          $ref: '#/components/schemas/OperationEnabled'
-        removable:
-          $ref: '#/components/schemas/OperationEnabled'
-        rolesEditable:
-          $ref: '#/components/schemas/OperationEnabled'
-      title: SubscriberOperationsAvailability
     UpdateSubscriberRequestParams:
       type: object
       properties:
@@ -1020,52 +863,6 @@ components:
         subscriber:
           $ref: '#/components/schemas/SubscriberDetailsRequestParams'
       title: UpdateSubscriberRequestParams
-    OperationEnabled:
-      type: object
-      properties:
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        enabled:
-          type: boolean
-      title: OperationEnabled
-    BlockingOrder:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        kpnReference:
-          type: string
-        status:
-          type: string
-          enum:
-          - IN_PROGRESS
-          - UNAUTHORIZED
-          - NEW
-          - CLOSED
-          - CANCELED
-          - REJECTED
-          - DRAFT
-          - THIRD_PARTY
-          - HOLD_CUSTOMER
-          - WAITING
-        type:
-          type: string
-          enum:
-          - CONTRACTING
-          - SERVICE_REQUEST
-      title: BlockingOrder
-    SubscriberContracts:
-      type: object
-      properties:
-        amount:
-          type: integer
-          format: int32
-        firstPhoneNumber:
-          type: string
-      title: SubscriberContracts
     OrderSummary:
       type: object
       properties:
@@ -1099,45 +896,52 @@ components:
           - Rejected
           - ExternalScheduled
       title: OrderSummary
-    Contract:
+    SubscriberContracts:
       type: object
       properties:
-        category:
-          type: string
-        extension:
-          type: string
-        firstName:
-          type: string
-        fixedNumber:
-          type: string
-        id:
+        amount:
           type: integer
-          format: int64
-        imei:
+          format: int32
+        firstPhoneNumber:
           type: string
-        lastName:
+      title: SubscriberContracts
+    PagedResult_Subscriber_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Subscriber'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Subscriber_
+      description: Paged list of elements
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
           type: string
-        mobileNumber:
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
           type: string
-        namePrefix:
+          description: Status
+          title: Status
+        name:
           type: string
-        product:
-          $ref: '#/components/schemas/LocalizedString'
-        productCategory:
+          description: Error name
+          title: Error name
+        message:
           type: string
-        simCardNumber:
+          description: Error message
+          title: Error message
+        info:
           type: string
-        sipAccount:
-          type: string
-        state:
-          type: string
-          enum:
-          - ACTIVE
-          - CLOSED
-          - ORDERED
-          - PENDING
-          - BLOCKED
-      title: Contract
+          description: Additional information about error
+          title: Info
     VirtualHierarchyItem:
       type: object
       properties:
@@ -1221,6 +1025,162 @@ components:
         vip:
           type: boolean
       title: SubscriberDetailsRequestParams
+    DeleteSubscriberRequestParams:
+      type: object
+      properties:
+        referenceNumber:
+          type: string
+      title: DeleteSubscriberRequestParams
+    PagedResult_Contract_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Contract'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Contract_
+      description: Paged list of elements
+    BlockingOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        kpnReference:
+          type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
+          type: string
+          enum:
+          - CONTRACTING
+          - SERVICE_REQUEST
+      title: BlockingOrder
+    OperationEnabled:
+      type: object
+      properties:
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        enabled:
+          type: boolean
+      title: OperationEnabled
+    SubscriberOperationsAvailability:
+      type: object
+      properties:
+        editable:
+          $ref: '#/components/schemas/OperationEnabled'
+        movable:
+          $ref: '#/components/schemas/OperationEnabled'
+        removable:
+          $ref: '#/components/schemas/OperationEnabled'
+        rolesEditable:
+          $ref: '#/components/schemas/OperationEnabled'
+      title: SubscriberOperationsAvailability
+    CreateSubscriberRequestParams:
+      type: object
+      properties:
+        groupId:
+          type: integer
+          format: int64
+        referenceNumber:
+          type: string
+        subscriber:
+          $ref: '#/components/schemas/SubscriberDetailsRequestParams'
+        userAdditionalInfo:
+          $ref: '#/components/schemas/UserAdditionalInfo'
+      title: CreateSubscriberRequestParams
+    OperationState:
+      type: object
+      properties:
+        blocked:
+          type: boolean
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        reason:
+          type: string
+      title: OperationState
+    Contract:
+      type: object
+      properties:
+        category:
+          type: string
+        extension:
+          type: string
+        firstName:
+          type: string
+        fixedNumber:
+          type: string
+        id:
+          type: integer
+          format: int64
+        imei:
+          type: string
+        lastName:
+          type: string
+        mobileNumber:
+          type: string
+        namePrefix:
+          type: string
+        product:
+          $ref: '#/components/schemas/LocalizedString'
+        productCategory:
+          type: string
+        simCardNumber:
+          type: string
+        sipAccount:
+          type: string
+        state:
+          type: string
+          enum:
+          - ACTIVE
+          - CLOSED
+          - ORDERED
+          - PENDING
+          - BLOCKED
+      title: Contract
+    MoveSubscriberRequestParams:
+      type: object
+      properties:
+        destinationGroupId:
+          type: integer
+          format: int64
+        referenceNumber:
+          type: string
+        wishDate:
+          type: string
+          format: date-time
+      title: MoveSubscriberRequestParams
+    LocalizedString:
+      type: object
+      properties:
+        en:
+          type: string
+          description: English version
+        nl:
+          type: string
+          description: Dutch version
+      title: LocalizedString
+      description: Text with two language versions
     Subscriber:
       type: object
       properties:
@@ -1248,31 +1208,71 @@ components:
         user:
           type: boolean
       title: Subscriber
-    PagedResult_Subscriber_:
+    SubscriberDetails:
       type: object
       properties:
-        result:
-          type: array
-          description: One page of result
-          items:
-            $ref: '#/components/schemas/Subscriber'
-        total:
+        comments:
+          type: string
+        email:
+          type: string
+        employeeNumber:
+          type: string
+        firstName:
+          type: string
+        fixedNumber:
+          type: string
+        gender:
+          type: string
+          enum:
+          - MALE
+          - FEMALE
+          - OTHER
+        gripUser:
+          type: boolean
+        id:
           type: integer
-          format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_Subscriber_
-      description: Paged list of elements
-    LocalizedString:
+          format: int64
+        location:
+          type: array
+          items:
+            type: string
+        mobileNumber:
+          type: string
+        path:
+          type: array
+          items:
+            $ref: '#/components/schemas/VirtualHierarchyItem'
+        preferredLanguage:
+          type: string
+          enum:
+          - EN
+          - NL
+        surname:
+          type: string
+        surnamePrefix:
+          type: string
+        user:
+          type: boolean
+        vip:
+          type: boolean
+      title: SubscriberDetails
+    UserAdditionalInfo:
       type: object
       properties:
-        en:
-          type: string
-          description: English version
-        nl:
-          type: string
-          description: Dutch version
-      title: LocalizedString
-      description: Text with two language versions
+        gripEntityId:
+          type: integer
+          format: int64
+        managedEntities:
+          type: array
+          items:
+            type: integer
+            format: int64
+        roles:
+          type: array
+          items:
+            type: integer
+            format: int64
+      title: UserAdditionalInfo
   securitySchemes:
     OAuth2:
       type: oauth2

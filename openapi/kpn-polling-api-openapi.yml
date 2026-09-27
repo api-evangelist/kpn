@@ -70,6 +70,31 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    PollingResponse:
+      type: object
+      properties:
+        msisdn:
+          type: string
+          example: '31620028461'
+        device_match:
+          type:
+          - string
+          - 'null'
+          example: null
+        remote_addr:
+          type: string
+          example: 199.103.8.50
+        user_agent:
+          type: string
+          example: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              device_match:
+                type: string
+                example: AVAILABLE
     Error:
       type: object
       properties:
@@ -103,31 +128,6 @@ components:
           - Internal Server Error
           - Bad Gateway
           - Service Unavailable
-    PollingResponse:
-      type: object
-      properties:
-        msisdn:
-          type: string
-          example: '31620028461'
-        device_match:
-          type:
-          - string
-          - 'null'
-          example: null
-        remote_addr:
-          type: string
-          example: 199.103.8.50
-        user_agent:
-          type: string
-          example: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              device_match:
-                type: string
-                example: AVAILABLE
   securitySchemes:
     BearerAuth:
       type: http

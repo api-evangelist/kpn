@@ -83,18 +83,18 @@ components:
       description: API-version to use. Not provided uses latest
       example: v1
   responses:
-    jwt_created:
-      description: Ok
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/jwt_created'
     unauthorized:
       description: Unauthorized
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error401'
+    jwt_created:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/jwt_created'
   securitySchemes:
     oauth2:
       type: oauth2

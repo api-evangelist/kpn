@@ -98,6 +98,24 @@ paths:
                 $ref: '#/components/schemas/error'
 components:
   schemas:
+    UpdateTicket200Response:
+      type: object
+      properties:
+        code:
+          type: string
+          example: TechnicalEndpointSuccess
+        state:
+          type: string
+          example: updated
+        kpn_ticket_number:
+          type: string
+          example: INC#34567890
+        customer_reference_number:
+          type: string
+          example: INC01234567
+        note:
+          type: string
+          example: Incident INC#34567890 has been updated;
     error:
       type: object
       properties:
@@ -187,24 +205,6 @@ components:
                 type: string
                 description: Content_type of the attachment
                 example: text/plain
-    UpdateTicket200Response:
-      type: object
-      properties:
-        code:
-          type: string
-          example: TechnicalEndpointSuccess
-        state:
-          type: string
-          example: updated
-        kpn_ticket_number:
-          type: string
-          example: INC#34567890
-        customer_reference_number:
-          type: string
-          example: INC01234567
-        note:
-          type: string
-          example: Incident INC#34567890 has been updated;
   parameters:
     api_version:
       in: header

@@ -247,47 +247,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    resources:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-    updatefield:
-      type: object
-      properties:
-        field:
-          type: string
-        oldValue:
-          type: string
-        newValue:
-          type: string
-    error:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: Transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
     internaluser:
       properties:
         name:
@@ -316,51 +275,61 @@ components:
           type: string
         passwordIDStore:
           type: string
-  responses:
-    UpdatedFieldsList:
-      description: A successful delivery
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              UpdatedFieldsList:
-                type: object
-                properties:
-                  updatedField:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/updatefield'
-    endpointgroup:
-      description: A successful delivery
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              SearchResult:
-                type: object
-                properties:
-                  total:
-                    type: number
-                  resources:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/resources'
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    resources:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    updatefield:
+      type: object
+      properties:
+        field:
+          type: string
+        oldValue:
+          type: string
+        newValue:
+          type: string
   parameters:
-    filter:
-      in: query
-      name: filter
-      schema:
-        type: string
-      description: info
-      required: false
     api_version:
       in: header
       name: api-version
       schema:
         type: string
       description: API Version. If no version is provided it defaults to latest version.
+      required: false
+    filter:
+      in: query
+      name: filter
+      schema:
+        type: string
+      description: info
       required: false
     id:
       in: path
@@ -379,6 +348,37 @@ components:
             properties:
               internaluser:
                 $ref: '#/components/schemas/internaluser'
+  responses:
+    endpointgroup:
+      description: A successful delivery
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              SearchResult:
+                type: object
+                properties:
+                  total:
+                    type: number
+                  resources:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/resources'
+    UpdatedFieldsList:
+      description: A successful delivery
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              UpdatedFieldsList:
+                type: object
+                properties:
+                  updatedField:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/updatefield'
   securitySchemes:
     oauth2:
       type: oauth2

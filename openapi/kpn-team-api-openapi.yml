@@ -165,39 +165,6 @@ components:
               code: '404'
               message: Not Found
               info: https://developer.kpn.com/documentation-webhook-config
-    Unauthorized:
-      description: Unauthorized — missing or invalid Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '401'
-              message: Unauthorized
-              info: https://developer.kpn.com/getting-started
-    Forbidden:
-      description: Forbidden — your token does not have permission to access this resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '403'
-              message: Forbidden
-              info: https://developer.kpn.com/support
-    BadRequest:
-      description: Bad request — check your request body for missing or invalid fields.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '400'
-              message: Bad Request
-              info: https://developer.kpn.com/documentation-webhook-config
     InternalServerError:
       description: Internal server error.
       content:
@@ -209,6 +176,39 @@ components:
               code: '500'
               message: Internal Server Error
               info: https://developer.kpn.com/support
+    Forbidden:
+      description: Forbidden — your token does not have permission to access this resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '403'
+              message: Forbidden
+              info: https://developer.kpn.com/support
+    Unauthorized:
+      description: Unauthorized — missing or invalid Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '401'
+              message: Unauthorized
+              info: https://developer.kpn.com/getting-started
+    BadRequest:
+      description: Bad request — check your request body for missing or invalid fields.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '400'
+              message: Bad Request
+              info: https://developer.kpn.com/documentation-webhook-config
   schemas:
     PrivacyConfig:
       type: object
@@ -265,19 +265,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    TeamWebhookConfigRequest:
-      type: object
-      required:
-      - webhook_url
-      properties:
-        webhook_url:
-          type: string
-          format: uri
-          maxLength: 2048
-          description: HTTPS URL where KPN will POST outbound webhook notifications.
-          example: https://webhook.example.com/kpn/dlr
-        privacy_config:
-          $ref: '#/components/schemas/PrivacyConfig'
     ApiErrorResponse:
       type: object
       properties:
@@ -296,6 +283,19 @@ components:
               type: string
               description: URL to relevant documentation or support page.
               example: https://developer.kpn.com/documentation-webhook-config
+    TeamWebhookConfigRequest:
+      type: object
+      required:
+      - webhook_url
+      properties:
+        webhook_url:
+          type: string
+          format: uri
+          maxLength: 2048
+          description: HTTPS URL where KPN will POST outbound webhook notifications.
+          example: https://webhook.example.com/kpn/dlr
+        privacy_config:
+          $ref: '#/components/schemas/PrivacyConfig'
   securitySchemes:
     OAuth2:
       type: oauth2

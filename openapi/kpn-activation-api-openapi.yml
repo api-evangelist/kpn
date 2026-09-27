@@ -105,6 +105,24 @@ paths:
       deprecated: false
 components:
   schemas:
+    ActivationResp:
+      title: ActivationRequest
+      type: object
+      properties:
+        status:
+          type: string
+          description: Activation Response
+    ActivationReq:
+      title: ActivationResponse
+      type: object
+      properties:
+        thingpark_username:
+          type: string
+          description: Username.
+        thingpark_password:
+          type: string
+          description: Password
+      description: Thingpark Activation Credentials
     error:
       type: object
       properties:
@@ -128,24 +146,6 @@ components:
           type: string
           description: Additional information about error
           title: Info
-    ActivationReq:
-      title: ActivationResponse
-      type: object
-      properties:
-        thingpark_username:
-          type: string
-          description: Username.
-        thingpark_password:
-          type: string
-          description: Password
-      description: Thingpark Activation Credentials
-    ActivationResp:
-      title: ActivationRequest
-      type: object
-      properties:
-        status:
-          type: string
-          description: Activation Response
   parameters:
     api_version:
       in: header
