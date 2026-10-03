@@ -804,6 +804,82 @@ paths:
         required: true
 components:
   schemas:
+    LinkSubscriberToGripRequestParams:
+      type: object
+      properties:
+        email:
+          type: string
+        fixedNumber:
+          type: string
+          description: Should apply to format 31XXXYYYZZZ or 0XXXYYYZZZ
+        gripEntityId:
+          type: integer
+          format: int64
+        managedEntities:
+          type: array
+          items:
+            type: integer
+            format: int64
+        mobileNumber:
+          type: string
+          description: Should apply to format 316XXXYYYZZ or 06XXXYYYZZ
+        referenceNumber:
+          type: string
+        roles:
+          type: array
+          items:
+            type: integer
+            format: int64
+        subscriberId:
+          type: integer
+          format: int64
+      title: LinkSubscriberToGripRequestParams
+    GripEntity:
+      type: object
+      properties:
+        email:
+          type: string
+        employeeNumber:
+          type: string
+        firstName:
+          type: string
+        fixedNumber:
+          type: string
+        gender:
+          type: string
+          enum:
+          - MALE
+          - FEMALE
+          - OTHER
+        id:
+          type: integer
+          format: int64
+        mobileNumber:
+          type: string
+        preferredLanguage:
+          type: string
+          enum:
+          - EN
+          - NL
+        surname:
+          type: string
+        userName:
+          type: string
+      title: GripEntity
+    PagedResult_Role_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Role'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Role_
+      description: Paged list of elements
     BlockingOrder:
       type: object
       properties:
@@ -912,84 +988,6 @@ components:
           - CUSTOM_GROUP
           - BUSINESS_LOCATION
       title: VirtualHierarchyItem
-    ManagedGroupAssignmentParams:
-      type: object
-      properties:
-        groupIds:
-          type: array
-          items:
-            type: integer
-            format: int64
-      title: ManagedGroupAssignmentParams
-    LinkSubscriberToGripRequestParams:
-      type: object
-      properties:
-        email:
-          type: string
-        fixedNumber:
-          type: string
-          description: Should apply to format 31XXXYYYZZZ or 0XXXYYYZZZ
-        gripEntityId:
-          type: integer
-          format: int64
-        managedEntities:
-          type: array
-          items:
-            type: integer
-            format: int64
-        mobileNumber:
-          type: string
-          description: Should apply to format 316XXXYYYZZ or 06XXXYYYZZ
-        referenceNumber:
-          type: string
-        roles:
-          type: array
-          items:
-            type: integer
-            format: int64
-        subscriberId:
-          type: integer
-          format: int64
-      title: LinkSubscriberToGripRequestParams
-    PagedResult_Role_:
-      type: object
-      properties:
-        result:
-          type: array
-          description: One page of result
-          items:
-            $ref: '#/components/schemas/Role'
-        total:
-          type: integer
-          format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_Role_
-      description: Paged list of elements
-    Role:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        selected:
-          type: boolean
-      title: Role
-    EditRolesRequest:
-      type: object
-      properties:
-        rolesToAdd:
-          type: array
-          items:
-            type: integer
-            format: int64
-        rolesToRemove:
-          type: array
-          items:
-            type: integer
-            format: int64
-      title: EditRolesRequest
     ErrorResponse:
       type: object
       properties:
@@ -1013,38 +1011,40 @@ components:
           type: string
           description: Additional information about error
           title: Info
-    GripEntity:
+    EditRolesRequest:
       type: object
       properties:
-        email:
-          type: string
-        employeeNumber:
-          type: string
-        firstName:
-          type: string
-        fixedNumber:
-          type: string
-        gender:
-          type: string
-          enum:
-          - MALE
-          - FEMALE
-          - OTHER
+        rolesToAdd:
+          type: array
+          items:
+            type: integer
+            format: int64
+        rolesToRemove:
+          type: array
+          items:
+            type: integer
+            format: int64
+      title: EditRolesRequest
+    Role:
+      type: object
+      properties:
         id:
           type: integer
           format: int64
-        mobileNumber:
+        name:
           type: string
-        preferredLanguage:
-          type: string
-          enum:
-          - EN
-          - NL
-        surname:
-          type: string
-        userName:
-          type: string
-      title: GripEntity
+        selected:
+          type: boolean
+      title: Role
+    ManagedGroupAssignmentParams:
+      type: object
+      properties:
+        groupIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+      title: ManagedGroupAssignmentParams
   securitySchemes:
     OAuth2:
       type: oauth2

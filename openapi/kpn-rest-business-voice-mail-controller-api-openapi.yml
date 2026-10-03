@@ -243,45 +243,6 @@ paths:
               - subscriptionsFile
 components:
   schemas:
-    BlockingOrder:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        kpnReference:
-          type: string
-        status:
-          type: string
-          enum:
-          - IN_PROGRESS
-          - UNAUTHORIZED
-          - NEW
-          - CLOSED
-          - CANCELED
-          - REJECTED
-          - DRAFT
-          - THIRD_PARTY
-          - HOLD_CUSTOMER
-          - WAITING
-        type:
-          type: string
-          enum:
-          - CONTRACTING
-          - SERVICE_REQUEST
-      title: BlockingOrder
-    OperationAvailability:
-      type: object
-      properties:
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        enabled:
-          type: boolean
-        visible:
-          type: boolean
-      title: OperationAvailability
     OrderSummary:
       type: object
       properties:
@@ -338,6 +299,45 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    BlockingOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        kpnReference:
+          type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
+          type: string
+          enum:
+          - CONTRACTING
+          - SERVICE_REQUEST
+      title: BlockingOrder
+    OperationAvailability:
+      type: object
+      properties:
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OperationAvailability
   securitySchemes:
     OAuth2:
       type: oauth2

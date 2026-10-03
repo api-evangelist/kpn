@@ -149,17 +149,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    SendSMSResponse:
-      type: object
-      properties:
-        message-count:
-          type: integer
-          description: The amount of messages in the request
-          example: 1
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/SendSMSResponseMessage'
     SendSMSResponseMessage:
       type: object
       properties:
@@ -202,6 +191,17 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    SendSMSResponse:
+      type: object
+      properties:
+        message-count:
+          type: integer
+          description: The amount of messages in the request
+          example: 1
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/SendSMSResponseMessage'
   securitySchemes:
     OAuth2:
       type: oauth2

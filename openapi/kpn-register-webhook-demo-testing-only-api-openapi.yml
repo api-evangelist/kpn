@@ -93,13 +93,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    RegisterWebhookResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: response message
-          example: Your callback url is registered.
     ErrorResponse:
       type: object
       properties:
@@ -123,6 +116,13 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    RegisterWebhookResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: response message
+          example: Your callback url is registered.
   securitySchemes:
     OAuth2:
       type: oauth2

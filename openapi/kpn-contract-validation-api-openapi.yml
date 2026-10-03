@@ -79,13 +79,6 @@ components:
         type:
           type: string
       additionalProperties: {}
-    ContractValidationResponse:
-      type: object
-      required:
-      - allowed
-      properties:
-        allowed:
-          type: boolean
     ContractValidationRequest:
       type: object
       required:
@@ -108,6 +101,13 @@ components:
           type: string
         resource_type:
           type: string
+    ContractValidationResponse:
+      type: object
+      required:
+      - allowed
+      properties:
+        allowed:
+          type: boolean
   securitySchemes:
     bearer_auth:
       type: http

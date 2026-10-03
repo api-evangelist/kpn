@@ -246,7 +246,52 @@ paths:
       operationId: deleteInternaluser
       x-operation-id-source: derived
 components:
+  parameters:
+    id:
+      in: path
+      name: id
+      schema:
+        type: string
+      description: info
+      required: true
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+    filter:
+      in: query
+      name: filter
+      schema:
+        type: string
+      description: info
+      required: false
   schemas:
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
     internaluser:
       properties:
         name:
@@ -275,29 +320,6 @@ components:
           type: string
         passwordIDStore:
           type: string
-    error:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: Transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
     resources:
       type: object
       properties:
@@ -316,28 +338,6 @@ components:
           type: string
         newValue:
           type: string
-  parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
-    filter:
-      in: query
-      name: filter
-      schema:
-        type: string
-      description: info
-      required: false
-    id:
-      in: path
-      name: id
-      schema:
-        type: string
-      description: info
-      required: true
   requestBodies:
     internaluser:
       required: true

@@ -283,24 +283,29 @@ components:
         reason:
           type: string
       title: OperationState
-    TemplateItem:
+    TemplateDetailsWithLocations:
       type: object
       properties:
+        customerLevel:
+          type: boolean
+        id:
+          type: integer
+          format: int64
         items:
           type: array
           items:
             $ref: '#/components/schemas/TemplateItem'
-        option:
+        locations:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/VirtualHierarchyItem'
+        name:
           type: string
-          enum:
-          - NOT_AVAILABLE
-          - AVAILABLE
-          - DEFAULT_DESELECTED
-          - DEFAULT_SELECTED
-          - REQUIRED
-        productName:
-          $ref: '#/components/schemas/LocalizedString'
-      title: TemplateItem
+        valid:
+          type: boolean
+      title: TemplateDetailsWithLocations
     VirtualHierarchyItem:
       type: object
       properties:
@@ -348,6 +353,24 @@ components:
           description: Dutch version
       title: LocalizedString
       description: Text with two language versions
+    TemplateItem:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateItem'
+        option:
+          type: string
+          enum:
+          - NOT_AVAILABLE
+          - AVAILABLE
+          - DEFAULT_DESELECTED
+          - DEFAULT_SELECTED
+          - REQUIRED
+        productName:
+          $ref: '#/components/schemas/LocalizedString'
+      title: TemplateItem
     TemplateOverview:
       type: object
       properties:
@@ -361,29 +384,6 @@ components:
         valid:
           type: boolean
       title: TemplateOverview
-    TemplateDetailsWithLocations:
-      type: object
-      properties:
-        customerLevel:
-          type: boolean
-        id:
-          type: integer
-          format: int64
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/TemplateItem'
-        locations:
-          type: array
-          items:
-            type: array
-            items:
-              $ref: '#/components/schemas/VirtualHierarchyItem'
-        name:
-          type: string
-        valid:
-          type: boolean
-      title: TemplateDetailsWithLocations
     ErrorResponse:
       type: object
       properties:

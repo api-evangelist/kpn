@@ -683,19 +683,51 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    FixedNumberPresentation:
+    ContractItem:
       type: object
       properties:
-        description:
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractItem'
+        citemBsId:
+          type: integer
+          format: int64
+        contractId:
+          type: integer
+          format: int64
+        id:
+          type: integer
+          format: int64
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        productBsId:
+          type: integer
+          format: int64
+        tariffPlanVariantBsId:
+          type: integer
+          format: int64
+      title: ContractItem
+    ContractForOperation:
+      type: object
+      properties:
+        firstName:
           type: string
-          enum:
-          - ORGANISATION
-          - FIXED_NUMBER
-          - HUNTGROUP
-          - CALL_CENTER
-        number:
+        fixedNumber:
           type: string
-      title: FixedNumberPresentation
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        mobileNumber:
+          type: string
+        namePrefix:
+          type: string
+        operation:
+          description: Information if combination is possible and eventualy reason why it is not
+          $ref: '#/components/schemas/OperationState'
+      title: ContractForOperation
     BlockingOrder:
       type: object
       properties:
@@ -735,6 +767,20 @@ components:
         reason:
           type: string
       title: OperationState
+    PagedResult_Contract_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Contract'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Contract_
+      description: Paged list of elements
     Contract:
       type: object
       properties:
@@ -774,6 +820,101 @@ components:
           - PENDING
           - BLOCKED
       title: Contract
+    LocalizedString:
+      type: object
+      properties:
+        en:
+          type: string
+          description: English version
+        nl:
+          type: string
+          description: Dutch version
+      title: LocalizedString
+      description: Text with two language versions
+    FixedNumberPresentation:
+      type: object
+      properties:
+        description:
+          type: string
+          enum:
+          - ORGANISATION
+          - FIXED_NUMBER
+          - HUNTGROUP
+          - CALL_CENTER
+        number:
+          type: string
+      title: FixedNumberPresentation
+    FlexibleNumberPresentation:
+      type: object
+      properties:
+        defaultNumber:
+          type: string
+        fixedNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/FixedNumberPresentation'
+        mobileNumberPresentation:
+          type: boolean
+      title: FlexibleNumberPresentation
+    VirtualHierarchyItem:
+      type: object
+      properties:
+        costCenterNumber:
+          type: string
+        email:
+          type: string
+        employeeNumber:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        name:
+          type: string
+        operation:
+          $ref: '#/components/schemas/OperationState'
+        path:
+          type: array
+          items:
+            $ref: '#/components/schemas/VirtualHierarchyItem'
+        prefix:
+          type: string
+        type:
+          type: string
+          enum:
+          - CUSTOMER
+          - DEBTOR
+          - SUBSCRIBER
+          - COST_CENTER
+          - CUSTOM_GROUP
+          - BUSINESS_LOCATION
+      title: VirtualHierarchyItem
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
     ContractDetails:
       type: object
       properties:
@@ -848,65 +989,6 @@ components:
         userPrincipalName:
           type: string
       title: ContractDetails
-    VirtualHierarchyItem:
-      type: object
-      properties:
-        costCenterNumber:
-          type: string
-        email:
-          type: string
-        employeeNumber:
-          type: string
-        firstName:
-          type: string
-        id:
-          type: integer
-          format: int64
-        lastName:
-          type: string
-        name:
-          type: string
-        operation:
-          $ref: '#/components/schemas/OperationState'
-        path:
-          type: array
-          items:
-            $ref: '#/components/schemas/VirtualHierarchyItem'
-        prefix:
-          type: string
-        type:
-          type: string
-          enum:
-          - CUSTOMER
-          - DEBTOR
-          - SUBSCRIBER
-          - COST_CENTER
-          - CUSTOM_GROUP
-          - BUSINESS_LOCATION
-      title: VirtualHierarchyItem
-    FlexibleNumberPresentation:
-      type: object
-      properties:
-        defaultNumber:
-          type: string
-        fixedNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/FixedNumberPresentation'
-        mobileNumberPresentation:
-          type: boolean
-      title: FlexibleNumberPresentation
-    LocalizedString:
-      type: object
-      properties:
-        en:
-          type: string
-          description: English version
-        nl:
-          type: string
-          description: Dutch version
-      title: LocalizedString
-      description: Text with two language versions
     PagedResult_ContractForOperation_:
       type: object
       properties:
@@ -921,88 +1003,6 @@ components:
           description: Total number of all elements in collection
       title: PagedResult_ContractForOperation_
       description: Paged list of elements
-    ContractItem:
-      type: object
-      properties:
-        children:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractItem'
-        citemBsId:
-          type: integer
-          format: int64
-        contractId:
-          type: integer
-          format: int64
-        id:
-          type: integer
-          format: int64
-        name:
-          $ref: '#/components/schemas/LocalizedString'
-        productBsId:
-          type: integer
-          format: int64
-        tariffPlanVariantBsId:
-          type: integer
-          format: int64
-      title: ContractItem
-    PagedResult_Contract_:
-      type: object
-      properties:
-        result:
-          type: array
-          description: One page of result
-          items:
-            $ref: '#/components/schemas/Contract'
-        total:
-          type: integer
-          format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_Contract_
-      description: Paged list of elements
-    ContractForOperation:
-      type: object
-      properties:
-        firstName:
-          type: string
-        fixedNumber:
-          type: string
-        id:
-          type: integer
-          format: int64
-        lastName:
-          type: string
-        mobileNumber:
-          type: string
-        namePrefix:
-          type: string
-        operation:
-          description: Information if combination is possible and eventualy reason why it is not
-          $ref: '#/components/schemas/OperationState'
-      title: ContractForOperation
-    ErrorResponse:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
   securitySchemes:
     OAuth2:
       type: oauth2

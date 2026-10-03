@@ -534,6 +534,38 @@ paths:
         required: true
 components:
   schemas:
+    ReplaceSimRequest:
+      type: object
+      properties:
+        confirmationCode:
+          type: string
+        contractId:
+          type: integer
+          format: int64
+        email:
+          type: string
+        esim:
+          type: boolean
+        newSimCardNumber:
+          type: string
+        referenceNumber:
+          type: string
+        wishDate:
+          type: string
+          format: date-time
+      title: ReplaceSimRequest
+    OperationAvailability:
+      type: object
+      properties:
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OperationAvailability
     BlockingOrder:
       type: object
       properties:
@@ -561,23 +593,38 @@ components:
           - CONTRACTING
           - SERVICE_REQUEST
       title: BlockingOrder
-    MoveContractRequest:
+    OperationsAvailability:
       type: object
       properties:
+        blockSim:
+          $ref: '#/components/schemas/OperationAvailability'
+        combineFixedMobile:
+          $ref: '#/components/schemas/OperationAvailability'
         contractId:
           type: integer
           format: int64
-        destinationGroupId:
+        modify:
+          $ref: '#/components/schemas/OperationAvailability'
+        move:
+          $ref: '#/components/schemas/OperationAvailability'
+        portOut:
+          $ref: '#/components/schemas/OperationAvailability'
+        replaceSim:
+          $ref: '#/components/schemas/OperationAvailability'
+        separateFixedMobile:
+          $ref: '#/components/schemas/OperationAvailability'
+        terminate:
+          $ref: '#/components/schemas/OperationAvailability'
+        unblockSim:
+          $ref: '#/components/schemas/OperationAvailability'
+      title: OperationsAvailability
+    AuthorizeRequest:
+      type: object
+      properties:
+        orderId:
           type: integer
           format: int64
-        moveAddonBundles:
-          type: boolean
-        referenceNumber:
-          type: string
-        wishDate:
-          type: string
-          format: date-time
-      title: MoveContractRequest
+      title: AuthorizeRequest
     OrderSummary:
       type: object
       properties:
@@ -611,43 +658,23 @@ components:
           - Rejected
           - ExternalScheduled
       title: OrderSummary
-    PortingOutRequest:
+    MoveContractRequest:
       type: object
       properties:
         contractId:
           type: integer
           format: int64
+        destinationGroupId:
+          type: integer
+          format: int64
+        moveAddonBundles:
+          type: boolean
         referenceNumber:
           type: string
         wishDate:
           type: string
           format: date-time
-      title: PortingOutRequest
-    OperationsAvailability:
-      type: object
-      properties:
-        blockSim:
-          $ref: '#/components/schemas/OperationAvailability'
-        combineFixedMobile:
-          $ref: '#/components/schemas/OperationAvailability'
-        contractId:
-          type: integer
-          format: int64
-        modify:
-          $ref: '#/components/schemas/OperationAvailability'
-        move:
-          $ref: '#/components/schemas/OperationAvailability'
-        portOut:
-          $ref: '#/components/schemas/OperationAvailability'
-        replaceSim:
-          $ref: '#/components/schemas/OperationAvailability'
-        separateFixedMobile:
-          $ref: '#/components/schemas/OperationAvailability'
-        terminate:
-          $ref: '#/components/schemas/OperationAvailability'
-        unblockSim:
-          $ref: '#/components/schemas/OperationAvailability'
-      title: OperationsAvailability
+      title: MoveContractRequest
     UiccidValidationData:
       type: object
       properties:
@@ -657,45 +684,29 @@ components:
         newSimCardNumber:
           type: string
       title: UiccidValidationData
-    ReplaceSimRequest:
+    ErrorResponse:
       type: object
       properties:
-        confirmationCode:
+        transactionId:
           type: string
-        contractId:
-          type: integer
-          format: int64
-        email:
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
           type: string
-        esim:
-          type: boolean
-        newSimCardNumber:
+          description: Status
+          title: Status
+        name:
           type: string
-        referenceNumber:
+          description: Error name
+          title: Error name
+        message:
           type: string
-        wishDate:
+          description: Error message
+          title: Error message
+        info:
           type: string
-          format: date-time
-      title: ReplaceSimRequest
-    AuthorizeRequest:
-      type: object
-      properties:
-        orderId:
-          type: integer
-          format: int64
-      title: AuthorizeRequest
-    OperationAvailability:
-      type: object
-      properties:
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        enabled:
-          type: boolean
-        visible:
-          type: boolean
-      title: OperationAvailability
+          description: Additional information about error
+          title: Info
     ReturnHardwareRequest:
       type: object
       properties:
@@ -722,29 +733,18 @@ components:
         remarks:
           type: string
       title: ReturnHardwareRequest
-    ErrorResponse:
+    PortingOutRequest:
       type: object
       properties:
-        transactionId:
+        contractId:
+          type: integer
+          format: int64
+        referenceNumber:
           type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
+        wishDate:
           type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
+          format: date-time
+      title: PortingOutRequest
   securitySchemes:
     OAuth2:
       type: oauth2

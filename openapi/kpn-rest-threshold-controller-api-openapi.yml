@@ -1015,6 +1015,34 @@ components:
         enabled:
           type: boolean
       title: OperationEnabled
+    UnassignContractsFromThresholdRequestParams:
+      type: object
+      properties:
+        contractsIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+      title: UnassignContractsFromThresholdRequestParams
+    RemoveThresholdParams:
+      type: object
+      properties:
+        thresholdIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+      title: RemoveThresholdParams
+    ThresholdDetails:
+      type: object
+      properties:
+        changeType:
+          $ref: '#/components/schemas/OperationEnabled'
+        delete:
+          $ref: '#/components/schemas/OperationEnabled'
+        threshold:
+          $ref: '#/components/schemas/Threshold'
+      title: ThresholdDetails
     BlockingOrder:
       type: object
       properties:
@@ -1042,6 +1070,51 @@ components:
           - CONTRACTING
           - SERVICE_REQUEST
       title: BlockingOrder
+    Threshold:
+      type: object
+      properties:
+        dailyValue:
+          type: number
+          format: float
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - DATA_NATIONAL_MB
+          - DATA_ROAMING_MB
+          - VOICE_NATIONAL_MIN
+          - VOICE_ROAMING_EUR
+      title: Threshold
+    PagedResult_Contract_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Contract'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Contract_
+      description: Paged list of elements
+    OperationAvailability1:
+      type: object
+      properties:
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OperationAvailability
     Contract:
       type: object
       properties:
@@ -1097,27 +1170,6 @@ components:
           - DATA_NATIONAL_MB
           - DATA_ROAMING_MB
       title: ThresholdRequestParams
-    AssignContractsToThresholdRequestParams:
-      type: object
-      properties:
-        contractsIds:
-          type: array
-          items:
-            type: integer
-            format: int64
-      title: AssignContractsToThresholdRequestParams
-    OperationAvailability1:
-      type: object
-      properties:
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        enabled:
-          type: boolean
-        visible:
-          type: boolean
-      title: OperationAvailability
     LocalizedString:
       type: object
       properties:
@@ -1129,16 +1181,7 @@ components:
           description: Dutch version
       title: LocalizedString
       description: Text with two language versions
-    RemoveThresholdParams:
-      type: object
-      properties:
-        thresholdIds:
-          type: array
-          items:
-            type: integer
-            format: int64
-      title: RemoveThresholdParams
-    UnassignContractsFromThresholdRequestParams:
+    AssignContractsToThresholdRequestParams:
       type: object
       properties:
         contractsIds:
@@ -1146,31 +1189,7 @@ components:
           items:
             type: integer
             format: int64
-      title: UnassignContractsFromThresholdRequestParams
-    PagedResult_Contract_:
-      type: object
-      properties:
-        result:
-          type: array
-          description: One page of result
-          items:
-            $ref: '#/components/schemas/Contract'
-        total:
-          type: integer
-          format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_Contract_
-      description: Paged list of elements
-    ThresholdDetails:
-      type: object
-      properties:
-        changeType:
-          $ref: '#/components/schemas/OperationEnabled'
-        delete:
-          $ref: '#/components/schemas/OperationEnabled'
-        threshold:
-          $ref: '#/components/schemas/Threshold'
-      title: ThresholdDetails
+      title: AssignContractsToThresholdRequestParams
     ErrorResponse:
       type: object
       properties:
@@ -1194,25 +1213,6 @@ components:
           type: string
           description: Additional information about error
           title: Info
-    Threshold:
-      type: object
-      properties:
-        dailyValue:
-          type: number
-          format: float
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        type:
-          type: string
-          enum:
-          - DATA_NATIONAL_MB
-          - DATA_ROAMING_MB
-          - VOICE_NATIONAL_MIN
-          - VOICE_ROAMING_EUR
-      title: Threshold
   securitySchemes:
     OAuth2:
       type: oauth2

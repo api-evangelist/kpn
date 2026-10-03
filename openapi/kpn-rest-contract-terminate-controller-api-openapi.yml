@@ -260,25 +260,6 @@ paths:
       - OAuth2: []
 components:
   schemas:
-    TerminateContractRequest:
-      type: object
-      properties:
-        contractId:
-          type: integer
-          format: int64
-        referenceNumber:
-          type: string
-        wishDate:
-          type: string
-          format: date-time
-      title: TerminateContractRequest
-    TerminationFee:
-      type: object
-      properties:
-        terminationFeeInCents:
-          type: integer
-          format: int32
-      title: TerminationFee
     OrderSummary:
       type: object
       properties:
@@ -335,6 +316,25 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    TerminationFee:
+      type: object
+      properties:
+        terminationFeeInCents:
+          type: integer
+          format: int32
+      title: TerminationFee
+    TerminateContractRequest:
+      type: object
+      properties:
+        contractId:
+          type: integer
+          format: int64
+        referenceNumber:
+          type: string
+        wishDate:
+          type: string
+          format: date-time
+      title: TerminateContractRequest
   securitySchemes:
     OAuth2:
       type: oauth2

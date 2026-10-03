@@ -63,26 +63,6 @@ paths:
       x-summary-source: derived
 components:
   responses:
-    Generic400:
-      description: Problem with the client request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 400
-            code: INVALID_ARGUMENT
-            message: Client specified an invalid argument, request body or query param
-    Generic504:
-      description: Request time exceeded. If it happens repeatedly, consider reducing the request complexity
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 504
-            code: TIMEOUT
-            message: Request timeout exceeded. Try later
     Generic404:
       description: Resource Not Found
       content:
@@ -93,6 +73,26 @@ components:
             status: 404
             code: SIM_SWAP.UNKNOWN_PHONE_NUMBER
             message: SIM Swap can't be checked because the phone number is unknown
+    Generic503:
+      description: Service unavailable. Typically the server is down
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 503
+            code: UNAVAILABLE
+            message: Service unavailable
+    Generic409:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 409
+            code: CONFLICT
+            message: Another request is created for the same MSISDN
     Generic401:
       description: Authentication problem with the client request
       content:
@@ -113,16 +113,16 @@ components:
             status: 500
             code: INTERNAL
             message: Server error
-    Generic409:
-      description: Conflict
+    Generic400:
+      description: Problem with the client request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorInfo'
           example:
-            status: 409
-            code: CONFLICT
-            message: Another request is created for the same MSISDN
+            status: 400
+            code: INVALID_ARGUMENT
+            message: Client specified an invalid argument, request body or query param
     Generic403:
       description: Client does not have sufficient permission
       content:
@@ -140,34 +140,17 @@ components:
                 status: 403
                 code: INVALID_TOKEN_CONTEXT
                 message: Phone number cannot be deducted from access token context
-    Generic503:
-      description: Service unavailable. Typically the server is down
+    Generic504:
+      description: Request time exceeded. If it happens repeatedly, consider reducing the request complexity
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorInfo'
           example:
-            status: 503
-            code: UNAVAILABLE
-            message: Service unavailable
+            status: 504
+            code: TIMEOUT
+            message: Request timeout exceeded. Try later
   schemas:
-    CreateSimSwapDate:
-      type: object
-      properties:
-        phoneNumber:
-          $ref: '#/components/schemas/PhoneNumber'
-    PhoneNumber:
-      type: string
-      pattern: ^\+[1-9][0-9]{4,14}$
-      example: '+31600000000'
-      description: A public identifier addressing a telephone subscription. In mobile networks it corresponds to the MSISDN (Mobile Station International Subscriber Directory Number). In order to be globally unique it has to be formatted in international format, according to E.164 standard, prefixed with '+'.
-    SimSwapInfo:
-      type: object
-      properties:
-        latestSimChange:
-          type: string
-          format: date-time
-          description: Timestamp of latest SIM swap performed. It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone. Recommended format is yyyy-MM-dd'T'HH:mm:ss.SSSZ (i.e. which allows 2023-07-03T14:27:08.312+02:00 or 2023-07-03T12:27:08.312Z)
     ErrorInfo:
       type: object
       required:
@@ -184,6 +167,23 @@ components:
         message:
           type: string
           description: Detailed error description
+    SimSwapInfo:
+      type: object
+      properties:
+        latestSimChange:
+          type: string
+          format: date-time
+          description: Timestamp of latest SIM swap performed. It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone. Recommended format is yyyy-MM-dd'T'HH:mm:ss.SSSZ (i.e. which allows 2023-07-03T14:27:08.312+02:00 or 2023-07-03T12:27:08.312Z)
+    CreateSimSwapDate:
+      type: object
+      properties:
+        phoneNumber:
+          $ref: '#/components/schemas/PhoneNumber'
+    PhoneNumber:
+      type: string
+      pattern: ^\+[1-9][0-9]{4,14}$
+      example: '+31600000000'
+      description: A public identifier addressing a telephone subscription. In mobile networks it corresponds to the MSISDN (Mobile Station International Subscriber Directory Number). In order to be globally unique it has to be formatted in international format, according to E.164 standard, prefixed with '+'.
   securitySchemes:
     oauth2:
       type: oauth2

@@ -135,15 +135,17 @@ paths:
       operationId: getJobByJobId
       x-operation-id-source: derived
 components:
+  parameters:
+    job_id:
+      in: path
+      name: Job ID
+      schema:
+        type: string
+      required: true
+      description: ID of job to show
   responses:
-    bad_request:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    request_entity_too_large:
-      description: Request entity too large
+    not_found:
+      description: Not found
       content:
         application/json:
           schema:
@@ -154,14 +156,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    server_error:
-      description: Server error
+    request_entity_too_large:
+      description: Request entity too large
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    not_found:
-      description: Not found
+    bad_request:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: Server error
       content:
         application/json:
           schema:
@@ -190,14 +198,6 @@ components:
           type: string
           description: Additional information about error.
           title: Info
-  parameters:
-    job_id:
-      in: path
-      name: Job ID
-      schema:
-        type: string
-      required: true
-      description: ID of job to show
   securitySchemes:
     oauth2:
       type: oauth2

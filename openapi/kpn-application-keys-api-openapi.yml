@@ -206,6 +206,62 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  responses:
+    InternalServerError:
+      description: Internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '500'
+              message: Internal Server Error
+              info: https://developer.kpn.com/support
+    Unauthorized:
+      description: Unauthorized — missing or invalid Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '401'
+              message: Unauthorized
+              info: https://developer.kpn.com/getting-started
+    BadRequest:
+      description: Bad request — check your request body for missing or invalid fields.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '400'
+              message: Bad Request
+              info: https://developer.kpn.com/documentation-webhook-signing-keys
+    NotFound:
+      description: Not found — the requested key does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '404'
+              message: Not Found
+              info: https://developer.kpn.com/documentation-webhook-signing-keys
+    Forbidden:
+      description: Forbidden — your token does not have permission to access this resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '403'
+              message: Forbidden
+              info: https://developer.kpn.com/support
   schemas:
     SigningKeyResponse:
       type: object
@@ -222,6 +278,30 @@ components:
           - retiring
           - retired
           description: Current lifecycle state of the key.
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    SigningKeyRevealResponse:
+      type: object
+      description: 'Contains the decrypted plaintext secret for the active signing key.
+
+        **Treat this like a password** — do not log or expose it.
+
+        '
+      properties:
+        key_id:
+          type: string
+          example: wk_2C6EDCDFDFD944F3A75D0D36
+        secret:
+          type: string
+          description: Plaintext HMAC-SHA256 shared secret. Configure your receiver with this value.
+        status:
+          type: string
+          enum:
+          - active
         created_at:
           type: string
           format: date-time
@@ -267,30 +347,6 @@ components:
             update your receiver first, then activate the key.
 
             '
-    SigningKeyRevealResponse:
-      type: object
-      description: 'Contains the decrypted plaintext secret for the active signing key.
-
-        **Treat this like a password** — do not log or expose it.
-
-        '
-      properties:
-        key_id:
-          type: string
-          example: wk_2C6EDCDFDFD944F3A75D0D36
-        secret:
-          type: string
-          description: Plaintext HMAC-SHA256 shared secret. Configure your receiver with this value.
-        status:
-          type: string
-          enum:
-          - active
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
     ApiErrorResponse:
       type: object
       properties:
@@ -307,63 +363,15 @@ components:
             info:
               type: string
               description: URL to relevant documentation or support page.
-  responses:
-    NotFound:
-      description: Not found — the requested key does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '404'
-              message: Not Found
-              info: https://developer.kpn.com/documentation-webhook-signing-keys
-    InternalServerError:
-      description: Internal server error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '500'
-              message: Internal Server Error
-              info: https://developer.kpn.com/support
-    Forbidden:
-      description: Forbidden — your token does not have permission to access this resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '403'
-              message: Forbidden
-              info: https://developer.kpn.com/support
-    Unauthorized:
-      description: Unauthorized — missing or invalid Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '401'
-              message: Unauthorized
-              info: https://developer.kpn.com/getting-started
-    BadRequest:
-      description: Bad request — check your request body for missing or invalid fields.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '400'
-              message: Bad Request
-              info: https://developer.kpn.com/documentation-webhook-signing-keys
   parameters:
+    KeyId:
+      in: path
+      name: key_id
+      required: true
+      schema:
+        type: string
+      description: The `key_id` returned by the create or list endpoint.
+      example: wk_2C6EDCDFDFD944F3A75D0D36
     StatusFilter:
       in: query
       name: status
@@ -376,14 +384,6 @@ components:
         - ACTIVE
         - RETIRING
         - RETIRED
-    KeyId:
-      in: path
-      name: key_id
-      required: true
-      schema:
-        type: string
-      description: The `key_id` returned by the create or list endpoint.
-      example: wk_2C6EDCDFDFD944F3A75D0D36
   securitySchemes:
     OAuth2:
       type: oauth2

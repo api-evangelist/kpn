@@ -320,6 +320,62 @@ paths:
                 $ref: '#/components/schemas/error'
 components:
   schemas:
+    GetTicket200Response:
+      type: object
+      properties:
+        result:
+          type: array
+          items:
+            type: object
+            properties:
+              kpn_ticket_number:
+                type: string
+                description: Ticket number in the KPN system
+                example: INC#34567890
+              customer_reference_number:
+                type: string
+                description: Unique reference-number of the customer system
+                example: INC01234567
+              ticket_type:
+                type: string
+                description: Type of ticket
+                example: Incident
+              state:
+                type: string
+                description: State of the ticket in the KPN system
+                example: In Progress
+              short_description:
+                type: string
+                description: Short description of the ticket
+                example: 'Win11 L schijf: Kan niet worden toegevoegd'
+              link:
+                type: string
+                description: Url-extension to be use to query more ticket-details
+                example: /Ticket?kpn_ticket_number=INC%2334567890
+            required:
+            - kpn_ticket_number
+            - ticket_type
+            - state
+            - short_description
+            - link
+    UpdateTicket200Response:
+      type: object
+      properties:
+        code:
+          type: string
+          example: TechnicalEndpointSuccess
+        state:
+          type: string
+          example: updated
+        kpn_ticket_number:
+          type: string
+          example: INC#34567890
+        customer_reference_number:
+          type: string
+          example: INC01234567
+        note:
+          type: string
+          example: Incident INC#34567890 has been updated;
     GetTicketUpdates200Response:
       type: array
       items:
@@ -444,24 +500,6 @@ components:
                 type: string
                 description: Content_type of the attachment
                 example: text/plain
-    UpdateTicket200Response:
-      type: object
-      properties:
-        code:
-          type: string
-          example: TechnicalEndpointSuccess
-        state:
-          type: string
-          example: updated
-        kpn_ticket_number:
-          type: string
-          example: INC#34567890
-        customer_reference_number:
-          type: string
-          example: INC01234567
-        note:
-          type: string
-          example: Incident INC#34567890 has been updated;
     error:
       type: object
       properties:
@@ -551,58 +589,20 @@ components:
         note:
           type: string
           example: Incident INC#34567890 has been created;
-    GetTicket200Response:
-      type: object
-      properties:
-        result:
-          type: array
-          items:
-            type: object
-            properties:
-              kpn_ticket_number:
-                type: string
-                description: Ticket number in the KPN system
-                example: INC#34567890
-              customer_reference_number:
-                type: string
-                description: Unique reference-number of the customer system
-                example: INC01234567
-              ticket_type:
-                type: string
-                description: Type of ticket
-                example: Incident
-              state:
-                type: string
-                description: State of the ticket in the KPN system
-                example: In Progress
-              short_description:
-                type: string
-                description: Short description of the ticket
-                example: 'Win11 L schijf: Kan niet worden toegevoegd'
-              link:
-                type: string
-                description: Url-extension to be use to query more ticket-details
-                example: /Ticket?kpn_ticket_number=INC%2334567890
-            required:
-            - kpn_ticket_number
-            - ticket_type
-            - state
-            - short_description
-            - link
   parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
     kpn_ticket_number:
       in: query
       name: kpn_ticket_number
       schema:
         type: string
       description: KPN number of the ticket to get the details for. If not provided a list of open tickets will be returned.
+      required: false
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
       required: false
   securitySchemes:
     oauth2:

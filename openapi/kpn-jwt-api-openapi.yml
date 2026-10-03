@@ -35,20 +35,37 @@ paths:
         '401':
           $ref: '#/components/responses/unauthorized'
 components:
-  schemas:
+  parameters:
+    api_version_header:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      required: false
+      description: API-version to use. Not provided uses latest
+      example: v1
+    call_application_id_header:
+      in: header
+      name: ApplicationId
+      schema:
+        type: string
+      required: true
+      description: UUID of the application
+      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+  responses:
     jwt_created:
-      type: object
-      properties:
-        app_level:
-          type: string
-        application_Id:
-          type: string
-        JWT_token:
-          type: string
-      required:
-      - app_level
-      - application_Id
-      - JWT_token
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/jwt_created'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error401'
+  schemas:
     error401:
       type: object
       properties:
@@ -65,36 +82,19 @@ components:
       required:
       - type
       - error_title
-  parameters:
-    call_application_id_header:
-      in: header
-      name: ApplicationId
-      schema:
-        type: string
-      required: true
-      description: UUID of the application
-      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
-    api_version_header:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      required: false
-      description: API-version to use. Not provided uses latest
-      example: v1
-  responses:
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error401'
     jwt_created:
-      description: Ok
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/jwt_created'
+      type: object
+      properties:
+        app_level:
+          type: string
+        application_Id:
+          type: string
+        JWT_token:
+          type: string
+      required:
+      - app_level
+      - application_Id
+      - JWT_token
   securitySchemes:
     oauth2:
       type: oauth2

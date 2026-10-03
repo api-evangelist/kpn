@@ -435,36 +435,17 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    SIPAccountObject:
+    SIP:
       type: object
       properties:
-        id:
+        username:
           type: string
-          description: id of the external script
-          title: id
-        name:
+          description: Username of this SIP account. This parameter is used to authenticate the SIP account.
+          title: username
+        password:
           type: string
-          description: name of the external script
-          title: name
-        sip:
-          $ref: '#/components/schemas/SIP'
-        callerid:
-          $ref: '#/components/schemas/Callerid'
-        voicemail:
-          $ref: '#/components/schemas/Voicemail'
-        created_at:
-          type: string
-          description: creation date of SIP account
-          title: created_at
-        updated_at:
-          type: string
-          description: updation date of SIP account
-          title: updated_at
-    SIPAccountResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/SIPAccountObject'
-      description: Response containing the list of the external scripts for your domain.
+          description: Password of this SIP account.
+          title: password
     Callerid:
       type: object
       properties:
@@ -484,17 +465,11 @@ components:
           type: string
           description: Number of this SIP account
           title: external_number
-    SIP:
-      type: object
-      properties:
-        username:
-          type: string
-          description: Username of this SIP account. This parameter is used to authenticate the SIP account.
-          title: username
-        password:
-          type: string
-          description: Password of this SIP account.
-          title: password
+    SIPAccountResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/SIPAccountObject'
+      description: Response containing the list of the external scripts for your domain.
     Voicemail:
       type: object
       properties:
@@ -525,6 +500,31 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    SIPAccountObject:
+      type: object
+      properties:
+        id:
+          type: string
+          description: id of the external script
+          title: id
+        name:
+          type: string
+          description: name of the external script
+          title: name
+        sip:
+          $ref: '#/components/schemas/SIP'
+        callerid:
+          $ref: '#/components/schemas/Callerid'
+        voicemail:
+          $ref: '#/components/schemas/Voicemail'
+        created_at:
+          type: string
+          description: creation date of SIP account
+          title: created_at
+        updated_at:
+          type: string
+          description: updation date of SIP account
+          title: updated_at
   securitySchemes:
     OAuth2:
       type: oauth2

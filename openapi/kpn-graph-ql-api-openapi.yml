@@ -85,32 +85,14 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
-    too_many:
-      description: too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    bad_request:
-      description: bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    forbidden:
-      description: forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     service_unavailable:
       description: service unavailable
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    unauthorized:
-      description: unauthorized
+    too_many:
+      description: too many requests
       content:
         application/json:
           schema:
@@ -123,6 +105,24 @@ components:
             $ref: '#/components/schemas/error'
     not_found:
       description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    bad_request:
+      description: bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: forbidden
       content:
         application/json:
           schema:
@@ -143,22 +143,6 @@ components:
       description: API Version. If no version is provided it defaults to latest version.
       required: false
   schemas:
-    graphql_payload:
-      title: graphql
-      type: object
-      properties:
-        query:
-          type: string
-        variables:
-          $ref: '#/components/schemas/graphql_variables'
-    graphql_variables:
-      title: variables
-      type: object
-      properties:
-        publicationId:
-          type: string
-        api_token:
-          type: string
     error:
       type: object
       properties:
@@ -182,6 +166,22 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    graphql_variables:
+      title: variables
+      type: object
+      properties:
+        publicationId:
+          type: string
+        api_token:
+          type: string
+    graphql_payload:
+      title: graphql
+      type: object
+      properties:
+        query:
+          type: string
+        variables:
+          $ref: '#/components/schemas/graphql_variables'
   securitySchemes:
     oauth2:
       type: oauth2

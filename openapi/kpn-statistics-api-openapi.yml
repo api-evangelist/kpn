@@ -199,15 +199,28 @@ paths:
                 $ref: '#/components/schemas/error'
       deprecated: false
 components:
-  parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
   schemas:
+    DeviceHealthStatistics:
+      title: DeviceHealthStatistics
+      type: object
+      properties:
+        initCount:
+          type: integer
+          description: Number of devices with the 'healthState' attribute set to 'INIT'.
+          format: int32
+        activeCount:
+          type: integer
+          description: Number of devices with the 'healthState' attribute set to 'ACTIVE'.
+          format: int32
+        rfConnectionErrorCount:
+          type: integer
+          description: Number of devices with the 'healthState' attribute set to 'RF_CNX_ERROR'.
+          format: int32
+        totalCount:
+          type: integer
+          description: Total number of devices in authorized scopes.
+          format: int32
+      description: Resource representing read-only statistics about health states for devices.
     error:
       type: object
       properties:
@@ -231,6 +244,13 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    Type:
+      title: Type
+      enum:
+      - UPLINK
+      - DOWNLINK
+      type: string
+      description: Type of frame. Possible values are 'UPLINK' or 'DOWNLINK'.
     FrameStatistics:
       title: FrameStatistics
       type: object
@@ -290,34 +310,14 @@ components:
           type: number
           description: Average Packet Error Rate Indication for the base station that receives the frame.
       description: Resource representing read-only statistics about radio frames for a device or a base station.
-    Type:
-      title: Type
-      enum:
-      - UPLINK
-      - DOWNLINK
-      type: string
-      description: Type of frame. Possible values are 'UPLINK' or 'DOWNLINK'.
-    DeviceHealthStatistics:
-      title: DeviceHealthStatistics
-      type: object
-      properties:
-        initCount:
-          type: integer
-          description: Number of devices with the 'healthState' attribute set to 'INIT'.
-          format: int32
-        activeCount:
-          type: integer
-          description: Number of devices with the 'healthState' attribute set to 'ACTIVE'.
-          format: int32
-        rfConnectionErrorCount:
-          type: integer
-          description: Number of devices with the 'healthState' attribute set to 'RF_CNX_ERROR'.
-          format: int32
-        totalCount:
-          type: integer
-          description: Total number of devices in authorized scopes.
-          format: int32
-      description: Resource representing read-only statistics about health states for devices.
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
   securitySchemes:
     oauth2:
       type: oauth2

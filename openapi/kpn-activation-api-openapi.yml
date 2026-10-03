@@ -104,14 +104,15 @@ paths:
                 $ref: '#/components/schemas/error'
       deprecated: false
 components:
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
   schemas:
-    ActivationResp:
-      title: ActivationRequest
-      type: object
-      properties:
-        status:
-          type: string
-          description: Activation Response
     ActivationReq:
       title: ActivationResponse
       type: object
@@ -123,6 +124,13 @@ components:
           type: string
           description: Password
       description: Thingpark Activation Credentials
+    ActivationResp:
+      title: ActivationRequest
+      type: object
+      properties:
+        status:
+          type: string
+          description: Activation Response
     error:
       type: object
       properties:
@@ -146,14 +154,6 @@ components:
           type: string
           description: Additional information about error
           title: Info
-  parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
   securitySchemes:
     oauth2:
       type: oauth2

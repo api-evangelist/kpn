@@ -52,22 +52,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    AccessToken:
-      type: object
-      properties:
-        access_token:
-          type:
-          - string
-          - 'null'
-        expires_in:
-          type:
-          - integer
-          - 'null'
-          format: int64
-        token_type:
-          type:
-          - string
-          - 'null'
     ProblemDetail:
       type: object
       required:
@@ -124,6 +108,22 @@ components:
           description: 'OAuth 2.0 scope. MUST contain DSH_FIAM scope value. Other values allow the Service Consumer to get tokens that do
 
             not include all rights the Service Consumer has. According to RFC 6749, scopes are case-sensitive.'
+    AccessToken:
+      type: object
+      properties:
+        access_token:
+          type:
+          - string
+          - 'null'
+        expires_in:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        token_type:
+          type:
+          - string
+          - 'null'
   securitySchemes:
     bearer_auth:
       type: http

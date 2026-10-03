@@ -179,24 +179,6 @@ paths:
         required: true
 components:
   schemas:
-    UnblockSimRequest:
-      type: object
-      properties:
-        contractId:
-          type: integer
-          format: int64
-        referenceNumber:
-          type: string
-      title: UnblockSimRequest
-    BlockSimRequest:
-      type: object
-      properties:
-        contractId:
-          type: integer
-          format: int64
-        referenceNumber:
-          type: string
-      title: BlockSimRequest
     OrderSummary:
       type: object
       properties:
@@ -230,6 +212,15 @@ components:
           - Rejected
           - ExternalScheduled
       title: OrderSummary
+    BlockSimRequest:
+      type: object
+      properties:
+        contractId:
+          type: integer
+          format: int64
+        referenceNumber:
+          type: string
+      title: BlockSimRequest
     ErrorResponse:
       type: object
       properties:
@@ -253,6 +244,15 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    UnblockSimRequest:
+      type: object
+      properties:
+        contractId:
+          type: integer
+          format: int64
+        referenceNumber:
+          type: string
+      title: UnblockSimRequest
   securitySchemes:
     OAuth2:
       type: oauth2

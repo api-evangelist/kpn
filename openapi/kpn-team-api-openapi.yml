@@ -154,17 +154,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
-    NotFound:
-      description: Not found — the requested configuration does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '404'
-              message: Not Found
-              info: https://developer.kpn.com/documentation-webhook-config
     InternalServerError:
       description: Internal server error.
       content:
@@ -175,17 +164,6 @@ components:
             errorResponse:
               code: '500'
               message: Internal Server Error
-              info: https://developer.kpn.com/support
-    Forbidden:
-      description: Forbidden — your token does not have permission to access this resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '403'
-              message: Forbidden
               info: https://developer.kpn.com/support
     Unauthorized:
       description: Unauthorized — missing or invalid Bearer token.
@@ -209,33 +187,29 @@ components:
               code: '400'
               message: Bad Request
               info: https://developer.kpn.com/documentation-webhook-config
-  schemas:
-    PrivacyConfig:
-      type: object
-      description: 'Service-scoped field exclusion map.
-
-
-        Keys are KPN service identifiers (e.g. `sms_dlr`); values are lists of
-
-        field names to omit from outbound webhook payloads for that service.
-
-        Any field not listed is included in the payload.
-
-        An empty or absent map means **include all fields**.
-
-        '
-      properties:
-        excluded_fields:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-            maxItems: 50
+    NotFound:
+      description: Not found — the requested configuration does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
           example:
-            sms_dlr:
-            - RecipientPhonenumber
-            - Message
+            errorResponse:
+              code: '404'
+              message: Not Found
+              info: https://developer.kpn.com/documentation-webhook-config
+    Forbidden:
+      description: Forbidden — your token does not have permission to access this resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '403'
+              message: Forbidden
+              info: https://developer.kpn.com/support
+  schemas:
     WebhookConfigResponse:
       type: object
       properties:
@@ -296,6 +270,32 @@ components:
           example: https://webhook.example.com/kpn/dlr
         privacy_config:
           $ref: '#/components/schemas/PrivacyConfig'
+    PrivacyConfig:
+      type: object
+      description: 'Service-scoped field exclusion map.
+
+
+        Keys are KPN service identifiers (e.g. `sms_dlr`); values are lists of
+
+        field names to omit from outbound webhook payloads for that service.
+
+        Any field not listed is included in the payload.
+
+        An empty or absent map means **include all fields**.
+
+        '
+      properties:
+        excluded_fields:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+            maxItems: 50
+          example:
+            sms_dlr:
+            - RecipientPhonenumber
+            - Message
   securitySchemes:
     OAuth2:
       type: oauth2

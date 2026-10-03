@@ -162,6 +162,13 @@ components:
           type: integer
           format: int32
           minimum: 0
+    PartyAdherenceStatus:
+      type: string
+      enum:
+      - Active
+      - Pending
+      - NotActive
+      - Revoked
     Contract:
       type: object
       required:
@@ -198,13 +205,6 @@ components:
         start_date:
           type: string
           format: date-time
-    PartyAdherenceStatus:
-      type: string
-      enum:
-      - Active
-      - Pending
-      - NotActive
-      - Revoked
   securitySchemes:
     bearer_auth:
       type: http

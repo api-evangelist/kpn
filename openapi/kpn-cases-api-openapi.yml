@@ -207,12 +207,60 @@ paths:
       - Cases
 components:
   responses:
+    method_not_allowed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: method not allowed
+    precondition_failed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: precondition failed
+    service_unavailable:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Service unavailable
     too_many:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: too many requests
+    case_result:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/case_result'
+    server_error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: server error
+    not_found:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: not found
+    unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: unauthorized
+    bad_gateway:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: bad gateway
     bad_request:
       content:
         application/json:
@@ -225,54 +273,6 @@ components:
           schema:
             $ref: '#/components/schemas/error'
       description: forbidden
-    server_error:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: server error
-    service_unavailable:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Service unavailable
-    method_not_allowed:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: method not allowed
-    case_result:
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/case_result'
-    bad_gateway:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: bad gateway
-    unauthorized:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: unauthorized
-    precondition_failed:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: precondition failed
-    not_found:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: not found
   schemas:
     error:
       properties:

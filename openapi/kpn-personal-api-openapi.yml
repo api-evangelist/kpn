@@ -189,12 +189,177 @@ paths:
       operationId: postPersonalSms
       x-operation-id-source: derived
 components:
+  responses:
+    MeetingObjectArray:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MeetingResponse'
+          examples:
+            Example:
+              $ref: '#/components/examples/MeetingResponseObjectArraySchema'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    MeetingSmsObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: '#/components/schemas/MeetingSmsResponse'
+          examples:
+            Example:
+              $ref: '#/components/examples/MeetingSmsResponseObjectSchema'
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    MeetingObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: '#/components/schemas/MeetingResponse'
+          examples:
+            Example:
+              $ref: '#/components/examples/MeetingResponseObjectSchema'
+    MeetingDeletedObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: '#/components/schemas/MeetingDeletedResponse'
+          examples:
+            Example:
+              $ref: '#/components/examples/MeetingResponseDeletedObjectSchema'
+    bad_request:
+      description: Bad Reqst
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
   schemas:
+    AccountResponseShort:
+      type: object
+      properties:
+        id:
+          description: Site ID
+          type: string
+        name:
+          description: Site name
+          type: string
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction ID of the the request.
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error.
+          title: Info
     MeetingSmsResponse:
       type: object
       properties:
         status:
           description: OK
+          type: string
+    MeetingDeletedResponse:
+      type: object
+      properties:
+        id:
+          description: Meeting ID
+          type: string
+    CompanyResponseShort:
+      type: object
+      properties:
+        id:
+          description: Company ID
+          type: string
+        name:
+          description: Company name
+          type: string
+        contact:
+          $ref: '#/components/schemas/ContactResponse'
+        suspended:
+          description: Is suspended
+          type: boolean
+    MeetingSmsRequestBody:
+      type: object
+      required:
+      - participant
+      - message
+      properties:
+        participant:
+          description: Participant ID
+          type: string
+        message:
+          description: SMS message (max length = 40)
           type: string
     MeetingResponse:
       type: object
@@ -274,91 +439,6 @@ components:
               url:
                 type: string
                 description: Contains the secure link to start the meeting for agent and visitors.
-    CompanyResponseShort:
-      type: object
-      properties:
-        id:
-          description: Company ID
-          type: string
-        name:
-          description: Company name
-          type: string
-        contact:
-          $ref: '#/components/schemas/ContactResponse'
-        suspended:
-          description: Is suspended
-          type: boolean
-    MeetingSmsRequestBody:
-      type: object
-      required:
-      - participant
-      - message
-      properties:
-        participant:
-          description: Participant ID
-          type: string
-        message:
-          description: SMS message (max length = 40)
-          type: string
-    AccountResponseShort:
-      type: object
-      properties:
-        id:
-          description: Site ID
-          type: string
-        name:
-          description: Site name
-          type: string
-    ContactResponse:
-      type: object
-      properties:
-        id:
-          description: Contact ID
-          type: string
-        first_name:
-          description: First name
-          type: string
-        last_name:
-          description: Last name
-          type: string
-        email:
-          description: E-mail address
-          type: string
-        phone:
-          description: Phone number
-          type: string
-        language:
-          description: Language code (e.g. nl, en, etc.)
-          type: string
-    MeetingDeletedResponse:
-      type: object
-      properties:
-        id:
-          description: Meeting ID
-          type: string
-    error:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: Transaction ID of the the request.
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error.
-          title: Info
     MeetingRequestBodyPost:
       required:
       - site
@@ -413,165 +493,53 @@ components:
         send_sms:
           type: boolean
           description: Send invite SMS to participants. Default false
-  parameters:
-    user-email:
-      in: header
-      name: user_email
-      schema:
-        type: string
-      description: email Address of the user agent.
-      required: true
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
-    MeetingIDParameter:
-      name: id
-      description: A valid meeting ID
-      in: path
-      required: true
-      schema:
-        type: string
-        example: 6bbf64a9e13844d1d140d6e2
-    MeetingQueryCompanyParameter:
-      name: company
-      description: Only select meetings with given company ID
-      in: query
-      schema:
-        type: string
-        example: 784d061c0856dc4c97774da7
-  responses:
-    not_found:
-      description: not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    MeetingObjectArray:
-      description: Succesful operation.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-              result:
-                type: array
-                items:
-                  $ref: '#/components/schemas/MeetingResponse'
-          examples:
-            Example:
-              $ref: '#/components/examples/MeetingResponseObjectArraySchema'
-    too_many:
-      description: too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    bad_request:
-      description: Bad Reqst
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    MeetingSmsObject:
-      description: Succesful operation.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-              result:
-                $ref: '#/components/schemas/MeetingSmsResponse'
-          examples:
-            Example:
-              $ref: '#/components/examples/MeetingSmsResponseObjectSchema'
-    MeetingDeletedObject:
-      description: Succesful operation.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-              result:
-                $ref: '#/components/schemas/MeetingDeletedResponse'
-          examples:
-            Example:
-              $ref: '#/components/examples/MeetingResponseDeletedObjectSchema'
-    MeetingObject:
-      description: Succesful operation.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-              result:
-                $ref: '#/components/schemas/MeetingResponse'
-          examples:
-            Example:
-              $ref: '#/components/examples/MeetingResponseObjectSchema'
-    forbidden:
-      description: forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    service_unavailable:
-      description: service unavailable
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    server_error:
-      description: server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-  requestBodies:
-    MeetingObjectPost:
-      description: JSON meeting object
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/MeetingRequestBodyPost'
-          examples:
-            Example:
-              $ref: '#/components/examples/MeetingRequestBodyObjectSchema'
-    MeetingSmsObject:
-      description: JSON sms object
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/MeetingSmsRequestBody'
-          examples:
-            Example:
-              $ref: '#/components/examples/MeetingSmsRequestBodyObjectSchema'
+    ContactResponse:
+      type: object
+      properties:
+        id:
+          description: Contact ID
+          type: string
+        first_name:
+          description: First name
+          type: string
+        last_name:
+          description: Last name
+          type: string
+        email:
+          description: E-mail address
+          type: string
+        phone:
+          description: Phone number
+          type: string
+        language:
+          description: Language code (e.g. nl, en, etc.)
+          type: string
   examples:
-    MeetingSmsResponseObjectSchema:
+    MeetingSmsRequestBodyObjectSchema:
       summary: Sms
       value:
-        success: true
-        result:
-          status: OK
+        participant: 58c6dd8a0a14d4b20df36e62
+        message: Please click on the link to join.
+    MeetingRequestBodyObjectSchema:
+      summary: Meeting
+      value:
+        site: 35h64d8a0e14e4c24ac20f42
+        agent: 5aedbd02e138231a7c1d7719
+        is_appointment: true
+        time_start: '2020-03-18T14:15:00.000Z'
+        time_end: '2020-03-18T15:15:00.000Z'
+        participants:
+        - name: Participant 1
+          email: visitor1@participant.nl
+          phone: '+31612312312'
+        - name: Participant 2
+          email: visitor2@participant.nl
+          phone: '+31612312312'
+        subject: Meeting
+        invitation: Hereby I send you the confirmation for our online video call. On the specified date and time you can click the link in this email. The video call will appear on your screen and we can start the conversation. See you soon!
+        invitation_sms: Click on the link to join.
+        send_email: true
+        send_sms: true
     MeetingResponseObjectSchema:
       summary: Meeting
       value:
@@ -635,37 +603,12 @@ components:
             - sessions
             hash: wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubB
             url: https://login.weseedo.nl/meeting/wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubB
-    MeetingResponseDeletedObjectSchema:
-      summary: Meeting ID
+    MeetingSmsResponseObjectSchema:
+      summary: Sms
       value:
         success: true
         result:
-          id: 6bbf64a9e13844d1d140d6e2
-    MeetingSmsRequestBodyObjectSchema:
-      summary: Sms
-      value:
-        participant: 58c6dd8a0a14d4b20df36e62
-        message: Please click on the link to join.
-    MeetingRequestBodyObjectSchema:
-      summary: Meeting
-      value:
-        site: 35h64d8a0e14e4c24ac20f42
-        agent: 5aedbd02e138231a7c1d7719
-        is_appointment: true
-        time_start: '2020-03-18T14:15:00.000Z'
-        time_end: '2020-03-18T15:15:00.000Z'
-        participants:
-        - name: Participant 1
-          email: visitor1@participant.nl
-          phone: '+31612312312'
-        - name: Participant 2
-          email: visitor2@participant.nl
-          phone: '+31612312312'
-        subject: Meeting
-        invitation: Hereby I send you the confirmation for our online video call. On the specified date and time you can click the link in this email. The video call will appear on your screen and we can start the conversation. See you soon!
-        invitation_sms: Click on the link to join.
-        send_email: true
-        send_sms: true
+          status: OK
     MeetingResponseObjectArraySchema:
       summary: List of meetings
       value:
@@ -787,6 +730,63 @@ components:
             - sessions
             hash: wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubD
             url: https://login.weseedo.nl/meeting/wCPjvYM7yf7KBwGVU0OsFG6DVBAGqZ5s_6PFMcsoR0GBeKIF8AhkngSqUy9UXBubD
+    MeetingResponseDeletedObjectSchema:
+      summary: Meeting ID
+      value:
+        success: true
+        result:
+          id: 6bbf64a9e13844d1d140d6e2
+  requestBodies:
+    MeetingObjectPost:
+      description: JSON meeting object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MeetingRequestBodyPost'
+          examples:
+            Example:
+              $ref: '#/components/examples/MeetingRequestBodyObjectSchema'
+    MeetingSmsObject:
+      description: JSON sms object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MeetingSmsRequestBody'
+          examples:
+            Example:
+              $ref: '#/components/examples/MeetingSmsRequestBodyObjectSchema'
+  parameters:
+    MeetingIDParameter:
+      name: id
+      description: A valid meeting ID
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 6bbf64a9e13844d1d140d6e2
+    user-email:
+      in: header
+      name: user_email
+      schema:
+        type: string
+      description: email Address of the user agent.
+      required: true
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+    MeetingQueryCompanyParameter:
+      name: company
+      description: Only select meetings with given company ID
+      in: query
+      schema:
+        type: string
+        example: 784d061c0856dc4c97774da7
   securitySchemes:
     oauth2:
       type: oauth2

@@ -444,17 +444,18 @@ paths:
       - OAuth2: []
 components:
   schemas:
-    ChangeBillingPeriodRequestParams:
+    OperationAvailability:
       type: object
       properties:
-        period:
-          type: string
-          enum:
-          - '6'
-          - '25'
-        referenceNumber:
-          type: string
-      title: ChangeBillingPeriodRequestParams
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OperationAvailability
     BlockingOrder:
       type: object
       properties:
@@ -482,6 +483,36 @@ components:
           - CONTRACTING
           - SERVICE_REQUEST
       title: BlockingOrder
+    Invoice:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        debtorName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        number:
+          type: string
+        payBeforeDate:
+          type: string
+          format: date-time
+        totalAmountToPayInCents:
+          type: integer
+          format: int32
+        type:
+          type: string
+          enum:
+          - CREDIT_NOTE
+          - HARDWARE_ADJUSTMENT
+          - HARDWARE_INVOICE
+          - HARDWARE_INVOICE_ADJUSTMENT
+          - SERVICE_ADJUSTMENT
+          - SERVICE_INVOICE
+          - SERVICE_INVOICE_ADJUSTMENT
+      title: Invoice
     OrderSummary:
       type: object
       properties:
@@ -515,48 +546,6 @@ components:
           - Rejected
           - ExternalScheduled
       title: OrderSummary
-    Invoice:
-      type: object
-      properties:
-        date:
-          type: string
-          format: date-time
-        debtorName:
-          type: string
-        id:
-          type: integer
-          format: int64
-        number:
-          type: string
-        payBeforeDate:
-          type: string
-          format: date-time
-        totalAmountToPayInCents:
-          type: integer
-          format: int32
-        type:
-          type: string
-          enum:
-          - CREDIT_NOTE
-          - HARDWARE_ADJUSTMENT
-          - HARDWARE_INVOICE
-          - HARDWARE_INVOICE_ADJUSTMENT
-          - SERVICE_ADJUSTMENT
-          - SERVICE_INVOICE
-          - SERVICE_INVOICE_ADJUSTMENT
-      title: Invoice
-    OperationAvailability:
-      type: object
-      properties:
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        enabled:
-          type: boolean
-        visible:
-          type: boolean
-      title: OperationAvailability
     PagedResult_Invoice_:
       type: object
       properties:
@@ -594,6 +583,17 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    ChangeBillingPeriodRequestParams:
+      type: object
+      properties:
+        period:
+          type: string
+          enum:
+          - '6'
+          - '25'
+        referenceNumber:
+          type: string
+      title: ChangeBillingPeriodRequestParams
   securitySchemes:
     OAuth2:
       type: oauth2

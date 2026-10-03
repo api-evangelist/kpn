@@ -173,12 +173,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    Label:
-      enum:
-      - default
-      - eneco
-      - oxxio
-      - woonenergie
     DemoResponseDtoOfDemoConsumersResponse:
       required:
       - data
@@ -190,6 +184,28 @@ components:
           - 'null'
           oneOf:
           - $ref: '#/components/schemas/DemoConsumersResponse'
+    ProductType:
+      enum:
+      - heat
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+    ProductTypeBinding:
+      enum:
+      - heat
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/ProductType'
     DemoConsumerResponse:
       required:
       - name
@@ -203,18 +219,12 @@ components:
           type: string
         isConsent:
           type: boolean
-    ProductTypeBinding:
+    Label:
       enum:
-      - heat
-      type: object
-      properties:
-        value:
-          $ref: '#/components/schemas/ProductType'
-    BusinessUnit:
-      enum:
-      - nl
-      - be
-      - uk
+      - default
+      - eneco
+      - oxxio
+      - woonenergie
     SetDemoConsentRequest:
       required:
       - consumerId
@@ -225,19 +235,6 @@ components:
           type: string
         isConsent:
           type: boolean
-    ProductType:
-      enum:
-      - heat
-    LabelBinding:
-      enum:
-      - default
-      - eneco
-      - oxxio
-      - woonenergie
-      type: object
-      properties:
-        value:
-          $ref: '#/components/schemas/Label'
     ProblemDetails:
       type: object
       properties:
@@ -269,6 +266,21 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DemoConsumerResponse'
+    LabelBinding:
+      enum:
+      - default
+      - eneco
+      - oxxio
+      - woonenergie
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/Label'
+    BusinessUnit:
+      enum:
+      - nl
+      - be
+      - uk
     BusinessUnitBinding:
       enum:
       - nl
@@ -278,18 +290,6 @@ components:
       properties:
         value:
           $ref: '#/components/schemas/BusinessUnit'
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                type: string
-              message:
-                type: string
   securitySchemes:
     apikey:
       type: apiKey

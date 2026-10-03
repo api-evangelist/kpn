@@ -418,45 +418,41 @@ paths:
     - url: https://api-prd.kpn.com/communication/nexmo/
       description: API Store Application
 components:
+  parameters:
+    api_version_header:
+      in: header
+      name: api-version
+      schema:
+        type: string
+        default: v2
+      required: false
+      description: API-version to use. Not provided uses latest
+      example: null
+    application_uuid:
+      in: path
+      name: uuid
+      schema:
+        type: string
+      required: true
+      description: UUID of the application
+      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+    api_version_header_2:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      required: false
+      description: API-version to use. Not provided uses latest
+      example: v1
   responses:
-    app_list:
-      description: Ok
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/application_list_ok'
-    too_many:
-      description: too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    bad_request:
-      description: bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    forbidden:
-      description: forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    app_created:
-      description: Created
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/application'
     service_unavailable:
       description: service unavailable
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    unauthorized:
-      description: unauthorized
+    too_many:
+      description: too many requests
       content:
         application/json:
           schema:
@@ -473,12 +469,54 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
+    unauthorized:
+      description: unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
     app_detail_ok:
       description: Ok
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/application_detail_ok'
+    app_list:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/application_list_ok'
+    bad_request:
+      description: bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    app_created:
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/application'
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized_2:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error401'
+    app_detail_ok_2:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/application_2'
     app_list_2:
       description: Ok
       content:
@@ -516,19 +554,150 @@ components:
                     type: array
                     items:
                       $ref: '#/components/schemas/application_2'
-    unauthorized_2:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error401'
-    app_detail_ok_2:
-      description: Ok
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/application_2'
   schemas:
+    application:
+      title: Application Created
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        keys:
+          type: object
+          properties:
+            private_key:
+              type: string
+            public_key:
+              type: string
+          required:
+          - private_key
+          - public_key
+        privacy:
+          type: object
+          properties:
+            improve_ai:
+              type: boolean
+          required:
+          - improve_ai
+        capabilities:
+          type: object
+          properties:
+            messages:
+              type: object
+              properties:
+                webhooks:
+                  type: object
+                  properties:
+                    inbound_url:
+                      type: object
+                      properties:
+                        address:
+                          type: string
+                        http_method:
+                          type: string
+                      required:
+                      - address
+                      - http_method
+                    status_url:
+                      type: object
+                      properties:
+                        address:
+                          type: string
+                        http_method:
+                          type: string
+                      required:
+                      - address
+                      - http_method
+                  required:
+                  - inbound_url
+                  - status_url
+                version:
+                  type: string
+                authenticate_inbound_media:
+                  type: boolean
+              required:
+              - webhooks
+              - version
+              - authenticate_inbound_media
+          required:
+          - messages
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+              required:
+              - href
+          required:
+          - self
+      required:
+      - id
+      - name
+      - keys
+      - privacy
+      - capabilities
+      - _links
+    application_list_ok:
+      title: Get Application
+      type: object
+      properties:
+        count:
+          type: integer
+          title: The total number of records returned by your request.
+          example: 100
+        page_size:
+          type: integer
+          title: The amount of records returned in this response.
+          example: 10
+        record_index:
+          type: integer
+          title: The `record_index` used in your request.
+          example: 0
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  title: Link to the object
+                  example: /applications?page_size=10&record_index=20&order=asc
+        _embedded:
+          description: A list of application objects. See the [get details of a specific application](#getApplication) response fields for a description of the nested objects
+          type: object
+          properties:
+            applications:
+              type: array
+              items:
+                $ref: '#/components/schemas/application'
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
     application_detail_ok:
       title: Get Application
       type: object
@@ -671,29 +840,6 @@ components:
       - page_index
       - _embedded
       - _links
-    error:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: Transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
     new_application:
       title: Application creation request
       type: object
@@ -732,173 +878,6 @@ components:
                           type: string
       required:
       - name
-    application_list_ok:
-      title: Get Application
-      type: object
-      properties:
-        count:
-          type: integer
-          title: The total number of records returned by your request.
-          example: 100
-        page_size:
-          type: integer
-          title: The amount of records returned in this response.
-          example: 10
-        record_index:
-          type: integer
-          title: The `record_index` used in your request.
-          example: 0
-        _links:
-          type: object
-          properties:
-            self:
-              type: object
-              properties:
-                href:
-                  type: string
-                  title: Link to the object
-                  example: /applications?page_size=10&record_index=20&order=asc
-        _embedded:
-          description: A list of application objects. See the [get details of a specific application](#getApplication) response fields for a description of the nested objects
-          type: object
-          properties:
-            applications:
-              type: array
-              items:
-                $ref: '#/components/schemas/application'
-    application:
-      title: Application Created
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        keys:
-          type: object
-          properties:
-            private_key:
-              type: string
-            public_key:
-              type: string
-          required:
-          - private_key
-          - public_key
-        privacy:
-          type: object
-          properties:
-            improve_ai:
-              type: boolean
-          required:
-          - improve_ai
-        capabilities:
-          type: object
-          properties:
-            messages:
-              type: object
-              properties:
-                webhooks:
-                  type: object
-                  properties:
-                    inbound_url:
-                      type: object
-                      properties:
-                        address:
-                          type: string
-                        http_method:
-                          type: string
-                      required:
-                      - address
-                      - http_method
-                    status_url:
-                      type: object
-                      properties:
-                        address:
-                          type: string
-                        http_method:
-                          type: string
-                      required:
-                      - address
-                      - http_method
-                  required:
-                  - inbound_url
-                  - status_url
-                version:
-                  type: string
-                authenticate_inbound_media:
-                  type: boolean
-              required:
-              - webhooks
-              - version
-              - authenticate_inbound_media
-          required:
-          - messages
-        _links:
-          type: object
-          properties:
-            self:
-              type: object
-              properties:
-                href:
-                  type: string
-              required:
-              - href
-          required:
-          - self
-      required:
-      - id
-      - name
-      - keys
-      - privacy
-      - capabilities
-      - _links
-    error401:
-      type: object
-      properties:
-        type:
-          type: string
-          title: the unauthorized response
-          example: UNAUTHORIZED
-          description: Unauthorized type description
-        error_title:
-          type: string
-          title: the title of an unauthorized response
-          example: Unauthorized
-          description: Unauthorized title description
-      required:
-      - type
-      - error_title
-    fields_uuid:
-      type: string
-      format: uuid
-      title: The UUID of the call leg that the event relates to
-      example: 63f61863-4a51-4f6b-86e1-46edebcf9356
-      description: The unique identifier for this call leg. The UUID is created when your call request is accepted by Vonage. You use the UUID in all requests for individual live calls
-    NCCO:
-      type: object
-      properties:
-        action:
-          type: string
-        type:
-          type: string
-        option1:
-          type: string
-        option2:
-          type: array
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-              option1:
-                type: string
-              option2:
-                type: string
-            required:
-            - type
-            - option1
-      required:
-      - action
     application_2:
       type: object
       properties:
@@ -945,32 +924,53 @@ components:
                 href:
                   type: string
                   example: /applications/aaaaaaaa-bbbb-cccc-dddd-0123456789ab
-  parameters:
-    application_uuid:
-      in: path
-      name: uuid
-      schema:
-        type: string
-      required: true
-      description: UUID of the application
-      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
-    api_version_header:
-      in: header
-      name: api-version
-      schema:
-        type: string
-        default: v2
-      required: false
-      description: API-version to use. Not provided uses latest
-      example: null
-    api_version_header_2:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      required: false
-      description: API-version to use. Not provided uses latest
-      example: v1
+    fields_uuid:
+      type: string
+      format: uuid
+      title: The UUID of the call leg that the event relates to
+      example: 63f61863-4a51-4f6b-86e1-46edebcf9356
+      description: The unique identifier for this call leg. The UUID is created when your call request is accepted by Vonage. You use the UUID in all requests for individual live calls
+    NCCO:
+      type: object
+      properties:
+        action:
+          type: string
+        type:
+          type: string
+        option1:
+          type: string
+        option2:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              option1:
+                type: string
+              option2:
+                type: string
+            required:
+            - type
+            - option1
+      required:
+      - action
+    error401:
+      type: object
+      properties:
+        type:
+          type: string
+          title: the unauthorized response
+          example: UNAUTHORIZED
+          description: Unauthorized type description
+        error_title:
+          type: string
+          title: the title of an unauthorized response
+          example: Unauthorized
+          description: Unauthorized title description
+      required:
+      - type
+      - error_title
   securitySchemes:
     oauth2:
       type: oauth2

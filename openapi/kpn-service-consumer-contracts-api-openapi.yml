@@ -95,6 +95,31 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    ProblemDetail:
+      type: object
+      required:
+      - type
+      - status
+      properties:
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
+          minimum: 0
+        title:
+          type:
+          - string
+          - 'null'
+        type:
+          type: string
+      additionalProperties: {}
     Paged_Contract:
       type: object
       required:
@@ -159,31 +184,6 @@ components:
           type: integer
           format: int32
           minimum: 0
-    ProblemDetail:
-      type: object
-      required:
-      - type
-      - status
-      properties:
-        detail:
-          type:
-          - string
-          - 'null'
-        instance:
-          type:
-          - string
-          - 'null'
-        status:
-          type: integer
-          format: int32
-          minimum: 0
-        title:
-          type:
-          - string
-          - 'null'
-        type:
-          type: string
-      additionalProperties: {}
     Contract:
       type: object
       required:

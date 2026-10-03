@@ -77,6 +77,19 @@ paths:
       operationId: postApiUser
       x-operation-id-source: derived
 components:
+  requestBodies:
+    CreateUser:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email_address:
+                type: string
+                format: email
+            required:
+            - email_address
   parameters:
     api_version:
       in: header
@@ -126,19 +139,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/UserInfo'
-  requestBodies:
-    CreateUser:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              email_address:
-                type: string
-                format: email
-            required:
-            - email_address
   securitySchemes:
     oauth2:
       type: oauth2

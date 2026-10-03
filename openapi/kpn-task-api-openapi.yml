@@ -97,6 +97,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/error'
 components:
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
   schemas:
     UpdateTicket200Response:
       type: object
@@ -116,20 +124,6 @@ components:
         note:
           type: string
           example: Incident INC#34567890 has been updated;
-    error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Code representing the error
-              example: '1234'
-            message:
-              type: string
-              description: Description of the error
-              example: Description of the error.
     UpdateTask:
       type: object
       required:
@@ -205,14 +199,20 @@ components:
                 type: string
                 description: Content_type of the attachment
                 example: text/plain
-  parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
+    error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Code representing the error
+              example: '1234'
+            message:
+              type: string
+              description: Description of the error
+              example: Description of the error.
   securitySchemes:
     oauth2:
       type: oauth2

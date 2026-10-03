@@ -116,15 +116,6 @@ paths:
         required: true
 components:
   schemas:
-    SeparateFixedMobileRequest:
-      type: object
-      properties:
-        contractId:
-          type: integer
-          format: int64
-        referenceNumber:
-          type: string
-      title: SeparateFixedMobileRequest
     OrderConfirmation:
       type: object
       properties:
@@ -155,6 +146,15 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    SeparateFixedMobileRequest:
+      type: object
+      properties:
+        contractId:
+          type: integer
+          format: int64
+        referenceNumber:
+          type: string
+      title: SeparateFixedMobileRequest
   securitySchemes:
     OAuth2:
       type: oauth2

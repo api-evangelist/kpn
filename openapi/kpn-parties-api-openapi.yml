@@ -438,6 +438,126 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    ComplianceVerified:
+      type: string
+      enum:
+      - 'yes'
+      - 'no'
+      - partial
+      - not applicable
+    Role:
+      type: string
+      description: 'Name of the role as defined in iSHARE role framework. Possible roles are ServiceConsumer, ServiceProvider,
+
+        EntitledParty, AuthorisationRegistry, IdentityProvider, IdentityBroker and ParticipantRegistry.'
+      enum:
+      - ServiceConsumer
+      - ServiceProvider
+      - EntitledParty
+      - AuthorisationRegistry
+      - IdentityProvider
+      - IdentityBroker
+      - ParticipantRegistry
+      - iShareSatellite
+    AuthRegistry:
+      type: object
+      description: 'AuthRegistry : Object which contains details about the authorization registers that the party uses.'
+      required:
+      - authorizationRegistryName
+      - authorizationRegistryID
+      - authorizationRegistryUrl
+      properties:
+        authorizationRegistryID:
+          type: string
+          description: The Id of the authorization registry provider
+        authorizationRegistryName:
+          type: string
+          description: The name of the authorization registry provider
+        authorizationRegistryUrl:
+          type: string
+          description: The URL pointer specific to the party where authorizations can be queried/checked from
+        dataspaceID:
+          type:
+          - string
+          - 'null'
+          description: The id of the data space where the party uses this authorization registry provider
+        dataspaceName:
+          type:
+          - string
+          - 'null'
+          description: The name of the data space corresponding to the data space id
+    Dataspace:
+      type: object
+      properties:
+        countries_operation:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Array of country names in which the dataspace operates.
+        country_reg:
+          type:
+          - string
+          - 'null'
+          description: Country in which the dataspace is registered in.
+        dataspace_id:
+          type:
+          - string
+          - 'null'
+          description: 'Unique ID of the dataspace. This is in format of <Continent>.<DS>.<3 letter code for
+
+            dataspaces>.<Country>.<dataspace name> for example EU.DS.GND.NL.DVU. Where, continent is 2 letter code,
+
+            followed by “DS” (stands for dataspace), followed by 3 letter code of common eu dataspaces HLT - Health, INM -
+
+            Industrial and Manufacturing, AGR - Agriculture, FIN - Finance, MOB - Mobility, GND - Green Deal, ENR - Energy,
+
+            PUB - Public Administration, SKL - Skills, followed by ISO 3166-1 alpha-2 2 letter Country code and lastly the
+
+            name/title of the dataspace. Name may not contain spaces or dot “.” or other special characters. Maximum length
+
+            of name can be 15 characters.'
+        dataspace_title:
+          type:
+          - string
+          - 'null'
+          description: Title of dataspace.
+        dataspace_website:
+          type:
+          - string
+          - 'null'
+          description: 'Website address of the dataspace, typically dataspace authority. The website details out more information about
+
+            the datasapce and guides (potential) participants (to become member of) the dataspace.'
+        dataspacedef_url:
+          type:
+          - string
+          - 'null'
+          description: 'URL pointing to the dataspace definition. This is expected to be based on OpenDEI model of building blocks for
+
+            dataspaces. The machine redable format definition is currently under development. The specifications will be
+
+            made available once published.'
+        sectors:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Array of sector names in which the dataspace operates.
+        status:
+          type:
+          - string
+          - 'null'
+          description: Status of the dataspace. Available values are new, in progress, active and not active.
+        tags:
+          type:
+          - string
+          - 'null'
+          description: 'Free text field for addting relevant tags that are relevant in the context of datasapce. It useful for
+
+            searching for specific dataspaces based on tags.'
     PartyAdherence:
       type: object
       required:
@@ -454,6 +574,172 @@ components:
         status:
           $ref: '#/components/schemas/PartyAdherenceStatus'
           description: Status of the party. Available values are Active, Pending, NotActive and Revoked.
+    PartySpor:
+      type: object
+      required:
+      - signed_request
+      properties:
+        signed_request:
+          type: string
+          description: verifiable credentials of the participant signed by a trusted authority vouching for its authenticity
+    DataspaceInfo:
+      type: object
+      properties:
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Number of dataspaces returned
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Dataspace'
+          description: Object containing dataspace information
+        page_count:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Number of pages (10 per page)
+        total_count:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Total count of found dataspaces
+    AgreementStatus:
+      type: string
+      enum:
+      - Draft
+      - Signed
+      - Accepted
+      - Obsolete
+    PartyAdherenceStatus:
+      type: string
+      enum:
+      - Active
+      - Pending
+      - NotActive
+      - Revoked
+    Certificate:
+      type: object
+      description: 'Certificate : Object which contains the details of the PKI/x509 certificates of the party.'
+      required:
+      - subject_name
+      - certificate_type
+      - enabled_from
+      - x5c
+      - x5t#s256
+      properties:
+        certificate_type:
+          type: string
+          description: type of certificate
+        enabled_from:
+          type: string
+          description: UTC timestamp which states since when certificate is valid.
+        subject_name:
+          type: string
+          description: 'subjectName as encoded in the X.509 certificate which corresponds with the party that is being requested from
+
+            the Participant Registry. Used by the Participant Registry to match the certificate identifier.'
+        x5c:
+          type: string
+          description: The base64 encoded pem format value of the certificate identified by its subject name and fingerprint
+        x5t#s256:
+          type: string
+          description: The SHA256 fingerprint of the certificate
+    PartyAdditionalInfo:
+      type: object
+      properties:
+        company_email:
+          type:
+          - string
+          - 'null'
+          description: General company email id of the party
+        company_phone:
+          type:
+          - string
+          - 'null'
+          description: General company phone number of the party
+        countries_operation:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: An array of ISO names of the countries where the party operates
+        description:
+          type:
+          - string
+          - 'null'
+          description: A brief description of the party
+        logo:
+          type:
+          - string
+          - 'null'
+          description: URL pointing to the endpoint where company logo can be found.
+        publicly_publishable:
+          type:
+          - string
+          - 'null'
+          description: Consent to publicly publish the information contained in this object
+        sector_industry:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: An array of GICS based sectors/industry that party serves in
+        tags:
+          type:
+          - string
+          - 'null'
+          description: An free text field containing keywords relevant for party
+        website:
+          type:
+          - string
+          - 'null'
+          description: Website address of the party
+    RoleDefinition:
+      type: object
+      description: 'RoleDefinition : Object which contains details about the iSHARE roles of the party. The details include the level of
+
+        assurance as well as compliance status for each role.'
+      required:
+      - role
+      - start_date
+      - end_date
+      - loa
+      - complaiancy_verified
+      - legal_adherence
+      properties:
+        complaiancy_verified:
+          $ref: '#/components/schemas/ComplianceVerified'
+          description: Compliance requirements of this role has been met by party
+        end_date:
+          type: string
+          description: UTC timestamp which states till when this role for the party is valid.
+        legal_adherence:
+          $ref: '#/components/schemas/LegalAdherence'
+          description: Legal requirements of this role has been met by party including signing of appropriate agreements
+        loa:
+          type: string
+          description: Party's level of assurance. Available values are low, substantial and high.
+        role:
+          $ref: '#/components/schemas/Role'
+          description: 'Name of the role as defined in iSHARE role framework. Possible roles  are ServiceConsumer, ServiceProvider,
+
+            EntitledParty,  AuthorisationRegistry, IdentityProvider, IdentityBroker and  IdentityBroker and
+
+            ParticipantRegistry, iShareSatellite (deprecated,  will be removed in future releases, use ParticipantRegistry
+
+            instead).'
+        start_date:
+          type: string
+          description: UTC timestamp which states since when this role for the party is valid.
     ProblemDetail:
       type: object
       required:
@@ -479,6 +765,68 @@ components:
         type:
           type: string
       additionalProperties: {}
+    Agreement:
+      type: object
+      description: 'Agreement : Object which contains details about contracts including data space contracts that party has agreed and
+
+        signed to.'
+      required:
+      - type
+      - title
+      - status
+      - sign_date
+      - expiry_date
+      - framework
+      - complaiancy_verified
+      properties:
+        agreement_file:
+          type:
+          - string
+          - 'null'
+          description: 'The calculated hash of the agreement file that has been uploaded. Note agreements are not stored in ledger, but
+
+            only their hash.'
+        complaiancy_verified:
+          $ref: '#/components/schemas/ComplianceVerified'
+          description: 'Legal compliance to this agreement has been verified in accordance with the process set in trust framework as
+
+            we as data space governance. Possible values are Yes, No, Not Applicable'
+        dataspace_id:
+          type:
+          - string
+          - 'null'
+          description: 'The ID of the data space. If specified, party is onboarded in accordance to this data space''s terms and
+
+            conditions'
+        dataspace_title:
+          type:
+          - string
+          - 'null'
+          description: The name of the selected dataspace
+        expiry_date:
+          type: string
+          description: Expiry date of the agreement. For non expiring agreements the end date is far in future
+        framework:
+          type: string
+          description: The trust framework to which this agreement complies to. Currently, only iSHARE is available.
+        sign_date:
+          type: string
+          description: Date of signature of the agreement.
+        status:
+          $ref: '#/components/schemas/AgreementStatus'
+          description: Status of the agreement. Available values are Draft, Signed, Accepted, Obsolete.
+        title:
+          type: string
+          description: The name of the agreement or agreement file
+        type:
+          type: string
+          description: 'Type of agreement. Refers to the official type of agreement. For iSHARE following types are available Terms of
+
+            Use, Accession Agreement, Certified Party Agreement, Participant Registry Agreement  (former name Satellite
+
+            Agreement will be deprecated).  Additionally, each data space can define their own type and it can be listed
+
+            here when appropriate dataspace is chosen'
     Party:
       type: object
       required:
@@ -543,178 +891,6 @@ components:
           oneOf:
           - type: 'null'
           - $ref: '#/components/schemas/PartySpor'
-    Agreement:
-      type: object
-      description: 'Agreement : Object which contains details about contracts including data space contracts that party has agreed and
-
-        signed to.'
-      required:
-      - type
-      - title
-      - status
-      - sign_date
-      - expiry_date
-      - framework
-      - complaiancy_verified
-      properties:
-        agreement_file:
-          type:
-          - string
-          - 'null'
-          description: 'The calculated hash of the agreement file that has been uploaded. Note agreements are not stored in ledger, but
-
-            only their hash.'
-        complaiancy_verified:
-          $ref: '#/components/schemas/ComplianceVerified'
-          description: 'Legal compliance to this agreement has been verified in accordance with the process set in trust framework as
-
-            we as data space governance. Possible values are Yes, No, Not Applicable'
-        dataspace_id:
-          type:
-          - string
-          - 'null'
-          description: 'The ID of the data space. If specified, party is onboarded in accordance to this data space''s terms and
-
-            conditions'
-        dataspace_title:
-          type:
-          - string
-          - 'null'
-          description: The name of the selected dataspace
-        expiry_date:
-          type: string
-          description: Expiry date of the agreement. For non expiring agreements the end date is far in future
-        framework:
-          type: string
-          description: The trust framework to which this agreement complies to. Currently, only iSHARE is available.
-        sign_date:
-          type: string
-          description: Date of signature of the agreement.
-        status:
-          $ref: '#/components/schemas/AgreementStatus'
-          description: Status of the agreement. Available values are Draft, Signed, Accepted, Obsolete.
-        title:
-          type: string
-          description: The name of the agreement or agreement file
-        type:
-          type: string
-          description: 'Type of agreement. Refers to the official type of agreement. For iSHARE following types are available Terms of
-
-            Use, Accession Agreement, Certified Party Agreement, Participant Registry Agreement  (former name Satellite
-
-            Agreement will be deprecated).  Additionally, each data space can define their own type and it can be listed
-
-            here when appropriate dataspace is chosen'
-    RoleDefinition:
-      type: object
-      description: 'RoleDefinition : Object which contains details about the iSHARE roles of the party. The details include the level of
-
-        assurance as well as compliance status for each role.'
-      required:
-      - role
-      - start_date
-      - end_date
-      - loa
-      - complaiancy_verified
-      - legal_adherence
-      properties:
-        complaiancy_verified:
-          $ref: '#/components/schemas/ComplianceVerified'
-          description: Compliance requirements of this role has been met by party
-        end_date:
-          type: string
-          description: UTC timestamp which states till when this role for the party is valid.
-        legal_adherence:
-          $ref: '#/components/schemas/LegalAdherence'
-          description: Legal requirements of this role has been met by party including signing of appropriate agreements
-        loa:
-          type: string
-          description: Party's level of assurance. Available values are low, substantial and high.
-        role:
-          $ref: '#/components/schemas/Role'
-          description: 'Name of the role as defined in iSHARE role framework. Possible roles  are ServiceConsumer, ServiceProvider,
-
-            EntitledParty,  AuthorisationRegistry, IdentityProvider, IdentityBroker and  IdentityBroker and
-
-            ParticipantRegistry, iShareSatellite (deprecated,  will be removed in future releases, use ParticipantRegistry
-
-            instead).'
-        start_date:
-          type: string
-          description: UTC timestamp which states since when this role for the party is valid.
-    ComplianceVerified:
-      type: string
-      enum:
-      - 'yes'
-      - 'no'
-      - partial
-      - not applicable
-    AuthRegistry:
-      type: object
-      description: 'AuthRegistry : Object which contains details about the authorization registers that the party uses.'
-      required:
-      - authorizationRegistryName
-      - authorizationRegistryID
-      - authorizationRegistryUrl
-      properties:
-        authorizationRegistryID:
-          type: string
-          description: The Id of the authorization registry provider
-        authorizationRegistryName:
-          type: string
-          description: The name of the authorization registry provider
-        authorizationRegistryUrl:
-          type: string
-          description: The URL pointer specific to the party where authorizations can be queried/checked from
-        dataspaceID:
-          type:
-          - string
-          - 'null'
-          description: The id of the data space where the party uses this authorization registry provider
-        dataspaceName:
-          type:
-          - string
-          - 'null'
-          description: The name of the data space corresponding to the data space id
-    Certificate:
-      type: object
-      description: 'Certificate : Object which contains the details of the PKI/x509 certificates of the party.'
-      required:
-      - subject_name
-      - certificate_type
-      - enabled_from
-      - x5c
-      - x5t#s256
-      properties:
-        certificate_type:
-          type: string
-          description: type of certificate
-        enabled_from:
-          type: string
-          description: UTC timestamp which states since when certificate is valid.
-        subject_name:
-          type: string
-          description: 'subjectName as encoded in the X.509 certificate which corresponds with the party that is being requested from
-
-            the Participant Registry. Used by the Participant Registry to match the certificate identifier.'
-        x5c:
-          type: string
-          description: The base64 encoded pem format value of the certificate identified by its subject name and fingerprint
-        x5t#s256:
-          type: string
-          description: The SHA256 fingerprint of the certificate
-    LegalAdherence:
-      type: string
-      enum:
-      - 'yes'
-      - 'no'
-    PartyAdherenceStatus:
-      type: string
-      enum:
-      - Active
-      - Pending
-      - NotActive
-      - Revoked
     Paged_Party:
       type: object
       required:
@@ -807,187 +983,11 @@ components:
           type: integer
           format: int32
           minimum: 0
-    AgreementStatus:
+    LegalAdherence:
       type: string
       enum:
-      - Draft
-      - Signed
-      - Accepted
-      - Obsolete
-    PartyAdditionalInfo:
-      type: object
-      properties:
-        company_email:
-          type:
-          - string
-          - 'null'
-          description: General company email id of the party
-        company_phone:
-          type:
-          - string
-          - 'null'
-          description: General company phone number of the party
-        countries_operation:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: An array of ISO names of the countries where the party operates
-        description:
-          type:
-          - string
-          - 'null'
-          description: A brief description of the party
-        logo:
-          type:
-          - string
-          - 'null'
-          description: URL pointing to the endpoint where company logo can be found.
-        publicly_publishable:
-          type:
-          - string
-          - 'null'
-          description: Consent to publicly publish the information contained in this object
-        sector_industry:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: An array of GICS based sectors/industry that party serves in
-        tags:
-          type:
-          - string
-          - 'null'
-          description: An free text field containing keywords relevant for party
-        website:
-          type:
-          - string
-          - 'null'
-          description: Website address of the party
-    DataspaceInfo:
-      type: object
-      properties:
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int32
-          description: Number of dataspaces returned
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Dataspace'
-          description: Object containing dataspace information
-        page_count:
-          type:
-          - integer
-          - 'null'
-          format: int32
-          description: Number of pages (10 per page)
-        total_count:
-          type:
-          - integer
-          - 'null'
-          format: int32
-          description: Total count of found dataspaces
-    Dataspace:
-      type: object
-      properties:
-        countries_operation:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: Array of country names in which the dataspace operates.
-        country_reg:
-          type:
-          - string
-          - 'null'
-          description: Country in which the dataspace is registered in.
-        dataspace_id:
-          type:
-          - string
-          - 'null'
-          description: 'Unique ID of the dataspace. This is in format of <Continent>.<DS>.<3 letter code for
-
-            dataspaces>.<Country>.<dataspace name> for example EU.DS.GND.NL.DVU. Where, continent is 2 letter code,
-
-            followed by “DS” (stands for dataspace), followed by 3 letter code of common eu dataspaces HLT - Health, INM -
-
-            Industrial and Manufacturing, AGR - Agriculture, FIN - Finance, MOB - Mobility, GND - Green Deal, ENR - Energy,
-
-            PUB - Public Administration, SKL - Skills, followed by ISO 3166-1 alpha-2 2 letter Country code and lastly the
-
-            name/title of the dataspace. Name may not contain spaces or dot “.” or other special characters. Maximum length
-
-            of name can be 15 characters.'
-        dataspace_title:
-          type:
-          - string
-          - 'null'
-          description: Title of dataspace.
-        dataspace_website:
-          type:
-          - string
-          - 'null'
-          description: 'Website address of the dataspace, typically dataspace authority. The website details out more information about
-
-            the datasapce and guides (potential) participants (to become member of) the dataspace.'
-        dataspacedef_url:
-          type:
-          - string
-          - 'null'
-          description: 'URL pointing to the dataspace definition. This is expected to be based on OpenDEI model of building blocks for
-
-            dataspaces. The machine redable format definition is currently under development. The specifications will be
-
-            made available once published.'
-        sectors:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: Array of sector names in which the dataspace operates.
-        status:
-          type:
-          - string
-          - 'null'
-          description: Status of the dataspace. Available values are new, in progress, active and not active.
-        tags:
-          type:
-          - string
-          - 'null'
-          description: 'Free text field for addting relevant tags that are relevant in the context of datasapce. It useful for
-
-            searching for specific dataspaces based on tags.'
-    Role:
-      type: string
-      description: 'Name of the role as defined in iSHARE role framework. Possible roles are ServiceConsumer, ServiceProvider,
-
-        EntitledParty, AuthorisationRegistry, IdentityProvider, IdentityBroker and ParticipantRegistry.'
-      enum:
-      - ServiceConsumer
-      - ServiceProvider
-      - EntitledParty
-      - AuthorisationRegistry
-      - IdentityProvider
-      - IdentityBroker
-      - ParticipantRegistry
-      - iShareSatellite
-    PartySpor:
-      type: object
-      required:
-      - signed_request
-      properties:
-        signed_request:
-          type: string
-          description: verifiable credentials of the participant signed by a trusted authority vouching for its authenticity
+      - 'yes'
+      - 'no'
   securitySchemes:
     bearer_auth:
       type: http

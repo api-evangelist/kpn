@@ -115,17 +115,6 @@ paths:
       deprecated: false
 components:
   schemas:
-    HSMGroup:
-      title: HSMGroup
-      type: object
-      properties:
-        id:
-          type: string
-          description: Id of the HSM group.The HSM group is mandatory.
-        name:
-          type: string
-          description: Name of the HSM group.
-      description: Resource representing an HSM group managed by ThingPark.
     error:
       type: object
       properties:
@@ -149,6 +138,17 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    HSMGroup:
+      title: HSMGroup
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of the HSM group.The HSM group is mandatory.
+        name:
+          type: string
+          description: Name of the HSM group.
+      description: Resource representing an HSM group managed by ThingPark.
   parameters:
     api_version:
       in: header

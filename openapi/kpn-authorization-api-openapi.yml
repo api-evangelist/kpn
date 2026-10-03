@@ -160,12 +160,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    AuthorizationDecision:
-      type: string
-      enum:
-      - permit
-      - deny
-      - notApplicable
     ProblemDetail:
       type: object
       required:
@@ -191,34 +185,6 @@ components:
         type:
           type: string
       additionalProperties: {}
-    AuthorizationResponse:
-      type: object
-      required:
-      - decision
-      - decisionId
-      - timestamp
-      - matchedPolicies
-      - evaluationTimeMs
-      properties:
-        decision:
-          $ref: '#/components/schemas/AuthorizationDecision'
-        decisionId:
-          type: string
-        evaluationTimeMs:
-          type: integer
-          format: int64
-          minimum: 0
-        explanation:
-          type:
-          - string
-          - 'null'
-        matchedPolicies:
-          type: array
-          items:
-            type: string
-        timestamp:
-          type: integer
-          format: int64
     AuthorizationRequest:
       type: object
       description: Authorization enforcement request parameters
@@ -264,6 +230,40 @@ components:
         subject:
           type: string
           description: Subject requesting access (maps to target.accessSubject)
+    AuthorizationDecision:
+      type: string
+      enum:
+      - permit
+      - deny
+      - notApplicable
+    AuthorizationResponse:
+      type: object
+      required:
+      - decision
+      - decisionId
+      - timestamp
+      - matchedPolicies
+      - evaluationTimeMs
+      properties:
+        decision:
+          $ref: '#/components/schemas/AuthorizationDecision'
+        decisionId:
+          type: string
+        evaluationTimeMs:
+          type: integer
+          format: int64
+          minimum: 0
+        explanation:
+          type:
+          - string
+          - 'null'
+        matchedPolicies:
+          type: array
+          items:
+            type: string
+        timestamp:
+          type: integer
+          format: int64
   securitySchemes:
     bearer_auth:
       type: http

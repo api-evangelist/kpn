@@ -518,110 +518,6 @@ paths:
         required: true
 components:
   schemas:
-    DeliveryAddressRequest1:
-      type: object
-      required:
-      - city
-      - companyName
-      - country
-      - houseNumber
-      - postalCode
-      - street
-      properties:
-        addressName:
-          type: string
-        attention:
-          type: string
-          minLength: 0
-          maxLength: 35
-        city:
-          type: string
-          minLength: 1
-          maxLength: 30
-        companyName:
-          type: string
-          minLength: 1
-          maxLength: 35
-        country:
-          type: string
-          description: Only "NL" value is supported
-        floor:
-          type: string
-          minLength: 0
-          maxLength: 21
-        houseNumber:
-          type: string
-          minLength: 1
-          maxLength: 5
-        location:
-          type: string
-          minLength: 0
-          maxLength: 21
-        postalCode:
-          type: string
-          example: 1234AB
-          description: should contain 4 digits first and then 2 letters
-        room:
-          type: string
-          minLength: 0
-          maxLength: 20
-        street:
-          type: string
-          minLength: 1
-          maxLength: 24
-      title: DeliveryAddressRequest
-    DeliveryAddressRequest:
-      type: object
-      required:
-      - city
-      - companyName
-      - country
-      - houseNumber
-      - postalCode
-      - street
-      properties:
-        addressName:
-          type: string
-        attention:
-          type: string
-          minLength: 0
-          maxLength: 35
-        city:
-          type: string
-          minLength: 1
-          maxLength: 30
-        companyName:
-          type: string
-          minLength: 1
-          maxLength: 35
-        country:
-          type: string
-          description: Only "NL" value is supported
-        floor:
-          type: string
-          minLength: 0
-          maxLength: 21
-        houseNumber:
-          type: string
-          minLength: 1
-          maxLength: 5
-        location:
-          type: string
-          minLength: 0
-          maxLength: 21
-        postalCode:
-          type: string
-          example: 1234AB
-          description: should contain 4 digits first and then 2 letters
-        room:
-          type: string
-          minLength: 0
-          maxLength: 20
-        street:
-          type: string
-          minLength: 1
-          maxLength: 24
-      title: DeliveryAddressRequest
     ErrorResponse:
       type: object
       properties:
@@ -674,6 +570,110 @@ components:
         street:
           type: string
       title: DeliveryAddress
+    DeliveryAddressRequest:
+      type: object
+      required:
+      - city
+      - companyName
+      - country
+      - houseNumber
+      - postalCode
+      - street
+      properties:
+        addressName:
+          type: string
+        attention:
+          type: string
+          minLength: 0
+          maxLength: 35
+        city:
+          type: string
+          minLength: 1
+          maxLength: 30
+        companyName:
+          type: string
+          minLength: 1
+          maxLength: 35
+        country:
+          type: string
+          description: Only "NL" value is supported
+        floor:
+          type: string
+          minLength: 0
+          maxLength: 21
+        houseNumber:
+          type: string
+          minLength: 1
+          maxLength: 5
+        location:
+          type: string
+          minLength: 0
+          maxLength: 21
+        postalCode:
+          type: string
+          example: 1234AB
+          description: should contain 4 digits first and then 2 letters
+        room:
+          type: string
+          minLength: 0
+          maxLength: 20
+        street:
+          type: string
+          minLength: 1
+          maxLength: 24
+      title: DeliveryAddressRequest
+    DeliveryAddressRequest1:
+      type: object
+      required:
+      - city
+      - companyName
+      - country
+      - houseNumber
+      - postalCode
+      - street
+      properties:
+        addressName:
+          type: string
+        attention:
+          type: string
+          minLength: 0
+          maxLength: 35
+        city:
+          type: string
+          minLength: 1
+          maxLength: 30
+        companyName:
+          type: string
+          minLength: 1
+          maxLength: 35
+        country:
+          type: string
+          description: Only "NL" value is supported
+        floor:
+          type: string
+          minLength: 0
+          maxLength: 21
+        houseNumber:
+          type: string
+          minLength: 1
+          maxLength: 5
+        location:
+          type: string
+          minLength: 0
+          maxLength: 21
+        postalCode:
+          type: string
+          example: 1234AB
+          description: should contain 4 digits first and then 2 letters
+        room:
+          type: string
+          minLength: 0
+          maxLength: 20
+        street:
+          type: string
+          minLength: 1
+          maxLength: 24
+      title: DeliveryAddressRequest
   securitySchemes:
     OAuth2:
       type: oauth2

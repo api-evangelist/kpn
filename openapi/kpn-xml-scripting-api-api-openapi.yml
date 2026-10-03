@@ -422,11 +422,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    XMLScriptingResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/XMLScriptingObject'
-      description: Response containing the list of the external scripts for your domain.
     ErrorResponse:
       type: object
       properties:
@@ -450,6 +445,11 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    XMLScriptingResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/XMLScriptingObject'
+      description: Response containing the list of the external scripts for your domain.
     XMLScriptingObject:
       type: object
       properties:

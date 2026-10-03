@@ -452,13 +452,6 @@ components:
         - status
         - metadata
   parameters:
-    device_id:
-      in: header
-      name: uniqueAppDeviceId
-      schema:
-        type: string
-      description: You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.
-      required: true
     api_version:
       in: header
       name: api-version
@@ -466,6 +459,13 @@ components:
         type: string
       description: API Version. If no version is provided it defaults to latest version.
       required: false
+    device_id:
+      in: header
+      name: uniqueAppDeviceId
+      schema:
+        type: string
+      description: You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.
+      required: true
     auth_string:
       in: header
       name: authString

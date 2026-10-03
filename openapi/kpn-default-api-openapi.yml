@@ -494,164 +494,6 @@ paths:
     - url: https://api-prd.kpn.com/wba/adresses
 components:
   schemas:
-    search:
-      type: object
-      properties:
-        broadband:
-          $ref: '#/components/schemas/broadband'
-        fixed:
-          $ref: '#/components/schemas/fixed'
-        mobile:
-          $ref: '#/components/schemas/mobile'
-        generic:
-          $ref: '#/components/schemas/generic'
-    generic:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            type: integer
-            description: Identifier
-          affected_elements_count:
-            type: integer
-            description: affected elements count
-          affected_customers_count:
-            type: integer
-            description: affected customers count
-          communicated_customers_sms_count:
-            type: integer
-            description: communicated customers sms count
-          communicated_customers_email_count:
-            type: integer
-            description: communicated customers email count
-          type:
-            type: string
-            description: type
-          cause:
-            type: string
-            description: cause
-          source:
-            type: string
-            description: affected customers count
-          service:
-            type: string
-            description: service
-          state:
-            type: string
-            description: affected customers count
-          start_date:
-            type: string
-            description: start date
-          end_date:
-            type: string
-            description: end date
-          region:
-            type: string
-            description: region
-          description:
-            type: string
-            description: description
-          long_description:
-            type: string
-            description: long description
-          serviceguard_ticket_id:
-            type: string
-            description: serviceguard ticket id
-          created_at:
-            type: string
-            description: created at
-          communication_type:
-            type: string
-            description: communication type
-          user:
-            type: string
-            description: user
-    fixed:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            type: integer
-            description: Identifier
-          affected_elements_count:
-            type: integer
-            description: affected elements count
-          affected_customers_count:
-            type: integer
-            description: affected customers count
-          communicated_customers_sms_count:
-            type: integer
-            description: communicated customers sms count
-          communicated_customers_email_count:
-            type: integer
-            description: communicated customers email count
-          type:
-            type: string
-            description: type
-          cause:
-            type: string
-            description: cause
-          source:
-            type: string
-            description: affected customers count
-          service:
-            type: string
-            description: service
-          state:
-            type: string
-            description: affected customers count
-          start_date:
-            type: string
-            description: start date
-          end_date:
-            type: string
-            description: end date
-          region:
-            type: string
-            description: region
-          description:
-            type: string
-            description: description
-          long_description:
-            type: string
-            description: long description
-          serviceguard_ticket_id:
-            type: string
-            description: serviceguard ticket id
-          created_at:
-            type: string
-            description: created at
-          communication_type:
-            type: string
-            description: communication type
-          user:
-            type: string
-            description: user
-    error:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: Transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
     mobile:
       type: array
       items:
@@ -776,72 +618,164 @@ components:
           user:
             type: string
             description: user
-    offer_object:
+    generic:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: Identifier
+          affected_elements_count:
+            type: integer
+            description: affected elements count
+          affected_customers_count:
+            type: integer
+            description: affected customers count
+          communicated_customers_sms_count:
+            type: integer
+            description: communicated customers sms count
+          communicated_customers_email_count:
+            type: integer
+            description: communicated customers email count
+          type:
+            type: string
+            description: type
+          cause:
+            type: string
+            description: cause
+          source:
+            type: string
+            description: affected customers count
+          service:
+            type: string
+            description: service
+          state:
+            type: string
+            description: affected customers count
+          start_date:
+            type: string
+            description: start date
+          end_date:
+            type: string
+            description: end date
+          region:
+            type: string
+            description: region
+          description:
+            type: string
+            description: description
+          long_description:
+            type: string
+            description: long description
+          serviceguard_ticket_id:
+            type: string
+            description: serviceguard ticket id
+          created_at:
+            type: string
+            description: created at
+          communication_type:
+            type: string
+            description: communication type
+          user:
+            type: string
+            description: user
+    search:
       type: object
       properties:
-        available_on_address:
-          type: object
-          properties:
-            technologies:
-              type: array
-              items:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    description: type of technology available_on_address
-                  download:
-                    type: integer
-                    description: maximum download speed for this technology in MB per second
-                  upload:
-                    type: integer
-                    description: maximum upload speed for this technology in MB per second
-            house_number_extensions:
-              type: array
-              items:
-                type: object
-        fixed_info:
-          $ref: '#/components/schemas/FixedInfo'
-        fiber_info:
-          $ref: '#/components/schemas/FiberInfo'
-        bandwidth:
-          type: object
-          properties:
-            up:
-              type: integer
-              description: up
-            down:
-              type: integer
-              description: down
-        alerts:
-          $ref: '#/components/schemas/alert'
-    alert:
+        broadband:
+          $ref: '#/components/schemas/broadband'
+        fixed:
+          $ref: '#/components/schemas/fixed'
+        mobile:
+          $ref: '#/components/schemas/mobile'
+        generic:
+          $ref: '#/components/schemas/generic'
+    error:
       type: object
       properties:
-        code:
+        transactionId:
           type: string
-          description: Alert identifier
-        description:
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
           type: string
-          description: description of the alert.
-        code_message:
+          description: Status
+          title: Status
+        name:
           type: string
-          description: message related with the alert identifier.
-    FixedInfo:
-      type: object
-      properties:
-        copper_access:
-          title: Copper access
-          type: boolean
-        fiber_access:
-          title: Fiber access
-          type: boolean
-        hybrid_access:
-          title: Hybrid access
-          type: boolean
-        mobile_access:
-          title: Mobile access
-          type: boolean
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    fixed:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: Identifier
+          affected_elements_count:
+            type: integer
+            description: affected elements count
+          affected_customers_count:
+            type: integer
+            description: affected customers count
+          communicated_customers_sms_count:
+            type: integer
+            description: communicated customers sms count
+          communicated_customers_email_count:
+            type: integer
+            description: communicated customers email count
+          type:
+            type: string
+            description: type
+          cause:
+            type: string
+            description: cause
+          source:
+            type: string
+            description: affected customers count
+          service:
+            type: string
+            description: service
+          state:
+            type: string
+            description: affected customers count
+          start_date:
+            type: string
+            description: start date
+          end_date:
+            type: string
+            description: end date
+          region:
+            type: string
+            description: region
+          description:
+            type: string
+            description: description
+          long_description:
+            type: string
+            description: long description
+          serviceguard_ticket_id:
+            type: string
+            description: serviceguard ticket id
+          created_at:
+            type: string
+            description: created at
+          communication_type:
+            type: string
+            description: communication type
+          user:
+            type: string
+            description: user
     FiberInfo:
       type: object
       properties:
@@ -887,12 +821,98 @@ components:
           title: Phase
           type: string
           minLength: 1
-    zipcode-schema:
+    alert:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Alert identifier
+        description:
+          type: string
+          description: description of the alert.
+        code_message:
+          type: string
+          description: message related with the alert identifier.
+    offer_object:
+      type: object
+      properties:
+        available_on_address:
+          type: object
+          properties:
+            technologies:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: type of technology available_on_address
+                  download:
+                    type: integer
+                    description: maximum download speed for this technology in MB per second
+                  upload:
+                    type: integer
+                    description: maximum upload speed for this technology in MB per second
+            house_number_extensions:
+              type: array
+              items:
+                type: object
+        fixed_info:
+          $ref: '#/components/schemas/FixedInfo'
+        fiber_info:
+          $ref: '#/components/schemas/FiberInfo'
+        bandwidth:
+          type: object
+          properties:
+            up:
+              type: integer
+              description: up
+            down:
+              type: integer
+              description: down
+        alerts:
+          $ref: '#/components/schemas/alert'
+    FixedInfo:
+      type: object
+      properties:
+        copper_access:
+          title: Copper access
+          type: boolean
+        fiber_access:
+          title: Fiber access
+          type: boolean
+        hybrid_access:
+          title: Hybrid access
+          type: boolean
+        mobile_access:
+          title: Mobile access
+          type: boolean
+    number-of-nl-lines-schema:
       type: string
-      pattern: '[1-9]\d{3}[A-Z]{2}'
-      maxLength: 6
-      minLength: 6
-      example: 1234AB
+      pattern: (\d(0,10))?
+      maxLength: 10
+      example: 2
+      description: 'Number of NL1 lines: Number of NL type 1 copper connections on the ISRA (with or without services)
+
+
+        Number of NL2 lines: Number of NL type 2 copper connections on the ISRA. In case the field number-of-nl-lines is not filled, the number of NL2 Lines cannot be determined accurately. Order will be handled manually by KPN Backoffice.
+
+        '
+    planned_user-street-schema:
+      type: string
+      maxLength: 80
+      example: Boonstraat
+    carrier-status-schema:
+      type: string
+      description: 'In case of a full match, the carrier status for each carrier-vendor will be shown. For carrier-vendor MDF/SDF, carrier-status will be Open or Planned (e.g. High-Rise building, or another reason why copper status is planned). If Copper is not feasible on this address, carrier-status is set to Closed. For carrier-vendor REGG or KPNFO, carrier-status will be returned based on the nl-type. If Fiber is not available on this address, carrier-status is set to Closed. In case of a fiber NL-type 9, carrier status is set to Planned. In case of a partial address match on Copper, no carrier-status can be returned. In case of a partial address match on Fiber, the carrier-status will be selected.
+
+        '
+      example: O
+    asw-schema:
+      type: string
+      maxLength: 2
+      description: Access Stability Value (ASW) is a broadband performance indicator from 1 (‘bad line’) to 10 (‘excellent line’). ASW is applicable for xDSL technology types on copper carriers except for technology type SDSL. ASW is not applicable for Fiber technology types FTTH and FTTO. ASW is determined by the actual speed measured on the DSL modem, the predicted speed for the same technology based on length and the line stability. ASW is determined on a weekly basis for active connections. An ASW value can be empty if one of the variables (actual speed, predicted speed, line stability) is not available.
+      example: 8
     telephonytype-schema:
       type: string
       maxLength: 50
@@ -906,40 +926,226 @@ components:
 
         '
       example: POTS
-    typeofconnection-schema:
+    plandate-reliability-schema:
       type: string
       maxLength: 15
-      example: 3
-      description: 'This field is filled with the (current or future) type of connection.
+      description: 'Presentation of a plandate and reliability is in the following format: - Week reliability: field is filled with “dd-mm-yyyy” (NEN ISO 8601 date format) - Month reliability: abbreviation for Month and year. Following abbreviations are used for month: -- Jan. Feb. Mar. Apr. May. June, July, Aug. Sept. Oct. Nov. Dec. -- Example: Dec. 2017 -- Quarter reliability: Q4 2017'
+      example: Dec. 2017
+    planned-user-city-schema:
+      type: string
+      maxLength: 80
+      example: Den Haag
+    construction-type-schema:
+      type: string
+      enum:
+      - EXISTING_CONSTRUCTION
+      - NEW_CONSTRUCTION
+      - UNKNOWN
+      maxLength: 50
+      description: 'Possible values for this field are:
 
-        0: Not in use
+        - EXISTING_CONSTRUCTION (“bestaande bouw”)
 
-        1: Fixed Line service
+        - NEW_CONSTRUCTION (“nieuwbouw”)
 
-        2: Telephony service
-
-        3: MDF Broadband service (1 xdf-access-serviceid)
-
-        4: SDF Broadband service (1 xdf-access-serviceid)
-
-        5: ODF Broadband service (1 odf-connection-id)
-
-        6: ODF Broadband service blocked
-
-        7: ODF Broadband service defect
-
-        8: Unknown service
-
-        9: No change (no planned order)
-
-        10: MDF Bundle (2 xdf-access-serviceids)
-
-        11: SDF Bundle (2 xdf-access-serviceids)
-
-
-        For carrier-vendor-id REGG, this field is filled with the future (planned) status of the connection.
+        - UNKNOWN
 
         '
+      example: EXISTING_CONSTRUCTION
+    diy-allowed-schema:
+      type: string
+      pattern: ({true|false})?
+      maxLength: 5
+      description: 'The Area PoP location can be managed by Reggefiber and DiY is not allowed in this case. Possible values are:
+
+        - false (DiY is not allowed, this Area PoP and ordertype is managed by Reggefiber)
+
+        - true (DiY is allowed on this Area PoP)
+
+        '
+    isra-pin-schema:
+      type: string
+      maxLength: 4
+      description: In case xDF-access-serviceid was provided, ISRA pin can be shown in output. “isra-pin” (or stift number) is a numeric field with leading zero’s.
+      example: 6
+    status-connection-schema:
+      type: string
+      maxLength: 2
+      description: 'The field “status-connection” is filled with:
+
+        0: Operational, in use
+
+        1: Broadband order in progress
+
+        2: Telephony order in progress
+
+        3: Terminate broadband order in progress
+
+        4: Terminate telephony order in progress
+
+        5: Other telephony order in progress
+
+        6: Linesharing order in progress
+
+        99: Others
+
+        '
+      example: 3
+    errorcode-schema:
+      type: integer
+      maxLength: 5
+      description: "If the errorcode is not equal to 0, there was an error in the validations and the information request could not be fulfilled. This can be syntax errors on the structure of the xml message (errorcode 701), authorization error (errocode 801) or functional errors on provided input data.        \n\nInformation about errorcodes can be found in the document *WBA Fulfillment Error Comment Code List*, which is provided to every KPN Wholesale Broadband Access customer.\n"
+    isra-specs-schema:
+      type: string
+      maxLength: 85
+      description: The ISRA specs of a copper termination point of the customer address, connected to the Distribution Point
+      example: 001/MK/MK
+    physical-carrier-schema:
+      type: string
+      example: Copper
+    bandwidth-up-schema:
+      type: string
+      maxLength: 50
+      description: This field provides the expected actual up bitrate in kbps, i.e. the actual bitrate as defined in the corresponding technology standard for an xDSL modem or a fiber NT (see WBA Annex 2).
+      example: 20139
+    bonding-allowed-schema:
+      type: string
+      pattern: (0|1|2|3)?
+      maxLength: 1
+      example: 2
+      description: 'Bonding allowed information is mainly based on the quality of the copper cable and must not be confused with free available copper pairs. Refer to the table below with the values for the field bonding-allowed.
+
+        0: No pair bonding. Bonding is not available and will not become available.
+
+        1: Pair bonding upgrade not yet finished. Bonding not available yet. Check on quality of additional connections needed for bonding is not yet finished.
+
+        2: Pair bonding upgrade finished. Bonding is available. Quality of additional connections for bonding is checked
+
+        3: Temporary not available. Bonding temporary not available.
+
+        '
+    nl-type-schema:
+      type: string
+      maxLength: 10
+      description: "The nl-type (NewLineService type) is only shown for carrier-type Fiber and cannot be shown for Copper. It describes the status of pre-provisioned physical fiber connection to the end-user’s home address. In case of partial address match, nl-type is empty. In case of a full address match on fiber, the following nl-types can be shown:\n- HBOB: Haalbaarheidsonderzoek in Buitengebied \n- HBOR: Haalbaarheidsonderzoek veroorzaakt door Opleverstatus of RedenNA (Niet Aangesloten) \n- IO: Indirect orderbaar \n- IO_H: Indirect orderbaar – nog geen HASdatum \n- IO_O: Indirect orderbaar – langdurige obstructie \n- 6: Standaard \n- 7: Na-Aansl T1 \n- 8: Na-Aansl T2 \n- 8H: Na-Aansl HBO \n- 9: Levering tijdens nieuwbouw en Project-HAS \n- 11: FTU Ombouw \n- NO: Niet orderbaar \n- NO_D: Niet orderbaar – Doorvoerafhankelijkheid \n- NO_H: Niet orderbaar – Haalbaarheidsonderzoek \n- NO_V: Niet orderbaar – Vraagbundeling \n- 21: KPN's FTTO access network is available on this business park and WBA on FTTO is available. Further a fiber connection with free fibers is available on this address. Only patching and configuration work is needed to enable WBA on FTTO \n- 23: KPN's FTTO access network is available on this business park and WBA on FTTO is available. But this address is not connected or there are no free fibers available in the customer connection. Digging, patching and configuration work is needed to connect the address to the access network \n- 24: KPN's FTTO The carrier-status is set to Closed (e.g. nl-type HBOB) or Planned (nl-type 9) when the fiber is not ready or not yet available for ordering.\n"
+      example: 6
+    fiberinfo-schema:
+      type: object
+      description: This object is present in the message for physical-carrier “Fiber”.
+      properties:
+        carrier-vendor-id:
+          $ref: '#/components/schemas/carrier-vendor-id-schema'
+        areapop:
+          $ref: '#/components/schemas/areapop-schema'
+        connectionpointinfo:
+          type: array
+          items:
+            type: object
+            properties:
+              fiber-terminationpoint-id:
+                $ref: '#/components/schemas/fiber-terminationpoint-id-schema'
+              network-provider:
+                $ref: '#/components/schemas/network-provider-schema'
+              ftu-type:
+                $ref: '#/components/schemas/ftu-type-schema'
+              location-ftu:
+                $ref: '#/components/schemas/location-ftu-schema'
+              power-outlet-available:
+                $ref: '#/components/schemas/power-outlet-available-schema'
+              ftu-close-to-isra:
+                $ref: '#/components/schemas/ftu-close-to-isra-schema'
+              nl-type:
+                $ref: '#/components/schemas/nl-type-schema'
+              construction-type:
+                $ref: '#/components/schemas/construction-type-schema'
+              diy-allowed:
+                $ref: '#/components/schemas/diy-allowed-schema'
+              carrier-status:
+                $ref: '#/components/schemas/carrier-status-schema'
+              plan-date:
+                $ref: '#/components/schemas/plan-date-schema'
+              has-date:
+                $ref: '#/components/schemas/has-date-schema'
+              fiberconnection:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    current-typeofconnection:
+                      $ref: '#/components/schemas/typeofconnection-schema'
+                    current-xdf-connectionid:
+                      $ref: '#/components/schemas/odf-connection-id-schema'
+                    future-typeofconnection:
+                      $ref: '#/components/schemas/typeofconnection-schema'
+                    future-xdf-connectionid:
+                      $ref: '#/components/schemas/odf-connection-id-schema'
+    enduserinfo-cip-schema:
+      type: object
+      description: The requested elements are echoed from the input. Optional field requested-phonenumber is included, since this may be a different phonenumber (i.e. an ISDN-2 subnumber) than the main-phonenumber.
+      properties:
+        requested-housenumber:
+          $ref: '#/components/schemas/housenumber-schema'
+        requested-housenrext:
+          $ref: '#/components/schemas/housenrext-schema'
+        requested-zipcode:
+          $ref: '#/components/schemas/zipcode-schema'
+        requested-phonenumber:
+          $ref: '#/components/schemas/phonenumber-schema'
+      required:
+      - requested-housenumber
+      - requested-zipcode
+    cable-length-schema:
+      type: string
+      maxLength: 12
+      description: Length of the copper cable connection (in meters) which can be used to determine NLS-type 3 category. In case this length <25m and no free copper pairs are available, a new line can be requested as NLS-type 3. In case this length is >=25m and no free copper pairs are available, WSO needs to request a quotation for installation of a new NLS-type 3 line via infraportal https://www.vwtelecom.com/cit-team WSO can submit a WBA order on NLS-type 1, when copperpair on ISRA is delivered.
+      example: 55
+    reliability-schema:
+      type: string
+      pattern: (\d{0,3})?
+      maxLength: 3
+      minLength: 0
+      description: This field is the probability of the bitrate up and down that can be achieved with a specific technology type. The probability is an indication for the reliability of the bandwidth. For a copper line, the reliability is within 50 .. 99%. The reliability for SDSL is always 90%. The reliability for fiber is always 100%. Refer to the table in the description of the technology-field.
+      example: 90
+    fiber-terminationpoint-id-schema:
+      type: string
+      maxLength: 64
+      minLength: 0
+      example: 6.17
+      description: 'This is the identification of the fiber termination point on the customer address (for Reggefiber: Room). There may be more fiber-terminationpoint-ids on an end-user address, each with a unique identification.'
+    patchless-possible-schema:
+      type: string
+      pattern: ({true|false})?
+      maxLength: 5
+      description: "Patchless-possible is used for Coper and Fiber Technology types. Patchless-possible is set to true to indicate that the related technology type is supported by the current DSLAM port. An order for this technology type can be executed without crosswire manipulation. Patchless-possible will be returned when on the provided ISRA only one active connection is found, or user has provided an xdf-access-serviceid or a fiber-terminationpoint-id is provided. Patchless-possible is set to false when multiple active connections are found on the provided address. Xdf-access-serviceid is leading in case provided in the input else address will be leading. Commentcode 9079 will be shown in case xdf-access-serviceid is unkown. Patchless-possible is applicable for Copper and Fiber technology types: \n- true: if single service exists and the requested technology type is supported on the current DSLAM port \n- false: if multiple services exist at the customer address, or requested technology is not supported on the DSLAM port.\n"
+      example: true
+    supported-on-current-nt-schema:
+      type: string
+      pattern: ({true|false})?
+      maxLength: 5
+      description: Only filled for PON based technologies.
+      example: true
+    xdf-access-serviceid-schema:
+      type: string
+      maxLength: 20
+      minLength: 0
+      example: CDQ12344
+      description: 'Copperinfo: In case a phonenumber was specified and it is a shared line service, (broadband and POTS/ISDN telephony), this field is filled with xDF-access-service ID.
+
+
+        Additional xdf service id: xDF-access-service ID of the second copper line, which is used in case of a bonded service.
+
+
+        Current mdf service id: In case the current type of connection = Broadband, this field is filled with the current xDF-Service-ID.
+
+
+        Future mdf service id: In case the planned type of connection = Broadband, this field is filled with the future xDF-Service-ID.
+
+        '
+    cgb-name-schema:
+      type: string
+      maxLength: 16
+      example: Asd-C
+      description: This is the MDF-location where the end-user address is connected to.
     location-ftu-schema:
       type: string
       maxLength: 50
@@ -960,165 +1166,11 @@ components:
 
         '
       example: LIVINGROOM
-    san-only-schema:
-      type: string
-      pattern: ({true|false})?
-      description: SAN-only indicates that a copper connection to the house is planned but is built on customer request only. Tariff is according to NL type 1, but different lead-time is used to allow digging to be executed.
-      example: true
-    availability-schema:
+    ftu-type-schema:
       type: string
       maxLength: 50
-      description: 'This field indicates the availability per technology type. A technology type can be Open (O), Planned (P), Closed (C) or Temporary Closed (TC). A technology type can be set to TC in case port-capacity is not available in the Distribution Point.''''
-
-        '
-      example: O
-    network-provider-schema:
-      type: string
-      maxLength: 50
-      description: This is the network provider (owner of the network) of the passive connection. In case of KPN this field is filled with KPN Network NL.
-      example: KPN Network NL
-    has-date-schema:
-      type: string
-      pattern: (\d{8})?
-      maxLength: 8
-      description: 'Home connection: Date at which an appointment is made with end-user to install the fiber, including FTU-Type, in the home / building. Has-date is only provided for carrier-vendor REGG in case carrier-status is Panned. Date in format CCYYMMDD'
-      example: 20190815
-    errorcode-schema:
-      type: integer
-      maxLength: 5
-      description: "If the errorcode is not equal to 0, there was an error in the validations and the information request could not be fulfilled. This can be syntax errors on the structure of the xml message (errorcode 701), authorization error (errocode 801) or functional errors on provided input data.        \n\nInformation about errorcodes can be found in the document *WBA Fulfillment Error Comment Code List*, which is provided to every KPN Wholesale Broadband Access customer.\n"
-    patchless-possible-schema:
-      type: string
-      pattern: ({true|false})?
-      maxLength: 5
-      description: "Patchless-possible is used for Coper and Fiber Technology types. Patchless-possible is set to true to indicate that the related technology type is supported by the current DSLAM port. An order for this technology type can be executed without crosswire manipulation. Patchless-possible will be returned when on the provided ISRA only one active connection is found, or user has provided an xdf-access-serviceid or a fiber-terminationpoint-id is provided. Patchless-possible is set to false when multiple active connections are found on the provided address. Xdf-access-serviceid is leading in case provided in the input else address will be leading. Commentcode 9079 will be shown in case xdf-access-serviceid is unkown. Patchless-possible is applicable for Copper and Fiber technology types: \n- true: if single service exists and the requested technology type is supported on the current DSLAM port \n- false: if multiple services exist at the customer address, or requested technology is not supported on the DSLAM port.\n"
-      example: true
-    supported-on-current-nt-schema:
-      type: string
-      pattern: ({true|false})?
-      maxLength: 5
-      description: Only filled for PON based technologies.
-      example: true
-    technology-type-schema:
-      type: string
-      description: 'This field contains the technology type. When provided a technology type as part of the request make sure to url encode it, e.g. ADSL2+_POTS becomes ADSL2%2B_POTS. If no technology types are specified in the input, the default available technology type and reliability list is shown in the FPI output. The default setting is as follows:
-
-        | Technology type | Default reliability | Shown in FPI output if not specified in FPI request |
-
-        |-----------------|---------------------|-----------------------------------------------------|
-
-        | ADSL_ISDN       | 80%                 | No                                                  |
-
-        | SDSL            | 90%                 | No                                                  |
-
-        | ADSL2+_ISDN     | 80%                 | No                                                  |
-
-        | ADSL2+_POTS     | 80%                 | Yes                                                 |
-
-        | VDSL2_POTS      | 90%                 | Yes                                                 |
-
-        | VVDSL2_POTS     | 90%                 | Yes                                                 |
-
-        | BVDSL2_POTS     | 90%                 | Yes                                                 |
-
-        | BVVDSL2_POTS    | 90%                 | Yes                                                 |
-
-        | VPLUS_POTS      | 90%                 | Yes                                                 |
-
-        | BVPLUS_POTS     | 90%                 | Yes                                                 |
-
-        | EoF             | 100%                | Yes                                                 |
-
-        | GoF             | 100%                | Yes                                                 |
-
-        | GPON            | 100%                | Yes                                                 |
-
-        | XGSPON          | 100%                | Yes                                                 |
-
-        '
-      enum:
-      - ADSL_ISDN
-      - ADSL2%2B_POTS
-      - ADSL2%2B_ISDN
-      - SDSL
-      - VDSL2_POTS
-      - BVDSL2_POTS
-      - VVDSL2%2BPOTS
-      - BVVDSL2%2BPOTS
-      - VPLUS_POTS
-      - BVPLUS_POTS
-      - EoF
-      - GoF
-      - GPON
-      - XGSPON
-      maxLength: 50
-      example: VVDSL2_POTS
-    carrier-status-schema:
-      type: string
-      description: 'In case of a full match, the carrier status for each carrier-vendor will be shown. For carrier-vendor MDF/SDF, carrier-status will be Open or Planned (e.g. High-Rise building, or another reason why copper status is planned). If Copper is not feasible on this address, carrier-status is set to Closed. For carrier-vendor REGG or KPNFO, carrier-status will be returned based on the nl-type. If Fiber is not available on this address, carrier-status is set to Closed. In case of a fiber NL-type 9, carrier status is set to Planned. In case of a partial address match on Copper, no carrier-status can be returned. In case of a partial address match on Fiber, the carrier-status will be selected.
-
-        '
-      example: O
-    mdf-cable-length-schema:
-      type: string
-      maxLength: 12
-      description: The total length from MDF to the end of the cable. The house connection cable, having a separate cable-length is connected on any point in the distribution cable, not necessary on the end of the cable, but probably closer to the MDF.
-    bandwidth-up-schema:
-      type: string
-      maxLength: 50
-      description: This field provides the expected actual up bitrate in kbps, i.e. the actual bitrate as defined in the corresponding technology standard for an xDSL modem or a fiber NT (see WBA Annex 2).
-      example: 20139
-    plandate-reliability-schema:
-      type: string
-      maxLength: 15
-      description: 'Presentation of a plandate and reliability is in the following format: - Week reliability: field is filled with “dd-mm-yyyy” (NEN ISO 8601 date format) - Month reliability: abbreviation for Month and year. Following abbreviations are used for month: -- Jan. Feb. Mar. Apr. May. June, July, Aug. Sept. Oct. Nov. Dec. -- Example: Dec. 2017 -- Quarter reliability: Q4 2017'
-      example: Dec. 2017
-    housenumber-schema:
-      type: string
-      maxLength: 5
-      minLength: 1
-      example: 12
-    housenrext-schema:
-      type: string
-      maxLength: 5
-      minLength: 0
-      example: A
-    isra-specs-schema:
-      type: string
-      maxLength: 85
-      description: The ISRA specs of a copper termination point of the customer address, connected to the Distribution Point
-      example: 001/MK/MK
-    physical-carrier-schema:
-      type: string
-      example: Copper
-    construction-type-schema:
-      type: string
-      enum:
-      - EXISTING_CONSTRUCTION
-      - NEW_CONSTRUCTION
-      - UNKNOWN
-      maxLength: 50
-      description: 'Possible values for this field are:
-
-        - EXISTING_CONSTRUCTION (“bestaande bouw”)
-
-        - NEW_CONSTRUCTION (“nieuwbouw”)
-
-        - UNKNOWN
-
-        '
-      example: EXISTING_CONSTRUCTION
-    access-area-id-schema:
-      type: string
-      maxLength: 8
-      description: An Access Area consists of a set of locations with DSLAMs connected to the Ethernet Transport Network.
-      example: AA/12345
-    fiber-terminationpoint-id-schema:
-      type: string
-      maxLength: 64
-      minLength: 0
-      example: 6.17
-      description: 'This is the identification of the fiber termination point on the customer address (for Reggefiber: Room). There may be more fiber-terminationpoint-ids on an end-user address, each with a unique identification.'
+      description: 'The FTU is used for installation of the NT (Network Termination device) at the customer premises. FPI provides the ftu-type to be installed at the customer location when ordering a WBA service. Examples of FTU types are: FTU_GN01, FTU_GN02, FTU_ZS_GN01. In case of partial address match, the field ftu-type is empty. Standard FTU-Type for Reggefiber NL-type 7, 8, 9 and 11 is FTU_TK01. The FTU-type is relevant for the installation of the NT-type. Fiber Termination Unit for carrier-vendor KPNFO (FTTO) is currently MB4.'
+      example: FTU_GN01
     odf-connection-id-schema:
       type: string
       maxLength: 20
@@ -1128,6 +1180,43 @@ components:
         Future odf connection id: For carrier-vendor-id REGG, this field is filled with the future (planned) ODF ConnectionID.
 
         '
+    service-group-schema:
+      type: string
+      maxLength: 12
+      description: The service-group is a reference to the existing WBA service. The service-group is used for migration orders and for changes in existing WBA service of a WSO.
+    power-outlet-available-schema:
+      type: string
+      maxLength: 50
+      enum:
+      - 'YES'
+      - 'NO'
+      - UNKNOWN
+      description: 'Indication for availability of a power outlet. Possible values are:
+
+        - NO
+
+        - YES
+
+        - UNKNOWN
+
+        '
+      example: 'YES'
+    commentcode-schema:
+      type: string
+      maxLength: 80
+      description: "Commentcodes are never blocking but meant to inform the WSO about certain situations.    \n\nInformation about commentcodes can be found in the document *WBA Fulfillment Error Comment Code List*, which is provided to every KPN Wholesale Broadband Access customer.\n"
+      example: 9065
+    has-date-schema:
+      type: string
+      pattern: (\d{8})?
+      maxLength: 8
+      description: 'Home connection: Date at which an appointment is made with end-user to install the fiber, including FTU-Type, in the home / building. Has-date is only provided for carrier-vendor REGG in case carrier-status is Panned. Date in format CCYYMMDD'
+      example: 20190815
+    network-provider-schema:
+      type: string
+      maxLength: 50
+      description: This is the network provider (owner of the network) of the passive connection. In case of KPN this field is filled with KPN Network NL.
+      example: KPN Network NL
     copperinfo-schema:
       type: object
       description: This object is present in the response for physical-carrier “Copper” and will be returned when requested address has copper connections.
@@ -1198,21 +1287,163 @@ components:
                       $ref: '#/components/schemas/phonenumber-schema'
                     future-telephony-type:
                       $ref: '#/components/schemas/telephonytype-schema'
-    enduserinfo-cip-schema:
-      type: object
-      description: The requested elements are echoed from the input. Optional field requested-phonenumber is included, since this may be a different phonenumber (i.e. an ISDN-2 subnumber) than the main-phonenumber.
-      properties:
-        requested-housenumber:
-          $ref: '#/components/schemas/housenumber-schema'
-        requested-housenrext:
-          $ref: '#/components/schemas/housenrext-schema'
-        requested-zipcode:
-          $ref: '#/components/schemas/zipcode-schema'
-        requested-phonenumber:
-          $ref: '#/components/schemas/phonenumber-schema'
-      required:
-      - requested-housenumber
-      - requested-zipcode
+    technologyavailability-schema:
+      type: array
+      description: The technologyavailability array can have multiple occurrences. Available technology types, bitrates with reliability are shown.
+      items:
+        type: object
+        properties:
+          patchless-possible:
+            $ref: '#/components/schemas/patchless-possible-schema'
+          soft-connect-possible:
+            $ref: '#/components/schemas/soft-connect-possible-schema'
+          supported-on-current-nt:
+            $ref: '#/components/schemas/supported-on-current-nt-schema'
+          technology-type:
+            $ref: '#/components/schemas/technology-type-schema'
+          bandwidth-up:
+            $ref: '#/components/schemas/bandwidth-up-schema'
+          bandwidth-down:
+            $ref: '#/components/schemas/bandwidth-down-schema'
+          reliability:
+            $ref: '#/components/schemas/reliability-schema'
+          carrier-vendor-id:
+            $ref: '#/components/schemas/carrier-vendor-id-schema'
+          access-area-id:
+            $ref: '#/components/schemas/access-area-id-schema'
+          commentcode:
+            $ref: '#/components/schemas/commentcode-schema'
+          availability:
+            $ref: '#/components/schemas/availability-schema'
+          plandate:
+            type: string
+            pattern: (\d{6})?
+            maxLength: 6
+            description: This field is not used. Plandates will be presented in the field “plandate-reliability”
+          plandate-reliability:
+            $ref: '#/components/schemas/plandate-reliability-schema'
+    zipcode-schema:
+      type: string
+      pattern: '[1-9]\d{3}[A-Z]{2}'
+      maxLength: 6
+      minLength: 6
+      example: 1234AB
+    current-nt-type-schema:
+      type: string
+      maxLength: 50
+      description: The nt-type as found in the inventory. This might either be an active line of an inactive line.
+      example: KPN-G
+    availability-schema:
+      type: string
+      maxLength: 50
+      description: 'This field indicates the availability per technology type. A technology type can be Open (O), Planned (P), Closed (C) or Temporary Closed (TC). A technology type can be set to TC in case port-capacity is not available in the Distribution Point.''''
+
+        '
+      example: O
+    housenrext-schema:
+      type: string
+      maxLength: 5
+      minLength: 0
+      example: A
+    technology-type-schema:
+      type: string
+      description: 'This field contains the technology type. When provided a technology type as part of the request make sure to url encode it, e.g. ADSL2+_POTS becomes ADSL2%2B_POTS. If no technology types are specified in the input, the default available technology type and reliability list is shown in the FPI output. The default setting is as follows:
+
+        | Technology type | Default reliability | Shown in FPI output if not specified in FPI request |
+
+        |-----------------|---------------------|-----------------------------------------------------|
+
+        | ADSL_ISDN       | 80%                 | No                                                  |
+
+        | SDSL            | 90%                 | No                                                  |
+
+        | ADSL2+_ISDN     | 80%                 | No                                                  |
+
+        | ADSL2+_POTS     | 80%                 | Yes                                                 |
+
+        | VDSL2_POTS      | 90%                 | Yes                                                 |
+
+        | VVDSL2_POTS     | 90%                 | Yes                                                 |
+
+        | BVDSL2_POTS     | 90%                 | Yes                                                 |
+
+        | BVVDSL2_POTS    | 90%                 | Yes                                                 |
+
+        | VPLUS_POTS      | 90%                 | Yes                                                 |
+
+        | BVPLUS_POTS     | 90%                 | Yes                                                 |
+
+        | EoF             | 100%                | Yes                                                 |
+
+        | GoF             | 100%                | Yes                                                 |
+
+        | GPON            | 100%                | Yes                                                 |
+
+        | XGSPON          | 100%                | Yes                                                 |
+
+        '
+      enum:
+      - ADSL_ISDN
+      - ADSL2%2B_POTS
+      - ADSL2%2B_ISDN
+      - SDSL
+      - VDSL2_POTS
+      - BVDSL2_POTS
+      - VVDSL2%2BPOTS
+      - BVVDSL2%2BPOTS
+      - VPLUS_POTS
+      - BVPLUS_POTS
+      - EoF
+      - GoF
+      - GPON
+      - XGSPON
+      maxLength: 50
+      example: VVDSL2_POTS
+    plan-date-schema:
+      type: string
+      pattern: (\d{8})?
+      maxLength: 8
+      description: 'The plan-date will only be provided for a carrier-status Planned. For carrier-vendor MDF/SDF plan-date is only provided when there is a full match. For carrier-vendor REGG of KPNFO, plan-date will be shown when fiber was delivered in the home / building or a plan-date in future in case of a NL-type 9. Date in format CCYYMMDD
+
+
+        Functional Product Information (FPI)) Copperinfo plandate: If status connection is 1,2,3,4,5 or 6 there is a running order. The plandate is shown for the running order on the telephonenumber or xdf-access-serviceid specified in the input. Date format: CCYYMMDD
+
+
+        Carrier Information Product (CIP) Copperinfo plandate: Plandate for delivery of copper cable connection in the building/house (i.e. a new connection in a building on a new address). Plandate is filled with a date in the future. Plandate is not applicable (not filled) in case of a san-only address. Date format: CCYYMMDD
+
+
+        Carrier Information Product (CIP) Fiberinfo plandate: Plandate when fiber was delivered in the home / building or a plandate in future in case of a NL-type 9. Date format: CCYYMMDD
+
+        '
+      example: 20190815
+    phonenumber-schema:
+      type: string
+      pattern: (0[1-9]\d{8})?
+      description: 'Main phonenumber: Identifies the phone number on which the access may be ordered. Can be different from input in case of ISDN2.
+
+        example: 0201234567
+
+
+        Current, Future phonenumber: In case the current type of connection = Telephony, this field is filled with the current phone number.
+
+        '
+    bandwidth-down-schema:
+      type: string
+      maxLength: 50
+      description: This field provides the expected actual down bitrate in kbps, i.e. the actual bitrate as defined in the corresponding technology standard for an xDSL modem or a fiber NT (see WBA Annex 2).
+      example: 71968
+    connectionpointnumber-schema:
+      type: string
+      maxLength: 3
+      minLength: 0
+      pattern: \d{3}
+      example: 1
+    soft-connect-possible-schema:
+      type: string
+      pattern: ({true|false})?
+      maxLength: 5
+      description: Soft-connect-possible indication will be returned when the connection to the DSLAM port was not removed (soft-cease). This is currently only applicable on Copper connections. A real-time NL-type 1 without Test and Label order is possible for a soft-cease connection. In case of PAN capacity problems, it may occur that a soft-cease connection is taken for another new connection and since the soft-connect-possible attribute is not real-time updated it will be visible a few days later (weekly update). In the ordering phase however, the soft-cease situation is checked with installed base and if it is not a soft-cease situation, the normal NL-type 1 (or NL-type 2/3 in case NL-type 1 is not available) will be followed. Note that this is considered as a rare situation because PAN capacity problems will less occur because most of connections are being delivered from street cabinets.
+      example: true
     planneduserinfo-schema:
       type: object
       description: The “planned” user-info is the customer address from installed base. Zipcode and housenumber may be corrected in case a phonenumber or xdf-access-serviceid was specified in the request.
@@ -1227,6 +1458,111 @@ components:
           $ref: '#/components/schemas/planned_user-street-schema'
         city:
           $ref: '#/components/schemas/planned-user-city-schema'
+    ftu-close-to-isra-schema:
+      type: string
+      pattern: ({true|false})?
+      maxLength: 5
+      description: 'Possible values are: true, false'
+      example: true
+    access-area-id-schema:
+      type: string
+      maxLength: 8
+      description: An Access Area consists of a set of locations with DSLAMs connected to the Ethernet Transport Network.
+      example: AA/12345
+    enduserinfo-fpi-schema:
+      type: object
+      description: This container has the address details with xdf-access-serviceid, connectionpointnumber and fiber-terminationpoint-id as provided in the FPI request. The fields requested-housenumber, requested-zipcode are functional mandatory, the other fields are optional.
+      properties:
+        requested-housenumber:
+          $ref: '#/components/schemas/housenumber-schema'
+        requested-housenrext:
+          $ref: '#/components/schemas/housenrext-schema'
+        requested-zipcode:
+          $ref: '#/components/schemas/zipcode-schema'
+        connectionpointnumber:
+          $ref: '#/components/schemas/connectionpointnumber-schema'
+        fiber-terminationpoint-id:
+          $ref: '#/components/schemas/fiber-terminationpoint-id-schema'
+        xdf-access-serviceid:
+          $ref: '#/components/schemas/xdf-access-serviceid-schema'
+        service-group:
+          $ref: '#/components/schemas/service-group-schema'
+      required:
+      - requested-housenumber
+      - requested-zipcode
+    actualuserinfo-schema:
+      type: object
+      description: This object is copied from the user provided address (requested address). This container is not filled when an error is returned.
+      properties:
+        zipcode:
+          $ref: '#/components/schemas/zipcode-schema'
+        housenumber:
+          $ref: '#/components/schemas/housenumber-schema'
+        housenrext:
+          $ref: '#/components/schemas/housenrext-schema'
+        connectionpointnumber:
+          $ref: '#/components/schemas/connectionpointnumber-schema'
+        fiber-terminationpoint-id:
+          $ref: '#/components/schemas/fiber-terminationpoint-id-schema'
+    housenumber-schema:
+      type: string
+      maxLength: 5
+      minLength: 1
+      example: 12
+    areapop-schema:
+      type: string
+      maxLength: 15
+      description: This field is filled with the AreaPoP (PoP location of the carrier vendor Fiber) connected to the customers address.
+    carrier-vendor-id-schema:
+      type: string
+      maxLength: 50
+      description: 'The carrier-vendor is the provider of the WBA physical carrier between DSLAM port and customer location, i.e.: - Copper carrier: MDF, SDF - Fiber carrier: REGG, KPNFO. Non-network will be returned for an existing address where no infrastructure (fiber or copper) is found in the installed base.'
+      example: REGG
+    technologyreliability-schema:
+      type: array
+      items:
+        type: object
+        properties:
+          technology-type:
+            $ref: '#/components/schemas/technology-type-schema'
+          reliability:
+            $ref: '#/components/schemas/reliability-schema'
+        required:
+        - technology-type
+    typeofconnection-schema:
+      type: string
+      maxLength: 15
+      example: 3
+      description: 'This field is filled with the (current or future) type of connection.
+
+        0: Not in use
+
+        1: Fixed Line service
+
+        2: Telephony service
+
+        3: MDF Broadband service (1 xdf-access-serviceid)
+
+        4: SDF Broadband service (1 xdf-access-serviceid)
+
+        5: ODF Broadband service (1 odf-connection-id)
+
+        6: ODF Broadband service blocked
+
+        7: ODF Broadband service defect
+
+        8: Unknown service
+
+        9: No change (no planned order)
+
+        10: MDF Bundle (2 xdf-access-serviceids)
+
+        11: SDF Bundle (2 xdf-access-serviceids)
+
+
+        For carrier-vendor-id REGG, this field is filled with the future (planned) status of the connection.
+
+        '
     carriervendor-cip-schema:
       type: array
       items:
@@ -1255,169 +1591,10 @@ components:
                   $ref: '#/components/schemas/carrier-status-schema'
                 planned-nl-type:
                   $ref: '#/components/schemas/nl-type-schema'
-    commentcode-schema:
-      type: string
-      maxLength: 80
-      description: "Commentcodes are never blocking but meant to inform the WSO about certain situations.    \n\nInformation about commentcodes can be found in the document *WBA Fulfillment Error Comment Code List*, which is provided to every KPN Wholesale Broadband Access customer.\n"
-      example: 9065
-    nl-type-schema:
-      type: string
-      maxLength: 10
-      description: "The nl-type (NewLineService type) is only shown for carrier-type Fiber and cannot be shown for Copper. It describes the status of pre-provisioned physical fiber connection to the end-user’s home address. In case of partial address match, nl-type is empty. In case of a full address match on fiber, the following nl-types can be shown:\n- HBOB: Haalbaarheidsonderzoek in Buitengebied \n- HBOR: Haalbaarheidsonderzoek veroorzaakt door Opleverstatus of RedenNA (Niet Aangesloten) \n- IO: Indirect orderbaar \n- IO_H: Indirect orderbaar – nog geen HASdatum \n- IO_O: Indirect orderbaar – langdurige obstructie \n- 6: Standaard \n- 7: Na-Aansl T1 \n- 8: Na-Aansl T2 \n- 8H: Na-Aansl HBO \n- 9: Levering tijdens nieuwbouw en Project-HAS \n- 11: FTU Ombouw \n- NO: Niet orderbaar \n- NO_D: Niet orderbaar – Doorvoerafhankelijkheid \n- NO_H: Niet orderbaar – Haalbaarheidsonderzoek \n- NO_V: Niet orderbaar – Vraagbundeling \n- 21: KPN's FTTO access network is available on this business park and WBA on FTTO is available. Further a fiber connection with free fibers is available on this address. Only patching and configuration work is needed to enable WBA on FTTO \n- 23: KPN's FTTO access network is available on this business park and WBA on FTTO is available. But this address is not connected or there are no free fibers available in the customer connection. Digging, patching and configuration work is needed to connect the address to the access network \n- 24: KPN's FTTO The carrier-status is set to Closed (e.g. nl-type HBOB) or Planned (nl-type 9) when the fiber is not ready or not yet available for ordering.\n"
-      example: 6
-    soft-connect-possible-schema:
-      type: string
-      pattern: ({true|false})?
-      maxLength: 5
-      description: Soft-connect-possible indication will be returned when the connection to the DSLAM port was not removed (soft-cease). This is currently only applicable on Copper connections. A real-time NL-type 1 without Test and Label order is possible for a soft-cease connection. In case of PAN capacity problems, it may occur that a soft-cease connection is taken for another new connection and since the soft-connect-possible attribute is not real-time updated it will be visible a few days later (weekly update). In the ordering phase however, the soft-cease situation is checked with installed base and if it is not a soft-cease situation, the normal NL-type 1 (or NL-type 2/3 in case NL-type 1 is not available) will be followed. Note that this is considered as a rare situation because PAN capacity problems will less occur because most of connections are being delivered from street cabinets.
-      example: true
-    current-nt-type-schema:
-      type: string
-      maxLength: 50
-      description: The nt-type as found in the inventory. This might either be an active line of an inactive line.
-      example: KPN-G
-    enduserinfo-fpi-schema:
-      type: object
-      description: This container has the address details with xdf-access-serviceid, connectionpointnumber and fiber-terminationpoint-id as provided in the FPI request. The fields requested-housenumber, requested-zipcode are functional mandatory, the other fields are optional.
-      properties:
-        requested-housenumber:
-          $ref: '#/components/schemas/housenumber-schema'
-        requested-housenrext:
-          $ref: '#/components/schemas/housenrext-schema'
-        requested-zipcode:
-          $ref: '#/components/schemas/zipcode-schema'
-        connectionpointnumber:
-          $ref: '#/components/schemas/connectionpointnumber-schema'
-        fiber-terminationpoint-id:
-          $ref: '#/components/schemas/fiber-terminationpoint-id-schema'
-        xdf-access-serviceid:
-          $ref: '#/components/schemas/xdf-access-serviceid-schema'
-        service-group:
-          $ref: '#/components/schemas/service-group-schema'
-      required:
-      - requested-housenumber
-      - requested-zipcode
-    fiberinfo-schema:
-      type: object
-      description: This object is present in the message for physical-carrier “Fiber”.
-      properties:
-        carrier-vendor-id:
-          $ref: '#/components/schemas/carrier-vendor-id-schema'
-        areapop:
-          $ref: '#/components/schemas/areapop-schema'
-        connectionpointinfo:
-          type: array
-          items:
-            type: object
-            properties:
-              fiber-terminationpoint-id:
-                $ref: '#/components/schemas/fiber-terminationpoint-id-schema'
-              network-provider:
-                $ref: '#/components/schemas/network-provider-schema'
-              ftu-type:
-                $ref: '#/components/schemas/ftu-type-schema'
-              location-ftu:
-                $ref: '#/components/schemas/location-ftu-schema'
-              power-outlet-available:
-                $ref: '#/components/schemas/power-outlet-available-schema'
-              ftu-close-to-isra:
-                $ref: '#/components/schemas/ftu-close-to-isra-schema'
-              nl-type:
-                $ref: '#/components/schemas/nl-type-schema'
-              construction-type:
-                $ref: '#/components/schemas/construction-type-schema'
-              diy-allowed:
-                $ref: '#/components/schemas/diy-allowed-schema'
-              carrier-status:
-                $ref: '#/components/schemas/carrier-status-schema'
-              plan-date:
-                $ref: '#/components/schemas/plan-date-schema'
-              has-date:
-                $ref: '#/components/schemas/has-date-schema'
-              fiberconnection:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    current-typeofconnection:
-                      $ref: '#/components/schemas/typeofconnection-schema'
-                    current-xdf-connectionid:
-                      $ref: '#/components/schemas/odf-connection-id-schema'
-                    future-typeofconnection:
-                      $ref: '#/components/schemas/typeofconnection-schema'
-                    future-xdf-connectionid:
-                      $ref: '#/components/schemas/odf-connection-id-schema'
-    number-of-nl-lines-schema:
-      type: string
-      pattern: (\d(0,10))?
-      maxLength: 10
-      example: 2
-      description: 'Number of NL1 lines: Number of NL type 1 copper connections on the ISRA (with or without services)
-
-
-        Number of NL2 lines: Number of NL type 2 copper connections on the ISRA. In case the field number-of-nl-lines is not filled, the number of NL2 Lines cannot be determined accurately. Order will be handled manually by KPN Backoffice.
-
-        '
-    technologyreliability-schema:
-      type: array
-      items:
-        type: object
-        properties:
-          technology-type:
-            $ref: '#/components/schemas/technology-type-schema'
-          reliability:
-            $ref: '#/components/schemas/reliability-schema'
-        required:
-        - technology-type
-    connectionpointnumber-schema:
-      type: string
-      maxLength: 3
-      minLength: 0
-      pattern: \d{3}
-      example: 1
-    planned-user-city-schema:
-      type: string
-      maxLength: 80
-      example: Den Haag
-    ftu-close-to-isra-schema:
-      type: string
-      pattern: ({true|false})?
-      maxLength: 5
-      description: 'Possible values are: true, false'
-      example: true
-    cable-length-schema:
+    mdf-cable-length-schema:
       type: string
       maxLength: 12
-      description: Length of the copper cable connection (in meters) which can be used to determine NLS-type 3 category. In case this length <25m and no free copper pairs are available, a new line can be requested as NLS-type 3. In case this length is >=25m and no free copper pairs are available, WSO needs to request a quotation for installation of a new NLS-type 3 line via infraportal https://www.vwtelecom.com/cit-team WSO can submit a WBA order on NLS-type 1, when copperpair on ISRA is delivered.
-      example: 55
-    reliability-schema:
-      type: string
-      pattern: (\d{0,3})?
-      maxLength: 3
-      minLength: 0
-      description: This field is the probability of the bitrate up and down that can be achieved with a specific technology type. The probability is an indication for the reliability of the bandwidth. For a copper line, the reliability is within 50 .. 99%. The reliability for SDSL is always 90%. The reliability for fiber is always 100%. Refer to the table in the description of the technology-field.
-      example: 90
-    power-outlet-available-schema:
-      type: string
-      maxLength: 50
-      enum:
-      - true
-      - false
-      - UNKNOWN
-      description: 'Indication for availability of a power outlet. Possible values are:
-
-        - NO
-
-        - YES
-
-        - UNKNOWN
-
-        '
-      example: true
-    planned_user-street-schema:
-      type: string
-      maxLength: 80
-      example: Boonstraat
+      description: The total length from MDF to the end of the cable. The house connection cable, having a separate cable-length is connected on any point in the distribution cable, not necessary on the end of the cable, but probably closer to the MDF.
     carriervendor-fpi-schema:
       type: array
       items:
@@ -1462,201 +1639,62 @@ components:
                   $ref: '#/components/schemas/isra-specs-schema'
                 fiber-terminationpoint-id:
                   $ref: '#/components/schemas/fiber-terminationpoint-id-schema'
-    cgb-name-schema:
-      type: string
-      maxLength: 16
-      example: Asd-C
-      description: This is the MDF-location where the end-user address is connected to.
-    technologyavailability-schema:
-      type: array
-      description: The technologyavailability array can have multiple occurrences. Available technology types, bitrates with reliability are shown.
-      items:
-        type: object
-        properties:
-          patchless-possible:
-            $ref: '#/components/schemas/patchless-possible-schema'
-          soft-connect-possible:
-            $ref: '#/components/schemas/soft-connect-possible-schema'
-          supported-on-current-nt:
-            $ref: '#/components/schemas/supported-on-current-nt-schema'
-          technology-type:
-            $ref: '#/components/schemas/technology-type-schema'
-          bandwidth-up:
-            $ref: '#/components/schemas/bandwidth-up-schema'
-          bandwidth-down:
-            $ref: '#/components/schemas/bandwidth-down-schema'
-          reliability:
-            $ref: '#/components/schemas/reliability-schema'
-          carrier-vendor-id:
-            $ref: '#/components/schemas/carrier-vendor-id-schema'
-          access-area-id:
-            $ref: '#/components/schemas/access-area-id-schema'
-          commentcode:
-            $ref: '#/components/schemas/commentcode-schema'
-          availability:
-            $ref: '#/components/schemas/availability-schema'
-          plandate:
-            type: string
-            pattern: (\d{6})?
-            maxLength: 6
-            description: This field is not used. Plandates will be presented in the field “plandate-reliability”
-          plandate-reliability:
-            $ref: '#/components/schemas/plandate-reliability-schema'
-    bonding-allowed-schema:
-      type: string
-      pattern: (0|1|2|3)?
-      maxLength: 1
-      example: 2
-      description: 'Bonding allowed information is mainly based on the quality of the copper cable and must not be confused with free available copper pairs. Refer to the table below with the values for the field bonding-allowed.
-
-        0: No pair bonding. Bonding is not available and will not become available.
-
-        1: Pair bonding upgrade not yet finished. Bonding not available yet. Check on quality of additional connections needed for bonding is not yet finished.
-
-        2: Pair bonding upgrade finished. Bonding is available. Quality of additional connections for bonding is checked
-
-        3: Temporary not available. Bonding temporary not available.
-
-        '
-    areapop-schema:
-      type: string
-      maxLength: 15
-      description: This field is filled with the AreaPoP (PoP location of the carrier vendor Fiber) connected to the customers address.
-    diy-allowed-schema:
-      type: string
-      pattern: ({true|false})?
-      maxLength: 5
-      description: 'The Area PoP location can be managed by Reggefiber and DiY is not allowed in this case. Possible values are:
-
-        - false (DiY is not allowed, this Area PoP and ordertype is managed by Reggefiber)
-
-        - true (DiY is allowed on this Area PoP)
-
-        '
-    carrier-vendor-id-schema:
-      type: string
-      maxLength: 50
-      description: 'The carrier-vendor is the provider of the WBA physical carrier between DSLAM port and customer location, i.e.: - Copper carrier: MDF, SDF - Fiber carrier: REGG, KPNFO. Non-network will be returned for an existing address where no infrastructure (fiber or copper) is found in the installed base.'
-      example: REGG
-    xdf-access-serviceid-schema:
-      type: string
-      maxLength: 20
-      minLength: 0
-      example: CDQ12344
-      description: 'Copperinfo: In case a phonenumber was specified and it is a shared line service, (broadband and POTS/ISDN telephony), this field is filled with xDF-access-service ID.
-
-
-        Additional xdf service id: xDF-access-service ID of the second copper line, which is used in case of a bonded service.
-
-
-        Current mdf service id: In case the current type of connection = Broadband, this field is filled with the current xDF-Service-ID.
-
-
-        Future mdf service id: In case the planned type of connection = Broadband, this field is filled with the future xDF-Service-ID.
-
-        '
-    phonenumber-schema:
-      type: string
-      pattern: (0[1-9]\d{8})?
-      description: 'Main phonenumber: Identifies the phone number on which the access may be ordered. Can be different from input in case of ISDN2.
-
-        example: 0201234567
-
-
-        Current, Future phonenumber: In case the current type of connection = Telephony, this field is filled with the current phone number.
-
-        '
-    bandwidth-down-schema:
-      type: string
-      maxLength: 50
-      description: This field provides the expected actual down bitrate in kbps, i.e. the actual bitrate as defined in the corresponding technology standard for an xDSL modem or a fiber NT (see WBA Annex 2).
-      example: 71968
-    actualuserinfo-schema:
-      type: object
-      description: This object is copied from the user provided address (requested address). This container is not filled when an error is returned.
-      properties:
-        zipcode:
-          $ref: '#/components/schemas/zipcode-schema'
-        housenumber:
-          $ref: '#/components/schemas/housenumber-schema'
-        housenrext:
-          $ref: '#/components/schemas/housenrext-schema'
-        connectionpointnumber:
-          $ref: '#/components/schemas/connectionpointnumber-schema'
-        fiber-terminationpoint-id:
-          $ref: '#/components/schemas/fiber-terminationpoint-id-schema'
-    service-group-schema:
-      type: string
-      maxLength: 12
-      description: The service-group is a reference to the existing WBA service. The service-group is used for migration orders and for changes in existing WBA service of a WSO.
-    status-connection-schema:
-      type: string
-      maxLength: 2
-      description: 'The field “status-connection” is filled with:
-
-        0: Operational, in use
-
-        1: Broadband order in progress
-
-        2: Telephony order in progress
-
-        3: Terminate broadband order in progress
-
-        4: Terminate telephony order in progress
-
-        5: Other telephony order in progress
-
-        6: Linesharing order in progress
-
-        99: Others
-
-        '
-      example: 3
     note-schema:
       type: string
       maxLength: 200
       description: Note field contains additional information for ordering such as complex address.
-    plan-date-schema:
+    san-only-schema:
       type: string
-      pattern: (\d{8})?
-      maxLength: 8
-      description: 'The plan-date will only be provided for a carrier-status Planned. For carrier-vendor MDF/SDF plan-date is only provided when there is a full match. For carrier-vendor REGG of KPNFO, plan-date will be shown when fiber was delivered in the home / building or a plan-date in future in case of a NL-type 9. Date in format CCYYMMDD
-
-
-        Functional Product Information (FPI)) Copperinfo plandate: If status connection is 1,2,3,4,5 or 6 there is a running order. The plandate is shown for the running order on the telephonenumber or xdf-access-serviceid specified in the input. Date format: CCYYMMDD
-
-
-        Carrier Information Product (CIP) Copperinfo plandate: Plandate for delivery of copper cable connection in the building/house (i.e. a new connection in a building on a new address). Plandate is filled with a date in the future. Plandate is not applicable (not filled) in case of a san-only address. Date format: CCYYMMDD
-
-
-        Carrier Information Product (CIP) Fiberinfo plandate: Plandate when fiber was delivered in the home / building or a plandate in future in case of a NL-type 9. Date format: CCYYMMDD
-
-        '
-      example: 20190815
-    isra-pin-schema:
-      type: string
-      maxLength: 4
-      description: In case xDF-access-serviceid was provided, ISRA pin can be shown in output. “isra-pin” (or stift number) is a numeric field with leading zero’s.
-      example: 6
-    ftu-type-schema:
-      type: string
-      maxLength: 50
-      description: 'The FTU is used for installation of the NT (Network Termination device) at the customer premises. FPI provides the ftu-type to be installed at the customer location when ordering a WBA service. Examples of FTU types are: FTU_GN01, FTU_GN02, FTU_ZS_GN01. In case of partial address match, the field ftu-type is empty. Standard FTU-Type for Reggefiber NL-type 7, 8, 9 and 11 is FTU_TK01. The FTU-type is relevant for the installation of the NT-type. Fiber Termination Unit for carrier-vendor KPNFO (FTTO) is currently MB4.'
-      example: FTU_GN01
-    asw-schema:
-      type: string
-      maxLength: 2
-      description: Access Stability Value (ASW) is a broadband performance indicator from 1 (‘bad line’) to 10 (‘excellent line’). ASW is applicable for xDSL technology types on copper carriers except for technology type SDSL. ASW is not applicable for Fiber technology types FTTH and FTTO. ASW is determined by the actual speed measured on the DSL modem, the predicted speed for the same technology based on length and the line stability. ASW is determined on a weekly basis for active connections. An ASW value can be empty if one of the variables (actual speed, predicted speed, line stability) is not available.
-      example: 8
+      pattern: ({true|false})?
+      description: SAN-only indicates that a copper connection to the house is planned but is built on customer request only. Tariff is according to NL type 1, but different lead-time is used to allow digging to be executed.
+      example: true
     errorcode-schema_2:
       type: integer
       maxLength: 5
       description: If the errorcode is not equal to 0, there was an error in the validations and the information request could not be fulfilled. This can be syntax errors on the structure of the xml message (errorcode 701), authorization error (errocode 801) or functional errors on provided input data.
-    originator-schema:
+    fiberinfo-schema_2:
+      type: object
+      description: This object is present in the message for physical-carrier “Fiber”.
+      properties:
+        carrier-vendor-id:
+          $ref: '#/components/schemas/carrier-vendor-id-schema'
+        areapop:
+          $ref: '#/components/schemas/areapop-schema'
+        connectionpointinfo:
+          type: array
+          items:
+            type: object
+            properties:
+              fiber-terminationpoint-id:
+                $ref: '#/components/schemas/fiber-terminationpoint-id-schema'
+              ftu-type:
+                $ref: '#/components/schemas/ftu-type-schema'
+              nl-type:
+                $ref: '#/components/schemas/nl-type-schema'
+              carrier-status:
+                $ref: '#/components/schemas/carrier-status-schema'
+              plan-date:
+                $ref: '#/components/schemas/plan-date-schema'
+              has-date:
+                $ref: '#/components/schemas/has-date-schema'
+              fiberconnection:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    current-typeofconnection:
+                      $ref: '#/components/schemas/typeofconnection-schema'
+                    current-odf-connection-id:
+                      $ref: '#/components/schemas/odf-connection-id-schema'
+                    future-typeofconnection:
+                      $ref: '#/components/schemas/typeofconnection-schema'
+                    future-odf-connection-id:
+                      $ref: '#/components/schemas/odf-connection-id-schema'
+    commentcode-schema_2:
       type: string
-      pattern: '[A-Z0-9]{1,4}'
-      minLength: 4
-      maxLength: 4
+      maxLength: 80
+      description: "Commentcodes are never blocking but meant to inform the WSO about certain situations.\n\nFollowing commentcodes are defined for Carrier Info requests:\n- The Requested phonenumber and numeric part of the zipcode is known, the alpha- part is not valid. KPN has provided the correct zipcode.\n- Address used in input is found. Planneduserinfo container has the technical address where the physical carrier (Copper/ISRA of Fiber termination-point) is delivered in de building\n- Numeric part zipcode valid and alphanumeric part zipcode invalid MDF Service ID is correct\n- Copper cannot be delivered, commentcode provides reason.\n- Fiber cannot be delivered, commentcode provides reason.\n- Advice to order with Test & Label\n- Address is complex address\n\nFollowing commentcodes are applicable for the technology availability. In some cases, it is necessary to (temporarily) limit the availability of a specific technology type, e.g. when EoF is not available for new connections (commentcode 9107) or when a technology type is closed for new connections (commentcode 9117).\n- 9107: EoF not available for new connections \n- 9117: Temporarily closed for new connections (automatically) \n- 9119: Vectoring safe mode. \n- 9792: Change line will result in change of Access Area\n\nFollowing commentcodes are applicable for carrier-vendor:\n- 9065: Bitrate measurement for xdf-service-ID not found \n- 9092: Provided fiber termination point id or Copper connection point number could not be found. \n- 9664: Technology is based on Technical address found for the address provided. \n- 9665: This distribution point is available based on partial address match \n- 9666: This distribution point is not available for all the connection points or Fiber termination points. \n- 9668: Complex address scenario identified \n- 9079: provided xdf-access-serviced not found \n- 9093: provided address does not match with xdf-access-serviceid related address \n- 9075: Address is unknown as copper address, but a valid non-network address. \n- 9076: invalid housenumber extension \n- 9702: Connection is planned \n- 9104: The network allows bonding as an NL2 order \n\nAn address can be on a No-Copper list for several reasons. Each reason can have a separate commentcode: \n- 9762: Location with third-party infrastructure \n- 9763: Location with specific complex local situation \n- 9764: Fiber-dedicated area \n- 9765: Only available via offer process \n- 9766: No passive access available (copper and fiber) \n\nAn address cannot be connected for several reasons. Each reason can have a separate commentcode. Refer to table below: \n- 9701: Passive Connect Status and reason code are both not available \n- 9702: Connection is plannend. \n- 9703: No permission from resident \n- 9707: High-rise obstruction (blocking other residents) \n- 9710: Utility cabinet is not according to standards \n- 9711: Building is empty \n- 9712: No excavation permit \n- 9713: Connection costs above standard amount are not covered \n- 9714: Outside of Roll out area \n- 9715: Fiber network belongs to another operator \n- 9716: No fiber capacity \n- 9717: No building \n- 9718: Building planned for demolition (fiber not prepared) \n- 9719: Building with one connection via another address \n- 9720: Contact person is not reachable (after multiple attempts). \n- 9721: Resident is not at home, will be planned later \n- 9722: Rollout after demand aggregation, resident did not request services \n- 9723: Will not be connected as part of this project although it resides within roll out \n- 9725: Ordering is possible as a result of HBO \n- 9731: Fiber on a roll to front of the house \n- 9732: FTU mounted, fibers patched, measured and ODF positions checked \n- 9734: Fiber on a roll at plot boundary \n- 9735: Duct (without fiber) in street. Status not allowed anymore \n- 9736: Mini-Duct (no fibers) in front of house \n- 9737: Mini-Duct (no fibers) until plot boundary \n- 9738: Mini-Duct in home (no fibers) \n- 9739: FTU mounted, fibers patched, measured and ODF positions checked (Packet front) \n- 9740: Fiber in house without FTU \n- 9742: Duct (no fiber) on tube end DB24. \n- 9743: Fiber finished on DP, no client fibers welded \n- 9744: Fibers in duct passed plot boundary \n- 9745: Fibers at front building high-rise (BGG) \n- 9746: Fiber on roll at front building high-rise (BGG) \n- 9747: Fiber mounted on DP present in high-rise building \n- 9748: Fiber mounted on DP below high-rise, no client fibers welded \n- 9749: Fiber on roll at plot boundary high-rise (BGG) \n- 9750: In phase of demand aggregation \n- 9751: Will never be connected \n- 9752: Connection is not prepared \n- 9762: Location with third-party infrastructure \n- 9763: Location with specific complex local situation \n- 9764: Fiber-dedicated area \n- 9765: Only available via offer process \n- 9766: No passive access available (copper and fiber\n"
+      example: 9065
     copperinfo-schema_2:
       type: object
       description: This object is present in the response for physical-carrier “Copper” and will be returned when requested address has copper connections.
@@ -1725,6 +1763,61 @@ components:
                       $ref: '#/components/schemas/phonenumber-schema'
                     futuretelephonytype:
                       $ref: '#/components/schemas/telephonytype-schema'
+    technologyavailability-schema_2:
+      type: array
+      description: The technologyavailability array can have multiple occurrences. Available technology types, bitrates with reliability are shown.
+      items:
+        type: object
+        properties:
+          patchless-possible:
+            $ref: '#/components/schemas/patchless-possible-schema'
+          soft-connect-possible:
+            $ref: '#/components/schemas/soft-connect-possible-schema'
+          technology-type:
+            $ref: '#/components/schemas/technology-type-schema'
+          bandwidth-up:
+            $ref: '#/components/schemas/bandwidth-up-schema'
+          bandwidth-down:
+            $ref: '#/components/schemas/bandwidth-down-schema'
+          reliability:
+            $ref: '#/components/schemas/reliability-schema'
+          carrier-vendor-id:
+            $ref: '#/components/schemas/carrier-vendor-id-schema'
+          access-area-id:
+            $ref: '#/components/schemas/access-area-id-schema'
+          commentcode:
+            $ref: '#/components/schemas/commentcode-schema_2'
+          availability:
+            $ref: '#/components/schemas/availability-schema'
+          plandate:
+            type: string
+            pattern: (\d{6})?
+            maxLength: 6
+            description: This field is not used. Plandates will be presented in the field “plandate-reliability”
+          plandate-reliability:
+            $ref: '#/components/schemas/plandate-reliability-schema'
+    originator-schema:
+      type: string
+      pattern: '[A-Z0-9]{1,4}'
+      minLength: 4
+      maxLength: 4
+    street-schema:
+      type: string
+      maxLength: 24
+      example: Boonstraat
+    requested-address-schema:
+      type: object
+      properties:
+        requested-zipcode:
+          $ref: '#/components/schemas/zipcode-schema'
+        requested-housenumber:
+          $ref: '#/components/schemas/housenumber-schema'
+        requested-housenrext:
+          $ref: '#/components/schemas/housenrext-schema'
+      example: requested-zipcode=1234AB,requested-housenumber=12,requested-housenrext=A
+      required:
+      - requested-zipcode
+      - requested-housenumber
     planneduserinfo-schema_2:
       type: object
       description: The “planned” user-info is the customer address from installed base. Zipcode and housenumber may be corrected in case a phonenumber or xdf-access-serviceid was specified in the request.
@@ -1739,32 +1832,6 @@ components:
           $ref: '#/components/schemas/street-schema'
         city:
           $ref: '#/components/schemas/city-schema'
-    street-schema:
-      type: string
-      maxLength: 24
-      example: Boonstraat
-    city-schema:
-      type: string
-      maxLength: 24
-      example: Den Haag
-    commentcode-schema_2:
-      type: string
-      maxLength: 80
-      description: "Commentcodes are never blocking but meant to inform the WSO about certain situations.\n\nFollowing commentcodes are defined for Carrier Info requests:\n- The Requested phonenumber and numeric part of the zipcode is known, the alpha- part is not valid. KPN has provided the correct zipcode.\n- Address used in input is found. Planneduserinfo container has the technical address where the physical carrier (Copper/ISRA of Fiber termination-point) is delivered in de building\n- Numeric part zipcode valid and alphanumeric part zipcode invalid MDF Service ID is correct\n- Copper cannot be delivered, commentcode provides reason.\n- Fiber cannot be delivered, commentcode provides reason.\n- Advice to order with Test & Label\n- Address is complex address\n\nFollowing commentcodes are applicable for the technology availability. In some cases, it is necessary to (temporarily) limit the availability of a specific technology type, e.g. when EoF is not available for new connections (commentcode 9107) or when a technology type is closed for new connections (commentcode 9117).\n- 9107: EoF not available for new connections \n- 9117: Temporarily closed for new connections (automatically) \n- 9119: Vectoring safe mode. \n- 9792: Change line will result in change of Access Area\n\nFollowing commentcodes are applicable for carrier-vendor:\n- 9065: Bitrate measurement for xdf-service-ID not found \n- 9092: Provided fiber termination point id or Copper connection point number could not be found. \n- 9664: Technology is based on Technical address found for the address provided. \n- 9665: This distribution point is available based on partial address match \n- 9666: This distribution point is not available for all the connection points or Fiber termination points. \n- 9668: Complex address scenario identified \n- 9079: provided xdf-access-serviced not found \n- 9093: provided address does not match with xdf-access-serviceid related address \n- 9075: Address is unknown as copper address, but a valid non-network address. \n- 9076: invalid housenumber extension \n- 9702: Connection is planned \n- 9104: The network allows bonding as an NL2 order \n\nAn address can be on a No-Copper list for several reasons. Each reason can have a separate commentcode: \n- 9762: Location with third-party infrastructure \n- 9763: Location with specific complex local situation \n- 9764: Fiber-dedicated area \n- 9765: Only available via offer process \n- 9766: No passive access available (copper and fiber) \n\nAn address cannot be connected for several reasons. Each reason can have a separate commentcode. Refer to table below: \n- 9701: Passive Connect Status and reason code are both not available \n- 9702: Connection is plannend. \n- 9703: No permission from resident \n- 9707: High-rise obstruction (blocking other residents) \n- 9710: Utility cabinet is not according to standards \n- 9711: Building is empty \n- 9712: No excavation permit \n- 9713: Connection costs above standard amount are not covered \n- 9714: Outside of Roll out area \n- 9715: Fiber network belongs to another operator \n- 9716: No fiber capacity \n- 9717: No building \n- 9718: Building planned for demolition (fiber not prepared) \n- 9719: Building with one connection via another address \n- 9720: Contact person is not reachable (after multiple attempts). \n- 9721: Resident is not at home, will be planned later \n- 9722: Rollout after demand aggregation, resident did not request services \n- 9723: Will not be connected as part of this project although it resides within roll out \n- 9725: Ordering is possible as a result of HBO \n- 9731: Fiber on a roll to front of the house \n- 9732: FTU mounted, fibers patched, measured and ODF positions checked \n- 9734: Fiber on a roll at plot boundary \n- 9735: Duct (without fiber) in street. Status not allowed anymore \n- 9736: Mini-Duct (no fibers) in front of house \n- 9737: Mini-Duct (no fibers) until plot boundary \n- 9738: Mini-Duct in home (no fibers) \n- 9739: FTU mounted, fibers patched, measured and ODF positions checked (Packet front) \n- 9740: Fiber in house without FTU \n- 9742: Duct (no fiber) on tube end DB24. \n- 9743: Fiber finished on DP, no client fibers welded \n- 9744: Fibers in duct passed plot boundary \n- 9745: Fibers at front building high-rise (BGG) \n- 9746: Fiber on roll at front building high-rise (BGG) \n- 9747: Fiber mounted on DP present in high-rise building \n- 9748: Fiber mounted on DP below high-rise, no client fibers welded \n- 9749: Fiber on roll at plot boundary high-rise (BGG) \n- 9750: In phase of demand aggregation \n- 9751: Will never be connected \n- 9752: Connection is not prepared \n- 9762: Location with third-party infrastructure \n- 9763: Location with specific complex local situation \n- 9764: Fiber-dedicated area \n- 9765: Only available via offer process \n- 9766: No passive access available (copper and fiber\n"
-      example: 9065
-    requested-address-schema:
-      type: object
-      properties:
-        requested-zipcode:
-          $ref: '#/components/schemas/zipcode-schema'
-        requested-housenumber:
-          $ref: '#/components/schemas/housenumber-schema'
-        requested-housenrext:
-          $ref: '#/components/schemas/housenrext-schema'
-      example: requested-zipcode=1234AB,requested-housenumber=12,requested-housenrext=A
-      required:
-      - requested-zipcode
-      - requested-housenumber
     enduserinfo-fpi-schema_2:
       type: object
       description: This container has the address details with xdf-access-serviceid, connectionpointnumber and fiber-terminationpoint-id as provided in the FPI request. The fields requested-housenumber, requested-zipcode are functional mandatory, the other fields are optional.
@@ -1784,44 +1851,16 @@ components:
       required:
       - requested-housenumber
       - requested-zipcode
-    fiberinfo-schema_2:
+    actualuserinfo-schema_2:
       type: object
-      description: This object is present in the message for physical-carrier “Fiber”.
+      description: This object is copied from the user provided address (requested address). This container is not filled when an error is returned.
       properties:
-        carrier-vendor-id:
-          $ref: '#/components/schemas/carrier-vendor-id-schema'
-        areapop:
-          $ref: '#/components/schemas/areapop-schema'
-        connectionpointinfo:
-          type: array
-          items:
-            type: object
-            properties:
-              fiber-terminationpoint-id:
-                $ref: '#/components/schemas/fiber-terminationpoint-id-schema'
-              ftu-type:
-                $ref: '#/components/schemas/ftu-type-schema'
-              nl-type:
-                $ref: '#/components/schemas/nl-type-schema'
-              carrier-status:
-                $ref: '#/components/schemas/carrier-status-schema'
-              plan-date:
-                $ref: '#/components/schemas/plan-date-schema'
-              has-date:
-                $ref: '#/components/schemas/has-date-schema'
-              fiberconnection:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    current-typeofconnection:
-                      $ref: '#/components/schemas/typeofconnection-schema'
-                    current-odf-connection-id:
-                      $ref: '#/components/schemas/odf-connection-id-schema'
-                    future-typeofconnection:
-                      $ref: '#/components/schemas/typeofconnection-schema'
-                    future-odf-connection-id:
-                      $ref: '#/components/schemas/odf-connection-id-schema'
+        zipcode:
+          $ref: '#/components/schemas/zipcode-schema'
+        housenumber:
+          $ref: '#/components/schemas/housenumber-schema'
+        housenrext:
+          $ref: '#/components/schemas/housenrext-schema'
     technologyreliability-schema_2:
       type: array
       example:
@@ -1879,118 +1918,24 @@ components:
                   $ref: '#/components/schemas/isra-specs-schema'
                 fiber-terminationpoint-id:
                   $ref: '#/components/schemas/fiber-terminationpoint-id-schema'
-    technologyavailability-schema_2:
-      type: array
-      description: The technologyavailability array can have multiple occurrences. Available technology types, bitrates with reliability are shown.
-      items:
-        type: object
-        properties:
-          patchless-possible:
-            $ref: '#/components/schemas/patchless-possible-schema'
-          soft-connect-possible:
-            $ref: '#/components/schemas/soft-connect-possible-schema'
-          technology-type:
-            $ref: '#/components/schemas/technology-type-schema'
-          bandwidth-up:
-            $ref: '#/components/schemas/bandwidth-up-schema'
-          bandwidth-down:
-            $ref: '#/components/schemas/bandwidth-down-schema'
-          reliability:
-            $ref: '#/components/schemas/reliability-schema'
-          carrier-vendor-id:
-            $ref: '#/components/schemas/carrier-vendor-id-schema'
-          access-area-id:
-            $ref: '#/components/schemas/access-area-id-schema'
-          commentcode:
-            $ref: '#/components/schemas/commentcode-schema_2'
-          availability:
-            $ref: '#/components/schemas/availability-schema'
-          plandate:
-            type: string
-            pattern: (\d{6})?
-            maxLength: 6
-            description: This field is not used. Plandates will be presented in the field “plandate-reliability”
-          plandate-reliability:
-            $ref: '#/components/schemas/plandate-reliability-schema'
-    actualuserinfo-schema_2:
-      type: object
-      description: This object is copied from the user provided address (requested address). This container is not filled when an error is returned.
-      properties:
-        zipcode:
-          $ref: '#/components/schemas/zipcode-schema'
-        housenumber:
-          $ref: '#/components/schemas/housenumber-schema'
-        housenrext:
-          $ref: '#/components/schemas/housenrext-schema'
-  responses:
-    too_many:
-      description: too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    bad_request:
-      description: bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    forbidden:
-      description: forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    success:
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/search'
-    service_unavailable:
-      description: service unavailable
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    unauthorized:
-      description: unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    server_error:
-      description: server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    not_found:
-      description: not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    success_2:
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/offer_object'
+    city-schema:
+      type: string
+      maxLength: 24
+      example: Den Haag
   parameters:
+    zip_code_query:
+      in: query
+      name: zip_code
+      schema:
+        type: string
+      description: Zip code of the address. Format `1111AR`.
+      required: true
     api_version:
       in: header
       name: api-version
       schema:
         type: string
       description: API Version. If no version is provided it defaults to latest version.
-      required: false
-    house_number_extension_query:
-      in: query
-      name: house_number_extension
-      schema:
-        type: string
-      description: House number extension of the address.
       required: false
     house_number_query:
       in: query
@@ -1999,13 +1944,13 @@ components:
         type: string
       description: House number of the address.
       required: true
-    zip_code_query:
+    house_number_extension_query:
       in: query
-      name: zip_code
+      name: house_number_extension
       schema:
         type: string
-      description: Zip code of the address. Format `1111AR`.
-      required: true
+      description: House number extension of the address.
+      required: false
     api_version_query:
       in: query
       name: api-version
@@ -2013,63 +1958,12 @@ components:
         type: string
       description: API Version. If no version is provided it defaults to latest version.
       required: false
-    technologyreliability:
-      in: query
-      name: technologyreliability
-      description: "The optional technologyreliability query parameter should be provided as JSON array of objects. FPI uses a list of default technology types and reliability when these parameters are not used. A specified technology type and reliability in FPI overrules the default setting. ADSL_ISDN, SDSL and ADSL2+_ISDN are not shown in the output, unless explicitly specified in the request.\n\nExamples:\n\n[\n  {\n    \"technology-type\":\"ADSL2+_POTS\",\n    \"reliability\":\"80\"\n  }\n]\n\n[\n  {\n    \"technology-type\":\"GPON\",\n  }\n]\n\n[\n  {\n    \"technology-type\":\"ADSL2+_ISDN\",\n    \"reliability\":\"80\"\n  },\n  {\n    \"technology-type\":\"ADSL2+_POTS\",\n    \"reliability\":\"80\"\n  }\n]\n\n[\n  {\n    \"technology-type\":\"ADSL2+_POTS\",\n    \"reliability\":\"80\"\n  },\n  {\n    \"technology-type\":\"GPON\"\n  }\n]\n\nNote to supply this as query parameter, the special characeters must be url encoded (incl the + in ADSL2+). i.e. technologyreliability=[{\"technology-type\":\"ADSL2+_POTS\",\"reliability\":\"80\"},{\"technology-type\":\"GPON\"}] becomes technologyreliability=%5B%7B%22technology-type%22%3A%22ADSL2%2B_POTS%22%2C%22reliability%22%3A%2280%22%7D%2C%7B%22technology-type%22%3A%22GPON%22%7D%5D\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/technologyreliability-schema'
-    copper-xdf-access-serviceid:
-      in: query
-      name: copper-xdf-access-serviceid
-      description: The xdf-access-service-id is a 1-to-1 relationship between the address and the active copperpair. The xdf-access-service-id is used to provide most accurate bitrate and available technology type information for an existing WBA connection. If an xdf-access-serviceid is specified, address corrections can be done on zipcode, house number and house number extension. This field is optional.
-      schema:
-        $ref: '#/components/schemas/xdf-access-serviceid-schema'
-    xdf-access-serviceid:
-      in: query
-      name: xdf-access-serviceid
-      description: The xdf-access-service-id is a 1-to-1 relationship between the address and the active copperpair or fiber connection. The xdf-access-service-id is used to provide most accurate bitrate and available technology type information for an existing WBA connection. If an xdf-access-serviceid is specified, address corrections can be done on zipcode, house number and house number extension. This field is optional.
-      schema:
-        $ref: '#/components/schemas/xdf-access-serviceid-schema'
-    fiber-xdf-access-serviceid:
-      in: query
-      name: fiber-xdf-access-serviceid
-      description: This is the xdf-access-serviceid of the fiber connection. If xdf-access-serviceid and fiber-terminationpoint-id both are filled, the service-id will be taken as leading.
-      schema:
-        $ref: '#/components/schemas/xdf-access-serviceid-schema'
     service-group:
       in: query
       name: service-group
       description: The service-group is a reference to the existing WBA service. The service-group is used for migration orders and for changes in existing WBA service of a WSO.
       schema:
         $ref: '#/components/schemas/service-group-schema'
-    physical-carrier:
-      in: query
-      name: physical-carrier
-      description: Physical carrier of the connection between the end-user’s termination point (ISRA) and the remote access point (MDF/SDF/ODF). Valid input values are “Copper” or “Fiber”. This field is optional.
-      schema:
-        $ref: '#/components/schemas/physical-carrier-schema'
-    connectionpointnumber:
-      in: query
-      name: connectionpointnumber
-      description: The connectionpointnumber is an identification for the ISRA on the end-user’s address (e.g. 001, B, MTK, METERKAS). In case more connectionpoints exists on an address, the connectionpointnumber is required to retrieve connection details. If no connectionpointnumber was specified, the Carrier Information service will provide connection details for one or two ISRAs. If more than two ISRA’s are connected at the customers address, the Carrier Information service provides the list of available ISRA’s on the end-user address. This field is optional.
-      schema:
-        $ref: '#/components/schemas/connectionpointnumber-schema'
-    requested-housenumber:
-      in: query
-      required: true
-      name: requested-housenumber
-      description: The house number for which to retrieve the functional product information or carrier information.
-      schema:
-        $ref: '#/components/schemas/housenumber-schema'
-    requested-housenrext:
-      in: query
-      name: requested-housenrext
-      description: The house number extension for which to retrieve the functional product information or carrier information.
-      schema:
-        $ref: '#/components/schemas/housenrext-schema'
     fiber-terminationpoint-id:
       in: query
       name: fiber-terminationpoint-id
@@ -2082,6 +1976,45 @@ components:
       description: This is the phonenumber that will be used as reference for the copper-line and the ISRA. If a phonenumber is specified, address corrections can be done on zipcode, house number and house number extension. This field is optional.
       schema:
         $ref: '#/components/schemas/phonenumber-schema'
+    requested-housenumber:
+      in: query
+      required: true
+      name: requested-housenumber
+      description: The house number for which to retrieve the functional product information or carrier information.
+      schema:
+        $ref: '#/components/schemas/housenumber-schema'
+    copper-xdf-access-serviceid:
+      in: query
+      name: copper-xdf-access-serviceid
+      description: The xdf-access-service-id is a 1-to-1 relationship between the address and the active copperpair. The xdf-access-service-id is used to provide most accurate bitrate and available technology type information for an existing WBA connection. If an xdf-access-serviceid is specified, address corrections can be done on zipcode, house number and house number extension. This field is optional.
+      schema:
+        $ref: '#/components/schemas/xdf-access-serviceid-schema'
+    requested-housenrext:
+      in: query
+      name: requested-housenrext
+      description: The house number extension for which to retrieve the functional product information or carrier information.
+      schema:
+        $ref: '#/components/schemas/housenrext-schema'
+    fiber-xdf-access-serviceid:
+      in: query
+      name: fiber-xdf-access-serviceid
+      description: This is the xdf-access-serviceid of the fiber connection. If xdf-access-serviceid and fiber-terminationpoint-id both are filled, the service-id will be taken as leading.
+      schema:
+        $ref: '#/components/schemas/xdf-access-serviceid-schema'
+    technologyreliability:
+      in: query
+      name: technologyreliability
+      description: "The optional technologyreliability query parameter should be provided as JSON array of objects. FPI uses a list of default technology types and reliability when these parameters are not used. A specified technology type and reliability in FPI overrules the default setting. ADSL_ISDN, SDSL and ADSL2+_ISDN are not shown in the output, unless explicitly specified in the request.\n\nExamples:\n\n[\n  {\n    \"technology-type\":\"ADSL2+_POTS\",\n    \"reliability\":\"80\"\n  }\n]\n\n[\n  {\n    \"technology-type\":\"GPON\",\n  }\n]\n\n[\n  {\n    \"technology-type\":\"ADSL2+_ISDN\",\n    \"reliability\":\"80\"\n  },\n  {\n    \"technology-type\":\"ADSL2+_POTS\",\n    \"reliability\":\"80\"\n  }\n]\n\n[\n  {\n    \"technology-type\":\"ADSL2+_POTS\",\n    \"reliability\":\"80\"\n  },\n  {\n    \"technology-type\":\"GPON\"\n  }\n]\n\nNote to supply this as query parameter, the special characeters must be url encoded (incl the + in ADSL2+). i.e. technologyreliability=[{\"technology-type\":\"ADSL2+_POTS\",\"reliability\":\"80\"},{\"technology-type\":\"GPON\"}] becomes technologyreliability=%5B%7B%22technology-type%22%3A%22ADSL2%2B_POTS%22%2C%22reliability%22%3A%2280%22%7D%2C%7B%22technology-type%22%3A%22GPON%22%7D%5D\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/technologyreliability-schema'
+    physical-carrier:
+      in: query
+      name: physical-carrier
+      description: Physical carrier of the connection between the end-user’s termination point (ISRA) and the remote access point (MDF/SDF/ODF). Valid input values are “Copper” or “Fiber”. This field is optional.
+      schema:
+        $ref: '#/components/schemas/physical-carrier-schema'
     requested-zipcode:
       in: query
       required: true
@@ -2089,6 +2022,27 @@ components:
       description: The zipcode for which to retrieve the functional product information or carrier information.
       schema:
         $ref: '#/components/schemas/zipcode-schema'
+    xdf-access-serviceid:
+      in: query
+      name: xdf-access-serviceid
+      description: The xdf-access-service-id is a 1-to-1 relationship between the address and the active copperpair or fiber connection. The xdf-access-service-id is used to provide most accurate bitrate and available technology type information for an existing WBA connection. If an xdf-access-serviceid is specified, address corrections can be done on zipcode, house number and house number extension. This field is optional.
+      schema:
+        $ref: '#/components/schemas/xdf-access-serviceid-schema'
+    connectionpointnumber:
+      in: query
+      name: connectionpointnumber
+      description: The connectionpointnumber is an identification for the ISRA on the end-user’s address (e.g. 001, B, MTK, METERKAS). In case more connectionpoints exists on an address, the connectionpointnumber is required to retrieve connection details. If no connectionpointnumber was specified, the Carrier Information service will provide connection details for one or two ISRAs. If more than two ISRA’s are connected at the customers address, the Carrier Information service provides the list of available ISRA’s on the end-user address. This field is optional.
+      schema:
+        $ref: '#/components/schemas/connectionpointnumber-schema'
+    requested-address:
+      schema:
+        $ref: '#/components/schemas/requested-address-schema'
+      name: requested-address
+      in: path
+      style: simple
+      explode: true
+      required: true
+      description: "The address for which to retrieve the functional product information or carrier information. The path parameter request-address is a serialised object and should be of form requested-zipcode={requested-zipcode}},requested-housenumber={requested-housenumber},requested-housenrext={requested-housenrext} with requested-housenrext as optional property. Examples\n  - With URL encoding: requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carrier\n"
     originator:
       in: header
       name: X-Originator
@@ -2109,15 +2063,61 @@ components:
       description: The xdf-access-service-id is a 1-to-1 relationship between the address and the active copperpair. The xdf-access-service-id is used to provide most accurate bitrate and available technology type information for an existing WBA connection. If an xdf-access-serviceid is specified, address corrections can be done on zipcode, house number and house number extension. This field is optional.
       schema:
         $ref: '#/components/schemas/xdf-access-serviceid-schema'
-    requested-address:
-      schema:
-        $ref: '#/components/schemas/requested-address-schema'
-      name: requested-address
-      in: path
-      style: simple
-      explode: true
-      required: true
-      description: "The address for which to retrieve the functional product information or carrier information. The path parameter request-address is a serialised object and should be of form requested-zipcode={requested-zipcode}},requested-housenumber={requested-housenumber},requested-housenrext={requested-housenrext} with requested-housenrext as optional property. Examples\n  - With URL encoding: requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/functional-products\n  /wba/addresses/requested-zipcode%3D1234AB%2Crequested-housenumber%3D12%2Crequested-housenrext%3DA/carrier\n"
+  responses:
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    success:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/search'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    unauthorized:
+      description: unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    bad_request:
+      description: bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    success_2:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/offer_object'
   securitySchemes:
     oauth2:
       type: oauth2
