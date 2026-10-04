@@ -124,6 +124,28 @@ paths:
                       method: string
                       duration: 0.01
 components:
+  parameters:
+    device_id:
+      in: header
+      name: uniqueAppDeviceId
+      schema:
+        type: string
+      description: You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.
+      required: true
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+    auth_string:
+      in: header
+      name: authString
+      schema:
+        type: string
+      description: The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)
+      required: false
   schemas:
     GetConfigResult:
       allOf:
@@ -390,28 +412,6 @@ components:
         - notifications
         - status
         - metadata
-  parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
-    device_id:
-      in: header
-      name: uniqueAppDeviceId
-      schema:
-        type: string
-      description: You can use/generate your own uniqueAppDeviceId. It should be at least 10 characters long.
-      required: true
-    auth_string:
-      in: header
-      name: authString
-      schema:
-        type: string
-      description: The authentication of an user in your application. This string needs to be generated in a trusted environment (not inside the app). Documentation about how to generate this string can be found [here](https://gist.github.com/Gerben-T/36c71faf1879022ac5fa65ccd77b8f75)
-      required: false
   securitySchemes:
     oauth2:
       type: oauth2

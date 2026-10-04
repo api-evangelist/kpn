@@ -113,17 +113,6 @@ components:
       description: API Version. If no version is provided it defaults to latest version.
       required: false
   schemas:
-    ActivationReq:
-      title: ActivationResponse
-      type: object
-      properties:
-        thingpark_username:
-          type: string
-          description: Username.
-        thingpark_password:
-          type: string
-          description: Password
-      description: Thingpark Activation Credentials
     ActivationResp:
       title: ActivationRequest
       type: object
@@ -154,6 +143,17 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    ActivationReq:
+      title: ActivationResponse
+      type: object
+      properties:
+        thingpark_username:
+          type: string
+          description: Username.
+        thingpark_password:
+          type: string
+          description: Password
+      description: Thingpark Activation Credentials
   securitySchemes:
     oauth2:
       type: oauth2

@@ -207,30 +207,36 @@ paths:
       - Cases
 components:
   responses:
-    method_not_allowed:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: method not allowed
     precondition_failed:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: precondition failed
-    service_unavailable:
+    unauthorized:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-      description: Service unavailable
-    too_many:
+      description: unauthorized
+    method_not_allowed:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-      description: too many requests
+      description: method not allowed
+    bad_gateway:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: bad gateway
+    forbidden:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: forbidden
     case_result:
       description: OK
       content:
@@ -243,60 +249,31 @@ components:
           schema:
             $ref: '#/components/schemas/error'
       description: server error
+    service_unavailable:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Service unavailable
+    too_many:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: too many requests
     not_found:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: not found
-    unauthorized:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: unauthorized
-    bad_gateway:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: bad gateway
     bad_request:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: bad request
-    forbidden:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: forbidden
   schemas:
-    error:
-      properties:
-        info:
-          description: Additional information about error
-          title: Info
-          type: string
-        message:
-          description: Error message
-          title: Error message
-          type: string
-        name:
-          description: Error name
-          title: Error name
-          type: string
-        status:
-          description: Status
-          title: Status
-          type: string
-        transactionId:
-          description: transaction id of the the request
-          title: Transaction ID
-          type: string
-      type: object
     case_result:
       properties:
         data:
@@ -322,6 +299,29 @@ components:
               default: post
             duration:
               type: integer
+    error:
+      properties:
+        info:
+          description: Additional information about error
+          title: Info
+          type: string
+        message:
+          description: Error message
+          title: Error message
+          type: string
+        name:
+          description: Error name
+          title: Error name
+          type: string
+        status:
+          description: Status
+          title: Status
+          type: string
+        transactionId:
+          description: transaction id of the the request
+          title: Transaction ID
+          type: string
+      type: object
   securitySchemes:
     oauth2:
       flows:

@@ -52,11 +52,43 @@ paths:
           $ref: '#/components/responses/number_list'
 components:
   schemas:
+    voiceCallbackType_field:
+      type: string
+      example: app
+      description: The voice webhook type. To be used together with `voiceCallbackValue`
+      enum:
+      - sip
+      - tel
+      - app
     moHttpUrl_field:
       type: string
       format: url
       example: https://example.com/mo
       description: An URL encoded URI to the webhook endpoint that handles inbound messages. Your webhook endpoint must be active before you make this request, Vonage makes a `GET` request to your endpoint and checks that it returns a `200 OK` response. Set to empty string to clear.
+    voiceCallbackValue_field:
+      type: string
+      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+      description: A SIP URI, telephone number or Application ID. To be used together with `voiceCallbackType`
+    msisdn_field:
+      type: string
+      format: number
+      description: An available inbound virtual number.
+      example: '31612345789'
+    country_field:
+      type: string
+      description: The two character country code in ISO 3166-1 alpha-2 format.
+      example: NL
+    feature_field:
+      type: array
+      description: Available features are SMS and VOICE. For both features, use a comma-separated value SMS,VOICE.
+      items:
+        type: string
+        enum:
+        - VOICE
+        - SMS
+      example:
+      - VOICE
+      - SMS
     number:
       type: object
       properties:
@@ -80,47 +112,7 @@ components:
       - msisdn
       - type
       - features
-    feature_field:
-      type: array
-      description: Available features are SMS and VOICE. For both features, use a comma-separated value SMS,VOICE.
-      items:
-        type: string
-        enum:
-        - VOICE
-        - SMS
-      example:
-      - VOICE
-      - SMS
-    voiceCallbackType_field:
-      type: string
-      example: app
-      description: The voice webhook type. To be used together with `voiceCallbackValue`
-      enum:
-      - sip
-      - tel
-      - app
-    country_field:
-      type: string
-      description: The two character country code in ISO 3166-1 alpha-2 format.
-      example: NL
-    msisdn_field:
-      type: string
-      format: number
-      description: An available inbound virtual number.
-      example: '31612345789'
-    voiceCallbackValue_field:
-      type: string
-      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
-      description: A SIP URI, telephone number or Application ID. To be used together with `voiceCallbackType`
   parameters:
-    search_pattern_query_param:
-      name: search_pattern
-      in: query
-      schema:
-        type: integer
-        minimum: 0
-        maximum: 2
-      description: 'Strategy for matching pattern. Expected values: 0 (starts with, default), 1 (anywhere), 2 (ends with).'
     pattern_query_param:
       name: pattern
       in: query
@@ -135,6 +127,14 @@ components:
         example: 0
         default: 1
       description: Page index
+    search_pattern_query_param:
+      name: search_pattern
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+        maximum: 2
+      description: 'Strategy for matching pattern. Expected values: 0 (starts with, default), 1 (anywhere), 2 (ends with).'
     size_query_param:
       name: size
       in: query

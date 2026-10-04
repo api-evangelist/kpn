@@ -247,20 +247,6 @@ paths:
       x-operation-id-source: derived
 components:
   parameters:
-    id:
-      in: path
-      name: id
-      schema:
-        type: string
-      description: info
-      required: true
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
     filter:
       in: query
       name: filter
@@ -268,30 +254,30 @@ components:
         type: string
       description: info
       required: false
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+    id:
+      in: path
+      name: id
+      schema:
+        type: string
+      description: info
+      required: true
   schemas:
-    error:
+    updatefield:
       type: object
       properties:
-        transactionId:
+        field:
           type: string
-          description: Transaction id of the the request
-          title: Transaction ID
-        status:
+        oldValue:
           type: string
-          description: Status
-          title: Status
-        name:
+        newValue:
           type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
     internaluser:
       properties:
         name:
@@ -320,6 +306,29 @@ components:
           type: string
         passwordIDStore:
           type: string
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
     resources:
       type: object
       properties:
@@ -328,15 +337,6 @@ components:
         name:
           type: string
         description:
-          type: string
-    updatefield:
-      type: object
-      properties:
-        field:
-          type: string
-        oldValue:
-          type: string
-        newValue:
           type: string
   requestBodies:
     internaluser:
@@ -349,6 +349,20 @@ components:
               internaluser:
                 $ref: '#/components/schemas/internaluser'
   responses:
+    UpdatedFieldsList:
+      description: A successful delivery
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              UpdatedFieldsList:
+                type: object
+                properties:
+                  updatedField:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/updatefield'
     endpointgroup:
       description: A successful delivery
       content:
@@ -365,20 +379,6 @@ components:
                     type: array
                     items:
                       $ref: '#/components/schemas/resources'
-    UpdatedFieldsList:
-      description: A successful delivery
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              UpdatedFieldsList:
-                type: object
-                properties:
-                  updatedField:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/updatefield'
   securitySchemes:
     oauth2:
       type: oauth2

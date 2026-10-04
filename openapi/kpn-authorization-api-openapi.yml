@@ -160,31 +160,34 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    ProblemDetail:
+    AuthorizationResponse:
       type: object
       required:
-      - type
-      - status
+      - decision
+      - decisionId
+      - timestamp
+      - matchedPolicies
+      - evaluationTimeMs
       properties:
-        detail:
-          type:
-          - string
-          - 'null'
-        instance:
-          type:
-          - string
-          - 'null'
-        status:
-          type: integer
-          format: int32
-          minimum: 0
-        title:
-          type:
-          - string
-          - 'null'
-        type:
+        decision:
+          $ref: '#/components/schemas/AuthorizationDecision'
+        decisionId:
           type: string
-      additionalProperties: {}
+        evaluationTimeMs:
+          type: integer
+          format: int64
+          minimum: 0
+        explanation:
+          type:
+          - string
+          - 'null'
+        matchedPolicies:
+          type: array
+          items:
+            type: string
+        timestamp:
+          type: integer
+          format: int64
     AuthorizationRequest:
       type: object
       description: Authorization enforcement request parameters
@@ -236,34 +239,31 @@ components:
       - permit
       - deny
       - notApplicable
-    AuthorizationResponse:
+    ProblemDetail:
       type: object
       required:
-      - decision
-      - decisionId
-      - timestamp
-      - matchedPolicies
-      - evaluationTimeMs
+      - type
+      - status
       properties:
-        decision:
-          $ref: '#/components/schemas/AuthorizationDecision'
-        decisionId:
-          type: string
-        evaluationTimeMs:
-          type: integer
-          format: int64
-          minimum: 0
-        explanation:
+        detail:
           type:
           - string
           - 'null'
-        matchedPolicies:
-          type: array
-          items:
-            type: string
-        timestamp:
+        instance:
+          type:
+          - string
+          - 'null'
+        status:
           type: integer
-          format: int64
+          format: int32
+          minimum: 0
+        title:
+          type:
+          - string
+          - 'null'
+        type:
+          type: string
+      additionalProperties: {}
   securitySchemes:
     bearer_auth:
       type: http

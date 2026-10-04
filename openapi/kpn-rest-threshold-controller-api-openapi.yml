@@ -1005,90 +1005,17 @@ paths:
       - OAuth2: []
 components:
   schemas:
-    OperationEnabled:
+    LocalizedString:
       type: object
       properties:
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        enabled:
-          type: boolean
-      title: OperationEnabled
-    UnassignContractsFromThresholdRequestParams:
-      type: object
-      properties:
-        contractsIds:
-          type: array
-          items:
-            type: integer
-            format: int64
-      title: UnassignContractsFromThresholdRequestParams
-    RemoveThresholdParams:
-      type: object
-      properties:
-        thresholdIds:
-          type: array
-          items:
-            type: integer
-            format: int64
-      title: RemoveThresholdParams
-    ThresholdDetails:
-      type: object
-      properties:
-        changeType:
-          $ref: '#/components/schemas/OperationEnabled'
-        delete:
-          $ref: '#/components/schemas/OperationEnabled'
-        threshold:
-          $ref: '#/components/schemas/Threshold'
-      title: ThresholdDetails
-    BlockingOrder:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        kpnReference:
+        en:
           type: string
-        status:
+          description: English version
+        nl:
           type: string
-          enum:
-          - IN_PROGRESS
-          - UNAUTHORIZED
-          - NEW
-          - CLOSED
-          - CANCELED
-          - REJECTED
-          - DRAFT
-          - THIRD_PARTY
-          - HOLD_CUSTOMER
-          - WAITING
-        type:
-          type: string
-          enum:
-          - CONTRACTING
-          - SERVICE_REQUEST
-      title: BlockingOrder
-    Threshold:
-      type: object
-      properties:
-        dailyValue:
-          type: number
-          format: float
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        type:
-          type: string
-          enum:
-          - DATA_NATIONAL_MB
-          - DATA_ROAMING_MB
-          - VOICE_NATIONAL_MIN
-          - VOICE_ROAMING_EUR
-      title: Threshold
+          description: Dutch version
+      title: LocalizedString
+      description: Text with two language versions
     PagedResult_Contract_:
       type: object
       properties:
@@ -1103,7 +1030,67 @@ components:
           description: Total number of all elements in collection
       title: PagedResult_Contract_
       description: Paged list of elements
-    OperationAvailability1:
+    RemoveThresholdParams:
+      type: object
+      properties:
+        thresholdIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+      title: RemoveThresholdParams
+    UnassignContractsFromThresholdRequestParams:
+      type: object
+      properties:
+        contractsIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+      title: UnassignContractsFromThresholdRequestParams
+    ThresholdDetails:
+      type: object
+      properties:
+        changeType:
+          $ref: '#/components/schemas/OperationEnabled'
+        delete:
+          $ref: '#/components/schemas/OperationEnabled'
+        threshold:
+          $ref: '#/components/schemas/Threshold'
+      title: ThresholdDetails
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    AssignContractsToThresholdRequestParams:
+      type: object
+      properties:
+        contractsIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+      title: AssignContractsToThresholdRequestParams
+    OperationEnabled:
       type: object
       properties:
         blockingOrders:
@@ -1112,9 +1099,7 @@ components:
             $ref: '#/components/schemas/BlockingOrder'
         enabled:
           type: boolean
-        visible:
-          type: boolean
-      title: OperationAvailability
+      title: OperationEnabled
     Contract:
       type: object
       properties:
@@ -1154,6 +1139,37 @@ components:
           - PENDING
           - BLOCKED
       title: Contract
+    OperationAvailability1:
+      type: object
+      properties:
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OperationAvailability
+    Threshold:
+      type: object
+      properties:
+        dailyValue:
+          type: number
+          format: float
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - DATA_NATIONAL_MB
+          - DATA_ROAMING_MB
+          - VOICE_NATIONAL_MIN
+          - VOICE_ROAMING_EUR
+      title: Threshold
     ThresholdRequestParams:
       type: object
       properties:
@@ -1170,49 +1186,33 @@ components:
           - DATA_NATIONAL_MB
           - DATA_ROAMING_MB
       title: ThresholdRequestParams
-    LocalizedString:
+    BlockingOrder:
       type: object
       properties:
-        en:
+        id:
+          type: integer
+          format: int64
+        kpnReference:
           type: string
-          description: English version
-        nl:
-          type: string
-          description: Dutch version
-      title: LocalizedString
-      description: Text with two language versions
-    AssignContractsToThresholdRequestParams:
-      type: object
-      properties:
-        contractsIds:
-          type: array
-          items:
-            type: integer
-            format: int64
-      title: AssignContractsToThresholdRequestParams
-    ErrorResponse:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: transaction id of the the request
-          title: Transaction ID
         status:
           type: string
-          description: Status
-          title: Status
-        name:
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
           type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
+          enum:
+          - CONTRACTING
+          - SERVICE_REQUEST
+      title: BlockingOrder
   securitySchemes:
     OAuth2:
       type: oauth2

@@ -477,18 +477,42 @@ paths:
     - url: https://api-prd.kpn.com/communication/weseedo/weseedopersonal
 components:
   responses:
-    method_not_allowed:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Method not allowed
     precondition_failed:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: Precondition failed
+    unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Unauthorized
+    method_not_allowed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Method not allowed
+    bad_gateway:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Bad gateway
+    forbidden:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Forbidden
+    server_error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Server error
     service_unavailable:
       content:
         application/json:
@@ -501,44 +525,56 @@ components:
           schema:
             $ref: '#/components/schemas/error'
       description: Too many requests
-    server_error:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Server error
     not_found:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: Not found
-    unauthorized:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Unauthorized
-    bad_gateway:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Bad gateway
     bad_request:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: Bad request
-    forbidden:
+    UserObjectArray:
+      description: Succesful operation.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/error'
-      description: Forbidden
-    forbidden_2:
-      description: forbidden
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponse'
+          examples:
+            Example:
+              $ref: '#/components/examples/UserResponseObjectArraySchema'
+    server_error_2:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_2'
+    UserObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: '#/components/schemas/UserResponse'
+          examples:
+            Example:
+              $ref: '#/components/examples/UserResponseObjectSchema'
+    too_many_2:
+      description: too many requests
       content:
         application/json:
           schema:
@@ -557,48 +593,6 @@ components:
           examples:
             Example:
               $ref: '#/components/examples/UserResponseDeletedObjectSchema'
-    UserObjectArray:
-      description: Succesful operation.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-              result:
-                type: array
-                items:
-                  $ref: '#/components/schemas/UserResponse'
-          examples:
-            Example:
-              $ref: '#/components/examples/UserResponseObjectArraySchema'
-    UserObject:
-      description: Succesful operation.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-              result:
-                $ref: '#/components/schemas/UserResponse'
-          examples:
-            Example:
-              $ref: '#/components/examples/UserResponseObjectSchema'
-    service_unavailable_2:
-      description: service unavailable
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_2'
-    too_many_2:
-      description: too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_2'
     not_found_2:
       description: not found
       content:
@@ -611,13 +605,27 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error_2'
-    server_error_2:
-      description: server error
+    forbidden_2:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_2'
+    service_unavailable_2:
+      description: service unavailable
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error_2'
   schemas:
+    Users_GetUserByIdResponse:
+      properties:
+        success:
+          type: boolean
+          example: true
+        result:
+          $ref: '#/components/schemas/Users_GetResponse'
+      type: object
     Users_POSTPUTResponse:
       properties:
         success:
@@ -627,6 +635,55 @@ components:
           items:
             $ref: '#/components/schemas/User'
       type: object
+    Company:
+      properties:
+        id:
+          type: string
+          example: 58..82
+        name:
+          type: string
+          example: WeSeeDo B.V.
+      type: object
+    Users_GetResponse:
+      properties:
+        success:
+          type: boolean
+          example: true
+        result:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              email:
+                type: string
+              locale:
+                type: string
+              role:
+                type: string
+              company:
+                $ref: '#/components/schemas/Company'
+      type: object
+      example:
+      - id: 58..eb
+        name: Agent 1
+        email: agent1@weseedo.nl
+        locale: nl
+        role: agent
+        company:
+          id: 58..60
+          name: WeSeeDo B.V.
+      - id: 58..ec
+        name: Assistent 1
+        email: assistent1@weseedo.nl
+        locale: nl
+        role: assistent
+        company:
+          id: 58..60
+          name: WeSeeDo B.V.
     User:
       properties:
         id:
@@ -678,101 +735,119 @@ components:
           description: The `transaction_id` of the the request.
           title: Transaction ID
           type: string
-    Users_GetResponse:
-      properties:
-        success:
-          type: boolean
-          example: true
-        result:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-              name:
-                type: string
-              email:
-                type: string
-              locale:
-                type: string
-              role:
-                type: string
-              company:
-                $ref: '#/components/schemas/Company'
-      type: object
-      example:
-      - id: 58..eb
-        name: Agent 1
-        email: agent1@weseedo.nl
-        locale: nl
-        role: agent
-        company:
-          id: 58..60
-          name: WeSeeDo B.V.
-      - id: 58..ec
-        name: Assistent 1
-        email: assistent1@weseedo.nl
-        locale: nl
-        role: assistent
-        company:
-          id: 58..60
-          name: WeSeeDo B.V.
-    Company:
-      properties:
-        id:
-          type: string
-          example: 58..82
-        name:
-          type: string
-          example: WeSeeDo B.V.
-      type: object
-    Users_GetUserByIdResponse:
-      properties:
-        success:
-          type: boolean
-          example: true
-        result:
-          $ref: '#/components/schemas/Users_GetResponse'
-      type: object
-    AccountResponseShort:
-      type: object
-      properties:
-        id:
-          description: Site ID
-          type: string
-        name:
-          description: Site name
-          type: string
-    error_2:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: Transaction ID of the the request.
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error.
-          title: Info
-    UserResponseDeleted:
+    UserResponse:
       type: object
       properties:
         id:
           description: User ID
           type: string
+        first_name:
+          description: First name
+          type: string
+        last_name:
+          description: Last name
+          type: string
+        name:
+          description: Full name
+          type: string
+        email:
+          description: E-mail address
+          type: string
+        photo:
+          description: Base64 image
+          type: string
+        locale:
+          oneOf:
+          - type: string
+            description: Locale "nl"
+          - type: string
+            description: Locale "en"
+        role:
+          oneOf:
+          - type: string
+            description: Role "dealer"
+          - type: string
+            description: Role "reseller"
+          - type: string
+            description: Role "admin"
+          - type: string
+            description: Role "agent"
+          - type: string
+            description: Role "assistent"
+          - type: string
+            description: Role "assistent_video"
+        created_at:
+          description: Created date and time
+          type: string
+          format: date-time
+        sites:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountResponseShort'
+        entity:
+          oneOf:
+          - type: object
+            properties:
+              type:
+                description: Entity type dealer
+                type: string
+              id:
+                description: Dealer ID
+                type: string
+              name:
+                description: Dealer name
+                type: string
+          - type: object
+            properties:
+              type:
+                description: Entity type reseller
+                type: string
+              id:
+                description: Reseller ID
+                type: string
+              name:
+                description: Reseller name
+                type: string
+          - type: object
+            properties:
+              type:
+                description: Entity type company
+                type: string
+              id:
+                description: Company ID. You recived the Company ID in the onboarding e-mail.
+                type: string
+              name:
+                description: Company name
+                type: string
+              package:
+                $ref: '#/components/schemas/PackageResponse'
+        status:
+          description: Status online or offline. Only added when status=true in query
+          type: string
+        suspended:
+          description: Is suspended
+          type: boolean
+    UserRequestBodyPut:
+      required:
+      - first_name
+      - last_name
+      - name
+      - locale
+      allOf:
+      - $ref: '#/components/schemas/UserRequestBody'
+      - type: object
+        properties:
+          suspended:
+            description: Is suspended
+            type: boolean
+    UserRequestBodyPatch:
+      allOf:
+      - $ref: '#/components/schemas/UserRequestBody'
+      - type: object
+        properties:
+          suspended:
+            description: Is suspended
+            type: boolean
     PackageResponse:
       type: object
       properties:
@@ -881,6 +956,44 @@ components:
                 id:
                   description: Company ID
                   type: string
+    UserResponseDeleted:
+      type: object
+      properties:
+        id:
+          description: User ID
+          type: string
+    error_2:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction ID of the the request.
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error.
+          title: Info
+    AccountResponseShort:
+      type: object
+      properties:
+        id:
+          description: Site ID
+          type: string
+        name:
+          description: Site name
+          type: string
     UserRequestBody:
       type: object
       properties:
@@ -905,120 +1018,83 @@ components:
             description: Locale "nl"
           - type: string
             description: Locale "en"
-    UserRequestBodyPatch:
-      allOf:
-      - $ref: '#/components/schemas/UserRequestBody'
-      - type: object
-        properties:
-          suspended:
-            description: Is suspended
-            type: boolean
-    UserResponse:
-      type: object
-      properties:
-        id:
-          description: User ID
-          type: string
-        first_name:
-          description: First name
-          type: string
-        last_name:
-          description: Last name
-          type: string
-        name:
-          description: Full name
-          type: string
-        email:
-          description: E-mail address
-          type: string
-        photo:
-          description: Base64 image
-          type: string
-        locale:
-          oneOf:
-          - type: string
-            description: Locale "nl"
-          - type: string
-            description: Locale "en"
-        role:
-          oneOf:
-          - type: string
-            description: Role "dealer"
-          - type: string
-            description: Role "reseller"
-          - type: string
-            description: Role "admin"
-          - type: string
-            description: Role "agent"
-          - type: string
-            description: Role "assistent"
-          - type: string
-            description: Role "assistent_video"
-        created_at:
-          description: Created date and time
-          type: string
-          format: date-time
-        sites:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountResponseShort'
-        entity:
-          oneOf:
-          - type: object
-            properties:
-              type:
-                description: Entity type dealer
-                type: string
-              id:
-                description: Dealer ID
-                type: string
-              name:
-                description: Dealer name
-                type: string
-          - type: object
-            properties:
-              type:
-                description: Entity type reseller
-                type: string
-              id:
-                description: Reseller ID
-                type: string
-              name:
-                description: Reseller name
-                type: string
-          - type: object
-            properties:
-              type:
-                description: Entity type company
-                type: string
-              id:
-                description: Company ID. You recived the Company ID in the onboarding e-mail.
-                type: string
-              name:
-                description: Company name
-                type: string
-              package:
-                $ref: '#/components/schemas/PackageResponse'
-        status:
-          description: Status online or offline. Only added when status=true in query
-          type: string
-        suspended:
-          description: Is suspended
-          type: boolean
-    UserRequestBodyPut:
-      required:
-      - first_name
-      - last_name
-      - name
-      - locale
-      allOf:
-      - $ref: '#/components/schemas/UserRequestBody'
-      - type: object
-        properties:
-          suspended:
-            description: Is suspended
-            type: boolean
+  parameters:
+    UserQueryUserStatusParameter:
+      name: user_status
+      description: Add user status into response
+      in: query
+      schema:
+        type: boolean
+    UserQueryResellerParameter:
+      name: reseller
+      description: Only select users with given reseller ID
+      in: query
+      schema:
+        type: string
+        example: 334d171d1854dd4c97874ba8
+    UserQueryDealerParameter:
+      name: dealer
+      description: Only select users with given dealer ID
+      in: query
+      schema:
+        type: string
+        example: 45h6ac8a1e14a3c24ab20740
+    UserIDParameter:
+      name: id
+      description: A valid user ID
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 84c7ey417a4558a38ca39ded
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+    UserQueryCompanyParameter:
+      name: company
+      description: Only select users with given company ID
+      in: query
+      schema:
+        type: string
+        example: 784d061c0856dc4c97774da7
   examples:
+    UserResponseObjectSchema:
+      summary: User
+      value:
+        success: true
+        result:
+          id: 58f6ee406a2308a38ca39dec
+          first_name: Firstname
+          last_name: Lastname
+          name: Firstname Lastname
+          email: agent1@weseedo.nl
+          photo: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
+          locale: nl
+          role: agent
+          created_at: '2020-01-29T15:26:20.000Z'
+          sites:
+          - id: 47c6eedd1a14d3b20dd20771
+            name: Account 1
+          - id: 47c6eedd1a14d3b20dd20772
+            name: Account 2
+          entity:
+            type: company
+            id: 58h6aa8a0e14a4c24df20760
+            name: WeSeeDo B.V.
+            package:
+              id: 674a5rb3ca9d4f7e4f1da67a
+              name: professional
+              features:
+              - agent_create_appointment
+              - send_file
+              - screenshot
+              - chat
+          status: online
+          suspended: false
     UserRequestBodyObjectSchemaPost:
       summary: User
       value:
@@ -1032,6 +1108,22 @@ components:
         entity:
           type: company
           id: 58h6aa8a0e14a4c24df20760
+    UserResponseDeletedObjectSchema:
+      summary: User ID
+      value:
+        success: true
+        result:
+          id: 58f6ee406a2308a38ca39dec
+    UserRequestBodyObjectSchema:
+      summary: User
+      value:
+        first_name: Firstname
+        last_name: Lastname
+        email: agent1@weseedo.nl
+        photo: iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
+        password: StrongPassword123!
+        locale: nl
+        suspended: false
     UserResponseObjectArraySchema:
       summary: List of users
       value:
@@ -1093,109 +1185,7 @@ components:
               - chat
           status: online
           suspended: false
-    UserResponseObjectSchema:
-      summary: User
-      value:
-        success: true
-        result:
-          id: 58f6ee406a2308a38ca39dec
-          first_name: Firstname
-          last_name: Lastname
-          name: Firstname Lastname
-          email: agent1@weseedo.nl
-          photo: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
-          locale: nl
-          role: agent
-          created_at: '2020-01-29T15:26:20.000Z'
-          sites:
-          - id: 47c6eedd1a14d3b20dd20771
-            name: Account 1
-          - id: 47c6eedd1a14d3b20dd20772
-            name: Account 2
-          entity:
-            type: company
-            id: 58h6aa8a0e14a4c24df20760
-            name: WeSeeDo B.V.
-            package:
-              id: 674a5rb3ca9d4f7e4f1da67a
-              name: professional
-              features:
-              - agent_create_appointment
-              - send_file
-              - screenshot
-              - chat
-          status: online
-          suspended: false
-    UserRequestBodyObjectSchema:
-      summary: User
-      value:
-        first_name: Firstname
-        last_name: Lastname
-        email: agent1@weseedo.nl
-        photo: iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
-        password: StrongPassword123!
-        locale: nl
-        suspended: false
-    UserResponseDeletedObjectSchema:
-      summary: User ID
-      value:
-        success: true
-        result:
-          id: 58f6ee406a2308a38ca39dec
-  parameters:
-    UserQueryCompanyParameter:
-      name: company
-      description: Only select users with given company ID
-      in: query
-      schema:
-        type: string
-        example: 784d061c0856dc4c97774da7
-    UserIDParameter:
-      name: id
-      description: A valid user ID
-      in: path
-      required: true
-      schema:
-        type: string
-        example: 84c7ey417a4558a38ca39ded
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
-    UserQueryDealerParameter:
-      name: dealer
-      description: Only select users with given dealer ID
-      in: query
-      schema:
-        type: string
-        example: 45h6ac8a1e14a3c24ab20740
-    UserQueryUserStatusParameter:
-      name: user_status
-      description: Add user status into response
-      in: query
-      schema:
-        type: boolean
-    UserQueryResellerParameter:
-      name: reseller
-      description: Only select users with given reseller ID
-      in: query
-      schema:
-        type: string
-        example: 334d171d1854dd4c97874ba8
   requestBodies:
-    UserObjectPost:
-      description: JSON user object
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UserRequestBodyPost'
-          examples:
-            Example:
-              $ref: '#/components/examples/UserRequestBodyObjectSchemaPost'
     UserObjectPatch:
       description: JSON user object
       required: true
@@ -1216,6 +1206,16 @@ components:
           examples:
             Example:
               $ref: '#/components/examples/UserRequestBodyObjectSchema'
+    UserObjectPost:
+      description: JSON user object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserRequestBodyPost'
+          examples:
+            Example:
+              $ref: '#/components/examples/UserRequestBodyObjectSchemaPost'
   securitySchemes:
     oauth2:
       type: oauth2

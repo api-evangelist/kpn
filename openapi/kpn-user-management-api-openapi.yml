@@ -77,27 +77,13 @@ paths:
       operationId: postApiUser
       x-operation-id-source: derived
 components:
-  requestBodies:
-    CreateUser:
-      required: true
+  responses:
+    UserCreated:
+      description: Created
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              email_address:
-                type: string
-                format: email
-            required:
-            - email_address
-  parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
+            $ref: '#/components/schemas/UserInfo'
   schemas:
     UserInfo:
       type: object
@@ -132,13 +118,27 @@ components:
     id:
       type: integer
       example: 154
-  responses:
-    UserCreated:
-      description: Created
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+  requestBodies:
+    CreateUser:
+      required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/UserInfo'
+            type: object
+            properties:
+              email_address:
+                type: string
+                format: email
+            required:
+            - email_address
   securitySchemes:
     oauth2:
       type: oauth2

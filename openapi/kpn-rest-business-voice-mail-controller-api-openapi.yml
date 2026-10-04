@@ -243,6 +243,29 @@ paths:
               - subscriptionsFile
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
     OrderSummary:
       type: object
       properties:
@@ -276,29 +299,18 @@ components:
           - Rejected
           - ExternalScheduled
       title: OrderSummary
-    ErrorResponse:
+    OperationAvailability:
       type: object
       properties:
-        transactionId:
-          type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OperationAvailability
     BlockingOrder:
       type: object
       properties:
@@ -326,18 +338,6 @@ components:
           - CONTRACTING
           - SERVICE_REQUEST
       title: BlockingOrder
-    OperationAvailability:
-      type: object
-      properties:
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        enabled:
-          type: boolean
-        visible:
-          type: boolean
-      title: OperationAvailability
   securitySchemes:
     OAuth2:
       type: oauth2

@@ -155,17 +155,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
-    InternalServerError:
-      description: Internal server error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '500'
-              message: Internal Server Error
-              info: https://developer.kpn.com/support
     Unauthorized:
       description: Unauthorized — missing or invalid Bearer token.
       content:
@@ -177,28 +166,6 @@ components:
               code: '401'
               message: Unauthorized
               info: https://developer.kpn.com/getting-started
-    BadRequest:
-      description: Bad request — check your request body for missing or invalid fields.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '400'
-              message: Bad Request
-              info: https://developer.kpn.com/documentation-webhook-config
-    NotFound:
-      description: Not found — the requested configuration does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '404'
-              message: Not Found
-              info: https://developer.kpn.com/documentation-webhook-config
     Forbidden:
       description: Forbidden — your token does not have permission to access this resource.
       content:
@@ -210,33 +177,66 @@ components:
               code: '403'
               message: Forbidden
               info: https://developer.kpn.com/support
-  schemas:
-    PrivacyConfig:
-      type: object
-      description: 'Service-scoped field exclusion map.
-
-
-        Keys are KPN service identifiers (e.g. `sms_dlr`); values are lists of
-
-        field names to omit from outbound webhook payloads for that service.
-
-        Any field not listed is included in the payload.
-
-        An empty or absent map means **include all fields**.
-
-        '
-      properties:
-        excluded_fields:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-            maxItems: 50
+    InternalServerError:
+      description: Internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
           example:
-            sms_dlr:
-            - RecipientPhonenumber
-            - Message
+            errorResponse:
+              code: '500'
+              message: Internal Server Error
+              info: https://developer.kpn.com/support
+    NotFound:
+      description: Not found — the requested configuration does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '404'
+              message: Not Found
+              info: https://developer.kpn.com/documentation-webhook-config
+    BadRequest:
+      description: Bad request — check your request body for missing or invalid fields.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '400'
+              message: Bad Request
+              info: https://developer.kpn.com/documentation-webhook-config
+  parameters:
+    ApplicationName:
+      in: header
+      name: x-application-name
+      required: false
+      schema:
+        type: string
+      description: Human-readable name for your application. Optional; used for display purposes only.
+  schemas:
+    ApiErrorResponse:
+      type: object
+      properties:
+        errorResponse:
+          type: object
+          properties:
+            code:
+              type: string
+              description: HTTP status code as a string.
+              example: '400'
+            message:
+              type: string
+              description: Human-readable error message.
+              example: Bad Request
+            info:
+              type: string
+              description: URL to relevant documentation or support page.
+              example: https://developer.kpn.com/documentation-webhook-config
     AppWebhookConfigRequest:
       type: object
       required:
@@ -279,32 +279,32 @@ components:
         updated_at:
           type: string
           format: date-time
-    ApiErrorResponse:
+    PrivacyConfig:
       type: object
+      description: 'Service-scoped field exclusion map.
+
+
+        Keys are KPN service identifiers (e.g. `sms_dlr`); values are lists of
+
+        field names to omit from outbound webhook payloads for that service.
+
+        Any field not listed is included in the payload.
+
+        An empty or absent map means **include all fields**.
+
+        '
       properties:
-        errorResponse:
+        excluded_fields:
           type: object
-          properties:
-            code:
+          additionalProperties:
+            type: array
+            items:
               type: string
-              description: HTTP status code as a string.
-              example: '400'
-            message:
-              type: string
-              description: Human-readable error message.
-              example: Bad Request
-            info:
-              type: string
-              description: URL to relevant documentation or support page.
-              example: https://developer.kpn.com/documentation-webhook-config
-  parameters:
-    ApplicationName:
-      in: header
-      name: x-application-name
-      required: false
-      schema:
-        type: string
-      description: Human-readable name for your application. Optional; used for display purposes only.
+            maxItems: 50
+          example:
+            sms_dlr:
+            - RecipientPhonenumber
+            - Message
   securitySchemes:
     OAuth2:
       type: oauth2

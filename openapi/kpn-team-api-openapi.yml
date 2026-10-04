@@ -154,17 +154,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
-    InternalServerError:
-      description: Internal server error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '500'
-              message: Internal Server Error
-              info: https://developer.kpn.com/support
     Unauthorized:
       description: Unauthorized — missing or invalid Bearer token.
       content:
@@ -176,28 +165,6 @@ components:
               code: '401'
               message: Unauthorized
               info: https://developer.kpn.com/getting-started
-    BadRequest:
-      description: Bad request — check your request body for missing or invalid fields.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '400'
-              message: Bad Request
-              info: https://developer.kpn.com/documentation-webhook-config
-    NotFound:
-      description: Not found — the requested configuration does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '404'
-              message: Not Found
-              info: https://developer.kpn.com/documentation-webhook-config
     Forbidden:
       description: Forbidden — your token does not have permission to access this resource.
       content:
@@ -209,7 +176,58 @@ components:
               code: '403'
               message: Forbidden
               info: https://developer.kpn.com/support
+    InternalServerError:
+      description: Internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '500'
+              message: Internal Server Error
+              info: https://developer.kpn.com/support
+    NotFound:
+      description: Not found — the requested configuration does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '404'
+              message: Not Found
+              info: https://developer.kpn.com/documentation-webhook-config
+    BadRequest:
+      description: Bad request — check your request body for missing or invalid fields.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '400'
+              message: Bad Request
+              info: https://developer.kpn.com/documentation-webhook-config
   schemas:
+    ApiErrorResponse:
+      type: object
+      properties:
+        errorResponse:
+          type: object
+          properties:
+            code:
+              type: string
+              description: HTTP status code as a string.
+              example: '400'
+            message:
+              type: string
+              description: Human-readable error message.
+              example: Bad Request
+            info:
+              type: string
+              description: URL to relevant documentation or support page.
+              example: https://developer.kpn.com/documentation-webhook-config
     WebhookConfigResponse:
       type: object
       properties:
@@ -239,37 +257,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    ApiErrorResponse:
-      type: object
-      properties:
-        errorResponse:
-          type: object
-          properties:
-            code:
-              type: string
-              description: HTTP status code as a string.
-              example: '400'
-            message:
-              type: string
-              description: Human-readable error message.
-              example: Bad Request
-            info:
-              type: string
-              description: URL to relevant documentation or support page.
-              example: https://developer.kpn.com/documentation-webhook-config
-    TeamWebhookConfigRequest:
-      type: object
-      required:
-      - webhook_url
-      properties:
-        webhook_url:
-          type: string
-          format: uri
-          maxLength: 2048
-          description: HTTPS URL where KPN will POST outbound webhook notifications.
-          example: https://webhook.example.com/kpn/dlr
-        privacy_config:
-          $ref: '#/components/schemas/PrivacyConfig'
     PrivacyConfig:
       type: object
       description: 'Service-scoped field exclusion map.
@@ -296,6 +283,19 @@ components:
             sms_dlr:
             - RecipientPhonenumber
             - Message
+    TeamWebhookConfigRequest:
+      type: object
+      required:
+      - webhook_url
+      properties:
+        webhook_url:
+          type: string
+          format: uri
+          maxLength: 2048
+          description: HTTPS URL where KPN will POST outbound webhook notifications.
+          example: https://webhook.example.com/kpn/dlr
+        privacy_config:
+          $ref: '#/components/schemas/PrivacyConfig'
   securitySchemes:
     OAuth2:
       type: oauth2

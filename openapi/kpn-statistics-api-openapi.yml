@@ -221,6 +221,13 @@ components:
           description: Total number of devices in authorized scopes.
           format: int32
       description: Resource representing read-only statistics about health states for devices.
+    Type:
+      title: Type
+      enum:
+      - UPLINK
+      - DOWNLINK
+      type: string
+      description: Type of frame. Possible values are 'UPLINK' or 'DOWNLINK'.
     error:
       type: object
       properties:
@@ -244,13 +251,6 @@ components:
           type: string
           description: Additional information about error
           title: Info
-    Type:
-      title: Type
-      enum:
-      - UPLINK
-      - DOWNLINK
-      type: string
-      description: Type of frame. Possible values are 'UPLINK' or 'DOWNLINK'.
     FrameStatistics:
       title: FrameStatistics
       type: object

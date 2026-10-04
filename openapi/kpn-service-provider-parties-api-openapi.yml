@@ -69,6 +69,49 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    Contract:
+      type: object
+      required:
+      - id
+      - service_provider
+      - service_consumer
+      - data_owner
+      - start_date
+      - end_date
+      - resource_type
+      - resource
+      - resource_attribute
+      - action
+      properties:
+        action:
+          type: string
+        data_owner:
+          type: string
+        end_date:
+          type: string
+          format: date-time
+        id:
+          type: string
+        resource:
+          type: string
+        resource_attribute:
+          type: string
+        resource_type:
+          type: string
+        service_consumer:
+          type: string
+        service_provider:
+          type: string
+        start_date:
+          type: string
+          format: date-time
+    PartyAdherenceStatus:
+      type: string
+      enum:
+      - Active
+      - Pending
+      - NotActive
+      - Revoked
     ProblemDetail:
       type: object
       required:
@@ -162,49 +205,6 @@ components:
           type: integer
           format: int32
           minimum: 0
-    PartyAdherenceStatus:
-      type: string
-      enum:
-      - Active
-      - Pending
-      - NotActive
-      - Revoked
-    Contract:
-      type: object
-      required:
-      - id
-      - service_provider
-      - service_consumer
-      - data_owner
-      - start_date
-      - end_date
-      - resource_type
-      - resource
-      - resource_attribute
-      - action
-      properties:
-        action:
-          type: string
-        data_owner:
-          type: string
-        end_date:
-          type: string
-          format: date-time
-        id:
-          type: string
-        resource:
-          type: string
-        resource_attribute:
-          type: string
-        resource_type:
-          type: string
-        service_consumer:
-          type: string
-        service_provider:
-          type: string
-        start_date:
-          type: string
-          format: date-time
   securitySchemes:
     bearer_auth:
       type: http

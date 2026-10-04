@@ -834,79 +834,6 @@ components:
           type: integer
           format: int64
       title: LinkSubscriberToGripRequestParams
-    GripEntity:
-      type: object
-      properties:
-        email:
-          type: string
-        employeeNumber:
-          type: string
-        firstName:
-          type: string
-        fixedNumber:
-          type: string
-        gender:
-          type: string
-          enum:
-          - MALE
-          - FEMALE
-          - OTHER
-        id:
-          type: integer
-          format: int64
-        mobileNumber:
-          type: string
-        preferredLanguage:
-          type: string
-          enum:
-          - EN
-          - NL
-        surname:
-          type: string
-        userName:
-          type: string
-      title: GripEntity
-    PagedResult_Role_:
-      type: object
-      properties:
-        result:
-          type: array
-          description: One page of result
-          items:
-            $ref: '#/components/schemas/Role'
-        total:
-          type: integer
-          format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_Role_
-      description: Paged list of elements
-    BlockingOrder:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        kpnReference:
-          type: string
-        status:
-          type: string
-          enum:
-          - IN_PROGRESS
-          - UNAUTHORIZED
-          - NEW
-          - CLOSED
-          - CANCELED
-          - REJECTED
-          - DRAFT
-          - THIRD_PARTY
-          - HOLD_CUSTOMER
-          - WAITING
-        type:
-          type: string
-          enum:
-          - CONTRACTING
-          - SERVICE_REQUEST
-      title: BlockingOrder
     OperationState:
       type: object
       properties:
@@ -919,75 +846,6 @@ components:
         reason:
           type: string
       title: OperationState
-    OrderSummary:
-      type: object
-      properties:
-        contextName:
-          type: string
-        creationDate:
-          type: string
-        id:
-          type: integer
-          format: int64
-        operation:
-          type: string
-        referenceNumber:
-          type: string
-        status:
-          type: string
-          enum:
-          - Failed
-          - Aborted
-          - Finished
-          - Suspended
-          - InProgress
-          - Waiting
-          - Draft
-          - WaitingForAuthorization
-          - Authorized
-          - Restored
-          - Canceled
-          - Scheduled
-          - Initialized
-          - Rejected
-          - ExternalScheduled
-      title: OrderSummary
-    VirtualHierarchyItem:
-      type: object
-      properties:
-        costCenterNumber:
-          type: string
-        email:
-          type: string
-        employeeNumber:
-          type: string
-        firstName:
-          type: string
-        id:
-          type: integer
-          format: int64
-        lastName:
-          type: string
-        name:
-          type: string
-        operation:
-          $ref: '#/components/schemas/OperationState'
-        path:
-          type: array
-          items:
-            $ref: '#/components/schemas/VirtualHierarchyItem'
-        prefix:
-          type: string
-        type:
-          type: string
-          enum:
-          - CUSTOMER
-          - DEBTOR
-          - SUBSCRIBER
-          - COST_CENTER
-          - CUSTOM_GROUP
-          - BUSINESS_LOCATION
-      title: VirtualHierarchyItem
     ErrorResponse:
       type: object
       properties:
@@ -1025,6 +883,65 @@ components:
             type: integer
             format: int64
       title: EditRolesRequest
+    GripEntity:
+      type: object
+      properties:
+        email:
+          type: string
+        employeeNumber:
+          type: string
+        firstName:
+          type: string
+        fixedNumber:
+          type: string
+        gender:
+          type: string
+          enum:
+          - MALE
+          - FEMALE
+          - OTHER
+        id:
+          type: integer
+          format: int64
+        mobileNumber:
+          type: string
+        preferredLanguage:
+          type: string
+          enum:
+          - EN
+          - NL
+        surname:
+          type: string
+        userName:
+          type: string
+      title: GripEntity
+    BlockingOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        kpnReference:
+          type: string
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
+          type: string
+          enum:
+          - CONTRACTING
+          - SERVICE_REQUEST
+      title: BlockingOrder
     Role:
       type: object
       properties:
@@ -1036,6 +953,53 @@ components:
         selected:
           type: boolean
       title: Role
+    PagedResult_Role_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Role'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Role_
+      description: Paged list of elements
+    OrderSummary:
+      type: object
+      properties:
+        contextName:
+          type: string
+        creationDate:
+          type: string
+        id:
+          type: integer
+          format: int64
+        operation:
+          type: string
+        referenceNumber:
+          type: string
+        status:
+          type: string
+          enum:
+          - Failed
+          - Aborted
+          - Finished
+          - Suspended
+          - InProgress
+          - Waiting
+          - Draft
+          - WaitingForAuthorization
+          - Authorized
+          - Restored
+          - Canceled
+          - Scheduled
+          - Initialized
+          - Rejected
+          - ExternalScheduled
+      title: OrderSummary
     ManagedGroupAssignmentParams:
       type: object
       properties:
@@ -1045,6 +1009,42 @@ components:
             type: integer
             format: int64
       title: ManagedGroupAssignmentParams
+    VirtualHierarchyItem:
+      type: object
+      properties:
+        costCenterNumber:
+          type: string
+        email:
+          type: string
+        employeeNumber:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        name:
+          type: string
+        operation:
+          $ref: '#/components/schemas/OperationState'
+        path:
+          type: array
+          items:
+            $ref: '#/components/schemas/VirtualHierarchyItem'
+        prefix:
+          type: string
+        type:
+          type: string
+          enum:
+          - CUSTOMER
+          - DEBTOR
+          - SUBSCRIBER
+          - COST_CENTER
+          - CUSTOM_GROUP
+          - BUSINESS_LOCATION
+      title: VirtualHierarchyItem
   securitySchemes:
     OAuth2:
       type: oauth2

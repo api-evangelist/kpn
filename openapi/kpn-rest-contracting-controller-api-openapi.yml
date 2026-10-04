@@ -1130,135 +1130,6 @@ paths:
       - OAuth2: []
 components:
   schemas:
-    OrderConfirmation:
-      type: object
-      properties:
-        orderId:
-          type: integer
-          format: int64
-      title: OrderConfirmation
-    CharacteristicAction:
-      type: object
-      properties:
-        name:
-          type: string
-        value:
-          type: string
-      title: CharacteristicAction
-    BasketChange:
-      type: object
-      properties:
-        accountGroupId:
-          type: integer
-          format: int64
-          description: Account group for which new contract is to be created (usually it is subscriber)
-        characteristicActions:
-          type: array
-          items:
-            $ref: '#/components/schemas/CharacteristicAction'
-        contractId:
-          type: integer
-          format: int64
-        fixedContractId:
-          type: integer
-          format: int64
-        mobileContractId:
-          type: integer
-          format: int64
-        orderId:
-          type: integer
-          format: int64
-          description: Termination order (use this field to initialize reactivation in conjuction with accountGroupId)
-        productActions:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductAction'
-        simCardNumber:
-          type: string
-        templateId:
-          type: string
-        templateIdToModify:
-          type: integer
-          format: int64
-      title: BasketChange
-    BasketSnapshot:
-      type: object
-      properties:
-        characteristics:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/Characteristic'
-        oldPrice:
-          $ref: '#/components/schemas/Price'
-        productTree:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductTreeItem'
-        totalPrice:
-          $ref: '#/components/schemas/Price'
-      title: BasketSnapshot
-    LocalizedString:
-      type: object
-      properties:
-        en:
-          type: string
-          description: English version
-        nl:
-          type: string
-          description: Dutch version
-      title: LocalizedString
-      description: Text with two language versions
-    SaveAsTemplateResponse:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-      title: SaveAsTemplateResponse
-    Characteristic:
-      type: object
-      properties:
-        name:
-          type: string
-        possibleValues:
-          type: array
-          items:
-            $ref: '#/components/schemas/CharacteristicRestriction'
-        value:
-          type: string
-      title: Characteristic
-    Template:
-      type: object
-      properties:
-        customerLevel:
-          type: boolean
-        id:
-          type: string
-        name:
-          type: string
-        product:
-          $ref: '#/components/schemas/Product'
-        reason:
-          type: string
-          enum:
-          - INVALID_PRODUCT_CONFIGURATION
-          - HARDWARE_IN_TEMPLATE
-          - NOT_SUPPORTED_PRODUCT
-        templateDefinitionId:
-          type: integer
-          format: int64
-        valid:
-          type: boolean
-      title: Template
-    SaveAsTemplateRequest:
-      type: object
-      properties:
-        groupId:
-          type: integer
-          format: int64
-        name:
-          type: string
-      title: SaveAsTemplateRequest
     OrderRequest:
       type: object
       properties:
@@ -1273,6 +1144,44 @@ components:
           type: string
           format: date-time
       title: OrderRequest
+    SaveAsTemplateResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+      title: SaveAsTemplateResponse
+    ProductAction:
+      type: object
+      properties:
+        amount:
+          type: integer
+          format: int32
+        productId:
+          type: string
+        type:
+          type: string
+          enum:
+          - PUT
+          - REMOVE
+      title: ProductAction
+    CharacteristicAction:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+      title: CharacteristicAction
+    Resource:
+      type: object
+      properties:
+        address:
+          type: string
+        id:
+          type: integer
+          format: int64
+      title: Resource
     Product:
       type: object
       properties:
@@ -1288,102 +1197,6 @@ components:
           type: integer
           format: int64
       title: Product
-    ProductAction:
-      type: object
-      properties:
-        amount:
-          type: integer
-          format: int32
-        productId:
-          type: string
-        type:
-          type: string
-          enum:
-          - PUT
-          - REMOVE
-      title: ProductAction
-    Error:
-      type: object
-      properties:
-        hint:
-          $ref: '#/components/schemas/LocalizedString'
-        message:
-          $ref: '#/components/schemas/LocalizedString'
-      title: Error
-    ProductTreeItem:
-      type: object
-      properties:
-        amount:
-          type: integer
-          format: int32
-        canOrderMoreThanOne:
-          type: boolean
-        children:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductTreeItem'
-        childrenSelectionStrategy:
-          type: string
-          description: Information how many children of this item can be selected
-          enum:
-          - SELECT_ONE
-          - SELECT_MANY
-          - NONE
-        contracted:
-          type: boolean
-          description: Is already contracted (important during contract modification)?
-        disabled:
-          type: boolean
-          description: Can be select / deselect?
-        error:
-          $ref: '#/components/schemas/Error'
-        id:
-          type: string
-        name:
-          $ref: '#/components/schemas/LocalizedString'
-        price:
-          $ref: '#/components/schemas/Price'
-        selected:
-          type: boolean
-          description: Is currently selected?
-        visible:
-          type: boolean
-          description: Should be presented to end user?
-      title: ProductTreeItem
-    Resource:
-      type: object
-      properties:
-        address:
-          type: string
-        id:
-          type: integer
-          format: int64
-      title: Resource
-    Product1:
-      type: object
-      properties:
-        category:
-          type: string
-          enum:
-          - CENTREX
-          - FIXED
-          - FIXED_MOBILE
-          - HARDWARE
-          - MOBILE
-          - OTHER
-          - SKYPE_FOR_BUSINESS
-          - SOFTWARE
-        id:
-          type: string
-        name:
-          $ref: '#/components/schemas/LocalizedString'
-        priceInCents:
-          type: number
-        privateCopyingLevyInCents:
-          type: number
-        subcategory:
-          type: string
-      title: Product1
     ErrorResponse:
       type: object
       properties:
@@ -1407,30 +1220,12 @@ components:
           type: string
           description: Additional information about error
           title: Info
-    Price:
-      type: object
-      properties:
-        oneTime:
-          $ref: '#/components/schemas/OneTimePrice'
-        recurring:
-          $ref: '#/components/schemas/RecurringPrice'
-      title: Price
     RecurringPrice:
       type: object
       properties:
         monthlyFeeInCents:
           type: number
       title: RecurringPrice
-    OneTimePrice:
-      type: object
-      properties:
-        activationFeeInCents:
-          type: number
-        hardwareFeeInCents:
-          type: number
-        privateCopyingLevyInCents:
-          type: number
-      title: OneTimePrice
     DeliveryAddressRequest:
       type: object
       required:
@@ -1483,20 +1278,52 @@ components:
           minLength: 1
           maxLength: 24
       title: DeliveryAddressRequest
-    PagedResult_Template_:
+    Error:
       type: object
       properties:
-        result:
+        hint:
+          $ref: '#/components/schemas/LocalizedString'
+        message:
+          $ref: '#/components/schemas/LocalizedString'
+      title: Error
+    OneTimePrice:
+      type: object
+      properties:
+        activationFeeInCents:
+          type: number
+        hardwareFeeInCents:
+          type: number
+        privateCopyingLevyInCents:
+          type: number
+      title: OneTimePrice
+    BasketSnapshot:
+      type: object
+      properties:
+        characteristics:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Characteristic'
+        oldPrice:
+          $ref: '#/components/schemas/Price'
+        productTree:
           type: array
-          description: One page of result
           items:
-            $ref: '#/components/schemas/Template'
-        total:
-          type: integer
-          format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_Template_
-      description: Paged list of elements
+            $ref: '#/components/schemas/ProductTreeItem'
+        totalPrice:
+          $ref: '#/components/schemas/Price'
+      title: BasketSnapshot
+    Characteristic:
+      type: object
+      properties:
+        name:
+          type: string
+        possibleValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/CharacteristicRestriction'
+        value:
+          type: string
+      title: Characteristic
     PagedResult_Product_1:
       type: object
       properties:
@@ -1511,6 +1338,96 @@ components:
           description: Total number of all elements in collection
       title: PagedResult_Product_1
       description: Paged list of elements
+    PagedResult_Template_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/Template'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Template_
+      description: Paged list of elements
+    ProductTreeItem:
+      type: object
+      properties:
+        amount:
+          type: integer
+          format: int32
+        canOrderMoreThanOne:
+          type: boolean
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductTreeItem'
+        childrenSelectionStrategy:
+          type: string
+          description: Information how many children of this item can be selected
+          enum:
+          - SELECT_ONE
+          - SELECT_MANY
+          - NONE
+        contracted:
+          type: boolean
+          description: Is already contracted (important during contract modification)?
+        disabled:
+          type: boolean
+          description: Can be select / deselect?
+        error:
+          $ref: '#/components/schemas/Error'
+        id:
+          type: string
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        price:
+          $ref: '#/components/schemas/Price'
+        selected:
+          type: boolean
+          description: Is currently selected?
+        visible:
+          type: boolean
+          description: Should be presented to end user?
+      title: ProductTreeItem
+    BasketChange:
+      type: object
+      properties:
+        accountGroupId:
+          type: integer
+          format: int64
+          description: Account group for which new contract is to be created (usually it is subscriber)
+        characteristicActions:
+          type: array
+          items:
+            $ref: '#/components/schemas/CharacteristicAction'
+        contractId:
+          type: integer
+          format: int64
+        fixedContractId:
+          type: integer
+          format: int64
+        mobileContractId:
+          type: integer
+          format: int64
+        orderId:
+          type: integer
+          format: int64
+          description: Termination order (use this field to initialize reactivation in conjuction with accountGroupId)
+        productActions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductAction'
+        simCardNumber:
+          type: string
+        templateId:
+          type: string
+        templateIdToModify:
+          type: integer
+          format: int64
+      title: BasketChange
     CharacteristicRestriction:
       type: object
       properties:
@@ -1519,6 +1436,89 @@ components:
         value:
           type: string
       title: CharacteristicRestriction
+    Product1:
+      type: object
+      properties:
+        category:
+          type: string
+          enum:
+          - CENTREX
+          - FIXED
+          - FIXED_MOBILE
+          - HARDWARE
+          - MOBILE
+          - OTHER
+          - SKYPE_FOR_BUSINESS
+          - SOFTWARE
+        id:
+          type: string
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        priceInCents:
+          type: number
+        privateCopyingLevyInCents:
+          type: number
+        subcategory:
+          type: string
+      title: Product1
+    Price:
+      type: object
+      properties:
+        oneTime:
+          $ref: '#/components/schemas/OneTimePrice'
+        recurring:
+          $ref: '#/components/schemas/RecurringPrice'
+      title: Price
+    LocalizedString:
+      type: object
+      properties:
+        en:
+          type: string
+          description: English version
+        nl:
+          type: string
+          description: Dutch version
+      title: LocalizedString
+      description: Text with two language versions
+    Template:
+      type: object
+      properties:
+        customerLevel:
+          type: boolean
+        id:
+          type: string
+        name:
+          type: string
+        product:
+          $ref: '#/components/schemas/Product'
+        reason:
+          type: string
+          enum:
+          - INVALID_PRODUCT_CONFIGURATION
+          - HARDWARE_IN_TEMPLATE
+          - NOT_SUPPORTED_PRODUCT
+        templateDefinitionId:
+          type: integer
+          format: int64
+        valid:
+          type: boolean
+      title: Template
+    SaveAsTemplateRequest:
+      type: object
+      properties:
+        groupId:
+          type: integer
+          format: int64
+        name:
+          type: string
+      title: SaveAsTemplateRequest
+    OrderConfirmation:
+      type: object
+      properties:
+        orderId:
+          type: integer
+          format: int64
+      title: OrderConfirmation
   securitySchemes:
     OAuth2:
       type: oauth2

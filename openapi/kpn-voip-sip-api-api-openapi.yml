@@ -435,71 +435,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    SIP:
-      type: object
-      properties:
-        username:
-          type: string
-          description: Username of this SIP account. This parameter is used to authenticate the SIP account.
-          title: username
-        password:
-          type: string
-          description: Password of this SIP account.
-          title: password
-    Callerid:
-      type: object
-      properties:
-        internal_name:
-          type: string
-          description: Name of this SIP account
-          title: internal_name
-        internal_number:
-          type: string
-          description: Number of this SIP account
-          title: internal_number
-        external_name:
-          type: string
-          description: Name of this SIP account
-          title: external_name
-        external_number:
-          type: string
-          description: Number of this SIP account
-          title: external_number
-    SIPAccountResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/SIPAccountObject'
-      description: Response containing the list of the external scripts for your domain.
-    Voicemail:
-      type: object
-      properties:
-        mwi_account:
-          type: string
-          description: Message Waiting Indicator account of this SIP account. The Voicemail account this SIP account will be notified about when messages are left or deleted there.
-          title: mwi_account
-    ErrorResponse:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
     SIPAccountObject:
       type: object
       properties:
@@ -525,6 +460,71 @@ components:
           type: string
           description: updation date of SIP account
           title: updated_at
+    SIPAccountResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/SIPAccountObject'
+      description: Response containing the list of the external scripts for your domain.
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    Voicemail:
+      type: object
+      properties:
+        mwi_account:
+          type: string
+          description: Message Waiting Indicator account of this SIP account. The Voicemail account this SIP account will be notified about when messages are left or deleted there.
+          title: mwi_account
+    Callerid:
+      type: object
+      properties:
+        internal_name:
+          type: string
+          description: Name of this SIP account
+          title: internal_name
+        internal_number:
+          type: string
+          description: Number of this SIP account
+          title: internal_number
+        external_name:
+          type: string
+          description: Name of this SIP account
+          title: external_name
+        external_number:
+          type: string
+          description: Number of this SIP account
+          title: external_number
+    SIP:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Username of this SIP account. This parameter is used to authenticate the SIP account.
+          title: username
+        password:
+          type: string
+          description: Password of this SIP account.
+          title: password
   securitySchemes:
     OAuth2:
       type: oauth2

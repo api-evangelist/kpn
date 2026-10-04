@@ -50,75 +50,7 @@ paths:
       operationId: getByChannelKpnCONTENTDETAILByContentTypeByContentId
       x-operation-id-source: derived
 components:
-  parameters:
-    path_contenttype:
-      in: path
-      name: contentType
-      description: Identifier of the content type.
-      schema:
-        type: string
-        enum:
-        - PROGRAM
-        - VOD
-      required: true
-    path_channel:
-      in: path
-      name: channel
-      description: Any valid platform
-      schema:
-        type: string
-        enum:
-        - pctv
-        - ios
-        - android
-        - stb
-        - chromecast
-        - smarttv
-      required: true
-    query_api_version:
-      in: query
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-    header_api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-    path_contentid:
-      in: path
-      name: contentId
-      description: The unique content identifier.
-      schema:
-        type: integer
-      required: true
   responses:
-    service_unavailable:
-      description: service unavailable
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    too_many:
-      description: too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    server_error:
-      description: server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    not_found:
-      description: not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     unauthorized:
       description: Unauthorized
       content:
@@ -144,8 +76,8 @@ components:
                 type: array
                 items:
                   $ref: '#/components/schemas/container'
-    bad_request:
-      description: Bad request
+    not_found:
+      description: not found
       content:
         application/json:
           schema:
@@ -156,6 +88,74 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
+    bad_request:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  parameters:
+    path_channel:
+      in: path
+      name: channel
+      description: Any valid platform
+      schema:
+        type: string
+        enum:
+        - pctv
+        - ios
+        - android
+        - stb
+        - chromecast
+        - smarttv
+      required: true
+    path_contentid:
+      in: path
+      name: contentId
+      description: The unique content identifier.
+      schema:
+        type: integer
+      required: true
+    path_contenttype:
+      in: path
+      name: contentType
+      description: Identifier of the content type.
+      schema:
+        type: string
+        enum:
+        - PROGRAM
+        - VOD
+      required: true
+    header_api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+    query_api_version:
+      in: query
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
   schemas:
     error:
       type: object

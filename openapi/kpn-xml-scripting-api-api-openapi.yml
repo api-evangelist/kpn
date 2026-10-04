@@ -445,11 +445,6 @@ components:
           type: string
           description: Additional information about error
           title: Info
-    XMLScriptingResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/XMLScriptingObject'
-      description: Response containing the list of the external scripts for your domain.
     XMLScriptingObject:
       type: object
       properties:
@@ -473,6 +468,11 @@ components:
           type: string
           description: updation date of the external script
           title: updated_at
+    XMLScriptingResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/XMLScriptingObject'
+      description: Response containing the list of the external scripts for your domain.
   securitySchemes:
     OAuth2:
       type: oauth2

@@ -85,6 +85,24 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
+    unauthorized:
+      description: unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
     service_unavailable:
       description: service unavailable
       content:
@@ -97,32 +115,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    server_error:
-      description: server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     not_found:
       description: not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    unauthorized:
-      description: unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     bad_request:
       description: bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    forbidden:
-      description: forbidden
       content:
         application/json:
           schema:
@@ -143,6 +143,14 @@ components:
       description: API Version. If no version is provided it defaults to latest version.
       required: false
   schemas:
+    graphql_payload:
+      title: graphql
+      type: object
+      properties:
+        query:
+          type: string
+        variables:
+          $ref: '#/components/schemas/graphql_variables'
     error:
       type: object
       properties:
@@ -174,14 +182,6 @@ components:
           type: string
         api_token:
           type: string
-    graphql_payload:
-      title: graphql
-      type: object
-      properties:
-        query:
-          type: string
-        variables:
-          $ref: '#/components/schemas/graphql_variables'
   securitySchemes:
     oauth2:
       type: oauth2

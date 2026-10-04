@@ -96,111 +96,36 @@ paths:
         '200':
           $ref: '#/components/responses/ok_answer'
 components:
-  parameters:
-    pattern_query_param:
-      name: pattern
-      in: query
-      schema:
-        type: string
-      description: A number pattern to search for.
-    size_query_param:
-      name: size
-      in: query
-      schema:
-        type: integer
-        default: 10
-        maximum: 100
-      description: Page size
-    search_pattern_query_param:
-      name: search_pattern
-      in: query
-      schema:
-        type: integer
-        minimum: 0
-        maximum: 2
-      description: 'Strategy for matching pattern. Expected values: 0 (starts with, default), 1 (anywhere), 2 (ends with).'
-    number_type_query_param:
-      name: type
-      in: query
-      description: The type of number to search for. By default it takes landline.
-      schema:
-        type: string
-        enum:
-        - landline
-        - landline-toll-free
-        - mobile-lvn
-    features_query_param:
-      name: features
-      in: query
-      schema:
-        type: array
-        items:
-          $ref: '#/components/schemas/feature_field'
-    index_query_param:
-      name: index
-      in: query
-      schema:
-        type: integer
-        example: 0
-        default: 1
-      description: Page index
-    country_query_param:
-      name: country
-      in: query
-      required: true
-      schema:
-        type: string
-  responses:
-    number_list:
-      description: OK
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              count:
-                type: integer
-                description: The total amount of numbers that satisfies the requirements.
-              numbers:
-                type: array
-                description: A paginated array of available numbers and their details.
-                items:
-                  $ref: '#/components/schemas/number'
-    ok_answer:
-      description: OK
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error-code:
-                type: string
-                format: integer
-              error-code-label:
-                type: string
-            example:
-            - error-code: '200'
-              error-code-label: success
-  requestBodies:
-    buy_cancel_number_request:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/buy_cancel_number'
-          example:
-          - country: NL
-            msisdn: '31612345789'
-    update_number:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/update_number'
   schemas:
-    moHttpUrl_field:
+    voiceCallbackType_field:
+      type: string
+      example: app
+      description: The voice webhook type. To be used together with `voiceCallbackValue`
+      enum:
+      - sip
+      - tel
+      - app
+    moSmppSysType_field:
+      type: string
+      description: The associated system type for your SMPP client. For example `inbound`.
+      example: inbound
+    voiceCallbackValue_field:
+      type: string
+      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+      description: A SIP URI, telephone number or Application ID. To be used together with `voiceCallbackType`
+    voiceStatusCallback_field:
+      description: A webhook URI for Vonage to send a request to when a call ends.
       type: string
       format: url
-      example: https://example.com/mo
-      description: An URL encoded URI to the webhook endpoint that handles inbound messages. Your webhook endpoint must be active before you make this request, Vonage makes a `GET` request to your endpoint and checks that it returns a `200 OK` response. Set to empty string to clear.
+    msisdn_field:
+      type: string
+      format: number
+      description: An available inbound virtual number.
+      example: '31612345789'
+    country_field:
+      type: string
+      description: The two character country code in ISO 3166-1 alpha-2 format.
+      example: NL
     number:
       type: object
       properties:
@@ -235,19 +160,11 @@ components:
       required:
       - country
       - msisdn
-    voiceCallbackType_field:
+    moHttpUrl_field:
       type: string
-      example: app
-      description: The voice webhook type. To be used together with `voiceCallbackValue`
-      enum:
-      - sip
-      - tel
-      - app
-    msisdn_field:
-      type: string
-      format: number
-      description: An available inbound virtual number.
-      example: '31612345789'
+      format: url
+      example: https://example.com/mo
+      description: An URL encoded URI to the webhook endpoint that handles inbound messages. Your webhook endpoint must be active before you make this request, Vonage makes a `GET` request to your endpoint and checks that it returns a `200 OK` response. Set to empty string to clear.
     feature_field:
       type: array
       description: Available features are SMS and VOICE. For both features, use a comma-separated value SMS,VOICE.
@@ -259,18 +176,6 @@ components:
       example:
       - VOICE
       - SMS
-    voiceStatusCallback_field:
-      description: A webhook URI for Vonage to send a request to when a call ends.
-      type: string
-      format: url
-    moSmppSysType_field:
-      type: string
-      description: The associated system type for your SMPP client. For example `inbound`.
-      example: inbound
-    country_field:
-      type: string
-      description: The two character country code in ISO 3166-1 alpha-2 format.
-      example: NL
     update_number:
       description: The JSON object to request an update of a phone number
       type: object
@@ -292,10 +197,105 @@ components:
       required:
       - country
       - msisdn
-    voiceCallbackValue_field:
-      type: string
-      example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
-      description: A SIP URI, telephone number or Application ID. To be used together with `voiceCallbackType`
+  parameters:
+    search_pattern_query_param:
+      name: search_pattern
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+        maximum: 2
+      description: 'Strategy for matching pattern. Expected values: 0 (starts with, default), 1 (anywhere), 2 (ends with).'
+    features_query_param:
+      name: features
+      in: query
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/feature_field'
+    number_type_query_param:
+      name: type
+      in: query
+      description: The type of number to search for. By default it takes landline.
+      schema:
+        type: string
+        enum:
+        - landline
+        - landline-toll-free
+        - mobile-lvn
+    pattern_query_param:
+      name: pattern
+      in: query
+      schema:
+        type: string
+      description: A number pattern to search for.
+    size_query_param:
+      name: size
+      in: query
+      schema:
+        type: integer
+        default: 10
+        maximum: 100
+      description: Page size
+    index_query_param:
+      name: index
+      in: query
+      schema:
+        type: integer
+        example: 0
+        default: 1
+      description: Page index
+    country_query_param:
+      name: country
+      in: query
+      required: true
+      schema:
+        type: string
+  requestBodies:
+    update_number:
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/update_number'
+    buy_cancel_number_request:
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/buy_cancel_number'
+          example:
+          - country: NL
+            msisdn: '31612345789'
+  responses:
+    ok_answer:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error-code:
+                type: string
+                format: integer
+              error-code-label:
+                type: string
+            example:
+            - error-code: '200'
+              error-code-label: success
+    number_list:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              count:
+                type: integer
+                description: The total amount of numbers that satisfies the requirements.
+              numbers:
+                type: array
+                description: A paginated array of available numbers and their details.
+                items:
+                  $ref: '#/components/schemas/number'
   securitySchemes:
     oauth2:
       type: oauth2

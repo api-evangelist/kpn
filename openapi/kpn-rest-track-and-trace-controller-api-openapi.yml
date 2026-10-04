@@ -1366,107 +1366,6 @@ components:
         serialNumber:
           type: string
       title: HardwareSuborder
-    LocalizedString1:
-      type: object
-      properties:
-        en:
-          type: string
-          description: English version
-        nl:
-          type: string
-          description: Dutch version
-      title: LocalizedString1
-      description: Text with two language versions
-    PagedResult_ServiceRequest_:
-      type: object
-      properties:
-        result:
-          type: array
-          description: One page of result
-          items:
-            $ref: '#/components/schemas/ServiceRequest'
-        total:
-          type: integer
-          format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_ServiceRequest_
-      description: Paged list of elements
-    OrderParticipants:
-      type: object
-      properties:
-        approvedBy:
-          $ref: '#/components/schemas/OrderAuthorizer'
-        orderedBy:
-          $ref: '#/components/schemas/OrderParticipant'
-        receivedBy:
-          $ref: '#/components/schemas/OrderReceiver'
-      title: OrderParticipants
-    Threshold:
-      type: object
-      properties:
-        dailyValue:
-          type: number
-          format: float
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        type:
-          type: string
-          enum:
-          - DATA_NATIONAL_MB
-          - DATA_ROAMING_MB
-          - VOICE_NATIONAL_MIN
-          - VOICE_ROAMING_EUR
-      title: Threshold
-    OperationAvailability2:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        visible:
-          type: boolean
-      title: OperationAvailability2
-    LocalizedString:
-      type: object
-      properties:
-        en:
-          type: string
-          description: English version
-        nl:
-          type: string
-          description: Dutch version
-      title: LocalizedString
-      description: Text with two language versions
-    Threshold1:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-      title: Threshold1
-    OrderReceiver:
-      type: object
-      properties:
-        accountName:
-          type: string
-        companyName:
-          type: string
-        employeeNumber:
-          type: string
-        firstName:
-          type: string
-        id:
-          type: integer
-          format: int64
-        lastName:
-          type: string
-        prefix:
-          type: string
-      title: OrderReceiver
     PrettyOrderDetails:
       type: object
       properties:
@@ -1569,50 +1468,65 @@ components:
           type: string
           format: date-time
       title: PrettyOrderDetails
-    ContractServiceUpdate:
+    Address2:
       type: object
       properties:
-        children:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractServiceUpdate'
+        attention:
+          type: string
+        city:
+          type: string
+        companyName:
+          type: string
+        country:
+          type: string
+        floor:
+          type: string
+        houseNumber:
+          type: string
+        location:
+          type: string
+        postalCode:
+          type: string
+        provinceOrState:
+          type: string
+        room:
+          type: string
+        street:
+          type: string
+      title: Address2
+    Threshold:
+      type: object
+      properties:
+        dailyValue:
+          type: number
+          format: float
+        id:
+          type: integer
+          format: int64
         name:
-          $ref: '#/components/schemas/LocalizedString'
-        newState:
+          type: string
+        type:
           type: string
           enum:
-          - 'ON'
-          - 'OFF'
-        oldState:
-          type: string
-          enum:
-          - 'ON'
-          - 'OFF'
-      title: ContractServiceUpdate
-    FlexibleNumberPresentation1:
+          - DATA_NATIONAL_MB
+          - DATA_ROAMING_MB
+          - VOICE_NATIONAL_MIN
+          - VOICE_ROAMING_EUR
+      title: Threshold
+    PagedResult_Order_:
       type: object
       properties:
-        defaultNumber:
-          type: string
-        fixedNumbers:
+        result:
           type: array
+          description: One page of result
           items:
-            $ref: '#/components/schemas/FixedNumberPresentation'
-        mobileNumberPresentation:
-          type: boolean
-      title: FlexibleNumberPresentation1
-    OperationAvailability:
-      type: object
-      properties:
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        enabled:
-          type: boolean
-        visible:
-          type: boolean
-      title: OperationAvailability
+            $ref: '#/components/schemas/Order'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_Order_
+      description: Paged list of elements
     BlockingOrder:
       type: object
       properties:
@@ -1640,24 +1554,75 @@ components:
           - CONTRACTING
           - SERVICE_REQUEST
       title: BlockingOrder
-    OrderParticipants1:
+    ChangePortingData:
       type: object
       properties:
-        approvedBy:
-          $ref: '#/components/schemas/OrderAuthorizer1'
-        orderedBy:
-          $ref: '#/components/schemas/OrderParticipant1'
-        receivedBy:
-          $ref: '#/components/schemas/OrderReceiver1'
-      title: OrderParticipants1
-    OrderCancelStatus:
+        asap:
+          type: boolean
+        customerNumber:
+          type: string
+        newWishDate:
+          type: string
+          format: date-time
+      title: ChangePortingData
+    ReturnedHardwareServiceRequests:
       type: object
       properties:
-        enabled:
-          type: boolean
-        visible:
-          type: boolean
-      title: OrderCancelStatus
+        creationDate:
+          type: string
+        id:
+          type: integer
+          format: int64
+        kpnReference:
+          type: string
+        parentOrderSymbol:
+          type: string
+        requestBy:
+          $ref: '#/components/schemas/OrderParticipant'
+        returnedHardware:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReturnedHardware'
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+      title: ReturnedHardwareServiceRequests
+    Address1:
+      type: object
+      properties:
+        attention:
+          type: string
+        city:
+          type: string
+        companyName:
+          type: string
+        country:
+          type: string
+        floor:
+          type: string
+        houseNumber:
+          type: string
+        location:
+          type: string
+        postalCode:
+          type: string
+        provinceOrState:
+          type: string
+        room:
+          type: string
+        street:
+          type: string
+      title: Address1
     Address:
       type: object
       properties:
@@ -1684,20 +1649,27 @@ components:
         street:
           type: string
       title: Address
-    PagedResult_ReturnedHardwareServiceRequests_:
+    LocalizedString1:
       type: object
       properties:
-        result:
-          type: array
-          description: One page of result
-          items:
-            $ref: '#/components/schemas/ReturnedHardwareServiceRequests'
-        total:
-          type: integer
-          format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_ReturnedHardwareServiceRequests_
-      description: Paged list of elements
+        en:
+          type: string
+          description: English version
+        nl:
+          type: string
+          description: Dutch version
+      title: LocalizedString1
+      description: Text with two language versions
+    OrderParticipants1:
+      type: object
+      properties:
+        approvedBy:
+          $ref: '#/components/schemas/OrderAuthorizer1'
+        orderedBy:
+          $ref: '#/components/schemas/OrderParticipant1'
+        receivedBy:
+          $ref: '#/components/schemas/OrderReceiver1'
+      title: OrderParticipants1
     Product:
       type: object
       properties:
@@ -1713,6 +1685,135 @@ components:
           type: integer
           format: int64
       title: Product
+    Hardware:
+      type: object
+      properties:
+        apple:
+          type: boolean
+        contractItem:
+          $ref: '#/components/schemas/ContractItem'
+        imei:
+          type: string
+        product:
+          $ref: '#/components/schemas/Product'
+        returned:
+          type: boolean
+        samsung:
+          type: boolean
+        serialNumber:
+          type: string
+      title: Hardware
+    Attachment:
+      type: object
+      properties:
+        fileName:
+          type: string
+        id:
+          type: integer
+          format: int64
+      title: Attachment
+    PagedResult_ServiceRequest_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/ServiceRequest'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_ServiceRequest_
+      description: Paged list of elements
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    OrderCancelStatus:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OrderCancelStatus
+    OrderParticipant1:
+      type: object
+      properties:
+        accountName:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        prefix:
+          type: string
+      title: OrderParticipant1
+    OrderParticipants:
+      type: object
+      properties:
+        approvedBy:
+          $ref: '#/components/schemas/OrderAuthorizer'
+        orderedBy:
+          $ref: '#/components/schemas/OrderParticipant'
+        receivedBy:
+          $ref: '#/components/schemas/OrderReceiver'
+      title: OrderParticipants
+    OrderReceiver1:
+      type: object
+      properties:
+        accountName:
+          type: string
+        companyName:
+          type: string
+        employeeNumber:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        prefix:
+          type: string
+      title: OrderReceiver1
+    FixedNumberPresentation:
+      type: object
+      properties:
+        description:
+          type: string
+          enum:
+          - ORGANISATION
+          - FIXED_NUMBER
+          - HUNTGROUP
+          - CALL_CENTER
+        number:
+          type: string
+      title: FixedNumberPresentation
     ServiceRequestDetails:
       type: object
       properties:
@@ -1804,7 +1905,22 @@ components:
         mobileNumberPresentation:
           type: boolean
       title: FlexibleNumberPresentation
-    OrderReceiver1:
+    OrderParticipant:
+      type: object
+      properties:
+        accountName:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        prefix:
+          type: string
+      title: OrderParticipant
+    OrderReceiver:
       type: object
       properties:
         accountName:
@@ -1822,7 +1938,73 @@ components:
           type: string
         prefix:
           type: string
-      title: OrderReceiver1
+      title: OrderReceiver
+    Order:
+      type: object
+      properties:
+        contractItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractItem'
+        creationDate:
+          type: string
+        customerReference:
+          type: string
+        finishDate:
+          type: string
+        id:
+          type: integer
+          format: int64
+        isBeingCanceled:
+          type: boolean
+        kpnReference:
+          type: string
+        msisdn:
+          type: string
+        orderedBy:
+          $ref: '#/components/schemas/OrderParticipant'
+        orderedFor:
+          $ref: '#/components/schemas/OrderReceiver'
+        portingMessage:
+          type: string
+        requiredAction:
+          type: string
+          enum:
+          - AUTHORIZATION
+          - PORT_IN_DATA_CHANGE
+        status:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
+          $ref: '#/components/schemas/LocalizedString'
+      title: Order
+    ReturnedHardware:
+      type: object
+      properties:
+        multiplicity:
+          type: integer
+          format: int32
+        product:
+          type: string
+      title: ReturnedHardware
+    OperationAvailability2:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OperationAvailability2
     OrderDetails1:
       type: object
       properties:
@@ -1937,167 +2119,71 @@ components:
           type: string
           format: date-time
       title: OrderDetails1
-    ContractItem:
+    PrettyContractingSuborder:
       type: object
       properties:
-        children:
+        expectedDeliveryDate:
+          type: string
+        imeiNumbers:
           type: array
           items:
-            $ref: '#/components/schemas/ContractItem'
-        citemBsId:
-          type: integer
-          format: int64
-        contractId:
-          type: integer
-          format: int64
-        id:
+            type: string
+        mobileNumbers:
+          type: array
+          items:
+            type: string
+        multiplicity:
           type: integer
           format: int64
         name:
           $ref: '#/components/schemas/LocalizedString'
-        productBsId:
+        oneTimePriceInCents:
           type: integer
           format: int64
-        tariffPlanVariantBsId:
+        privateCopyingLevyInCents:
           type: integer
           format: int64
-      title: ContractItem
-    Address1:
-      type: object
-      properties:
-        attention:
+        serialNumbers:
+          type: array
+          items:
+            type: string
+        status:
           type: string
-        city:
-          type: string
-        companyName:
-          type: string
-        country:
-          type: string
-        floor:
-          type: string
-        houseNumber:
-          type: string
-        location:
-          type: string
-        postalCode:
-          type: string
-        provinceOrState:
-          type: string
-        room:
-          type: string
-        street:
-          type: string
-      title: Address1
-    Attachment:
-      type: object
-      properties:
-        fileName:
-          type: string
-        id:
-          type: integer
-          format: int64
-      title: Attachment
-    Serializable:
-      type: object
-      title: Serializable
-    Address2:
-      type: object
-      properties:
-        attention:
-          type: string
-        city:
-          type: string
-        companyName:
-          type: string
-        country:
-          type: string
-        floor:
-          type: string
-        houseNumber:
-          type: string
-        location:
-          type: string
-        postalCode:
-          type: string
-        provinceOrState:
-          type: string
-        room:
-          type: string
-        street:
-          type: string
-      title: Address2
-    PagedResult_Order_:
+      title: PrettyContractingSuborder
+    PagedResult_ReturnedHardwareServiceRequests_:
       type: object
       properties:
         result:
           type: array
           description: One page of result
           items:
-            $ref: '#/components/schemas/Order'
+            $ref: '#/components/schemas/ReturnedHardwareServiceRequests'
         total:
           type: integer
           format: int32
           description: Total number of all elements in collection
-      title: PagedResult_Order_
+      title: PagedResult_ReturnedHardwareServiceRequests_
       description: Paged list of elements
-    ChangePortingData:
+    ContractServiceUpdate:
       type: object
       properties:
-        asap:
-          type: boolean
-        customerNumber:
-          type: string
-        newWishDate:
-          type: string
-          format: date-time
-      title: ChangePortingData
-    OrderParticipant1:
-      type: object
-      properties:
-        accountName:
-          type: string
-        firstName:
-          type: string
-        id:
-          type: integer
-          format: int64
-        lastName:
-          type: string
-        prefix:
-          type: string
-      title: OrderParticipant1
-    ReturnedHardwareServiceRequests:
-      type: object
-      properties:
-        creationDate:
-          type: string
-        id:
-          type: integer
-          format: int64
-        kpnReference:
-          type: string
-        parentOrderSymbol:
-          type: string
-        requestBy:
-          $ref: '#/components/schemas/OrderParticipant'
-        returnedHardware:
+        children:
           type: array
           items:
-            $ref: '#/components/schemas/ReturnedHardware'
-        status:
+            $ref: '#/components/schemas/ContractServiceUpdate'
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        newState:
           type: string
           enum:
-          - IN_PROGRESS
-          - UNAUTHORIZED
-          - NEW
-          - CLOSED
-          - CANCELED
-          - REJECTED
-          - DRAFT
-          - THIRD_PARTY
-          - HOLD_CUSTOMER
-          - WAITING
-      title: ReturnedHardwareServiceRequests
+          - 'ON'
+          - 'OFF'
+        oldState:
+          type: string
+          enum:
+          - 'ON'
+          - 'OFF'
+      title: ContractServiceUpdate
     ContractingSuborder1:
       type: object
       properties:
@@ -2137,119 +2223,57 @@ components:
         status:
           type: string
       title: ContractingSuborder1
-    OrderParticipant:
+    ContractItem:
       type: object
       properties:
-        accountName:
-          type: string
-        firstName:
-          type: string
-        id:
-          type: integer
-          format: int64
-        lastName:
-          type: string
-        prefix:
-          type: string
-      title: OrderParticipant
-    ErrorResponse:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
-    Hardware:
-      type: object
-      properties:
-        apple:
-          type: boolean
-        contractItem:
-          $ref: '#/components/schemas/ContractItem'
-        imei:
-          type: string
-        product:
-          $ref: '#/components/schemas/Product'
-        returned:
-          type: boolean
-        samsung:
-          type: boolean
-        serialNumber:
-          type: string
-      title: Hardware
-    OrderCancelStatus1:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        visible:
-          type: boolean
-      title: OrderCancelStatus1
-    Order:
-      type: object
-      properties:
-        contractItems:
+        children:
           type: array
           items:
             $ref: '#/components/schemas/ContractItem'
-        creationDate:
-          type: string
-        customerReference:
-          type: string
-        finishDate:
-          type: string
+        citemBsId:
+          type: integer
+          format: int64
+        contractId:
+          type: integer
+          format: int64
         id:
           type: integer
           format: int64
-        isBeingCanceled:
-          type: boolean
-        kpnReference:
-          type: string
-        msisdn:
-          type: string
-        orderedBy:
-          $ref: '#/components/schemas/OrderParticipant'
-        orderedFor:
-          $ref: '#/components/schemas/OrderReceiver'
-        portingMessage:
-          type: string
-        requiredAction:
-          type: string
-          enum:
-          - AUTHORIZATION
-          - PORT_IN_DATA_CHANGE
-        status:
-          type: string
-          enum:
-          - IN_PROGRESS
-          - UNAUTHORIZED
-          - NEW
-          - CLOSED
-          - CANCELED
-          - REJECTED
-          - DRAFT
-          - THIRD_PARTY
-          - HOLD_CUSTOMER
-          - WAITING
-        type:
+        name:
           $ref: '#/components/schemas/LocalizedString'
-      title: Order
+        productBsId:
+          type: integer
+          format: int64
+        tariffPlanVariantBsId:
+          type: integer
+          format: int64
+      title: ContractItem
+    LocalizedString:
+      type: object
+      properties:
+        en:
+          type: string
+          description: English version
+        nl:
+          type: string
+          description: Dutch version
+      title: LocalizedString
+      description: Text with two language versions
+    FlexibleNumberPresentation1:
+      type: object
+      properties:
+        defaultNumber:
+          type: string
+        fixedNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/FixedNumberPresentation'
+        mobileNumberPresentation:
+          type: boolean
+      title: FlexibleNumberPresentation1
+    Serializable:
+      type: object
+      title: Serializable
     OrderAuthorizer1:
       type: object
       properties:
@@ -2267,6 +2291,26 @@ components:
         spectatedBy:
           type: string
       title: OrderAuthorizer1
+    OperationAvailability:
+      type: object
+      properties:
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OperationAvailability
+    OrderCancelStatus1:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        visible:
+          type: boolean
+      title: OrderCancelStatus1
     OrderAuthorizer:
       type: object
       properties:
@@ -2284,89 +2328,6 @@ components:
         spectatedBy:
           type: string
       title: OrderAuthorizer
-    ContractingSuborder:
-      type: object
-      properties:
-        children:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractingSuborder'
-        expectedDeliveryDate:
-          type: string
-        id:
-          type: string
-        imeiNumbers:
-          type: array
-          items:
-            type: string
-        mobileNumbers:
-          type: array
-          items:
-            type: string
-        multiplicity:
-          type: integer
-          format: int64
-        name:
-          $ref: '#/components/schemas/LocalizedString'
-        oneTimePriceInCents:
-          type: integer
-          format: int64
-        privateCopyingLevyInCents:
-          type: integer
-          format: int64
-        productName:
-          type: string
-        serialNumbers:
-          type: array
-          items:
-            type: string
-        status:
-          type: string
-      title: ContractingSuborder
-    PrettyContractingSuborder:
-      type: object
-      properties:
-        expectedDeliveryDate:
-          type: string
-        imeiNumbers:
-          type: array
-          items:
-            type: string
-        mobileNumbers:
-          type: array
-          items:
-            type: string
-        multiplicity:
-          type: integer
-          format: int64
-        name:
-          $ref: '#/components/schemas/LocalizedString'
-        oneTimePriceInCents:
-          type: integer
-          format: int64
-        privateCopyingLevyInCents:
-          type: integer
-          format: int64
-        serialNumbers:
-          type: array
-          items:
-            type: string
-        status:
-          type: string
-      title: PrettyContractingSuborder
-    FixedNumberPresentation:
-      type: object
-      properties:
-        description:
-          type: string
-          enum:
-          - ORGANISATION
-          - FIXED_NUMBER
-          - HUNTGROUP
-          - CALL_CENTER
-        number:
-          type: string
-      title: FixedNumberPresentation
     ServiceRequest:
       type: object
       properties:
@@ -2413,15 +2374,54 @@ components:
         type:
           $ref: '#/components/schemas/LocalizedString'
       title: ServiceRequest
-    ReturnedHardware:
+    Threshold1:
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      title: Threshold1
+    ContractingSuborder:
+      type: object
+      properties:
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractingSuborder'
+        expectedDeliveryDate:
+          type: string
+        id:
+          type: string
+        imeiNumbers:
+          type: array
+          items:
+            type: string
+        mobileNumbers:
+          type: array
+          items:
+            type: string
         multiplicity:
           type: integer
-          format: int32
-        product:
+          format: int64
+        name:
+          $ref: '#/components/schemas/LocalizedString'
+        oneTimePriceInCents:
+          type: integer
+          format: int64
+        privateCopyingLevyInCents:
+          type: integer
+          format: int64
+        productName:
           type: string
-      title: ReturnedHardware
+        serialNumbers:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+      title: ContractingSuborder
   securitySchemes:
     OAuth2:
       type: oauth2

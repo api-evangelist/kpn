@@ -77,14 +77,13 @@ paths:
       operationId: postWebserviceMailsenderSend
       x-operation-id-source: derived
 components:
-  parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
+  requestBodies:
+    SentEmail:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/email'
   responses:
     SentEmailResponse:
       description: A successful delivery
@@ -102,47 +101,15 @@ components:
               message:
                 type: string
                 example: OK
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
   schemas:
-    error:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: Transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
-    attachment:
-      type: object
-      description: The attachment is Base64 encoded, the MIME type should be corresponding with the format of the actual file and the name should be correct.
-      properties:
-        attachment:
-          type: string
-          example: BAse64E=
-        attachment_name:
-          type: string
-          example: attachment.pdf
-        attachment_type:
-          type: string
-          example: application/pdf
-      required:
-      - attachment
-      - attachment_name
-      - attachment_type
     email:
       type: object
       properties:
@@ -184,13 +151,46 @@ components:
       - subject
       - recipient_email
       - attachments
-  requestBodies:
-    SentEmail:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/email'
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    attachment:
+      type: object
+      description: The attachment is Base64 encoded, the MIME type should be corresponding with the format of the actual file and the name should be correct.
+      properties:
+        attachment:
+          type: string
+          example: BAse64E=
+        attachment_name:
+          type: string
+          example: attachment.pdf
+        attachment_type:
+          type: string
+          example: application/pdf
+      required:
+      - attachment
+      - attachment_name
+      - attachment_type
   securitySchemes:
     oauth2:
       type: oauth2

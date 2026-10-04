@@ -262,70 +262,42 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    Paged_Contract:
+    Contract:
       type: object
       required:
-      - page
-      - size
-      - page_count
-      - total_count
+      - id
+      - service_provider
+      - service_consumer
+      - data_owner
+      - start_date
+      - end_date
+      - resource_type
+      - resource
+      - resource_attribute
+      - action
       properties:
-        page:
-          type: integer
-          format: int32
-          minimum: 0
-        page_count:
-          type: integer
-          format: int32
-          minimum: 0
-        records:
-          type:
-          - array
-          - 'null'
-          items:
-            type: object
-            required:
-            - id
-            - service_provider
-            - service_consumer
-            - data_owner
-            - start_date
-            - end_date
-            - resource_type
-            - resource
-            - resource_attribute
-            - action
-            properties:
-              action:
-                type: string
-              data_owner:
-                type: string
-              end_date:
-                type: string
-                format: date-time
-              id:
-                type: string
-              resource:
-                type: string
-              resource_attribute:
-                type: string
-              resource_type:
-                type: string
-              service_consumer:
-                type: string
-              service_provider:
-                type: string
-              start_date:
-                type: string
-                format: date-time
-        size:
-          type: integer
-          format: int32
-          minimum: 0
-        total_count:
-          type: integer
-          format: int32
-          minimum: 0
+        action:
+          type: string
+        data_owner:
+          type: string
+        end_date:
+          type: string
+          format: date-time
+        id:
+          type: string
+        resource:
+          type: string
+        resource_attribute:
+          type: string
+        resource_type:
+          type: string
+        service_consumer:
+          type: string
+        service_provider:
+          type: string
+        start_date:
+          type: string
+          format: date-time
     NewContract:
       type: object
       required:
@@ -400,42 +372,70 @@ components:
           type: string
           format: date-time
           description: Start date for access
-    Contract:
+    Paged_Contract:
       type: object
       required:
-      - id
-      - service_provider
-      - service_consumer
-      - data_owner
-      - start_date
-      - end_date
-      - resource_type
-      - resource
-      - resource_attribute
-      - action
+      - page
+      - size
+      - page_count
+      - total_count
       properties:
-        action:
-          type: string
-        data_owner:
-          type: string
-        end_date:
-          type: string
-          format: date-time
-        id:
-          type: string
-        resource:
-          type: string
-        resource_attribute:
-          type: string
-        resource_type:
-          type: string
-        service_consumer:
-          type: string
-        service_provider:
-          type: string
-        start_date:
-          type: string
-          format: date-time
+        page:
+          type: integer
+          format: int32
+          minimum: 0
+        page_count:
+          type: integer
+          format: int32
+          minimum: 0
+        records:
+          type:
+          - array
+          - 'null'
+          items:
+            type: object
+            required:
+            - id
+            - service_provider
+            - service_consumer
+            - data_owner
+            - start_date
+            - end_date
+            - resource_type
+            - resource
+            - resource_attribute
+            - action
+            properties:
+              action:
+                type: string
+              data_owner:
+                type: string
+              end_date:
+                type: string
+                format: date-time
+              id:
+                type: string
+              resource:
+                type: string
+              resource_attribute:
+                type: string
+              resource_type:
+                type: string
+              service_consumer:
+                type: string
+              service_provider:
+                type: string
+              start_date:
+                type: string
+                format: date-time
+        size:
+          type: integer
+          format: int32
+          minimum: 0
+        total_count:
+          type: integer
+          format: int32
+          minimum: 0
     ProblemDetail:
       type: object
       required:

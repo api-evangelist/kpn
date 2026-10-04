@@ -78,18 +78,42 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
-    method_not_allowed:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Method not allowed
     precondition_failed:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: Precondition failed
+    unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Unauthorized
+    method_not_allowed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Method not allowed
+    bad_gateway:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Bad gateway
+    forbidden:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Forbidden
+    server_error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Server error
     service_unavailable:
       content:
         application/json:
@@ -102,42 +126,18 @@ components:
           schema:
             $ref: '#/components/schemas/error'
       description: Too many requests
-    server_error:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Server error
     not_found:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: Not found
-    unauthorized:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Unauthorized
-    bad_gateway:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Bad gateway
     bad_request:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: Bad request
-    forbidden:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Forbidden
   schemas:
     error:
       properties:

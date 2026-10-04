@@ -301,18 +301,60 @@ paths:
       - Results
 components:
   responses:
-    method_not_allowed:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: method not allowed
     precondition_failed:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: precondition failed
+    unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: unauthorized
+    method_not_allowed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: method not allowed
+    result_event:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/post_result'
+    bad_gateway:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: bad gateway
+    forbidden:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: forbidden
+    reply_result:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/post_result'
+    server_error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: server error
+    fetch_result:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/get_result'
     service_unavailable:
       content:
         application/json:
@@ -325,109 +367,19 @@ components:
           schema:
             $ref: '#/components/schemas/error'
       description: too many requests
-    result_event:
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/post_result'
     not_found:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: not found
-    unauthorized:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: unauthorized
-    server_error:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: server error
-    reply_result:
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/post_result'
-    bad_gateway:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: bad gateway
     bad_request:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: bad request
-    fetch_result:
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/get_result'
-    forbidden:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: forbidden
   schemas:
-    error:
-      properties:
-        info:
-          description: Additional information about error
-          title: Info
-          type: string
-        message:
-          description: Error message
-          title: Error message
-          type: string
-        name:
-          description: Error name
-          title: Error name
-          type: string
-        status:
-          description: Status
-          title: Status
-          type: string
-        transactionId:
-          description: transaction id of the the request
-          title: Transaction ID
-          type: string
-      type: object
-    post_result:
-      properties:
-        data:
-          type: object
-        messages:
-          type: array
-          default: []
-          items:
-            type: string
-        status:
-          type: string
-          default: SUCCES
-        metadata:
-          type: object
-          properties:
-            values:
-              type: object
-              properties:
-                url:
-                  type: integer
-            method:
-              type: string
-              default: post
-            duration:
-              type: integer
     get_result:
       properties:
         data:
@@ -453,6 +405,54 @@ components:
               default: get
             duration:
               type: integer
+    post_result:
+      properties:
+        data:
+          type: object
+        messages:
+          type: array
+          default: []
+          items:
+            type: string
+        status:
+          type: string
+          default: SUCCES
+        metadata:
+          type: object
+          properties:
+            values:
+              type: object
+              properties:
+                url:
+                  type: integer
+            method:
+              type: string
+              default: post
+            duration:
+              type: integer
+    error:
+      properties:
+        info:
+          description: Additional information about error
+          title: Info
+          type: string
+        message:
+          description: Error message
+          title: Error message
+          type: string
+        name:
+          description: Error name
+          title: Error name
+          type: string
+        status:
+          description: Status
+          title: Status
+          type: string
+        transactionId:
+          description: transaction id of the the request
+          title: Transaction ID
+          type: string
+      type: object
   securitySchemes:
     oauth2:
       flows:

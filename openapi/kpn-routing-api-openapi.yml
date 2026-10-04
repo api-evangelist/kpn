@@ -372,6 +372,47 @@ paths:
       deprecated: false
 components:
   schemas:
+    ContentType:
+      title: ContentType
+      enum:
+      - XML
+      - JSON
+      type: string
+      description: Format of the routed payload. Possible values are 'XML' or 'JSON'. Default is 'XML' ('JSON' is supported starting from ThingPark 3.2).
+    Strategy:
+      title: Strategy
+      enum:
+      - SEQUENTIAL
+      - BLAST
+      type: string
+      description: Strategy to use for routing to target addresses. Possible values are 'SEQUENTIAL' (try each target one after the other, stop after first success) or 'BLAST' (try all targets at the same time). Default is 'SEQUENTIAL'.
+    Route:
+      title: Route
+      type: object
+      properties:
+        sourcePorts:
+          type: string
+          description: Source port(s) of the route. Use wildcard character '*' (default value) to accept all device LoRa ports as possible sources.
+        strategy:
+          $ref: '#/components/schemas/Strategy'
+        contentType:
+          $ref: '#/components/schemas/ContentType'
+        asId:
+          type: string
+          description: If set together with the 'asKey' attribute, enables Uplink/Downlink signing security. Indicates the id of the authorized application server.
+        asKey:
+          type: string
+          description: If set together with the 'asId' attribute, enables Uplink/Downlink signing security. Indicates the key to be used to generate the signing token.
+        maxDeviation:
+          type: integer
+          description: If Uplink/Downlink signing security is enabled, indicates the maximal accepted duration (in seconds) between message sending by the AS and message reception by the LRC.
+          format: int32
+        addresses:
+          type: array
+          items:
+            type: string
+          description: List of target HTTP addresses to which the payload should be routed.
+      description: Resource representing a route of a ThingPark routing profile.
     RoutingProfile:
       title: RoutingProfile
       type: object
@@ -403,20 +444,6 @@ components:
             $ref: '#/components/schemas/Route'
           description: List of routes of the routing profile.
       description: Resource representing a ThingPark routing profile. Not available in ThingPark Enterprise versions, which rely on direct routes.
-    ContentType:
-      title: ContentType
-      enum:
-      - XML
-      - JSON
-      type: string
-      description: Format of the routed payload. Possible values are 'XML' or 'JSON'. Default is 'XML' ('JSON' is supported starting from ThingPark 3.2).
-    Strategy:
-      title: Strategy
-      enum:
-      - SEQUENTIAL
-      - BLAST
-      type: string
-      description: Strategy to use for routing to target addresses. Possible values are 'SEQUENTIAL' (try each target one after the other, stop after first success) or 'BLAST' (try all targets at the same time). Default is 'SEQUENTIAL'.
     error:
       type: object
       properties:
@@ -440,33 +467,6 @@ components:
           type: string
           description: Additional information about error
           title: Info
-    Route:
-      title: Route
-      type: object
-      properties:
-        sourcePorts:
-          type: string
-          description: Source port(s) of the route. Use wildcard character '*' (default value) to accept all device LoRa ports as possible sources.
-        strategy:
-          $ref: '#/components/schemas/Strategy'
-        contentType:
-          $ref: '#/components/schemas/ContentType'
-        asId:
-          type: string
-          description: If set together with the 'asKey' attribute, enables Uplink/Downlink signing security. Indicates the id of the authorized application server.
-        asKey:
-          type: string
-          description: If set together with the 'asId' attribute, enables Uplink/Downlink signing security. Indicates the key to be used to generate the signing token.
-        maxDeviation:
-          type: integer
-          description: If Uplink/Downlink signing security is enabled, indicates the maximal accepted duration (in seconds) between message sending by the AS and message reception by the LRC.
-          format: int32
-        addresses:
-          type: array
-          items:
-            type: string
-          description: List of target HTTP addresses to which the payload should be routed.
-      description: Resource representing a route of a ThingPark routing profile.
   parameters:
     api_version:
       in: header

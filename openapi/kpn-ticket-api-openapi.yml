@@ -319,6 +319,21 @@ paths:
               schema:
                 $ref: '#/components/schemas/error'
 components:
+  parameters:
+    kpn_ticket_number:
+      in: query
+      name: kpn_ticket_number
+      schema:
+        type: string
+      description: KPN number of the ticket to get the details for. If not provided a list of open tickets will be returned.
+      required: false
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
   schemas:
     GetTicket200Response:
       type: object
@@ -500,6 +515,24 @@ components:
                 type: string
                 description: Content_type of the attachment
                 example: text/plain
+    NewTicket200Response:
+      type: object
+      properties:
+        code:
+          type: string
+          example: TechnicalEndpointSuccess
+        state:
+          type: string
+          example: inserted
+        kpn_ticket_number:
+          type: string
+          example: INC#34567890
+        customer_reference_number:
+          type: string
+          example: INC01234567
+        note:
+          type: string
+          example: Incident INC#34567890 has been created;
     error:
       type: object
       properties:
@@ -571,39 +604,6 @@ components:
                 type: string
                 description: Content_type of the attachment
                 example: text/plain
-    NewTicket200Response:
-      type: object
-      properties:
-        code:
-          type: string
-          example: TechnicalEndpointSuccess
-        state:
-          type: string
-          example: inserted
-        kpn_ticket_number:
-          type: string
-          example: INC#34567890
-        customer_reference_number:
-          type: string
-          example: INC01234567
-        note:
-          type: string
-          example: Incident INC#34567890 has been created;
-  parameters:
-    kpn_ticket_number:
-      in: query
-      name: kpn_ticket_number
-      schema:
-        type: string
-      description: KPN number of the ticket to get the details for. If not provided a list of open tickets will be returned.
-      required: false
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
   securitySchemes:
     oauth2:
       type: oauth2

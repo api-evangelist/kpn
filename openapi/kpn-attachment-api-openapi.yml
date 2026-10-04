@@ -92,21 +92,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/error'
 components:
-  parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
-    attachment_id:
-      in: path
-      name: attachment_id
-      schema:
-        type: string
-      description: attachment_id to get the attachment.
-      required: true
   schemas:
     GetAttachment200Response:
       type: object
@@ -137,6 +122,21 @@ components:
               type: string
               description: Description of the error
               example: Description of the error.
+  parameters:
+    attachment_id:
+      in: path
+      name: attachment_id
+      schema:
+        type: string
+      description: attachment_id to get the attachment.
+      required: true
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
   securitySchemes:
     oauth2:
       type: oauth2

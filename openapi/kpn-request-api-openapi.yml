@@ -347,22 +347,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    niStatus:
-      type: integer
-      example: 0
-      enum:
-      - 0
-      - 1
-      - 3
-      - 4
-      - 5
-      - 9
-      - 19
-      - 43
-      - 44
-      - 45
-      - 999
-      description: "Code | Text\n-- | --\n0 | Success - request accepted for delivery by Vonage.\n1 | Busy - you have made more requests in the last second than are permitted by your Vonage account. Please retry.\n3 | Invalid - your request is incomplete and missing some mandatory parameters.\n4 | Invalid credentials - the _api_key_ or _api_secret_ you supplied is either not valid or has been disabled.\n5 | Internal Error - the format of the recipient address is not valid.\n9 | Partner quota exceeded - your Vonage account does not have sufficient credit to process this request.\n\n#### Standard and Advanced only\n\nCode | Text\n-- | --\n19 | Facility Not Allowed - your request makes use of a facility that is not enabled on your account.\n43, 44, 45 | Live mobile lookup not returned. Not all return parameters are available.\n999 | Request unparseable. \n"
     niResponseAsync:
       type: object
       properties:
@@ -385,29 +369,6 @@ components:
           example: '0.01500000'
         status:
           $ref: '#/components/schemas/niStatus'
-    ErrorResponse:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
     niResponseBasic:
       type: object
       description: Basic
@@ -449,6 +410,45 @@ components:
           type: string
           description: The numeric prefix for the country that `number` is registered in.
           example: '44'
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
+    niStatus:
+      type: integer
+      example: 0
+      enum:
+      - 0
+      - 1
+      - 3
+      - 4
+      - 5
+      - 9
+      - 19
+      - 43
+      - 44
+      - 45
+      - 999
+      description: "Code | Text\n-- | --\n0 | Success - request accepted for delivery by Vonage.\n1 | Busy - you have made more requests in the last second than are permitted by your Vonage account. Please retry.\n3 | Invalid - your request is incomplete and missing some mandatory parameters.\n4 | Invalid credentials - the _api_key_ or _api_secret_ you supplied is either not valid or has been disabled.\n5 | Internal Error - the format of the recipient address is not valid.\n9 | Partner quota exceeded - your Vonage account does not have sufficient credit to process this request.\n\n#### Standard and Advanced only\n\nCode | Text\n-- | --\n19 | Facility Not Allowed - your request makes use of a facility that is not enabled on your account.\n43, 44, 45 | Live mobile lookup not returned. Not all return parameters are available.\n999 | Request unparseable. \n"
   securitySchemes:
     OAuth2:
       type: oauth2

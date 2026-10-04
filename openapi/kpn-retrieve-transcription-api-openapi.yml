@@ -135,21 +135,7 @@ paths:
       operationId: getJobByJobId
       x-operation-id-source: derived
 components:
-  parameters:
-    job_id:
-      in: path
-      name: Job ID
-      schema:
-        type: string
-      required: true
-      description: ID of job to show
   responses:
-    not_found:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     unauthorized:
       description: Unauthorized
       content:
@@ -162,18 +148,32 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    bad_request:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     server_error:
       description: Server error
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
+    not_found:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    bad_request:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  parameters:
+    job_id:
+      in: path
+      name: Job ID
+      schema:
+        type: string
+      required: true
+      description: ID of job to show
   schemas:
     error:
       type: object

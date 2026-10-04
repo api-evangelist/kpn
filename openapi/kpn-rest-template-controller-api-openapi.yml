@@ -244,6 +244,70 @@ paths:
       - OAuth2: []
 components:
   schemas:
+    TemplateItem:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateItem'
+        option:
+          type: string
+          enum:
+          - NOT_AVAILABLE
+          - AVAILABLE
+          - DEFAULT_DESELECTED
+          - DEFAULT_SELECTED
+          - REQUIRED
+        productName:
+          $ref: '#/components/schemas/LocalizedString'
+      title: TemplateItem
+    OperationState:
+      type: object
+      properties:
+        blocked:
+          type: boolean
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        reason:
+          type: string
+      title: OperationState
+    LocalizedString:
+      type: object
+      properties:
+        en:
+          type: string
+          description: English version
+        nl:
+          type: string
+          description: Dutch version
+      title: LocalizedString
+      description: Text with two language versions
+    ErrorResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
     BlockingOrder:
       type: object
       properties:
@@ -271,18 +335,6 @@ components:
           - CONTRACTING
           - SERVICE_REQUEST
       title: BlockingOrder
-    OperationState:
-      type: object
-      properties:
-        blocked:
-          type: boolean
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        reason:
-          type: string
-      title: OperationState
     TemplateDetailsWithLocations:
       type: object
       properties:
@@ -306,6 +358,19 @@ components:
         valid:
           type: boolean
       title: TemplateDetailsWithLocations
+    TemplateOverview:
+      type: object
+      properties:
+        customerLevel:
+          type: boolean
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        valid:
+          type: boolean
+      title: TemplateOverview
     VirtualHierarchyItem:
       type: object
       properties:
@@ -342,71 +407,6 @@ components:
           - CUSTOM_GROUP
           - BUSINESS_LOCATION
       title: VirtualHierarchyItem
-    LocalizedString:
-      type: object
-      properties:
-        en:
-          type: string
-          description: English version
-        nl:
-          type: string
-          description: Dutch version
-      title: LocalizedString
-      description: Text with two language versions
-    TemplateItem:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/TemplateItem'
-        option:
-          type: string
-          enum:
-          - NOT_AVAILABLE
-          - AVAILABLE
-          - DEFAULT_DESELECTED
-          - DEFAULT_SELECTED
-          - REQUIRED
-        productName:
-          $ref: '#/components/schemas/LocalizedString'
-      title: TemplateItem
-    TemplateOverview:
-      type: object
-      properties:
-        customerLevel:
-          type: boolean
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        valid:
-          type: boolean
-      title: TemplateOverview
-    ErrorResponse:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
   securitySchemes:
     OAuth2:
       type: oauth2

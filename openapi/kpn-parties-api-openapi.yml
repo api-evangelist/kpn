@@ -438,54 +438,59 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    ComplianceVerified:
-      type: string
-      enum:
-      - 'yes'
-      - 'no'
-      - partial
-      - not applicable
-    Role:
-      type: string
-      description: 'Name of the role as defined in iSHARE role framework. Possible roles are ServiceConsumer, ServiceProvider,
-
-        EntitledParty, AuthorisationRegistry, IdentityProvider, IdentityBroker and ParticipantRegistry.'
-      enum:
-      - ServiceConsumer
-      - ServiceProvider
-      - EntitledParty
-      - AuthorisationRegistry
-      - IdentityProvider
-      - IdentityBroker
-      - ParticipantRegistry
-      - iShareSatellite
-    AuthRegistry:
+    PartyAdherence:
       type: object
-      description: 'AuthRegistry : Object which contains details about the authorization registers that the party uses.'
       required:
-      - authorizationRegistryName
-      - authorizationRegistryID
-      - authorizationRegistryUrl
+      - status
+      - start_date
+      - end_date
       properties:
-        authorizationRegistryID:
+        end_date:
           type: string
-          description: The Id of the authorization registry provider
-        authorizationRegistryName:
+          description: UTC timestamp which states till when adherence status has established.
+        start_date:
           type: string
-          description: The name of the authorization registry provider
-        authorizationRegistryUrl:
+          description: UTC timestamp which states since when adherence status has established.
+        status:
+          $ref: '#/components/schemas/PartyAdherenceStatus'
+          description: Status of the party. Available values are Active, Pending, NotActive and Revoked.
+    RoleDefinition:
+      type: object
+      description: 'RoleDefinition : Object which contains details about the iSHARE roles of the party. The details include the level of
+
+        assurance as well as compliance status for each role.'
+      required:
+      - role
+      - start_date
+      - end_date
+      - loa
+      - complaiancy_verified
+      - legal_adherence
+      properties:
+        complaiancy_verified:
+          $ref: '#/components/schemas/ComplianceVerified'
+          description: Compliance requirements of this role has been met by party
+        end_date:
           type: string
-          description: The URL pointer specific to the party where authorizations can be queried/checked from
-        dataspaceID:
-          type:
-          - string
-          - 'null'
-          description: The id of the data space where the party uses this authorization registry provider
-        dataspaceName:
-          type:
-          - string
-          - 'null'
-          description: The name of the data space corresponding to the data space id
+          description: UTC timestamp which states till when this role for the party is valid.
+        legal_adherence:
+          $ref: '#/components/schemas/LegalAdherence'
+          description: Legal requirements of this role has been met by party including signing of appropriate agreements
+        loa:
+          type: string
+          description: Party's level of assurance. Available values are low, substantial and high.
+        role:
+          $ref: '#/components/schemas/Role'
+          description: 'Name of the role as defined in iSHARE role framework. Possible roles  are ServiceConsumer, ServiceProvider,
+
+            EntitledParty,  AuthorisationRegistry, IdentityProvider, IdentityBroker and  IdentityBroker and
+
+            ParticipantRegistry, iShareSatellite (deprecated,  will be removed in future releases, use ParticipantRegistry
+
+            instead).'
+        start_date:
+          type: string
+          description: UTC timestamp which states since when this role for the party is valid.
     Dataspace:
       type: object
       properties:
@@ -558,30 +563,6 @@ components:
           description: 'Free text field for addting relevant tags that are relevant in the context of datasapce. It useful for
 
             searching for specific dataspaces based on tags.'
-    PartyAdherence:
-      type: object
-      required:
-      - status
-      - start_date
-      - end_date
-      properties:
-        end_date:
-          type: string
-          description: UTC timestamp which states till when adherence status has established.
-        start_date:
-          type: string
-          description: UTC timestamp which states since when adherence status has established.
-        status:
-          $ref: '#/components/schemas/PartyAdherenceStatus'
-          description: Status of the party. Available values are Active, Pending, NotActive and Revoked.
-    PartySpor:
-      type: object
-      required:
-      - signed_request
-      properties:
-        signed_request:
-          type: string
-          description: verifiable credentials of the participant signed by a trusted authority vouching for its authenticity
     DataspaceInfo:
       type: object
       properties:
@@ -610,47 +591,6 @@ components:
           - 'null'
           format: int32
           description: Total count of found dataspaces
-    AgreementStatus:
-      type: string
-      enum:
-      - Draft
-      - Signed
-      - Accepted
-      - Obsolete
-    PartyAdherenceStatus:
-      type: string
-      enum:
-      - Active
-      - Pending
-      - NotActive
-      - Revoked
-    Certificate:
-      type: object
-      description: 'Certificate : Object which contains the details of the PKI/x509 certificates of the party.'
-      required:
-      - subject_name
-      - certificate_type
-      - enabled_from
-      - x5c
-      - x5t#s256
-      properties:
-        certificate_type:
-          type: string
-          description: type of certificate
-        enabled_from:
-          type: string
-          description: UTC timestamp which states since when certificate is valid.
-        subject_name:
-          type: string
-          description: 'subjectName as encoded in the X.509 certificate which corresponds with the party that is being requested from
-
-            the Participant Registry. Used by the Participant Registry to match the certificate identifier.'
-        x5c:
-          type: string
-          description: The base64 encoded pem format value of the certificate identified by its subject name and fingerprint
-        x5t#s256:
-          type: string
-          description: The SHA256 fingerprint of the certificate
     PartyAdditionalInfo:
       type: object
       properties:
@@ -703,194 +643,11 @@ components:
           - string
           - 'null'
           description: Website address of the party
-    RoleDefinition:
-      type: object
-      description: 'RoleDefinition : Object which contains details about the iSHARE roles of the party. The details include the level of
-
-        assurance as well as compliance status for each role.'
-      required:
-      - role
-      - start_date
-      - end_date
-      - loa
-      - complaiancy_verified
-      - legal_adherence
-      properties:
-        complaiancy_verified:
-          $ref: '#/components/schemas/ComplianceVerified'
-          description: Compliance requirements of this role has been met by party
-        end_date:
-          type: string
-          description: UTC timestamp which states till when this role for the party is valid.
-        legal_adherence:
-          $ref: '#/components/schemas/LegalAdherence'
-          description: Legal requirements of this role has been met by party including signing of appropriate agreements
-        loa:
-          type: string
-          description: Party's level of assurance. Available values are low, substantial and high.
-        role:
-          $ref: '#/components/schemas/Role'
-          description: 'Name of the role as defined in iSHARE role framework. Possible roles  are ServiceConsumer, ServiceProvider,
-
-            EntitledParty,  AuthorisationRegistry, IdentityProvider, IdentityBroker and  IdentityBroker and
-
-            ParticipantRegistry, iShareSatellite (deprecated,  will be removed in future releases, use ParticipantRegistry
-
-            instead).'
-        start_date:
-          type: string
-          description: UTC timestamp which states since when this role for the party is valid.
-    ProblemDetail:
-      type: object
-      required:
-      - type
-      - status
-      properties:
-        detail:
-          type:
-          - string
-          - 'null'
-        instance:
-          type:
-          - string
-          - 'null'
-        status:
-          type: integer
-          format: int32
-          minimum: 0
-        title:
-          type:
-          - string
-          - 'null'
-        type:
-          type: string
-      additionalProperties: {}
-    Agreement:
-      type: object
-      description: 'Agreement : Object which contains details about contracts including data space contracts that party has agreed and
-
-        signed to.'
-      required:
-      - type
-      - title
-      - status
-      - sign_date
-      - expiry_date
-      - framework
-      - complaiancy_verified
-      properties:
-        agreement_file:
-          type:
-          - string
-          - 'null'
-          description: 'The calculated hash of the agreement file that has been uploaded. Note agreements are not stored in ledger, but
-
-            only their hash.'
-        complaiancy_verified:
-          $ref: '#/components/schemas/ComplianceVerified'
-          description: 'Legal compliance to this agreement has been verified in accordance with the process set in trust framework as
-
-            we as data space governance. Possible values are Yes, No, Not Applicable'
-        dataspace_id:
-          type:
-          - string
-          - 'null'
-          description: 'The ID of the data space. If specified, party is onboarded in accordance to this data space''s terms and
-
-            conditions'
-        dataspace_title:
-          type:
-          - string
-          - 'null'
-          description: The name of the selected dataspace
-        expiry_date:
-          type: string
-          description: Expiry date of the agreement. For non expiring agreements the end date is far in future
-        framework:
-          type: string
-          description: The trust framework to which this agreement complies to. Currently, only iSHARE is available.
-        sign_date:
-          type: string
-          description: Date of signature of the agreement.
-        status:
-          $ref: '#/components/schemas/AgreementStatus'
-          description: Status of the agreement. Available values are Draft, Signed, Accepted, Obsolete.
-        title:
-          type: string
-          description: The name of the agreement or agreement file
-        type:
-          type: string
-          description: 'Type of agreement. Refers to the official type of agreement. For iSHARE following types are available Terms of
-
-            Use, Accession Agreement, Certified Party Agreement, Participant Registry Agreement  (former name Satellite
-
-            Agreement will be deprecated).  Additionally, each data space can define their own type and it can be listed
-
-            here when appropriate dataspace is chosen'
-    Party:
-      type: object
-      required:
-      - party_id
-      - party_name
-      - registrar_id
-      - adherence
-      - agreements
-      - roles
-      properties:
-        additional_info:
-          oneOf:
-          - type: 'null'
-          - $ref: '#/components/schemas/PartyAdditionalInfo'
-        adherence:
-          $ref: '#/components/schemas/PartyAdherence'
-        agreements:
-          type: array
-          items:
-            $ref: '#/components/schemas/Agreement'
-          description: 'Object which contains details about contracts including data space contracts that party has agreed and signed
-
-            to.'
-        authregistery:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AuthRegistry'
-          description: Object which contains details about the authorization registers that the party uses.
-        capability_url:
-          type:
-          - string
-          - 'null'
-          description: Capabilities endpoint of the party.
-        certificates:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Certificate'
-          description: 'Object which contains the details of the PKI/x509 certificates of the party. Either certificates or SPOR must
-
-            be present.'
-        party_id:
-          type: string
-          description: Array of registered party ids of the party.
-        party_name:
-          type: string
-          description: Name of the party.
-        registrar_id:
-          type: string
-          description: Identifier of the party who registered the participant identified by the party_id attribute above
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/RoleDefinition'
-          description: 'Object which contains details about the iSHARE roles of the party. The details include the level of assurance
-
-            as well as compliance status for each role.'
-        spor:
-          oneOf:
-          - type: 'null'
-          - $ref: '#/components/schemas/PartySpor'
+    LegalAdherence:
+      type: string
+      enum:
+      - 'yes'
+      - 'no'
     Paged_Party:
       type: object
       required:
@@ -983,11 +740,254 @@ components:
           type: integer
           format: int32
           minimum: 0
-    LegalAdherence:
+    Party:
+      type: object
+      required:
+      - party_id
+      - party_name
+      - registrar_id
+      - adherence
+      - agreements
+      - roles
+      properties:
+        additional_info:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/PartyAdditionalInfo'
+        adherence:
+          $ref: '#/components/schemas/PartyAdherence'
+        agreements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Agreement'
+          description: 'Object which contains details about contracts including data space contracts that party has agreed and signed
+
+            to.'
+        authregistery:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AuthRegistry'
+          description: Object which contains details about the authorization registers that the party uses.
+        capability_url:
+          type:
+          - string
+          - 'null'
+          description: Capabilities endpoint of the party.
+        certificates:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Certificate'
+          description: 'Object which contains the details of the PKI/x509 certificates of the party. Either certificates or SPOR must
+
+            be present.'
+        party_id:
+          type: string
+          description: Array of registered party ids of the party.
+        party_name:
+          type: string
+          description: Name of the party.
+        registrar_id:
+          type: string
+          description: Identifier of the party who registered the participant identified by the party_id attribute above
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleDefinition'
+          description: 'Object which contains details about the iSHARE roles of the party. The details include the level of assurance
+
+            as well as compliance status for each role.'
+        spor:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/PartySpor'
+    AuthRegistry:
+      type: object
+      description: 'AuthRegistry : Object which contains details about the authorization registers that the party uses.'
+      required:
+      - authorizationRegistryName
+      - authorizationRegistryID
+      - authorizationRegistryUrl
+      properties:
+        authorizationRegistryID:
+          type: string
+          description: The Id of the authorization registry provider
+        authorizationRegistryName:
+          type: string
+          description: The name of the authorization registry provider
+        authorizationRegistryUrl:
+          type: string
+          description: The URL pointer specific to the party where authorizations can be queried/checked from
+        dataspaceID:
+          type:
+          - string
+          - 'null'
+          description: The id of the data space where the party uses this authorization registry provider
+        dataspaceName:
+          type:
+          - string
+          - 'null'
+          description: The name of the data space corresponding to the data space id
+    ComplianceVerified:
       type: string
       enum:
       - 'yes'
       - 'no'
+      - partial
+      - not applicable
+    Certificate:
+      type: object
+      description: 'Certificate : Object which contains the details of the PKI/x509 certificates of the party.'
+      required:
+      - subject_name
+      - certificate_type
+      - enabled_from
+      - x5c
+      - x5t#s256
+      properties:
+        certificate_type:
+          type: string
+          description: type of certificate
+        enabled_from:
+          type: string
+          description: UTC timestamp which states since when certificate is valid.
+        subject_name:
+          type: string
+          description: 'subjectName as encoded in the X.509 certificate which corresponds with the party that is being requested from
+
+            the Participant Registry. Used by the Participant Registry to match the certificate identifier.'
+        x5c:
+          type: string
+          description: The base64 encoded pem format value of the certificate identified by its subject name and fingerprint
+        x5t#s256:
+          type: string
+          description: The SHA256 fingerprint of the certificate
+    PartyAdherenceStatus:
+      type: string
+      enum:
+      - Active
+      - Pending
+      - NotActive
+      - Revoked
+    Agreement:
+      type: object
+      description: 'Agreement : Object which contains details about contracts including data space contracts that party has agreed and
+
+        signed to.'
+      required:
+      - type
+      - title
+      - status
+      - sign_date
+      - expiry_date
+      - framework
+      - complaiancy_verified
+      properties:
+        agreement_file:
+          type:
+          - string
+          - 'null'
+          description: 'The calculated hash of the agreement file that has been uploaded. Note agreements are not stored in ledger, but
+
+            only their hash.'
+        complaiancy_verified:
+          $ref: '#/components/schemas/ComplianceVerified'
+          description: 'Legal compliance to this agreement has been verified in accordance with the process set in trust framework as
+
+            we as data space governance. Possible values are Yes, No, Not Applicable'
+        dataspace_id:
+          type:
+          - string
+          - 'null'
+          description: 'The ID of the data space. If specified, party is onboarded in accordance to this data space''s terms and
+
+            conditions'
+        dataspace_title:
+          type:
+          - string
+          - 'null'
+          description: The name of the selected dataspace
+        expiry_date:
+          type: string
+          description: Expiry date of the agreement. For non expiring agreements the end date is far in future
+        framework:
+          type: string
+          description: The trust framework to which this agreement complies to. Currently, only iSHARE is available.
+        sign_date:
+          type: string
+          description: Date of signature of the agreement.
+        status:
+          $ref: '#/components/schemas/AgreementStatus'
+          description: Status of the agreement. Available values are Draft, Signed, Accepted, Obsolete.
+        title:
+          type: string
+          description: The name of the agreement or agreement file
+        type:
+          type: string
+          description: 'Type of agreement. Refers to the official type of agreement. For iSHARE following types are available Terms of
+
+            Use, Accession Agreement, Certified Party Agreement, Participant Registry Agreement  (former name Satellite
+
+            Agreement will be deprecated).  Additionally, each data space can define their own type and it can be listed
+
+            here when appropriate dataspace is chosen'
+    Role:
+      type: string
+      description: 'Name of the role as defined in iSHARE role framework. Possible roles are ServiceConsumer, ServiceProvider,
+
+        EntitledParty, AuthorisationRegistry, IdentityProvider, IdentityBroker and ParticipantRegistry.'
+      enum:
+      - ServiceConsumer
+      - ServiceProvider
+      - EntitledParty
+      - AuthorisationRegistry
+      - IdentityProvider
+      - IdentityBroker
+      - ParticipantRegistry
+      - iShareSatellite
+    PartySpor:
+      type: object
+      required:
+      - signed_request
+      properties:
+        signed_request:
+          type: string
+          description: verifiable credentials of the participant signed by a trusted authority vouching for its authenticity
+    AgreementStatus:
+      type: string
+      enum:
+      - Draft
+      - Signed
+      - Accepted
+      - Obsolete
+    ProblemDetail:
+      type: object
+      required:
+      - type
+      - status
+      properties:
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
+          minimum: 0
+        title:
+          type:
+          - string
+          - 'null'
+        type:
+          type: string
+      additionalProperties: {}
   securitySchemes:
     bearer_auth:
       type: http

@@ -149,25 +149,17 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    SendSMSResponseMessage:
+    SendSMSResponse:
       type: object
       properties:
-        to:
-          type: string
-          description: The number the message was sent to
-          example: '447700900000'
-        message-id:
-          type: string
-          description: The ID of the message
-          example: 0A0000000123ABCD1
-        status:
-          type: string
-          description: "Code | Description\n   -- | --\n   '1' | You have exceeded the submission capacity allowed on this account. Please wait and retry.\n   '2' | Your request is incomplete and missing some mandatory parameters.\n   '3'\t| The value of one or more parameters is invalid.\n   '4'\t| The api_key / api_secret you supplied is either invalid or disabled.\n   '5'\t| There was an error processing your request in the Platform.\n   '6' | The Platform was unable to process your request. For example, due to an unrecognised prefix for the phone number.\n   '7'\t| The number you are trying to submit to is blacklisted and may not receive messages.\n   '8' | The api_key you supplied is for an account that has been barred from submitting messages.\n   '9' | Your pre-paid account does not have sufficient credit to process this message.\n   '11' | This account is not provisioned for REST submission, you should use SMPP instead.\n   '12' | The length of udh and body was greater than 140 octets for a binary type SMS request.\n   '13' |\tMessage was not submitted because there was a communication failure.\n   '14' |\tMessage was not submitted due to a verification failure in the submitted signature.\n   '15' |\tDue to local regulations, the SenderID you set in from in the request was not accepted. Please check the Global messaging section.\n   '16' |\tInvalid TTL\tThe value of ttl in your request was invalid.\n   '19' |\tYour request makes use of a facility that is not enabled on your account.\n   '20' |\tThe value of message-class in your request was out of range. See https://en.wikipedia.org/wiki/Data_Coding_Scheme.\n   '23' |\tYou did not include https in the URL you set in callback.\n   '29' |\tThe phone number you set in to is not in your pre-approved destination list. To send messages to this phone number, add it using Dashboard.\n   '34' |\tThe phone number you supplied in the to parameter of your request was either missing or invalid.\n"
-          example: '0'
-        network:
-          type: string
-          description: The ID of the network of the recipient
-          example: '12345'
+        message-count:
+          type: integer
+          description: The amount of messages in the request
+          example: 1
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/SendSMSResponseMessage'
     ErrorResponse:
       type: object
       properties:
@@ -191,17 +183,25 @@ components:
           type: string
           description: Additional information about error
           title: Info
-    SendSMSResponse:
+    SendSMSResponseMessage:
       type: object
       properties:
-        message-count:
-          type: integer
-          description: The amount of messages in the request
-          example: 1
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/SendSMSResponseMessage'
+        to:
+          type: string
+          description: The number the message was sent to
+          example: '447700900000'
+        message-id:
+          type: string
+          description: The ID of the message
+          example: 0A0000000123ABCD1
+        status:
+          type: string
+          description: "Code | Description\n   -- | --\n   '1' | You have exceeded the submission capacity allowed on this account. Please wait and retry.\n   '2' | Your request is incomplete and missing some mandatory parameters.\n   '3'\t| The value of one or more parameters is invalid.\n   '4'\t| The api_key / api_secret you supplied is either invalid or disabled.\n   '5'\t| There was an error processing your request in the Platform.\n   '6' | The Platform was unable to process your request. For example, due to an unrecognised prefix for the phone number.\n   '7'\t| The number you are trying to submit to is blacklisted and may not receive messages.\n   '8' | The api_key you supplied is for an account that has been barred from submitting messages.\n   '9' | Your pre-paid account does not have sufficient credit to process this message.\n   '11' | This account is not provisioned for REST submission, you should use SMPP instead.\n   '12' | The length of udh and body was greater than 140 octets for a binary type SMS request.\n   '13' |\tMessage was not submitted because there was a communication failure.\n   '14' |\tMessage was not submitted due to a verification failure in the submitted signature.\n   '15' |\tDue to local regulations, the SenderID you set in from in the request was not accepted. Please check the Global messaging section.\n   '16' |\tInvalid TTL\tThe value of ttl in your request was invalid.\n   '19' |\tYour request makes use of a facility that is not enabled on your account.\n   '20' |\tThe value of message-class in your request was out of range. See https://en.wikipedia.org/wiki/Data_Coding_Scheme.\n   '23' |\tYou did not include https in the URL you set in callback.\n   '29' |\tThe phone number you set in to is not in your pre-approved destination list. To send messages to this phone number, add it using Dashboard.\n   '34' |\tThe phone number you supplied in the to parameter of your request was either missing or invalid.\n"
+          example: '0'
+        network:
+          type: string
+          description: The ID of the network of the recipient
+          example: '12345'
   securitySchemes:
     OAuth2:
       type: oauth2
