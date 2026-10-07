@@ -17828,6 +17828,8 @@ apis:
   - type: APIReference
     url: https://app.swaggerhub.com/apis-docs/kpn/registeredemail-registeredemail
 common:
+- type: Pricing
+  url: https://developer.kpn.com/products/kpn-sms-api
 - type: Plans
   url: plans/kpn-plans-pricing.yml
 - type: CapabilityMap
