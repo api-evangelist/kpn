@@ -29,3 +29,26 @@ plans:
 - name: Other countries
   price_text: For international availability and pricing details please contact us
   period: none
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - hybrid
+  units:
+  - message
+  plans:
+  - name: To mobile numbers in the Netherlands
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - message
+    periods:
+    - other
+  - name: Other countries
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
