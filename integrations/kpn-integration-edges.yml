@@ -19,7 +19,36 @@ edges:
     api_families_basis: null
     detected_by: sweep-telco-network-apis.py
     detected: '2026-10-12'
+- partner_name: EU Trusted List (eIDAS)
+  partner: null
+  partner_match: register
+  type: contract
+  channel: regulator-register
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.rdi.nl/site/binaries/content/assets/site-content/bestanden/current-tsl.xml
+  contract_reference:
+    register: EU List of Trusted Lists (eIDAS qualified trust service providers)
+    spec_file: null
+    role: qualified-trust-service-provider
+    registered_name: KPN B.V.
+    member_state: NL
+    trusted_list: https://www.rdi.nl/site/binaries/content/assets/site-content/bestanden/current-tsl.xml
+    services:
+    - QES-certificates
+    - QSeal-certificates
+    lotl: https://ec.europa.eu/tools/lotl/eu-lotl.xml
+    matched_domain: kpn.com
+    detected_by: sweep-legal.py
+    detected: '2026-10-14'
+  source: eutl
+  detected_by: sweep-legal.py
+  first_seen: '2026-10-14'
 generated: '2026-10-12'
 method: searched
 checked:
+- https://ec.europa.eu/tools/lotl/eu-lotl.xml
 - https://raw.githubusercontent.com/camaraproject/camara-landscape/main/landscape.yml
+- https://www.rdi.nl/site/binaries/content/assets/site-content/bestanden/current-tsl.xml
+source:
+- https://www.rdi.nl/site/binaries/content/assets/site-content/bestanden/current-tsl.xml
