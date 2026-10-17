@@ -950,41 +950,6 @@ paths:
       - OAuth2: []
 components:
   schemas:
-    BulkOrderSummary:
-      type: object
-      properties:
-        orders:
-          type: array
-          items:
-            $ref: '#/components/schemas/CreatedOrder'
-        referenceNumber:
-          type: string
-      title: BulkOrderSummary
-    HierarchyOperationsAvailability:
-      type: object
-      properties:
-        create:
-          $ref: '#/components/schemas/HierarchyOperationEnabled'
-        edit:
-          $ref: '#/components/schemas/HierarchyOperationEnabled'
-        move:
-          $ref: '#/components/schemas/HierarchyOperationEnabled'
-        remove:
-          $ref: '#/components/schemas/HierarchyOperationEnabled'
-        view:
-          $ref: '#/components/schemas/HierarchyOperationEnabled'
-      title: HierarchyOperationsAvailability
-    CreatedOrder:
-      type: object
-      properties:
-        contextName:
-          type: string
-        id:
-          type: integer
-          format: int64
-        operation:
-          type: string
-      title: CreatedOrder
     UpdateChildRequestParams:
       type: object
       properties:
@@ -993,6 +958,29 @@ components:
         name:
           type: string
       title: UpdateChildRequestParams
+    PagedResult_VirtualHierarchyItem_:
+      type: object
+      properties:
+        result:
+          type: array
+          description: One page of result
+          items:
+            $ref: '#/components/schemas/VirtualHierarchyItem'
+        total:
+          type: integer
+          format: int32
+          description: Total number of all elements in collection
+      title: PagedResult_VirtualHierarchyItem_
+      description: Paged list of elements
+    CreateVirtualGroupRequestParams:
+      type: object
+      properties:
+        groupId:
+          type: integer
+          format: int64
+        name:
+          type: string
+      title: CreateVirtualGroupRequestParams
     HierarchyItemDetails:
       type: object
       properties:
@@ -1011,50 +999,22 @@ components:
           items:
             $ref: '#/components/schemas/VirtualHierarchyItem'
       title: HierarchyItemDetails
-    CreateCostCenterRequestParams:
-      type: object
-      properties:
-        costCenterNumber:
-          type: string
-        groupId:
-          type: integer
-          format: int64
-        name:
-          type: string
-      title: CreateCostCenterRequestParams
-    BlockingOrder:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        kpnReference:
-          type: string
-        status:
-          type: string
-          enum:
-          - IN_PROGRESS
-          - UNAUTHORIZED
-          - NEW
-          - CLOSED
-          - CANCELED
-          - REJECTED
-          - DRAFT
-          - THIRD_PARTY
-          - HOLD_CUSTOMER
-          - WAITING
-        type:
-          type: string
-          enum:
-          - CONTRACTING
-          - SERVICE_REQUEST
-      title: BlockingOrder
     CostCenterDetails:
       type: object
       properties:
         number:
           type: string
       title: CostCenterDetails
+    BulkOrderSummary:
+      type: object
+      properties:
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreatedOrder'
+        referenceNumber:
+          type: string
+      title: BulkOrderSummary
     VirtualHierarchyItem:
       type: object
       properties:
@@ -1091,62 +1051,81 @@ components:
           - CUSTOM_GROUP
           - BUSINESS_LOCATION
       title: VirtualHierarchyItem
-    PagedResult_VirtualHierarchyItem_:
+    HierarchyOperationsAvailability:
       type: object
       properties:
-        result:
-          type: array
-          description: One page of result
-          items:
-            $ref: '#/components/schemas/VirtualHierarchyItem'
-        total:
-          type: integer
-          format: int32
-          description: Total number of all elements in collection
-      title: PagedResult_VirtualHierarchyItem_
-      description: Paged list of elements
-    OperationState:
+        create:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+        edit:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+        move:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+        remove:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+        view:
+          $ref: '#/components/schemas/HierarchyOperationEnabled'
+      title: HierarchyOperationsAvailability
+    BusinessLocationDetails:
       type: object
       properties:
-        blocked:
-          type: boolean
-        blockingOrders:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockingOrder'
-        reason:
+        activeFrom:
           type: string
-      title: OperationState
-    CreateGroupResponse:
-      type: object
-      properties:
-        groupId:
+          format: date-time
+        activeTo:
+          type: string
+          format: date-time
+        contactEmail:
+          type: string
+        contactName:
+          type: string
+        contactPhoneNumber:
+          type: string
+        expectedNumberOfUsers:
           type: integer
           format: int64
-      title: CreateGroupResponse
-    ErrorResponse:
+        externalAccountNumber:
+          type: string
+        primaryAddress:
+          $ref: '#/components/schemas/LocationAddress'
+      title: BusinessLocationDetails
+    BlockingOrder:
       type: object
       properties:
-        transactionId:
+        id:
+          type: integer
+          format: int64
+        kpnReference:
           type: string
-          description: transaction id of the the request
-          title: Transaction ID
         status:
           type: string
-          description: Status
-          title: Status
-        name:
+          enum:
+          - IN_PROGRESS
+          - UNAUTHORIZED
+          - NEW
+          - CLOSED
+          - CANCELED
+          - REJECTED
+          - DRAFT
+          - THIRD_PARTY
+          - HOLD_CUSTOMER
+          - WAITING
+        type:
           type: string
-          description: Error name
-          title: Error name
-        message:
+          enum:
+          - CONTRACTING
+          - SERVICE_REQUEST
+      title: BlockingOrder
+    CreatedOrder:
+      type: object
+      properties:
+        contextName:
           type: string
-          description: Error message
-          title: Error message
-        info:
+        id:
+          type: integer
+          format: int64
+        operation:
           type: string
-          description: Additional information about error
-          title: Info
+      title: CreatedOrder
     LocationAddress:
       type: object
       properties:
@@ -1173,6 +1152,46 @@ components:
         street:
           type: string
       title: LocationAddress
+    MoveGroupsParams:
+      type: object
+      properties:
+        destinationGroupId:
+          type: integer
+          format: int64
+        movedGroupIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        referenceNumber:
+          type: string
+        wishDate:
+          type: string
+          format: date-time
+      title: MoveGroupsParams
+    CreateCostCenterRequestParams:
+      type: object
+      properties:
+        costCenterNumber:
+          type: string
+        groupId:
+          type: integer
+          format: int64
+        name:
+          type: string
+      title: CreateCostCenterRequestParams
+    OperationState:
+      type: object
+      properties:
+        blocked:
+          type: boolean
+        blockingOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockingOrder'
+        reason:
+          type: string
+      title: OperationState
     HierarchyOperationEnabled:
       type: object
       properties:
@@ -1181,38 +1200,6 @@ components:
         reason:
           type: string
       title: HierarchyOperationEnabled
-    CustomerDetails:
-      type: object
-      properties:
-        billingOwner:
-          type: string
-        billingRetentionPeriod:
-          type: string
-          enum:
-          - '6'
-          - '25'
-        ckrNumber:
-          type: string
-        krnNumber:
-          type: string
-        orderFrozen:
-          type: boolean
-        orderFrozenFrom:
-          type: string
-          format: date-time
-        orderFrozenTo:
-          type: string
-          format: date-time
-      title: CustomerDetails
-    CreateVirtualGroupRequestParams:
-      type: object
-      properties:
-        groupId:
-          type: integer
-          format: int64
-        name:
-          type: string
-      title: CreateVirtualGroupRequestParams
     HierarchyItemOperationsAvailability:
       type: object
       properties:
@@ -1266,46 +1253,59 @@ components:
         samsungKnoxId:
           type: string
       title: DebtorDetails
-    BusinessLocationDetails:
+    ErrorResponse:
       type: object
       properties:
-        activeFrom:
+        transactionId:
           type: string
-          format: date-time
-        activeTo:
+          description: transaction id of the the request
+          title: Transaction ID
+        status:
           type: string
-          format: date-time
-        contactEmail:
+          description: Status
+          title: Status
+        name:
           type: string
-        contactName:
+          description: Error name
+          title: Error name
+        message:
           type: string
-        contactPhoneNumber:
+          description: Error message
+          title: Error message
+        info:
           type: string
-        expectedNumberOfUsers:
-          type: integer
-          format: int64
-        externalAccountNumber:
-          type: string
-        primaryAddress:
-          $ref: '#/components/schemas/LocationAddress'
-      title: BusinessLocationDetails
-    MoveGroupsParams:
+          description: Additional information about error
+          title: Info
+    CreateGroupResponse:
       type: object
       properties:
-        destinationGroupId:
+        groupId:
           type: integer
           format: int64
-        movedGroupIds:
-          type: array
-          items:
-            type: integer
-            format: int64
-        referenceNumber:
+      title: CreateGroupResponse
+    CustomerDetails:
+      type: object
+      properties:
+        billingOwner:
           type: string
-        wishDate:
+        billingRetentionPeriod:
+          type: string
+          enum:
+          - '6'
+          - '25'
+        ckrNumber:
+          type: string
+        krnNumber:
+          type: string
+        orderFrozen:
+          type: boolean
+        orderFrozenFrom:
           type: string
           format: date-time
-      title: MoveGroupsParams
+        orderFrozenTo:
+          type: string
+          format: date-time
+      title: CustomerDetails
   securitySchemes:
     OAuth2:
       type: oauth2

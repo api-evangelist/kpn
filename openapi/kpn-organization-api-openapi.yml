@@ -119,6 +119,17 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
+    InternalServerError:
+      description: Internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+          example:
+            errorResponse:
+              code: '500'
+              message: Internal Server Error
+              info: https://developer.kpn.com/support
     Unauthorized:
       description: Unauthorized — missing or invalid Bearer token.
       content:
@@ -140,17 +151,6 @@ components:
             errorResponse:
               code: '403'
               message: Forbidden
-              info: https://developer.kpn.com/support
-    InternalServerError:
-      description: Internal server error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiErrorResponse'
-          example:
-            errorResponse:
-              code: '500'
-              message: Internal Server Error
               info: https://developer.kpn.com/support
     NotFound:
       description: Not found — the requested configuration does not exist.
@@ -175,6 +175,37 @@ components:
               message: Bad Request
               info: https://developer.kpn.com/documentation-webhook-config
   schemas:
+    PrivacyConfig:
+      type: object
+      description: 'Service-scoped field exclusion map.
+
+
+        Keys are KPN service identifiers (e.g. `sms_dlr`); values are lists of
+
+        field names to omit from outbound webhook payloads for that service.
+
+        Any field not listed is included in the payload.
+
+        An empty or absent map means **include all fields**.
+
+        '
+      properties:
+        excluded_fields:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+            maxItems: 50
+          example:
+            sms_dlr:
+            - RecipientPhonenumber
+            - Message
+    OrgWebhookConfigUpdate:
+      type: object
+      properties:
+        privacy_config:
+          $ref: '#/components/schemas/PrivacyConfig'
     OrgWebhookConfigResponse:
       type: object
       properties:
@@ -224,37 +255,6 @@ components:
               type: string
               description: URL to relevant documentation or support page.
               example: https://developer.kpn.com/documentation-webhook-config
-    OrgWebhookConfigUpdate:
-      type: object
-      properties:
-        privacy_config:
-          $ref: '#/components/schemas/PrivacyConfig'
-    PrivacyConfig:
-      type: object
-      description: 'Service-scoped field exclusion map.
-
-
-        Keys are KPN service identifiers (e.g. `sms_dlr`); values are lists of
-
-        field names to omit from outbound webhook payloads for that service.
-
-        Any field not listed is included in the payload.
-
-        An empty or absent map means **include all fields**.
-
-        '
-      properties:
-        excluded_fields:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-            maxItems: 50
-          example:
-            sms_dlr:
-            - RecipientPhonenumber
-            - Message
   securitySchemes:
     OAuth2:
       type: oauth2

@@ -179,16 +179,6 @@ paths:
         required: true
 components:
   schemas:
-    HardwareEnrollmentRequest:
-      type: object
-      properties:
-        orderId:
-          type: integer
-          format: int64
-          description: Id of order which hardware was ordered
-        referenceNumber:
-          type: string
-      title: HardwareEnrollmentRequest
     OrderSummary:
       type: object
       properties:
@@ -245,6 +235,16 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    HardwareEnrollmentRequest:
+      type: object
+      properties:
+        orderId:
+          type: integer
+          format: int64
+          description: Id of order which hardware was ordered
+        referenceNumber:
+          type: string
+      title: HardwareEnrollmentRequest
   securitySchemes:
     OAuth2:
       type: oauth2

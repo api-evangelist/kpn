@@ -52,37 +52,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    AccessTokenParams:
-      type: object
-      description: struct for passing parameters to the method [`access_token`]
-      required:
-      - grant_type
-      - scope
-      - client_id
-      - client_assertion_type
-      - client_assertion
-      properties:
-        client_assertion:
-          type: string
-          description: Used for all client identification for OAuth/OpenID Connect. MUST contain JWT, signed by the client certificate.
-        client_assertion_type:
-          type: string
-          description: 'Used for all client identification for OAuth/OpenID Connect.
-
-            MUST contain “urn:ietf:params:oauth:client-assertion-type:jwt-bearer”'
-        client_id:
-          type: string
-          description: 'Used for all client identification  OAuth/OpenID Connect.
-
-            MUST contain a valid party identifier of the Service Consumer'
-        grant_type:
-          type: string
-          description: OAuth 2.0 grant type. MUST contain “client_credentials”
-        scope:
-          type: string
-          description: 'OAuth 2.0 scope. MUST contain DSH_FIAM scope value. Other values allow the Service Consumer to get tokens that do
-
-            not include all rights the Service Consumer has. According to RFC 6749, scopes are case-sensitive.'
     ProblemDetail:
       type: object
       required:
@@ -124,6 +93,37 @@ components:
           type:
           - string
           - 'null'
+    AccessTokenParams:
+      type: object
+      description: struct for passing parameters to the method [`access_token`]
+      required:
+      - grant_type
+      - scope
+      - client_id
+      - client_assertion_type
+      - client_assertion
+      properties:
+        client_assertion:
+          type: string
+          description: Used for all client identification for OAuth/OpenID Connect. MUST contain JWT, signed by the client certificate.
+        client_assertion_type:
+          type: string
+          description: 'Used for all client identification for OAuth/OpenID Connect.
+
+            MUST contain “urn:ietf:params:oauth:client-assertion-type:jwt-bearer”'
+        client_id:
+          type: string
+          description: 'Used for all client identification  OAuth/OpenID Connect.
+
+            MUST contain a valid party identifier of the Service Consumer'
+        grant_type:
+          type: string
+          description: OAuth 2.0 grant type. MUST contain “client_credentials”
+        scope:
+          type: string
+          description: 'OAuth 2.0 scope. MUST contain DSH_FIAM scope value. Other values allow the Service Consumer to get tokens that do
+
+            not include all rights the Service Consumer has. According to RFC 6749, scopes are case-sensitive.'
   securitySchemes:
     bearer_auth:
       type: http

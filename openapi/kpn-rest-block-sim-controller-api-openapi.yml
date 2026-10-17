@@ -179,15 +179,6 @@ paths:
         required: true
 components:
   schemas:
-    UnblockSimRequest:
-      type: object
-      properties:
-        contractId:
-          type: integer
-          format: int64
-        referenceNumber:
-          type: string
-      title: UnblockSimRequest
     OrderSummary:
       type: object
       properties:
@@ -244,6 +235,15 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    UnblockSimRequest:
+      type: object
+      properties:
+        contractId:
+          type: integer
+          format: int64
+        referenceNumber:
+          type: string
+      title: UnblockSimRequest
     BlockSimRequest:
       type: object
       properties:

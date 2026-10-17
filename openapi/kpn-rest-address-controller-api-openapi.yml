@@ -518,7 +518,7 @@ paths:
         required: true
 components:
   schemas:
-    DeliveryAddressRequest1:
+    DeliveryAddressRequest:
       type: object
       required:
       - city
@@ -570,7 +570,7 @@ components:
           minLength: 1
           maxLength: 24
       title: DeliveryAddressRequest
-    DeliveryAddressRequest:
+    DeliveryAddressRequest1:
       type: object
       required:
       - city

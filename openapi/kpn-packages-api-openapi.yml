@@ -97,108 +97,7 @@ paths:
       operationId: getManagementPackagesById
       x-operation-id-source: derived
 components:
-  responses:
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    PackageObjectArray:
-      description: Succesful operation.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-              result:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PackageResponse'
-          examples:
-            Example:
-              $ref: '#/components/examples/PackageResponseObjectArraySchema'
-    forbidden:
-      description: forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    server_error:
-      description: server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    service_unavailable:
-      description: service unavailable
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    too_many:
-      description: too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    PackageObject:
-      description: Succesful operation.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-              result:
-                $ref: '#/components/schemas/PackageResponse'
-          examples:
-            Example:
-              $ref: '#/components/examples/PackageResponseObjectSchema'
-    not_found:
-      description: not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    bad_request:
-      description: Bad Reqst
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-  parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
-    PackageIDParameter:
-      name: id
-      description: A valid package ID
-      in: path
-      required: true
-      schema:
-        type: string
-        example: 674a5rb3ca9d4f7e4f1da67a
   examples:
-    PackageResponseObjectSchema:
-      summary: Package
-      value:
-        success: true
-        result:
-          id: 674a5rb3ca9d4f7e4f1da67a
-          name: professional
-          features:
-          - agent_create_appointment
-          - send_file
-          - screenshot
-          - chat
     PackageResponseObjectArraySchema:
       summary: List of packages
       value:
@@ -220,6 +119,107 @@ components:
           - chat
           - screensharing
           - appointment
+    PackageResponseObjectSchema:
+      summary: Package
+      value:
+        success: true
+        result:
+          id: 674a5rb3ca9d4f7e4f1da67a
+          name: professional
+          features:
+          - agent_create_appointment
+          - send_file
+          - screenshot
+          - chat
+  responses:
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    PackageObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: '#/components/schemas/PackageResponse'
+          examples:
+            Example:
+              $ref: '#/components/examples/PackageResponseObjectSchema'
+    service_unavailable:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    too_many:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    PackageObjectArray:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PackageResponse'
+          examples:
+            Example:
+              $ref: '#/components/examples/PackageResponseObjectArraySchema'
+    server_error:
+      description: server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    not_found:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    bad_request:
+      description: Bad Reqst
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  parameters:
+    PackageIDParameter:
+      name: id
+      description: A valid package ID
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 674a5rb3ca9d4f7e4f1da67a
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
   schemas:
     error:
       type: object

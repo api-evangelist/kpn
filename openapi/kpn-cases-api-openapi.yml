@@ -207,24 +207,18 @@ paths:
       - Cases
 components:
   responses:
-    precondition_failed:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: precondition failed
     unauthorized:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: unauthorized
-    method_not_allowed:
+    service_unavailable:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-      description: method not allowed
+      description: Service unavailable
     bad_gateway:
       content:
         application/json:
@@ -237,30 +231,36 @@ components:
           schema:
             $ref: '#/components/schemas/error'
       description: forbidden
-    case_result:
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/case_result'
-    server_error:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: server error
-    service_unavailable:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Service unavailable
     too_many:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: too many requests
+    case_result:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/case_result'
+    precondition_failed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: precondition failed
+    server_error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: server error
+    method_not_allowed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: method not allowed
     not_found:
       content:
         application/json:

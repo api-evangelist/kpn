@@ -125,13 +125,6 @@ components:
         referenceNumber:
           type: string
       title: SeparateFixedMobileRequest
-    OrderConfirmation:
-      type: object
-      properties:
-        orderId:
-          type: integer
-          format: int64
-      title: OrderConfirmation
     ErrorResponse:
       type: object
       properties:
@@ -155,6 +148,13 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    OrderConfirmation:
+      type: object
+      properties:
+        orderId:
+          type: integer
+          format: int64
+      title: OrderConfirmation
   securitySchemes:
     OAuth2:
       type: oauth2

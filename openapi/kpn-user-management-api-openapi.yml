@@ -85,13 +85,6 @@ components:
           schema:
             $ref: '#/components/schemas/UserInfo'
   schemas:
-    UserInfo:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/id'
-      required:
-      - id
     error:
       type: object
       properties:
@@ -118,6 +111,13 @@ components:
     id:
       type: integer
       example: 154
+    UserInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/id'
+      required:
+      - id
   parameters:
     api_version:
       in: header

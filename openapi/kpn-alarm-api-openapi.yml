@@ -207,14 +207,6 @@ paths:
           headers: {}
       deprecated: false
 components:
-  parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
   schemas:
     AlarmState:
       title: AlarmState
@@ -304,6 +296,14 @@ components:
           type: string
           description: Additional information about error
           title: Info
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
   securitySchemes:
     oauth2:
       type: oauth2

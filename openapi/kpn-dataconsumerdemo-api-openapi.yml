@@ -173,6 +173,16 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    LabelBinding:
+      enum:
+      - default
+      - eneco
+      - oxxio
+      - woonenergie
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/Label'
     DemoConsumersResponse:
       required:
       - consumers
@@ -182,6 +192,64 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DemoConsumerResponse'
+    ProductType:
+      enum:
+      - heat
+    BusinessUnitBinding:
+      enum:
+      - nl
+      - be
+      - uk
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/BusinessUnit'
+    DemoResponseDtoOfDemoConsumersResponse:
+      required:
+      - data
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+          oneOf:
+          - $ref: '#/components/schemas/DemoConsumersResponse'
+    SetDemoConsentRequest:
+      required:
+      - consumerId
+      - isConsent
+      type: object
+      properties:
+        consumerId:
+          type: string
+        isConsent:
+          type: boolean
+    BusinessUnit:
+      enum:
+      - nl
+      - be
+      - uk
+    DemoConsumerResponse:
+      required:
+      - name
+      - consumerId
+      - isConsent
+      type: object
+      properties:
+        name:
+          type: string
+        consumerId:
+          type: string
+        isConsent:
+          type: boolean
+    ProductTypeBinding:
+      enum:
+      - heat
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/ProductType'
     ProblemDetails:
       type: object
       properties:
@@ -204,45 +272,6 @@ components:
           type:
           - string
           - 'null'
-    Label:
-      enum:
-      - default
-      - eneco
-      - oxxio
-      - woonenergie
-    SetDemoConsentRequest:
-      required:
-      - consumerId
-      - isConsent
-      type: object
-      properties:
-        consumerId:
-          type: string
-        isConsent:
-          type: boolean
-    BusinessUnitBinding:
-      enum:
-      - nl
-      - be
-      - uk
-      type: object
-      properties:
-        value:
-          $ref: '#/components/schemas/BusinessUnit'
-    DemoResponseDtoOfDemoConsumersResponse:
-      required:
-      - data
-      type: object
-      properties:
-        data:
-          type:
-          - object
-          - 'null'
-          oneOf:
-          - $ref: '#/components/schemas/DemoConsumersResponse'
-    ProductType:
-      enum:
-      - heat
     ErrorResponse:
       type: object
       properties:
@@ -255,41 +284,12 @@ components:
                 type: string
               message:
                 type: string
-    BusinessUnit:
-      enum:
-      - nl
-      - be
-      - uk
-    LabelBinding:
+    Label:
       enum:
       - default
       - eneco
       - oxxio
       - woonenergie
-      type: object
-      properties:
-        value:
-          $ref: '#/components/schemas/Label'
-    DemoConsumerResponse:
-      required:
-      - name
-      - consumerId
-      - isConsent
-      type: object
-      properties:
-        name:
-          type: string
-        consumerId:
-          type: string
-        isConsent:
-          type: boolean
-    ProductTypeBinding:
-      enum:
-      - heat
-      type: object
-      properties:
-        value:
-          $ref: '#/components/schemas/ProductType'
   securitySchemes:
     apikey:
       type: apiKey

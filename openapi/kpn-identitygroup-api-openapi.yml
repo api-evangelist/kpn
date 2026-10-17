@@ -87,22 +87,16 @@ paths:
       operationId: getIdentitygroup
       x-operation-id-source: derived
 components:
-  parameters:
-    filter:
-      in: query
-      name: filter
-      schema:
-        type: string
-      description: info
-      required: false
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
   schemas:
+    resources:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
     error:
       type: object
       properties:
@@ -126,15 +120,6 @@ components:
           type: string
           description: Additional information about error
           title: Info
-    resources:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
   responses:
     endpointgroup:
       description: A successful delivery
@@ -152,6 +137,21 @@ components:
                     type: array
                     items:
                       $ref: '#/components/schemas/resources'
+  parameters:
+    filter:
+      in: query
+      name: filter
+      schema:
+        type: string
+      description: info
+      required: false
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
   securitySchemes:
     oauth2:
       type: oauth2

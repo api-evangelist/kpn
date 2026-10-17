@@ -140,6 +140,30 @@ components:
           - Internal Server Error
           - Bad Gateway
           - Service Unavailable
+    InsightsResponseNotify:
+      type: object
+      properties:
+        device_match_notify:
+          type: object
+          properties:
+            session_uri:
+              type: string
+              example: http://server/v1/dm/session/5f563a0bbb61c93748f773b744bf19c6
+          description: To see the notification in the provided webhook, the session_uri must be accessed. Also, notification would work as expected only when the scopes have device_match_notify.
+        operator_lookup:
+          type: object
+          properties:
+            regionCode:
+              type: string
+              example: NL
+            operatorName:
+              type: string
+              example: KPN
+            mcc:
+              type:
+              - string
+              - 'null'
+              example: null
     InsightsResponse:
       type: object
       properties:
@@ -168,30 +192,6 @@ components:
               - 'null'
               example: null
             mnc:
-              type:
-              - string
-              - 'null'
-              example: null
-    InsightsResponseNotify:
-      type: object
-      properties:
-        device_match_notify:
-          type: object
-          properties:
-            session_uri:
-              type: string
-              example: http://server/v1/dm/session/5f563a0bbb61c93748f773b744bf19c6
-          description: To see the notification in the provided webhook, the session_uri must be accessed. Also, notification would work as expected only when the scopes have device_match_notify.
-        operator_lookup:
-          type: object
-          properties:
-            regionCode:
-              type: string
-              example: NL
-            operatorName:
-              type: string
-              example: KPN
-            mcc:
               type:
               - string
               - 'null'

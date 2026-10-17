@@ -460,11 +460,37 @@ components:
           type: string
           description: updation date of SIP account
           title: updated_at
+    Callerid:
+      type: object
+      properties:
+        internal_name:
+          type: string
+          description: Name of this SIP account
+          title: internal_name
+        internal_number:
+          type: string
+          description: Number of this SIP account
+          title: internal_number
+        external_name:
+          type: string
+          description: Name of this SIP account
+          title: external_name
+        external_number:
+          type: string
+          description: Number of this SIP account
+          title: external_number
     SIPAccountResponse:
       type: array
       items:
         $ref: '#/components/schemas/SIPAccountObject'
       description: Response containing the list of the external scripts for your domain.
+    Voicemail:
+      type: object
+      properties:
+        mwi_account:
+          type: string
+          description: Message Waiting Indicator account of this SIP account. The Voicemail account this SIP account will be notified about when messages are left or deleted there.
+          title: mwi_account
     ErrorResponse:
       type: object
       properties:
@@ -488,32 +514,6 @@ components:
           type: string
           description: Additional information about error
           title: Info
-    Voicemail:
-      type: object
-      properties:
-        mwi_account:
-          type: string
-          description: Message Waiting Indicator account of this SIP account. The Voicemail account this SIP account will be notified about when messages are left or deleted there.
-          title: mwi_account
-    Callerid:
-      type: object
-      properties:
-        internal_name:
-          type: string
-          description: Name of this SIP account
-          title: internal_name
-        internal_number:
-          type: string
-          description: Number of this SIP account
-          title: internal_number
-        external_name:
-          type: string
-          description: Name of this SIP account
-          title: external_name
-        external_number:
-          type: string
-          description: Number of this SIP account
-          title: external_number
     SIP:
       type: object
       properties:

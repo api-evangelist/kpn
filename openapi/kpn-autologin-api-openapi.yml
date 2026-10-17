@@ -78,24 +78,18 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
-    precondition_failed:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Precondition failed
     unauthorized:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: Unauthorized
-    method_not_allowed:
+    service_unavailable:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-      description: Method not allowed
+      description: Service unavailable
     bad_gateway:
       content:
         application/json:
@@ -108,24 +102,30 @@ components:
           schema:
             $ref: '#/components/schemas/error'
       description: Forbidden
-    server_error:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Server error
-    service_unavailable:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Service unavailable
     too_many:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: Too many requests
+    precondition_failed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Precondition failed
+    server_error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Server error
+    method_not_allowed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Method not allowed
     not_found:
       content:
         application/json:

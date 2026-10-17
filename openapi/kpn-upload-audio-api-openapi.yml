@@ -142,6 +142,13 @@ components:
           schema:
             $ref: '#/components/schemas/error'
   schemas:
+    job:
+      type: object
+      properties:
+        job_id:
+          type: integer
+          description: The job_id identifies your request, you should refer to this identifier later.
+          example: 17424
     error:
       type: object
       properties:
@@ -165,13 +172,6 @@ components:
           type: string
           description: Additional information about error.
           title: Info
-    job:
-      type: object
-      properties:
-        job_id:
-          type: integer
-          description: The job_id identifies your request, you should refer to this identifier later.
-          example: 17424
   securitySchemes:
     oauth2:
       type: oauth2

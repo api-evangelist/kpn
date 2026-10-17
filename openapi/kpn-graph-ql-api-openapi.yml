@@ -91,26 +91,26 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-    forbidden:
-      description: forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    server_error:
-      description: server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     service_unavailable:
       description: service unavailable
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
     too_many:
       description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
       content:
         application/json:
           schema:
@@ -127,21 +127,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-  parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
-    api_version_query:
-      in: query
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
   schemas:
     graphql_payload:
       title: graphql
@@ -151,6 +136,14 @@ components:
           type: string
         variables:
           $ref: '#/components/schemas/graphql_variables'
+    graphql_variables:
+      title: variables
+      type: object
+      properties:
+        publicationId:
+          type: string
+        api_token:
+          type: string
     error:
       type: object
       properties:
@@ -174,14 +167,21 @@ components:
           type: string
           description: Additional information about error
           title: Info
-    graphql_variables:
-      title: variables
-      type: object
-      properties:
-        publicationId:
-          type: string
-        api_token:
-          type: string
+  parameters:
+    api_version_query:
+      in: query
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
   securitySchemes:
     oauth2:
       type: oauth2

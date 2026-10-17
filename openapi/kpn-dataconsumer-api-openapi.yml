@@ -171,6 +171,74 @@ paths:
       x-operation-id-original: Get metadata of data owner for data consumers
 components:
   schemas:
+    Units:
+      enum:
+      - Centigrade
+      - KiloWattHour
+      - CubicMeter
+    LabelBinding:
+      enum:
+      - default
+      - eneco
+      - oxxio
+      - woonenergie
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/Label'
+    ProductType:
+      enum:
+      - heat
+    UsageRecord:
+      required:
+      - amount
+      - timestamp
+      type: object
+      properties:
+        amount:
+          pattern: ^-?(?:0|[1-9]\d*)(?:\.\d+)?$
+          format: double
+        timestamp:
+          type: string
+          format: date-time
+    BusinessUnitBinding:
+      enum:
+      - nl
+      - be
+      - uk
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/BusinessUnit'
+    BusinessUnit:
+      enum:
+      - nl
+      - be
+      - uk
+    UsagesResponse:
+      required:
+      - startDate
+      - endDate
+      - usageChannels
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        usageChannels:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsageChannel'
+    ProductTypeBinding:
+      enum:
+      - heat
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/ProductType'
     ProblemDetails:
       type: object
       properties:
@@ -193,12 +261,18 @@ components:
           type:
           - string
           - 'null'
-    Label:
-      enum:
-      - default
-      - eneco
-      - oxxio
-      - woonenergie
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
     UsageChannel:
       required:
       - channelId
@@ -214,86 +288,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UsageRecord'
-    UsageRecord:
-      required:
-      - amount
-      - timestamp
-      type: object
-      properties:
-        amount:
-          pattern: ^-?(?:0|[1-9]\d*)(?:\.\d+)?$
-          format: double
-        timestamp:
-          type: string
-          format: date-time
-    UsagesResponse:
-      required:
-      - startDate
-      - endDate
-      - usageChannels
-      type: object
-      properties:
-        startDate:
-          type: string
-          format: date-time
-        endDate:
-          type: string
-          format: date-time
-        usageChannels:
-          type: array
-          items:
-            $ref: '#/components/schemas/UsageChannel'
-    BusinessUnitBinding:
-      enum:
-      - nl
-      - be
-      - uk
-      type: object
-      properties:
-        value:
-          $ref: '#/components/schemas/BusinessUnit'
-    ProductType:
-      enum:
-      - heat
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                type: string
-              message:
-                type: string
-    BusinessUnit:
-      enum:
-      - nl
-      - be
-      - uk
-    LabelBinding:
+    Label:
       enum:
       - default
       - eneco
       - oxxio
       - woonenergie
-      type: object
-      properties:
-        value:
-          $ref: '#/components/schemas/Label'
-    Units:
-      enum:
-      - Centigrade
-      - KiloWattHour
-      - CubicMeter
-    ProductTypeBinding:
-      enum:
-      - heat
-      type: object
-      properties:
-        value:
-          $ref: '#/components/schemas/ProductType'
   securitySchemes:
     apikey:
       type: apiKey

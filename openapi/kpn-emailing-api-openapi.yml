@@ -77,39 +77,47 @@ paths:
       operationId: postWebserviceMailsenderSend
       x-operation-id-source: derived
 components:
-  requestBodies:
-    SentEmail:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/email'
-  responses:
-    SentEmailResponse:
-      description: A successful delivery
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              ticket_token:
-                type: string
-                example: K.SF1m-w
-              ticket_url:
-                type: string
-                example: https://environment.aangetekendmailen.nl/webservice/dashboard/?ticket_token=K.SF1m-w&action=ticket_html&lang=nl
-              message:
-                type: string
-                example: OK
-  parameters:
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
   schemas:
+    attachment:
+      type: object
+      description: The attachment is Base64 encoded, the MIME type should be corresponding with the format of the actual file and the name should be correct.
+      properties:
+        attachment:
+          type: string
+          example: BAse64E=
+        attachment_name:
+          type: string
+          example: attachment.pdf
+        attachment_type:
+          type: string
+          example: application/pdf
+      required:
+      - attachment
+      - attachment_name
+      - attachment_type
+    error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction id of the the request
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error
+          title: Info
     email:
       type: object
       properties:
@@ -151,46 +159,38 @@ components:
       - subject
       - recipient_email
       - attachments
-    error:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: Transaction id of the the request
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error
-          title: Info
-    attachment:
-      type: object
-      description: The attachment is Base64 encoded, the MIME type should be corresponding with the format of the actual file and the name should be correct.
-      properties:
-        attachment:
-          type: string
-          example: BAse64E=
-        attachment_name:
-          type: string
-          example: attachment.pdf
-        attachment_type:
-          type: string
-          example: application/pdf
-      required:
-      - attachment
-      - attachment_name
-      - attachment_type
+  responses:
+    SentEmailResponse:
+      description: A successful delivery
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ticket_token:
+                type: string
+                example: K.SF1m-w
+              ticket_url:
+                type: string
+                example: https://environment.aangetekendmailen.nl/webservice/dashboard/?ticket_token=K.SF1m-w&action=ticket_html&lang=nl
+              message:
+                type: string
+                example: OK
+  parameters:
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
+  requestBodies:
+    SentEmail:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/email'
   securitySchemes:
     oauth2:
       type: oauth2

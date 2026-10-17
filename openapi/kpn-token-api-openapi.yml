@@ -171,29 +171,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/token_model'
-    token_model:
-      type: object
-      properties:
-        CustomerEmail:
-          type: string
-          description: Customer Email
-          title: CustomerEmail
-        Id:
-          type: string
-          description: Id
-          title: Id
-        IdType:
-          type: string
-          description: Id Type
-          title: IdType
-        Token:
-          type: string
-          description: Token
-          title: Token
-        DocName:
-          type: string
-          description: Doc Name
-          title: DocName
     error:
       type: object
       properties:
@@ -217,6 +194,29 @@ components:
           type: string
           description: Additional information about error
           title: Info
+    token_model:
+      type: object
+      properties:
+        CustomerEmail:
+          type: string
+          description: Customer Email
+          title: CustomerEmail
+        Id:
+          type: string
+          description: Id
+          title: Id
+        IdType:
+          type: string
+          description: Id Type
+          title: IdType
+        Token:
+          type: string
+          description: Token
+          title: Token
+        DocName:
+          type: string
+          description: Doc Name
+          title: DocName
   responses:
     unauthorized:
       description: unauthorized
@@ -230,26 +230,26 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/token'
-    forbidden:
-      description: forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    server_error:
-      description: server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
     service_unavailable:
       description: service unavailable
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
+    forbidden:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
     too_many:
       description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    server_error:
+      description: server error
       content:
         application/json:
           schema:
@@ -267,15 +267,15 @@ components:
           schema:
             $ref: '#/components/schemas/error'
   parameters:
-    api_version:
-      in: header
+    api_version_query:
+      in: query
       name: api-version
       schema:
         type: string
       description: API Version. If no version is provided it defaults to latest version.
       required: false
-    api_version_query:
-      in: query
+    api_version:
+      in: header
       name: api-version
       schema:
         type: string

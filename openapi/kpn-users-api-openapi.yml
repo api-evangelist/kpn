@@ -477,24 +477,18 @@ paths:
     - url: https://api-prd.kpn.com/communication/weseedo/weseedopersonal
 components:
   responses:
-    precondition_failed:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Precondition failed
     unauthorized:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: Unauthorized
-    method_not_allowed:
+    service_unavailable:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
-      description: Method not allowed
+      description: Service unavailable
     bad_gateway:
       content:
         application/json:
@@ -507,24 +501,30 @@ components:
           schema:
             $ref: '#/components/schemas/error'
       description: Forbidden
-    server_error:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Server error
-    service_unavailable:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-      description: Service unavailable
     too_many:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
       description: Too many requests
+    precondition_failed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Precondition failed
+    server_error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Server error
+    method_not_allowed:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: Method not allowed
     not_found:
       content:
         application/json:
@@ -537,6 +537,50 @@ components:
           schema:
             $ref: '#/components/schemas/error'
       description: Bad request
+    service_unavailable_2:
+      description: service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_2'
+    forbidden_2:
+      description: forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_2'
+    UserDeletedObject:
+      description: Succesful operation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              result:
+                $ref: '#/components/schemas/UserResponseDeleted'
+          examples:
+            Example:
+              $ref: '#/components/examples/UserResponseDeletedObjectSchema'
+    too_many_2:
+      description: too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_2'
+    not_found_2:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_2'
+    bad_request_2:
+      description: Bad Reqst
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_2'
     UserObjectArray:
       description: Succesful operation.
       content:
@@ -573,50 +617,6 @@ components:
           examples:
             Example:
               $ref: '#/components/examples/UserResponseObjectSchema'
-    too_many_2:
-      description: too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_2'
-    UserDeletedObject:
-      description: Succesful operation.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-              result:
-                $ref: '#/components/schemas/UserResponseDeleted'
-          examples:
-            Example:
-              $ref: '#/components/examples/UserResponseDeletedObjectSchema'
-    not_found_2:
-      description: not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_2'
-    bad_request_2:
-      description: Bad Reqst
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_2'
-    forbidden_2:
-      description: forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_2'
-    service_unavailable_2:
-      description: service unavailable
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_2'
   schemas:
     Users_GetUserByIdResponse:
       properties:
@@ -625,24 +625,6 @@ components:
           example: true
         result:
           $ref: '#/components/schemas/Users_GetResponse'
-      type: object
-    Users_POSTPUTResponse:
-      properties:
-        success:
-          type: boolean
-        result:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
-      type: object
-    Company:
-      properties:
-        id:
-          type: string
-          example: 58..82
-        name:
-          type: string
-          example: WeSeeDo B.V.
       type: object
     Users_GetResponse:
       properties:
@@ -684,6 +666,24 @@ components:
         company:
           id: 58..60
           name: WeSeeDo B.V.
+    Company:
+      properties:
+        id:
+          type: string
+          example: 58..82
+        name:
+          type: string
+          example: WeSeeDo B.V.
+      type: object
+    Users_POSTPUTResponse:
+      properties:
+        success:
+          type: boolean
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+      type: object
     User:
       properties:
         id:
@@ -735,6 +735,129 @@ components:
           description: The `transaction_id` of the the request.
           title: Transaction ID
           type: string
+    UserRequestBodyPost:
+      required:
+      - first_name
+      - last_name
+      - name
+      - email
+      - locale
+      - role
+      allOf:
+      - $ref: '#/components/schemas/UserRequestBody'
+      - type: object
+        properties:
+          role:
+            oneOf:
+            - type: string
+              description: Role "dealer"
+            - type: string
+              description: Role "reseller"
+            - type: string
+              description: Role "admin"
+            - type: string
+              description: Role "agent"
+            - type: string
+              description: Role "assistent"
+            - type: string
+              description: Role "assistent_video"
+          entity:
+            oneOf:
+            - type: object
+              required:
+              - type
+              - id
+              properties:
+                type:
+                  description: Entity type dealer
+                  type: string
+                id:
+                  description: Dealer ID
+                  type: string
+            - type: object
+              required:
+              - type
+              - id
+              properties:
+                type:
+                  description: Entity type reseller
+                  type: string
+                id:
+                  description: Reseller ID
+                  type: string
+            - type: object
+              required:
+              - type
+              - id
+              properties:
+                type:
+                  description: Entity type company
+                  type: string
+                id:
+                  description: Company ID
+                  type: string
+    UserResponseDeleted:
+      type: object
+      properties:
+        id:
+          description: User ID
+          type: string
+    AccountResponseShort:
+      type: object
+      properties:
+        id:
+          description: Site ID
+          type: string
+        name:
+          description: Site name
+          type: string
+    error_2:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Transaction ID of the the request.
+          title: Transaction ID
+        status:
+          type: string
+          description: Status
+          title: Status
+        name:
+          type: string
+          description: Error name
+          title: Error name
+        message:
+          type: string
+          description: Error message
+          title: Error message
+        info:
+          type: string
+          description: Additional information about error.
+          title: Info
+    UserRequestBody:
+      type: object
+      properties:
+        first_name:
+          description: First name
+          type: string
+        last_name:
+          description: Last name
+          type: string
+        email:
+          description: E-mail address
+          type: string
+        photo:
+          description: Base64 image excluded mimetype (e.g. data:image/png;base64,)
+          type: string
+        password:
+          description: Password
+          type: string
+        locale:
+          oneOf:
+          - type: string
+            description: Locale "nl"
+          - type: string
+            description: Locale "en"
     UserResponse:
       type: object
       properties:
@@ -827,27 +950,6 @@ components:
         suspended:
           description: Is suspended
           type: boolean
-    UserRequestBodyPut:
-      required:
-      - first_name
-      - last_name
-      - name
-      - locale
-      allOf:
-      - $ref: '#/components/schemas/UserRequestBody'
-      - type: object
-        properties:
-          suspended:
-            description: Is suspended
-            type: boolean
-    UserRequestBodyPatch:
-      allOf:
-      - $ref: '#/components/schemas/UserRequestBody'
-      - type: object
-        properties:
-          suspended:
-            description: Is suspended
-            type: boolean
     PackageResponse:
       type: object
       properties:
@@ -895,173 +997,69 @@ components:
             description: cobrowsing
           - type: string
             description: screenshot
-    UserRequestBodyPost:
+    UserRequestBodyPut:
       required:
       - first_name
       - last_name
       - name
-      - email
       - locale
-      - role
       allOf:
       - $ref: '#/components/schemas/UserRequestBody'
       - type: object
         properties:
-          role:
-            oneOf:
-            - type: string
-              description: Role "dealer"
-            - type: string
-              description: Role "reseller"
-            - type: string
-              description: Role "admin"
-            - type: string
-              description: Role "agent"
-            - type: string
-              description: Role "assistent"
-            - type: string
-              description: Role "assistent_video"
-          entity:
-            oneOf:
-            - type: object
-              required:
-              - type
-              - id
-              properties:
-                type:
-                  description: Entity type dealer
-                  type: string
-                id:
-                  description: Dealer ID
-                  type: string
-            - type: object
-              required:
-              - type
-              - id
-              properties:
-                type:
-                  description: Entity type reseller
-                  type: string
-                id:
-                  description: Reseller ID
-                  type: string
-            - type: object
-              required:
-              - type
-              - id
-              properties:
-                type:
-                  description: Entity type company
-                  type: string
-                id:
-                  description: Company ID
-                  type: string
-    UserResponseDeleted:
-      type: object
-      properties:
-        id:
-          description: User ID
-          type: string
-    error_2:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: Transaction ID of the the request.
-          title: Transaction ID
-        status:
-          type: string
-          description: Status
-          title: Status
-        name:
-          type: string
-          description: Error name
-          title: Error name
-        message:
-          type: string
-          description: Error message
-          title: Error message
-        info:
-          type: string
-          description: Additional information about error.
-          title: Info
-    AccountResponseShort:
-      type: object
-      properties:
-        id:
-          description: Site ID
-          type: string
-        name:
-          description: Site name
-          type: string
-    UserRequestBody:
-      type: object
-      properties:
-        first_name:
-          description: First name
-          type: string
-        last_name:
-          description: Last name
-          type: string
-        email:
-          description: E-mail address
-          type: string
-        photo:
-          description: Base64 image excluded mimetype (e.g. data:image/png;base64,)
-          type: string
-        password:
-          description: Password
-          type: string
-        locale:
-          oneOf:
-          - type: string
-            description: Locale "nl"
-          - type: string
-            description: Locale "en"
-  parameters:
-    UserQueryUserStatusParameter:
-      name: user_status
-      description: Add user status into response
-      in: query
-      schema:
-        type: boolean
-    UserQueryResellerParameter:
-      name: reseller
-      description: Only select users with given reseller ID
-      in: query
-      schema:
-        type: string
-        example: 334d171d1854dd4c97874ba8
-    UserQueryDealerParameter:
-      name: dealer
-      description: Only select users with given dealer ID
-      in: query
-      schema:
-        type: string
-        example: 45h6ac8a1e14a3c24ab20740
-    UserIDParameter:
-      name: id
-      description: A valid user ID
-      in: path
+          suspended:
+            description: Is suspended
+            type: boolean
+    UserRequestBodyPatch:
+      allOf:
+      - $ref: '#/components/schemas/UserRequestBody'
+      - type: object
+        properties:
+          suspended:
+            description: Is suspended
+            type: boolean
+  requestBodies:
+    UserObjectPut:
+      description: JSON user object
       required: true
-      schema:
-        type: string
-        example: 84c7ey417a4558a38ca39ded
-    api_version:
-      in: header
-      name: api-version
-      schema:
-        type: string
-      description: API Version. If no version is provided it defaults to latest version.
-      required: false
-    UserQueryCompanyParameter:
-      name: company
-      description: Only select users with given company ID
-      in: query
-      schema:
-        type: string
-        example: 784d061c0856dc4c97774da7
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserRequestBodyPut'
+          examples:
+            Example:
+              $ref: '#/components/examples/UserRequestBodyObjectSchema'
+    UserObjectPost:
+      description: JSON user object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserRequestBodyPost'
+          examples:
+            Example:
+              $ref: '#/components/examples/UserRequestBodyObjectSchemaPost'
+    UserObjectPatch:
+      description: JSON user object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserRequestBodyPatch'
+          examples:
+            Example:
+              $ref: '#/components/examples/UserRequestBodyObjectSchema'
   examples:
+    UserRequestBodyObjectSchema:
+      summary: User
+      value:
+        first_name: Firstname
+        last_name: Lastname
+        email: agent1@weseedo.nl
+        photo: iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
+        password: StrongPassword123!
+        locale: nl
+        suspended: false
     UserResponseObjectSchema:
       summary: User
       value:
@@ -1095,35 +1093,6 @@ components:
               - chat
           status: online
           suspended: false
-    UserRequestBodyObjectSchemaPost:
-      summary: User
-      value:
-        first_name: Firstname
-        last_name: Lastname
-        email: agent1@weseedo.nl
-        photo: iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
-        password: StrongPassword123!
-        locale: nl
-        role: agent
-        entity:
-          type: company
-          id: 58h6aa8a0e14a4c24df20760
-    UserResponseDeletedObjectSchema:
-      summary: User ID
-      value:
-        success: true
-        result:
-          id: 58f6ee406a2308a38ca39dec
-    UserRequestBodyObjectSchema:
-      summary: User
-      value:
-        first_name: Firstname
-        last_name: Lastname
-        email: agent1@weseedo.nl
-        photo: iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
-        password: StrongPassword123!
-        locale: nl
-        suspended: false
     UserResponseObjectArraySchema:
       summary: List of users
       value:
@@ -1185,37 +1154,68 @@ components:
               - chat
           status: online
           suspended: false
-  requestBodies:
-    UserObjectPatch:
-      description: JSON user object
+    UserRequestBodyObjectSchemaPost:
+      summary: User
+      value:
+        first_name: Firstname
+        last_name: Lastname
+        email: agent1@weseedo.nl
+        photo: iVBORw0KGgoAAAANSUhEUgAAARgAAAAqCAIAA.....
+        password: StrongPassword123!
+        locale: nl
+        role: agent
+        entity:
+          type: company
+          id: 58h6aa8a0e14a4c24df20760
+    UserResponseDeletedObjectSchema:
+      summary: User ID
+      value:
+        success: true
+        result:
+          id: 58f6ee406a2308a38ca39dec
+  parameters:
+    UserQueryUserStatusParameter:
+      name: user_status
+      description: Add user status into response
+      in: query
+      schema:
+        type: boolean
+    UserIDParameter:
+      name: id
+      description: A valid user ID
+      in: path
       required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UserRequestBodyPatch'
-          examples:
-            Example:
-              $ref: '#/components/examples/UserRequestBodyObjectSchema'
-    UserObjectPut:
-      description: JSON user object
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UserRequestBodyPut'
-          examples:
-            Example:
-              $ref: '#/components/examples/UserRequestBodyObjectSchema'
-    UserObjectPost:
-      description: JSON user object
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UserRequestBodyPost'
-          examples:
-            Example:
-              $ref: '#/components/examples/UserRequestBodyObjectSchemaPost'
+      schema:
+        type: string
+        example: 84c7ey417a4558a38ca39ded
+    UserQueryCompanyParameter:
+      name: company
+      description: Only select users with given company ID
+      in: query
+      schema:
+        type: string
+        example: 784d061c0856dc4c97774da7
+    UserQueryDealerParameter:
+      name: dealer
+      description: Only select users with given dealer ID
+      in: query
+      schema:
+        type: string
+        example: 45h6ac8a1e14a3c24ab20740
+    UserQueryResellerParameter:
+      name: reseller
+      description: Only select users with given reseller ID
+      in: query
+      schema:
+        type: string
+        example: 334d171d1854dd4c97874ba8
+    api_version:
+      in: header
+      name: api-version
+      schema:
+        type: string
+      description: API Version. If no version is provided it defaults to latest version.
+      required: false
   securitySchemes:
     oauth2:
       type: oauth2
