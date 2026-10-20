@@ -77,6 +77,71 @@ edges:
     detected: '2026-10-20'
   detected_by: sweep-compliance-assurance.py
   first_seen: '2026-10-20'
+- partner_name: PeeringDB (interconnection register)
+  partner: null
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.peeringdb.com/net/5098
+  category: network interconnection register
+  contract_reference:
+    register: PeeringDB (peeringdb.com/api net, ix, fac, org)
+    standard: null
+    spec_file: null
+    role: peeringdb-facility-operator+network
+    registered_name: KPN NL
+    register_id: https://www.peeringdb.com/net/5098
+    matched_domain: kpn.com
+    matched_by: domain
+    asns:
+    - 1136
+    - 197727
+    info_types:
+    - Content
+    - NSP
+    ix_presence: 2
+    exchanges_operated: []
+    facilities_operated: 2
+    signal_note: 'participation only: PeeringDB is self-registered by network operators; ASNs, IX presence and facility
+      counts are context, never counted'
+    detected_by: sweep-network-edge.py
+    detected: '2026-10-20'
+  detected_by: sweep-network-edge.py
+  first_seen: '2026-10-20'
+- partner_name: MANRS (Mutually Agreed Norms for Routing Security)
+  partner: null
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://manrs.org/participant/019eccd4-bc0f-7c7f-9e9f-0db5d281b71b
+  category: routing-security programme
+  contract_reference:
+    register: MANRS participants (manrs.org netops / cdn-cloud-providers / ixps / equipment-vendors)
+    standard: MANRS
+    spec_file: null
+    role: manrs-participant
+    registered_name: KPN
+    register_id: https://manrs.org/participant/019eccd4-bc0f-7c7f-9e9f-0db5d281b71b
+    matched_domain: kpn.com
+    matched_by: domain
+    domain_source: peeringdb net website for AS1136
+    certified_products:
+    - product: MANRS Network Operators
+      program: netops
+      lapsed: false
+      approved: '2018-08-25'
+    signal_note: certified_products = one entry per MANRS programme admitted to (reviewed against the programme's
+      actions), never per ASN; ASNs are context. The tables list current participants only, so lapsed is always
+      false
+    detected_by: sweep-network-edge.py
+    detected: '2026-10-20'
+    identity_source: peeringdb net website by the participant's ASN (labelled provenance step)
+  detected_by: sweep-network-edge.py
+  first_seen: '2026-10-20'
 generated: '2026-10-12'
 method: searched
 checked:
@@ -85,6 +150,9 @@ checked:
 - https://eucoc.cloud/en/public-register/list-of-adherent-services
 - https://raw.githubusercontent.com/camaraproject/camara-landscape/main/landscape.yml
 - https://www.rdi.nl/site/binaries/content/assets/site-content/bestanden/current-tsl.xml
+- https://manrs.org/netops/participants/
+- https://www.peeringdb.com/api/fac
+- https://www.peeringdb.com/api/ix
+- https://www.peeringdb.com/api/net
 source:
-- https://www.rdi.nl/site/binaries/content/assets/site-content/bestanden/current-tsl.xml
 - https://www.rdi.nl/site/binaries/content/assets/site-content/bestanden/current-tsl.xml
