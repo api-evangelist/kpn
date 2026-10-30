@@ -1,4 +1,4 @@
-# KPN (kpn)
+# KPN
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,816 +66,292 @@
 
 Koninklijke KPN N.V. is the incumbent telecommunications and IT provider of the Netherlands, operating the country's national fixed (copper and fibre) and mobile networks and selling telephony, broadband, television, IoT connectivity and managed IT services to consumers, businesses and — through KPN Wholesale — to other operators. In the telecom API value chain KPN sits on the network-operator side, but it is a conspicuous exception to the carrier norm: rather than routing developers exclusively through aggregators, KPN runs a genuine self-serve developer portal at developer.kpn.com where anyone can register a free account, get a client ID and secret, test in a sandbox at no cost, and see per-transaction pricing, then upgrade to production via a KRN company number or an iDIN identity check. Thirty-four OpenAPI/Swagger definitions are published anonymously downloadable under KPN's public SwaggerHub organisation, all fronted by an Apigee-style gateway at api-prd.kpn.com with OAuth 2.0 client-credentials. KPN is listed in the official CAMARA landscape as an operator and, with Odido and Vodafone under the COIN association and GSMA Open Gateway, launched CAMARA-standard fraud-prevention APIs for the Dutch market in October 2025; its SIM Swap definition points explicitly at github.com/camaraproject as its product documentation. KPN is not an Aduna shareholder and does not reach developers through that JV. Notably, KPN also resells Vonage and Apidaze CPaaS products through its own portal — the aggregator layer appearing inside the carrier's own catalogue rather than the other way round.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/kpn/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/kpn/refs/heads/main/apis.yml)
-
-## Tags
-
-- Telecommunications
-- Netherlands
-- Mobile Network Operator
-- Broadband
-- Network APIs
-- CAMARA
-- Open Gateway
-- SIM Swap
-- Identity Verification
-- Messaging
-- SMS
-- Voice
-- IoT
-- LoRaWAN
-- Fiber
-- Wholesale
-- 5G
-- Europe
-
-## Timestamps
-
-- **Created:** 2026-07-25
-- **Modified:** 2026-07-25
-
-## Developer Surface
-
-- **Developer portal:** [https://developer.kpn.com/](https://developer.kpn.com/) — HTTP 200, a real self-serve portal. Free account, free sandbox testing, issued `client_id`/`client_secret`, published per-transaction pricing. Production access requires a KPN Registration Number (KRN) or an iDIN identity check.
-- **Open Gateway:** `opengateway.kpn.com` redirects to the same developer portal.
-- **Gateway host:** `https://api-prd.kpn.com`, Apigee-style, OAuth 2.0 client credentials at `/oauth/client_credential/accesstoken`. No CIBA anywhere; no OIDC discovery document served.
-- **OpenAPI:** 34 definitions harvested verbatim from the public SwaggerHub organisation [`kpn`](https://app.swaggerhub.com/search?owner=kpn) (456 paths, 645 operations; 28 OpenAPI 3.x, 6 Swagger 2.0). All downloaded anonymously at HTTP 200 and validated.
-- **CAMARA:** KPN is listed in the official [CAMARA landscape](https://github.com/camaraproject/camara-landscape/blob/main/landscape.yml) under *Operation / Operators*, and launched CAMARA fraud-prevention APIs for the Dutch market with Odido and Vodafone under GSMA Open Gateway and the COIN association on 2025-10-30. **SIM Swap** ships as a genuinely CAMARA-shaped, downloadable, self-serve-purchasable definition (`externalDocs` points at github.com/camaraproject). **Number Verification** and **KYC Match** are real priced products, but the specs KPN publishes for them are its own pre-CAMARA / GSMA Mobile Connect contracts.
-- **Aduna:** not a partner. KPN reaches developers directly.
-- **TM Forum:** no Open API conformance certification found; the BSS/OSS-shaped surfaces are proprietary contracts.
-- **3GPP:** no NEF/SCEF surface, no network-slicing API, no edge/MEC API.
-- **Webhooks:** yes — dedicated Webhook Signing Keys (HMAC-SHA256) and Webhook Privacy Config Manager APIs. No AsyncAPI.
-- **SDKs:** none first-party on npm or PyPI. A public [Postman workspace](https://www.postman.com/kpndeveloper) is the documented client path. The portal documents a `github.com/kpn-developer` spec repo that now has **zero public repositories**.
-- **Channel inversion:** KPN resells CPaaS rather than depending on it — seven harvested specs are Vonage/Nexmo and Apidaze APIs proxied through KPN's own gateway.
-
-## APIs (38)
-
-### KPN Number Verify API
-
-With KPN Number Verify, you can quickly check whether the mobile number someone provides is the same as their SIM card.
-
-- **Human URL:** [https://developer.kpn.com/products/kpn-number-verify](https://developer.kpn.com/products/kpn-number-verify)
-- **Base URL:** `https://api-prd.kpn.com/communication/kpn/numberverify`
-
-#### Tags
-
-- Identity
-- Verification
-- Number Verification
-- Mobile
-- Network APIs
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/kpn-number-verify)
-- [Documentation](https://developer.kpn.com/documentation/kpn-number-verify-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/numberverify-kpn)
-- [OpenAPI](openapi/kpn-number-verify-openapi.yml)
-
-### KPN SIM Swap API (Account Takeover Protection)
-
-The SIM swap API provides a programmable interface for developers and other users (capabilities consumers) to request the last date of a SIM swap performed on the mobile line, or, to check whether a SIM swap has been performed during a past period.
-
-- **Human URL:** [https://developer.kpn.com/products/kpn-account-takeover-protection](https://developer.kpn.com/products/kpn-account-takeover-protection)
-- **Base URL:** `https://api-prd.kpn.com/kpn/sim-swap`
-
-#### Tags
-
-- Security
-- SIM Swap
-- Anti-Fraud
-- CAMARA
-- Network APIs
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/kpn-account-takeover-protection)
-- [Documentation](https://developer.kpn.com/documentation/kpn-account-takeover-protection-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/simswap-kpn)
-- [OpenAPI](openapi/kpn-sim-swap-openapi.yml)
-
-### KPN Match API
-
-Seamlessly check and verify an identity.
-
-- **Human URL:** [https://developer.kpn.com/products/kpn-match](https://developer.kpn.com/products/kpn-match)
-- **Base URL:** `https://api-prd.kpn.com/communication/kpn/match`
-
-#### Tags
-
-- Identity
-- KYC
-- Verification
-- Mobile Connect
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/kpn-match)
-- [Documentation](https://developer.kpn.com/documentation/kpn-match-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/match-kpn)
-- [OpenAPI](openapi/kpn-match-openapi.yml)
-
-### KPN SMS API
-
-Send SMS through the KPN network.
-
-- **Human URL:** [https://developer.kpn.com/products/kpn-sms-api](https://developer.kpn.com/products/kpn-sms-api)
-- **Base URL:** `https://api-prd.kpn.com/communication/kpn/sms`
-
-#### Tags
-
-- Messaging
-- SMS
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/kpn-sms-api)
-- [Documentation](https://developer.kpn.com/documentation/kpn-sms-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/sms-kpn)
-- [OpenAPI](openapi/kpn-sms-openapi.yml)
-
-### KPN SMS Inbound API
-
-This API is designed to inform users about the response schema they will receive on their webhook when an SMS message is sent to their virtual number. The API provides details of the message format that includes sender, recipient, message ID, content, timestamp, and type of the SMS.
-
-- **Human URL:** [https://developer.kpn.com/products/kpn-sms-api](https://developer.kpn.com/products/kpn-sms-api)
-- **Base URL:** `https://api-prd.kpn.com`
-
-#### Tags
-
-- Messaging
-- SMS
-- Webhooks
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/kpn-sms-api)
-- [Documentation](https://developer.kpn.com/documentation/kpn-sms-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/sms-inbound)
-- [OpenAPI](openapi/kpn-sms-inbound-openapi.yml)
-
-### KPN Mobile Services Management API
-
-MobileServicesManagement APIs ---
-
-- **Human URL:** [https://developer.kpn.com/products/kpn-mobile-services-management-api](https://developer.kpn.com/products/kpn-mobile-services-management-api)
-- **Base URL:** `https://api-prd.kpn.com/mobile/kpn/mobileservices`
-
-#### Tags
-
-- Mobile
-- Fleet Management
-- Ordering
-- BSS
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/kpn-mobile-services-management-api)
-- [Documentation](https://developer.kpn.com/documentation/kpn-mobile-services-management-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/mobileservicesmanagement-kpn)
-- [OpenAPI](openapi/kpn-mobile-services-management-openapi.yml)
-
-### KPN FIAM API
-
-A collection of crates for federated identity and access management
-
-- **Human URL:** [https://developer.kpn.com/products/federated-identity-and-access-management](https://developer.kpn.com/products/federated-identity-and-access-management)
-- **Base URL:** `https://api-prd.kpn.com/fiam`
-
-#### Tags
-
-- Identity
-- Federated Identity
-- Access Management
-- Data Spaces
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/federated-identity-and-access-management)
-- [Documentation](https://developer.kpn.com/documentation/fiam-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/fiam-kpn)
-- [OpenAPI](openapi/kpn-fiam-openapi.yml)
-
-### KPN FIAM Eneco Data Products API
-
-FIAM – Eneco Data Products
-
-- **Human URL:** [https://developer.kpn.com/products/fiam-eneco-data-products](https://developer.kpn.com/products/fiam-eneco-data-products)
-- **Base URL:** `https://api-acc.enecogroup.com/`
-
-#### Tags
-
-- Identity
-- Data Sharing
-- Energy
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/fiam-eneco-data-products)
-- [Documentation](https://developer.kpn.com/documentation/eneco-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/fiam-eneco-data-products)
-- [OpenAPI](openapi/kpn-fiam-eneco-data-products-openapi.yml)
-
-### KPN Disturbance Check API
-
-This API allows you to check the disturbance of the internet and the technology at an address. The API takes the postcode, house number and house extension, sends the request to the backend to retrieve real time information about the internet and technology service at the address.
-
-- **Human URL:** [https://developer.kpn.com/products/kpn-disturbance-check-api](https://developer.kpn.com/products/kpn-disturbance-check-api)
-- **Base URL:** `https://api-prd.kpn.com/network/kpn/disturbance-check`
-
-#### Tags
-
-- Network
-- Broadband
-- Service Assurance
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/kpn-disturbance-check-api)
-- [Documentation](https://developer.kpn.com/documentation/kpn-disturbance-check-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/disturbance-check-kpn)
-- [OpenAPI](openapi/kpn-disturbance-check-openapi.yml)
-
-### KPN Internet Speed Check API
-
-This API allows you to check the speed of the internet and the technology at an address. The API takes the postcode, house number and house extension, sends the request to the backend to retrieve real time information about the internet service at the address.
-
-- **Human URL:** [https://developer.kpn.com/products/kpn-internet-speed-check-api](https://developer.kpn.com/products/kpn-internet-speed-check-api)
-- **Base URL:** `https://api-prd.kpn.com/network/kpn/internet-speed-check`
-
-#### Tags
-
-- Network
-- Broadband
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/kpn-internet-speed-check-api)
-- [Documentation](https://developer.kpn.com/documentation/kpn-internet-speed-check-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/internet-speed-check-kpn)
-- [OpenAPI](openapi/kpn-internet-speed-check-openapi.yml)
-
-### KPN High Level Design FttX API
-
-The High-Level Design FTTx API supports Fiber to the Home (FTTH) engineering jobs. It allows you to calculate the required work and cost for Fiber rollout in a provided region. Run the endpoints in this order: 1. **POST /startJobS3** to retrieve a signed URL for Amazon S3 bucket. Send this URL using the following endpoint. 2. **PUT /s3url_uploads/{jsonFileNameAndExtension}** to upload the job. 3. **GET /jobStatus/{jobId}** to retrieve the status of the job. 4. **GET / jobResultS3/{jobId}** to retrieve a signed URL for the Amazon Simple Storage Service (Amazon S3) bucket. Send this URL using the following endpoint. 5. **GET /Output/{jsonFileNameAndExtension}** to retrieve the results of the engineering job.
-
-- **Human URL:** [https://developer.kpn.com/products/kpn-high-level-design-fttx-api](https://developer.kpn.com/products/kpn-high-level-design-fttx-api)
-- **Base URL:** `https://api-prd.kpn.com/network/kpn/ftth-engineering/`
-
-#### Tags
-
-- Network
-- Fiber
-- FTTH
-- Engineering
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/kpn-high-level-design-fttx-api)
-- [Documentation](https://developer.kpn.com/documentation/kpn-high-level-design-fttx-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/high-level_design_ftth)
-- [OpenAPI](openapi/kpn-high-level-design-ftth-openapi.yml)
-
-### KPN LoRa Device Management API
-
-KPN’s Low Power Long Range (LoRa) network service compliments existing 2G, 3G, 4G and LTE-M networks. It is based on the LoRaWAN protocol for Internet of Things (IoT).
-
-- **Human URL:** [https://developer.kpn.com/products/kpn-lora-device-management-api](https://developer.kpn.com/products/kpn-lora-device-management-api)
-- **Base URL:** `https://api-prd.kpn.com/data/lora/thingpark`
-
-#### Tags
-
-- IoT
-- LoRaWAN
-- Device Management
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/kpn-lora-device-management-api)
-- [Documentation](https://developer.kpn.com/documentation/kpn-lora-device-management-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/lora-device-management-kpn)
-- [OpenAPI](openapi/kpn-lora-device-management-openapi.yml)
-
-### KPN SD-LAN / SD-WAN Network View API
-
-The SD-LAN SD-WAN Network View API is a modern REST API based on the OpenAPI specification. The Network View API gives users read rights to retrieve information from the `Network View API` resources. - **Note**: By default you have read only access but based on your requirements and contract you can be granted `Manager` access to this API which is more than read only. To request manager access, please contact us at api_developer@kpn.com.
-
-- **Human URL:** [https://developer.kpn.com/products/kpn-sd-lan-sd-wan-network-view-api](https://developer.kpn.com/products/kpn-sd-lan-sd-wan-network-view-api)
-- **Base URL:** `https://api-prd.kpn.com/kpn/meraki`
-
-#### Tags
-
-- Network
-- SD-WAN
-- SD-LAN
-- Enterprise Networking
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/kpn-sd-lan-sd-wan-network-view-api)
-- [Documentation](https://developer.kpn.com/documentation/kpn-sd-lan-sd-wan-network-view-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/kpn-sd_lan_sd_wan_network_view_api)
-- [OpenAPI](openapi/kpn-sd-lan-sd-wan-network-view-openapi.yml)
-
-### KPN ServiceNow Connect API
-
-This is Customer Connect API for KPN ServiceNow-Green Tickets. With this API KPN SN Green will be able to create new, or update existing tickets. This document provides the API specification.
-
-- **Human URL:** [https://developer.kpn.com/products/kpn-servicenow-connect-api](https://developer.kpn.com/products/kpn-servicenow-connect-api)
-- **Base URL:** `https://api-prd.kpn.com/network/kpn/servicenow`
-
-#### Tags
-
-- Service Management
-- ITSM
-- Ticketing
-- OSS
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/kpn-servicenow-connect-api)
-- [Documentation](https://developer.kpn.com/documentation/kpn-servicenow-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/servicenow-kpn)
-- [OpenAPI](openapi/kpn-servicenow-connect-openapi.yml)
-
-### KPN ISE API
-
-Cisco Identity Services Engine (ISE) network access control resources exposed through the KPN API gateway, covering endpoints, endpoint groups, identity groups and internal users. The spec advertises a full-capability sandbox, HTTPS with OAuth, rate limiting and header-based versioning that defaults to the latest version.
-
-- **Human URL:** [https://app.swaggerhub.com/apis-docs/kpn/ise-kpn](https://app.swaggerhub.com/apis-docs/kpn/ise-kpn)
-- **Base URL:** `https://api-prd.kpn.com/kpn/ise`
-
-#### Tags
-
-- Network
-- Security
-- Identity Services Engine
-
-#### Properties
-
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/ise-kpn)
-- [OpenAPI](openapi/kpn-ise-openapi.yml)
-
-### KPN TV Guide API
-
-This API provides you different TV related content services. Currently there are 3 main calls with some of them have successive calls. The data provided consists of JSON formatted text mainly related to TV content metadata. This data can be used to enrich all sort of platforms with actual TV data.
-
-- **Human URL:** [https://app.swaggerhub.com/apis-docs/kpn/tv-guide-kpn](https://app.swaggerhub.com/apis-docs/kpn/tv-guide-kpn)
-- **Base URL:** `https://api-prd.kpn.com/media/kpn/itv`
-
-#### Tags
-
-- Media
-- TV
-- EPG
-- Content Metadata
-
-#### Properties
-
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/tv-guide-kpn)
-- [OpenAPI](openapi/kpn-tv-guide-openapi.yml)
-
-### KPN Webhook Signing Keys API
-
-When KPN delivers a webhook to your endpoint, signing keys are to know the request genuinely came from KPN and wasn't tampered with in transit. KPN signs every outbound webhook payload using HMAC-SHA256 and includes the signature in a header. You store a shared secret on your side, compute the expected signature over the incoming request body, and compare it to the header value. If they match, the payload is genuine. This API lets you create and manage those shared secrets. **How signing keys work** You can set a signing key at three levels — Organization, Team, or Application. When KPN delivers a webhook, it picks the active key starting at the most specific level (Application), falling back to Team, then Organization. KPN automatically provisions an organization-level key on your first webhook delivery if you haven't created one. Each key moves through a simple lifecycle: -...
-
-- **Human URL:** [https://app.swaggerhub.com/apis-docs/kpn/webhook-signing-key-management-kpn](https://app.swaggerhub.com/apis-docs/kpn/webhook-signing-key-management-kpn)
-- **Base URL:** `https://api-prd.kpn.com/webhookconfigs-kpn`
-
-#### Tags
-
-- Webhooks
-- Security
-- Key Management
-
-#### Properties
-
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/webhook-signing-key-management-kpn)
-- [OpenAPI](openapi/kpn-webhook-signing-keys-openapi.yml)
-
-### KPN Webhook Privacy Config Manager API
-
-KPN delivers outbound webhook notifications — such as SMS delivery reports — to the endpoints you configure. This API lets you control two things about those deliveries: the URL they are sent to, and which fields are included in the payload. **How configuration scopes work** You can configure webhooks at three levels — Organization, Team, or Application. Settings resolve from the most specific level to the broadest: an Application config overrides a Team config, which overrides the Organization config. This lets you set sensible defaults at org or team level and override them only where a specific application needs it. **Controlling payload fields (privacy)** `privacy_config.excluded_fields` maps a service name to the list of fields to omit from that service's outbound payloads. Any field not listed is included; an empty or absent map means every field is sent. Exclusion rules...
-
-- **Human URL:** [https://app.swaggerhub.com/apis-docs/kpn/webhook-privacy-config-manager](https://app.swaggerhub.com/apis-docs/kpn/webhook-privacy-config-manager)
-- **Base URL:** `https://api-prd.kpn.com/webhookconfigs-kpn`
-
-#### Tags
-
-- Webhooks
-- Privacy
-- Configuration
-
-#### Properties
-
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/webhook-privacy-config-manager)
-- [OpenAPI](openapi/kpn-webhook-privacy-config-manager-openapi.yml)
-
-### KPN Wholesale Broadband Access (WBA) API
-
-KPN Wholesale Broadband Access (WBA) is a KPN Wholesale product offering copper and fiber access to wholesale customers. WBA has the following APIs available: * Functional Product Information: The Functional Product Information (FPI) service is used to provide WBA access information for new and existing WBA connections. FPI provides carrier vendor information and WBA technology availability with actual up and down bitrates with a reliability per technology type. * Carrier Information Product: information about the infrastructure and active services on the physical connection of a customer address.
-
-- **Human URL:** [https://app.swaggerhub.com/apis-docs/kpn/wholesale-wba-kpn](https://app.swaggerhub.com/apis-docs/kpn/wholesale-wba-kpn)
-- **Base URL:** `https://api-prd.kpn.com/wba/adresses`
-
-#### Tags
-
-- Wholesale
-- Broadband
-- Access
-
-#### Properties
-
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/wholesale-wba-kpn)
-- [OpenAPI](openapi/kpn-wholesale-wba-openapi.yml)
-
-### KPN Wholesale Broadband Access FPI/CIP API
-
-KPN Wholesale Broadband Access (WBA) is a KPN Wholesale product offering copper and fiber access to wholesale customers. WBA has the following APIs available: * Functional Product Information: The Functional Product Information (FPI) service is used to provide WBA access information for new and existing WBA connections. FPI provides carrier vendor information and WBA technology availability with actual up and down bitrates with a reliability per technology type. * Carrier Information Product: The Carrier Information Product (CIP) service is used to provide information about the infrastructure and active services on the physical connection of a customer address.
-
-- **Human URL:** [https://app.swaggerhub.com/apis-docs/kpn/wholesale-broadband_access_fpi_cip](https://app.swaggerhub.com/apis-docs/kpn/wholesale-broadband_access_fpi_cip)
-- **Base URL:** `https://api-prd.kpn.com/wba`
-
-#### Tags
-
-- Wholesale
-- Broadband
-- Product Information
-
-#### Properties
-
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/wholesale-broadband_access_fpi_cip)
-- [OpenAPI](openapi/kpn-wholesale-broadband-access-fpi-cip-openapi.yml)
-
-### Polly.help Knowledge Management API
-
-The Knowledge Management API allows you to organize your organization's information with knowledge management software.
-
-- **Human URL:** [https://developer.kpn.com/products/pollyhelp-knowledge-management-api](https://developer.kpn.com/products/pollyhelp-knowledge-management-api)
-- **Base URL:** `https://api-prd.kpn.com/data/pollyhelp/knowledgemanagement`
-
-#### Tags
-
-- Contact Center
-- Knowledge Management
-- Partner API
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/pollyhelp-knowledge-management-api)
-- [Documentation](https://developer.kpn.com/documentation/pollyhelp-knowledge-management-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/knowledge-management-polly.help)
-- [OpenAPI](openapi/pollyhelp-knowledge-management-openapi.yml)
-
-### Xdroid Speech to Text API
-
-Xdroid Speech To Text API provides a seamless audio transcription service.
-
-- **Human URL:** [https://developer.kpn.com/products/xdroid-speech-text-api](https://developer.kpn.com/products/xdroid-speech-text-api)
-- **Base URL:** `https://api-prd.kpn.com/data/kpn/voiceanalytics`
-
-#### Tags
-
-- Contact Center
-- Speech to Text
-- Voice Analytics
-- Partner API
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/xdroid-speech-text-api)
-- [Documentation](https://developer.kpn.com/documentation/xdroid-xdroid-speech-text-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/speech-to-text-xdroid)
-- [OpenAPI](openapi/xdroid-speech-to-text-openapi.yml)
-
-### Parley Secure Messenger API
-
-This API enables a secure communication between your agent/bot desktop and the client website/mobile app.
-
-- **Human URL:** [https://developer.kpn.com/products/parley-secure-messenger-api](https://developer.kpn.com/products/parley-secure-messenger-api)
-- **Base URL:** `https://api-prd.kpn.com/communication/parley/secure-messenger`
-
-#### Tags
-
-- Messaging
-- Chat
-- Partner API
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/parley-secure-messenger-api)
-- [Documentation](https://developer.kpn.com/documentation/parley-chat-and-messaging-api-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/secure-messenger-parley)
-- [OpenAPI](openapi/parley-secure-messenger-openapi.yml)
-
-### Tracebuzz Social Media Webcare API
-
-The SocialMediaWebcare API allows you to organise and manage your inbound and outbound social media channels traffic.
-
-- **Human URL:** [https://developer.kpn.com/products/social-media-chat-and-messaging](https://developer.kpn.com/products/social-media-chat-and-messaging)
-- **Base URL:** `https://api-prd.kpn.com/communication/tracebuzz/social-media-webcare`
-
-#### Tags
-
-- Messaging
-- Social Media
-- Webcare
-- Partner API
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/social-media-chat-and-messaging)
-- [Documentation](https://developer.kpn.com/documentation/parley-webcare-parley-documentation-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/socialmediawebcare-tracebuzz)
-- [OpenAPI](openapi/tracebuzz-social-media-webcare-openapi.yml)
-
-### WeSeeDo Direct API
-
-WeSeeDo Direct API allows you to set up a video communication channel between people by sending an SMS with a link to the meeting.
-
-- **Human URL:** [https://developer.kpn.com/products/weseedo-weseedo-direct-api](https://developer.kpn.com/products/weseedo-weseedo-direct-api)
-- **Base URL:** `https://api-prd.kpn.com/communication/weseedo/weseedodirect`
-
-#### Tags
-
-- Video
-- Communications
-- Partner API
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/weseedo-weseedo-direct-api)
-- [Documentation](https://developer.kpn.com/documentation/weseedo-weseedo-direct-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/weseedo-direct-weseedo)
-- [OpenAPI](openapi/weseedo-direct-openapi.yml)
-
-### WeSeeDo Personal API
-
-The WeSeeDo Personal API allows video calling in the right way and distinguishes itself in human contact, ease of use and safety.
-
-- **Human URL:** [https://developer.kpn.com/products/weseedo-weseedo-personal-api](https://developer.kpn.com/products/weseedo-weseedo-personal-api)
-- **Base URL:** `https://api-prd.kpn.com/communication/weseedo/weseedopersonal`
-
-#### Tags
-
-- Video
-- Communications
-- Partner API
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/weseedo-weseedo-personal-api)
-- [Documentation](https://developer.kpn.com/documentation/weseedo-weseedo-personal-weseedo-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/weseedo-personal-weseedo)
-- [OpenAPI](openapi/weseedo-personal-openapi.yml)
-
-### Vonage Messages API (via KPN)
-
-Encapsulates multiple APIs to interact with our various channels such as WhatsApp Business, SMS, MMS, Viber, Facebook Messenger, etc. The API normalises information across all channels to abstracted to, from and content. This API is for outbound messages.
-
-- **Human URL:** [https://developer.kpn.com/products/vonage-messages-api](https://developer.kpn.com/products/vonage-messages-api)
-- **Base URL:** `https://api-prd.kpn.com/communication/nexmo`
-
-#### Tags
-
-- Messaging
-- CPaaS
-- Resold API
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/vonage-messages-api)
-- [Documentation](https://developer.kpn.com/documentation/vonage-messages-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/messages-nexmo)
-- [OpenAPI](openapi/vonage-messages-openapi.yml)
-
-### Vonage Voice API (via KPN)
-
-The Voice API lets you create outboud calls, control in progress calls and get information about current and historical calls. The API is divided in 2 big resources blocks: - Application: Manage application level options - Call: Manage call level options ## Call Guidelines 1. Create an application 2. Make a call ## Guidelines to create an application In order to create an application, we need to provide 3 values: - name - type (voice) - answer_url - event_url For more information regarding the meaning of each field, refer to the <samp>POST /application</samp> endpoint. Among the return values of this call, there is the application identifier (<samp>uuid</samp>). It is needed to make calls or to operate with the application. ## Guidelines to make a call In order to make a call, we must include the identifier of the application in the **header** and fill the basic fields from the...
-
-- **Human URL:** [https://developer.kpn.com/products/vonage-voice-api](https://developer.kpn.com/products/vonage-voice-api)
-- **Base URL:** `https://api-prd.kpn.com/communication/nexmo/`
-
-#### Tags
-
-- Voice
-- CPaaS
-- Resold API
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/vonage-voice-api)
-- [Documentation](https://developer.kpn.com/documentation/vonage-voice-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/voice-nexmo)
-- [OpenAPI](openapi/vonage-voice-openapi.yml)
-
-### Vonage Phone Numbers API (via KPN)
-
-The Numbers API lets you manage your numbers and buy new virtual numbers for use with Vonage's APIs. ## Prerequirement: Your project has to be in the production environment in order to use of this API. For any questions, please contact our support team.
-
-- **Human URL:** [https://developer.kpn.com/products/vonage-phone-numbers-api](https://developer.kpn.com/products/vonage-phone-numbers-api)
-- **Base URL:** `https://api-prd.kpn.com/communication/nexmo/phone-numbers`
-
-#### Tags
-
-- Voice
-- Phone Numbers
-- CPaaS
-- Resold API
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/vonage-phone-numbers-api)
-- [Documentation](https://developer.kpn.com/documentation/vonage-phone-numbers-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/phone-numbers-nexmo)
-- [OpenAPI](openapi/vonage-phone-numbers-openapi.yml)
-
-### Vonage Number Insight API (via KPN)
-
-Vonage's Number Insight API provides details about the validity, reachability and roaming status of a phone number, as well as giving you details on how to format the number properly in your application. There are three levels of the Number Insight API available: - Basic - Standard - Advanced The advanced API is available asynchronously as well as synchronously.
-
-- **Human URL:** [https://developer.kpn.com/products/vonage-number-insight-api](https://developer.kpn.com/products/vonage-number-insight-api)
-- **Base URL:** `https://api-prd.kpn.com/communication/nexmo/number-insight`
-
-#### Tags
-
-- Identity
-- Number Insight
-- CPaaS
-- Resold API
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/vonage-number-insight-api)
-- [Documentation](https://developer.kpn.com/documentation/vonage-number-insight-api-documentation)
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/number-insight-nexmo)
-- [OpenAPI](openapi/vonage-number-insight-openapi.yml)
-
-### Vonage SMS API (via KPN)
-
-Vonage's SMS API allows you to send and receive text messages to users around the globe through simple RESTful APIs. * Programmatically send and receive high volume of SMS anywhere in the world. * Build apps that scale with the web technologies that you are already using. * Send SMS with low latency and high delivery rates. * Receive SMS for free using SMS-enabled local numbers in countries around the world. * Only pay for what you use, nothing more.
-
-- **Human URL:** [https://app.swaggerhub.com/apis-docs/kpn/sms-nexmo](https://app.swaggerhub.com/apis-docs/kpn/sms-nexmo)
-- **Base URL:** `https://api-prd.kpn.com/communication/nexmo/sms`
-
-#### Tags
-
-- Messaging
-- SMS
-- CPaaS
-- Resold API
-
-#### Properties
-
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/sms-nexmo)
-- [OpenAPI](openapi/vonage-sms-openapi.yml)
-
-### Vonage Verify API (via KPN)
-
-Verify API is to Verify if a phone number is valid, reachable, and accessible by the user. Verification message can be customerized. Verify API provides the following services - **Verify Request** - Generate and send a PIN to your user. You use the request_id in the response is used for the Verify check. - **Verify Check** - Confirm that the PIN you received from your user matches the one sent by Vonage as a result of your Verify request. - **Verify Search** - Lookup the status of one or more requests. - **Verify Control** - Control the progress of your Verify requests.
-
-- **Human URL:** [https://app.swaggerhub.com/apis-docs/kpn/verify-nexmo](https://app.swaggerhub.com/apis-docs/kpn/verify-nexmo)
-- **Base URL:** `https://api-prd.kpn.com/communication/nexmo/verify`
-
-#### Tags
-
-- Identity
-- Verification
-- CPaaS
-- Resold API
-
-#### Properties
-
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/verify-nexmo)
-- [OpenAPI](openapi/vonage-verify-openapi.yml)
-
-### Apidaze Voice CPaaS API (via KPN)
-
-This REST API exposes actions that help your apps to interact with APIdaze’s Telco platform in mulitples ways. You can set the URL from where Apidaze fetchs XML instructions to run on Apidaze platform. You can write your various scripts there using the [Script Reference doc](https://developer.kpn.com/script-reference-documentation), and test them. You can manage your phone numbers, connect directly with other SIP carriers (inbound and outbound), manage your SIP accounts, voicemail boxes and messages, provision your hardphones.
-
-- **Human URL:** [https://app.swaggerhub.com/apis-docs/kpn/apidaze-voice-voip-innovations](https://app.swaggerhub.com/apis-docs/kpn/apidaze-voice-voip-innovations)
-- **Base URL:** `https://api-prd.kpn.com/communication/apidaze/cpaas`
-
-#### Tags
-
-- Voice
-- VoIP
-- CPaaS
-- Resold API
-
-#### Properties
-
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/apidaze-voice-voip-innovations)
-- [OpenAPI](openapi/apidaze-voice-openapi.yml)
-
-### Registered Email API (via KPN)
-
-This API offers three functionalities: - User management - Emailing User management can be used to add, get and modify user information. This can be done be a user with customer admin rights, without 2FA.Emailing can be used without authorization. The mail functionality can be used to sent registered emails with attachment without 2FA. Mail management, XML, can be seen by webservice users. It can be used to retrieve ticket information once the ticket id is known.
-
-- **Human URL:** [https://app.swaggerhub.com/apis-docs/kpn/registeredemail-registeredemail](https://app.swaggerhub.com/apis-docs/kpn/registeredemail-registeredemail)
-- **Base URL:** `https://api-prd.kpn.com/data/registeredemail/registeredemail`
-
-#### Tags
-
-- Email
-- Registered Delivery
-- Partner API
-
-#### Properties
-
-- [APIReference](https://app.swaggerhub.com/apis-docs/kpn/registeredemail-registeredemail)
-- [OpenAPI](openapi/registered-email-openapi.yml)
-
-### KPN GRIP API
-
-KPN GRIP identity and access product. Documented on the KPN Developer portal; no public OpenAPI definition was found for this product on KPN's SwaggerHub organisation as of the harvest date.
-
-- **Human URL:** [https://developer.kpn.com/products/kpn-grip-api](https://developer.kpn.com/products/kpn-grip-api)
-
-#### Tags
-
-- Security
-- Identity
-- Access Management
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/kpn-grip-api)
-- [APIReference](https://developer.kpn.com/documentation/kpn-grip-api-documentation)
-
-### KPN PIM ID API
-
-KPN PIM app identity product. Documented on the KPN Developer portal; no public OpenAPI definition was found for this product on KPN's SwaggerHub organisation as of the harvest date.
-
-- **Human URL:** [https://developer.kpn.com/products/kpn-pim-id-api](https://developer.kpn.com/products/kpn-pim-id-api)
-
-#### Tags
-
-- Identity
-- Verification
-- Mobile
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/kpn-pim-id-api)
-- [APIReference](https://developer.kpn.com/documentation/kpn-pim-id-api-documentation)
-
-### KPN SMS Campaigns API
-
-Send and schedule bulk SMS campaigns over the KPN network. Documented on the KPN Developer portal; no public OpenAPI definition was found for this product on KPN's SwaggerHub organisation as of the harvest date.
-
-- **Human URL:** [https://developer.kpn.com/products/sms-campaigns](https://developer.kpn.com/products/sms-campaigns)
-
-#### Tags
-
-- Messaging
-- SMS
-- Campaigns
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/sms-campaigns)
-- [APIReference](https://developer.kpn.com/documentation/sms-campaign-documentation)
-
-### KPN Email-to-SMS API
-
-Converts inbound email into SMS messages delivered over the KPN network. Documented on the KPN Developer portal; no public OpenAPI definition was found for this product on KPN's SwaggerHub organisation as of the harvest date.
-
-- **Human URL:** [https://developer.kpn.com/products/email-to-sms](https://developer.kpn.com/products/email-to-sms)
-
-#### Tags
-
-- Messaging
-- SMS
-- Email
-
-#### Properties
-
-- [Documentation](https://developer.kpn.com/products/email-to-sms)
-
-## Common
+**Areas:** Telecommunications · Netherlands · Mobile Network Operator · Broadband · Network APIs · CAMARA · Open Gateway · SIM Swap · Identity Verification · Messaging · SMS · Voice
+
+## KPN on APIs.io
+
+Everything profiled for KPN is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/kpn/](https://apis.io/providers/kpn/)** — or go straight to one of the APIs or properties below.
+
+### APIs (103)
+
+- [KPN GRIP API](https://apis.io/apis/kpn/kpn-grip/) — KPN Grip is a KPN identity and access management solution that acts as a central identity hub, letting developers integrate user registration,…
+- [KPN PIM ID API](https://apis.io/apis/kpn/kpn-pim-id/) — KPN PiM ID generates tamper-proof, company-specific encrypted QR codes from validated customer data (POST /image on…
+- [KPN SMS Campaigns API](https://apis.io/apis/kpn/kpn-sms-campaigns/) — Send and schedule bulk SMS campaigns over the KPN network. Documented on the KPN Developer portal; no public OpenAPI definition was found for this product…
+- [KPN Email-to-SMS API](https://apis.io/apis/kpn/kpn-email-to-sms/) — Converts inbound email into SMS messages delivered over the KPN network. Documented on the KPN Developer portal; no public OpenAPI definition was found for…
+- [KPN Account API](https://apis.io/apis/kpn/kpn-account-api/) — number management from accounts
+- [KPN Activation API](https://apis.io/apis/kpn/kpn-activation-api/) — The Activation API from KPN — 1 operation(s) for activation.
+- [KPN Alarm API](https://apis.io/apis/kpn/kpn-alarm-api/) — Alarm operations provide the ability to retrieve and acknowledge ThingPark device and base station alarms.
+- [KPN Appliance.configure API](https://apis.io/apis/kpn/kpn-appliance-configure-api/) — The appliance.configure API from KPN — 51 operation(s) for appliance.configure.
+- [KPN Appliance.monitor API](https://apis.io/apis/kpn/kpn-appliance-monitor-api/) — The appliance.monitor API from KPN — 13 operation(s) for appliance.monitor.
+- [KPN Application API](https://apis.io/apis/kpn/kpn-application-api/) — Application-scope webhook configuration — webhook URL and field exclusions. Highest precedence — overrides both team and organization config for this…
+- [KPN Application Keys API](https://apis.io/apis/kpn/kpn-application-keys-api/) — Signing keys at application scope. Highest precedence — overrides both team and org keys for deliveries belonging to this specific application.
+- [KPN Applications API](https://apis.io/apis/kpn/kpn-applications-api/) — Application related resource management
+- [KPN Attachment API](https://apis.io/apis/kpn/kpn-attachment-api/) — The Attachment API from KPN — 1 operation(s) for attachment.
+- [KPN Authentication API](https://apis.io/apis/kpn/kpn-authentication-api/) — Authentication endpoints for token management
+- [KPN Authorization API](https://apis.io/apis/kpn/kpn-authorization-api/) — Authorization policy enforcement endpoints
+- [KPN Autologin API](https://apis.io/apis/kpn/kpn-autologin-api/) — The Autologin API from KPN — 1 operation(s) for autologin.
+- [KPN Callback API](https://apis.io/apis/kpn/kpn-callback-api/) — The Callback API from KPN — 1 operation(s) for callback.
+- [KPN Cases API](https://apis.io/apis/kpn/kpn-cases-api/) — All about case handling
+- [KPN Catalog API](https://apis.io/apis/kpn/kpn-catalog-api/) — Logical grouping of content
+- [KPN Cellular Gateway.configure API](https://apis.io/apis/kpn/kpn-cellulargateway-configure-api/) — The cellularGateway.configure API from KPN — 15 operation(s) for cellulargateway.configure.
+- [KPN Cellular Gateway.monitor API](https://apis.io/apis/kpn/kpn-cellulargateway-monitor-api/) — The cellularGateway.monitor API from KPN — 1 operation(s) for cellulargateway.monitor.
+- [KPN Config API](https://apis.io/apis/kpn/kpn-config-api/) — The Config API from KPN — 1 operation(s) for config.
+- [KPN Configuration API](https://apis.io/apis/kpn/kpn-configuration-api/) — All about configuring Tracebuzz
+- [KPN Contract Validation API](https://apis.io/apis/kpn/kpn-contract-validation-api/) — Contract access validation endpoints
+- [KPN Data Consumer API](https://apis.io/apis/kpn/kpn-dataconsumer-api/) — The DataConsumer API from KPN — 2 operation(s) for dataconsumer.
+- [KPN Data Consumer Demo API](https://apis.io/apis/kpn/kpn-dataconsumerdemo-api/) — The DataConsumerDemo API from KPN — 2 operation(s) for dataconsumerdemo.
+- [KPN Default API](https://apis.io/apis/kpn/kpn-default-api/) — The default API from KPN — 6 operation(s) for default.
+- [KPN Device API](https://apis.io/apis/kpn/kpn-device-api/) — Device operations provide the ability to manage ThingPark devices, device profiles, routing profiles, and connectivity plans.
+- [KPN Devices API](https://apis.io/apis/kpn/kpn-devices-api/) — The Devices API from KPN — 1 operation(s) for devices.
+- [KPN Device Security API](https://apis.io/apis/kpn/kpn-devicesecurity-api/) — Device security operations provide the ability to manage AS keys and HSM groups for enhanced message encryption.
+- [KPN Emailing API](https://apis.io/apis/kpn/kpn-emailing-api/) — The Emailing API from KPN — 1 operation(s) for emailing.
+- [KPN Endpoint API](https://apis.io/apis/kpn/kpn-endpoint-api/) — The endpoint API from KPN — 4 operation(s) for endpoint.
+- [KPN Events API](https://apis.io/apis/kpn/kpn-events-api/) — The Events API from KPN — 2 operation(s) for events.
+- [KPN Identitygroup API](https://apis.io/apis/kpn/kpn-identitygroup-api/) — The identitygroup API from KPN — 1 operation(s) for identitygroup.
+- [KPN Insight.configure API](https://apis.io/apis/kpn/kpn-insight-configure-api/) — The insight.configure API from KPN — 3 operation(s) for insight.configure.
+- [KPN Insight.monitor API](https://apis.io/apis/kpn/kpn-insight-monitor-api/) — The insight.monitor API from KPN — 1 operation(s) for insight.monitor.
+- [KPN Insights API](https://apis.io/apis/kpn/kpn-insights-api/) — The Insights API from KPN — 1 operation(s) for insights.
+- [KPN Internaluser API](https://apis.io/apis/kpn/kpn-internaluser-api/) — The internaluser API from KPN — 1 operation(s) for internaluser.
+- [KPN Item API](https://apis.io/apis/kpn/kpn-item-api/) — Detailed descriptions of the content
+- [KPN JWT API](https://apis.io/apis/kpn/kpn-jwt-api/) — Call to generate JWT.
+- [KPN Meetings API](https://apis.io/apis/kpn/kpn-meetings-api/) — The Meetings API from KPN — 2 operation(s) for meetings.
+- [KPN Messages API](https://apis.io/apis/kpn/kpn-messages-api/) — The Messages API from KPN — 3 operation(s) for messages.
+- [KPN Networks API](https://apis.io/apis/kpn/kpn-networks-api/) — The Networks API from KPN — 1 operation(s) for networks.
+- [KPN Number API](https://apis.io/apis/kpn/kpn-number-api/) — numbers operations
+- [KPN Organization API](https://apis.io/apis/kpn/kpn-organization-api/) — Organization-scope webhook configuration. Applies to all teams and applications in your organization unless a team or application config overrides it.
+- [KPN Organization Keys API](https://apis.io/apis/kpn/kpn-organization-keys-api/) — Signing keys at organization scope. Applied to all webhook deliveries in your organization unless a team or application key overrides them. KPN…
+- [KPN Organizations API](https://apis.io/apis/kpn/kpn-organizations-api/) — The Organizations API from KPN — 2 operation(s) for organizations.
+- [KPN Packages API](https://apis.io/apis/kpn/kpn-packages-api/) — The Packages API from KPN — 2 operation(s) for packages.
+- [KPN Parties API](https://apis.io/apis/kpn/kpn-parties-api/) — Party and participant management endpoints
+- [KPN Personal API](https://apis.io/apis/kpn/kpn-personal-api/) — The Personal API from KPN — 3 operation(s) for personal.
+- [KPN Polling API](https://apis.io/apis/kpn/kpn-polling-api/) — The Polling API from KPN — 1 operation(s) for polling.
+- [KPN Register webhook - Demo testing ONLY API](https://apis.io/apis/kpn/kpn-register-webhook-demo-testing-only-api/) — The Register webhook - Demo testing ONLY API from KPN — 1 operation(s) for register webhook - demo testing only.
+- [KPN Request API](https://apis.io/apis/kpn/kpn-request-api/) — The Request API from KPN — 2 operation(s) for request.
+- [KPN Rest Address Controller API](https://apis.io/apis/kpn/kpn-rest-address-controller-api/) — Rest Address Controller
+- [KPN Rest Block Sim Controller API](https://apis.io/apis/kpn/kpn-rest-block-sim-controller-api/) — Rest Block Sim Controller
+- [KPN Rest Business Voice Mail Controller API](https://apis.io/apis/kpn/kpn-rest-business-voice-mail-controller-api/) — Rest Business Voice Mail Controller
+- [KPN Rest Contract Controller API](https://apis.io/apis/kpn/kpn-rest-contract-controller-api/) — Rest Contract Controller
+- [KPN Rest Contract Terminate Controller API](https://apis.io/apis/kpn/kpn-rest-contract-terminate-controller-api/) — Rest Contract Terminate Controller
+- [KPN Rest Contracting Controller API](https://apis.io/apis/kpn/kpn-rest-contracting-controller-api/) — Rest Contracting Controller
+- [KPN Rest Hardware Enrollment Controller API](https://apis.io/apis/kpn/kpn-rest-hardware-enrollment-controller-api/) — Rest Hardware Enrollment Controller
+- [KPN Rest Hierarchy Controller API](https://apis.io/apis/kpn/kpn-rest-hierarchy-controller-api/) — Rest Hierarchy Controller
+- [KPN Rest Invoice Controller API](https://apis.io/apis/kpn/kpn-rest-invoice-controller-api/) — Rest Invoice Controller
+- [KPN Rest Order Controller API](https://apis.io/apis/kpn/kpn-rest-order-controller-api/) — Rest Order Controller
+- [KPN Rest Separate Fixed Mobile Controller API](https://apis.io/apis/kpn/kpn-rest-separate-fixed-mobile-controller-api/) — Rest Separate Fixed Mobile Controller
+- [KPN Rest Subscriber Controller API](https://apis.io/apis/kpn/kpn-rest-subscriber-controller-api/) — Rest Subscriber Controller
+- [KPN Rest Template Controller API](https://apis.io/apis/kpn/kpn-rest-template-controller-api/) — Rest Template Controller
+- [KPN Rest Threshold Controller API](https://apis.io/apis/kpn/kpn-rest-threshold-controller-api/) — Rest Threshold Controller
+- [KPN Rest Track And Trace Controller API](https://apis.io/apis/kpn/kpn-rest-track-and-trace-controller-api/) — Rest Track And Trace Controller
+- [KPN Rest User Controller API](https://apis.io/apis/kpn/kpn-rest-user-controller-api/) — Rest User Controller
+- [KPN Results API](https://apis.io/apis/kpn/kpn-results-api/) — All about managing results
+- [KPN Retrieve job result API](https://apis.io/apis/kpn/kpn-retrieve-job-result-api/) — The Retrieve job result API from KPN — 3 operation(s) for retrieve job result.
+- [KPN Retrieve SIM swap date API](https://apis.io/apis/kpn/kpn-retrieve-sim-swap-date-api/) — The Retrieve SIM swap date API from KPN — 1 operation(s) for retrieve sim swap date.
+- [KPN Retrieve transcription API](https://apis.io/apis/kpn/kpn-retrieve-transcription-api/) — To retrieve transcritions, check the processing status with your unique **job_id**. Please do not use intervals that are shorter than 10 seconds to check…
+- [KPN Routing API](https://apis.io/apis/kpn/kpn-routing-api/) — The Routing API from KPN — 2 operation(s) for routing.
+- [KPN Send SMS API](https://apis.io/apis/kpn/kpn-send-sms-api/) — The Send SMS API from KPN — 1 operation(s) for send sms.
+- [KPN Service Consumer Contracts API](https://apis.io/apis/kpn/kpn-service-consumer-contracts-api/) — Contract access for service consumers (read-only operations)
+- [KPN Service Provider Contracts API](https://apis.io/apis/kpn/kpn-service-provider-contracts-api/) — Contract management for service providers (full CRUD operations)
+- [KPN Service Provider Parties API](https://apis.io/apis/kpn/kpn-service-provider-parties-api/) — Service provider view of consumer parties and their contracts
+- [KPN Session API](https://apis.io/apis/kpn/kpn-session-api/) — The Session API from KPN — 1 operation(s) for session.
+- [KPN Sites API](https://apis.io/apis/kpn/kpn-sites-api/) — The Sites API from KPN — 1 operation(s) for sites.
+- [KPN Start engineering job API](https://apis.io/apis/kpn/kpn-start-engineering-job-api/) — The Start engineering job API from KPN — 2 operation(s) for start engineering job.
+- [KPN Statistics API](https://apis.io/apis/kpn/kpn-statistics-api/) — The Statistics API from KPN — 2 operation(s) for statistics.
+- [KPN Subscription API](https://apis.io/apis/kpn/kpn-subscription-api/) — The Subscription API from KPN — 1 operation(s) for subscription.
+- [KPN Switch.configure API](https://apis.io/apis/kpn/kpn-switch-configure-api/) — The switch.configure API from KPN — 47 operation(s) for switch.configure.
+- [KPN Switch.monitor API](https://apis.io/apis/kpn/kpn-switch-monitor-api/) — The switch.monitor API from KPN — 9 operation(s) for switch.monitor.
+- [KPN Task API](https://apis.io/apis/kpn/kpn-task-api/) — The Task API from KPN — 1 operation(s) for task.
+- [KPN Team API](https://apis.io/apis/kpn/kpn-team-api/) — Team-scope webhook configuration — webhook URL and field exclusions. Overrides the organization config for all applications in your team unless an…
+- [KPN Team Keys API](https://apis.io/apis/kpn/kpn-team-keys-api/) — Signing keys at team scope. Override the organization key for all deliveries in your team unless an application key is configured.
+- [KPN Ticket API](https://apis.io/apis/kpn/kpn-ticket-api/) — The Ticket API from KPN — 3 operation(s) for ticket.
+- [KPN Token API](https://apis.io/apis/kpn/kpn-token-api/) — The Token API from KPN — 1 operation(s) for token.
+- [KPN Upload audio API](https://apis.io/apis/kpn/kpn-upload-audio-api/) — Uploads an audio file and start a new analytics job.
+- [KPN User Management API](https://apis.io/apis/kpn/kpn-user-management-api/) — The User Management API from KPN — 1 operation(s) for user management.
+- [KPN Users API](https://apis.io/apis/kpn/kpn-users-api/) — The Users API from KPN — 4 operation(s) for users.
+- [KPN Verify API](https://apis.io/apis/kpn/kpn-verify-api/) — The Verify API from KPN — 4 operation(s) for verify.
+- [KPN Voice API](https://apis.io/apis/kpn/kpn-voice-api/) — Call related resource management
+- [KPN VoIP SIP API](https://apis.io/apis/kpn/kpn-voip-sip-api-api/) — The VoIP SIP API API from KPN — 3 operation(s) for voip sip api.
+- [KPN Webhook API](https://apis.io/apis/kpn/kpn-webhook-api/) — The Webhook API from KPN — 1 operation(s) for webhook.
+- [KPN Wireless.configure API](https://apis.io/apis/kpn/kpn-wireless-configure-api/) — The wireless.configure API from KPN — 37 operation(s) for wireless.configure.
+- [KPN Wireless.monitor API](https://apis.io/apis/kpn/kpn-wireless-monitor-api/) — The wireless.monitor API from KPN — 33 operation(s) for wireless.monitor.
+- [KPN XML Scripting API](https://apis.io/apis/kpn/kpn-xml-scripting-api-api/) — The XML Scripting API API from KPN — 3 operation(s) for xml scripting api.
+- [KPN Your Active Webhook API](https://apis.io/apis/kpn/kpn-your-active-webhook-api/) — The Your Active Webhook API from KPN — 1 operation(s) for your active webhook.
+- [KPN Endpoint Group API](https://apis.io/apis/kpn/kpn-endpoint-group-api/) — The Endpoint Group API from KPN — 1 operation(s) for endpoint group.
+- [KPN Graph QL API](https://apis.io/apis/kpn/kpn-graph-ql-api/) — The Graph QL API from KPN — 1 operation(s) for graph ql.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Kpn Webhooks](https://apis.io/asyncapis/kpn/kpn-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [kpn](https://apis.io/servers/kpn/kpn/)
+
+#### Collections (33)
+
+Postman and Open Collection request collections.
+
+- [Apidaze Voice - VoIP Innovations](https://apis.io/collections/kpn/open-apidaze-voice/)
+- [Disturbance Check - KPN](https://apis.io/collections/kpn/open-kpn-disturbance-check/)
+- [FIAM-KPN](https://apis.io/collections/kpn/open-kpn-fiam/)
+- [FIAM – Eneco Data Products](https://apis.io/collections/kpn/open-kpn-fiam-eneco-data-products/)
+- [High-Level Design FTTx](https://apis.io/collections/kpn/open-kpn-high-level-design-ftth/)
+- [Internet Speed Check - KPN](https://apis.io/collections/kpn/open-kpn-internet-speed-check/)
+- [ISE - KPN](https://apis.io/collections/kpn/open-kpn-ise/)
+- [LoRa Device Management - KPN](https://apis.io/collections/kpn/open-kpn-lora-device-management/)
+- [Match - KPN](https://apis.io/collections/kpn/open-kpn-match/)
+- [MobileServicesManagement-KPN](https://apis.io/collections/kpn/open-kpn-mobile-services-management/)
+- [Number Verify - KPN](https://apis.io/collections/kpn/open-kpn-number-verify/)
+- [KPN SD-LAN SD-WAN Network View API](https://apis.io/collections/kpn/open-kpn-sd-lan-sd-wan-network-view/)
+- [ServiceNow Customer Connect](https://apis.io/collections/kpn/open-kpn-servicenow-connect/)
+- [SIM Swap](https://apis.io/collections/kpn/open-kpn-sim-swap/)
+- [Inbound SMS - KPN](https://apis.io/collections/kpn/open-kpn-sms-inbound/)
+- [TV Guide - KPN](https://apis.io/collections/kpn/open-kpn-tv-guide/)
+- [Webhook Privacy Configuration - KPN](https://apis.io/collections/kpn/open-kpn-webhook-privacy-config-manager/)
+- [Webhook Signing Keys - KPN](https://apis.io/collections/kpn/open-kpn-webhook-signing-keys/)
+- [Wholesale Broadband Access](https://apis.io/collections/kpn/open-kpn-wholesale-broadband-access-fpi-cip/)
+- [WBA APIs](https://apis.io/collections/kpn/open-kpn-wholesale-wba/)
+- [Chat and Messaging - Parley](https://apis.io/collections/kpn/open-parley-secure-messenger/)
+- [Knowledge Management – Polly.help](https://apis.io/collections/kpn/open-pollyhelp-knowledge-management/)
+- [Registered E-mail - Registered E-mail](https://apis.io/collections/kpn/open-registered-email/)
+- [SocialMediaWebcare - Tracebuzz](https://apis.io/collections/kpn/open-tracebuzz-social-media-webcare/)
+- [Messages - Vonage](https://apis.io/collections/kpn/open-vonage-messages/)
+- …and 8 more published on APIs.io
+
+#### Overlays (34)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Kpn Apidaze Voice Overlay](https://apis.io/overlays/kpn/kpn-apidaze-voice-overlay/)
+- [Kpn Disturbance Check Overlay](https://apis.io/overlays/kpn/kpn-disturbance-check-overlay/)
+- [Kpn Fiam Eneco Data Products Overlay](https://apis.io/overlays/kpn/kpn-fiam-eneco-data-products-overlay/)
+- [Kpn Fiam Overlay](https://apis.io/overlays/kpn/kpn-fiam-overlay/)
+- [Kpn High Level Design Ftth Overlay](https://apis.io/overlays/kpn/kpn-high-level-design-ftth-overlay/)
+- [Kpn Internet Speed Check Overlay](https://apis.io/overlays/kpn/kpn-internet-speed-check-overlay/)
+- [Kpn Ise Overlay](https://apis.io/overlays/kpn/kpn-ise-overlay/)
+- [Kpn Lora Device Management Overlay](https://apis.io/overlays/kpn/kpn-lora-device-management-overlay/)
+- [Kpn Match Overlay](https://apis.io/overlays/kpn/kpn-match-overlay/)
+- [Kpn Mobile Services Management Overlay](https://apis.io/overlays/kpn/kpn-mobile-services-management-overlay/)
+- [Kpn Number Verify Overlay](https://apis.io/overlays/kpn/kpn-number-verify-overlay/)
+- [Kpn Parley Secure Messenger Overlay](https://apis.io/overlays/kpn/kpn-parley-secure-messenger-overlay/)
+- [Kpn Pollyhelp Knowledge Management Overlay](https://apis.io/overlays/kpn/kpn-pollyhelp-knowledge-management-overlay/)
+- [Kpn Registered Email Overlay](https://apis.io/overlays/kpn/kpn-registered-email-overlay/)
+- [Kpn Sd Lan Sd Wan Network View Overlay](https://apis.io/overlays/kpn/kpn-sd-lan-sd-wan-network-view-overlay/)
+- [Kpn Servicenow Connect Overlay](https://apis.io/overlays/kpn/kpn-servicenow-connect-overlay/)
+- [Kpn Sim Swap Overlay](https://apis.io/overlays/kpn/kpn-sim-swap-overlay/)
+- [Kpn Sms Inbound Overlay](https://apis.io/overlays/kpn/kpn-sms-inbound-overlay/)
+- [Kpn Sms Overlay](https://apis.io/overlays/kpn/kpn-sms-overlay/)
+- [Kpn Tracebuzz Social Media Webcare Overlay](https://apis.io/overlays/kpn/kpn-tracebuzz-social-media-webcare-overlay/)
+- [Kpn Tv Guide Overlay](https://apis.io/overlays/kpn/kpn-tv-guide-overlay/)
+- [Kpn Vonage Messages Overlay](https://apis.io/overlays/kpn/kpn-vonage-messages-overlay/)
+- [Kpn Vonage Number Insight Overlay](https://apis.io/overlays/kpn/kpn-vonage-number-insight-overlay/)
+- [Kpn Vonage Phone Numbers Overlay](https://apis.io/overlays/kpn/kpn-vonage-phone-numbers-overlay/)
+- [Kpn Vonage Sms Overlay](https://apis.io/overlays/kpn/kpn-vonage-sms-overlay/)
+- …and 9 more published on APIs.io
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Kpn Authentication](https://apis.io/security/kpn/kpn-authentication/)
+- [Kpn Domain Security](https://apis.io/security/kpn/kpn-domain-security/)
+- [Kpn Vulnerability Disclosure](https://apis.io/security/kpn/kpn-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Kpn Scopes](https://apis.io/scopes/kpn/kpn-scopes/)
+
+#### Plans and pricing (2)
+
+Published plans, tiers and prices.
+
+- [Kpn Plans Pricing](https://apis.io/plans/kpn/kpn-plans-pricing/)
+- [Kpn Price Estimates](https://apis.io/plans/kpn/kpn-price-estimates/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Kpn Rate Limits](https://apis.io/rate-limits/kpn/kpn-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.kpn.com/)
-- [DeveloperPortal](https://developer.kpn.com/)
 - [Documentation](https://developer.kpn.com/documentation)
-- [GettingStarted](https://developer.kpn.com/page/getting-started)
-- [SignUp](https://developer.kpn.com/dashboard/register)
-- [Login](https://developer.kpn.com/dashboard/login)
-- [Products](https://developer.kpn.com/products)
-- [Tutorials](https://developer.kpn.com/tutorials)
-- [Blog](https://developer.kpn.com/blog)
-- [StatusPage](https://developer.kpn.com/status)
+- [Getting started](https://developer.kpn.com/page/getting-started)
+- [API reference](https://app.swaggerhub.com/search?owner=kpn)
+- [Pricing](https://developer.kpn.com/products/kpn-sms-api)
+- [Sign up](https://developer.kpn.com/dashboard/register)
 - [Support](https://developer.kpn.com/support)
-- [TermsOfService](https://developer.kpn.com/page/legal)
-- [VulnerabilityDisclosure](https://developer.kpn.com/page/responsible-disclosure)
-- [OpenAPIRepository](https://app.swaggerhub.com/search?owner=kpn)
-- [PostmanWorkspace](https://www.postman.com/kpndeveloper)
-- [GitHubOrganization](https://github.com/kpn)
-- [LinkedIn](https://www.linkedin.com/company/kpn)
-- [Wholesale](https://www.kpn-wholesale.com/)
-- [Standard](https://github.com/camaraproject/)
-- [Standard](https://coin.nl/camara)
+- [Blog](https://developer.kpn.com/blog)
+- [Security](https://developer.kpn.com/page/responsible-disclosure)
+- [Terms of service](https://developer.kpn.com/page/legal)
+- [Privacy policy](https://www.kpn.com/algemeen/missie-en-privacy-statement/privacy-statement.htm)
+- [GitHub](https://github.com/kpn)
+- [Status](https://developer.kpn.com/status)
 
-## Maintainers
+## API Evangelist rating
 
-- Kin Lane — kin@apievangelist.com
+**Kin Score 62.4** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 69.6 |
+| Contract quality | 59.4 |
+| Contract governance | 18.2 |
+| Operational transparency | 86.8 |
+| Developer ergonomics | 60.1 |
+| Access clarity | 59.2 |
+
+**Agent readiness 35.1** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | negotiable (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | mostly |
+
+**Regulatory alignment 47.1** — Telecommunications
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/kpn/](https://apis.io/providers/kpn/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for KPN: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/kpn/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
